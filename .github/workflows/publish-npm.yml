@@ -11,6 +11,9 @@ jobs:
   publish:
     name: publish to npm via trusted publishing
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,5 +21,13 @@ jobs:
           node-version: 24
       - run: npm ci
       - run: npm test
+      - name: Diagnostics
+        run: |
+          node --version
+          npm --version
+          if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then echo "OIDC env present"; else echo "OIDC env MISSING"; fi
+          if [ -f "$HOME/.npmrc" ]; then echo "user npmrc exists"; else echo "no user npmrc"; fi
       - name: Publish
+        env:
+          NPM_CONFIG_LOGLEVEL: verbose
         run: npm publish --provenance --access public --registry https://registry.npmjs.org
