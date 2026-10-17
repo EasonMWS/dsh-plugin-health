@@ -10,6 +10,10 @@ DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 for
 > 状态：`0.1.0` MVP。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
+**线上官方 format-1 索引：** <https://easonmws.github.io/dsh-plugin-health/index.json>
+（300 个插件，每晚自动重建） · **npm：** `npm install -g dsh-plugin-health` ·
+**仓库：** <https://github.com/EasonMWS/dsh-plugin-health>
+
 ## 为什么做
 
 DSH 没有官方插件市场索引；发行节奏约 **2.1 天一个版本**且带破坏性变更；官方插件管理器没有

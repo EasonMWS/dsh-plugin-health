@@ -10,6 +10,10 @@ Compatibility matrix, official format-1 index builder, and Windows/WSL install d
 > Status: `0.1.0` MVP. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
+**Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
+(300 plugins, rebuilt nightly) · **npm:** `npm install -g dsh-plugin-health` ·
+**repo:** <https://github.com/EasonMWS/dsh-plugin-health>
+
 ## Why
 
 DSH ships no official plugin market index, publishes a prerelease roughly every two days with
