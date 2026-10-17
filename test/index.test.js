@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { parseMarketIndex } from '@deepseek-ai/dsh-plugin-market-index'
@@ -10,6 +10,7 @@ import {
   normalizeLocalized,
   normalizeRepository,
   selectedVersions,
+  writeIndex,
 } from '../src/index/build.js'
 import { compatibilityLookup } from '../src/index/catalog.js'
 
@@ -172,5 +173,26 @@ test('invalid index documents are rejected by the official parser', async () => 
     assert.throws(() => parseMarketIndex(broken, 'https://example.com/index.json'), /must contain en/u)
   } finally {
     cleanup()
+  }
+})
+
+test('writeIndex writes the index, report and a Pages landing page', async () => {
+  const { file, cleanup } = await fixtureCatalog()
+  const out = mkdtempSync(join(tmpdir(), 'dsh-health-site-'))
+  try {
+    const build = await buildFormat1Index({
+      catalog: file, hostVersion: '0.2.1-rc.2', indexUrl: 'https://example.com/index.json', limit: 10, loadPackument,
+    })
+    const files = writeIndex(build, out)
+    assert.ok(files.index.endsWith('index.json'))
+    assert.ok(files.report.endsWith('build-report.md'))
+    assert.ok(files.homepage.endsWith('index.html'))
+    const html = readFileSync(files.homepage, 'utf8')
+    assert.match(html, /format-1/u)
+    assert.match(html, /index\.json/u)
+    assert.match(html, /https:\/\/example\.com\/index\.json/u)
+  } finally {
+    cleanup()
+    rmSync(out, { recursive: true, force: true })
   }
 })
