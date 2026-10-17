@@ -9,6 +9,7 @@ import { createMatrix, hostSummary } from './compat/matrix.js'
 import { matrixToMarkdown, writeBadges } from './compat/report.js'
 import { buildFormat1Index, writeIndex } from './index/build.js'
 import { inspectDshHome } from './repair/inspect.js'
+import { formatInspection } from './repair/format.js'
 import { applyRepairs, planRepairs } from './repair/apply.js'
 
 const VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version
@@ -227,15 +228,7 @@ async function resolveLatestHost(registry) {
 }
 
 function printFindings(result) {
-  console.log(`DSH home: ${result.home}`)
-  console.log(`Profiles: ${result.profiles.length === 0 ? '(none)' : result.profiles.join(', ')}`)
-  if (result.profile !== undefined) console.log(`Profile: ${result.profile} (${result.profileDir})`)
-  for (const item of result.findings) {
-    console.log(`\n[${item.severity}] ${item.id}: ${item.title}`)
-    if (item.detail !== undefined) console.log(`  ${item.detail}`)
-    if (item.fix?.description !== undefined) console.log(`  fix${item.fix.auto === true ? ' (auto)' : ''}: ${item.fix.description}`)
-  }
-  console.log(`\nSummary: ${result.summary.error} error(s), ${result.summary.warn} warning(s), ${result.summary.info} info; auto-fixable: ${result.summary.autoFixable}`)
+  console.log(formatInspection(result))
 }
 
 async function cmdDoctor(options) {

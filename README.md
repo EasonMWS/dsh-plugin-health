@@ -7,7 +7,7 @@
 Compatibility matrix, official format-1 index builder, and Windows/WSL install doctor for
 [DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) plugins.
 
-> Status: `0.1.0` MVP. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.1.1`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
@@ -36,12 +36,25 @@ This tool covers the three gaps that the existing doctor/market tools do not:
 
 ```sh
 npm install -g dsh-plugin-health
-# or, before the first npm release:
+# or run the checkout:
 git clone https://github.com/EasonMWS/dsh-plugin-health.git && cd dsh-plugin-health && npm ci
 node bin/dsh-plugin-health.js --help
 ```
 
 Requires Node.js 20+.
+
+### Install inside DSH (bundle mode)
+
+The package is also an installable DSH bundle. Installing it into a profile adds a read-only
+`plugin_health` agent tool that reports missing third-party bundles, broken package directories,
+`cordis.patch.yml` residue, proxy/registry configuration, profile drift, and installed plugins
+incompatible with the running DSH version.
+
+```sh
+dsh plugin --profile web add dsh-plugin-health
+```
+
+The bundle declares `engines.dsh`, adds no UI, and changes nothing by itself.
 
 ## 1. Compatibility matrix
 

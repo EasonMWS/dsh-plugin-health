@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.1 (2026-10-17)
+
+### Added
+
+- Installable DSH bundle: `package.json` now declares `dsh.bundle` with `cordis.patch.yml`, so
+  `dsh plugin --profile web add dsh-plugin-health` mounts the package as a plugin.
+- Read-only `plugin_health` agent tool that reports missing third-party bundles, broken package
+  directories, patch residue, proxy/registry configuration, profile drift, and installed-plugin
+  incompatibility with the running DSH version.
+- `./api` package export keeps the library API available now that `.` resolves to the bundle
+  entry.
+
 ## 0.1.0 (2026-10-17)
 
 Initial MVP.

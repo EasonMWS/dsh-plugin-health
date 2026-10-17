@@ -1,18 +1,22 @@
 {
   "name": "dsh-plugin-health",
-  "version": "0.1.0",
-  "description": "Multi-host compatibility matrix, official format-1 market index builder, and Windows/WSL install doctor for DeepSeek Harness (dsh) plugins.",
+  "version": "0.1.1",
+  "description": "Multi-host compatibility matrix, official format-1 market index builder, Windows/WSL install doctor, and in-DSH plugin health tool for DeepSeek Harness (dsh) plugins.",
   "type": "module",
+  "main": "./src/plugin.js",
   "bin": {
     "dsh-plugin-health": "bin/dsh-plugin-health.js",
     "dsh-health": "bin/dsh-plugin-health.js"
   },
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/plugin.js",
+    "./api": "./src/index.js",
+    "./package.json": "./package.json"
   },
   "files": [
     "bin",
     "src",
+    "cordis.patch.yml",
     "README.md",
     "README.zh.md",
     "SECURITY.md",
@@ -20,7 +24,25 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=20",
+    "dsh": ">=0.1.0-rc.6 <0.3.0-0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-app-boot": ">=0.1.0-rc.6 <0.3.0-0",
+    "@deepseek-ai/dsh-tools": ">=0.1.0-rc.6 <0.3.0-0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-app-boot": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-tools": {
+      "optional": true
+    }
   },
   "author": "EasonMWS",
   "repository": {

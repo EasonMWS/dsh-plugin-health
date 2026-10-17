@@ -7,7 +7,7 @@
 DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 format-1 市场索引生成器**、以及
 **Windows/WSL 安装诊断/安全修复**工具。
 
-> 状态：`0.1.0` MVP。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`0.1.1`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 **线上官方 format-1 索引：** <https://easonmws.github.io/dsh-plugin-health/index.json>
@@ -39,6 +39,18 @@ node bin/dsh-plugin-health.js --help
 ```
 
 需要 Node.js 20+。
+
+### 作为 DSH bundle 安装（可选）
+
+这个包同时是一个可安装的 DSH bundle。装进 profile 后会提供一个只读的 `plugin_health` agent
+工具，报告：声明但未安装的第三方 bundle、残缺的包目录、`cordis.patch.yml` 残留、代理/registry
+配置、profile 差异，以及已装插件与当前 DSH 版本的不兼容。
+
+```sh
+dsh plugin --profile web add dsh-plugin-health
+```
+
+bundle 声明了 `engines.dsh`，不带 UI，自身不改变任何东西。
 
 ## 1. 兼容矩阵
 
