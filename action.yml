@@ -1,0 +1,36 @@
+name: DSH plugin health matrix
+description: Evaluate DeepSeek Harness (dsh) plugin compatibility against multiple DSH host versions.
+author: dsh-plugin-health contributors
+
+inputs:
+  plugins:
+    description: Path to a plugin list file, or a comma-separated list of npm specs.
+    required: true
+  versions:
+    description: Comma-separated host versions or @deepseek-ai/dsh dist-tags.
+    required: false
+    default: latest,next
+  out:
+    description: Output directory for matrix.json, matrix.md and badges.
+    required: false
+    default: dsh-health-matrix
+  fail-on:
+    description: any, none, or one host version; exit non-zero when incompatibilities are found.
+    required: false
+    default: none
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - shell: bash
+      run: npm ci --prefix "${{ github.action_path }}"
+    - shell: bash
+      run: >
+        node "${{ github.action_path }}/bin/dsh-plugin-health.js" matrix
+        --plugins "${{ inputs.plugins }}"
+        --versions "${{ inputs.versions }}"
+        --out "${{ inputs.out }}"
+        --fail-on "${{ inputs.fail-on }}"

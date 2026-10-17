@@ -1,0 +1,52 @@
+name: publish-index
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: Number of npm plugins to include
+        required: false
+        default: '300'
+      host:
+        description: Host version label for compatibility labels
+        required: false
+        default: '0.2.1-rc.2'
+  schedule:
+    - cron: '23 4 * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build format-1 index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Build index
+        env:
+          INDEX_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/index.json
+          LIMIT: ${{ inputs.limit || '300' }}
+          HOST: ${{ inputs.host || '0.2.1-rc.2' }}
+        run: |
+          node bin/dsh-plugin-health.js index \
+            --catalog https://awesome-dsh-plugin.com/plugins.json \
+            --host "$HOST" \
+            --index-url "$INDEX_URL" \
+            --limit "$LIMIT" \
+            --out site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - uses: actions/deploy-pages@v4

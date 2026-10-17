@@ -1,0 +1,33 @@
+name: nightly-matrix
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matrix:
+    name: compatibility matrix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Build matrix
+        run: |
+          VERSIONS="$(paste -sd, examples/versions.txt)"
+          node bin/dsh-plugin-health.js matrix \
+            --plugins examples/plugins.txt \
+            --versions "$VERSIONS" \
+            --out dsh-health-out/matrix \
+            --fail-on none
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dsh-plugin-health-matrix
+          path: dsh-health-out/matrix
