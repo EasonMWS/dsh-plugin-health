@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2 (2026-10-17)
+
+### Changed
+
+- First release published by GitHub Actions through npm Trusted Publishing (OIDC), with a
+  provenance attestation. No functional changes.
+
 ## 0.1.1 (2026-10-17)
 
 ### Added
