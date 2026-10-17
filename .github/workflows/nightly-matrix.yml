@@ -21,7 +21,7 @@ jobs:
       - run: npm ci
       - name: Build matrix
         run: |
-          VERSIONS="$(paste -sd, examples/versions.txt)"
+          VERSIONS="$(grep -v '^[[:space:]]*#' examples/versions.txt | paste -sd, -)"
           node bin/dsh-plugin-health.js matrix \
             --plugins examples/plugins.txt \
             --versions "$VERSIONS" \

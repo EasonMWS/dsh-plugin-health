@@ -84,7 +84,7 @@ function collectPluginSpecs(options) {
   for (const value of values) {
     for (const part of value.split(',')) {
       const text = part.trim()
-      if (text === '') continue
+      if (text === '' || text.startsWith('#')) continue
       if (existsSync(text)) specs.push(...readLines(text))
       else specs.push(text)
     }
@@ -99,7 +99,7 @@ function collectHosts(options) {
     const parts = existsSync(value) ? readLines(value) : value.split(',')
     for (const part of parts) {
       const text = part.trim()
-      if (text !== '') hosts.push(text)
+      if (text !== '' && !text.startsWith('#')) hosts.push(text)
     }
   }
   return hosts.length > 0 ? [...new Set(hosts)] : ['latest']
