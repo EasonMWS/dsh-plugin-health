@@ -1,5 +1,9 @@
 # dsh-plugin-health
 
+[![CI](https://github.com/EasonMWS/dsh-plugin-health/actions/workflows/ci.yml/badge.svg)](https://github.com/EasonMWS/dsh-plugin-health/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Compatibility matrix, official format-1 index builder, and Windows/WSL install doctor for
 [DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) plugins.
 
@@ -29,7 +33,7 @@ This tool covers the three gaps that the existing doctor/market tools do not:
 ```sh
 npm install -g dsh-plugin-health
 # or, before the first npm release:
-git clone <this repo> && cd dsh-plugin-health && npm ci
+git clone https://github.com/EasonMWS/dsh-plugin-health.git && cd dsh-plugin-health && npm ci
 node bin/dsh-plugin-health.js --help
 ```
 
@@ -85,7 +89,7 @@ that is too narrow for later host lines) without installing anything.
 dsh-plugin-health index \
   --catalog https://awesome-dsh-plugin.com/plugins.json \
   --host 0.2.1-rc.2 \
-  --index-url https://<owner>.github.io/dsh-plugin-health/index.json \
+  --index-url https://easonmws.github.io/dsh-plugin-health/index.json \
   --matrix dsh-health-out/matrix/matrix.json \
   --limit 300 --out site
 ```

@@ -15,10 +15,24 @@
     "src",
     "README.md",
     "README.zh.md",
+    "SECURITY.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "engines": {
     "node": ">=20"
+  },
+  "author": "EasonMWS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasonMWS/dsh-plugin-health.git"
+  },
+  "homepage": "https://github.com/EasonMWS/dsh-plugin-health#readme",
+  "bugs": {
+    "url": "https://github.com/EasonMWS/dsh-plugin-health/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "dsh",

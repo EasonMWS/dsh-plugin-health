@@ -1,5 +1,9 @@
 # dsh-plugin-health
 
+[![CI](https://github.com/EasonMWS/dsh-plugin-health/actions/workflows/ci.yml/badge.svg)](https://github.com/EasonMWS/dsh-plugin-health/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 format-1 市场索引生成器**、以及
 **Windows/WSL 安装诊断/安全修复**工具。
 
@@ -26,7 +30,7 @@ DSH 没有官方插件市场索引；发行节奏约 **2.1 天一个版本**且�
 ```sh
 npm install -g dsh-plugin-health
 # 或首发前本地运行：
-git clone <本仓库> && cd dsh-plugin-health && npm ci
+git clone https://github.com/EasonMWS/dsh-plugin-health.git && cd dsh-plugin-health && npm ci
 node bin/dsh-plugin-health.js --help
 ```
 
@@ -80,7 +84,7 @@ dsh 0.2.1-rc.2: 5/7 compatible, 2 incompatible
 dsh-plugin-health index \
   --catalog https://awesome-dsh-plugin.com/plugins.json \
   --host 0.2.1-rc.2 \
-  --index-url https://<owner>.github.io/dsh-plugin-health/index.json \
+  --index-url https://easonmws.github.io/dsh-plugin-health/index.json \
   --matrix dsh-health-out/matrix/matrix.json \
   --limit 300 --out site
 ```
