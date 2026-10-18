@@ -6,18 +6,22 @@ on:
       plugins:
         description: Plugin specs to evaluate (local directory, npm name, or name@version)
         required: false
+        type: string
         default: '.'
       versions:
         description: Comma-separated DSH host versions or dist-tags
         required: false
+        type: string
         default: 'latest,next,alpha'
       failOn:
         description: any, none, or one host version; fails the job when incompatibilities are found
         required: false
+        type: string
         default: 'none'
       toolVersion:
         description: dsh-plugin-health version to run
         required: false
+        type: string
         default: '0.1.3'
       comment:
         description: Post or update the matrix comment on the pull request
