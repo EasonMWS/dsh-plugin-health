@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.6 (2026-10-18)
+
+### Added
+
+- `docs/upgrade-0.2.1.md`: real upgrade report over the top 120 ecosystem plugins, comparing
+  `0.2.0-rc.2` with `0.2.1-rc.2` (3 plugins regress, 11 are fixed, 1 stays broken).
+
+### Changed
+
+- README, package description and keywords now lead with the upgrade check and the reusable
+  GitHub Action so users can find the tool from the problem they are hitting.
+
 ## 0.1.5 (2026-10-18)
 
 ### Fixed

@@ -1,7 +1,7 @@
 {
   "name": "dsh-plugin-health",
-  "version": "0.1.5",
-  "description": "Multi-host compatibility matrix, official format-1 market index builder, Windows/WSL install doctor, and in-DSH plugin health tool for DeepSeek Harness (dsh) plugins.",
+  "version": "0.1.6",
+  "description": "Upgrade check and multi-host compatibility matrix for DeepSeek Harness (dsh) plugins, with an official format-1 market index builder, Windows/WSL install doctor, and a reusable GitHub Action that comments a compatibility matrix on every plugin PR.",
   "type": "module",
   "main": "./src/plugin.js",
   "bin": {
@@ -49,7 +49,7 @@
     "type": "git",
     "url": "git+https://github.com/EasonMWS/dsh-plugin-health.git"
   },
-  "homepage": "https://github.com/EasonMWS/dsh-plugin-health#readme",
+  "homepage": "https://easonmws.github.io/dsh-plugin-health/",
   "bugs": {
     "url": "https://github.com/EasonMWS/dsh-plugin-health/issues"
   },
@@ -64,6 +64,9 @@
     "plugin-market",
     "format-1",
     "compatibility",
+    "compatibility-matrix",
+    "upgrade-check",
+    "github-action",
     "semver",
     "windows",
     "wsl"

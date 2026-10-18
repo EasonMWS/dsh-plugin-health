@@ -7,12 +7,22 @@
 Compatibility matrix, official format-1 index builder, and Windows/WSL install doctor for
 [DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) plugins.
 
-> Status: `0.1.1`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.1.6`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
 (300 plugins, rebuilt nightly) · **npm:** `npm install -g dsh-plugin-health` ·
 **repo:** <https://github.com/EasonMWS/dsh-plugin-health>
+
+> **Upgrading to DSH 0.2.1? Run the check first.**
+>
+> In a scan of the top 120 ecosystem plugins, **3 would stop loading on `0.2.1-rc.2`** because
+> they pin exact `@deepseek-ai/*` peer versions. Full report:
+> [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md).
+>
+> ```sh
+> dsh-plugin-health matrix --plugins plugins.txt --versions 0.2.0-rc.2,0.2.1-rc.2
+> ```
 
 ## Why
 
