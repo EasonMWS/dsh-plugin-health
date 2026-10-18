@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.4 (2026-10-18)
+
+### Fixed
+
+- Ship `bin` scripts with LF shebangs. The release now packs from the LF checkout used by GitHub
+  Actions, fixing `dsh-plugin-health: not found` on Linux for packages packed on Windows.
+- Reusable workflow: declare `workflow_call` input types and use camelCase input names so GitHub
+  accepts the workflow file.
+- Reusable workflow: invoke the CLI through `npm exec --package` so the binary resolves reliably on
+  GitHub-hosted runners.
+
 ## 0.1.3 (2026-10-18)
 
 ### Added

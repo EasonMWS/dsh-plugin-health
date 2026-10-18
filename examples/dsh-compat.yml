@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   matrix:
-    uses: EasonMWS/dsh-plugin-health/.github/workflows/matrix-review.yml@v0.1.3
+    uses: EasonMWS/dsh-plugin-health/.github/workflows/matrix-review.yml@v0.1.4
     with:
       plugins: '.'
       versions: 'latest,next,alpha'

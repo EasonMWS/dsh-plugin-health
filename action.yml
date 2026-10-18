@@ -24,7 +24,7 @@ runs:
   steps:
     - uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '22'
     - shell: bash
       run: npm ci --prefix "${{ github.action_path }}"
     - shell: bash
