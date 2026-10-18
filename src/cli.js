@@ -2,7 +2,7 @@
  * Command-line interface for dsh-plugin-health.
  * @module cli
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { DEFAULT_REGISTRY, fetchJson } from './util/http.js'
 import { createMatrix, hostSummary } from './compat/matrix.js'
@@ -79,6 +79,14 @@ function readLines(filename) {
   return readFileSync(filename, 'utf8').split(/\r?\n/u).map((line) => line.trim()).filter((line) => line !== '' && !line.startsWith('#'))
 }
 
+function isFile(path) {
+  try {
+    return statSync(path).isFile()
+  } catch {
+    return false
+  }
+}
+
 function collectPluginSpecs(options) {
   const values = [...allStrings(options, 'plugin'), ...allStrings(options, 'plugins')]
   const specs = []
@@ -86,7 +94,7 @@ function collectPluginSpecs(options) {
     for (const part of value.split(',')) {
       const text = part.trim()
       if (text === '' || text.startsWith('#')) continue
-      if (existsSync(text)) specs.push(...readLines(text))
+      if (isFile(text)) specs.push(...readLines(text))
       else specs.push(text)
     }
   }
@@ -97,7 +105,7 @@ function collectHosts(options) {
   const values = allStrings(options, 'versions')
   const hosts = []
   for (const value of values) {
-    const parts = existsSync(value) ? readLines(value) : value.split(',')
+    const parts = isFile(value) ? readLines(value) : value.split(',')
     for (const part of parts) {
       const text = part.trim()
       if (text !== '' && !text.startsWith('#')) hosts.push(text)

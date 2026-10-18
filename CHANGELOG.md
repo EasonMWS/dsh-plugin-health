@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.5 (2026-10-18)
+
+### Fixed
+
+- CLI: `--plugins .` and other local directories are treated as plugin specs instead of being read
+  as list files (`EISDIR`), so the GitHub Action can evaluate the checked-out plugin repository.
+- Reusable workflow: install the CLI into a temporary npm prefix and call its binary directly,
+  avoiding `npx`/`npm exec` resolution differences on GitHub-hosted runners.
+
 ## 0.1.4 (2026-10-18)
 
 ### Fixed

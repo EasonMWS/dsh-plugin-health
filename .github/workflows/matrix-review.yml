@@ -22,7 +22,7 @@ on:
         description: dsh-plugin-health version to run
         required: false
         type: string
-        default: '0.1.4'
+        default: '0.1.5'
       comment:
         description: Post or update the matrix comment on the pull request
         required: false
@@ -42,11 +42,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Build matrix
+      - name: Install dsh-plugin-health
         env:
           TOOL_VERSION: ${{ inputs.toolVersion }}
         run: |
-          npm exec --yes --package="dsh-plugin-health@$TOOL_VERSION" -- dsh-plugin-health matrix \
+          TOOL_DIR="$RUNNER_TEMP/dsh-plugin-health-tool"
+          npm install --prefix "$TOOL_DIR" --no-audit --no-fund --no-progress "dsh-plugin-health@$TOOL_VERSION"
+          echo "TOOL_BIN=$TOOL_DIR/node_modules/.bin/dsh-plugin-health" >> "$GITHUB_ENV"
+      - name: Build matrix
+        run: |
+          "$TOOL_BIN" matrix \
             --plugins "${{ inputs.plugins }}" \
             --versions "${{ inputs.versions }}" \
             --out dsh-health-out/matrix \

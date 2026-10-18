@@ -108,7 +108,7 @@ permissions:
   pull-requests: write
 jobs:
   matrix:
-    uses: EasonMWS/dsh-plugin-health/.github/workflows/matrix-review.yml@v0.1.4
+    uses: EasonMWS/dsh-plugin-health/.github/workflows/matrix-review.yml@v0.1.5
     with:
       plugins: '.'
       versions: 'latest,next,alpha'

@@ -1,9 +1,9 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { createMatrix, evaluateMatrix, hostSummary, parsePluginSpec } from '../src/compat/matrix.js'
+import { createMatrix, evaluateMatrix, hostSummary, parsePluginSpec, resolvePlugins } from '../src/compat/matrix.js'
 import { matrixToMarkdown, writeBadges } from '../src/compat/report.js'
 
 const HOSTS = ['0.2.1-rc.2', '0.2.0-rc.2']
@@ -70,6 +70,19 @@ test('markdown and badges are generated', async () => {
     const svg = readFileSync(written.files[0], 'utf8')
     assert.match(svg, /<svg/u)
     assert.match(svg, /dsh compat/u)
+  } finally {
+    rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+test('resolvePlugins reads a local plugin directory', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'dsh-health-local-'))
+  try {
+    writeFileSync(join(directory, 'package.json'), JSON.stringify({ name: 'local-plugin', version: '1.2.3', engines: { dsh: '>=0.2.0-rc.2' } }))
+    const [plugin] = await resolvePlugins(['.'], { cwd: directory })
+    assert.equal(plugin.source, 'local')
+    assert.equal(plugin.name, 'local-plugin')
+    assert.equal(plugin.version, '1.2.3')
   } finally {
     rmSync(directory, { recursive: true, force: true })
   }
