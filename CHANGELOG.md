@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.3 (2026-10-18)
+
+### Added
+
+- Reusable GitHub Actions workflow `matrix-review.yml`: runs the compatibility matrix for a plugin
+  pull request, writes the job summary, uploads the matrix artifact, and creates or updates a pull
+  request comment.
+- `examples/dsh-compat.yml` caller template for plugin authors.
+- Self-matrix workflow so this repository checks its own bundle on every pull request.
+
 ## 0.1.2 (2026-10-17)
 
 ### Changed

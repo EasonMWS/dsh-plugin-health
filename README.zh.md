@@ -94,6 +94,27 @@ dsh 0.2.1-rc.2: 5/7 compatible, 2 incompatible
 第一条正好复现了 dsh-win32 issue #89（peer 上界过窄导致新宿主线被拒绝）的真实问题，而且
 不需要安装任何东西。
 
+### GitHub Action：每个 PR 自动贴兼容矩阵
+
+仓库内置可复用 workflow。把 [`examples/dsh-compat.yml`](examples/dsh-compat.yml) 放进插件仓库的
+`.github/workflows/dsh-compat.yml`，之后每个 PR 都会收到一条兼容矩阵评论 + job summary，并且
+矩阵产物会自动上传为 artifact：
+
+```yaml
+name: dsh plugin compatibility
+on: pull_request
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  matrix:
+    uses: EasonMWS/dsh-plugin-health/.github/workflows/matrix-review.yml@v0.1.3
+    with:
+      plugins: '.'
+      versions: 'latest,next,alpha'
+      comment: true
+```
+
 ## 2. format-1 市场索引
 
 ```sh

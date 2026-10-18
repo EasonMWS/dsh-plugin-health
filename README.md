@@ -100,6 +100,28 @@ dsh 0.2.1-rc.2: 5/7 compatible, 2 incompatible
 The first result reproduces the real failure tracked in `dsh-win32` issue #89 (a peer upper bound
 that is too narrow for later host lines) without installing anything.
 
+### GitHub Action: matrix on every pull request
+
+The repository ships a reusable workflow. Add
+[`examples/dsh-compat.yml`](examples/dsh-compat.yml) to a plugin repository (as
+`.github/workflows/dsh-compat.yml`) and every pull request gets a compatibility matrix comment plus
+a job summary, with the matrix artifact uploaded:
+
+```yaml
+name: dsh plugin compatibility
+on: pull_request
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  matrix:
+    uses: EasonMWS/dsh-plugin-health/.github/workflows/matrix-review.yml@v0.1.3
+    with:
+      plugins: '.'
+      versions: 'latest,next,alpha'
+      comment: true
+```
+
 ## 2. Format-1 market index
 
 ```sh
