@@ -14,7 +14,7 @@ inputs:
     description: Output directory for matrix.json, matrix.md and badges.
     required: false
     default: dsh-health-matrix
-  fail-on:
+  failOn:
     description: any, none, or one host version; exit non-zero when incompatibilities are found.
     required: false
     default: none
@@ -33,4 +33,4 @@ runs:
         --plugins "${{ inputs.plugins }}"
         --versions "${{ inputs.versions }}"
         --out "${{ inputs.out }}"
-        --fail-on "${{ inputs.fail-on }}"
+        --fail-on "${{ inputs.failOn }}"
