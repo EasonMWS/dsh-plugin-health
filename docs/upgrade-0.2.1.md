@@ -11,6 +11,8 @@
 | 旧的坏、新的反而修好 | 11 |
 | 两个宿主都坏 | 1 |
 
+> **更新（2026-10-19）**：`dsh-plugin-subscriptions` 已在 `main` 修复（[PR #155](https://github.com/V1ki/dsh-plugin-subscriptions/pull/155)，merge commit `1d24db8`），5 个 DSH peer 范围现在显式包含 `0.2.1-rc.2`；**修复尚未发布到 npm**，当前安装 0.9.9 的用户仍会命中旧声明。发版后重新扫描会更新本报告。
+
 ### 升级后会失效的 3 个插件
 
 | 插件 | 版本 | `0.2.0-rc.2` | `0.2.1-rc.2` | 原因 |
