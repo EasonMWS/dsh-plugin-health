@@ -11,15 +11,27 @@
 | 旧的坏、新的反而修好 | 11 |
 | 两个宿主都坏 | 1 |
 
-> **更新（2026-10-19）**：`dsh-plugin-subscriptions` 已在 `main` 修复（[PR #155](https://github.com/V1ki/dsh-plugin-subscriptions/pull/155)，merge commit `1d24db8`），5 个 DSH peer 范围现在显式包含 `0.2.1-rc.2`；**修复尚未发布到 npm**，当前安装 0.9.9 的用户仍会命中旧声明。发版后重新扫描会更新本报告。
+> **更新（2026-10-19）**：`dsh-plugin-subscriptions` 已在 `main` 修复（[PR #155](https://github.com/V1ki/dsh-plugin-subscriptions/pull/155)，merge commit `1d24db8`），5 个 DSH peer 范围现在显式包含 `0.2.1-rc.2`；当时修复尚未发布到 npm。
+>
+> **更新（2026-10-20 复测）**：`dsh-plugin-subscriptions@0.9.10` 已发布，矩阵复测 `0.2.1-rc.2` ✅；`dsh-codex-connect` 的修复在 `alpha` 通道 `0.2.0-alpha.9`（`latest` 仍是 `0.2.0-alpha.1`，默认安装仍会命中旧声明）；`@feng0531/dsh-vcs@0.4.10` 仍未修复。
+>
+> **当前受影响数量**：按 npm `latest` 默认安装 = **2**（`dsh-codex-connect` latest、`@feng0531/dsh-vcs`）；如果允许使用 alpha 通道 = **1**（只剩 `@feng0531/dsh-vcs`）。扫描时的 3 个里，2 个已有修复版本。
 
-### 升级后会失效的 3 个插件
+### 扫描时（2026-10-18）会失效的 3 个插件
 
 | 插件 | 版本 | `0.2.0-rc.2` | `0.2.1-rc.2` | 原因 |
 | --- | --- | --- | --- | --- |
 | `dsh-codex-connect` | 0.2.0-alpha.1 | ✅ | ❌ | 20 个 `@deepseek-ai/*` peer 精确锁到 `0.1.7-rc.1 || 0.1.7-rc.2 || 0.2.0-rc.1 || 0.2.0-rc.2`，不含 `0.2.1-rc.2` |
 | `dsh-plugin-subscriptions` | 0.9.9 | ✅ | ❌ | `@deepseek-ai/dsh-llm` 等 peer 里精确写了 `0.2.0-rc.2` |
 | `@feng0531/dsh-vcs` | 0.4.10 | ✅ | ❌ | `@deepseek-ai/dsh: 0.1.7-rc.2 || 0.2.0-rc.2`（精确枚举，没有范围） |
+
+### 当前状态（2026-10-20 复测）
+
+| 插件 | 最新可用版本 | `0.2.1-rc.2` | 说明 |
+| --- | --- | --- | --- |
+| `dsh-plugin-subscriptions` | 0.9.10 | ✅ | 已修复并发布；`0.9.9` 仍会命中旧声明 |
+| `dsh-codex-connect` | 0.2.0-alpha.1（latest） / 0.2.0-alpha.9（alpha） | latest ❌ / alpha ✅ | 修复只在 alpha 通道，latest 尚未推进 |
+| `@feng0531/dsh-vcs` | 0.4.10 | ❌ | 仍把 `@deepseek-ai/dsh` 精确锁在 `0.1.7-rc.2 || 0.2.0-rc.2` |
 
 ### 两个版本都失效
 
@@ -77,9 +89,11 @@ jobs:
 A scan of the top 120 DSH plugins (by npm downloads, from the published format-1 index) shows:
 
 - 105 compatible with both `0.2.0-rc.2` and `0.2.1-rc.2`;
-- **3 plugins that work on `0.2.0-rc.2` but would fail on `0.2.1-rc.2`**, because they pin exact `@deepseek-ai/*` peer versions (`dsh-codex-connect`, `dsh-plugin-subscriptions`, `@feng0531/dsh-vcs`);
+- **3 plugins that work on `0.2.0-rc.2` but would fail on `0.2.1-rc.2`** at scan time, because they pin exact `@deepseek-ai/*` peer versions (`dsh-codex-connect`, `dsh-plugin-subscriptions`, `@feng0531/dsh-vcs`);
 - 11 that were broken before and are fixed by the upgrade;
 - 1 broken on both.
+
+**Update (2026-10-20):** `dsh-plugin-subscriptions@0.9.10` is fixed and published (matrix now passes on `0.2.1-rc.2`); `dsh-codex-connect` has the fix in the `alpha` channel (`0.2.0-alpha.9`), while `latest` still points at the old `0.2.0-alpha.1`; `@feng0531/dsh-vcs@0.4.10` is still unfixed. By default `latest` installs, 2 plugins remain affected; allowing the alpha channel, 1 remains.
 
 DSH compatibility is decided from the plugin's declared ranges (`engines.dsh` first, otherwise every `@deepseek-ai/dsh*` peer, prereleases included). Pinning an exact host version therefore breaks on the next nightly even when the plugin code is unchanged.
 
