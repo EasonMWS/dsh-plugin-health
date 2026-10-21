@@ -31,6 +31,10 @@ dsh plugin --profile web add dsh-plugin-health
 - The host half only serves a loopback-only read-only snapshot; the plugin never modifies your
   profile.
 
+| Finding + one-click repair | Dry-run plan before any write |
+| --- | --- |
+| ![Settings section with a finding and the repair button](docs/images/settings-finding.png) | ![Repair plan shown before applying](docs/images/settings-repair-plan.png) |
+
 > **Upgrading to DSH 0.2.1? Run the check first.**
 >
 > In a scan of the top 120 ecosystem plugins, **3 would stop loading on `0.2.1-rc.2`** because

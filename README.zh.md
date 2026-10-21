@@ -27,6 +27,10 @@ dsh plugin --profile web add dsh-plugin-health
 - **真的有问题时**，账号菜单上方会出现一个 `插件有 N 个问题` 的小入口，点一下直接跳到设置分区；
 - host 半身只提供 loopback 只读快照，不会修改你的 profile。
 
+| 发现问题 + 一键修复 | 执行前先给你看修复计划 |
+| --- | --- |
+| ![设置页里的问题与修复按钮](docs/images/settings-finding.png) | ![执行前展示的修复计划](docs/images/settings-repair-plan.png) |
+
 > **准备升级到 DSH 0.2.1？先跑一遍体检。**
 >
 > 我们扫描了生态里下载量 Top 120 的插件，其中 **3 个升级到 `0.2.1-rc.2` 后会失效**，
