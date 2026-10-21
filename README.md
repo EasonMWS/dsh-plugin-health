@@ -5,20 +5,37 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Compatibility matrix, official format-1 index builder, and Windows/WSL install doctor for
-[DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) plugins.
+[DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) plugins — with a native
+settings UI inside DSH.
 
-> Status: `0.1.6`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.2.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
 (300 plugins, rebuilt nightly) · **npm:** `npm install -g dsh-plugin-health` ·
 **repo:** <https://github.com/EasonMWS/dsh-plugin-health>
 
+## A real UI, only when you need it
+
+Install it as a bundle and DSH gets a native **Settings → 插件健康** section:
+
+```sh
+dsh plugin --profile web add dsh-plugin-health
+```
+
+- Every finding is written in plain language with a concrete next step — a first-time user can act
+  without reading CLI docs.
+- **If nothing is wrong, nothing is shown.** The plugin adds no badge, no banner, no sidebar entry.
+- **When something is wrong**, a compact `插件有 N 个问题` entry appears above the account menu and
+  jumps straight to the section.
+- The host half only serves a loopback-only read-only snapshot; the plugin never modifies your
+  profile.
+
 > **Upgrading to DSH 0.2.1? Run the check first.**
 >
 > In a scan of the top 120 ecosystem plugins, **3 would stop loading on `0.2.1-rc.2`** because
-> they pin exact `@deepseek-ai/*` peer versions. Full report:
-> [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md).
+> they pin exact `@deepseek-ai/*` peer versions (2 by default `latest` installs as of 2026-10-20).
+> Full report: [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md).
 >
 > ```sh
 > dsh-plugin-health matrix --plugins plugins.txt --versions 0.2.0-rc.2,0.2.1-rc.2

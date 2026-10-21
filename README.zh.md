@@ -4,21 +4,34 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 format-1 市场索引生成器**、以及
-**Windows/WSL 安装诊断/安全修复**工具。
+DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 format-1 市场索引生成器**、
+**Windows/WSL 安装诊断/安全修复**工具，以及 **DSH 内的原生设置页 UI**。
 
-> 状态：`0.1.6`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`0.2.0`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 **线上官方 format-1 索引：** <https://easonmws.github.io/dsh-plugin-health/index.json>
 （300 个插件，每晚自动重建） · **npm：** `npm install -g dsh-plugin-health` ·
 **仓库：** <https://github.com/EasonMWS/dsh-plugin-health>
 
+## 有 UI，但只在你需要时出现
+
+把它作为 bundle 装进 profile，DSH 设置里会多出一个原生分区 **设置 → 插件健康**：
+
+```sh
+dsh plugin --profile web add dsh-plugin-health
+```
+
+- 每条问题都用大白话解释，并给出「怎么做」，第一次用的人不用读文档也能处理；
+- **一切正常时什么都不显示**：没有徽章、没有横幅、没有侧栏条目；
+- **真的有问题时**，账号菜单上方会出现一个 `插件有 N 个问题` 的小入口，点一下直接跳到设置分区；
+- host 半身只提供 loopback 只读快照，不会修改你的 profile。
+
 > **准备升级到 DSH 0.2.1？先跑一遍体检。**
 >
 > 我们扫描了生态里下载量 Top 120 的插件，其中 **3 个升级到 `0.2.1-rc.2` 后会失效**，
-> 原因是它们把 `@deepseek-ai/*` peer 精确锁死在旧版本。完整报告：
-> [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md)。
+> 原因是它们把 `@deepseek-ai/*` peer 精确锁死在旧版本（截至 2026-10-20，默认 `latest` 安装下还剩 2 个）。
+> 完整报告：[docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md)。
 >
 > ```sh
 > dsh-plugin-health matrix --plugins plugins.txt --versions 0.2.0-rc.2,0.2.1-rc.2
