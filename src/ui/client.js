@@ -16,6 +16,7 @@ window.__ModuleLoader__.load({
     const h = React.createElement
 
     const STATUS_PATH = '/plugins/dsh-plugin-health/status'
+    const REPAIR_PATH = '/plugins/dsh-plugin-health/repair'
     const SECTION_SLOT = 'settings.section'
     const SECTION_ID = 'plugin-health'
     const ALERT_SLOT = 'sidebar.footer.action'
@@ -147,20 +148,24 @@ window.__ModuleLoader__.load({
     /** Poll the host snapshot; the route is cheap and cached server-side for a few seconds. */
     function useStatus(intervalMs = 30000) {
       const [state, setState] = React.useState({ loading: true, error: undefined, data: undefined })
+      const reload = React.useCallback(async () => {
+        try {
+          const response = await fetch(STATUS_PATH, {
+            headers: { accept: 'application/json' },
+            credentials: 'same-origin',
+          })
+          if (!response.ok) throw new Error(`HTTP ${response.status}`)
+          const data = await response.json()
+          setState({ loading: false, error: undefined, data })
+        } catch (error) {
+          setState({ loading: false, error: error instanceof Error ? error.message : String(error), data: undefined })
+        }
+      }, [])
       React.useEffect(() => {
         let alive = true
         const load = async () => {
-          try {
-            const response = await fetch(STATUS_PATH, {
-              headers: { accept: 'application/json' },
-              credentials: 'same-origin',
-            })
-            if (!response.ok) throw new Error(`HTTP ${response.status}`)
-            const data = await response.json()
-            if (alive) setState({ loading: false, error: undefined, data })
-          } catch (error) {
-            if (alive) setState({ loading: false, error: error instanceof Error ? error.message : String(error), data: undefined })
-          }
+          if (!alive) return
+          await reload()
         }
         load()
         const timer = setInterval(load, intervalMs)
@@ -168,8 +173,66 @@ window.__ModuleLoader__.load({
           alive = false
           clearInterval(timer)
         }
-      }, [intervalMs])
-      return state
+      }, [intervalMs, reload])
+      return { ...state, reload }
+    }
+
+    /**
+     * Two-step repair: a dry run first (always shown), then the real write behind an explicit
+     * confirm. Never touches a finding that the host did not mark `autoFixable`.
+     */
+    function useRepair(reload) {
+      const [phase, setPhase] = React.useState('idle')
+      const [plan, setPlan] = React.useState(undefined)
+      const [result, setResult] = React.useState(undefined)
+      const [error, setError] = React.useState(undefined)
+
+      const call = async (dryRun, key) => {
+        const response = await fetch(REPAIR_PATH, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-plugin-health-key': key },
+          credentials: 'same-origin',
+          body: JSON.stringify({ dryRun }),
+        })
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        return response.json()
+      }
+
+      const start = async (key) => {
+        setPhase('planning')
+        setError(undefined)
+        try {
+          const next = await call(true, key)
+          setPlan(next)
+          setPhase(next.planned.length === 0 ? 'nothing' : 'planned')
+        } catch (failure) {
+          setError(failure instanceof Error ? failure.message : String(failure))
+          setPhase('error')
+        }
+      }
+
+      const confirm = async (key) => {
+        setPhase('applying')
+        setError(undefined)
+        try {
+          const next = await call(false, key)
+          setResult(next)
+          setPhase('done')
+          await reload()
+        } catch (failure) {
+          setError(failure instanceof Error ? failure.message : String(failure))
+          setPhase('error')
+        }
+      }
+
+      const reset = () => {
+        setPhase('idle')
+        setPlan(undefined)
+        setResult(undefined)
+        setError(undefined)
+      }
+
+      return { phase, plan, result, error, start, confirm, reset }
     }
 
     function dot(severity, size = 8) {
@@ -236,10 +299,13 @@ window.__ModuleLoader__.load({
     }
 
     function HealthSection() {
-      const { loading, error, data } = useStatus()
+      const { loading, error, data, reload } = useStatus()
+      const repair = useRepair(reload)
       const issues = data?.issues ?? []
       const actionable = issues.filter((issue) => issue.severity !== 'info')
+      const autoFixable = actionable.filter((issue) => issue.autoFixable === true)
       const summary = data?.summary ?? {}
+      const repairKey = data?.repairKey
 
       return h('div', { style: { padding: '20px 4px', maxWidth: 760 } }, [
         h('div', { key: 'head', style: { marginBottom: 16 } }, [
@@ -258,6 +324,68 @@ window.__ModuleLoader__.load({
         !loading && error === undefined && issues.length > actionable.length
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
             `${issues.length - actionable.length} 条提示不影响使用，已省略。`)
+          : null,
+        autoFixable.length > 0 && repair.phase === 'idle'
+          ? h('div', { key: 'fixbar', style: { marginTop: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' } }, [
+            h('button', {
+              key: 'b',
+              onClick: () => repair.start(repairKey),
+              style: {
+                border: 0,
+                borderRadius: 8,
+                padding: '9px 16px',
+                cursor: 'pointer',
+                background: COLORS.ok,
+                color: '#fff',
+                font: 'inherit',
+                fontSize: 13,
+                fontWeight: 600,
+              },
+            }, `一键修复 ${autoFixable.length} 项`),
+            h('span', { key: 'h', style: { fontSize: 12, opacity: 0.6 } },
+              '安全：只隔离不删除，原文件可以在隔离区找回；会先给你看修复计划。'),
+          ])
+          : null,
+        repair.phase === 'planning' ? h('div', { key: 'p', style: { marginTop: 14, fontSize: 13, opacity: 0.7 } }, '正在生成修复计划…') : null,
+        repair.phase === 'planned' && repair.plan
+          ? h('div', { key: 'plan', style: { marginTop: 14, padding: 14, borderRadius: 10, border: '1px solid rgba(128,128,128,.25)', fontSize: 13 } }, [
+            h('div', { key: 't', style: { fontWeight: 600, marginBottom: 8 } }, '将要执行的操作'),
+            ...repair.plan.planned.map((item, index) => h('div', { key: index, style: { padding: '4px 0', opacity: 0.85 } }, `· ${item.description || item.id}`)),
+            repair.plan.manual > 0
+              ? h('div', { key: 'm', style: { marginTop: 8, fontSize: 12, opacity: 0.6 } }, `另有 ${repair.plan.manual} 项需要你手动处理，不会动。`)
+              : null,
+            h('div', { key: 'actions', style: { marginTop: 12, display: 'flex', gap: 10, flexWrap: 'wrap' } }, [
+              h('button', {
+                key: 'go',
+                onClick: () => repair.confirm(repairKey),
+                style: { border: 0, borderRadius: 8, padding: '8px 14px', cursor: 'pointer', background: COLORS.error, color: '#fff', font: 'inherit', fontSize: 13, fontWeight: 600 },
+              }, '确认修复'),
+              h('button', {
+                key: 'cancel',
+                onClick: repair.reset,
+                style: { border: '1px solid rgba(128,128,128,.35)', borderRadius: 8, padding: '8px 14px', cursor: 'pointer', background: 'transparent', color: 'inherit', font: 'inherit', fontSize: 13 },
+              }, '取消'),
+            ]),
+          ])
+          : null,
+        repair.phase === 'nothing' ? h('div', { key: 'n', style: { marginTop: 14, fontSize: 13, opacity: 0.75 } }, '这些问题需要你手动处理，工具不会自动改。') : null,
+        repair.phase === 'applying' ? h('div', { key: 'a', style: { marginTop: 14, fontSize: 13, opacity: 0.7 } }, '正在应用…') : null,
+        repair.phase === 'done' && repair.result
+          ? h('div', { key: 'done', style: { marginTop: 14, padding: 14, borderRadius: 10, background: 'rgba(52,168,83,.10)', color: COLORS.ok, fontSize: 13 } }, [
+            h('div', { key: 't', style: { fontWeight: 700, marginBottom: 6 } }, `已修复 ${repair.result.actions.length} 项`),
+            ...repair.result.actions.map((action, index) => h('div', { key: index, style: { fontSize: 12, opacity: 0.85 } },
+              action.kind === 'quarantine' ? `已隔离：${action.from}` : `已重写：${action.file}（备份在隔离区）`)),
+            repair.result.quarantineDir
+              ? h('div', { key: 'q', style: { marginTop: 8, fontSize: 12, opacity: 0.7 } }, `可从这里找回：${repair.result.quarantineDir}`)
+              : null,
+            h('div', { key: 'r', style: { marginTop: 10 } }, [
+              h('button', {
+                key: 'again',
+                onClick: repair.reset,
+                style: { border: 0, borderRadius: 8, padding: '7px 12px', cursor: 'pointer', background: 'rgba(52,168,83,.18)', color: COLORS.ok, font: 'inherit', fontSize: 13, fontWeight: 600 },
+              }, '知道了'),
+            ]),
+          ])
           : null,
         data
           ? h('div', { key: 'meta', style: { marginTop: 20, fontSize: 12, opacity: 0.5, lineHeight: 1.7 } }, [

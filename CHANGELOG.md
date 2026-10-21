@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.0 (2026-10-21)
+
+### Added
+
+- **One-click repair in the settings UI.** Findings the host marks auto-fixable now get a
+  `一键修复 N 项` button. It always shows a dry-run plan first, then applies only after an explicit
+  confirm; the result lists exactly what moved and where it can be restored from.
+- Baseline repair still never deletes: files move to `~/.dsh/.plugin-health/quarantine/<timestamp>`
+  and a `repair-log.json` records every action.
+
+### Fixed
+
+- The UI now inspects the **running** profile (`ctx.profileContext`) instead of assuming `desktop`,
+  so a plugin installed into `web`/`tui`/custom profiles reports that profile's findings.
+- The status cache is invalidated after a repair, so the section refreshes immediately instead of
+  showing stale results for a few seconds.
+
 ## 0.2.0 (2026-10-21)
 
 ### Added
