@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0 (2026-10-21)
+
+### Added
+
+- **Visual UI inside DSH.** The package is now a dual-half bundle: the host half serves a
+  loopback-only read-only snapshot at `/plugins/dsh-plugin-health/status`, and the browser half
+  registers a native **Settings → 插件健康** section. Findings are written in plain language with a
+  concrete next step, so a first-time user can act without reading the CLI docs.
+- **Sidebar alert that only exists when something is wrong.** When the snapshot has an actionable
+  finding, a compact `插件有 N 个问题` entry appears above the account menu and jumps straight to the
+  settings section. With no findings the plugin shows nothing at all.
+- 6 new tests for the status route (loopback guard, method guard, snapshot shape, missing home).
+
 ## 0.1.6 (2026-10-18)
 
 ### Added

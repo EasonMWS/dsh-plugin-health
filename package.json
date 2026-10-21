@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-health",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Upgrade check and multi-host compatibility matrix for DeepSeek Harness (dsh) plugins, with an official format-1 market index builder, Windows/WSL install doctor, and a reusable GitHub Action that comments a compatibility matrix on every plugin PR.",
   "type": "module",
   "main": "./src/plugin.js",
@@ -11,6 +11,7 @@
   "exports": {
     ".": "./src/plugin.js",
     "./api": "./src/index.js",
+    "./client": "./src/ui/client.js",
     "./package.json": "./package.json"
   },
   "files": [
@@ -30,6 +31,14 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-layout"
+      ]
     }
   },
   "peerDependencies": {

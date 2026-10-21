@@ -12,6 +12,7 @@ import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { inspectDshHome } from './repair/inspect.js'
 import { formatInspection } from './repair/format.js'
+import { cachedStatus, registerStatusRoute } from './ui/status.js'
 
 export const name = 'plugin-health'
 export const inject = ['tools']
@@ -63,6 +64,21 @@ export function inspectionText({ profile, runtime, json } = {}) {
  * @returns {Promise<void>} resolves after the tool is registered or the fallback decided.
  */
 export async function apply(ctx) {
+  // Browser UI data: a loopback-only JSON snapshot consumed by ./client.js.
+  try {
+    if (typeof ctx?.inject === 'function') {
+      registerStatusRoute(ctx, {
+        getStatus: () => cachedStatus({ runtimeVersion: hostRuntimeVersion() }),
+      })
+    }
+  } catch (error) {
+    try {
+      ctx?.logger?.debug?.(`[plugin-health] status route skipped: ${error instanceof Error ? error.message : String(error)}`)
+    } catch {
+      // logging is best effort only
+    }
+  }
+
   try {
     const { defineTool } = await import('@deepseek-ai/dsh-tools')
     if (ctx?.tools?.register === undefined) return
