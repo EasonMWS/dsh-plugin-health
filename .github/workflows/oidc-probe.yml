@@ -1,0 +1,73 @@
+name: oidc-probe
+
+# Read-only diagnostic: call npm's OIDC token-exchange endpoint directly and compare outcomes for
+# (a) this package, (b) a package that cannot exist, (c) an unauthenticated control request.
+# Nothing is published, no version is created, nothing is mutated.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Which npm/GitHub side are we on
+        run: |
+          node --version
+          npm --version
+          echo "repo=$GITHUB_REPOSITORY ref=$GITHUB_REF"
+
+      - name: Exchange for dsh-plugin-health (the real package)
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          OIDC_JSON=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=npm%3Aregistry.npmjs.org")
+          TOKEN=$(echo "$OIDC_JSON" | jq -r '.value')
+          echo "oidc token length: ${#TOKEN}"
+          for attempt in 1 2 3; do
+            CODE=$(curl -sS -m 60 -o /tmp/r1.json -w '%{http_code}' -X POST \
+              -H "Authorization: Bearer $TOKEN" \
+              -H 'Content-Type: application/json' \
+              --data '{}' \
+              https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/dsh-plugin-health)
+            echo "PROBE_REAL attempt=$attempt http=$CODE"
+            head -c 500 /tmp/r1.json; echo
+            [ "$CODE" = "200" ] && [ "$attempt" -lt 3 ] && sleep 5 && continue
+            break
+          done
+
+      - name: Exchange for a package that cannot exist (control)
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          OIDC_JSON=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=npm%3Aregistry.npmjs.org")
+          TOKEN=$(echo "$OIDC_JSON" | jq -r '.value')
+          CODE=$(curl -sS -m 60 -o /tmp/r2.json -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H 'Content-Type: application/json' \
+            --data '{}' \
+            https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/dsh-plugin-health-nonexistent-control-9f3a)
+          echo "PROBE_CONTROL http=$CODE"
+          head -c 500 /tmp/r2.json; echo
+
+      - name: Unauthenticated control
+        continue-on-error: true
+        run: |
+          CODE=$(curl -sS -m 60 -o /tmp/r3.json -w '%{http_code}' -X POST \
+            -H 'Content-Type: application/json' --data '{}' \
+            https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/dsh-plugin-health)
+          echo "PROBE_NOAUTH http=$CODE"
+          head -c 500 /tmp/r3.json; echo
+
+      - name: Registry read control (is the registry itself up?)
+        continue-on-error: true
+        run: |
+          CODE=$(curl -sS -m 30 -o /dev/null -w '%{http_code}' https://registry.npmjs.org/dsh-plugin-health)
+          echo "PROBE_REGISTRY_READ http=$CODE"
+          CODE2=$(curl -sS -m 30 -o /dev/null -w '%{http_code}' https://registry.npmjs.org/-/ping)
+          echo "PROBE_PING http=$CODE2"
