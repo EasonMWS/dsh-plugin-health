@@ -27,18 +27,6 @@ jobs:
           npm --version
           if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ]; then echo "OIDC env present"; else echo "OIDC env MISSING"; fi
           if [ -f "$HOME/.npmrc" ]; then echo "user npmrc exists"; else echo "no user npmrc"; fi
-      - name: Probe npm OIDC exchange (same workflow as the trusted publisher)
-        continue-on-error: true
-        run: |
-          set -uo pipefail
-          TOKEN=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=npm%3Aregistry.npmjs.org" | jq -r '.value')
-          echo "oidc_jwt_len=${#TOKEN}"
-          CODE=$(curl -sS -m 120 -o /tmp/exchange.json -w '%{http_code}' -X POST \
-            -H "Authorization: Bearer $TOKEN" \
-            https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/dsh-plugin-health)
-          echo "EXCHANGE_HTTP=$CODE"
-          echo "EXCHANGE_BODY=$(head -c 400 /tmp/exchange.json)"
       - name: Publish
         env:
           NPM_CONFIG_LOGLEVEL: verbose
