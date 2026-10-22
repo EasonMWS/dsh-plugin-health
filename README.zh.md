@@ -7,12 +7,15 @@
 DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 format-1 市场索引生成器**、
 **Windows/WSL 安装诊断/安全修复**工具，以及 **DSH 内的原生设置页 UI**。
 
-> 状态：`0.2.0`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`0.3.2`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 **线上官方 format-1 索引：** <https://easonmws.github.io/dsh-plugin-health/index.json>
 （300 个插件，每晚自动重建） · **npm：** `npm install -g dsh-plugin-health` ·
 **仓库：** <https://github.com/EasonMWS/dsh-plugin-health>
+
+已收录：[awesome-dsh-plugin](https://awesome-dsh-plugin.com/zh/p/EasonMWS/dsh-plugin-health/) 与
+[DSH Plugin Store](https://www.dshplugin.store/plugin/EasonMWS/dsh-plugin-health)。
 
 ## 有 UI，但只在你需要时出现
 

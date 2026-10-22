@@ -8,12 +8,15 @@ Compatibility matrix, official format-1 index builder, and Windows/WSL install d
 [DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) plugins — with a native
 settings UI inside DSH.
 
-> Status: `0.2.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.3.2`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
 (300 plugins, rebuilt nightly) · **npm:** `npm install -g dsh-plugin-health` ·
 **repo:** <https://github.com/EasonMWS/dsh-plugin-health>
+
+Listed on the [awesome-dsh-plugin](https://awesome-dsh-plugin.com/zh/p/EasonMWS/dsh-plugin-health/)
+directory and the [DSH Plugin Store](https://www.dshplugin.store/plugin/EasonMWS/dsh-plugin-health).
 
 ## A real UI, only when you need it
 
