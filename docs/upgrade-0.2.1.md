@@ -15,7 +15,9 @@
 >
 > **更新（2026-10-20 复测）**：`dsh-plugin-subscriptions@0.9.10` 已发布，矩阵复测 `0.2.1-rc.2` ✅；`dsh-codex-connect` 的修复在 `alpha` 通道 `0.2.0-alpha.9`（`latest` 仍是 `0.2.0-alpha.1`，默认安装仍会命中旧声明）；`@feng0531/dsh-vcs@0.4.10` 仍未修复。
 >
-> **当前受影响数量**：按 npm `latest` 默认安装 = **2**（`dsh-codex-connect` latest、`@feng0531/dsh-vcs`）；如果允许使用 alpha 通道 = **1**（只剩 `@feng0531/dsh-vcs`）。扫描时的 3 个里，2 个已有修复版本。
+> **更新（2026-10-23 复测）**：`dsh-codex-connect@0.2.0-alpha.10` 已发布**并推进到 `latest`**，20 个 `@deepseek-ai/dsh*` peer 现在都含 `0.2.1-rc.2`（还顺带加了 `0.2.1-rc.3`）；矩阵复测 `0.2.1-rc.2` ✅。`@feng0531/dsh-vcs@0.4.10` 仍未修复。
+>
+> **当前受影响数量**：按 npm `latest` 默认安装 = **1**（只剩 `@feng0531/dsh-vcs`）。扫描时的 3 个里，**2 个已修复并发布**。
 
 ### 扫描时（2026-10-18）会失效的 3 个插件
 
@@ -25,12 +27,12 @@
 | `dsh-plugin-subscriptions` | 0.9.9 | ✅ | ❌ | `@deepseek-ai/dsh-llm` 等 peer 里精确写了 `0.2.0-rc.2` |
 | `@feng0531/dsh-vcs` | 0.4.10 | ✅ | ❌ | `@deepseek-ai/dsh: 0.1.7-rc.2 || 0.2.0-rc.2`（精确枚举，没有范围） |
 
-### 当前状态（2026-10-20 复测）
+### 当前状态（2026-10-23 复测）
 
 | 插件 | 最新可用版本 | `0.2.1-rc.2` | 说明 |
 | --- | --- | --- | --- |
 | `dsh-plugin-subscriptions` | 0.9.10 | ✅ | 已修复并发布；`0.9.9` 仍会命中旧声明 |
-| `dsh-codex-connect` | 0.2.0-alpha.1（latest） / 0.2.0-alpha.9（alpha） | latest ❌ / alpha ✅ | 修复只在 alpha 通道，latest 尚未推进 |
+| `dsh-codex-connect` | 0.2.0-alpha.10 | ✅ | 已修复并推进到 `latest`，所有 DSH peer 均含 `0.2.1-rc.2` |
 | `@feng0531/dsh-vcs` | 0.4.10 | ❌ | 仍把 `@deepseek-ai/dsh` 精确锁在 `0.1.7-rc.2 || 0.2.0-rc.2` |
 
 ### 两个版本都失效
@@ -94,6 +96,8 @@ A scan of the top 120 DSH plugins (by npm downloads, from the published format-1
 - 1 broken on both.
 
 **Update (2026-10-20):** `dsh-plugin-subscriptions@0.9.10` is fixed and published (matrix now passes on `0.2.1-rc.2`); `dsh-codex-connect` has the fix in the `alpha` channel (`0.2.0-alpha.9`), while `latest` still points at the old `0.2.0-alpha.1`; `@feng0531/dsh-vcs@0.4.10` is still unfixed. By default `latest` installs, 2 plugins remain affected; allowing the alpha channel, 1 remains.
+
+**Update (2026-10-23):** `dsh-codex-connect@0.2.0-alpha.10` is published and moved to `latest`; all 20 DSH peers now include `0.2.1-rc.2` (and `0.2.1-rc.3`), and the matrix passes. **1 plugin remains affected by default `latest` installs: `@feng0531/dsh-vcs`.** 2 of the 3 regressions are now fixed and released.
 
 DSH compatibility is decided from the plugin's declared ranges (`engines.dsh` first, otherwise every `@deepseek-ai/dsh*` peer, prereleases included). Pinning an exact host version therefore breaks on the next nightly even when the plugin code is unchanged.
 
