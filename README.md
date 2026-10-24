@@ -26,17 +26,22 @@ Install it as a bundle and DSH gets a native **Settings → 插件健康** secti
 dsh plugin --profile web add dsh-plugin-health
 ```
 
+- **It checks every plugin you actually have installed**, not a sample and not just the bundle list:
+  bundles, `package.json` dependencies, `cordis.patch.yml` inserts (including nested ones), and
+  anything plugin-shaped in `node_modules`. The header tells you how many were inspected.
 - Every finding is written in plain language with a concrete next step — a first-time user can act
   without reading CLI docs.
+- One line at the top says whether you can relax (`可以放心用`) or should act (`有问题建议处理`), and a
+  `重新扫描` button re-runs the check on demand.
 - **If nothing is wrong, nothing is shown.** The plugin adds no badge, no banner, no sidebar entry.
 - **When something is wrong**, a compact `插件有 N 个问题` entry appears above the account menu and
   jumps straight to the section.
 - The host half only serves a loopback-only read-only snapshot; the plugin never modifies your
   profile.
 
-| Finding + one-click repair | Dry-run plan before any write |
+| Findings, verdict line, one-click repair | Dry-run plan before any write |
 | --- | --- |
-| ![Settings section with a finding and the repair button](docs/images/settings-finding.png) | ![Repair plan shown before applying](docs/images/settings-repair-plan.png) |
+| ![Settings section with findings and the repair button](docs/images/settings-finding.png) | ![Repair plan shown before applying](docs/images/settings-repair-plan.png) |
 
 > **Upgrading DSH? Run the check first.**
 >

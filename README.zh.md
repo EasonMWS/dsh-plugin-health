@@ -25,12 +25,16 @@ DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 for
 dsh plugin --profile web add dsh-plugin-health
 ```
 
+- **它检查的是你机器上真实安装的每一个插件**，不是抽样，也不只看 bundle 列表：
+  bundle、`package.json` 依赖、`cordis.patch.yml` 的 insert（含嵌套）、`node_modules` 里所有插件形态的包。
+  页面顶部会直接告诉你这次检查了多少个。
 - 每条问题都用大白话解释，并给出「怎么做」，第一次用的人不用读文档也能处理；
+- 顶部一行结论告诉你该不该担心：`可以放心用` 或 `有问题建议处理`；旁边有 `重新扫描` 按钮随时重跑；
 - **一切正常时什么都不显示**：没有徽章、没有横幅、没有侧栏条目；
 - **真的有问题时**，账号菜单上方会出现一个 `插件有 N 个问题` 的小入口，点一下直接跳到设置分区；
 - host 半身只提供 loopback 只读快照，不会修改你的 profile。
 
-| 发现问题 + 一键修复 | 执行前先给你看修复计划 |
+| 问题列表 + 结论行 + 一键修复 | 执行前先给你看修复计划 |
 | --- | --- |
 | ![设置页里的问题与修复按钮](docs/images/settings-finding.png) | ![执行前展示的修复计划](docs/images/settings-repair-plan.png) |
 

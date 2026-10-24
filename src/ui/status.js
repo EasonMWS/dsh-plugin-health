@@ -10,7 +10,7 @@ export const STATUS_PATH = '/plugins/dsh-plugin-health/status'
 /**
  * Turn an inspection result into the small document the UI consumes.
  * @param {{home?: string, profile?: string, runtimeVersion?: string, now?: number}} [options]
- * @returns {{schemaVersion: number, generatedAt: string, runtimeVersion: string|null, profile: string|null, profileDir: string|null, home: string, summary: object, incompatible: number, issues: object[]}}
+ * @returns {{schemaVersion: number, generatedAt: string, runtimeVersion: string|null, profile: string|null, profileDir: string|null, home: string, summary: object, incompatible: number, scanned: object, issues: object[]}}
  */
 export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } = {}) {
   const result = inspectDshHome({ home, profile, runtimeVersion })
@@ -23,7 +23,7 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
     autoFixable: item.fix?.auto === true,
   }))
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: new Date(now).toISOString(),
     runtimeVersion: typeof runtimeVersion === 'string' && runtimeVersion !== '' ? runtimeVersion : null,
     profile: result.profile ?? null,
@@ -31,6 +31,8 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
     home: result.home,
     summary: result.summary,
     incompatible: issues.filter((issue) => issue.id === 'plugin-incompatible').length,
+    // What was actually inspected, so the UI can say "checked N plugins" instead of implying a sample.
+    scanned: { plugins: result.scannedPlugins ?? null },
     issues,
   }
 }

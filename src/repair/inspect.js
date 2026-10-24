@@ -139,6 +139,16 @@ export function inspectDshHome({ home, profile, runtimeVersion } = {}) {
   inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest)
   inspectProfileDrift(resolvedHome, selected, findings)
 
+  // How many plugins were actually checked, so the UI can say "checked N" instead of implying a
+  // sample. Host packages are reported separately because they are the reference, not the subject.
+  if (manifest !== undefined) {
+    const installed = listInstalledPlugins(profileDir, manifest)
+    result.scannedPlugins = {
+      total: installed.length,
+      thirdParty: installed.filter((item) => !item.name.startsWith('@deepseek-ai/')).length,
+    }
+  }
+
   return withSummary(result)
 }
 

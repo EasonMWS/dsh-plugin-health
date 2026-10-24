@@ -282,7 +282,7 @@ window.__ModuleLoader__.load({
       ])
     }
 
-    function EmptyState() {
+    function EmptyState({ scanned }) {
       return h('div', {
         style: {
           display: 'flex',
@@ -294,32 +294,107 @@ window.__ModuleLoader__.load({
           color: COLORS.ok,
           fontSize: 14,
           fontWeight: 600,
+          flexWrap: 'wrap',
         },
-      }, [h('span', { key: 'i', style: { fontSize: 18 } }, '✓'), h('span', { key: 't' }, '一切正常，没有发现插件冲突')])
+      }, [
+        h('span', { key: 'i', style: { fontSize: 18 } }, '✓'),
+        h('span', { key: 't' }, '一切正常，没有发现插件冲突'),
+        scanned !== undefined
+          ? h('span', { key: 'n', style: { fontSize: 12, fontWeight: 400, opacity: 0.65 } }, `已检查 ${scanned} 个已安装插件`)
+          : null,
+      ])
+    }
+
+    /** One-line verdict a first-time user can act on without reading the list. */
+    function Verdict({ errorCount, warnCount, scanned, runtimeVersion }) {
+      const parts = []
+      if (errorCount > 0) parts.push(h('span', { key: 'e', style: { color: COLORS.error } }, `${errorCount} 个错误`))
+      if (warnCount > 0) parts.push(h('span', { key: 'w', style: { color: COLORS.warn } }, `${warnCount} 个警告`))
+      const clean = errorCount === 0 && warnCount === 0
+      return h('div', {
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          flexWrap: 'wrap',
+          padding: '10px 14px',
+          borderRadius: 8,
+          marginBottom: 14,
+          fontSize: 13,
+          background: clean ? 'rgba(52,168,83,.08)' : 'rgba(178,106,0,.08)',
+        },
+      }, [
+        h('span', { key: 'd', style: { width: 8, height: 8, borderRadius: '50%', background: clean ? COLORS.ok : COLORS.warn, flex: '0 0 auto' } }),
+        h('span', { key: 't', style: { fontWeight: 600 } }, clean ? '可以放心用' : '有问题建议处理'),
+        h('span', { key: 's', style: { opacity: 0.7 } }, clean
+          ? `共检查 ${scanned ?? '?'} 个插件${runtimeVersion ? `，DSH ${runtimeVersion}` : ''}`
+          : parts),
+      ])
+    }
+
+    function ScanButton({ onClick, busy }) {
+      return h('button', {
+        onClick,
+        disabled: busy === true,
+        style: {
+          border: '1px solid rgba(128,128,128,.35)',
+          borderRadius: 8,
+          padding: '7px 14px',
+          cursor: busy === true ? 'default' : 'pointer',
+          background: 'transparent',
+          color: 'inherit',
+          font: 'inherit',
+          fontSize: 13,
+          opacity: busy === true ? 0.55 : 1,
+        },
+      }, busy === true ? '正在扫描…' : '重新扫描')
     }
 
     function HealthSection() {
       const { loading, error, data, reload } = useStatus()
       const repair = useRepair(reload)
+      const [scanning, setScanning] = React.useState(false)
       const issues = data?.issues ?? []
       const actionable = issues.filter((issue) => issue.severity !== 'info')
       const autoFixable = actionable.filter((issue) => issue.autoFixable === true)
       const summary = data?.summary ?? {}
       const repairKey = data?.repairKey
+      const scanned = data?.scanned?.plugins?.total
+
+      const rescan = React.useCallback(async () => {
+        setScanning(true)
+        try {
+          await reload()
+        } finally {
+          setScanning(false)
+        }
+      }, [reload])
 
       return h('div', { style: { padding: '20px 4px', maxWidth: 760 } }, [
-        h('div', { key: 'head', style: { marginBottom: 16 } }, [
-          h('div', { key: 't', style: { fontSize: 17, fontWeight: 700 } }, '插件健康'),
-          h('div', { key: 's', style: { fontSize: 13, opacity: 0.65, marginTop: 4 } },
-            '检查已安装的插件能否在当前 DSH 版本上正常加载。只在你打开这里时检查，不会影响 DSH 运行。'),
+        h('div', { key: 'head', style: { marginBottom: 14, display: 'flex', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' } }, [
+          h('div', { key: 'l', style: { flex: '1 1 320px', minWidth: 0 } }, [
+            h('div', { key: 't', style: { fontSize: 17, fontWeight: 700 } }, '插件健康'),
+            h('div', { key: 's', style: { fontSize: 13, opacity: 0.65, marginTop: 4 } },
+              '检查你电脑上已安装的每个插件能否在当前 DSH 版本上正常加载。只读检查，不会改动任何东西。'),
+          ]),
+          h('div', { key: 'r', style: { flex: '0 0 auto' } }, h(ScanButton, { onClick: rescan, busy: scanning || loading })),
         ]),
         loading ? h('div', { key: 'l', style: { fontSize: 13, opacity: 0.7 } }, '正在检查…') : null,
         error !== undefined ? h('div', { key: 'e', style: { fontSize: 13, color: COLORS.warn } }, [
           h('div', { key: 't', style: { fontWeight: 600, marginBottom: 4 } }, '检查失败'),
           h('div', { key: 'd' }, error),
-          h('div', { key: 'h', style: { marginTop: 4, opacity: 0.7 } }, 'DSH 刚启动时可能还没准备好，页面会自动重试。'),
+          h('div', { key: 'h', style: { marginTop: 4, opacity: 0.7 } }, 'DSH 刚启动时可能还没准备好，点「重新扫描」再试一次。'),
         ]) : null,
-        !loading && error === undefined ? (actionable.length === 0 ? h(EmptyState, { key: 'ok' }) : h('div', { key: 'list' },
+        !loading && error === undefined
+          ? h(Verdict, {
+            key: 'v',
+            errorCount: summary.error ?? 0,
+            warnCount: summary.warn ?? 0,
+            scanned,
+            runtimeVersion: data?.runtimeVersion,
+          })
+          : null,
+        !loading && error === undefined ? (actionable.length === 0 ? h(EmptyState, { key: 'ok', scanned }) : h('div', { key: 'list' },
           actionable.map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue })))) : null,
         !loading && error === undefined && issues.length > actionable.length
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
@@ -389,9 +464,9 @@ window.__ModuleLoader__.load({
           : null,
         data
           ? h('div', { key: 'meta', style: { marginTop: 20, fontSize: 12, opacity: 0.5, lineHeight: 1.7 } }, [
-            h('div', { key: 'v' }, `DSH 版本：${data.runtimeVersion ?? '未知'}`),
-            h('div', { key: 'p' }, `Profile：${data.profile ?? '未知'}（${data.home}）`),
-            h('div', { key: 'c' }, `检查时间：${new Date(data.generatedAt).toLocaleString()} · 共 ${summary.error ?? 0} 个错误 / ${summary.warn ?? 0} 个警告`),
+            h('div', { key: 'c' }, `上次检查：${new Date(data.generatedAt).toLocaleString()}${scanned !== undefined ? ` · 共检查 ${scanned} 个插件` : ''}`),
+            h('div', { key: 'v' }, `DSH ${data.runtimeVersion ?? '未知'} · Profile：${data.profile ?? '未知'}`),
+            h('div', { key: 'h', style: { opacity: 0.8 } }, `${data.home}`),
           ])
           : null,
       ])

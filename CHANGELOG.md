@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.1 (2026-10-24)
+
+### Changed
+
+- **The settings section now leads with a verdict, not a list.** A single line says whether you can
+  relax (`可以放心用`) or should act (`有问题建议处理`), followed by the exact number of plugins that
+  were inspected — so "clean" is backed by a visible count instead of a bare green box.
+- **`重新扫描` button**: re-runs the check on demand instead of waiting for the 30 s poll.
+- Copy rewritten for a first-time user: the subtitle now states plainly that every installed plugin
+  is checked and that the check is read-only.
+- The empty state repeats the inspected count, so a clean result is auditable.
+- Footer demoted to secondary detail (last check time, DSH version, profile, home).
+
 ## 0.4.0 (2026-10-24)
 
 ### Fixed

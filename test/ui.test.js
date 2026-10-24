@@ -23,12 +23,14 @@ test('buildStatus reports a healthy empty profile', () => {
   const home = tempHome()
   try {
     const status = buildStatus({ home, profile: 'desktop', runtimeVersion: '0.2.1-rc.2', now: 0 })
-    assert.equal(status.schemaVersion, 1)
+    assert.equal(status.schemaVersion, 2)
     assert.equal(status.profile, 'desktop')
     assert.equal(status.runtimeVersion, '0.2.1-rc.2')
     assert.equal(status.incompatible, 0)
     assert.equal(status.generatedAt, new Date(0).toISOString())
     assert.ok(Array.isArray(status.issues))
+    // The UI says "checked N plugins"; the count must describe what was actually inspected.
+    assert.equal(typeof status.scanned?.plugins?.total, 'number')
   } finally {
     rmSync(home, { recursive: true, force: true })
   }
