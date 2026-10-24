@@ -136,7 +136,7 @@ export function inspectDshHome({ home, profile, runtimeVersion } = {}) {
   inspectResidue(profileDir, findings)
   inspectLogs(profileDir, findings)
   inspectEnvironment(resolvedHome, profileDir, findings)
-  inspectRuntime(profileDir, bundles, runtimeVersion, findings)
+  inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest)
   inspectProfileDrift(resolvedHome, selected, findings)
 
   return withSummary(result)
@@ -273,11 +273,129 @@ function inspectEnvironment(home, profileDir, findings) {
   }
 }
 
-function inspectRuntime(profileDir, bundles, runtimeVersion, findings) {
+/**
+ * Every plugin package actually installed in a profile, not just the ones listed in
+ * `dsh.profile.bundles`.
+ *
+ * A profile can also pull plugins in through `cordis.patch.yml` insert entries, and pnpm keeps
+ * packages in `node_modules` that the bundle list does not mention. Checking only `bundles` reports
+ * a clean profile while a broken plugin sits right next to it.
+ * @param {string} profileDir - profile directory.
+ * @param {object} manifest - the profile package.json.
+ * @returns {{name: string, directory: string, source: string}[]} installed plugins, de-duplicated.
+ */
+export function listInstalledPlugins(profileDir, manifest) {
+  /** @type {Map<string, {name: string, directory: string, source: string}>} */
+  const found = new Map()
+
+  const add = (name, directory, source) => {
+    if (typeof name !== 'string' || name === '') return
+    if (found.has(name)) return
+    found.set(name, { name, directory, source })
+  }
+
+  const bundles = Array.isArray(manifest?.dsh?.profile?.bundles) ? manifest.dsh.profile.bundles : []
+  for (const name of bundles) add(name, nodeModulesPath(profileDir, name), 'bundle')
+
+  // Dependencies of the profile package: what pnpm actually installed for this profile.
+  for (const name of Object.keys(manifest?.dependencies ?? {})) {
+    add(name, nodeModulesPath(profileDir, name), 'dependency')
+  }
+
+  // Plugins wired in through the patch layer, which the bundle list does not have to mention.
+  for (const name of readPatchPluginNames(profileDir)) {
+    add(name, nodeModulesPath(profileDir, name), 'patch')
+  }
+
+  // Anything else that looks like a dsh plugin and is physically present.
+  const directory = join(profileDir, 'node_modules')
+  if (existsSync(directory)) {
+    for (const candidate of listPackageDirectories(directory)) {
+      if (!/dsh/i.test(candidate.name)) continue
+      add(candidate.name, candidate.directory, 'node_modules')
+    }
+  }
+
+  return [...found.values()]
+}
+
+/**
+ * Package names referenced by `cordis.patch.yml`, including nested insert lists.
+ * @param {string} profileDir - profile directory.
+ * @returns {string[]} package names mentioned by the patch layer.
+ */
+function readPatchPluginNames(profileDir) {
+  const patchPath = join(profileDir, 'cordis.patch.yml')
+  if (!existsSync(patchPath)) return []
+  let parsed
+  try {
+    parsed = parseYaml(readFileSync(patchPath, 'utf8'))
+  } catch {
+    return []
+  }
+  if (!Array.isArray(parsed)) return []
+  const names = []
+  const visit = (node) => {
+    if (Array.isArray(node)) {
+      for (const child of node) visit(child)
+      return
+    }
+    if (node === null || typeof node !== 'object') return
+    if (typeof node.name === 'string' && node.name !== '') names.push(node.name)
+    if (node.insert !== undefined) visit(node.insert)
+  }
+  visit(parsed)
+  return names
+}
+
+/**
+ * Walk `node_modules`, expanding scope directories, without following links into other trees.
+ * @param {string} directory - a node_modules directory.
+ * @returns {{name: string, directory: string}[]} package directories.
+ */
+function listPackageDirectories(directory) {
+  const out = []
+  let entries = []
+  try {
+    entries = readdirSync(directory, { withFileTypes: true })
+  } catch {
+    return out
+  }
+  for (const entry of entries) {
+    if (entry.name.startsWith('.')) continue
+    if (!entry.isDirectory() && !entry.isSymbolicLink()) continue
+    if (entry.name.startsWith('@')) {
+      const scopeDir = join(directory, entry.name)
+      let children = []
+      try {
+        children = readdirSync(scopeDir, { withFileTypes: true })
+      } catch {
+        continue
+      }
+      for (const child of children) {
+        if (!child.isDirectory() && !child.isSymbolicLink()) continue
+        out.push({ name: `${entry.name}/${child.name}`, directory: join(scopeDir, child.name) })
+      }
+      continue
+    }
+    out.push({ name: entry.name, directory: join(directory, entry.name) })
+  }
+  return out
+}
+
+function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest) {
   if (runtimeVersion === undefined || runtimeVersion === '') return
-  for (const name of bundles) {
-    if (typeof name !== 'string') continue
-    const manifestPath = join(nodeModulesPath(profileDir, name), 'package.json')
+  const installed = manifest === undefined
+    ? bundles.map((name) => ({ name, directory: nodeModulesPath(profileDir, name) }))
+    : listInstalledPlugins(profileDir, manifest)
+  const seen = new Set()
+  for (const plugin of installed) {
+    const name = plugin.name
+    if (typeof name !== 'string' || name === '') continue
+    if (seen.has(name)) continue
+    seen.add(name)
+    if (name.startsWith('@deepseek-ai/')) continue // host packages are the reference, not plugins
+    const manifestPath = join(plugin.directory ?? nodeModulesPath(profileDir, name), 'package.json')
     if (!existsSync(manifestPath)) continue
     const read = safeReadJson(manifestPath)
     if (read.error !== undefined) continue

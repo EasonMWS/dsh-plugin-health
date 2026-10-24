@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.4.0 (2026-10-24)
+
+### Fixed
+
+- **The health check now scans every plugin installed in the profile, not just `dsh.profile.bundles`.**
+  A profile can also pull plugins in through `cordis.patch.yml` insert entries and through plain
+  `node_modules` entries, and those were silently skipped — a profile could report "clean" while an
+  incompatible plugin sat right beside the scanned ones. On this machine the desktop profile went
+  from 9 checked packages to 15.
+- Host packages (`@deepseek-ai/*`) are excluded from the compatibility check; they *are* the
+  reference the plugins are checked against.
+
+### Added
+
+- `listInstalledPlugins()` is exported and covered by 5 tests (bundles, patch inserts, nested
+  inserts, orphan `node_modules` entries, de-duplication, malformed patch file).
+
 ## 0.3.5 (2026-10-24)
 
 ### Added
