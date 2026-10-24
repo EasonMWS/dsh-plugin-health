@@ -38,14 +38,16 @@ dsh plugin --profile web add dsh-plugin-health
 | --- | --- |
 | ![Settings section with a finding and the repair button](docs/images/settings-finding.png) | ![Repair plan shown before applying](docs/images/settings-repair-plan.png) |
 
-> **Upgrading to DSH 0.2.1? Run the check first.**
+> **Upgrading DSH? Run the check first.**
 >
-> In a scan of the top 120 ecosystem plugins, **3 would stop loading on `0.2.1-rc.2`** because
-> they pin exact `@deepseek-ai/*` peer versions (2 by default `latest` installs as of 2026-10-20).
-> Full report: [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md).
+> `0.2.1-rc.3` (2026-10-23) dropped the compatible count from 118 to **113 of the top 120** plugins:
+> **5 plugins that worked on rc.2 stop loading on rc.3**, all because they enumerate exact
+> `@deepseek-ai/*` versions. Earlier, rc.2 had broken 3 others. Latest report:
+> [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md) ·
+> [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md).
 >
 > ```sh
-> dsh-plugin-health matrix --plugins plugins.txt --versions 0.2.0-rc.2,0.2.1-rc.2
+> dsh-plugin-health matrix --plugins plugins.txt --versions 0.2.1-rc.2,0.2.1-rc.3
 > ```
 
 ## Why

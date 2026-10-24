@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.5 (2026-10-24)
+
+### Added
+
+- `docs/upgrade-0.2.1-rc3.md`: a scan of the top 120 plugins comparing `0.2.1-rc.2` → `0.2.1-rc.3`.
+  **rc.3 drops the compatible count from 118 to 113** — 5 plugins that load on rc.2 are rejected on
+  rc.3, all because they enumerate exact `@deepseek-ai/*` versions.
+- README now leads with the rc.3 numbers instead of the older rc.2 scan.
+
+### Fixed
+
+- Ship the two upgrade reports in the npm package so the README links resolve on npmjs.com.
+
 ## 0.3.0 (2026-10-21)
 
 ### Added

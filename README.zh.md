@@ -34,14 +34,16 @@ dsh plugin --profile web add dsh-plugin-health
 | --- | --- |
 | ![设置页里的问题与修复按钮](docs/images/settings-finding.png) | ![执行前展示的修复计划](docs/images/settings-repair-plan.png) |
 
-> **准备升级到 DSH 0.2.1？先跑一遍体检。**
+> **准备升级 DSH？先跑一遍体检。**
 >
-> 我们扫描了生态里下载量 Top 120 的插件，其中 **3 个升级到 `0.2.1-rc.2` 后会失效**，
-> 原因是它们把 `@deepseek-ai/*` peer 精确锁死在旧版本（截至 2026-10-20，默认 `latest` 安装下还剩 2 个）。
-> 完整报告：[docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md)。
+> `0.2.1-rc.3`（2026-10-23）让 Top 120 里的兼容数从 118 掉到 **113**：
+> **5 个在 rc.2 上正常的插件，到 rc.3 就加载不了**，原因都是把 `@deepseek-ai/*` 版本写成了精确枚举。
+> 更早的 rc.2 也曾打崩另外 3 个。最新报告：
+> [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md) ·
+> [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md)。
 >
 > ```sh
-> dsh-plugin-health matrix --plugins plugins.txt --versions 0.2.0-rc.2,0.2.1-rc.2
+> dsh-plugin-health matrix --plugins plugins.txt --versions 0.2.1-rc.2,0.2.1-rc.3
 > ```
 
 ## 为什么做
