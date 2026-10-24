@@ -4,11 +4,11 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Compatibility matrix, official format-1 index builder, and Windows/WSL install doctor for
-[DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) plugins — with a native
-settings UI inside DSH.
+Plugin manager, doctor and conflict checker for
+[DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) — with a native settings
+page inside DSH.
 
-> Status: `0.3.2`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.4.2`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
@@ -17,6 +17,24 @@ settings UI inside DSH.
 
 Listed on the [awesome-dsh-plugin](https://awesome-dsh-plugin.com/zh/p/EasonMWS/dsh-plugin-health/)
 directory and the [DSH Plugin Store](https://www.dshplugin.store/plugin/EasonMWS/dsh-plugin-health).
+
+## Looking for a plugin manager / doctor / checker?
+
+This package is what you want if you are searching for any of these:
+
+| If you are looking for… | This package does that |
+| --- | --- |
+| a **plugin manager** for DSH | shows every installed plugin and its state in one page |
+| a **plugin checker / inspector / scanner** | scans all installed plugins, not a sample |
+| a **plugin doctor** / diagnostics | explains what is broken and what to do about it |
+| **plugin conflict** detection | flags plugins that will not load on your DSH version |
+| to **fix / repair a broken plugin** | one-click repair (quarantine only, never deletes) |
+| why a plugin **stopped working after a DSH update** | compares declared ranges against the new host |
+| 插件管理 / 插件检查 / 插件冲突 / 插件诊断 / 插件不兼容 | 中文界面，设置 → 插件健康 |
+
+Not this package if you want to *browse and install new plugins from a market* — that is a
+marketplace, while this one manages what you already have. (It does build the official format-1
+index that marketplaces can consume.)
 
 ## A real UI, only when you need it
 

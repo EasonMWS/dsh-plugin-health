@@ -87,7 +87,7 @@ export async function apply(ctx) {
     if (ctx?.tools?.register === undefined) return
     ctx.tools.register(defineTool({
       name: 'plugin_health',
-      description: 'Run read-only diagnostics on the local DeepSeek Harness profile: declared but missing third-party bundles, broken package directories, cordis.patch.yml residue, proxy/registry configuration, profile drift, and installed plugins incompatible with the running DSH version. Changes nothing.',
+      description: 'Check, diagnose and manage installed DeepSeek Harness plugins. Use this when the user asks to check, scan, inspect, diagnose, repair or manage their plugins, when a plugin stopped working after a DSH update, or when plugins seem to conflict. Scans EVERY plugin installed in the profile (bundles, dependencies, cordis.patch.yml inserts, node_modules) and reports: plugins incompatible with the running DSH version, declared but missing bundles, broken package directories, patch residue, proxy/registry misconfiguration, and profile drift. Read-only by default: it changes nothing unless repair is explicitly requested.',
       parameters: {
         profile: { type: 'string', description: 'Profile name; defaults to desktop, then web, then the first profile.' },
         runtime: { type: 'string', description: 'DSH version used for compatibility checks; defaults to the host version when readable.' },

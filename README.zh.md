@@ -4,10 +4,10 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 format-1 市场索引生成器**、
-**Windows/WSL 安装诊断/安全修复**工具，以及 **DSH 内的原生设置页 UI**。
+DeepSeek Harness（dsh）的**插件管理器 / 插件体检 / 插件冲突检测**工具，带 **DSH 内的原生设置页**。
+同时提供**官方 format-1 市场索引生成器**与 **Windows/WSL 安装诊断**能力。
 
-> 状态：`0.3.2`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`0.4.2`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 **线上官方 format-1 索引：** <https://easonmws.github.io/dsh-plugin-health/index.json>
@@ -16,6 +16,23 @@ DeepSeek Harness（dsh）插件的**多宿主版本兼容矩阵**、**官方 for
 
 已收录：[awesome-dsh-plugin](https://awesome-dsh-plugin.com/zh/p/EasonMWS/dsh-plugin-health/) 与
 [DSH Plugin Store](https://www.dshplugin.store/plugin/EasonMWS/dsh-plugin-health)。
+
+## 你在找“插件管理器 / 插件检查 / 插件冲突检测”吗？
+
+如果你在搜下面任何一个，那你要的就是这个：
+
+| 你在找… | 这个包能做到 |
+| --- | --- |
+| DSH 的**插件管理器** | 一页看全所有已安装插件及状态 |
+| **插件检查 / 体检 / 扫描**工具 | 扫描全部已安装插件，不是抽样 |
+| **插件诊断 / doctor** | 说清哪里坏了、该怎么处理 |
+| **插件冲突**检测 | 指出哪些插件在当前 DSH 版本上加载不了 |
+| 想**修复坏掉的插件** | 一键修复（只隔离不删除，随时可找回） |
+| **DSH 更新后插件突然不能用了** | 对比插件声明与新宿主要求 |
+| plugin manager / plugin doctor / plugin checker / plugin conflict | 英文界面同样支持 |
+
+**不适合你**：如果你想“逛市场、发现并安装新插件”——那是插件市场的活，这个包管的是你已经装了什么。
+（不过官方 format-1 索引正是由它生成的，市场可以消费。）
 
 ## 有 UI，但只在你需要时出现
 

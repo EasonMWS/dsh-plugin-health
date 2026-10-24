@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.4.2 (2026-10-24)
+
+### Changed
+
+- **Discoverability.** A user (or an AI agent acting for them) searching for "dsh plugin manager",
+  "dsh plugin doctor", "plugin checker" or "插件冲突" previously could not find this package: npm
+  search ranked it first only for its exact name. The description now leads with the words people
+  actually use, `keywords` grew from 13 to 38 covering manager/doctor/checker/conflict/scan plus
+  Chinese terms, and both READMEs open with a "looking for a plugin manager / doctor / checker?"
+  table that states plainly what this package is and is *not*.
+- The `plugin_health` tool description now names the situations that should trigger it (a plugin
+  stopped working after an update, plugins appear to conflict, the user asks to check or manage
+  plugins), so an agent can match a user's wording to the tool instead of guessing from its name.
+
 ## 0.4.1 (2026-10-24)
 
 ### Changed
