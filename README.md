@@ -36,6 +36,37 @@ Not this package if you want to *browse and install new plugins from a market* �
 marketplace, while this one manages what you already have. (It does build the official format-1
 index that marketplaces can consume.)
 
+## Why this exists: DSH gates installs, but not upgrades
+
+DSH rejects a *new* install whose declared range does not cover the running version — that part is
+solid:
+
+```
+$ dsh plugin --profile test add dsh-session-recall
+dsh: installation rejected: Plugin dsh-session-recall@0.7.9 is incompatible with dsh 0.2.1-rc.3
+dsh: nothing was installed.
+```
+
+What it does **not** do is re-check plugins that are already installed after the host moves. A
+plugin declaring `engines.dsh: 0.2.1-rc.2` stays in `bundles` and keeps loading on `0.2.1-rc.3` with
+no warning anywhere in the UI. That is the gap this package fills: it reads what every installed
+plugin declares and compares it against the version you are actually running.
+
+## It has already caught real regressions
+
+Scanning the top 120 plugins across a host bump found 5 that load on `0.2.1-rc.2` but are rejected
+on `0.2.1-rc.3`. Reports were filed for each, and maintainers acted:
+
+> Confirmed against the published 0.1.47 manifest and the official rc.3 host compatibility
+> evaluator: **19 DSH peers were rejected**, while rc.2 still passed.
+> Fixed on main in #179 … All nine PR CI jobs passed, including the **new required rc.3 Profile
+> lane**.
+>
+> — [Anionex/dsh-vision-toolkit#178](https://github.com/Anionex/dsh-vision-toolkit/issues/178#issuecomment-6388178989)
+> (906★), on a fix prompted by this scan
+
+Full report: [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md).
+
 ## A real UI, only when you need it
 
 Install it as a bundle and DSH gets a native **Settings → 插件健康** section:

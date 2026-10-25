@@ -34,6 +34,33 @@ DeepSeek Harness（dsh）的**插件管理器 / 插件体检 / 插件冲突检�
 **不适合你**：如果你想“逛市场、发现并安装新插件”——那是插件市场的活，这个包管的是你已经装了什么。
 （不过官方 format-1 索引正是由它生成的，市场可以消费。）
 
+## 为什么需要它：DSH 管住了安装，但没管升级
+
+DSH 会拒绝**新安装**一个声明范围不匹配当前版本的插件，这块做得很扎实：
+
+```
+$ dsh plugin --profile test add dsh-session-recall
+dsh: installation rejected: Plugin dsh-session-recall@0.7.9 is incompatible with dsh 0.2.1-rc.3
+dsh: nothing was installed.
+```
+
+但它**不会**在宿主升级后重新检查已经装好的插件。一个声明 `engines.dsh: 0.2.1-rc.2` 的插件
+依旧留在 `bundles` 里、依旧在 `0.2.1-rc.3` 上加载，UI 里没有任何提示。这就是本工具要补的缺口：
+读出每个已安装插件自己声明的范围，和你实际在跑的版本做对比。
+
+## 它已经抓到过真实问题
+
+在一次宿主小版本升级中扫描 Top 120 插件，发现 **5 个在 `0.2.1-rc.2` 上正常、到 `0.2.1-rc.3` 就被拒**。
+逐个提报后，作者们动了手：
+
+> 已用发布的 0.1.47 manifest 和官方 rc.3 宿主兼容性评估器复核确认：**19 个 DSH peer 被拒**，
+> 而 rc.2 仍然通过。已在 #179 合入 main 修复……九个 PR CI 全部通过，其中**新增了必需的 rc.3 Profile 检查**。
+>
+> — [Anionex/dsh-vision-toolkit#178](https://github.com/Anionex/dsh-vision-toolkit/issues/178#issuecomment-6388178989)
+> （906★），因本次扫描而修复
+
+完整报告：[docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md)。
+
 ## 有 UI，但只在你需要时出现
 
 把它作为 bundle 装进 profile，DSH 设置里会多出一个原生分区 **设置 → 插件健康**：
