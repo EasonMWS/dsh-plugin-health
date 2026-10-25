@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.3 (2026-10-25)
+
+### Changed
+
+- Both READMEs now explain the concrete gap this package fills, with the verbatim behaviour: DSH
+  **rejects a new install** whose declared range excludes the running version, but **does not
+  re-check already-installed plugins** after a host upgrade — a plugin declaring
+  `engines.dsh: 0.2.1-rc.2` keeps loading on `0.2.1-rc.3` with no warning in the UI.
+- Added the first documented upstream outcome: [Anionex/dsh-vision-toolkit#178](https://github.com/Anionex/dsh-vision-toolkit/issues/178#issuecomment-6388178989)
+  (906★) confirmed the scan's finding ("19 DSH peers were rejected, while rc.2 still passed"), fixed
+  it on main, and added a required rc.3 profile lane to CI.
+
 ## 0.4.2 (2026-10-24)
 
 ### Changed
