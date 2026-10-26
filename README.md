@@ -55,7 +55,8 @@ plugin declares and compares it against the version you are actually running.
 ## It has already caught real regressions
 
 Scanning the top 120 plugins across a host bump found 5 that load on `0.2.1-rc.2` but are rejected
-on `0.2.1-rc.3`. Reports were filed for each, and maintainers acted:
+on `0.2.1-rc.3`. Reports were filed for each, and maintainers acted — **3 of the 5 have shipped
+fixes** (verified 2026-10-26), and the count of affected plugins went **5 → 2**:
 
 > Confirmed against the published 0.1.47 manifest and the official rc.3 host compatibility
 > evaluator: **19 DSH peers were rejected**, while rc.2 still passed.
@@ -63,7 +64,15 @@ on `0.2.1-rc.3`. Reports were filed for each, and maintainers acted:
 > lane**.
 >
 > — [Anionex/dsh-vision-toolkit#178](https://github.com/Anionex/dsh-vision-toolkit/issues/178#issuecomment-6388178989)
-> (906★), on a fix prompted by this scan
+> (906★), on a fix prompted by this scan — released as `0.1.48`
+
+| Plugin | Fixed in | Status |
+| --- | --- | --- |
+| `@anionex/dsh-vision-toolkit` | `0.1.48` | ✅ released, verified on rc.2 + rc.3 |
+| `dsh-plugin-subscriptions` | `0.9.11` | ✅ released, verified on rc.2 + rc.3 |
+| `@nanmicoder/dsh-agent-teams` | `0.1.27` | ✅ released, verified on rc.2 + rc.3 |
+| `dsh-workbuddy-connect` | — | ⚠️ still `0.7.9` (repository unreachable, no report possible) |
+| `@goodandready/dsh-clinebot` | — | ⚠️ still `0.6.15` ([#17](https://github.com/GooDAnDReaDY/dsh-clinebot/issues/17) unanswered) |
 
 Full report: [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md).
 

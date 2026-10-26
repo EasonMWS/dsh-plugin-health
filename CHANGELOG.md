@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- **Upstream follow-up: 3 of the 5 rc.3 regressions now ship fixes.** Re-verified on 2026-10-26:
+  `@anionex/dsh-vision-toolkit@0.1.48`, `dsh-plugin-subscriptions@0.9.11` and
+  `@nanmicoder/dsh-agent-teams@0.1.27` all pass the matrix on both `0.2.1-rc.2` and `0.2.1-rc.3`,
+  so the affected count in `docs/upgrade-0.2.1-rc3.md` drops **5 → 2**. The two remaining are
+  `dsh-workbuddy-connect@0.7.9` (repository unreachable, no report possible) and
+  `@goodandready/dsh-clinebot@0.6.15` (issue unanswered).
+- `docs/upgrade-0.2.1-rc3.md` now records the fix timelines and, more importantly, **corrects the
+  fix advice**: "use a range instead of enumerating" is not always applicable. Repositories that run
+  their own host-version enumeration check (e.g. `dsh-agent-teams`' `scripts/compatibility.mjs`)
+  must enumerate — a range fails that gate. The guidance now branches on whether such a check exists,
+  and recommends adding a real rc.3 CI lane either way, because a static declaration cannot prove
+  the plugin actually boots.
+- Both READMEs show the per-plugin fix status table instead of a single "maintainers acted" quote.
+
 ## 0.4.3 (2026-10-25)
 
 ### Changed
