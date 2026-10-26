@@ -51,7 +51,7 @@ dsh: nothing was installed.
 ## 它已经抓到过真实问题
 
 在一次宿主小版本升级中扫描 Top 120 插件，发现 **5 个在 `0.2.1-rc.2` 上正常、到 `0.2.1-rc.3` 就被拒**。
-逐个提报后，作者们动了手——**5 个里已有 3 个发布修复**（2026-10-26 复测），受影响数 **5 → 2**：
+逐个提报后，作者们动了手——**5 个里已有 4 个发布修复**（2026-10-26 复测），受影响数 **5 → 1**：
 
 > 已用发布的 0.1.47 manifest 和官方 rc.3 宿主兼容性评估器复核确认：**19 个 DSH peer 被拒**，
 > 而 rc.2 仍然通过。已在 #179 合入 main 修复……九个 PR CI 全部通过，其中**新增了必需的 rc.3 Profile 检查**。
@@ -64,8 +64,8 @@ dsh: nothing was installed.
 | `@anionex/dsh-vision-toolkit` | `0.1.48` | ✅ 已发布，rc.2 + rc.3 双版本复测通过 |
 | `dsh-plugin-subscriptions` | `0.9.11` | ✅ 已发布，rc.2 + rc.3 双版本复测通过 |
 | `@nanmicoder/dsh-agent-teams` | `0.1.27` | ✅ 已发布，rc.2 + rc.3 双版本复测通过 |
-| `dsh-workbuddy-connect` | — | ⚠️ 仍为 `0.7.9`（仓库不可访问，无法提报） |
-| `@goodandready/dsh-clinebot` | — | ⚠️ 仍为 `0.6.15`（[#17](https://github.com/GooDAnDReaDY/dsh-clinebot/issues/17) 无回复） |
+| `@goodandready/dsh-clinebot` | `0.6.16` | ✅ 已发布，rc.2 + rc.3 双版本复测通过 |
+| `dsh-workbuddy-connect` | — | ⚠️ 仍为 `0.7.9`（仓库不可访问，是唯一连 issue 都提不了的一个） |
 
 完整报告：[docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md)。
 
@@ -94,6 +94,7 @@ dsh plugin --profile web add dsh-plugin-health
 >
 > `0.2.1-rc.3`（2026-10-23）让 Top 120 里的兼容数从 118 掉到 **113**：
 > **5 个在 rc.2 上正常的插件，到 rc.3 就加载不了**，原因都是把 `@deepseek-ai/*` 版本写成了精确枚举。
+> 截至 2026-10-26，其中 **4 个已修复发版**（受影响数 5 → 1）。
 > 更早的 rc.2 也曾打崩另外 3 个。最新报告：
 > [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md) ·
 > [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md)。

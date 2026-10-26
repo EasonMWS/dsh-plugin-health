@@ -55,8 +55,8 @@ plugin declares and compares it against the version you are actually running.
 ## It has already caught real regressions
 
 Scanning the top 120 plugins across a host bump found 5 that load on `0.2.1-rc.2` but are rejected
-on `0.2.1-rc.3`. Reports were filed for each, and maintainers acted — **3 of the 5 have shipped
-fixes** (verified 2026-10-26), and the count of affected plugins went **5 → 2**:
+on `0.2.1-rc.3`. Reports were filed for each, and maintainers acted — **4 of the 5 have shipped
+fixes** (verified 2026-10-26), and the count of affected plugins went **5 → 1**:
 
 > Confirmed against the published 0.1.47 manifest and the official rc.3 host compatibility
 > evaluator: **19 DSH peers were rejected**, while rc.2 still passed.
@@ -71,8 +71,8 @@ fixes** (verified 2026-10-26), and the count of affected plugins went **5 → 2*
 | `@anionex/dsh-vision-toolkit` | `0.1.48` | ✅ released, verified on rc.2 + rc.3 |
 | `dsh-plugin-subscriptions` | `0.9.11` | ✅ released, verified on rc.2 + rc.3 |
 | `@nanmicoder/dsh-agent-teams` | `0.1.27` | ✅ released, verified on rc.2 + rc.3 |
-| `dsh-workbuddy-connect` | — | ⚠️ still `0.7.9` (repository unreachable, no report possible) |
-| `@goodandready/dsh-clinebot` | — | ⚠️ still `0.6.15` ([#17](https://github.com/GooDAnDReaDY/dsh-clinebot/issues/17) unanswered) |
+| `@goodandready/dsh-clinebot` | `0.6.16` | ✅ released, verified on rc.2 + rc.3 |
+| `dsh-workbuddy-connect` | — | ⚠️ still `0.7.9` (repository unreachable — the one case where no report could even be filed) |
 
 Full report: [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md).
 
@@ -105,7 +105,8 @@ dsh plugin --profile web add dsh-plugin-health
 >
 > `0.2.1-rc.3` (2026-10-23) dropped the compatible count from 118 to **113 of the top 120** plugins:
 > **5 plugins that worked on rc.2 stop loading on rc.3**, all because they enumerate exact
-> `@deepseek-ai/*` versions. Earlier, rc.2 had broken 3 others. Latest report:
+> `@deepseek-ai/*` versions. As of 2026-10-26, **4 of them have shipped fixes** (affected 5 → 1).
+> Earlier, rc.2 had broken 3 others. Latest report:
 > [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md) ·
 > [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md).
 >

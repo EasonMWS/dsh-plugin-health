@@ -7,21 +7,23 @@
 | 结果 | 数量 |
 | --- | --- |
 | 两个宿主都兼容 | 113 |
-| **rc.2 兼容、rc.3 失效（这次升级会打崩）** | **5 → 2**（3 个已修复发版） |
+| **rc.2 兼容、rc.3 失效（这次升级会打崩）** | **5 → 1**（4 个已修复发版） |
 | rc.2 坏、rc.3 反而修好 | 0 |
 | 两个宿主都坏 | 2 |
 
 **rc.3 让兼容插件数从 118 掉到 113**——这是 DSH 迭代中很典型的一次小版本破坏。
 
-## 会被 rc.3 打崩的插件（2026-10-26 复测：5 → 2）
+## 会被 rc.3 打崩的插件（2026-10-26 复测：5 → 1）
 
 | 插件 | 报告版本 | 卡在哪 | 现状 |
 | --- | --- | --- | --- |
 | `@nanmicoder/dsh-agent-teams` | 0.1.26 | 21 个 peer 精确枚举到 `0.2.1-rc.2` | ✅ **0.1.27 已修复** |
 | `@anionex/dsh-vision-toolkit` | 0.1.47 | 19 个 peer 卡在 `... \|\| 0.2.1-rc.2` | ✅ **0.1.48 已修复** |
 | `dsh-plugin-subscriptions` | 0.9.10 | 5 个 peer 枚举到 `0.2.1-rc.2` | ✅ **0.9.11 已修复** |
+| `@goodandready/dsh-clinebot` | 0.6.15 | `engines.dsh` 精确等于 `0.2.1-rc.2` | ✅ **0.6.16 已修复** |
 | `dsh-workbuddy-connect` | 0.7.9 | 6 个 peer 精确等于 `0.2.1-rc.2` | ⚠️ 仍为 0.7.9（仓库不可访问，无法提 issue） |
-| `@goodandready/dsh-clinebot` | 0.6.15 | `engines.dsh` 精确等于 `0.2.1-rc.2` | ⚠️ 仍为 0.6.15（issue #17 无回复） |
+
+**5 个里已有 4 个修复发版，只剩 1 个**——而剩下的这个恰恰是唯一一个连 issue 都提不了的（仓库不可访问）。
 
 共同点：**都是把版本写成了精确枚举，没有留范围**。`0.2.1-rc.3` 不在枚举里，加载时就会被判不兼容。
 
@@ -35,22 +37,23 @@ npx -y dsh-plugin-health@latest matrix \
 
 ```
 dsh 0.2.1-rc.2: 5/5 compatible, 0 incompatible, 0 errors
-dsh 0.2.1-rc.3: 3/5 compatible, 2 incompatible, 0 errors
-  ✗ dsh-workbuddy-connect@0.7.9: 0.2.1-rc.3 (@deepseek-ai/dsh-llm, ...)
-  ✗ @goodandready/dsh-clinebot@0.6.15: 0.2.1-rc.3 (engines.dsh)
+dsh 0.2.1-rc.3: 4/5 compatible, 1 incompatible, 0 errors
+  ✗ dsh-workbuddy-connect@0.7.9: 0.2.1-rc.3 (@deepseek-ai/dsh-llm, @deepseek-ai/dsh-settings, ...)
 ```
 
-### 三个上游修复的时间线
+### 四个上游修复的时间线
 
 | 插件 | 修复版本 | 维护者回复要点 |
 | --- | --- | --- |
 | `dsh-plugin-subscriptions` | 0.9.11 | PR #168，633/633 测试通过，版本门禁覆盖 rc.2/rc.3 |
 | `@anionex/dsh-vision-toolkit` | 0.1.48 | 仅加精确 rc.3、保留旧版本、不放行未测试的未来预发布；九项 CI 全绿含 rc.3 Profile lane |
 | `@nanmicoder/dsh-agent-teams` | 0.1.27 | 第三方独立复现后提交 PR #292，全矩阵 11/11 运行时场景通过 |
+| `@goodandready/dsh-clinebot` | 0.6.16 | 改用 `>=0.2.1-rc.2 <0.2.2-0` **范围**（唯一采纳范围方案的）；202 测试通过，并引用了本工具的矩阵结果作为验证 |
 
-> **关于修复方式的说明**：三家都选择了「枚举加上 `0.2.1-rc.3`」而不是我们建议的 `>=0.2.1-rc.2 <0.2.2-0` 范围。
-> 其中 `dsh-agent-teams` 的贡献者指出：该仓库的 `scripts/compatibility.mjs` 要求每个 host peer 范围必须**枚举** `compatibility.json` 声明的目标版本，写范围会挂 CI 检查。
-> 这是合理的技术判断——**对复用同类发布检查的仓库，枚举而非范围才是可行解**。此处仅陈述结果，不作评判。
+> **关于修复方式的说明**：三家（subscriptions / vision-toolkit / agent-teams）选择「枚举加上 `0.2.1-rc.3`」，
+> `clinebot` 选择范围。其中 `dsh-agent-teams` 的贡献者指出：该仓库的 `scripts/compatibility.mjs`
+> 要求每个 host peer 范围必须**枚举** `compatibility.json` 声明的目标版本，写范围会挂 CI 检查。
+> **两种做法都成立，取决于仓库自身的检查**——此处仅陈述结果，不作评判。
 
 ## 两个版本都失效（老问题）
 
