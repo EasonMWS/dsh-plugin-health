@@ -19,6 +19,10 @@ Include the version, the command or module affected, and a minimal reproduction.
   `<DSH_HOME>/.plugin-health/quarantine/` first. `cordis.patch.yml` is edited textually after a
   backup.
 - The tool has no telemetry.
+- `smoke` is opt-in and **executes the plugin being tested**, including package installation,
+  in a fresh, retained `DSH_HOME`. It never targets an existing profile, but inherits the process
+  environment and runs with the user's OS permissions; it is not a security sandbox. Its reports
+  retain bounded installation/runtime logs, which should be reviewed before sharing.
 
 What it cannot guarantee:
 

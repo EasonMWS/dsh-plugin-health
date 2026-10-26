@@ -11,6 +11,7 @@ import { buildFormat1Index, writeIndex } from './index/build.js'
 import { inspectDshHome } from './repair/inspect.js'
 import { formatInspection } from './repair/format.js'
 import { applyRepairs, planRepairs } from './repair/apply.js'
+import { runRuntimeSmoke } from './runtime/smoke.js'
 
 const VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version
 const BOOLEAN_OPTIONS = new Set(['json', 'help', 'version', 'apply', 'yes', 'force', 'badges', 'no-badges'])
@@ -124,6 +125,7 @@ export function usage() {
     '',
     'Usage:',
     '  dsh-plugin-health matrix --plugins <file|specs> [options]',
+    '  dsh-plugin-health smoke --dsh-dir <dir> --plugin <spec|tarball> --tool <name> [options]',
     '  dsh-plugin-health index --catalog <file|url> --index-url <url> [options]',
     '  dsh-plugin-health doctor [--home <dir>] [--profile <name>] [--runtime <version>] [--json]',
     '  dsh-plugin-health repair [--home <dir>] [--profile <name>] [--runtime <version>] [--apply --yes]',
@@ -138,6 +140,16 @@ export function usage() {
     '  --json                 also print the matrix JSON to stdout',
     '  --registry <url>       npm registry (default: https://registry.npmjs.org)',
     '  --concurrency <n>      network concurrency (default: 6)',
+    '',
+    'smoke options (executes plugin code in a fresh profile; not a security sandbox):',
+    '  --dsh-dir <dir>        installed @deepseek-ai/dsh package directory (profile-boot export required)',
+    '  --plugin <spec|tarball>  install using the official dsh plugin CLI',
+    '  --tool <name>          assert tool registration after boot (repeatable)',
+    '  --calls <file>         JSON array of {name, arguments, expectedValue?} tool calls',
+    '  --timeout <ms>         runtime timeout, including assertions and shutdown (default: 30000)',
+    '  --install-timeout <ms> installation timeout (default: 120000)',
+    '  --out <dir>            parent for retained run directories (default: OS temporary directory)',
+    '  --json                 print report as JSON',
     '',
     'index options:',
     '  --catalog <file|url>   awesome-dsh-plugin snapshot (default: awesome-dsh-plugin.com)',
@@ -235,6 +247,35 @@ async function resolveLatestHost(registry) {
   return latest
 }
 
+async function cmdSmoke(options) {
+  const callsPath = lastString(options, 'calls')
+  if (!lastString(options, 'dsh-dir') || !lastString(options, 'plugin') || (allStrings(options, 'tool').length === 0 && callsPath === undefined)) {
+    throw new UsageError('smoke requires --dsh-dir, --plugin, and at least one --tool or --calls assertion')
+  }
+  const report = await runRuntimeSmoke({
+    dshDirectory: lastString(options, 'dsh-dir'),
+    plugin: lastString(options, 'plugin'),
+    tools: allStrings(options, 'tool'),
+    calls: callsPath === undefined ? [] : JSON.parse(readFileSync(callsPath, 'utf8')),
+    out: lastString(options, 'out'),
+    timeoutMs: numberOption(options, 'timeout', 30000),
+    installTimeoutMs: numberOption(options, 'install-timeout', 120000),
+  })
+  if (booleanOption(options, 'json')) console.log(JSON.stringify(report, null, 2))
+  else {
+    console.log(`smoke: ${report.ok ? 'passed' : 'failed'} (${report.plugin}, dsh ${report.hostVersion})`)
+    for (const stage of report.stages) {
+      console.log(`  ${stage.name}: ${stage.timedOut ? 'timed out' : stage.ok ? 'passed' : 'failed'}${stage.details?.stage ? ` (${stage.details.stage})` : ''}`)
+      if (stage.details?.error) console.error(stage.details.error)
+      if (stage.error) console.error(stage.error)
+      if (!stage.ok && stage.stderr) console.error(stage.stderr)
+    }
+    if (report.error) console.error(report.error)
+    console.log(`output: ${join(report.directory, 'smoke.json')}`)
+  }
+  return report.ok ? 0 : 1
+}
+
 function printFindings(result) {
   console.log(formatInspection(result))
 }
@@ -300,6 +341,7 @@ export async function main(argv) {
   try {
     switch (command) {
       case 'matrix': return await cmdMatrix(options)
+      case 'smoke': return await cmdSmoke(options)
       case 'index': return await cmdIndex(options)
       case 'doctor': return await cmdDoctor(options)
       case 'repair': return await cmdRepair(options)
