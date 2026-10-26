@@ -1,6 +1,40 @@
 # Changelog
 
-## Unreleased
+## 0.5.0 (2026-10-26)
+
+### Added
+
+- **`smoke` — isolated profile runtime acceptance.** The static matrix compares declared ranges,
+  which cannot catch a manifest that declares compatibility while the bundle still waits on a
+  service the host no longer provides (`runProfile` returns after a pending-entry warning). The new
+  opt-in command installs a package or release tarball through the official CLI into a fresh
+  `DSH_HOME`, boots it via the public `profile-boot` export, checks active entries and named tools,
+  and optionally executes calls with expected return values. Each run retains a staged report and
+  bounded logs; installation and runtime including shutdown are time-limited.
+
+  ```sh
+  dsh-plugin-health smoke \
+    --dsh-dir /path/to/node_modules/@deepseek-ai/dsh \
+    --plugin ./my-plugin-1.0.0.tgz \
+    --tool my_plugin_tool \
+    --calls ./smoke-calls.json
+  ```
+
+  Contributed by [@po-et](https://github.com/po-et) in [#3](https://github.com/EasonMWS/dsh-plugin-health/pull/3).
+
+  Limits, stated up front: a fresh profile is **not** a security sandbox; automatic
+  normal-exit descendant detection is not implemented on Windows; browser behaviour is out of scope
+  for this check.
+
+### Fixed
+
+- **The matrix workflow no longer fails on pull requests from forks.** A fork PR always receives a
+  read-only `GITHUB_TOKEN` regardless of the `permissions:` block, so the "comment the matrix on the
+  PR" step died with `HttpError: Resource not accessible by integration` — turning the whole
+  `self-matrix` job red even though the matrix itself passed 3/3 hosts. The comment step now runs
+  only for same-repository PRs; for fork PRs the matrix stays in the job summary and the uploaded
+  artifact, with a note explaining why no PR comment appeared. This affected every external
+  contributor, not just one PR.
 
 ### Changed
 
@@ -17,6 +51,7 @@
   and recommends adding a real rc.3 CI lane either way, because a static declaration cannot prove
   the plugin actually boots.
 - Both READMEs show the per-plugin fix status table instead of a single "maintainers acted" quote.
+- Fixed the version in both README status lines, which still said `0.4.2`.
 
 ## 0.4.3 (2026-10-25)
 
