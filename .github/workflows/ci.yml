@@ -36,3 +36,37 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm pack --dry-run
+
+  runtime:
+    name: runtime acceptance (dsh ${{ matrix.host }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        host: [0.2.1-rc.2, 0.2.1-rc.3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+      - run: npm ci
+      - name: Install official host
+        env:
+          DSH_HOST_VERSION: ${{ matrix.host }}
+        run: npm install --prefix "$RUNNER_TEMP/dsh-host" --no-audit --no-fund "@deepseek-ai/dsh@$DSH_HOST_VERSION"
+      - name: Accept healthy fixture and reject broken fixtures
+        env:
+          TMPDIR: ${{ runner.temp }}
+        run: npm run test:runtime -- "$RUNNER_TEMP/dsh-host/node_modules/@deepseek-ai/dsh"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: runtime-reports-${{ matrix.host }}
+          path: |
+            ${{ runner.temp }}/dsh-health-host-acceptance-*/dsh-health-smoke-*/smoke.json
+            ${{ runner.temp }}/dsh-health-host-acceptance-*/dsh-health-smoke-*/runtime.json

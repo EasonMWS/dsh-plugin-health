@@ -31,3 +31,4 @@ export {
 export { inspectDshHome, listProfiles, resolveDshHome } from './repair/inspect.js'
 export { applyRepairs, planRepairs, removeEmptyPatchEntries } from './repair/apply.js'
 export { main, parseArgv, usage } from './cli.js'
+export { runRuntimeSmoke } from './runtime/smoke.js'

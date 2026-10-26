@@ -111,6 +111,7 @@
   "license": "MIT",
   "scripts": {
     "test": "node --test",
+    "test:runtime": "node scripts/runtime-acceptance.js",
     "matrix": "node bin/dsh-plugin-health.js matrix",
     "index": "node bin/dsh-plugin-health.js index",
     "doctor": "node bin/dsh-plugin-health.js doctor"

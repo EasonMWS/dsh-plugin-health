@@ -181,9 +181,55 @@ The evaluation mirrors `packages/boot/app-boot/src/plugin-compatibility.ts`:
 | peer range `workspace:^` / `~` / `*` | the running host version |
 | prerelease host versions | participate in ranges (`includePrerelease: true`) |
 
-Limitations: the matrix is **static** (manifests + official requirements). It does not yet boot
-each host and mount the plugin; that runtime smoke test is on the roadmap. Git-only plugins can be
-checked from a local clone with a directory spec.
+The matrix is **static** (manifests + official requirements). A passing declaration does not
+prove that a plugin activates or that its tools work. Use the separate opt-in `smoke` command
+below for runtime acceptance. Git-only plugins can be checked statically from a local clone.
+
+### Runtime acceptance in a fresh profile
+
+Install the host version you want to test into a separate directory, then test the package users
+will install, including a release tarball:
+
+```sh
+npm install --prefix /tmp/dsh-rc3 @deepseek-ai/dsh@0.2.1-rc.3
+dsh-plugin-health smoke \
+  --dsh-dir /tmp/dsh-rc3/node_modules/@deepseek-ai/dsh \
+  --plugin ./my-plugin-1.0.0.tgz \
+  --tool my_plugin_tool \
+  --calls ./smoke-calls.json \
+  --out dsh-health-out/runtime
+```
+
+`smoke-calls.json` is an array of tool calls. Each call must complete without a tool error;
+`expectedValue`, when provided, is compared with the entire structured return value:
+
+```json
+[{"name":"my_plugin_tool","arguments":{"input":"example"},"expectedValue":{"answer":42}}]
+```
+
+The command installs through the official `dsh plugin` CLI into a new `DSH_HOME`, boots through
+the host's public `@deepseek-ai/dsh/profile-boot` export, checks named tool registrations, executes
+the supplied calls, and disposes the profile. It requires at least one `--tool` or `--calls`
+assertion. `--tool` alone checks registration, not tool behavior or browser rendering.
+
+Installation has a 120-second limit. Boot, calls and shutdown share a 30-second limit; override
+with `--install-timeout` and `--timeout` (milliseconds). On timeout, the whole child process tree
+is stopped, including a plugin that never finishes initialization. The report names the failing
+stage (`install`, `boot`, `assertions` or `shutdown`) and preserves the host diagnostic. Exit 1
+means acceptance failed, even if a signal handler exits zero after a timeout.
+On POSIX, a process that exits zero but leaves background descendants also fails acceptance and
+its remaining process group is stopped. Windows uses `taskkill /T` for timeouts; detecting children
+after their parent has already exited is not supported there.
+
+Every run retains its home, `smoke.json`, `runtime.json` and bounded stdout/stderr in a new run
+directory. Existing profiles are not modified. There is no automatic cleanup; inspect logs before
+sharing them. Repeat with a separate installed host directory for each version in your matrix.
+The installed host needs Node.js and pnpm versions supported by that DSH release, and must export
+`profile-boot` (tested with `0.2.1-rc.2` and `0.2.1-rc.3`).
+
+**This runs plugin code with your OS account permissions.** A temporary DSH home is isolation from
+your normal profile, not a security sandbox. Only run packages you trust; use a container or VM
+for untrusted code. Runtime smoke does not certify all plugin behavior or UI compatibility.
 
 ### Example run (2026-10-17, 7 plugins × 4 hosts)
 
@@ -274,7 +320,7 @@ Repairs are opt-in (`--apply`), default to a dry run, and never delete:
 
 ## Roadmap
 
-- runtime smoke: install and mount the plugin in an isolated profile per host version;
+- runtime acceptance for browser-only plugins (the current smoke command probes agent tools);
 - git/tarball catalog entries with commit-pinned sources;
 - matrix over the whole catalog, published nightly next to the index;
 - a DSH plugin panel that renders the matrix and doctor results in-app;
@@ -287,8 +333,17 @@ npm ci
 npm test
 ```
 
-23 unit tests cover the official compatibility semantics, the format-1 builder (validated with the
-official parser), and the doctor/repair flow on fixture homes. No network is needed for tests.
+Unit tests cover the official compatibility semantics, the format-1 builder (validated with the
+official parser), doctor/repair fixtures, and runtime-runner failure paths. `npm test` needs no
+network. To run the separate installed-host acceptance fixtures (requires pnpm and an installed
+host):
+
+```sh
+npm run test:runtime -- /tmp/dsh-rc3/node_modules/@deepseek-ai/dsh
+```
+
+This packs and installs controlled healthy, pending-injection, throwing-init and hanging-init
+fixtures. Their profiles and reports are retained for inspection.
 
 ## Disclaimer
 

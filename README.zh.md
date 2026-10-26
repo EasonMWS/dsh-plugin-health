@@ -165,8 +165,49 @@ dsh-plugin-health matrix \
 | peer 为 `workspace:^` / `~` / `*` | 视为当前宿主版本 |
 | 宿主为预发布 | 参与 range 比较（`includePrerelease: true`） |
 
-限制：矩阵是**静态判定**（manifest + 官方兼容规则），暂不启动每个宿主版本做挂载冒烟；这个
-runtime smoke 在路线图里。只有 GitHub/tarball 源的插件可以先克隆到本地、用目录 spec 检查。
+矩阵是**静态判定**（manifest + 官方兼容规则）。声明兼容不代表插件已激活、工具能执行；
+可以用下面独立、显式执行的 `smoke` 命令补充运行时验收。Git 插件仍可从本地目录做静态检查。
+
+### 在全新 profile 中做运行时验收
+
+先把目标宿主版本安装到独立目录，再验收用户实际安装的包，包括发布用的 tarball：
+
+```sh
+npm install --prefix /tmp/dsh-rc3 @deepseek-ai/dsh@0.2.1-rc.3
+dsh-plugin-health smoke \
+  --dsh-dir /tmp/dsh-rc3/node_modules/@deepseek-ai/dsh \
+  --plugin ./my-plugin-1.0.0.tgz \
+  --tool my_plugin_tool \
+  --calls ./smoke-calls.json \
+  --out dsh-health-out/runtime
+```
+
+`smoke-calls.json` 是工具调用数组。调用必须成功；提供 `expectedValue` 时还会精确比较完整的
+结构化返回值：
+
+```json
+[{"name":"my_plugin_tool","arguments":{"input":"example"},"expectedValue":{"answer":42}}]
+```
+
+命令使用全新的 `DSH_HOME`，通过官方 `dsh plugin` CLI 安装，经宿主公开的
+`@deepseek-ai/dsh/profile-boot` 启动，然后检查工具注册、执行调用、释放 profile。
+至少提供一个 `--tool` 或 `--calls` 断言。只有 `--tool` 时仅检查注册，不代表功能或浏览器 UI
+已经验收。每个宿主版本分别运行一次。
+
+安装默认最多 120 秒，启动、调用与退出合计最多 30 秒，可用 `--install-timeout`、`--timeout`
+调整（毫秒）。超时会停止整个子进程树，包括一直不结束初始化的插件。报告保留失败阶段
+（`install`、`boot`、`assertions`、`shutdown`）与宿主错误，即使超时后的信号处理以 0 退出，
+这次验收仍然失败。
+POSIX 下，父进程以 0 退出却留下后台子进程时，同样判定失败并停止其进程组。Windows 超时
+使用 `taskkill /T`；目前不能在父进程已经退出后检测其遗留子进程。
+
+每次运行都保留独立目录中的 home、`smoke.json`、`runtime.json` 与有长度上限的输出日志，
+不会修改现有 profile，也不自动清理。分享前请检查日志。目标宿主需要自己的 Node.js、pnpm
+运行要求，并需导出 `profile-boot`（已在 `0.2.1-rc.2`、`0.2.1-rc.3` 验证）。
+
+**此命令会以当前系统账号权限执行插件代码。** 临时 DSH home 只隔离正常 profile，不是安全
+沙箱；只测试可信代码，不可信代码请放在容器或虚拟机中。运行时冒烟也不保证所有功能或 UI
+都兼容。
 
 ### 实跑示例（2026-10-17，7 个插件 × 4 个宿主版本）
 
@@ -251,7 +292,7 @@ desktop/web 等 profile 之间的插件集差异。
 
 ## 路线图
 
-- runtime smoke：每个宿主版本在隔离 profile 里安装并挂载插件；
+- 浏览器插件的运行时验收（当前 `smoke` 探测 agent 工具）；
 - 支持 GitHub/tarball 目录条目的 commit-pinned git 源；
 - 全目录矩阵 + 每晚构建并发布索引；
 - DSH 内的插件面板（渲染矩阵与诊断结果）；
@@ -263,6 +304,14 @@ desktop/web 等 profile 之间的插件集差异。
 npm ci
 npm test
 ```
+
+另外可针对已安装的宿主执行真实 tarball 验收（需要 pnpm）：
+
+```sh
+npm run test:runtime -- /tmp/dsh-rc3/node_modules/@deepseek-ai/dsh
+```
+
+会打包并安装正常、等待缺失服务、初始化抛错、初始化挂起四类受控插件，保留 profile 与报告。
 
 23 个单元测试覆盖官方兼容语义、format-1 构建（用官方解析器验证）以及基于 fixture home 的
 诊断/修复流程，不依赖网络。
