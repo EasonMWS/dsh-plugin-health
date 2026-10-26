@@ -7,7 +7,7 @@
 DeepSeek Harness（dsh）的**插件管理器 / 插件体检 / 插件冲突检测**工具，带 **DSH 内的原生设置页**。
 同时提供**官方 format-1 市场索引生成器**与 **Windows/WSL 安装诊断**能力。
 
-> 状态：`0.4.2`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`0.4.3`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 **线上官方 format-1 索引：** <https://easonmws.github.io/dsh-plugin-health/index.json>

@@ -8,7 +8,7 @@ Plugin manager, doctor and conflict checker for
 [DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) — with a native settings
 page inside DSH.
 
-> Status: `0.4.2`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.4.3`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
