@@ -59,8 +59,22 @@ jobs:
       - name: Add matrix to job summary
         run: |
           cat dsh-health-out/matrix/matrix.md >> "$GITHUB_STEP_SUMMARY"
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ] && [ "$GITHUB_HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
+            {
+              echo ""
+              echo "> This pull request comes from a fork, so its token is read-only and the"
+              echo "> workflow cannot post the matrix as a PR comment. It is shown above in"
+              echo "> this job summary and attached as the \`dsh-plugin-health-matrix\` artifact."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+        env:
+          GITHUB_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
       - name: Comment on pull request
-        if: ${{ inputs.comment && github.event_name == 'pull_request' }}
+        # Pull requests from forks get a read-only GITHUB_TOKEN no matter what
+        # `permissions:` asks for, so posting a comment would always fail with
+        # "Resource not accessible by integration". Skip it there: the matrix is
+        # still in the job summary and in the uploaded artifact.
+        if: ${{ inputs.comment && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
         uses: actions/github-script@v7
         with:
           script: |
