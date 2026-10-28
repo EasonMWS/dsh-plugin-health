@@ -24,7 +24,6 @@ window.__ModuleLoader__.load({
     const NS = 'plugin-health'
 
     const COLORS = { error: '#d93025', warn: '#b26a00', info: '#1a73e8', ok: '#188038' }
-    const SEVERITY_LABEL = { error: '会影响使用', warn: '建议处理', info: '提示' }
 
     /** Friendly copy for the reported finding ids; unknown ids fall back to the host title. */
     const COPY = {
@@ -145,6 +144,179 @@ window.__ModuleLoader__.load({
       },
     }
 
+    const COPY_EN = {
+      'plugin-incompatible': {
+        title: 'Plugin is incompatible with this DSH version',
+        what: 'The plugin does not declare support for your current DSH version. DSH will refuse to load it.',
+        fix: 'Update to a plugin version that supports this DSH release. If none is available, leave it disabled for now.',
+      },
+      'bundle-missing': {
+        title: 'Plugin installation is missing',
+        what: 'The plugin is listed, but its files are missing. An interrupted installation or manual removal can cause this.',
+        fix: 'Reinstall the plugin, then restart DSH.',
+      },
+      'bundle-manifest-invalid': {
+        title: 'Plugin files are damaged',
+        what: 'DSH cannot read this plugin’s package.json to identify it.',
+        fix: 'Quarantine the directory, then reinstall the plugin.',
+      },
+      'package-dir-broken': {
+        title: 'Plugin directory is incomplete',
+        what: 'The directory has a missing or unreadable package.json, often after a failed installation.',
+        fix: 'Quarantine this directory, then reinstall the package.',
+      },
+      'dependency-missing': {
+        title: 'Plugin dependency is missing',
+        what: 'A dependency declared by the plugin is missing from node_modules.',
+        fix: 'Reinstall the profile’s dependencies, or reinstall the plugin.',
+      },
+      'patch-invalid': {
+        title: 'Plugin configuration cannot be parsed',
+        what: 'cordis.patch.yml is not valid YAML. This may prevent DSH from starting.',
+        fix: 'Restore the file from a backup, or remove the invalid entries.',
+      },
+      'patch-not-array': {
+        title: 'Plugin configuration has the wrong format',
+        what: 'cordis.patch.yml must contain an array.',
+        fix: 'Convert it to an array, or restore it from a backup.',
+      },
+      'patch-empty-entry': {
+        title: 'Plugin configuration contains empty entries',
+        what: 'Empty entries can interfere with loading. They are often left behind during editing.',
+        fix: 'Remove the empty entries; this does not remove plugin functionality.',
+      },
+      'patch-invalid-entry': {
+        title: 'Plugin configuration contains invalid entries',
+        what: 'Some entries are not objects. DSH will ignore them.',
+        fix: 'Remove the invalid entries, or restore a backup.',
+      },
+      'plugin-manifest-invalid': {
+        title: 'Plugin package.json cannot be read',
+        what: 'The plugin manifest is damaged, so compatibility cannot be determined.',
+        fix: 'Reinstall the plugin.',
+      },
+      'profile-bundles-empty': {
+        title: 'This profile has no enabled plugins',
+        what: 'This is normal for a new profile or one with no plugins installed yet.',
+        fix: 'If you expected installed plugins, check that you selected the right profile.',
+      },
+      'profile-manifest-missing': {
+        title: 'Profile configuration is missing',
+        what: 'This profile’s package.json is missing.',
+        fix: 'Restore it from a backup, or recreate the profile.',
+      },
+      'profile-manifest-invalid': {
+        title: 'Profile configuration is damaged',
+        what: 'The profile’s package.json is not valid JSON.',
+        fix: 'Restore the file from a backup.',
+      },
+      'profile-missing': {
+        title: 'Profile does not exist',
+        what: 'The specified profile directory could not be found.',
+        fix: 'Check the profile name, or start DSH once to create it.',
+      },
+      'home-missing': {
+        title: 'DSH data directory was not found',
+        what: 'DSH may not have started on this machine yet, or DSH_HOME points to the wrong location.',
+        fix: 'Start DSH once, or check the DSH_HOME environment variable.',
+      },
+      'profiles-missing': {
+        title: 'No profiles exist yet',
+        what: 'This is expected before DSH starts for the first time.',
+        fix: 'Start DSH once.',
+      },
+      residue: {
+        title: 'Temporary files remain from an earlier installation',
+        what: 'These files were left by a plugin installation or update. They are not used at runtime.',
+        fix: 'They can be cleaned up. Exit DSH before cleaning them up.',
+      },
+      'logs-large': {
+        title: 'Plugin logs are getting large',
+        what: 'The logs occupy tens of MB, often after repeated installation failures.',
+        fix: 'Archive or delete old logs while DSH is stopped.',
+      },
+      'proxy-env': {
+        title: 'Proxy settings may not take effect',
+        what: 'A proxy is configured, but DSH downloads plugins through Node fetch, which does not read proxy environment variables by default.',
+        fix: 'Set NODE_USE_ENV_PROXY=1 before starting DSH, or configure an npm mirror.',
+      },
+      'registry-mirror': {
+        title: 'A custom npm registry is in use',
+        what: 'Plugins are installed from this registry. Some versions may not have reached it yet.',
+        fix: 'If installation fails, check that the registry has the required version.',
+      },
+      'wsl-detected': {
+        title: 'WSL environment detected',
+        what: 'Windows paths, line endings and mount performance can cause issues when running DSH in WSL.',
+        fix: 'Keep DSH_HOME in the Linux filesystem rather than under /mnt/c.',
+      },
+      'long-path': {
+        title: 'DSH path is long',
+        what: 'Windows long-path limitations may cause plugin installation to fail.',
+        fix: 'Move DSH_HOME to a shorter path, such as C:\\dsh.',
+      },
+      'profile-drift': {
+        title: 'Two profiles have different plugins',
+        what: 'Profiles are isolated by design. This is not necessarily a problem.',
+        fix: 'Check the other profile too when upgrading DSH.',
+      },
+    }
+
+    const dictionaries = {
+      zh: {
+        nav: '插件健康',
+        description: '检查你电脑上已安装的每个插件能否在当前 DSH 版本上正常加载。只读检查，不会改动任何东西。',
+        'severity.error': '会影响使用', 'severity.warn': '建议处理', 'severity.info': '提示',
+        collapse: '收起', details: '详情', nextStep: '怎么做：{fix}',
+        healthy: '一切正常，没有发现插件冲突', installedChecked: '已检查 {count} 个已安装插件',
+        errors: '{count} 个错误', warnings: '{count} 个警告', ready: '可以放心用', attention: '有问题建议处理',
+        checked: '共检查 {count} 个插件', checkedWithVersion: '共检查 {count} 个插件，DSH {version}',
+        scanning: '正在扫描…', rescan: '重新扫描', checking: '正在检查…', checkFailed: '检查失败',
+        checkRetry: 'DSH 刚启动时可能还没准备好，点「重新扫描」再试一次。',
+        omitted: '{count} 条提示不影响使用，已省略。', repair: '一键修复 {count} 项',
+        repairSafety: '安全：只隔离不删除，原文件可以在隔离区找回；会先给你看修复计划。',
+        planning: '正在生成修复计划…', planned: '将要执行的操作', manual: '另有 {count} 项需要你手动处理，不会动。',
+        confirm: '确认修复', cancel: '取消', nothing: '这些问题需要你手动处理，工具不会自动改。', applying: '正在应用…',
+        repaired: '已修复 {count} 项', quarantined: '已隔离：{path}', rewritten: '已重写：{path}（备份在隔离区）',
+        restoreFrom: '可从这里找回：{path}', acknowledge: '知道了', lastChecked: '上次检查：{time}', unknown: '未知',
+        versionProfile: 'DSH {version} · Profile：{profile}', dateLocale: 'zh-CN',
+        alertTitle: '查看插件健康检查结果', alertCount: '插件有 {count} 个问题', view: '查看',
+        'plan.bundle-manifest-invalid': '把损坏的插件目录移到隔离区。',
+        'plan.package-dir-broken': '把不完整或损坏的目录移到隔离区，然后重新安装插件。',
+        'plan.patch-empty-entry': '移除顶层空 [] 条目，并备份原始文件。',
+        'plan.residue': '把残留文件移到隔离区；可以从那里恢复。',
+      },
+      en: {
+        nav: 'Plugin health',
+        description: 'Check whether each installed plugin can load on your current DSH version. The scan is read-only and does not change any files.',
+        'severity.error': 'Affects usage', 'severity.warn': 'Needs attention', 'severity.info': 'Information',
+        collapse: 'Collapse', details: 'Details', nextStep: 'Next step: {fix}',
+        healthy: 'No plugin conflicts found', installedChecked: 'Installed plugins checked: {count}',
+        errors: 'Errors: {count}', warnings: 'Warnings: {count}', ready: 'Ready to use', attention: 'Issues need attention',
+        checked: 'Plugins checked: {count}', checkedWithVersion: 'Plugins checked: {count}, DSH {version}',
+        scanning: 'Scanning…', rescan: 'Rescan', checking: 'Checking…', checkFailed: 'Check failed',
+        checkRetry: 'DSH may still be starting. Select Rescan to try again.',
+        omitted: 'Informational findings omitted: {count}. They do not affect usage.', repair: 'Repair items ({count})',
+        repairSafety: 'Files are quarantined, not deleted, and can be restored. You will review the plan before applying it.',
+        planning: 'Preparing repair plan…', planned: 'Planned actions', manual: 'Items requiring manual action: {count}. They will not be changed.',
+        confirm: 'Confirm repair', cancel: 'Cancel', nothing: 'These issues need manual action. The tool will not change them automatically.', applying: 'Applying…',
+        repaired: 'Items repaired: {count}', quarantined: 'Quarantined: {path}', rewritten: 'Rewritten: {path} (backup in quarantine)',
+        restoreFrom: 'Restore files from: {path}', acknowledge: 'Done', lastChecked: 'Last checked: {time}', unknown: 'Unknown',
+        versionProfile: 'DSH {version} · Profile: {profile}', dateLocale: 'en',
+        alertTitle: 'View plugin health results', alertCount: 'Plugin issues: {count}', view: 'View',
+        'plan.bundle-manifest-invalid': 'Move the broken bundle directory to quarantine.',
+        'plan.package-dir-broken': 'Move the incomplete or broken directory to quarantine, then reinstall the package.',
+        'plan.patch-empty-entry': 'Remove top-level empty [] entries and back up the original file.',
+        'plan.residue': 'Move the residue file to quarantine; it can be restored from there.',
+      },
+    }
+    // The host locale registry uses flat keys and owns fallback and live language changes.
+    for (const [language, findings] of Object.entries({ zh: COPY, en: COPY_EN })) {
+      for (const [id, fields] of Object.entries(findings)) {
+        for (const [field, text] of Object.entries(fields)) dictionaries[language][`finding.${id}.${field}`] = text
+      }
+    }
+
     /** Poll the host snapshot; the route is cheap and cached server-side for a few seconds. */
     function useStatus(intervalMs = 30000) {
       const [state, setState] = React.useState({ loading: true, error: undefined, data: undefined })
@@ -249,9 +421,11 @@ window.__ModuleLoader__.load({
     }
 
     /** One finding: a plain-language headline, expandable details, and a concrete next step. */
-    function Finding({ issue }) {
+    function Finding({ issue, t }) {
       const [open, setOpen] = React.useState(false)
-      const copy = COPY[issue.id] ?? { title: issue.title, what: '', fix: issue.fix }
+      const copy = Object.hasOwn(COPY, issue.id)
+        ? { title: t(`finding.${issue.id}.title`), what: t(`finding.${issue.id}.what`), fix: t(`finding.${issue.id}.fix`) }
+        : { title: issue.title, what: '', fix: issue.fix }
       return h('div', {
         style: {
           border: '1px solid rgba(128,128,128,.22)',
@@ -268,8 +442,8 @@ window.__ModuleLoader__.load({
         }, [
           dot(issue.severity),
           h('span', { key: 't', style: { flex: '1 1 200px', minWidth: 0, fontWeight: 600, fontSize: 14, lineHeight: 1.5 } }, copy.title),
-          h('span', { key: 'badge', style: { flex: '0 0 auto', fontSize: 11, opacity: 0.6, whiteSpace: 'nowrap' } }, SEVERITY_LABEL[issue.severity] ?? ''),
-          h('span', { key: 'a', style: { flex: '0 0 auto', fontSize: 12, opacity: 0.5, whiteSpace: 'nowrap' } }, open ? '收起' : '详情'),
+          h('span', { key: 'badge', style: { flex: '0 0 auto', fontSize: 11, opacity: 0.6, whiteSpace: 'nowrap' } }, ['error', 'warn', 'info'].includes(issue.severity) ? t(`severity.${issue.severity}`) : ''),
+          h('span', { key: 'a', style: { flex: '0 0 auto', fontSize: 12, opacity: 0.5, whiteSpace: 'nowrap' } }, open ? t('collapse') : t('details')),
         ]),
         open ? h('div', { key: 'body', style: { marginTop: 10, paddingLeft: 18, fontSize: 13, lineHeight: 1.65 } }, [
           copy.what ? h('div', { key: 'what', style: { marginBottom: 8, opacity: 0.85 } }, copy.what) : null,
@@ -277,12 +451,12 @@ window.__ModuleLoader__.load({
             key: 'detail',
             style: { marginBottom: 8, opacity: 0.6, fontSize: 12, wordBreak: 'break-word', fontFamily: 'ui-monospace, monospace' },
           }, issue.detail) : null,
-          copy.fix ? h('div', { key: 'fix', style: { color: COLORS.info } }, `怎么做：${copy.fix}`) : null,
+          copy.fix ? h('div', { key: 'fix', style: { color: COLORS.info } }, t('nextStep', { fix: copy.fix })) : null,
         ]) : null,
       ])
     }
 
-    function EmptyState({ scanned }) {
+    function EmptyState({ scanned, t }) {
       return h('div', {
         style: {
           display: 'flex',
@@ -298,18 +472,18 @@ window.__ModuleLoader__.load({
         },
       }, [
         h('span', { key: 'i', style: { fontSize: 18 } }, '✓'),
-        h('span', { key: 't' }, '一切正常，没有发现插件冲突'),
+        h('span', { key: 't' }, t('healthy')),
         scanned !== undefined
-          ? h('span', { key: 'n', style: { fontSize: 12, fontWeight: 400, opacity: 0.65 } }, `已检查 ${scanned} 个已安装插件`)
+          ? h('span', { key: 'n', style: { fontSize: 12, fontWeight: 400, opacity: 0.65 } }, t('installedChecked', { count: scanned }))
           : null,
       ])
     }
 
     /** One-line verdict a first-time user can act on without reading the list. */
-    function Verdict({ errorCount, warnCount, scanned, runtimeVersion }) {
+    function Verdict({ errorCount, warnCount, scanned, runtimeVersion, t }) {
       const parts = []
-      if (errorCount > 0) parts.push(h('span', { key: 'e', style: { color: COLORS.error } }, `${errorCount} 个错误`))
-      if (warnCount > 0) parts.push(h('span', { key: 'w', style: { color: COLORS.warn } }, `${warnCount} 个警告`))
+      if (errorCount > 0) parts.push(h('span', { key: 'e', style: { color: COLORS.error } }, t('errors', { count: errorCount })))
+      if (warnCount > 0) parts.push(h('span', { key: 'w', style: { color: COLORS.warn } }, t('warnings', { count: warnCount })))
       const clean = errorCount === 0 && warnCount === 0
       return h('div', {
         style: {
@@ -325,14 +499,14 @@ window.__ModuleLoader__.load({
         },
       }, [
         h('span', { key: 'd', style: { width: 8, height: 8, borderRadius: '50%', background: clean ? COLORS.ok : COLORS.warn, flex: '0 0 auto' } }),
-        h('span', { key: 't', style: { fontWeight: 600 } }, clean ? '可以放心用' : '有问题建议处理'),
+        h('span', { key: 't', style: { fontWeight: 600 } }, clean ? t('ready') : t('attention')),
         h('span', { key: 's', style: { opacity: 0.7 } }, clean
-          ? `共检查 ${scanned ?? '?'} 个插件${runtimeVersion ? `，DSH ${runtimeVersion}` : ''}`
+          ? t(runtimeVersion ? 'checkedWithVersion' : 'checked', { count: scanned ?? '?', version: runtimeVersion })
           : parts),
       ])
     }
 
-    function ScanButton({ onClick, busy }) {
+    function ScanButton({ onClick, busy, t }) {
       return h('button', {
         onClick,
         disabled: busy === true,
@@ -347,10 +521,10 @@ window.__ModuleLoader__.load({
           fontSize: 13,
           opacity: busy === true ? 0.55 : 1,
         },
-      }, busy === true ? '正在扫描…' : '重新扫描')
+      }, busy === true ? t('scanning') : t('rescan'))
     }
 
-    function HealthSection() {
+    function HealthSection({ t }) {
       const { loading, error, data, reload } = useStatus()
       const repair = useRepair(reload)
       const [scanning, setScanning] = React.useState(false)
@@ -373,32 +547,33 @@ window.__ModuleLoader__.load({
       return h('div', { style: { padding: '20px 4px', maxWidth: 760 } }, [
         h('div', { key: 'head', style: { marginBottom: 14, display: 'flex', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' } }, [
           h('div', { key: 'l', style: { flex: '1 1 320px', minWidth: 0 } }, [
-            h('div', { key: 't', style: { fontSize: 17, fontWeight: 700 } }, '插件健康'),
+            h('div', { key: 't', style: { fontSize: 17, fontWeight: 700 } }, t('nav')),
             h('div', { key: 's', style: { fontSize: 13, opacity: 0.65, marginTop: 4 } },
-              '检查你电脑上已安装的每个插件能否在当前 DSH 版本上正常加载。只读检查，不会改动任何东西。'),
+              t('description')),
           ]),
-          h('div', { key: 'r', style: { flex: '0 0 auto' } }, h(ScanButton, { onClick: rescan, busy: scanning || loading })),
+          h('div', { key: 'r', style: { flex: '0 0 auto' } }, h(ScanButton, { onClick: rescan, busy: scanning || loading, t })),
         ]),
-        loading ? h('div', { key: 'l', style: { fontSize: 13, opacity: 0.7 } }, '正在检查…') : null,
+        loading ? h('div', { key: 'l', style: { fontSize: 13, opacity: 0.7 } }, t('checking')) : null,
         error !== undefined ? h('div', { key: 'e', style: { fontSize: 13, color: COLORS.warn } }, [
-          h('div', { key: 't', style: { fontWeight: 600, marginBottom: 4 } }, '检查失败'),
+          h('div', { key: 't', style: { fontWeight: 600, marginBottom: 4 } }, t('checkFailed')),
           h('div', { key: 'd' }, error),
-          h('div', { key: 'h', style: { marginTop: 4, opacity: 0.7 } }, 'DSH 刚启动时可能还没准备好，点「重新扫描」再试一次。'),
+          h('div', { key: 'h', style: { marginTop: 4, opacity: 0.7 } }, t('checkRetry')),
         ]) : null,
         !loading && error === undefined
           ? h(Verdict, {
             key: 'v',
+            t,
             errorCount: summary.error ?? 0,
             warnCount: summary.warn ?? 0,
             scanned,
             runtimeVersion: data?.runtimeVersion,
           })
           : null,
-        !loading && error === undefined ? (actionable.length === 0 ? h(EmptyState, { key: 'ok', scanned }) : h('div', { key: 'list' },
-          actionable.map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue })))) : null,
+        !loading && error === undefined ? (actionable.length === 0 ? h(EmptyState, { key: 'ok', scanned, t }) : h('div', { key: 'list' },
+          actionable.map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue, t })))) : null,
         !loading && error === undefined && issues.length > actionable.length
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
-            `${issues.length - actionable.length} 条提示不影响使用，已省略。`)
+            t('omitted', { count: issues.length - actionable.length }))
           : null,
         autoFixable.length > 0 && repair.phase === 'idle'
           ? h('div', { key: 'fixbar', style: { marginTop: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' } }, [
@@ -416,56 +591,56 @@ window.__ModuleLoader__.load({
                 fontSize: 13,
                 fontWeight: 600,
               },
-            }, `一键修复 ${autoFixable.length} 项`),
+            }, t('repair', { count: autoFixable.length })),
             h('span', { key: 'h', style: { fontSize: 12, opacity: 0.6 } },
-              '安全：只隔离不删除，原文件可以在隔离区找回；会先给你看修复计划。'),
+              t('repairSafety')),
           ])
           : null,
-        repair.phase === 'planning' ? h('div', { key: 'p', style: { marginTop: 14, fontSize: 13, opacity: 0.7 } }, '正在生成修复计划…') : null,
+        repair.phase === 'planning' ? h('div', { key: 'p', style: { marginTop: 14, fontSize: 13, opacity: 0.7 } }, t('planning')) : null,
         repair.phase === 'planned' && repair.plan
           ? h('div', { key: 'plan', style: { marginTop: 14, padding: 14, borderRadius: 10, border: '1px solid rgba(128,128,128,.25)', fontSize: 13 } }, [
-            h('div', { key: 't', style: { fontWeight: 600, marginBottom: 8 } }, '将要执行的操作'),
-            ...repair.plan.planned.map((item, index) => h('div', { key: index, style: { padding: '4px 0', opacity: 0.85 } }, `· ${item.description || item.id}`)),
+            h('div', { key: 't', style: { fontWeight: 600, marginBottom: 8 } }, t('planned')),
+            ...repair.plan.planned.map((item, index) => h('div', { key: index, style: { padding: '4px 0', opacity: 0.85 } }, `· ${Object.hasOwn(dictionaries.en, `plan.${item.id}`) ? t(`plan.${item.id}`) : item.description || item.id}`)),
             repair.plan.manual > 0
-              ? h('div', { key: 'm', style: { marginTop: 8, fontSize: 12, opacity: 0.6 } }, `另有 ${repair.plan.manual} 项需要你手动处理，不会动。`)
+              ? h('div', { key: 'm', style: { marginTop: 8, fontSize: 12, opacity: 0.6 } }, t('manual', { count: repair.plan.manual }))
               : null,
             h('div', { key: 'actions', style: { marginTop: 12, display: 'flex', gap: 10, flexWrap: 'wrap' } }, [
               h('button', {
                 key: 'go',
                 onClick: () => repair.confirm(repairKey),
                 style: { border: 0, borderRadius: 8, padding: '8px 14px', cursor: 'pointer', background: COLORS.error, color: '#fff', font: 'inherit', fontSize: 13, fontWeight: 600 },
-              }, '确认修复'),
+              }, t('confirm')),
               h('button', {
                 key: 'cancel',
                 onClick: repair.reset,
                 style: { border: '1px solid rgba(128,128,128,.35)', borderRadius: 8, padding: '8px 14px', cursor: 'pointer', background: 'transparent', color: 'inherit', font: 'inherit', fontSize: 13 },
-              }, '取消'),
+              }, t('cancel')),
             ]),
           ])
           : null,
-        repair.phase === 'nothing' ? h('div', { key: 'n', style: { marginTop: 14, fontSize: 13, opacity: 0.75 } }, '这些问题需要你手动处理，工具不会自动改。') : null,
-        repair.phase === 'applying' ? h('div', { key: 'a', style: { marginTop: 14, fontSize: 13, opacity: 0.7 } }, '正在应用…') : null,
+        repair.phase === 'nothing' ? h('div', { key: 'n', style: { marginTop: 14, fontSize: 13, opacity: 0.75 } }, t('nothing')) : null,
+        repair.phase === 'applying' ? h('div', { key: 'a', style: { marginTop: 14, fontSize: 13, opacity: 0.7 } }, t('applying')) : null,
         repair.phase === 'done' && repair.result
           ? h('div', { key: 'done', style: { marginTop: 14, padding: 14, borderRadius: 10, background: 'rgba(52,168,83,.10)', color: COLORS.ok, fontSize: 13 } }, [
-            h('div', { key: 't', style: { fontWeight: 700, marginBottom: 6 } }, `已修复 ${repair.result.actions.length} 项`),
+            h('div', { key: 't', style: { fontWeight: 700, marginBottom: 6 } }, t('repaired', { count: repair.result.actions.length })),
             ...repair.result.actions.map((action, index) => h('div', { key: index, style: { fontSize: 12, opacity: 0.85 } },
-              action.kind === 'quarantine' ? `已隔离：${action.from}` : `已重写：${action.file}（备份在隔离区）`)),
+              action.kind === 'quarantine' ? t('quarantined', { path: action.from }) : t('rewritten', { path: action.file }))),
             repair.result.quarantineDir
-              ? h('div', { key: 'q', style: { marginTop: 8, fontSize: 12, opacity: 0.7 } }, `可从这里找回：${repair.result.quarantineDir}`)
+              ? h('div', { key: 'q', style: { marginTop: 8, fontSize: 12, opacity: 0.7 } }, t('restoreFrom', { path: repair.result.quarantineDir }))
               : null,
             h('div', { key: 'r', style: { marginTop: 10 } }, [
               h('button', {
                 key: 'again',
                 onClick: repair.reset,
                 style: { border: 0, borderRadius: 8, padding: '7px 12px', cursor: 'pointer', background: 'rgba(52,168,83,.18)', color: COLORS.ok, font: 'inherit', fontSize: 13, fontWeight: 600 },
-              }, '知道了'),
+              }, t('acknowledge')),
             ]),
           ])
           : null,
         data
           ? h('div', { key: 'meta', style: { marginTop: 20, fontSize: 12, opacity: 0.5, lineHeight: 1.7 } }, [
-            h('div', { key: 'c' }, `上次检查：${new Date(data.generatedAt).toLocaleString()}${scanned !== undefined ? ` · 共检查 ${scanned} 个插件` : ''}`),
-            h('div', { key: 'v' }, `DSH ${data.runtimeVersion ?? '未知'} · Profile：${data.profile ?? '未知'}`),
+            h('div', { key: 'c' }, `${t('lastChecked', { time: new Date(data.generatedAt).toLocaleString(t('dateLocale')) })}${scanned !== undefined ? ` · ${t('checked', { count: scanned })}` : ''}`),
+            h('div', { key: 'v' }, t('versionProfile', { version: data.runtimeVersion ?? t('unknown'), profile: data.profile ?? t('unknown') })),
             h('div', { key: 'h', style: { opacity: 0.8 } }, `${data.home}`),
           ])
           : null,
@@ -474,9 +649,10 @@ window.__ModuleLoader__.load({
 
     /** Sidebar entry that exists only while there is something worth acting on. */
     function AlertEntry(props) {
+      const { t } = props
       return h('button', {
         onClick: props.open,
-        title: '查看插件健康检查结果',
+        title: t('alertTitle'),
         style: {
           display: 'flex',
           alignItems: 'center',
@@ -495,8 +671,8 @@ window.__ModuleLoader__.load({
         },
       }, [
         h('span', { key: 'i' }, '!'),
-        h('span', { key: 't', style: { flex: 1 } }, `插件有 ${props.count} 个问题`),
-        h('span', { key: 'a', style: { fontSize: 12, opacity: 0.7 } }, '查看'),
+        h('span', { key: 't', style: { flex: 1 } }, t('alertCount', { count: props.count })),
+        h('span', { key: 'a', style: { fontSize: 12, opacity: 0.7 } }, t('view')),
       ])
     }
 
@@ -511,10 +687,7 @@ window.__ModuleLoader__.load({
     function apply(ctx) {
       const t = (() => {
         try {
-          ctx.effect(() => ctx.locale.register(NS, {
-            zh: { nav: '插件健康' },
-            en: { nav: 'Plugin health' },
-          }), 'dsh-plugin-health: copy')
+          ctx.effect(() => ctx.locale.register(NS, dictionaries), 'dsh-plugin-health: copy')
           return ctx.locale.bind(NS)
         } catch {
           return undefined
@@ -547,6 +720,7 @@ window.__ModuleLoader__.load({
                   name: ALERT_SLOT,
                   id: ALERT_ID,
                   order: 90,
+                  locale: NS,
                   inject: () => ({
                     count,
                     open: () => {
