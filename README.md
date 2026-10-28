@@ -137,7 +137,9 @@ Full report: [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md).
 
 ## A real UI, only when you need it
 
-Install it as a bundle and DSH gets a native **Settings → 插件健康** section:
+Install it as a bundle and DSH gets a native **Settings → Plugin health** section
+(**设置 → 插件健康** in Chinese). The panel and sidebar alert follow DSH's language setting,
+including finding details and repair confirmations.
 
 ```sh
 dsh plugin --profile web add dsh-plugin-health
