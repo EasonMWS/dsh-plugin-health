@@ -1079,8 +1079,17 @@ window.__ModuleLoader__.load({
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
             t('omitted', { count: issues.length - actionable.length }))
           : null,
+        // The two rescue sections sit under the finding list. A rule above each keeps them from
+        // reading as part of that list, which is a different kind of information (what is wrong
+        // versus what can be done).
+        !loading && error === undefined && rescuable.length > 0
+          ? h('div', { key: 'rescue-divider', style: { marginTop: 22, borderTop: '1px solid rgba(128,128,128,.22)' } })
+          : null,
         !loading && error === undefined
           ? h(RescuePanel, { key: 'rescue', rescuable, rescue, t })
+          : null,
+        !loading && error === undefined && (data?.rescues ?? []).length > 0
+          ? h('div', { key: 'records-divider', style: { marginTop: 22, borderTop: '1px solid rgba(128,128,128,.22)' } })
           : null,
         !loading && error === undefined
           ? h(RescueRecords, { key: 'records', rescues: data?.rescues ?? [], onUndo: undoRescue, t })
