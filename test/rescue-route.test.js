@@ -46,14 +46,39 @@ test('rehearse refuses to offer apply when the rehearsal fails', async () => {
   assert.equal(result.canApply, false, 'the UI must not offer a button that cannot help')
 })
 
-test('rehearse fails with a readable reason when no host is installed', async () => {
+test('when no host is installed the rehearsal downloads one instead of failing', async () => {
+  // The desktop app bundles the host inside app.asar, so having no on-disk host is the normal
+  // case there. Failing would make the feature unusable for the people it targets, so the first
+  // rehearsal fetches its own copy. Injected here so the test never touches the network.
+  let prepared
   const handlers = createRescueHandlers({
     currentProfile: () => profileContext,
     dshDirectoryOf: () => undefined,
+    prepareHostImpl: async (options) => {
+      prepared = options
+      return { directory: '/downloaded/@deepseek-ai/dsh', installed: true }
+    },
+    rehearseImpl: async ({ dshDirectory }) => {
+      assert.equal(dshDirectory, '/downloaded/@deepseek-ai/dsh', 'the downloaded host must be what gets booted')
+      return { verdict: 'runs', report: { directory: '/tmp/run', hostVersion: '0.2.1-rc.4' } }
+    },
+  })
+  const result = await handlers.rehearse({ plugin: 'p', version: '1.0.0' })
+  assert.equal(result.verdict, 'runs')
+  assert.equal(prepared.version, '0.2.1-rc.4', 'the download must match the host the user actually runs')
+})
+
+test('a host that cannot be downloaded surfaces the install failure', async () => {
+  const handlers = createRescueHandlers({
+    currentProfile: () => profileContext,
+    dshDirectoryOf: () => undefined,
+    prepareHostImpl: async () => {
+      throw new Error('could not download a DSH host to rehearse against (@deepseek-ai/dsh@0.2.1-rc.4): network down')
+    },
   })
   await assert.rejects(
     () => handlers.rehearse({ plugin: 'p', version: '1.0.0' }),
-    /no installed @deepseek-ai\/dsh/u,
+    /could not download a DSH host/u,
   )
 })
 

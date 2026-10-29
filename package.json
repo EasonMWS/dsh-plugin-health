@@ -1,7 +1,7 @@
 {
   "name": "dsh-plugin-health",
-  "version": "0.10.0",
-  "description": "Plugin manager, doctor and conflict checker for DeepSeek Harness (dsh): scans every installed plugin, finds ones that will not load on your DSH version or conflict with each other, and fixes the safe ones in one click from Settings > 插件健康. Also builds the official format-1 market index and ships a GitHub Action that comments a compatibility matrix on plugin PRs.",
+  "version": "1.0.0",
+  "description": "The DSH plugin checker that can actually repair what it finds. Scans every installed plugin, rehearses each rejected one in a throwaway home to prove it boots, and only then writes a reversible exemption — or tells you honestly that it cannot be saved. Also recovers DSH when a plugin stops it booting, prepares AI briefs, and builds the official format-1 market index.",
   "type": "module",
   "main": "./src/plugin.js",
   "bin": {

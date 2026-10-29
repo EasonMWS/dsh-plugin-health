@@ -126,6 +126,11 @@ export async function rehearse({ dshDirectory, plugin, runtimeVersion, timeoutMs
 export function grantExemption(profileDir, { name, version, runtimeVersion }) {
   const exemptions = readExemptions(profileDir)
   const key = `${name}@${version}`
+  // Writing a null here would produce an exemption that can never match and a ledger entry that
+  // cannot be explained later, so the value is validated at the last possible moment too.
+  if (typeof runtimeVersion !== 'string' || runtimeVersion === '') {
+    throw new Error(`refusing to exempt ${key} without a host version`)
+  }
   const previous = exemptions[key] ?? null
   const next = [...new Set([...(previous ?? []), runtimeVersion])]
   const updated = { ...exemptions, [key]: next }
@@ -169,6 +174,11 @@ export async function rescuePlugin({
   profileDir, dshDirectory, plugin, runtimeVersion, profile, dryRun = false,
   timeoutMs, installTimeoutMs, out, rehearseImpl = rehearse,
 }) {
+  // An exemption written without a version becomes `[null]` and then never matches, leaving an
+  // entry nobody can audit and a second rescue that looks like a duplicate of the first.
+  if (typeof runtimeVersion !== 'string' || runtimeVersion === '') {
+    throw new Error('a rescue needs the exact host version it is granted for')
+  }
   const identity = resolvePluginIdentity(plugin)
   const { verdict, report } = await rehearseImpl({
     dshDirectory, plugin: `${identity.name}@${identity.version}`, runtimeVersion,

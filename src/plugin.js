@@ -80,11 +80,14 @@ export async function apply(ctx) {
   try {
     if (typeof ctx?.inject === 'function') {
       const resolveProfile = () => runningProfile(ctx)
+      // A rescue must judge the plugin against the host the user is actually running, so the
+      // version is resolved here where the host package is visible, not guessed later.
+      const resolveRescueProfile = () => ({ ...runningProfile(ctx), runtimeVersion: hostRuntimeVersion() })
       const key = registerRepairRoute(ctx, {
         resolveProfile,
         getStatus: () => cachedStatus({ ...resolveProfile(), runtimeVersion: hostRuntimeVersion() }),
       })
-      registerRescueRoute(ctx, { currentProfile: resolveProfile, key, toolVersion: VERSION })
+      registerRescueRoute(ctx, { currentProfile: resolveRescueProfile, key, toolVersion: VERSION })
     }
   } catch (error) {
     try {

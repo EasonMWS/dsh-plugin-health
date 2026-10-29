@@ -1,5 +1,50 @@
 # Changelog
 
+## 1.0.0 (2026-10-29)
+
+First stable release. The four-layer flow — detect, verify, repair, escalate — is complete and
+verified end to end against a real DSH host, including the failure paths.
+
+### What 1.0 freezes
+
+CLI commands and flags, the `plugin_health` tool contract, exit codes, the file formats this tool
+writes, and the status-route shape. Anything under `src/` except the `./api` and `./client`
+exports stays internal. UI wording and layout are deliberately *not* frozen. The full statement is
+in both READMEs under "What 1.0 promises".
+
+### Verified before release
+
+Each layer was driven through the real settings page in a live DSH, not only by unit test:
+
+- **detect** — the panel lists an incompatible plugin with its declared requirements;
+- **verify** — a rehearsal returns `boots` for `dsh-find-plugin@0.4.0` and `fails` for
+  `@feng0531/dsh-vcs@0.4.10` on the same host, which is the distinction a static checker cannot make;
+- **repair** — the exemption is written, the warning disappears from the panel, and the record
+  appears with an undo button;
+- **escalate** — the AI brief is generated and the upstream check runs, with no exemption offered
+  for the plugin that could not boot.
+
+### Fixed during that verification
+
+The end-to-end pass found four defects that unit tests had missed:
+
+- **A desktop install has no on-disk host**, so every rehearsal failed with "no installed
+  @deepseek-ai/dsh". The rehearsal now downloads its own host copy once, into this tool's own
+  directory, used only for throwaway homes.
+- **That download used npm's `latest` rather than the running version**, so the verdict described
+  a host the user was not running. The version now comes from the live host, and the downloaded copy
+  matches it.
+- **The confirmation step could land below the fold**, hiding the button it was asking the user to
+  press. It now scrolls itself into view.
+- **A rescue with no host version wrote `[null]`** into the exemption file and produced duplicate,
+  unauditable ledger entries. Both the entry point and the writer now refuse a missing version.
+
+Also: button colour is now semantic (primary / danger / secondary) so a destructive action is never
+the green one, the cleanup flow sits next to the findings it acts on rather than below the rescue
+card, and the two rescue sections are separated from the finding list by a rule.
+
+155 tests (14 new), 154 pass, 1 platform skip.
+
 ## 0.10.0 (2026-10-29)
 
 ### Added

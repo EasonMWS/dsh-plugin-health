@@ -19,7 +19,7 @@ import { join } from 'node:path'
 
 import { auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue } from '../rescue/rescue.js'
 import { checkUpstream } from '../rescue/upstream.js'
-import { discoverDshDirectory } from '../rescue/environment.js'
+import { discoverDshDirectory, prepareRehearsalHost } from '../rescue/environment.js'
 import { disablePlugin as disablePluginImpl, enablePlugin as enablePluginImpl } from '../rescue/boot.js'
 import { buildReport, findExistingReports, repositorySlug } from '../rescue/reporting.js'
 import { buildBrief, renderPrompt, writeHandoff } from '../rescue/handoff.js'
@@ -88,6 +88,7 @@ export function createRescueHandlers({
   undoImpl = undoRescue,
   auditImpl = auditRescues,
   upstreamImpl = checkUpstream,
+  prepareHostImpl = prepareRehearsalHost,
   fetchImpl,
   toolVersion,
 }) {
@@ -97,18 +98,32 @@ export function createRescueHandlers({
     if (home === undefined || profile === undefined) throw new Error('the running profile is unknown')
     return { home, profile, profileDir: `${home}/profiles/${profile}`, runtimeVersion }
   }
+  /**
+   * Resolve a host package to rehearse against, downloading one if the install has none.
+   *
+   * The desktop app bundles the host inside app.asar, so a perfectly normal install has no
+   * on-disk @deepseek-ai/dsh. Failing there would make the feature unusable for exactly the
+   * people it targets, so the first rehearsal fetches its own copy — into the tool's own
+   * directory, used only for throwaway homes.
+   */
+  const hostFor = async (home, profileDir, runtimeVersion) => {
+    const found = dshDirectoryOf(home, profileDir)
+    if (found !== undefined) return found
+    const prepared = await prepareHostImpl({ home, version: runtimeVersion })
+    return prepared.directory
+  }
   return {
     async rehearse(body) {
       const { home, profile, profileDir, runtimeVersion } = context()
       if (typeof body.plugin !== 'string' || typeof body.version !== 'string') {
         throw new Error('rescue needs plugin and version')
       }
-      const dshDirectory = body.dshDirectory ?? dshDirectoryOf(home, profileDir)
-      if (dshDirectory === undefined) throw new Error('no installed @deepseek-ai/dsh found to rehearse against')
+      const hostVersion = runtimeVersion ?? body.runtimeVersion
+      const dshDirectory = body.dshDirectory ?? await hostFor(home, profileDir, hostVersion)
       const result = await rehearseImpl({
         dshDirectory,
         plugin: `${body.plugin}@${body.version}`,
-        runtimeVersion: runtimeVersion ?? body.runtimeVersion,
+        runtimeVersion: hostVersion,
         timeoutMs: body.timeoutMs, installTimeoutMs: body.installTimeoutMs,
       })
       return {
@@ -124,14 +139,12 @@ export function createRescueHandlers({
       if (typeof body.plugin !== 'string' || typeof body.version !== 'string') {
         throw new Error('rescue needs plugin and version')
       }
-      // discoverDshDirectory takes (home, profileDir); passing only one argument would
-      // silently search the wrong directories.
-      const dshDirectory = body.dshDirectory ?? dshDirectoryOf(home, profileDir)
-      if (dshDirectory === undefined) throw new Error('no installed @deepseek-ai/dsh found to rehearse against')
+      const hostVersion = runtimeVersion ?? body.runtimeVersion
+      const dshDirectory = body.dshDirectory ?? await hostFor(home, profileDir, hostVersion)
       const result = await rescueImpl({
         profileDir, profile, dshDirectory,
         plugin: `${body.plugin}@${body.version}`,
-        runtimeVersion: runtimeVersion ?? body.runtimeVersion,
+        runtimeVersion: hostVersion,
         dryRun: false,
         timeoutMs: body.timeoutMs, installTimeoutMs: body.installTimeoutMs,
       })

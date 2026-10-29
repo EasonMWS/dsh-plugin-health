@@ -4,12 +4,15 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Plugin health check **and repair** for
-[DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) — with a native settings
-page inside DSH. It does not stop at telling you which plugins are broken: it can bring back the
-ones that are merely mis-declared, and it verifies they actually boot before touching your profile.
+**The only DSH plugin checker that repairs what it finds — and proves the repair works before
+touching your configuration.**
 
-> Status: `0.10.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+Every other tool stops at *"this plugin is incompatible."* This one answers the next question:
+*can it be saved, and how?* It rehearses the plugin in a throwaway home, boots it for real, and
+only then decides whether to repair, to hand you a brief for your own agent, or to switch the
+plugin off so DSH keeps working.
+
+> Status: `1.0.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
@@ -19,46 +22,64 @@ ones that are merely mis-declared, and it verifies they actually boot before tou
 Listed on the [awesome-dsh-plugin](https://awesome-dsh-plugin.com/zh/p/EasonMWS/dsh-plugin-health/)
 directory and the [DSH Plugin Store](https://www.dshplugin.store/plugin/EasonMWS/dsh-plugin-health).
 
-## Most "incompatible" plugins are fine
+## What makes this different: four layers, not one
 
-DSH reads a plugin's own declared version ranges at install time. If the running version is not in
-those ranges, the install is rejected.
+A static checker reads declarations. That is layer one of four — and on its own it is wrong often
+enough to be dangerous. Here is the whole path, and where each layer runs:
 
-The catch: **most rejected plugins have perfectly good code** — the author just pinned exact
-versions and has not caught up with the new host. Measured on `0.2.1-rc.4`:
+| # | Layer | What it does | Where |
+| --- | --- | --- | --- |
+| **1** | **Detect** | Scans every installed plugin — bundles, `dependencies`, `cordis.patch.yml` inserts (including nested ones) and `node_modules` — and compares each declaration against the version you actually run | your machine |
+| **2** | **Verify** | Rehearses the rejected plugin in a **throwaway DSH home**: grants the exemption *there*, installs it, boots it, checks every entry activated | isolated, disposable |
+| **3** | **Repair** | If the rehearsal booted, writes a single official `allow-version` exemption to *your* profile — recorded, one click to undo | your profile |
+| **4** | **Escalate** | If it did not boot, changes nothing and offers two real decisions: switch the plugin off, or take a prepared brief to your own agent. Checks upstream for an existing report first | your choice |
+
+**Layer 2 is the reason this exists.** Without it, layer 3 is a guess.
+
+## Why that middle layer matters
+
+Most rejected plugins have perfectly good code — the author pinned exact versions and has not
+caught up with the new host. Measured on `0.2.1-rc.4`:
 
 | Plugin | Declared | Actually boots in isolation |
 | --- | --- | --- |
 | `@nanmicoder/dsh-agent-teams@0.1.27` | ❌ rejected | ✅ **full boot, all 94 entries active** |
 | `dsh-find-plugin@0.4.0` | ❌ rejected | ✅ **runs fine** |
+| `@feng0531/dsh-vcs@0.4.10` | ❌ rejected | ❌ **fails: waits for a service the host no longer provides** |
 
-**Which means a static-only checker will call these plugins broken when they are not.**
+The first two are false alarms a static checker would report as broken. **The third is why the
+rehearsal must exist**: exempting it would have produced exactly the outcome the gate was trying to
+prevent — a plugin that loads and then misbehaves, with no warning left anywhere.
 
-## So we verify first and act second
+## The flow, in the order it happens
 
 ```
 scan finds a rejected plugin
   ↓
 rehearse in a throwaway home: exempt the gate, then really boot it   ← your profile is untouched
   ├─ it boots → the code is fine, only the declaration is stale
-  │    → grant the exemption in your profile (one click to undo)
+  │    → confirm, then write one exemption in your profile (undo in one click)
   │    → record it and watch upstream for a real release
+  │    → when a fix ships, the record tells you to revoke and upgrade
   └─ it fails → genuinely incompatible; exempting it would not help
        → change nothing, say so plainly
-       → optionally prepare a complete brief for your own agent
+       → two choices: switch it off, or generate a brief for your own agent
 ```
 
-**The order matters.** Exempt-then-test leaves you running a plugin the gate no longer warns about
-but which still crashes. We prove it boots in isolation before your configuration changes.
+**The order is the safety property.** Exempt-then-test leaves you running a plugin the gate no
+longer warns about but which still crashes. We prove it boots in isolation before your
+configuration changes.
 
 ## What it looks like in Settings
 
 Under **Settings → Plugin health**, every incompatible plugin gets:
 
-- a **"Can this be saved?"** button — rehearses the install and boot in a throwaway home (30–60 s),
-  changing nothing;
-- if it boots, a **"Exempt temporarily"** button; if it does not, a plain statement that it cannot be saved;
-- every exemption is recorded, and once upstream ships a real fix you are told you can revert.
+- a **"Check whether it can be saved"** button — rehearses install + boot in a throwaway home
+  (30–60 s), changing nothing;
+- **if it boots**: a confirmation step that restates exactly what will be written, that it is
+  reversible, and that it is *not* official support — then the exemption;
+- **if it does not boot**: no exemption button at all, plus the two honest options;
+- every exemption listed with an undo button, flagged once upstream ships a fix.
 
 Everything is reversible: an exemption is a single entry in the host's own `compatibility.json`,
 and undo restores exactly the value that was there before.
@@ -77,13 +98,41 @@ and undo restores exactly the value that was there before.
 it boots in isolation; whether every feature works is still on you to observe. When the author ships
 an official version, revoke the exemption and upgrade.
 
+## What 1.0 promises
+
+A major version is a promise about stability, so here is exactly what is frozen and what is not —
+rather than letting you find out by upgrading.
+
+**Frozen** — these will not break within 1.x:
+
+| Surface | Guarantee |
+| --- | --- |
+| CLI commands and flags (`matrix`, `smoke`, `doctor`, `repair`, `rescue`, `handoff`, `report`, `boot`, `index`) | Existing flags keep their meaning. New flags may be added; none are removed or repurposed |
+| The `plugin_health` agent tool's name and input schema | Additive fields only |
+| Exit codes (`0` success, `1` findings/failure, `2` usage error) | Unchanged |
+| Files this tool writes (`compatibility.json`, `plugin-health-rescue.json`, handoff bundles) | Format documented and forward-compatible: unknown keys are preserved, never dropped |
+| The status route shape (`/plugins/dsh-plugin-health/status`) | Fields may be added; existing fields keep their names and types |
+
+**Not frozen** — may change in a minor release, because they are presentation or internals:
+
+- UI wording, layout, colours and the structure of the settings panel;
+- the recommendation text inside generated AI briefs and issue drafts;
+- internal module layout under `src/` (nothing in `src/` is a public import path except
+  `./api` and `./client`);
+- the set of finding ids beyond the documented ones — new checks will introduce new ids.
+
+**Version policy for a host bump.** `engines.dsh` is a range (`>=0.1.0-rc.6 <0.3.0-0`), not an
+enumeration, so a new DSH nightly does not break this plugin the way it breaks plugins that pin
+exact versions. When DSH 0.3.0 ships, this package needs a release that extends that range — the one
+known expiry point, announced in the changelog before it lands.
+
 ## When DSH will not start at all
 
 If a plugin stops DSH from booting, the settings page cannot help — it runs inside DSH. These three
 commands run **entirely outside the host**, so they still work from a terminal:
 
 ```sh
-# 1. Why did it fail? Reads the logs the host left behind, plus static checks.
+# 1. Why did it fail? Reads the host's own crash reports, then static checks.
 dsh-plugin-health boot diagnose --profile desktop
 
 # 2. Cannot tell? Disable every third-party entry so DSH starts again.
@@ -93,8 +142,13 @@ dsh-plugin-health boot safe --profile desktop --apply
 dsh-plugin-health boot restore --profile desktop --apply
 ```
 
+`boot diagnose` reads the desktop app's crash reports
+(`%APPDATA%\@deepseek-ai\dsh-desktop\logs\crash-*.log`), which name the offending package outright
+when a plugin is at fault — the CLI itself prints to stderr and leaves nothing on disk.
+
 `boot safe` only appends `disabled: true` overlays to the profile's own patch layer: **no files are
-deleted, no plugin is modified, and host entries are never touched.** `boot restore` removes only the
+deleted, no plugin is modified, host entries are never touched, and this tool never disables
+itself** (that would remove the panel explaining what happened). `boot restore` removes only the
 entries it added, leaving your own patches exactly as they were. Both default to a dry run; add
 `--apply` to write.
 

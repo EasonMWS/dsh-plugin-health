@@ -580,18 +580,38 @@ window.__ModuleLoader__.load({
       }
     }
 
-    /** Shared button styling so the rescue actions match the rest of the section. */
-    function buttonStyle({ background, color, border } = {}) {
+    /**
+     * Button hierarchy.
+     *
+     * Colour carries meaning, so the variants are named for intent rather than hue: a
+     * destructive action must never be the green one, or the eye reads "safe" and clicks it.
+     *
+     *   primary    the next step in the current flow            (filled, accent)
+     *   secondary  an alternative that is equally safe          (outline)
+     *   danger     changes or removes something                 (filled, muted red)
+     *
+     * `check` uses the neutral accent because a read-only rehearsal changes nothing; only
+     * the action that follows it gets the filled treatment.
+     */
+    const BUTTON = {
+      primary: { background: COLORS.info, color: '#fff', border: 0, weight: 600 },
+      danger: { background: COLORS.warn, color: '#fff', border: 0, weight: 600 },
+      secondary: { background: 'transparent', color: 'inherit', border: '1px solid rgba(128,128,128,.38)', weight: 400 },
+    }
+
+    function buttonStyle(variant = 'secondary', { compact = false } = {}) {
+      const spec = BUTTON[variant] ?? BUTTON.secondary
       return {
-        border: border ?? (background === undefined ? '1px solid rgba(128,128,128,.35)' : 0),
+        border: spec.border,
         borderRadius: 8,
-        padding: '8px 14px',
+        padding: compact ? '5px 11px' : '8px 14px',
         cursor: 'pointer',
-        background: background ?? 'transparent',
-        color: color ?? 'inherit',
+        background: spec.background,
+        color: spec.color,
         font: 'inherit',
-        fontSize: 13,
-        fontWeight: background === undefined ? 400 : 600,
+        fontSize: compact ? 12 : 13,
+        fontWeight: spec.weight,
+        whiteSpace: 'nowrap',
       }
     }
 
@@ -616,10 +636,25 @@ window.__ModuleLoader__.load({
       const verdictTitle = rescue.verdict?.verdict === 'runs' ? t('rescueVerdictOk')
         : rescue.verdict?.verdict === 'broken' ? t('rescueVerdictBroken') : t('rescueVerdictUnknown')
 
-      /** The confirmation step: restate exactly what will change before anything is written. */
+      /**
+       * The confirmation step: restate exactly what will change before anything is written.
+       *
+       * The panel is long enough that this block lands below the fold on a laptop screen, and a
+       * decision the user cannot see is a decision they cannot make — so it scrolls itself into
+       * view when it appears.
+       */
+      const confirmRef = React.useRef?.(undefined)
+      React.useEffect(() => {
+        if (rescue.phase !== 'confirming') return
+        const node = confirmRef?.current
+        if (node && typeof node.scrollIntoView === 'function') {
+          node.scrollIntoView({ block: 'center', behavior: 'smooth' })
+        }
+      }, [rescue.phase])
       const confirmation = rescue.phase === 'confirming'
         ? h('div', {
           key: 'confirm',
+          ref: confirmRef,
           style: { marginTop: 10, padding: 12, borderRadius: 8, background: 'rgba(178,106,0,.10)', border: '1px solid rgba(178,106,0,.30)', fontSize: 13, lineHeight: 1.7 },
         }, [
           h('div', { key: 't', style: { fontWeight: 700, color: COLORS.warn, marginBottom: 4 } }, t('rescueConfirmTitle')),
@@ -634,9 +669,9 @@ window.__ModuleLoader__.load({
             h('button', {
               key: 'y',
               onClick: () => rescue.apply({ plugin: plugin.name, version: plugin.version }),
-              style: buttonStyle({ background: COLORS.ok, color: '#fff' }),
+              style: buttonStyle('primary'),
             }, t('rescueConfirmYes')),
-            h('button', { key: 'n', onClick: rescue.cancel, style: buttonStyle({}) }, t('cancel')),
+            h('button', { key: 'n', onClick: rescue.cancel, style: buttonStyle('secondary') }, t('cancel')),
           ]),
         ])
         : null
@@ -662,7 +697,7 @@ window.__ModuleLoader__.load({
               h('button', {
                 key: 'b',
                 onClick: () => rescue.disable({ plugin: plugin.name, entryId: plugin.id }),
-                style: buttonStyle({ background: COLORS.warn, color: '#fff' }),
+                style: buttonStyle('danger'),
               }, t('rescueChoiceOffAction')),
             ]),
             // Choice 2: attempt a repair with the user's own agent, under stated limits.
@@ -675,7 +710,7 @@ window.__ModuleLoader__.load({
               h('button', {
                 key: 'b',
                 onClick: () => rescue.handoff({ plugin: plugin.name, version: plugin.version, rehearsalVerdict: rescue.verdict?.verdict }),
-                style: buttonStyle({ background: COLORS.info, color: '#fff' }),
+                style: buttonStyle('secondary'),
               }, t('rescueChoiceAiAction')),
             ]),
           ]),
@@ -683,12 +718,12 @@ window.__ModuleLoader__.load({
             h('button', {
               key: 'rp',
               onClick: () => rescue.report({ plugin: plugin.name, version: plugin.version, rehearsalVerdict: rescue.verdict?.verdict }),
-              style: buttonStyle({}),
+              style: buttonStyle('secondary'),
             }, t('rescueCheckReports')),
             h('button', {
               key: 'again',
               onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
-              style: buttonStyle({}),
+              style: buttonStyle('secondary'),
             }, t('rescueRecheck')),
           ]),
         ])
@@ -703,13 +738,13 @@ window.__ModuleLoader__.load({
         : null
 
       return h('div', {
-        style: { marginTop: 12, padding: 14, borderRadius: 10, border: '1px solid rgba(128,128,128,.25)' },
+        style: { marginTop: 10, padding: '12px 14px', borderRadius: 10, border: '1px solid rgba(128,128,128,.25)' },
       }, [
-        h('div', { key: 'h', style: { display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' } }, [
+        h('div', { key: 'h', style: { display: 'flex', gap: 7, alignItems: 'baseline', flexWrap: 'wrap', marginBottom: 4 } }, [
           h('span', { key: 'n', style: { fontWeight: 600, fontSize: 13 } }, plugin.name),
-          h('span', { key: 'v', style: { fontSize: 12, opacity: 0.6 } }, plugin.version),
+          h('span', { key: 'v', style: { fontSize: 12, opacity: 0.55 } }, plugin.version),
         ]),
-        h('div', { key: 'w', style: { marginTop: 6, fontSize: 13, opacity: 0.8, lineHeight: 1.6 } },
+        h('div', { key: 'w', style: { fontSize: 12.5, opacity: 0.78, lineHeight: 1.55 } },
           t('rescuePluginWhy')),
         busy
           ? h('div', { key: 'b', style: { marginTop: 10, fontSize: 13, opacity: 0.7 } },
@@ -754,7 +789,7 @@ window.__ModuleLoader__.load({
               h('button', {
                 key: 'copy',
                 onClick: () => rescue.copyPrompt(),
-                style: buttonStyle({}),
+                style: buttonStyle('secondary'),
               }, rescue.copied === true ? t('rescueCopied') : t('rescueCopyPrompt')),
             ]),
           ])
@@ -775,7 +810,7 @@ window.__ModuleLoader__.load({
                     href: rescue.reportResult.newIssueUrl,
                     target: '_blank',
                     rel: 'noreferrer',
-                    style: { ...buttonStyle({}), display: 'inline-block', textDecoration: 'none', color: 'inherit' },
+                    style: { ...buttonStyle('secondary'), display: 'inline-block', textDecoration: 'none', color: 'inherit' },
                   }, t('rescueOpenIssue')),
                 ])]),
             h('div', { key: 'f', style: { marginTop: 8, fontSize: 12, opacity: 0.6 } }, t('rescueNoFile')),
@@ -786,18 +821,18 @@ window.__ModuleLoader__.load({
             ? h('button', {
               key: 'go',
               onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
-              style: buttonStyle({ background: COLORS.info, color: '#fff' }),
+              style: buttonStyle('primary'),
             }, t('rescueCheck'))
             : null,
           rescue.phase === 'rehearsed' && canApply
             ? h('button', {
               key: 'apply',
               onClick: () => rescue.beginConfirm(),
-              style: buttonStyle({ background: COLORS.ok, color: '#fff' }),
+              style: buttonStyle('danger'),
             }, t('rescueApply'))
             : null,
           rescue.phase === 'done'
-            ? h('button', { key: 'reset', onClick: rescue.reset, style: buttonStyle({}) }, t('acknowledge'))
+            ? h('button', { key: 'reset', onClick: rescue.reset, style: buttonStyle('secondary') }, t('acknowledge'))
             : null,
         ]),
       ])
@@ -821,7 +856,7 @@ window.__ModuleLoader__.load({
           h('button', {
             key: 'u',
             onClick: () => onUndo(entry.key),
-            style: { ...buttonStyle({}), marginLeft: 'auto', padding: '4px 10px', fontSize: 12 },
+            style: { ...buttonStyle('secondary', { compact: true }), marginLeft: 'auto' },
           }, t('recordsUndo')),
         ])),
       ])
@@ -1079,6 +1114,20 @@ window.__ModuleLoader__.load({
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
             t('omitted', { count: issues.length - actionable.length }))
           : null,
+        // The cleanup flow belongs next to the findings it acts on: it deals with leftover files,
+        // not with compatibility. Placing it below the rescue card made it look like part of that
+        // flow, and its old green fill read as "safe" for a destructive action.
+        autoFixable.length > 0 && repair.phase === 'idle'
+          ? h('div', { key: 'cleanup', style: { marginTop: 14, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' } }, [
+            h('button', {
+              key: 'b',
+              onClick: () => repair.start(repairKey),
+              style: buttonStyle('danger'),
+            }, t('repair', { count: autoFixable.length })),
+            h('span', { key: 'h', style: { fontSize: 12, opacity: 0.6, flex: '1 1 220px' } },
+              t('repairSafety')),
+          ])
+          : null,
         // The two rescue sections sit under the finding list. A rule above each keeps them from
         // reading as part of that list, which is a different kind of information (what is wrong
         // versus what can be done).
@@ -1094,27 +1143,6 @@ window.__ModuleLoader__.load({
         !loading && error === undefined
           ? h(RescueRecords, { key: 'records', rescues: data?.rescues ?? [], onUndo: undoRescue, t })
           : null,
-        autoFixable.length > 0 && repair.phase === 'idle'
-          ? h('div', { key: 'fixbar', style: { marginTop: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' } }, [
-            h('button', {
-              key: 'b',
-              onClick: () => repair.start(repairKey),
-              style: {
-                border: 0,
-                borderRadius: 8,
-                padding: '9px 16px',
-                cursor: 'pointer',
-                background: COLORS.ok,
-                color: '#fff',
-                font: 'inherit',
-                fontSize: 13,
-                fontWeight: 600,
-              },
-            }, t('repair', { count: autoFixable.length })),
-            h('span', { key: 'h', style: { fontSize: 12, opacity: 0.6 } },
-              t('repairSafety')),
-          ])
-          : null,
         repair.phase === 'planning' ? h('div', { key: 'p', style: { marginTop: 14, fontSize: 13, opacity: 0.7 } }, t('planning')) : null,
         repair.phase === 'planned' && repair.plan
           ? h('div', { key: 'plan', style: { marginTop: 14, padding: 14, borderRadius: 10, border: '1px solid rgba(128,128,128,.25)', fontSize: 13 } }, [
@@ -1127,7 +1155,7 @@ window.__ModuleLoader__.load({
               h('button', {
                 key: 'go',
                 onClick: () => repair.confirm(repairKey),
-                style: { border: 0, borderRadius: 8, padding: '8px 14px', cursor: 'pointer', background: COLORS.error, color: '#fff', font: 'inherit', fontSize: 13, fontWeight: 600 },
+                style: buttonStyle('danger'),
               }, t('confirm')),
               h('button', {
                 key: 'cancel',
@@ -1151,7 +1179,7 @@ window.__ModuleLoader__.load({
               h('button', {
                 key: 'again',
                 onClick: repair.reset,
-                style: { border: 0, borderRadius: 8, padding: '7px 12px', cursor: 'pointer', background: 'rgba(52,168,83,.18)', color: COLORS.ok, font: 'inherit', fontSize: 13, fontWeight: 600 },
+                style: buttonStyle('secondary', { compact: true }),
               }, t('acknowledge')),
             ]),
           ])

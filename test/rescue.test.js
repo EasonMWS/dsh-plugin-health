@@ -326,3 +326,24 @@ test('the prompt groups repeated ranges instead of printing one line per peer', 
   assert.equal(occurrences, 1, 'the shared range must appear once, not twenty times')
   assert.match(prompt, /applies to 20 packages/u)
 })
+
+test('a rescue without a host version is refused instead of writing [null]', async () => {
+  // A ledger entry born without a version can never match a real host, so it reads as a duplicate
+  // of every later rescue for the same package.
+  const dir = profile()
+  await assert.rejects(
+    () => rescuePlugin({
+      profileDir: dir, dshDirectory: '/nonexistent', plugin: 'p@1.0.0',
+      runtimeVersion: undefined, profile: 'test',
+      rehearseImpl: async () => ({ verdict: 'runs', report: { stages: [] } }),
+    }),
+    /needs the exact host version/u,
+  )
+  assert.deepEqual(readExemptions(dir), {}, 'nothing may be written')
+})
+
+test('grantExemption refuses an empty runtime version', () => {
+  const dir = profile()
+  assert.throws(() => grantExemption(dir, { name: 'p', version: '1', runtimeVersion: '' }), /without a host version/u)
+  assert.deepEqual(readExemptions(dir), {})
+})
