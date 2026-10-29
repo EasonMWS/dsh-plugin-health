@@ -57,30 +57,16 @@ async function readBody(req, limit = 64 * 1024) {
 }
 
 /**
- * Turn a rescue verdict into the sentence the UI shows. Keeping this on the host side
- * means the browser half stays presentational and both languages render the same claim.
+ * Turn a rescue verdict into the level the UI colours by, plus a locale key it translates.
+ * The sentence itself lives in the browser half's dictionaries: the host must not decide
+ * which language the user reads.
  * @param {string} verdict
- * @returns {{level: 'ok'|'warn'|'error', message: string}}
+ * @returns {{level: 'ok'|'warn'|'error', messageKey: string}}
  */
 export function verdictMessage(verdict) {
-  if (verdict === 'runs') {
-    return {
-      level: 'ok',
-      message: 'This plugin loads on your DSH version once the version requirement is exempted. '
-        + 'The code is fine; only the declared range is out of date.',
-    }
-  }
-  if (verdict === 'broken') {
-    return {
-      level: 'error',
-      message: 'This plugin still fails to start even with the requirement exempted. '
-        + 'Exempting it would not help, so nothing was changed.',
-    }
-  }
-  return {
-    level: 'warn',
-    message: 'The isolated check could not reach a verdict, so nothing was changed.',
-  }
+  if (verdict === 'runs') return { level: 'ok', messageKey: 'rescueVerdictRuns' }
+  if (verdict === 'broken') return { level: 'error', messageKey: 'rescueVerdictBrokenWhy' }
+  return { level: 'warn', messageKey: 'rescueVerdictInconclusive' }
 }
 
 /**
