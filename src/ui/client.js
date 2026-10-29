@@ -286,6 +286,23 @@ window.__ModuleLoader__.load({
         'plan.package-dir-broken': '把不完整或损坏的目录移到隔离区，然后重新安装插件。',
         'plan.patch-empty-entry': '移除顶层空 [] 条目，并备份原始文件。',
         'plan.residue': '把残留文件移到隔离区；可以从那里恢复。',
+        rescueTitle: '可以尝试修复',
+        rescueWhy: '大部分“不兼容”只是插件把版本号写死了，代码本身在新 DSH 上照样能跑。下面会先在临时环境里验证，确认能用才动你的配置。',
+        rescueCheck: '检查能不能救',
+        rescueChecking: '正在隔离环境里试装并启动，大约需要 30~60 秒…',
+        rescueApplying: '正在重新验证一次，然后写入配置（确保放行的正是刚刚验证过的状态）…',
+        rescueFailed: '检查失败：{error}',
+        rescueVerdictOk: '代码没问题，只是声明过时了',
+        rescueVerdictBroken: '这个插件真的跑不起来',
+        rescueVerdictUnknown: '检查结果不确定',
+        rescueTestedOn: '测试宿主：DSH {version}',
+        rescueApply: '临时放行',
+        rescueApplied: '已临时放行',
+        rescueAppliedWhat: '重启 DSH 后这个插件就能加载了。这是临时措施：等作者发布支持当前版本的正式版后，在「临时放行记录」里点「撤销」即可恢复原状。',
+        rescueRecheck: '重新检查',
+        rescueVerdictRuns: '放行之后这个插件就能加载了，代码本身没问题，只是声明的版本范围过时了。',
+        rescueVerdictBrokenWhy: '即使放行，这个插件仍然启动失败。所以放行没有意义，什么都没有改动。',
+        rescueVerdictInconclusive: '隔离检查没能得出结论，所以什么都没有改动。',
       },
       en: {
         nav: 'Plugin health',
@@ -309,6 +326,23 @@ window.__ModuleLoader__.load({
         'plan.package-dir-broken': 'Move the incomplete or broken directory to quarantine, then reinstall the package.',
         'plan.patch-empty-entry': 'Remove top-level empty [] entries and back up the original file.',
         'plan.residue': 'Move the residue file to quarantine; it can be restored from there.',
+        rescueTitle: 'Can be repaired',
+        rescueWhy: 'Most "incompatible" plugins only pinned their version ranges; the code itself still runs on the new DSH. Each check below rehearses the install and boot in a throwaway environment, and your configuration only changes when that succeeds.',
+        rescueCheck: 'Check whether it can be saved',
+        rescueChecking: 'Rehearsing the install and boot in an isolated environment — about 30–60 seconds…',
+        rescueApplying: 'Verifying once more, then writing the configuration so the exemption covers exactly what was just proven to boot…',
+        rescueFailed: 'Check failed: {error}',
+        rescueVerdictOk: 'The code is fine; only the declaration is out of date',
+        rescueVerdictBroken: 'This plugin genuinely fails to start',
+        rescueVerdictUnknown: 'The check was inconclusive',
+        rescueTestedOn: 'Tested on DSH {version}',
+        rescueApply: 'Exempt temporarily',
+        rescueApplied: 'Temporarily exempted',
+        rescueAppliedWhat: 'The plugin will load after you restart DSH. This is temporary: once the author ships a release that supports your version, use Undo in the rescue records to restore the original state.',
+        rescueRecheck: 'Check again',
+        rescueVerdictRuns: 'With the exemption in place this plugin loads: the code is fine, only the declared version range is out of date.',
+        rescueVerdictBrokenWhy: 'Even with the exemption this plugin fails to start, so exempting it would not help. Nothing was changed.',
+        rescueVerdictInconclusive: 'The isolated check could not reach a verdict, so nothing was changed.',
       },
     }
     // The host locale registry uses flat keys and owns fallback and live language changes.
@@ -423,12 +457,14 @@ window.__ModuleLoader__.load({
      * rehearsal says the plugin actually boots. A failed rehearsal offers the AI brief
      * and the upstream report instead, because exempting it would not have helped.
      */
-    function RescueCard({ plugin, rescue }) {
+    function RescueCard({ plugin, rescue, t }) {
       const busy = rescue.phase === 'rehearsing' || rescue.phase === 'applying'
       const showResult = rescue.verdict !== undefined
       const color = rescue.verdict === undefined
         ? COLORS.warn
         : rescue.verdict.verdict === 'runs' ? COLORS.ok : rescue.verdict.verdict === 'broken' ? COLORS.error : COLORS.warn
+      const verdictTitle = rescue.verdict?.verdict === 'runs' ? t('rescueVerdictOk')
+        : rescue.verdict?.verdict === 'broken' ? t('rescueVerdictBroken') : t('rescueVerdictUnknown')
       return h('div', {
         style: { marginTop: 12, padding: 14, borderRadius: 10, border: '1px solid rgba(128,128,128,.25)' },
       }, [
@@ -437,34 +473,32 @@ window.__ModuleLoader__.load({
           h('span', { key: 'v', style: { fontSize: 12, opacity: 0.6 } }, plugin.version),
         ]),
         h('div', { key: 'w', style: { marginTop: 6, fontSize: 13, opacity: 0.8, lineHeight: 1.6 } },
-          '这个插件声明的版本范围不包含你当前的 DSH，所以被拦住了。先做一次隔离检查：'
-          + '在临时环境里把它装一遍、启动一遍，看代码本身到底能不能用。'),
+          t('rescueWhy')),
         busy
           ? h('div', { key: 'b', style: { marginTop: 10, fontSize: 13, opacity: 0.7 } },
-            rescue.phase === 'rehearsing'
-              ? '正在隔离环境里试装并启动，大约需要 30~60 秒…'
-              : '正在重新验证一次，然后写入配置（这样确保放行的正是刚刚验证过的状态）…')
+            rescue.phase === 'rehearsing' ? t('rescueChecking') : t('rescueApplying'))
           : null,
         rescue.error !== undefined
-          ? h('div', { key: 'e', style: { marginTop: 10, fontSize: 13, color: COLORS.warn } }, `检查失败：${rescue.error}`)
+          ? h('div', { key: 'e', style: { marginTop: 10, fontSize: 13, color: COLORS.warn } },
+            t('rescueFailed', { error: rescue.error }))
           : null,
         showResult
           ? h('div', {
             key: 'r',
             style: { marginTop: 10, padding: 10, borderRadius: 8, fontSize: 13, lineHeight: 1.6, color, background: 'rgba(128,128,128,.08)' },
           }, [
-            h('div', { key: 'm', style: { fontWeight: 600 } }, rescue.verdict.verdict === 'runs' ? '代码没问题，只是声明过时了' :
-              rescue.verdict.verdict === 'broken' ? '这个插件真的跑不起来' : '检查结果不确定'),
-            h('div', { key: 'd', style: { marginTop: 4, opacity: 0.9 } }, rescue.verdict.message),
-            rescue.verdict.hostVersion ? h('div', { key: 'h', style: { marginTop: 4, fontSize: 12, opacity: 0.6 } }, `测试宿主：DSH ${rescue.verdict.hostVersion}`) : null,
+            h('div', { key: 'm', style: { fontWeight: 600 } }, verdictTitle),
+            h('div', { key: 'd', style: { marginTop: 4, opacity: 0.9 } },
+              rescue.verdict.messageKey === undefined ? rescue.verdict.message : t(rescue.verdict.messageKey)),
+            rescue.verdict.hostVersion
+              ? h('div', { key: 'h', style: { marginTop: 4, fontSize: 12, opacity: 0.6 } }, t('rescueTestedOn', { version: rescue.verdict.hostVersion }))
+              : null,
           ])
           : null,
         rescue.applied !== undefined && rescue.applied.applied === true
           ? h('div', { key: 'a', style: { marginTop: 10, fontSize: 13, color: COLORS.ok, lineHeight: 1.6 } }, [
-            h('div', { key: 't', style: { fontWeight: 600 } }, '已临时放行'),
-            h('div', { key: 'd', style: { marginTop: 4, opacity: 0.9 } },
-              '重启 DSH 后这个插件就能加载了。这是临时措施：等作者发布支持当前版本的正式版后，'
-              + '在下面「临时放行记录」里点「撤销」即可恢复原状。'),
+            h('div', { key: 't', style: { fontWeight: 600 } }, t('rescueApplied')),
+            h('div', { key: 'd', style: { marginTop: 4, opacity: 0.9 } }, t('rescueAppliedWhat')),
           ])
           : null,
         h('div', { key: 'act', style: { marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
@@ -473,38 +507,37 @@ window.__ModuleLoader__.load({
               key: 'go',
               onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
               style: buttonStyle({ background: COLORS.info, color: '#fff' }),
-            }, '检查能不能救')
+            }, t('rescueCheck'))
             : null,
           rescue.phase === 'rehearsed' && rescue.verdict?.canApply === true
             ? h('button', {
               key: 'apply',
               onClick: () => rescue.apply({ plugin: plugin.name, version: plugin.version }),
               style: buttonStyle({ background: COLORS.ok, color: '#fff' }),
-            }, '临时放行')
+            }, t('rescueApply'))
             : null,
           rescue.phase === 'rehearsed' && rescue.verdict?.canApply !== true
             ? h('button', {
               key: 'brief',
               onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
               style: buttonStyle({}),
-            }, '重新检查')
+            }, t('rescueRecheck'))
             : null,
           rescue.phase === 'done'
-            ? h('button', { key: 'reset', onClick: rescue.reset, style: buttonStyle({}) }, '知道了')
+            ? h('button', { key: 'reset', onClick: rescue.reset, style: buttonStyle({}) }, t('acknowledge'))
             : null,
         ]),
       ])
     }
 
     /** Shown when rescue is available: the list of incompatible plugins with their actions. */
-    function RescuePanel({ rescuable, rescue }) {
+    function RescuePanel({ rescuable, rescue, t }) {
       if (!Array.isArray(rescuable) || rescuable.length === 0) return null
       return h('div', { key: 'rescue', style: { marginTop: 18 } }, [
-        h('div', { key: 't', style: { fontSize: 14, fontWeight: 700, marginBottom: 4 } }, '可以尝试修复'),
+        h('div', { key: 't', style: { fontSize: 14, fontWeight: 700, marginBottom: 4 } }, t('rescueTitle')),
         h('div', { key: 's', style: { fontSize: 12, opacity: 0.65, marginBottom: 4, lineHeight: 1.6 } },
-          '大部分“不兼容”其实只是插件把版本号写死了，代码本身在新的 DSH 上照样能跑。'
-          + '下面会先在临时环境里验证，确认能用才动你的配置。'),
-        ...rescuable.map((plugin, index) => h(RescueCard, { key: `${plugin.name}-${index}`, plugin, rescue })),
+          t('rescueWhy')),
+        ...rescuable.map((plugin, index) => h(RescueCard, { key: `${plugin.name}-${index}`, plugin, rescue, t })),
       ])
     }
 
@@ -737,7 +770,7 @@ window.__ModuleLoader__.load({
             t('omitted', { count: issues.length - actionable.length }))
           : null,
         !loading && error === undefined
-          ? h(RescuePanel, { key: 'rescue', rescuable, rescue })
+          ? h(RescuePanel, { key: 'rescue', rescuable, rescue, t })
           : null,
         autoFixable.length > 0 && repair.phase === 'idle'
           ? h('div', { key: 'fixbar', style: { marginTop: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' } }, [

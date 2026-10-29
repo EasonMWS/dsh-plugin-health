@@ -9,18 +9,12 @@ test('rescue route is namespaced next to the other plugin-health routes', () => 
   assert.equal(RESCUE_PATH, '/plugins/dsh-plugin-health/rescue')
 })
 
-test('verdictMessage never promises that an exemption fixes a broken plugin', () => {
-  const runs = verdictMessage('runs')
-  assert.equal(runs.level, 'ok')
-  assert.match(runs.message, /loads on your DSH version once the version requirement is exempted/u)
-
-  const broken = verdictMessage('broken')
-  assert.equal(broken.level, 'error')
-  assert.match(broken.message, /nothing was changed/u, 'a broken verdict must say the profile was left alone')
-
-  const unknown = verdictMessage('inconclusive')
-  assert.equal(unknown.level, 'warn')
-  assert.match(unknown.message, /nothing was changed/u)
+test('verdictMessage returns a locale key instead of deciding the language', () => {
+  // The host cannot know which language the user reads, so it hands back a key and the
+  // browser half translates it. The levels are what drive the colour.
+  assert.deepEqual(verdictMessage('runs'), { level: 'ok', messageKey: 'rescueVerdictRuns' })
+  assert.deepEqual(verdictMessage('broken'), { level: 'error', messageKey: 'rescueVerdictBrokenWhy' })
+  assert.deepEqual(verdictMessage('inconclusive'), { level: 'warn', messageKey: 'rescueVerdictInconclusive' })
 })
 
 test('rehearse reports the verdict and whether applying is safe', async () => {
