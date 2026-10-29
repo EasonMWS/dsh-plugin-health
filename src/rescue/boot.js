@@ -247,6 +247,61 @@ export function restoreSafeMode(profileDir, { dryRun = false } = {}) {
 }
 
 /**
+ * Switch one plugin off by appending a `disabled: true` overlay.
+ *
+ * This is the alternative offered when a plugin cannot be rescued: make DSH usable again rather
+ * than leaving a plugin that will not load. Nothing on disk is modified except the profile's own
+ * patch layer, which the host already treats as user config, so re-enabling is exact.
+ * @param {string} profileDir
+ * @param {{name: string, id?: string, now?: Date}} target
+ */
+export function disablePlugin(profileDir, { name, id, now = new Date() }) {
+  const path = join(profileDir, 'cordis.patch.yml')
+  const entries = readProfilePatch(profileDir)
+  const matches = entries.filter(entry => entryTargets(entry, name, id))
+  if (matches.length > 0 && matches.some(entry => entry.disabled === true)) {
+    return { changed: false, added: [], reason: 'already-disabled', file: path }
+  }
+  // Prefer the id the profile already uses; falling back to the name keeps the overlay valid
+  // for a bundle that is listed in `bundles` but has no explicit patch entry.
+  const anchor = matches[0] ?? {}
+  const overlay = {
+    ...(typeof anchor.id === 'string' ? { id: anchor.id } : {}),
+    name,
+    disabled: true,
+    comment: `${DISABLE_MARKER}: disabled ${now.toISOString()} because it cannot load on this DSH version. `
+      + 'Remove with dsh-plugin-health rescue, or re-enable it from the plugin health panel.',
+  }
+  writeFileSync(path, stringifyYaml([...entries, overlay]))
+  return { changed: true, added: [overlay], file: path }
+}
+
+/**
+ * Remove the disable overlays for one plugin, leaving every other entry untouched.
+ * @param {string} profileDir
+ * @param {{name: string, id?: string}} target
+ */
+export function enablePlugin(profileDir, { name, id }) {
+  const path = join(profileDir, 'cordis.patch.yml')
+  const entries = readProfilePatch(profileDir)
+  const kept = entries.filter(entry => !(entryTargets(entry, name, id) && entry.disabled === true
+    && typeof entry.comment === 'string' && entry.comment.startsWith(DISABLE_MARKER)))
+  const removed = entries.length - kept.length
+  if (removed > 0) writeFileSync(path, stringifyYaml(kept))
+  return { changed: removed > 0, removed, file: path }
+}
+
+/** Marker distinguishing a per-plugin disable from the whole-profile safe-mode overlay. */
+export const DISABLE_MARKER = 'dsh-plugin-health-disabled'
+
+/** Whether a patch entry refers to the plugin identified by name and/or id. */
+function entryTargets(entry, name, id) {
+  if (typeof entry?.name === 'string' && entry.name === name) return true
+  if (typeof id === 'string' && entry?.id === id) return true
+  return false
+}
+
+/**
  * Write the diagnosis next to the profile so a user can attach it to a bug report
  * without scrolling a terminal.
  * @param {string} profileDir

@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.9.0 (2026-10-29)
+
+### Added
+
+- **A plugin that cannot be rescued now gets two real decisions instead of one vague hint.**
+  Each is a box with its own action, so the user is not left guessing:
+  1. **Turn it off and keep using DSH** — writes a single `disabled: true` overlay to the
+     profile patch layer. No files deleted, no plugin modified, reversible at any time.
+  2. **Hand it to my AI** — writes the brief and prompt; the tool still never calls a model.
+- **The AI prompt now states hard limits.** The previous version asked for a fix but never said
+  when to stop, which invites an agent to keep editing until something appears to work. It now
+  says explicitly: stay in the declarations when the boot test passed, make one diagnosis and one
+  attempt if it did not, stop after two failed attempts, never widen a range to an unverified
+  version, never suppress an error to make the boot "succeed", and treat "this needs the
+  maintainer" as a valid answer.
+
+### Fixed
+
+- **`thirdPartyEntries` excluded this tool by id only.** A profile inserts us as
+  `id: plugin-health`, `name: dsh-plugin-health`, so the name check never matched and safe
+  mode disabled us along with every other plugin — removing the panel that explains the state.
+  Both fields are matched now.
+
+135 tests (6 new), 134 pass, 1 platform skip.
+
 ## 0.8.2 (2026-10-29)
 
 ### Fixed

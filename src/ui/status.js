@@ -44,6 +44,9 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
       name: plugin.name,
       version: plugin.version,
       requirements: plugin.requirements ?? {},
+      // The patch-layer id, used when switching the plugin off: the overlay has to target the
+      // entry the profile actually registers, which is often not the package name.
+      id: plugin.id ?? null,
     })),
     // Recorded rescues, so the panel can offer "undo" without shelling out. Computed here
     // rather than in the browser half because it needs the profile on disk.

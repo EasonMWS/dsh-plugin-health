@@ -313,7 +313,15 @@ window.__ModuleLoader__.load({
         rescueConfirmWill3: '随时可以在「临时放行记录」里撤销，恢复到放行前的状态。',
         rescueConfirmLimit: '但这只是放行门禁，不等于官方支持。插件的具体功能是否都正常，仍需你自己观察；作者发布正式支持版本后，请撤销并升级。',
         rescueConfirmYes: '确认放行',
-        rescueFallbackWhy: '放行救不了它。下面两件事可以试试，都需要你自己决定是否执行：',
+        rescueFallbackWhy: '放行救不了它。现在有两个选择，都是能真正解决问题的：',
+        rescueChoiceOffTitle: '① 先关掉，正常用 DSH',
+        rescueChoiceOffWhat: '这个插件在当前 DSH 上用不了，所以先把它停掉，DSH 就能正常启动。只写一条禁用记录，不删文件、不动插件；想恢复随时可以。',
+        rescueChoiceOffAction: '关掉这个插件',
+        rescueChoiceAiTitle: '② 交给我的 AI 试着修',
+        rescueChoiceAiWhat: '生成一份带完整上下文的提示词，粘给你自己的 AI。工具不会调用任何模型、不花你的 token；提示词里也写明了"修不好就停"，不允许反复尝试。',
+        rescueChoiceAiAction: '生成提示词',
+        rescueDisabledTitle: '已关掉这个插件',
+        rescueDisabledWhat: '重启 DSH 后它不会再加载，其他功能不受影响。等作者发布兼容版本后，重新安装即可恢复。',
         rescueAskAi: '让我的 AI 帮忙分析',
         rescueCheckReports: '看上游是否已有人报过',
         rescueAiReady: 'AI 上下文已准备好（尚未发送）',
@@ -380,7 +388,15 @@ window.__ModuleLoader__.load({
         rescueConfirmWill3: 'You can undo it at any time from the temporary exemptions list, restoring the previous state exactly.',
         rescueConfirmLimit: 'This only lets the gate through; it is not official support. Whether every feature works is still for you to observe, and you should revoke it once the author ships a supported release.',
         rescueConfirmYes: 'Exempt it',
-        rescueFallbackWhy: 'An exemption cannot save this one. Two things can still help, and both are your call:',
+        rescueFallbackWhy: 'An exemption cannot save this one. There are two decisions that actually help:',
+        rescueChoiceOffTitle: '① Turn it off and keep using DSH',
+        rescueChoiceOffWhat: 'This plugin does not work on your current DSH, so switch it off and the host starts normally again. Only a disable entry is written — no files deleted, no plugin modified, and it can be reversed at any time.',
+        rescueChoiceOffAction: 'Turn this plugin off',
+        rescueChoiceAiTitle: '② Hand it to my AI to try a repair',
+        rescueChoiceAiWhat: 'Generate a prompt with the full context to paste into your own AI. The tool never calls a model and never spends your tokens, and the prompt itself says to stop rather than keep trying.',
+        rescueChoiceAiAction: 'Generate the prompt',
+        rescueDisabledTitle: 'This plugin is switched off',
+        rescueDisabledWhat: 'It will not load after the next DSH restart; nothing else is affected. Once the author ships a compatible release, reinstall it to bring it back.',
         rescueAskAi: 'Ask my AI to analyse it',
         rescueCheckReports: 'See whether upstream already knows',
         rescueAiReady: 'AI context is ready (nothing sent)',
@@ -458,6 +474,7 @@ window.__ModuleLoader__.load({
       const [applied, setApplied] = React.useState(undefined)
       const [handoffResult, setHandoffResult] = React.useState(undefined)
       const [reportResult, setReportResult] = React.useState(undefined)
+      const [disabled, setDisabled] = React.useState(undefined)
       const [copied, setCopied] = React.useState(false)
       const call = React.useCallback(async (action, body) => {
         const response = await fetch(`${RESCUE_PATH}/${action}`, {
@@ -535,15 +552,31 @@ window.__ModuleLoader__.load({
       }, [handoffResult])
       const reset = React.useCallback(() => {
         setPhase('idle'); setVerdict(undefined); setError(undefined); setApplied(undefined)
-        setHandoffResult(undefined); setReportResult(undefined); setCopied(false)
+        setHandoffResult(undefined); setReportResult(undefined); setCopied(false); setDisabled(undefined)
       }, [])
       /** Revoke one recorded exemption; the caller re-reads the status afterwards. */
       const undo = React.useCallback(async (target) => {
         return call('undo', typeof target === 'string' ? { key: target } : target ?? {})
       }, [call])
+      /**
+       * Switch the plugin off so DSH keeps working. Offered as the honest alternative when a
+       * rescue failed: an unusable plugin should not stay in the way of a usable host.
+       */
+      const disable = React.useCallback(async (body) => {
+        setPhase('disabling'); setError(undefined)
+        try {
+          const result = await call('disable', body)
+          setDisabled(result)
+          setPhase('disabled')
+          if (typeof reload === 'function') await reload()
+        } catch (failure) {
+          setError(failure instanceof Error ? failure.message : String(failure))
+          setPhase('rehearsed')
+        }
+      }, [call, reload])
       return {
-        phase, verdict, applied, error, handoffResult, reportResult, copied,
-        rehearse, beginConfirm, cancel, apply, handoff, report, copyPrompt, reset, undo,
+        phase, verdict, applied, error, handoffResult, reportResult, copied, disabled,
+        rehearse, beginConfirm, cancel, apply, handoff, report, copyPrompt, reset, undo, disable,
       }
     }
 
@@ -608,16 +641,45 @@ window.__ModuleLoader__.load({
         ])
         : null
 
-      /** Broken or inconclusive: the two things that can actually help, both user-driven. */
+      /**
+       * Broken or inconclusive: present the two decisions that actually exist, side by side.
+       *
+       * The point is that neither is a dead end. "Turn it off" restores a usable DSH right now;
+       * "hand it to my AI" is a bounded repair attempt. Anything vaguer would leave the user
+       * staring at a plugin that does not work with no idea what to do.
+       */
       const fallbackActions = rescue.phase === 'rehearsed' && !canApply
-        ? h('div', { key: 'fb', style: { marginTop: 10 } }, [
-          h('div', { key: 'w', style: { fontSize: 12, opacity: 0.7, lineHeight: 1.6, marginBottom: 8 } }, t('rescueFallbackWhy')),
-          h('div', { key: 'b', style: { display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
-            h('button', {
+        ? h('div', { key: 'fb', style: { marginTop: 12 } }, [
+          h('div', { key: 'w', style: { fontSize: 13, opacity: 0.85, lineHeight: 1.6, marginBottom: 10 } }, t('rescueFallbackWhy')),
+          h('div', { key: 'choices', style: { display: 'flex', gap: 12, flexWrap: 'wrap' } }, [
+            // Choice 1: stop using it. Always available, always reversible.
+            h('div', {
+              key: 'off',
+              style: { flex: '1 1 260px', padding: 12, borderRadius: 8, border: '1px solid rgba(128,128,128,.25)' },
+            }, [
+              h('div', { key: 't', style: { fontSize: 13, fontWeight: 700, marginBottom: 4 } }, t('rescueChoiceOffTitle')),
+              h('div', { key: 'd', style: { fontSize: 12, opacity: 0.75, lineHeight: 1.6, marginBottom: 10 } }, t('rescueChoiceOffWhat')),
+              h('button', {
+                key: 'b',
+                onClick: () => rescue.disable({ plugin: plugin.name, entryId: plugin.id }),
+                style: buttonStyle({ background: COLORS.warn, color: '#fff' }),
+              }, t('rescueChoiceOffAction')),
+            ]),
+            // Choice 2: attempt a repair with the user's own agent, under stated limits.
+            h('div', {
               key: 'ai',
-              onClick: () => rescue.handoff({ plugin: plugin.name, version: plugin.version, rehearsalVerdict: rescue.verdict?.verdict }),
-              style: buttonStyle({}),
-            }, t('rescueAskAi')),
+              style: { flex: '1 1 260px', padding: 12, borderRadius: 8, border: '1px solid rgba(128,128,128,.25)' },
+            }, [
+              h('div', { key: 't', style: { fontSize: 13, fontWeight: 700, marginBottom: 4 } }, t('rescueChoiceAiTitle')),
+              h('div', { key: 'd', style: { fontSize: 12, opacity: 0.75, lineHeight: 1.6, marginBottom: 10 } }, t('rescueChoiceAiWhat')),
+              h('button', {
+                key: 'b',
+                onClick: () => rescue.handoff({ plugin: plugin.name, version: plugin.version, rehearsalVerdict: rescue.verdict?.verdict }),
+                style: buttonStyle({ background: COLORS.info, color: '#fff' }),
+              }, t('rescueChoiceAiAction')),
+            ]),
+          ]),
+          h('div', { key: 'more', style: { marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
             h('button', {
               key: 'rp',
               onClick: () => rescue.report({ plugin: plugin.name, version: plugin.version, rehearsalVerdict: rescue.verdict?.verdict }),
@@ -629,6 +691,14 @@ window.__ModuleLoader__.load({
               style: buttonStyle({}),
             }, t('rescueRecheck')),
           ]),
+        ])
+        : null
+
+      /** The plugin is switched off: say so, and say how to reverse it. */
+      const disabledNote = rescue.disabled !== undefined && rescue.disabled.disabled === true
+        ? h('div', { key: 'off', style: { marginTop: 10, padding: 10, borderRadius: 8, background: 'rgba(178,106,0,.10)', fontSize: 13, lineHeight: 1.6 } }, [
+          h('div', { key: 't', style: { fontWeight: 600, color: COLORS.warn } }, t('rescueDisabledTitle')),
+          h('div', { key: 'd', style: { marginTop: 4, opacity: 0.9 } }, t('rescueDisabledWhat')),
         ])
         : null
 
@@ -668,6 +738,7 @@ window.__ModuleLoader__.load({
           : null,
         confirmation,
         fallbackActions,
+        disabledNote,
         rescue.applied !== undefined && rescue.applied.applied === true
           ? h('div', { key: 'a', style: { marginTop: 10, fontSize: 13, color: COLORS.ok, lineHeight: 1.6 } }, [
             h('div', { key: 't', style: { fontWeight: 600 } }, t('rescueApplied')),

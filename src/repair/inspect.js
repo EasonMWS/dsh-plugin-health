@@ -396,12 +396,48 @@ function listPackageDirectories(directory) {
   return out
 }
 
+/**
+ * Map package name → the id its patch-layer entry uses, including nested `insert` lists.
+ *
+ * The profile registers a bundle as `{ id: <short-name>, name: <package> }`, and disabling it
+ * later has to address the entry by that id. Nested inserts appear in real profiles, so the
+ * walk is recursive rather than one level deep.
+ * @param {string} profileDir
+ * @returns {Map<string, string>}
+ */
+function patchEntryIds(profileDir) {
+  const ids = new Map()
+  const path = join(profileDir, 'cordis.patch.yml')
+  if (!existsSync(path)) return ids
+  let parsed
+  try {
+    parsed = parseYaml(readFileSync(path, 'utf8'))
+  } catch {
+    return ids
+  }
+  const visit = (list) => {
+    if (!Array.isArray(list)) return
+    for (const entry of list) {
+      if (typeof entry !== 'object' || entry === null) continue
+      if (typeof entry.name === 'string' && typeof entry.id === 'string') {
+        if (!ids.has(entry.name)) ids.set(entry.name, entry.id)
+      }
+      visit(entry.insert)
+    }
+  }
+  visit(parsed)
+  return ids
+}
+
 function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest, incompatible = []) {
   if (runtimeVersion === undefined || runtimeVersion === '') return
   // The host honours exact-version exemptions from this file, so a scan that ignores it
   // reports a plugin as broken after the user already fixed it — exactly the kind of
   // "the checker lies" behaviour this tool exists to avoid.
   const exemptions = readExemptions(profileDir)
+  // The patch-layer id, so switching a plugin off can target the entry the profile actually
+  // registers. A bundle inserted as `id: plugin-health` has a name that is not that id.
+  const idByName = patchEntryIds(profileDir)
   const installed = manifest === undefined
     ? bundles.map((name) => ({ name, directory: nodeModulesPath(profileDir, name) }))
     : listInstalledPlugins(profileDir, manifest)
@@ -424,7 +460,7 @@ function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest,
           { fix: { kind: 'manual', description: 'Update the plugin, install a compatible version, or grant an exact-version exemption.' } }))
         // Carry the identity forward so the rescue flow can rehearse this exact version
         // without re-parsing the finding title.
-        incompatible.push({ name: issue.name, version: issue.version, requirements: issue.requirements })
+        incompatible.push({ name: issue.name, version: issue.version, requirements: issue.requirements, id: idByName.get(issue.name) ?? null })
       }
     } catch {
       findings.push(finding('plugin-manifest-invalid', 'warn', `Cannot evaluate requirements for ${name}`, manifestPath))

@@ -3,10 +3,10 @@ import assert from 'node:assert/strict'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { parse as parseYaml } from 'yaml'
+import { parse as parseYaml, stringify as stringifyYaml } from 'yaml'
 
 import {
-  SAFE_MARKER, detectBootFailures, diagnoseBoot, enterSafeMode, isSelf, readBootEvidence,
+  SAFE_MARKER, detectBootFailures, diagnoseBoot, disablePlugin, enablePlugin, enterSafeMode, isSelf, readBootEvidence,
   readProfilePatch, restoreSafeMode, thirdPartyEntries,
 } from '../src/rescue/boot.js'
 
@@ -169,4 +169,50 @@ test('isSelf recognises each identity the tool is registered under', () => {
   assert.equal(isSelf('whatever', 'plugin-health'), true)
   assert.equal(isSelf('whatever', 'dsh-plugin-health'), true)
   assert.equal(isSelf('dsh-session-recall', 'recall'), false)
+})
+
+// --- per-plugin disable / enable ------------------------------------------------------
+
+test('disablePlugin writes one overlay and enablePlugin removes exactly it', () => {
+  const { profileDir } = profileWith()
+  const before = parseYaml(readFileSync(join(profileDir, 'cordis.patch.yml'), 'utf8'))
+  const disabled = disablePlugin(profileDir, { name: 'dsh-session-recall', id: 'recall' })
+  assert.equal(disabled.changed, true)
+  const after = parseYaml(readFileSync(join(profileDir, 'cordis.patch.yml'), 'utf8'))
+  assert.equal(after.length, before.length + 1)
+  assert.equal(after.filter(entry => entry.disabled === true).length, 1)
+  const enabled = enablePlugin(profileDir, { name: 'dsh-session-recall', id: 'recall' })
+  assert.equal(enabled.removed, 1)
+  assert.deepEqual(parseYaml(readFileSync(join(profileDir, 'cordis.patch.yml'), 'utf8')), before)
+})
+
+test('disablePlugin is idempotent for an already-disabled plugin', () => {
+  const { profileDir } = profileWith()
+  disablePlugin(profileDir, { name: 'dsh-session-recall', id: 'recall' })
+  const again = disablePlugin(profileDir, { name: 'dsh-session-recall', id: 'recall' })
+  assert.equal(again.changed, false)
+  assert.equal(again.reason, 'already-disabled')
+})
+
+test('enablePlugin leaves other plugins switched off', () => {
+  const { profileDir } = profileWith()
+  disablePlugin(profileDir, { name: 'dsh-session-recall', id: 'recall' })
+  disablePlugin(profileDir, { name: 'dsh-winbox', id: 'winbox' })
+  enablePlugin(profileDir, { name: 'dsh-session-recall', id: 'recall' })
+  const entries = parseYaml(readFileSync(join(profileDir, 'cordis.patch.yml'), 'utf8'))
+  const stillOff = entries.filter(entry => entry.disabled === true)
+  assert.equal(stillOff.length, 1)
+  assert.equal(stillOff[0].name, 'dsh-winbox')
+})
+
+test('enablePlugin does not remove a user-written disable', () => {
+  const { profileDir } = profileWith()
+  const entries = parseYaml(readFileSync(join(profileDir, 'cordis.patch.yml'), 'utf8'))
+  // A disable the user wrote themselves carries no marker and must survive enablePlugin.
+  writeFileSync(join(profileDir, 'cordis.patch.yml'), stringifyYaml([
+    ...entries,
+    { id: 'recall', name: 'dsh-session-recall', disabled: true },
+  ]))
+  const result = enablePlugin(profileDir, { name: 'dsh-session-recall', id: 'recall' })
+  assert.equal(result.removed, 0, 'only our own marker entries may be removed')
 })

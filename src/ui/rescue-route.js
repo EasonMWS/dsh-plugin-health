@@ -20,6 +20,7 @@ import { join } from 'node:path'
 import { auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue } from '../rescue/rescue.js'
 import { checkUpstream } from '../rescue/upstream.js'
 import { discoverDshDirectory } from '../rescue/environment.js'
+import { disablePlugin as disablePluginImpl, enablePlugin as enablePluginImpl } from '../rescue/boot.js'
 import { buildReport, findExistingReports, repositorySlug } from '../rescue/reporting.js'
 import { buildBrief, renderPrompt, writeHandoff } from '../rescue/handoff.js'
 
@@ -145,6 +146,27 @@ export function createRescueHandlers({
       const { profileDir } = context()
       const { undone, remaining } = undoImpl(profileDir, typeof body.key === 'string' ? { key: body.key } : {})
       return { undone, remaining: remaining.length }
+    },
+    /**
+     * Switch a plugin off so DSH keeps working.
+     *
+     * This is the honest alternative to a rescue that failed: the plugin cannot be made to work
+     * here, so the user's DSH should at least stay usable. It writes a `disabled: true` overlay
+     * to the profile patch layer — the same mechanism the host itself uses for overrides — and
+     * never touches the plugin's files, so `enable` (or a reinstall) undoes it exactly.
+     */
+    async disable(body) {
+      const { profileDir } = context()
+      if (typeof body.plugin !== 'string' || body.plugin === '') throw new Error('disable needs plugin')
+      const result = disablePluginImpl(profileDir, { name: body.plugin, id: body.entryId })
+      return { disabled: result.changed, entry: result.added?.[0] ?? null, file: result.file }
+    },
+    /** Re-enable a plugin this tool switched off. */
+    async enable(body) {
+      const { profileDir } = context()
+      if (typeof body.plugin !== 'string' || body.plugin === '') throw new Error('enable needs plugin')
+      const result = enablePluginImpl(profileDir, { name: body.plugin, id: body.entryId })
+      return { enabled: result.changed, removed: result.removed ?? 0, file: result.file }
     },
     async status() {
       const { profileDir, runtimeVersion } = context()
