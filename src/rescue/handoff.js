@@ -50,7 +50,12 @@ export function buildBrief({
       peerDependencies: installedManifest?.peerDependencies ?? null,
     },
     host: { runtimeVersion, toolVersion: toolVersion ?? null },
-    rehearsal: { verdict: smokeReport?.ok === true ? 'runs' : 'failed', stages },
+    // `not-run` is a distinct verdict: reporting a missing rehearsal as "failed" would tell
+    // the agent the plugin is broken when nobody actually checked.
+    rehearsal: {
+      verdict: smokeReport === undefined ? 'not-run' : smokeReport.ok === true ? 'runs' : 'failed',
+      stages,
+    },
     constraints: [
       'Restore compatibility only. Do not add features, refactor, or change behaviour.',
       'Do not widen a peer range past what you can verify; prefer admitting the exact tested version.',
@@ -58,6 +63,29 @@ export function buildBrief({
       'The fix is only accepted if the plugin installs and boots again on the target host version.',
     ],
   }
+}
+
+/**
+ * Collapse declarations that share one range.
+ *
+ * A plugin typically repeats the same enumeration across two dozen peers. Printing it once
+ * per package buries the actual information (which range is wrong) in near-identical lines,
+ * so group by range and list the packages underneath.
+ * @param {Record<string, string>} requirements
+ * @returns {{range: string, packages: string[]}[]}
+ */
+export function groupRanges(requirements) {
+  const byRange = new Map()
+  for (const [name, range] of Object.entries(requirements ?? {})) {
+    const key = typeof range === 'string' ? range : String(range)
+    const bucket = byRange.get(key)
+    if (bucket === undefined) byRange.set(key, [name])
+    else bucket.push(name)
+  }
+  // Widest groups first: the range shared by the most packages is the headline finding.
+  return [...byRange.entries()]
+    .map(([range, packages]) => ({ range, packages: packages.sort() }))
+    .sort((a, b) => b.packages.length - a.packages.length)
 }
 
 /**
@@ -70,6 +98,7 @@ export function renderPrompt(brief) {
   const { plugin, host, rehearsal } = brief
   const failed = rehearsal.stages.filter(stage => !stage.ok)
   const booted = rehearsal.verdict === 'runs'
+  const notRun = rehearsal.verdict === 'not-run'
   const lines = [
     `I need you to restore DSH plugin compatibility for \`${plugin.name}@${plugin.version}\`.`,
     '',
@@ -78,9 +107,15 @@ export function renderPrompt(brief) {
     '',
     '### What I already checked',
     '',
-    'I ran an isolated install + boot on the target host with the requirement exempted.',
-    `Verdict: **${rehearsal.verdict}**.`,
   ]
+  if (notRun) {
+    // Saying "failed" here would tell the agent the plugin is broken when nobody tested it.
+    lines.push('Static declaration check only — no isolated runtime test was run for this brief,')
+    lines.push('so treat "does the code actually boot" as an open question, not a known failure.')
+  } else {
+    lines.push('I ran an isolated install + boot on the target host with the requirement exempted.')
+    lines.push(`Verdict: **${booted ? 'boots successfully' : 'fails to boot'}**.`)
+  }
   if (booted) {
     lines.push('')
     lines.push('That means the code itself loads fine — only the declared ranges are out of date.')
@@ -97,17 +132,24 @@ export function renderPrompt(brief) {
   lines.push('')
   lines.push('### Declared requirements that reject the host')
   lines.push('')
-  for (const [requirement, range] of Object.entries(plugin.declaredRequirements)) {
-    lines.push(`- \`${requirement}\`: \`${range}\``)
+  const grouped = groupRanges(plugin.declaredRequirements)
+  for (const group of grouped) {
+    lines.push(`- \`${group.range}\``)
+    lines.push(`  - applies to ${group.packages.length === 1 ? '' : `${group.packages.length} packages: `}${group.packages.map(name => `\`${name}\``).join(', ')}`)
   }
   lines.push('')
   lines.push('### What I need from you')
   lines.push('')
   if (booted) {
-    lines.push(`1. Add \`${host.runtimeVersion}\` to the requirements above — or, if this repository runs its`)
+    lines.push(`1. Admit \`${host.runtimeVersion}\` in the requirements above — or, if this repository runs its`)
     lines.push('   own host-version enumeration check (a `scripts/compatibility.mjs`-style gate), keep the')
     lines.push('   enumeration form and add the exact version instead of a range.')
     lines.push('2. Do not change plugin behaviour, and do not guess at future prereleases.')
+  } else if (notRun) {
+    lines.push('1. Install and boot the plugin on the target host first (exempting the requirement if the gate')
+    lines.push('   blocks it) and record whether it actually starts — that decides how much work this is.')
+    lines.push('2. Then either update the declarations (if it boots) or fix the real incompatibility.')
+    lines.push('3. Keep the peer/host ranges honest: admit versions you actually verified.')
   } else {
     lines.push('1. Work out why the plugin fails to boot on that host version (missing service, removed API,')
     lines.push('   changed export — whatever the evidence shows).')

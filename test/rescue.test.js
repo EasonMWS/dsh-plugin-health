@@ -10,7 +10,7 @@ import {
 } from '../src/rescue/rescue.js'
 import { classifyUpstream, selectUpstreamTarget } from '../src/rescue/upstream.js'
 import { buildReport, repositorySlug, searchQuery } from '../src/rescue/reporting.js'
-import { buildBrief, renderPrompt, writeHandoff, readHandoff } from '../src/rescue/handoff.js'
+import { buildBrief, groupRanges, renderPrompt, writeHandoff, readHandoff } from '../src/rescue/handoff.js'
 
 function profile() {
   const dir = mkdtempSync(join(tmpdir(), 'dsh-health-rescue-'))
@@ -265,4 +265,64 @@ test('handoff writes the brief, the prompt and the rehearsal evidence', () => {
   assert.match(read.prompt, /restore DSH plugin compatibility/u)
   assert.deepEqual(read.brief.plugin.declaredRequirements, { a: '1' })
   assert.equal(JSON.parse(readFileSync(join(written.directory, 'rehearsal.json'), 'utf8')).ok, false)
+})
+
+// --- the brief must not claim a rehearsal it did not run -------------------------------
+
+test('groupRanges collapses peers that share one range', () => {
+  const grouped = groupRanges({
+    '@deepseek-ai/dsh-llm': '0.2.1-rc.3 || 0.2.1-rc.2',
+    '@deepseek-ai/dsh-tools': '0.2.1-rc.3 || 0.2.1-rc.2',
+    '@deepseek-ai/dsh-agent': '^1.0.0',
+  })
+  assert.equal(grouped.length, 2, 'two distinct ranges, not three packages')
+  assert.equal(grouped[0].packages.length, 2, 'the widest group comes first')
+  assert.equal(grouped[0].range, '0.2.1-rc.3 || 0.2.1-rc.2')
+})
+
+test('a brief without a rehearsal is marked not-run, never failed', () => {
+  const brief = buildBrief({
+    name: 'p', version: '1.0.0', runtimeVersion: '0.2.1-rc.4',
+    requirements: { a: '1' }, installedManifest: {},
+  })
+  assert.equal(brief.rehearsal.verdict, 'not-run')
+  const prompt = renderPrompt(brief)
+  assert.match(prompt, /no isolated runtime test was run/u)
+  assert.doesNotMatch(prompt, /fails to boot/u, 'an untested plugin must not be described as broken')
+})
+
+test('a brief with a failing rehearsal does say the plugin fails to boot', () => {
+  const brief = buildBrief({
+    name: 'p', version: '1.0.0', runtimeVersion: '0.2.1-rc.4',
+    requirements: { a: '1' }, installedManifest: {},
+    smokeReport: { ok: false, stages: [{ name: 'runtime', ok: false, error: 'boom' }] },
+  })
+  assert.equal(brief.rehearsal.verdict, 'failed')
+  const prompt = renderPrompt(brief)
+  assert.match(prompt, /fails to boot/u)
+  assert.match(prompt, /boom/u)
+})
+
+test('a passing rehearsal narrows the task to the declarations', () => {
+  const brief = buildBrief({
+    name: 'p', version: '1.0.0', runtimeVersion: '0.2.1-rc.4',
+    requirements: { a: '1' }, installedManifest: {},
+    smokeReport: { ok: true, stages: [{ name: 'runtime', ok: true }] },
+  })
+  const prompt = renderPrompt(brief)
+  assert.match(prompt, /boots successfully/u)
+  assert.match(prompt, /only the declared ranges are out of date/u)
+})
+
+test('the prompt groups repeated ranges instead of printing one line per peer', () => {
+  const requirements = {}
+  for (let index = 0; index < 20; index += 1) requirements[`@deepseek-ai/pkg-${index}`] = '0.2.1-rc.3 || 0.2.1-rc.2'
+  const brief = buildBrief({
+    name: 'p', version: '1.0.0', runtimeVersion: '0.2.1-rc.4',
+    requirements, installedManifest: {}, smokeReport: { ok: true, stages: [] },
+  })
+  const prompt = renderPrompt(brief)
+  const occurrences = (prompt.match(/0\.2\.1-rc\.3 \|\| 0\.2\.1-rc\.2/gu) ?? []).length
+  assert.equal(occurrences, 1, 'the shared range must appear once, not twenty times')
+  assert.match(prompt, /applies to 20 packages/u)
 })

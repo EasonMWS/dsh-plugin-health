@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.8.1 (2026-10-29)
+
+### Fixed
+
+- **A brief generated with `--no-rehearse` claimed `Verdict: failed`.** No rehearsal had run,
+  so the prompt told the agent the plugin was broken when nobody had checked — and the agent's
+  first instruction was "work out why it fails to boot", chasing a failure that did not exist.
+  `buildBrief` now emits a `not-run` verdict, and the prompt says plainly that the boot
+  question is open and decides how much work the fix is.
+- **The requirements table printed one line per peer.** A typical plugin repeats the same
+  enumeration across twenty-odd packages, so a 24-peer plugin produced 22 near-identical lines
+  and buried the one fact that matters: which range rejects the host. Grouped by range now, with
+  the packages listed underneath, widest group first — 49 lines became 30.
+
+129 tests (5 new), 128 pass, 1 platform skip.
+
 ## 0.8.0 (2026-10-29)
 
 ### Added
