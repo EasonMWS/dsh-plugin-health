@@ -600,12 +600,27 @@ async function cmdBoot(options, positionals = []) {
     console.log(`boot diagnosis for profile ${profile}`)
     console.log(`  directory: ${profileDir}`)
     console.log(`  third-party entries: ${diagnosis.thirdParty.length}`)
-    if (diagnosis.patchInvalid) console.log(`  ✗ ${diagnosis.patchInvalid ? 'patch layer cannot be parsed' : ''}`)
-    if (diagnosis.failures.length === 0) {
-      console.log('  no recognisable failure signature in the logs')
-    } else {
+    if (diagnosis.patchInvalid) console.log('  ✗ patch layer cannot be parsed')
+    // The crash report is the strongest evidence there is, so lead with it.
+    if (diagnosis.crashes.length > 0) {
+      console.log(`  crash reports: ${diagnosis.crashes.length}`)
+      for (const crash of diagnosis.crashes.slice(0, 3)) {
+        const when = new Date(crash.at).toISOString().replace('T', ' ').slice(0, 16)
+        console.log(`    - ${when}Z  phase=${crash.phase ?? '?'}  app=${crash.app ?? '?'}`)
+        if (crash.pluginNames.length > 0) {
+          console.log(`      blamed: ${crash.pluginNames.join(', ')}`)
+        }
+      }
+    }
+    if (diagnosis.culprit.length > 0) {
+      console.log('\n  most likely cause (named by the host crash report):')
+      for (const name of diagnosis.culprit) console.log(`    ✗ ${name}`)
+    }
+    if (diagnosis.failures.length === 0 && diagnosis.crashes.length === 0) {
+      console.log('  no crash report or recognisable failure signature found')
+    } else if (diagnosis.failures.length > 0) {
       console.log('  failure signatures:')
-      for (const failure of diagnosis.failures.slice(0, 8)) console.log(`    ✗ [${failure.kind}] ${failure.line}`)
+      for (const failure of diagnosis.failures.slice(0, 6)) console.log(`    ✗ [${failure.kind}] ${failure.line}`)
     }
     for (const line of diagnosis.advice) console.log(`\n  ${line}`)
     console.log('\n  next: "boot safe --profile ' + profile + '" disables every third-party entry so DSH can start.')

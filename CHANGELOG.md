@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.10.0 (2026-10-29)
+
+### Added
+
+- **`boot diagnose` now reads the host's own crash reports.** The CLI prints a boot failure to
+  stderr and exits, leaving nothing on disk — but the desktop app writes
+  `%APPDATA%\@deepseek-ai\dsh-desktop\logs\crash-<time>-{host,renderer}.log`, and that file
+  contains the phase, the app version and the error text. When a plugin caused the failure, the
+  error names it outright (`Plugin dsh-session-recall@0.1.0 is incompatible with dsh 0.2.1-rc.3`).
+  The diagnosis now leads with that evidence and lists the blamed plugins directly, instead of
+  only pattern-matching plugin-manager logs.
+
+### Changed
+
+- **The two choices offered when a plugin cannot be rescued are much shorter.** The previous copy
+  explained the mechanism behind each option; a user staring at a plugin that will not load needs
+  the decision, not the design. "Turn it off, keep using DSH" and "Let AI try to fix it", one line
+  each.
+
+141 tests (6 new), 140 pass, 1 platform skip.
+
 ## 0.9.0 (2026-10-29)
 
 ### Added

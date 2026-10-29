@@ -1,13 +1,13 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, utimesSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { parse as parseYaml, stringify as stringifyYaml } from 'yaml'
 
 import {
   SAFE_MARKER, detectBootFailures, diagnoseBoot, disablePlugin, enablePlugin, enterSafeMode, isSelf, readBootEvidence,
-  readProfilePatch, restoreSafeMode, thirdPartyEntries,
+  parseCrashReport, readCrashLogs, readProfilePatch, restoreSafeMode, thirdPartyEntries,
 } from '../src/rescue/boot.js'
 
 /** A profile with one host entry and two third-party entries, plus a comment to preserve. */
@@ -146,9 +146,16 @@ test('diagnoseBoot surfaces a broken patch layer as actionable advice', () => {
 
 test('diagnoseBoot suggests safe mode when no signature is recognisable', () => {
   const { profileDir } = profileWith()
-  const diagnosis = diagnoseBoot({ profileDir })
-  assert.equal(diagnosis.thirdParty.length, 2)
-  assert.match(diagnosis.advice.join(' '), /safe/u)
+  // Point at an empty crash directory so this test never depends on the machine's real logs.
+  const empty = mkdtempSync(join(tmpdir(), 'dsh-health-crash-none-'))
+  try {
+    const diagnosis = diagnoseBoot({ profileDir, crashLogs: { directory: empty } })
+    assert.equal(diagnosis.thirdParty.length, 2)
+    assert.deepEqual(diagnosis.culprit, [])
+    assert.match(diagnosis.advice.join(' '), /safe/u)
+  } finally {
+    rmSync(empty, { recursive: true, force: true })
+  }
 })
 
 test('safe mode never disables this tool itself', () => {
@@ -215,4 +222,84 @@ test('enablePlugin does not remove a user-written disable', () => {
   ]))
   const result = enablePlugin(profileDir, { name: 'dsh-session-recall', id: 'recall' })
   assert.equal(result.removed, 0, 'only our own marker entries may be removed')
+})
+
+// --- crash reports are the only on-disk evidence of a failed boot ---------------------
+
+const CRASH_SAMPLE = `time: 2026-10-25T15:12:11.210Z
+source: host
+phase: running
+app: @deepseek-ai/dsh-desktop 0.2.1-rc.3
+platform: win32 x64
+electron: 44.7.0
+
+--- error ---
+Error: dsh desktop host exited with 1073807364: dsh: skipping profile bundle "dsh-session-recall": Error: Plugin dsh-session-recall@0.1.0 is incompatible with dsh 0.2.1-rc.3: requirements {"engines.dsh":"0.2.1-rc.2"}.
+dsh: skipping profile bundle "dsh-winbox": Error: Plugin dsh-winbox@0.1.0 is incompatible with dsh 0.2.1-rc.3.
+
+--- renderer console (error level, oldest first) ---
+nothing here
+`
+
+test('parseCrashReport extracts the header and the plugins the host blamed', () => {
+  const parsed = parseCrashReport(CRASH_SAMPLE)
+  assert.equal(parsed.phase, 'running')
+  assert.equal(parsed.app, '@deepseek-ai/dsh-desktop 0.2.1-rc.3')
+  assert.deepEqual(parsed.pluginNames, ['dsh-session-recall', 'dsh-winbox'])
+  assert.match(parsed.error, /exited with 1073807364/u)
+  assert.doesNotMatch(parsed.error, /renderer console/u, 'the error block stops at the next section')
+})
+
+test('parseCrashReport is total: empty and non-string input yield no claims', () => {
+  assert.deepEqual(parseCrashReport('').pluginNames, [])
+  assert.deepEqual(parseCrashReport(undefined).pluginNames, [])
+})
+
+test('readCrashLogs reads newest-first and skips empty reports', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'dsh-health-crash-'))
+  try {
+    writeFileSync(join(dir, 'crash-old-host.log'), CRASH_SAMPLE)
+    writeFileSync(join(dir, 'crash-new-host.log'), CRASH_SAMPLE.replace('0.2.1-rc.3', '0.2.1-rc.4'))
+    writeFileSync(join(dir, 'crash-empty-host.log'), '')
+    writeFileSync(join(dir, 'unrelated.log'), 'not a crash report')
+    // Give the "new" report a later mtime so ordering is deterministic.
+    const later = new Date(Date.now() + 60_000)
+    utimesSync(join(dir, 'crash-new-host.log'), later, later)
+    const logs = readCrashLogs({ directory: dir })
+    assert.equal(logs.length, 2, 'the empty report and the unrelated file are skipped')
+    assert.match(logs[0].name, /^crash-new/u, 'newest first')
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('readCrashLogs returns [] when the directory, log dir or file is unavailable', () => {
+  assert.deepEqual(readCrashLogs({ directory: null }), [])
+  assert.deepEqual(readCrashLogs({ directory: join(tmpdir(), 'definitely-not-here-$$$') }), [])
+})
+
+test('diagnoseBoot names the culprit from the crash report', () => {
+  const { profileDir } = profileWith()
+  const dir = mkdtempSync(join(tmpdir(), 'dsh-health-crash-'))
+  try {
+    writeFileSync(join(dir, 'crash-2026-10-25-host.log'), CRASH_SAMPLE)
+    const diagnosis = diagnoseBoot({ profileDir, crashLogs: { directory: dir } })
+    assert.deepEqual(diagnosis.culprit, ['dsh-session-recall', 'dsh-winbox'])
+    assert.match(diagnosis.advice.join(' '), /names the plugin\(s\) that failed/u)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('diagnoseBoot says so plainly when a crash exists but names no plugin', () => {
+  const { profileDir } = profileWith()
+  const dir = mkdtempSync(join(tmpdir(), 'dsh-health-crash-'))
+  try {
+    writeFileSync(join(dir, 'crash-x-host.log'), 'phase: running\napp: x\n\n--- error ---\nsegfault\n')
+    const diagnosis = diagnoseBoot({ profileDir, crashLogs: { directory: dir } })
+    assert.deepEqual(diagnosis.culprit, [])
+    assert.match(diagnosis.advice.join(' '), /names no plugin/u)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
 })

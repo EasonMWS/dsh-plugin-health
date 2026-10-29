@@ -85,14 +85,102 @@ export function isSelf(name, id) {
 }
 
 /**
+ * Where the desktop app writes its crash reports.
+ *
+ * This is the only place the host records *why* it failed to start: the CLI prints to stderr
+ * and exits, so nothing survives on disk there. The desktop app writes
+ * `crash-<timestamp>-{host,renderer}.log` containing the phase, the app version and the error
+ * text — which for a plugin failure names the offending package outright.
+ * @returns {string|null}
+ */
+export function crashLogDirectory(env = process.env) {
+  const appData = env.APPDATA ?? env.apdata
+  if (typeof appData !== 'string' || appData === '') return null
+  const directory = join(appData, '@deepseek-ai', 'dsh-desktop', 'logs')
+  return existsSync(directory) ? directory : null
+}
+
+/**
+ * Read the newest crash reports, newest first.
+ * @param {{limit?: number, minBytes?: number, directory?: string|null, env?: object}} [options]
+ * @returns {{path: string, at: number, name: string, text: string}[]}
+ */
+export function readCrashLogs({ limit = 3, directory, env } = {}) {
+  const dir = directory === undefined ? crashLogDirectory(env) : directory
+  if (dir === null || !existsSync(dir)) return []
+  let files = []
+  try {
+    files = readdirSync(dir, { withFileTypes: true })
+      .filter(entry => entry.isFile() && /^crash-.*\.log$/u.test(entry.name))
+      .map((entry) => {
+        const path = join(dir, entry.name)
+        let at = 0
+        let size = 0
+        try {
+          const stats = statSync(path)
+          at = stats.mtimeMs
+          size = stats.size
+        } catch {
+          at = 0
+        }
+        return { path, at, size, name: entry.name }
+      })
+      // An empty crash file records that something died but not why; skip those.
+      .filter(entry => entry.size > 0)
+      .sort((a, b) => b.at - a.at)
+      .slice(0, limit)
+  } catch {
+    return []
+  }
+  return files.map((entry) => {
+    let text = ''
+    try { text = readFileSync(entry.path, 'utf8') } catch { text = '' }
+    return { path: entry.path, at: entry.at, name: entry.name, text }
+  })
+}
+
+/**
+ * Pull the facts out of one crash report: what phase it died in, which app version, and the
+ * error line. The error text is where a plugin name appears when a plugin is to blame.
+ * @param {string} text
+ * @returns {{phase?: string, app?: string, electron?: string, error?: string, pluginNames: string[]}}
+ */
+export function parseCrashReport(text) {
+  if (typeof text !== 'string' || text === '') return { pluginNames: [] }
+  const header = {}
+  for (const line of text.split('\n')) {
+    const match = line.match(/^([a-z][a-z ]*):\s*(.+)$/u)
+    if (match) {
+      const key = match[1].trim().toLowerCase()
+      if (['phase', 'app', 'electron', 'node', 'platform', 'source', 'time'].includes(key) && header[key] === undefined) {
+        header[key] = match[2].trim()
+      }
+    }
+    if (line.startsWith('--- error ---')) break
+  }
+  const errorStart = text.indexOf('--- error ---')
+  const errorBlock = errorStart === -1 ? '' : text.slice(errorStart + '--- error ---'.length)
+  const error = errorBlock.split(/^---\s/mu)[0]?.trim().split('\n').slice(0, 6).join('\n') ?? ''
+  // A plugin rejection names the package twice (skipping bundle "x" and Plugin x@1 is incompatible).
+  const pluginNames = [...new Set(
+    [...error.matchAll(/Plugin\s+(@?[\w.-]+(?:\/[\w.-]+)?)@([\w.+-]+)\s+is incompatible/gu)]
+      .map(match => match[1]),
+  )]
+  return { ...header, error, pluginNames }
+}
+
+/**
  * Inspect the artifacts a failed boot leaves behind. Returns plain observations, not
  * conclusions: the caller decides how to present them.
  * @param {string} profileDir
- * @param {{maxLogs?: number}} [options]
+ * @param {{maxLogs?: number, crashLogs?: {limit?: number, directory?: string|null, env?: object}}} [options]
  */
-export function readBootEvidence(profileDir, { maxLogs = LOG_TAIL } = {}) {
+export function readBootEvidence(profileDir, { maxLogs = LOG_TAIL, crashLogs } = {}) {
   const logsDir = join(profileDir, '.plugin-manager', 'logs')
-  const evidence = { operations: [], newestOperation: null, bootLog: null }
+  const evidence = { operations: [], newestOperation: null, bootLog: null, crashes: [] }
+  // Crash reports are the primary evidence when the host died during boot, so read them even
+  // when the profile has no plugin-manager logs at all.
+  evidence.crashes = readCrashLogs(crashLogs).map(log => ({ ...log, parsed: parseCrashReport(log.text) }))
   if (!existsSync(logsDir)) return evidence
   let operations = []
   try {
@@ -160,9 +248,9 @@ export function detectBootFailures(text) {
 /**
  * Build the diagnosis a person can act on.
  * @param {object} options
- * @returns {{suspects: object[], failures: object[], evidence: object, advice: string[]}}
+ * @returns {{thirdParty: object[], suspects: object[], failures: object[], culprit: string[], crashes: object[], patchInvalid: boolean, evidence: object, advice: string[]}}
  */
-export function diagnoseBoot({ profileDir }) {
+export function diagnoseBoot({ profileDir, crashLogs }) {
   const advice = []
   let entries = []
   let patchError
@@ -176,17 +264,39 @@ export function diagnoseBoot({ profileDir }) {
       + 'Restore cordis.patch.yml from a backup, or run "safe" to rewrite it with only the managed entries.')
   }
   const thirdParty = thirdPartyEntries(entries)
-  const evidence = readBootEvidence(profileDir)
+  const evidence = readBootEvidence(profileDir, { crashLogs })
   const failures = []
+  // A crash report is the strongest evidence available: the host wrote down what it was doing
+  // and what went wrong. Read those first so the rest only fills gaps.
+  const culprits = new Set()
+  for (const crash of evidence.crashes) {
+    failures.push(...detectBootFailures(crash.text))
+    for (const name of crash.parsed.pluginNames) culprits.add(name)
+  }
   for (const operation of evidence.operations) failures.push(...detectBootFailures(operation.tail))
   if (evidence.bootLog !== null) failures.push(...detectBootFailures(evidence.bootLog.tail))
-  if (failures.length === 0 && thirdParty.length > 0) {
-    advice.push('No recognisable failure signature was found in the logs. '
-      + 'If DSH does not start, run "safe" to disable third-party entries, then re-enable them one at a time.')
+  if (culprits.size > 0) {
+    advice.push(`The host crash report names the plugin(s) that failed: ${[...culprits].join(', ')}. `
+      + 'Disable those first — that is usually enough to boot again.')
+  } else if (failures.length === 0 && thirdParty.length > 0) {
+    advice.push(evidence.crashes.length > 0
+      ? 'A crash report exists but names no plugin, so the cause is unclear. '
+        + 'Run "safe" to disable third-party entries, then re-enable them one at a time.'
+      : 'No crash report or recognisable failure signature was found. '
+        + 'If DSH does not start, run "safe" to disable third-party entries, then re-enable them one at a time.')
   }
   return {
     thirdParty,
     suspects: thirdParty.filter(entry => typeof entry?.name === 'string'),
+    culprit: [...culprits],
+    crashes: evidence.crashes.map(crash => ({
+      name: crash.name,
+      at: crash.at,
+      phase: crash.parsed.phase ?? null,
+      app: crash.parsed.app ?? null,
+      error: crash.parsed.error ?? '',
+      pluginNames: crash.parsed.pluginNames,
+    })),
     failures,
     patchInvalid: patchError !== undefined,
     evidence,
