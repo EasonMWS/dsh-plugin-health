@@ -9,7 +9,7 @@ Plugin health check **and repair** for
 page inside DSH. It does not stop at telling you which plugins are broken: it can bring back the
 ones that are merely mis-declared, and it verifies they actually boot before touching your profile.
 
-> Status: `0.8.1`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.8.2`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>

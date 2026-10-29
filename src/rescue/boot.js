@@ -48,9 +48,13 @@ export function readProfilePatch(profileDir) {
 }
 
 /**
- * List third-party entries: everything the host does not ship itself. Host packages are
- * the reference and must never be disabled — doing so would remove the very services a
- * plugin needs, which is the opposite of a fix.
+ * List third-party entries: everything the host does not ship itself.
+ *
+ * This tool's *own* entry is excluded on purpose. Safe mode exists to get DSH running so the
+ * user can reach the health panel; disabling ourselves in the same breath would remove the
+ * only interface that explains what just happened. Host packages are excluded because they
+ * are the reference — disabling one removes services every plugin depends on, which is the
+ * opposite of a fix.
  * @param {object[]} entries
  * @returns {object[]}
  */
@@ -58,8 +62,26 @@ export function thirdPartyEntries(entries) {
   return entries.filter((entry) => {
     const name = typeof entry?.name === 'string' ? entry.name : ''
     const id = typeof entry?.id === 'string' ? entry.id : ''
-    return name !== '' && !name.startsWith('@deepseek-ai/') && !id.startsWith('dsh-plugin-health')
+    if (name === '') return false
+    if (name.startsWith('@deepseek-ai/')) return false
+    if (isSelf(name, id)) return false
+    return true
   })
+}
+
+/** Our own package name, and the ids it is registered under in a profile patch layer. */
+const SELF_NAME = 'dsh-plugin-health'
+const SELF_IDS = new Set(['plugin-health', SELF_NAME])
+
+/**
+ * Whether an entry is this tool. Matches the package name as well as the ids we register
+ * under, because a profile patch layer inserts us with the short id `plugin-health` while
+ * `name` carries the full package name.
+ * @param {string} name
+ * @param {string} id
+ */
+export function isSelf(name, id) {
+  return name === SELF_NAME || SELF_IDS.has(id) || id.startsWith('dsh-plugin-health')
 }
 
 /**

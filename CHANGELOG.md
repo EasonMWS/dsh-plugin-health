@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.8.2 (2026-10-29)
+
+### Fixed
+
+- **`boot safe` disabled this tool along with everything else.** The self-exclusion only
+  checked the entry `id` (`plugin-health`) and not the `name` (`dsh-plugin-health`), so a
+  profile that inserts us the normal way was swept up with every other third-party entry. That is
+  the one entry safe mode must always leave alone: it exists so the user can reach the health
+  panel that explains what happened. Both fields are checked now, with tests.
+
+131 tests (2 new), 130 pass, 1 platform skip.
+
 ## 0.8.1 (2026-10-29)
 
 ### Fixed

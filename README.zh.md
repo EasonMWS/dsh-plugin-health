@@ -7,7 +7,7 @@
 DeepSeek Harness（dsh）的**插件体检 + 一键修复**工具，带 **DSH 内的原生设置页**。
 不只告诉你哪些插件坏了，还能把**装得上、只是声明过时**的插件救回来，并且验证它真的能跑。
 
-> 状态：`0.8.1`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`0.8.2`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 **线上官方 format-1 索引：** <https://easonmws.github.io/dsh-plugin-health/index.json>

@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { parse as parseYaml } from 'yaml'
 
 import {
-  SAFE_MARKER, detectBootFailures, diagnoseBoot, enterSafeMode, readBootEvidence,
+  SAFE_MARKER, detectBootFailures, diagnoseBoot, enterSafeMode, isSelf, readBootEvidence,
   readProfilePatch, restoreSafeMode, thirdPartyEntries,
 } from '../src/rescue/boot.js'
 
@@ -149,4 +149,24 @@ test('diagnoseBoot suggests safe mode when no signature is recognisable', () => 
   const diagnosis = diagnoseBoot({ profileDir })
   assert.equal(diagnosis.thirdParty.length, 2)
   assert.match(diagnosis.advice.join(' '), /safe/u)
+})
+
+test('safe mode never disables this tool itself', () => {
+  // Safe mode exists so the user can reach the health panel; disabling ourselves would remove
+  // the interface that explains the state. The profile inserts us as id 'plugin-health' with
+  // name 'dsh-plugin-health', so both fields have to be checked.
+  const entries = [
+    { id: 'plugin-health', name: 'dsh-plugin-health' },
+    { id: 'recall', name: 'dsh-session-recall' },
+    { id: 'settings', name: '@deepseek-ai/dsh-client-ui-settings' },
+  ]
+  const third = thirdPartyEntries(entries)
+  assert.deepEqual(third.map(entry => entry.name), ['dsh-session-recall'])
+})
+
+test('isSelf recognises each identity the tool is registered under', () => {
+  assert.equal(isSelf('dsh-plugin-health', 'anything'), true)
+  assert.equal(isSelf('whatever', 'plugin-health'), true)
+  assert.equal(isSelf('whatever', 'dsh-plugin-health'), true)
+  assert.equal(isSelf('dsh-session-recall', 'recall'), false)
 })
