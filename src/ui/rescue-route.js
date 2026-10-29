@@ -119,11 +119,13 @@ export function createRescueHandlers({ currentProfile, dshDirectoryOf = discover
       }
     },
     async apply(body) {
-      const { profileDir, profile, runtimeVersion } = context()
+      const { home, profileDir, profile, runtimeVersion } = context()
       if (typeof body.plugin !== 'string' || typeof body.version !== 'string') {
         throw new Error('rescue needs plugin and version')
       }
-      const dshDirectory = body.dshDirectory ?? dshDirectoryOf(profileDir)
+      // discoverDshDirectory takes (home, profileDir); passing only one argument would
+      // silently search the wrong directories.
+      const dshDirectory = body.dshDirectory ?? dshDirectoryOf(home, profileDir)
       if (dshDirectory === undefined) throw new Error('no installed @deepseek-ai/dsh found to rehearse against')
       const result = await rescueImpl({
         profileDir, profile, dshDirectory,

@@ -9,6 +9,7 @@ import { homedir, platform } from 'node:os'
 import { join } from 'node:path'
 import { parse as parseYaml } from 'yaml'
 import { evaluatePluginCompatibility } from '../compat/evaluate.js'
+import { readExemptions } from '../rescue/rescue.js'
 
 const SEVERITY_ORDER = { error: 0, warn: 1, info: 2 }
 
@@ -397,6 +398,10 @@ function listPackageDirectories(directory) {
 
 function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest, incompatible = []) {
   if (runtimeVersion === undefined || runtimeVersion === '') return
+  // The host honours exact-version exemptions from this file, so a scan that ignores it
+  // reports a plugin as broken after the user already fixed it — exactly the kind of
+  // "the checker lies" behaviour this tool exists to avoid.
+  const exemptions = readExemptions(profileDir)
   const installed = manifest === undefined
     ? bundles.map((name) => ({ name, directory: nodeModulesPath(profileDir, name) }))
     : listInstalledPlugins(profileDir, manifest)
@@ -412,7 +417,7 @@ function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest,
     const read = safeReadJson(manifestPath)
     if (read.error !== undefined) continue
     try {
-      const issue = evaluatePluginCompatibility(read.value, { runtimeVersion })
+      const issue = evaluatePluginCompatibility(read.value, { runtimeVersion, exemptions })
       if (issue !== undefined && !issue.exempted) {
         findings.push(finding('plugin-incompatible', 'warn', `Installed plugin is incompatible with dsh ${runtimeVersion}: ${issue.name}@${issue.version}`,
           `Unmet requirements: ${Object.entries(issue.requirements).map(([key, range]) => `${key} ${range}`).join(', ')}.`,

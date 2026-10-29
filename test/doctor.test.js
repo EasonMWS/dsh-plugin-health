@@ -99,3 +99,64 @@ test('applyRepairs quarantines broken directories and rewrites the patch', async
     fixture.cleanup()
   }
 })
+
+// --- exemptions must be honoured by the scan -------------------------------------------
+// A scan that ignores compatibility.json reports a plugin as broken right after the user
+// rescued it. That is the "the checker lies" failure this tool exists to prevent.
+
+function exemptFixture() {
+  const home = mkdtempSync(join(tmpdir(), 'dsh-health-exempt-'))
+  const profile = join(home, 'profiles', 'desktop')
+  const pluginDir = join(profile, 'node_modules', 'legacy-plugin')
+  mkdirSync(pluginDir, { recursive: true })
+  writeFileSync(join(profile, 'package.json'), JSON.stringify({
+    name: 'dsh-profile-desktop',
+    private: true,
+    dsh: { profile: { bundles: ['legacy-plugin'] } },
+    dependencies: { 'legacy-plugin': '1.0.0' },
+  }))
+  writeFileSync(join(pluginDir, 'package.json'), JSON.stringify({
+    name: 'legacy-plugin',
+    version: '1.0.0',
+    peerDependencies: { '@deepseek-ai/dsh-tools': '0.2.1-rc.2' },
+  }))
+  return { home, profile }
+}
+
+test('the scan stops reporting a plugin once an exact-version exemption covers the host', () => {
+  const { home, profile } = exemptFixture()
+  try {
+    const before = inspectDshHome({ home, profile: 'desktop', runtimeVersion: '0.2.1-rc.4' })
+    assert.equal(
+      before.findings.some(f => f.id === 'plugin-incompatible'), true,
+      'the plugin declares support only for rc.2, so it must be reported first',
+    )
+
+    writeFileSync(join(profile, 'compatibility.json'), JSON.stringify({
+      'legacy-plugin@1.0.0': ['0.2.1-rc.4'],
+    }))
+    const after = inspectDshHome({ home, profile: 'desktop', runtimeVersion: '0.2.1-rc.4' })
+    assert.equal(
+      after.findings.some(f => f.id === 'plugin-incompatible'), false,
+      'the host honours this exemption, so the scan must honour it too',
+    )
+  } finally {
+    rmSync(home, { recursive: true, force: true })
+  }
+})
+
+test('an exemption for a different runtime version does not silence the finding', () => {
+  const { home, profile } = exemptFixture()
+  try {
+    writeFileSync(join(profile, 'compatibility.json'), JSON.stringify({
+      'legacy-plugin@1.0.0': ['0.2.1-rc.2'],
+    }))
+    const result = inspectDshHome({ home, profile: 'desktop', runtimeVersion: '0.2.1-rc.4' })
+    assert.equal(
+      result.findings.some(f => f.id === 'plugin-incompatible'), true,
+      'exemptions are exact: a different host version must not be covered',
+    )
+  } finally {
+    rmSync(home, { recursive: true, force: true })
+  }
+})

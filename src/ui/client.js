@@ -269,7 +269,9 @@ window.__ModuleLoader__.load({
           + '在临时环境里把它装一遍、启动一遍，看代码本身到底能不能用。'),
         busy
           ? h('div', { key: 'b', style: { marginTop: 10, fontSize: 13, opacity: 0.7 } },
-            rescue.phase === 'rehearsing' ? '正在隔离环境里试装并启动，大约需要 30~60 秒…' : '正在应用…')
+            rescue.phase === 'rehearsing'
+              ? '正在隔离环境里试装并启动，大约需要 30~60 秒…'
+              : '正在重新验证一次，然后写入配置（这样确保放行的正是刚刚验证过的状态）…')
           : null,
         rescue.error !== undefined
           ? h('div', { key: 'e', style: { marginTop: 10, fontSize: 13, color: COLORS.warn } }, `检查失败：${rescue.error}`)

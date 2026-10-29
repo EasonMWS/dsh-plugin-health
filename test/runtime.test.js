@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { runBoundedProcess, runRuntimeSmoke } from '../src/runtime/smoke.js'
+import { resolvePluginIdentity, runBoundedProcess, runRuntimeSmoke } from '../src/runtime/smoke.js'
 import { verifyActivation, verifyTools } from '../src/runtime/worker.js'
 
 // Retain each run so a failed test can be inspected using its smoke.json.
@@ -182,4 +182,57 @@ test('a successful parent leaving background descendants fails and stops their p
   const pid = Number(result.stdout.trim())
   assert.ok(pid > 0)
   assert.throws(() => process.kill(pid, 0), { code: 'ESRCH' })
+})
+
+// --- plugin identity resolution -------------------------------------------------------
+// A CI run failed because a packed tarball was treated as a directory: `existsSync` is
+// true for any path, so reading `<tarball>/package.json` threw instead of the smoke run
+// proceeding. These tests pin the three shapes a plugin spec can take.
+
+test('resolvePluginIdentity reads a local directory manifest', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'dsh-health-identity-'))
+  writeFileSync(join(directory, 'package.json'), JSON.stringify({ name: '@scope/pkg', version: '1.2.3' }))
+  assert.deepEqual(resolvePluginIdentity(directory), { name: '@scope/pkg', version: '1.2.3' })
+})
+
+test('resolvePluginIdentity splits a registry spec, including scoped names', () => {
+  assert.deepEqual(resolvePluginIdentity('pkg@1.2.3'), { name: 'pkg', version: '1.2.3' })
+  assert.deepEqual(resolvePluginIdentity('@scope/pkg@1.2.3'), { name: '@scope/pkg', version: '1.2.3' })
+})
+
+test('resolvePluginIdentity refuses a single file instead of reading it as a directory', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'dsh-health-identity-'))
+  const tarball = join(directory, 'pkg-1.0.0.tgz')
+  writeFileSync(tarball, 'not really a tarball')
+  assert.throws(() => resolvePluginIdentity(tarball), /cannot read the plugin identity/u)
+})
+
+test('resolvePluginIdentity accepts an explicit identity for a tarball', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'dsh-health-identity-'))
+  const tarball = join(directory, 'pkg-1.0.0.tgz')
+  writeFileSync(tarball, 'not really a tarball')
+  assert.deepEqual(
+    resolvePluginIdentity(tarball, { name: '@scope/pkg', version: '1.0.0' }),
+    { name: '@scope/pkg', version: '1.0.0' },
+  )
+})
+
+test('resolvePluginIdentity rejects a bare name, which has no version to exempt', () => {
+  assert.throws(() => resolvePluginIdentity('pkg'), /exact name@version/u)
+})
+
+test('a boot-only smoke run over a tarball never resolves the identity', async () => {
+  // The regression: this used to throw during argument handling, before installing anything.
+  const directory = mkdtempSync(join(tmpdir(), 'dsh-health-identity-'))
+  const host = join(directory, 'host')
+  mkdirSync(host, { recursive: true })
+  writeFileSync(join(host, 'package.json'), JSON.stringify({ name: '@deepseek-ai/dsh', version: '0.2.1-rc.4', bin: { dsh: 'bin/dsh.mjs' } }))
+  const tarball = join(directory, 'pkg-1.0.0.tgz')
+  writeFileSync(tarball, 'not really a tarball')
+  const report = await runRuntimeSmoke(
+    { dshDirectory: host, plugin: tarball, bootOnly: true },
+    { runProcess: async () => ({ ok: false, exitCode: 1, stdout: '', stderr: 'install rejected by the host' }) },
+  )
+  assert.equal(report.ok, false)
+  assert.equal(report.stages[0].name, 'install', 'the run must reach the install stage, not fail on identity')
 })

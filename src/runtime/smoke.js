@@ -1,6 +1,6 @@
 /** Opt-in runtime acceptance in a new, retained DSH home. */
 import { spawn } from 'node:child_process'
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -85,13 +85,21 @@ export function runBoundedProcess(args, { cwd, env, timeoutMs, killAfterMs = 100
 }
 
 /**
- * Resolve `{ name, version }` for a plugin spec: a local directory/tarball is read from
- * its manifest, a registry spec is split on the last `@` that is not the scope separator.
- * Throws with a readable message when the identity cannot be established, because
- * `allow-version` cannot be granted blindly.
+ * Resolve `{ name, version }` for a plugin spec.
+ *
+ * Three shapes reach here: a registry spec (`@scope/pkg@1.2.3`), a local directory to
+ * pack, and a local tarball. Only the directory can be read directly; a tarball has to
+ * be unpacked, so its identity comes from the database record npm writes next to it, or
+ * from the caller passing `name@version` explicitly.
+ * @param {string} spec
+ * @param {{name?: string, version?: string}} [known] - identity supplied by the caller,
+ *   which is the only way to identify a tarball without unpacking it.
  */
-export function resolvePluginIdentity(spec) {
-  if (existsSync(spec)) {
+export function resolvePluginIdentity(spec, known = {}) {
+  if (typeof known.name === 'string' && known.name !== '' && typeof known.version === 'string' && known.version !== '') {
+    return { name: known.name, version: known.version }
+  }
+  if (existsSync(spec) && statSync(spec).isDirectory()) {
     const manifestPath = join(resolve(spec), 'package.json')
     if (!existsSync(manifestPath)) {
       throw new Error(`--bypass-gate needs a package.json to read the plugin identity from: ${manifestPath}`)
@@ -101,6 +109,14 @@ export function resolvePluginIdentity(spec) {
       throw new Error(`--bypass-gate needs name and version in ${manifestPath}`)
     }
     return { name: manifest.name, version: manifest.version }
+  }
+  if (existsSync(spec)) {
+    // A tarball or any other single file: its identity is not readable from the path, and
+    // guessing it from the filename would be wrong for scoped packages.
+    throw new Error(
+      `--bypass-gate cannot read the plugin identity from ${spec}; `
+      + 'pass the plugin as name@version (for example @scope/pkg@1.2.3) so the exemption can name it exactly',
+    )
   }
   const at = spec.lastIndexOf('@')
   if (at <= 0) {
@@ -133,6 +149,7 @@ export function resolvePluginIdentity(spec) {
  */
 export async function runRuntimeSmoke({
   dshDirectory, plugin, tools = [], calls = [], out, bootOnly = false, bypassGate = false,
+  pluginName, pluginVersion,
   timeoutMs = 30_000, installTimeoutMs = 120_000,
 }, { runProcess = runBoundedProcess } = {}) {
   if (typeof dshDirectory !== 'string' || typeof plugin !== 'string' || plugin === '' || plugin.startsWith('-')) {
@@ -154,11 +171,14 @@ export async function runRuntimeSmoke({
   const bin = typeof manifest.bin === 'string' ? manifest.bin : manifest.bin?.dsh
   if (typeof bin !== 'string') throw new Error('the installed DSH package declares no dsh executable')
   const pluginSpec = existsSync(plugin) ? resolve(plugin) : plugin
-  // `allow-version` needs the exact `name@version` pair the gate rejected, so resolve it
-  // from the installed manifest for tarballs/directories and from the spec for registry names.
-  const resolved = resolvePluginIdentity(pluginSpec)
-  const pluginName = resolved.name
-  const installedVersion = resolved.version
+  // `allow-version` needs the exact `name@version` pair the gate rejected. Only resolve it
+  // when we are actually going to grant the exemption: a plain smoke run must not fail
+  // just because a tarball's identity cannot be read from its path.
+  const resolved = bypassGate
+    ? resolvePluginIdentity(pluginSpec, { name: pluginName, version: pluginVersion })
+    : { name: undefined, version: undefined }
+  const resolvedName = resolved.name
+  const resolvedVersion = resolved.version
   const parent = out === undefined ? tmpdir() : resolve(out)
   mkdirSync(parent, { recursive: true })
   const directory = mkdtempSync(join(parent, 'dsh-health-smoke-'))
@@ -181,7 +201,7 @@ export async function runRuntimeSmoke({
       // for inside the isolated home so the install can proceed and the boot can be judged.
       const granted = await runProcess([
         resolve(hostDir, bin), 'plugin', '--profile', profile, 'allow-version',
-        `${pluginName}@${installedVersion}`, '--dsh-version', manifest.version, '--accept-risk',
+        `${resolvedName}@${resolvedVersion}`, '--dsh-version', manifest.version, '--accept-risk',
       ], { cwd: directory, env, timeoutMs: installTimeoutMs })
       report.stages.push({ name: 'allow-version', ...granted })
       save()
