@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.7.0 (2026-10-29)
+
+### Added
+
+- **The whole settings page follows the host language**, not just the section label. Every string
+  the panel renders — the description, severity labels, findings, repair plan, results and the
+  sidebar alert — now comes from the host locale registry, so an English DSH gets an English
+  panel. Contributed by [@po-et](https://github.com/po-et) in
+  [#5](https://github.com/EasonMWS/dsh-plugin-health/pull/5), fixing
+  [#4](https://github.com/EasonMWS/dsh-plugin-health/issues/4).
+- The rescue flow is localized too, in the same pass here rather than later: it landed after #5
+  was written, so all twelve of its strings were still hardcoded Chinese.
+  `scripts/check-rescue-i18n.js` asserts the rescue block contains no CJK literals and that every
+  key it uses exists in both dictionaries.
+
+### Changed
+
+- The host no longer composes the rescue verdict sentence: `verdictMessage` returns a
+  `messageKey` and the browser half translates it. The host cannot know which language the user
+  reads, so deciding there would have produced one language regardless of the setting.
+
 ## 0.6.1 (2026-10-29)
 
 ### Fixed
