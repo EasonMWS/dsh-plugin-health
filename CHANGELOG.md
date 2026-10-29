@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.6.1 (2026-10-29)
+
+### Fixed
+
+- **A packed tarball is no longer treated as a directory.** Identity resolution used
+  existsSync alone, so reading <tarball>/package.json threw before the smoke run could
+  install anything — which is what broke the two untime acceptance CI jobs on 0.6.0.
+  Identity is now resolved only when --bypass-gate is set, directories are checked with
+  statSync, and a file produces a readable request for 
+ame@version.
+- **The scan now honours the host's exact-version exemptions.** inspectRuntime evaluated
+  compatibility without reading compatibility.json, so a plugin the user had just rescued
+  was still reported as incompatible — the checker contradicting a state the host already
+  accepted. Both directions are covered by tests: an exemption for the running version
+  silences the finding, an exemption for a different version does not.
+- The rescue apply handler called discoverDshDirectory with one argument instead of two,
+  so it searched the wrong directories for an installed host.
+
+102 tests (8 new), 101 pass, 1 platform skip.
+
 ## 0.6.0 (2026-10-29)
 
 ### Added
