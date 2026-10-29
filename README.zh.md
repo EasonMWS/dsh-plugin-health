@@ -7,7 +7,7 @@
 DeepSeek Harness（dsh）的**插件体检 + 一键修复**工具，带 **DSH 内的原生设置页**。
 不只告诉你哪些插件坏了，还能把**装得上、只是声明过时**的插件救回来，并且验证它真的能跑。
 
-> 状态：`0.7.0`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`0.8.0`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 **线上官方 format-1 索引：** <https://easonmws.github.io/dsh-plugin-health/index.json>
@@ -70,6 +70,26 @@ DSH 在安装时会读插件自己声明的版本范围。只要范围里没有�
 
 **临时放行 = 门禁放行，不等于官方支持。** 我们只保证它在隔离环境里能启动；
 插件的具体功能是否完全正常，仍需你自己观察。等作者发布正式支持版本后，请撤销临时放行并升级。
+
+## DSH 起不来的时候
+
+插件坏了导致 DSH 根本启动不了时，设置页自然也打不开——那些功能都跑在 DSH 里面。
+所以这三个命令**完全独立于 DSH**，只要能开终端就能用：
+
+```sh
+# 1. 先看为什么起不来（读宿主留下的日志和静态检查）
+dsh-plugin-health boot diagnose --profile desktop
+
+# 2. 实在查不出，就先把所有第三方插件停掉，让 DSH 能启动
+dsh-plugin-health boot safe --profile desktop --apply
+
+# 3. 找到元凶、修好之后，恢复原状
+dsh-plugin-health boot restore --profile desktop --apply
+```
+
+`boot safe` 只往 profile 自己的补丁层追加 `disabled: true`：
+**不删文件、不动插件、宿主自带条目一律不碰**。`boot restore` 只移除它自己加的条目，
+你自己的配置原样保留。两者默认都是 dry-run，加 `--apply` 才真正写。
 
 ## 你在找“插件管理器 / 插件检查 / 插件冲突检测”吗？
 

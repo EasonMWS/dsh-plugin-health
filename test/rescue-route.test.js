@@ -1,5 +1,8 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 
 import { createRescueHandlers, verdictMessage, RESCUE_PATH } from '../src/ui/rescue-route.js'
 
@@ -124,4 +127,89 @@ test('status merges the upstream verdict for every active rescue only', async ()
 test('handlers fail cleanly when the running profile is unknown', async () => {
   const handlers = createRescueHandlers({ currentProfile: () => ({}), dshDirectoryOf: () => '/host/dsh' })
   await assert.rejects(() => handlers.rehearse({ plugin: 'p', version: '1' }), /running profile is unknown/u)
+})
+
+test('handoff returns the prompt text but never sends it anywhere', async () => {
+  const home = mkdtempSync(join(tmpdir(), 'dsh-rescue-ui-'))
+  const profileDir = join(home, 'profiles', 'desktop')
+  mkdirSync(join(profileDir, 'node_modules', 'legacy'), { recursive: true })
+  writeFileSync(join(profileDir, 'node_modules', 'legacy', 'package.json'), JSON.stringify({
+    name: 'legacy', version: '1.0.0',
+    peerDependencies: { '@deepseek-ai/dsh-tools': '0.2.1-rc.3' },
+    repository: 'https://github.com/o/r',
+  }))
+  try {
+    const handlers = createRescueHandlers({
+      currentProfile: () => ({ home, profile: 'desktop', runtimeVersion: '0.2.1-rc.4' }),
+      toolVersion: '9.9.9',
+    })
+    const result = await handlers.handoff({ plugin: 'legacy', version: '1.0.0', rehearsal: { ok: false, stages: [] } })
+    assert.match(result.prompt, /legacy/u)
+    assert.match(result.prompt, /Acceptance criteria/u)
+    assert.ok(result.files.some(file => file.endsWith('prompt.md')))
+    assert.equal(result.sent, undefined, 'the handler returns text; it must not report having sent anything')
+  } finally {
+    rmSync(home, { recursive: true, force: true })
+  }
+})
+
+test('report checks upstream first and returns the draft without filing it', async () => {
+  const home = mkdtempSync(join(tmpdir(), 'dsh-rescue-ui-'))
+  const profileDir = join(home, 'profiles', 'desktop')
+  mkdirSync(join(profileDir, 'node_modules', 'legacy'), { recursive: true })
+  writeFileSync(join(profileDir, 'node_modules', 'legacy', 'package.json'), JSON.stringify({
+    name: 'legacy', version: '1.0.0',
+    peerDependencies: { '@deepseek-ai/dsh-tools': '0.2.1-rc.3' },
+    repository: 'https://github.com/o/r',
+  }))
+  const seen = []
+  try {
+    const handlers = createRescueHandlers({
+      currentProfile: () => ({ home, profile: 'desktop', runtimeVersion: '0.2.1-rc.4' }),
+      toolVersion: '9.9.9',
+      fetchImpl: async (url) => {
+        seen.push(url)
+        return { ok: true, json: async () => ({ items: [{ number: 7, title: 'existing', state: 'open', html_url: 'https://github.com/o/r/issues/7' }] }) }
+      },
+    })
+    const result = await handlers.report({ plugin: 'legacy', version: '1.0.0' })
+    assert.match(seen[0], /search\/issues/u, 'it must look for an existing report first')
+    assert.equal(result.existing.length, 1)
+    assert.match(result.newIssueUrl, /issues\/new/u)
+    assert.match(result.body, /dsh-plugin-health-report/u)
+  } finally {
+    rmSync(home, { recursive: true, force: true })
+  }
+})
+
+test('report refuses when the repository cannot be determined', async () => {
+  const home = mkdtempSync(join(tmpdir(), 'dsh-rescue-ui-'))
+  const profileDir = join(home, 'profiles', 'desktop')
+  mkdirSync(join(profileDir, 'node_modules', 'legacy'), { recursive: true })
+  writeFileSync(join(profileDir, 'node_modules', 'legacy', 'package.json'), JSON.stringify({
+    name: 'legacy', version: '1.0.0',
+    peerDependencies: { '@deepseek-ai/dsh-tools': '0.2.1-rc.3' },
+  }))
+  try {
+    const handlers = createRescueHandlers({
+      currentProfile: () => ({ home, profile: 'desktop', runtimeVersion: '0.2.1-rc.4' }),
+    })
+    await assert.rejects(() => handlers.report({ plugin: 'legacy', version: '1.0.0' }), /cannot work out a GitHub repository/u)
+  } finally {
+    rmSync(home, { recursive: true, force: true })
+  }
+})
+
+test('handoff and report reject a plugin that is not installed', async () => {
+  const home = mkdtempSync(join(tmpdir(), 'dsh-rescue-ui-'))
+  mkdirSync(join(home, 'profiles', 'desktop'), { recursive: true })
+  try {
+    const handlers = createRescueHandlers({
+      currentProfile: () => ({ home, profile: 'desktop', runtimeVersion: '0.2.1-rc.4' }),
+    })
+    await assert.rejects(() => handlers.handoff({ plugin: 'ghost', version: '1.0.0' }), /not installed/u)
+    await assert.rejects(() => handlers.report({ plugin: 'ghost', version: '1.0.0' }), /not installed/u)
+  } finally {
+    rmSync(home, { recursive: true, force: true })
+  }
 })

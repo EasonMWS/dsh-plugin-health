@@ -14,10 +14,14 @@
  * @module ui/rescue-route
  */
 import { randomBytes } from 'node:crypto'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
-import { rehearse, rescuePlugin, undoRescue, auditRescues } from '../rescue/rescue.js'
+import { auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue } from '../rescue/rescue.js'
 import { checkUpstream } from '../rescue/upstream.js'
 import { discoverDshDirectory } from '../rescue/environment.js'
+import { buildReport, findExistingReports, repositorySlug } from '../rescue/reporting.js'
+import { buildBrief, renderPrompt, writeHandoff } from '../rescue/handoff.js'
 
 /** Route namespace, absolute so the browser half can call it from the DSH origin. */
 export const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
@@ -75,7 +79,17 @@ export function verdictMessage(verdict) {
  * @param {() => {home?: string, profile?: string, runtimeVersion?: string}} options.currentProfile
  * @returns {object} route handlers keyed by action.
  */
-export function createRescueHandlers({ currentProfile, dshDirectoryOf = discoverDshDirectory, rehearseImpl = rehearse, rescueImpl = rescuePlugin, undoImpl = undoRescue, auditImpl = auditRescues, upstreamImpl = checkUpstream }) {
+export function createRescueHandlers({
+  currentProfile,
+  dshDirectoryOf = discoverDshDirectory,
+  rehearseImpl = rehearse,
+  rescueImpl = rescuePlugin,
+  undoImpl = undoRescue,
+  auditImpl = auditRescues,
+  upstreamImpl = checkUpstream,
+  fetchImpl,
+  toolVersion,
+}) {
   /** Resolve the profile context or fail with a readable reason. */
   const context = () => {
     const { home, profile, runtimeVersion } = currentProfile() ?? {}
@@ -135,7 +149,9 @@ export function createRescueHandlers({ currentProfile, dshDirectoryOf = discover
     async status() {
       const { profileDir, runtimeVersion } = context()
       const audits = auditImpl(profileDir, {
-        readManifest: () => undefined,
+        // Reading the installed version is what makes a rescue go stale: once the author
+        // ships a release the exemption is no longer needed.
+        readManifest: (name) => readInstalledManifest(profileDir, name),
         runtimeVersion,
       })
       const active = audits.filter(entry => entry.active)
@@ -149,6 +165,78 @@ export function createRescueHandlers({ currentProfile, dshDirectoryOf = discover
         }),
       }
     },
+    /**
+     * Write the AI brief and return the prompt. Nothing is sent anywhere: the UI shows the
+     * text so the user decides whether to paste it into their own agent, and the tool
+     * never calls a model or spends their tokens.
+     */
+    async handoff(body) {
+      const { profileDir, runtimeVersion } = context()
+      if (typeof body.plugin !== 'string' || typeof body.version !== 'string') {
+        throw new Error('handoff needs plugin and version')
+      }
+      const manifest = readInstalledManifest(profileDir, body.plugin)
+      if (manifest === undefined) throw new Error(`plugin is not installed: ${body.plugin}`)
+      const conflict = declarationConflict(manifest, runtimeVersion)
+      const brief = buildBrief({
+        name: body.plugin,
+        version: body.version,
+        runtimeVersion,
+        requirements: conflict.requirements,
+        installedManifest: manifest,
+        smokeReport: body.rehearsal,
+        repositoryUrl: repositorySlug(manifest) === undefined ? undefined : `https://github.com/${repositorySlug(manifest)}`,
+        toolVersion,
+      })
+      const written = writeHandoff(profileDir, brief, body.rehearsal)
+      return { directory: written.directory, prompt: renderPrompt(brief), files: written.files }
+    },
+    /**
+     * Check upstream for an existing report before drafting one. Read-only until the user
+     * copies the text; this never files anything.
+     */
+    async report(body) {
+      const { profileDir, runtimeVersion } = context()
+      if (typeof body.plugin !== 'string' || typeof body.version !== 'string') {
+        throw new Error('report needs plugin and version')
+      }
+      const manifest = readInstalledManifest(profileDir, body.plugin)
+      if (manifest === undefined) throw new Error(`plugin is not installed: ${body.plugin}`)
+      const slug = repositorySlug(manifest)
+      if (slug === undefined) throw new Error(`cannot work out a GitHub repository for ${body.plugin}`)
+      const existing = await findExistingReports({
+        slug, name: body.plugin, runtimeVersion, fetchImpl: fetchImpl ?? undefined,
+      })
+      const conflict = declarationConflict(manifest, runtimeVersion)
+      const draft = buildReport({
+        name: body.plugin,
+        version: body.version,
+        runtimeVersion,
+        requirements: conflict.requirements,
+        rehearsal: body.rehearsalVerdict,
+        repositoryUrl: `https://github.com/${slug}`,
+        toolVersion,
+      })
+      return {
+        slug,
+        checked: existing.checked,
+        error: existing.error ?? null,
+        existing: existing.existing,
+        newIssueUrl: `https://github.com/${slug}/issues/new`,
+        title: draft.title,
+        body: draft.body,
+      }
+    },
+  }
+}
+
+/** Read a plugin's installed manifest from the profile, tolerating absence. */
+function readInstalledManifest(profileDir, name) {
+  if (typeof name !== 'string' || name === '') return undefined
+  try {
+    return JSON.parse(readFileSync(join(profileDir, 'node_modules', name, 'package.json'), 'utf8'))
+  } catch {
+    return undefined
   }
 }
 
@@ -161,9 +249,9 @@ export function createRescueHandlers({ currentProfile, dshDirectoryOf = discover
  * @param {object} ctx - Cordis context.
  * @param {{currentProfile: () => {home?: string, profile?: string, runtimeVersion?: string}, key: string}} options
  */
-export function registerRescueRoute(ctx, { currentProfile, key }) {
+export function registerRescueRoute(ctx, { currentProfile, key, toolVersion }) {
   if (typeof key !== 'string' || key === '') throw new Error('rescue route needs the control key from the repair route')
-  const handlers = createRescueHandlers({ currentProfile })
+  const handlers = createRescueHandlers({ currentProfile, toolVersion })
   ctx.inject(['webServer'], (webCtx) => {
     webCtx.effect(() => {
       const dispose = webCtx.webServer.register({

@@ -9,7 +9,7 @@ Plugin health check **and repair** for
 page inside DSH. It does not stop at telling you which plugins are broken: it can bring back the
 ones that are merely mis-declared, and it verifies they actually boot before touching your profile.
 
-> Status: `0.7.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.8.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
@@ -76,6 +76,27 @@ and undo restores exactly the value that was there before.
 **A temporary exemption means the gate lets it through — not that it is supported.** We only prove
 it boots in isolation; whether every feature works is still on you to observe. When the author ships
 an official version, revoke the exemption and upgrade.
+
+## When DSH will not start at all
+
+If a plugin stops DSH from booting, the settings page cannot help — it runs inside DSH. These three
+commands run **entirely outside the host**, so they still work from a terminal:
+
+```sh
+# 1. Why did it fail? Reads the logs the host left behind, plus static checks.
+dsh-plugin-health boot diagnose --profile desktop
+
+# 2. Cannot tell? Disable every third-party entry so DSH starts again.
+dsh-plugin-health boot safe --profile desktop --apply
+
+# 3. Once the culprit is fixed, put everything back.
+dsh-plugin-health boot restore --profile desktop --apply
+```
+
+`boot safe` only appends `disabled: true` overlays to the profile's own patch layer: **no files are
+deleted, no plugin is modified, and host entries are never touched.** `boot restore` removes only the
+entries it added, leaving your own patches exactly as they were. Both default to a dry run; add
+`--apply` to write.
 
 ## Looking for a plugin manager / doctor / checker?
 

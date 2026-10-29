@@ -19,6 +19,15 @@ import { registerRescueRoute } from './ui/rescue-route.js'
 export const name = 'plugin-health'
 export const inject = ['tools']
 
+/** This package's own version, recorded in generated briefs and reports. */
+const VERSION = (() => {
+  try {
+    return JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version
+  } catch {
+    return undefined
+  }
+})()
+
 /**
  * Read the host DSH version when the host's `dsh-app-boot` package is resolvable.
  * @returns {string|undefined} semantic version, or undefined when it cannot be read.
@@ -75,7 +84,7 @@ export async function apply(ctx) {
         resolveProfile,
         getStatus: () => cachedStatus({ ...resolveProfile(), runtimeVersion: hostRuntimeVersion() }),
       })
-      registerRescueRoute(ctx, { currentProfile: resolveProfile, key })
+      registerRescueRoute(ctx, { currentProfile: resolveProfile, key, toolVersion: VERSION })
     }
   } catch (error) {
     try {

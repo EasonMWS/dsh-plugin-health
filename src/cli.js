@@ -19,6 +19,7 @@ import { checkUpstream } from './rescue/upstream.js'
 import { buildReport, findExistingReports, rememberReport, repositorySlug } from './rescue/reporting.js'
 import { buildBrief, writeHandoff } from './rescue/handoff.js'
 import { discoverDshDirectory, hostVersionOf } from './rescue/environment.js'
+import { diagnoseBoot, enterSafeMode, restoreSafeMode } from './rescue/boot.js'
 
 const VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version
 const BOOLEAN_OPTIONS = new Set([
@@ -142,6 +143,14 @@ export function usage() {
     '  dsh-plugin-health rescue --profile <name> --plugin <name@version> [--apply] [--undo] [--status]',
     '  dsh-plugin-health handoff --profile <name> --plugin <name@version>',
     '  dsh-plugin-health report --profile <name> --plugin <name@version>',
+    '  dsh-plugin-health boot diagnose|safe|restore [--profile <name>] [--apply]',
+    '',
+    'boot options (the only commands that work when DSH itself will not start):',
+    '  diagnose               explain why boot fails, from the logs the host left behind',
+    '  safe                   disable every third-party entry so DSH starts again',
+    '  restore                remove the safe-mode overlay, leaving your own patches alone',
+    '  --apply                actually write; without it every boot action is a dry run',
+    '  --profile <name>       profile to inspect (default: desktop)',
     '',
     'rescue options (rehearse a rejected plugin in a throwaway home, then exempt it if it boots):',
     '  --profile <name>       profile whose plugins and exemptions are used (required)',
@@ -570,12 +579,76 @@ async function cmdReport(options) {
 }
 
 /**
+ * Boot guard. This is the only command group that still works when DSH itself cannot
+ * start, which is why it never imports the UI or asks the host anything.
+ * @param {Map<string, unknown[]>} options
+ * @param {string[]} positionals - `boot <action>`; the action is the first positional.
+ */
+async function cmdBoot(options, positionals = []) {
+  const home = resolveDshHome(lastString(options, 'home'))
+  const profile = lastString(options, 'profile') ?? 'desktop'
+  const profileDir = join(home, 'profiles', profile)
+  if (!existsSync(profileDir)) throw new UsageError(`no such profile: ${profile} (looked in ${profileDir})`)
+  const action = lastString(options, 'boot-action') ?? positionals[0] ?? 'diagnose'
+
+  if (action === 'diagnose') {
+    const diagnosis = diagnoseBoot({ profileDir })
+    if (booleanOption(options, 'json')) {
+      console.log(JSON.stringify({ profile, profileDir, ...diagnosis }, null, 2))
+      return diagnosis.failures.length > 0 || diagnosis.patchInvalid ? 1 : 0
+    }
+    console.log(`boot diagnosis for profile ${profile}`)
+    console.log(`  directory: ${profileDir}`)
+    console.log(`  third-party entries: ${diagnosis.thirdParty.length}`)
+    if (diagnosis.patchInvalid) console.log(`  ✗ ${diagnosis.patchInvalid ? 'patch layer cannot be parsed' : ''}`)
+    if (diagnosis.failures.length === 0) {
+      console.log('  no recognisable failure signature in the logs')
+    } else {
+      console.log('  failure signatures:')
+      for (const failure of diagnosis.failures.slice(0, 8)) console.log(`    ✗ [${failure.kind}] ${failure.line}`)
+    }
+    for (const line of diagnosis.advice) console.log(`\n  ${line}`)
+    console.log('\n  next: "boot safe --profile ' + profile + '" disables every third-party entry so DSH can start.')
+    return 0
+  }
+
+  if (action === 'safe') {
+    const dryRun = !booleanOption(options, 'apply')
+    const result = enterSafeMode(profileDir, { dryRun })
+    if (booleanOption(options, 'json')) { console.log(JSON.stringify(result, null, 2)); return 0 }
+    if (!result.changed) { console.log(`nothing to disable: ${result.alreadyDisabled} entry(ies) already disabled`); return 0 }
+    console.log(`${dryRun ? 'would disable' : 'disabled'} ${result.added.length} third-party entr(ies) in ${result.file}`)
+    for (const entry of result.added) console.log(`  - ${entry.name ?? entry.id}`)
+    if (dryRun) {
+      console.log('\ndry run; nothing changed. Re-run with --apply to write the overlay.')
+      console.log('reverse it at any time with: dsh-plugin-health boot restore --profile ' + profile + ' --apply')
+    } else {
+      console.log('\nnow start DSH. Re-enable plugins one at a time to find the culprit, then run:')
+      console.log('  dsh-plugin-health boot restore --profile ' + profile + ' --apply')
+    }
+    return 0
+  }
+
+  if (action === 'restore') {
+    const dryRun = !booleanOption(options, 'apply')
+    const result = restoreSafeMode(profileDir, { dryRun })
+    if (booleanOption(options, 'json')) { console.log(JSON.stringify(result, null, 2)); return 0 }
+    if (result.removed === 0) { console.log('no safe-mode overlay found; nothing to restore'); return 0 }
+    console.log(`${dryRun ? 'would remove' : 'removed'} ${result.removed} safe-mode entr(ies) from ${result.file}`)
+    if (dryRun) console.log('\ndry run; nothing changed. Re-run with --apply to write the change.')
+    return 0
+  }
+
+  throw new UsageError(`unknown boot action: ${action} (expected diagnose, safe, or restore)`)
+}
+
+/**
  * Run one CLI invocation.
  * @param {readonly string[]} argv - arguments without node/script.
  * @returns {Promise<number>} exit code.
  */
 export async function main(argv) {
-  const { command, options } = parseArgv(argv)
+  const { command, options, positionals } = parseArgv(argv)
   if (command === 'help' || command === '-h' || command === '--help' || booleanOption(options, 'help')) {
     console.log(usage())
     return 0
@@ -596,6 +669,7 @@ export async function main(argv) {
       case 'rescue': return await cmdRescue(options)
       case 'handoff': return await cmdHandoff(options)
       case 'report': return await cmdReport(options)
+      case 'boot': return await cmdBoot(options, positionals)
       default:
         console.error(`unknown command: ${command}`)
         console.error(usage())

@@ -274,8 +274,8 @@ window.__ModuleLoader__.load({
         checked: '共检查 {count} 个插件', checkedWithVersion: '共检查 {count} 个插件，DSH {version}',
         scanning: '正在扫描…', rescan: '重新扫描', checking: '正在检查…', checkFailed: '检查失败',
         checkRetry: 'DSH 刚启动时可能还没准备好，点「重新扫描」再试一次。',
-        omitted: '{count} 条提示不影响使用，已省略。', repair: '一键修复 {count} 项',
-        repairSafety: '安全：只隔离不删除，原文件可以在隔离区找回；会先给你看修复计划。',
+        omitted: '{count} 条提示不影响使用，已省略。', repair: '清理 {count} 项损坏文件',
+        repairSafety: '这些项是装坏的文件：只隔离不删除，原文件可以在隔离区找回，执行前会先给你看计划。',
         planning: '正在生成修复计划…', planned: '将要执行的操作', manual: '另有 {count} 项需要你手动处理，不会动。',
         confirm: '确认修复', cancel: '取消', nothing: '这些问题需要你手动处理，工具不会自动改。', applying: '正在应用…',
         repaired: '已修复 {count} 项', quarantined: '已隔离：{path}', rewritten: '已重写：{path}（备份在隔离区）',
@@ -286,7 +286,7 @@ window.__ModuleLoader__.load({
         'plan.package-dir-broken': '把不完整或损坏的目录移到隔离区，然后重新安装插件。',
         'plan.patch-empty-entry': '移除顶层空 [] 条目，并备份原始文件。',
         'plan.residue': '把残留文件移到隔离区；可以从那里恢复。',
-        rescueTitle: '可以尝试修复',
+        rescueTitle: '修复兼容问题',
         rescueWhy: '大部分“不兼容”只是插件把版本号写死了，代码本身在新 DSH 上照样能跑。下面会先在临时环境里验证，确认能用才动你的配置。',
         rescueCheck: '检查能不能救',
         rescueChecking: '正在隔离环境里试装并启动，大约需要 30~60 秒…',
@@ -303,6 +303,33 @@ window.__ModuleLoader__.load({
         rescueVerdictRuns: '放行之后这个插件就能加载了，代码本身没问题，只是声明的版本范围过时了。',
         rescueVerdictBrokenWhy: '即使放行，这个插件仍然启动失败。所以放行没有意义，什么都没有改动。',
         rescueVerdictInconclusive: '隔离检查没能得出结论，所以什么都没有改动。',
+        rescuePluginWhy: '这个插件声明的版本范围不包含你当前的 DSH，所以被拦住了。先做一次隔离检查：在临时环境里把它装一遍、启动一遍，看代码本身到底能不能用。',
+        rescuePreparing: '正在准备交给 AI 的上下文…',
+        rescueCheckingReportsNow: '正在查询上游是否已有报告…',
+        rescueConfirmTitle: '放行前请确认',
+        rescueConfirmWhat: '即将为 {name}@{version} 在 DSH {host} 上写入一条「精确版本豁免」。',
+        rescueConfirmWill1: '只写入官方支持的一条豁免记录，不修改插件本身，不改 npm 上的包。',
+        rescueConfirmWill2: 'DSH 下次启动会允许加载这个插件（我们刚刚在隔离环境里验证过它能启动）。',
+        rescueConfirmWill3: '随时可以在「临时放行记录」里撤销，恢复到放行前的状态。',
+        rescueConfirmLimit: '但这只是放行门禁，不等于官方支持。插件的具体功能是否都正常，仍需你自己观察；作者发布正式支持版本后，请撤销并升级。',
+        rescueConfirmYes: '确认放行',
+        rescueFallbackWhy: '放行救不了它。下面两件事可以试试，都需要你自己决定是否执行：',
+        rescueAskAi: '让我的 AI 帮忙分析',
+        rescueCheckReports: '看上游是否已有人报过',
+        rescueAiReady: 'AI 上下文已准备好（尚未发送）',
+        rescueAiReadyWhat: '已把你的插件版本、声明范围、隔离测试结果整理成一份提示词。这个工具不会调用任何模型、不花你的 token；把下面这份 prompt 粘给你自己的 AI 即可，发不发由你决定。',
+        rescueCopyPrompt: '复制 prompt',
+        rescueCopied: '已复制',
+        rescueReportsFound: '上游已有相关报告，直接去补充信息比新开一个更好',
+        rescueNoReports: '上游还没有人报过这个问题',
+        rescueNoReportsWhat: '已经准备好一份 issue 正文（只写我们能证明的事实：声明范围、宿主版本、隔离测试结论）。',
+        rescueOpenIssue: '打开新建 issue 页面',
+        rescueNoFile: '这个工具不会替你提交 issue —— 请自己确认内容后再发。',
+        recordsTitle: '临时放行记录',
+        recordsWhy: '以下是当前生效的临时放行。作者发布正式支持版本后，这里会提示你可以撤销。',
+        recordsOn: '在 DSH {host} 上',
+        recordsStale: '上游已更新到 {installed}，可以撤销并升级了',
+        recordsUndo: '撤销',
       },
       en: {
         nav: 'Plugin health',
@@ -314,8 +341,8 @@ window.__ModuleLoader__.load({
         checked: 'Plugins checked: {count}', checkedWithVersion: 'Plugins checked: {count}, DSH {version}',
         scanning: 'Scanning…', rescan: 'Rescan', checking: 'Checking…', checkFailed: 'Check failed',
         checkRetry: 'DSH may still be starting. Select Rescan to try again.',
-        omitted: 'Informational findings omitted: {count}. They do not affect usage.', repair: 'Repair items ({count})',
-        repairSafety: 'Files are quarantined, not deleted, and can be restored. You will review the plan before applying it.',
+        omitted: 'Informational findings omitted: {count}. They do not affect usage.', repair: 'Clean up {count} broken file(s)',
+        repairSafety: 'These are files left behind by a failed install: they are quarantined rather than deleted, can be restored, and you review the plan before anything happens.',
         planning: 'Preparing repair plan…', planned: 'Planned actions', manual: 'Items requiring manual action: {count}. They will not be changed.',
         confirm: 'Confirm repair', cancel: 'Cancel', nothing: 'These issues need manual action. The tool will not change them automatically.', applying: 'Applying…',
         repaired: 'Items repaired: {count}', quarantined: 'Quarantined: {path}', rewritten: 'Rewritten: {path} (backup in quarantine)',
@@ -326,7 +353,7 @@ window.__ModuleLoader__.load({
         'plan.package-dir-broken': 'Move the incomplete or broken directory to quarantine, then reinstall the package.',
         'plan.patch-empty-entry': 'Remove top-level empty [] entries and back up the original file.',
         'plan.residue': 'Move the residue file to quarantine; it can be restored from there.',
-        rescueTitle: 'Can be repaired',
+        rescueTitle: 'Fix compatibility',
         rescueWhy: 'Most "incompatible" plugins only pinned their version ranges; the code itself still runs on the new DSH. Each check below rehearses the install and boot in a throwaway environment, and your configuration only changes when that succeeds.',
         rescueCheck: 'Check whether it can be saved',
         rescueChecking: 'Rehearsing the install and boot in an isolated environment — about 30–60 seconds…',
@@ -343,6 +370,33 @@ window.__ModuleLoader__.load({
         rescueVerdictRuns: 'With the exemption in place this plugin loads: the code is fine, only the declared version range is out of date.',
         rescueVerdictBrokenWhy: 'Even with the exemption this plugin fails to start, so exempting it would not help. Nothing was changed.',
         rescueVerdictInconclusive: 'The isolated check could not reach a verdict, so nothing was changed.',
+        rescuePluginWhy: 'This plugin declares a version range that does not include your DSH, so the host blocks it. The first step is an isolated check: install and boot it in a throwaway environment to see whether the code itself works.',
+        rescuePreparing: 'Preparing the context to hand to your AI…',
+        rescueCheckingReportsNow: 'Checking whether upstream already has a report…',
+        rescueConfirmTitle: 'Confirm before exempting',
+        rescueConfirmWhat: 'This will write one exact-version exemption for {name}@{version} on DSH {host}.',
+        rescueConfirmWill1: 'Only one exemption entry is written — the plugin itself and anything on npm are untouched.',
+        rescueConfirmWill2: 'DSH will load this plugin after its next start (we just proved in isolation that it boots).',
+        rescueConfirmWill3: 'You can undo it at any time from the temporary exemptions list, restoring the previous state exactly.',
+        rescueConfirmLimit: 'This only lets the gate through; it is not official support. Whether every feature works is still for you to observe, and you should revoke it once the author ships a supported release.',
+        rescueConfirmYes: 'Exempt it',
+        rescueFallbackWhy: 'An exemption cannot save this one. Two things can still help, and both are your call:',
+        rescueAskAi: 'Ask my AI to analyse it',
+        rescueCheckReports: 'See whether upstream already knows',
+        rescueAiReady: 'AI context is ready (nothing sent)',
+        rescueAiReadyWhat: 'Your plugin version, declared ranges and the isolated test result are written into a prompt. This tool never calls a model and never spends your tokens — paste the prompt into your own AI, and deciding to send it is entirely yours.',
+        rescueCopyPrompt: 'Copy prompt',
+        rescueCopied: 'Copied',
+        rescueReportsFound: 'Upstream already has related reports — adding to one beats opening a duplicate',
+        rescueNoReports: 'Nobody has reported this upstream yet',
+        rescueNoReportsWhat: 'An issue body is prepared, stating only what we can prove: the declared ranges, the host version and the isolated test verdict.',
+        rescueOpenIssue: 'Open the new-issue page',
+        rescueNoFile: 'This tool does not file the issue for you — review it, then post it yourself.',
+        recordsTitle: 'Temporary exemptions',
+        recordsWhy: 'These exemptions are currently in effect. Once the author ships a supported release, this list tells you it can be revoked.',
+        recordsOn: 'on DSH {host}',
+        recordsStale: 'Upstream now has {installed} — you can revoke and upgrade',
+        recordsUndo: 'Revoke',
       },
     }
     // The host locale registry uses flat keys and owns fallback and live language changes.
@@ -389,11 +443,22 @@ window.__ModuleLoader__.load({
      * proved the plugin boots. The two steps are separate on purpose — the user sees the
      * verdict before anything in their profile changes.
      */
+    /**
+     * Rescue flow. Phases are explicit so the component can render exactly one action set:
+     *
+     *   idle → rehearsing → rehearsed → confirming → applying → done
+     *
+     * `confirming` exists so a write never happens on the same click that reveals its
+     * consequences; the user restates the trade-off before the exemption is written.
+     */
     function useRescue(reload, key) {
       const [phase, setPhase] = React.useState('idle')
       const [verdict, setVerdict] = React.useState(undefined)
       const [error, setError] = React.useState(undefined)
       const [applied, setApplied] = React.useState(undefined)
+      const [handoffResult, setHandoffResult] = React.useState(undefined)
+      const [reportResult, setReportResult] = React.useState(undefined)
+      const [copied, setCopied] = React.useState(false)
       const call = React.useCallback(async (action, body) => {
         const response = await fetch(`${RESCUE_PATH}/${action}`, {
           method: 'POST',
@@ -409,7 +474,8 @@ window.__ModuleLoader__.load({
         return response.json()
       }, [key])
       const rehearse = React.useCallback(async (plugin) => {
-        setError(undefined); setApplied(undefined); setVerdict(undefined); setPhase('rehearsing')
+        setError(undefined); setApplied(undefined); setVerdict(undefined)
+        setHandoffResult(undefined); setReportResult(undefined); setPhase('rehearsing')
         try {
           const result = await call('rehearse', plugin)
           setVerdict(result)
@@ -419,6 +485,9 @@ window.__ModuleLoader__.load({
           setPhase('idle')
         }
       }, [call])
+      /** Ask for confirmation instead of writing: the consequences are shown first. */
+      const beginConfirm = React.useCallback(() => setPhase('confirming'), [])
+      const cancel = React.useCallback(() => setPhase('rehearsed'), [])
       const apply = React.useCallback(async (plugin) => {
         setPhase('applying')
         try {
@@ -431,10 +500,51 @@ window.__ModuleLoader__.load({
           setPhase('rehearsed')
         }
       }, [call, reload])
+      const handoff = React.useCallback(async (body) => {
+        setPhase('handoff'); setError(undefined)
+        try {
+          setHandoffResult(await call('handoff', body))
+          setPhase('rehearsed')
+        } catch (failure) {
+          setError(failure instanceof Error ? failure.message : String(failure))
+          setPhase('rehearsed')
+        }
+      }, [call])
+      const report = React.useCallback(async (body) => {
+        setPhase('report'); setError(undefined)
+        try {
+          setReportResult(await call('report', body))
+          setPhase('rehearsed')
+        } catch (failure) {
+          setError(failure instanceof Error ? failure.message : String(failure))
+          setPhase('rehearsed')
+        }
+      }, [call])
+      /**
+       * Copy the prepared prompt. The clipboard write happens only on this click — the tool
+       * has already written the file, and this just saves the user from hunting for it.
+       */
+      const copyPrompt = React.useCallback(async () => {
+        try {
+          await navigator.clipboard.writeText(handoffResult?.prompt ?? '')
+          setCopied(true)
+        } catch {
+          setCopied(false)
+          setError('clipboard is unavailable; open prompt.md from the folder shown above')
+        }
+      }, [handoffResult])
       const reset = React.useCallback(() => {
         setPhase('idle'); setVerdict(undefined); setError(undefined); setApplied(undefined)
+        setHandoffResult(undefined); setReportResult(undefined); setCopied(false)
       }, [])
-      return { phase, verdict, applied, error, rehearse, apply, reset }
+      /** Revoke one recorded exemption; the caller re-reads the status afterwards. */
+      const undo = React.useCallback(async (target) => {
+        return call('undo', typeof target === 'string' ? { key: target } : target ?? {})
+      }, [call])
+      return {
+        phase, verdict, applied, error, handoffResult, reportResult, copied,
+        rehearse, beginConfirm, cancel, apply, handoff, report, copyPrompt, reset, undo,
+      }
     }
 
     /** Shared button styling so the rescue actions match the rest of the section. */
@@ -453,18 +563,75 @@ window.__ModuleLoader__.load({
     }
 
     /**
-     * One incompatible plugin: explain, rehearse, then offer the exemption only when the
-     * rehearsal says the plugin actually boots. A failed rehearsal offers the AI brief
-     * and the upstream report instead, because exempting it would not have helped.
+     * One incompatible plugin. The flow is deliberately linear so the page never shows a
+     * choice whose consequence is unclear:
+     *
+     *   idle → [检查能不能救] → rehearsed
+     *   rehearsed + runs   → [临时放行] → confirm → done
+     *   rehearsed + broken → [让 AI 分析] [查看已有报告] [重新检查]
+     *
+     * A broken verdict deliberately offers no exemption button at all: exempting a plugin
+     * that cannot boot hides a real breakage behind a gate that no longer warns.
      */
     function RescueCard({ plugin, rescue, t }) {
-      const busy = rescue.phase === 'rehearsing' || rescue.phase === 'applying'
+      const busy = ['rehearsing', 'applying', 'confirming', 'handoff', 'report'].includes(rescue.phase)
       const showResult = rescue.verdict !== undefined
+      const canApply = rescue.verdict?.canApply === true
       const color = rescue.verdict === undefined
         ? COLORS.warn
-        : rescue.verdict.verdict === 'runs' ? COLORS.ok : rescue.verdict.verdict === 'broken' ? COLORS.error : COLORS.warn
+        : canApply ? COLORS.ok : rescue.verdict.verdict === 'broken' ? COLORS.error : COLORS.warn
       const verdictTitle = rescue.verdict?.verdict === 'runs' ? t('rescueVerdictOk')
         : rescue.verdict?.verdict === 'broken' ? t('rescueVerdictBroken') : t('rescueVerdictUnknown')
+
+      /** The confirmation step: restate exactly what will change before anything is written. */
+      const confirmation = rescue.phase === 'confirming'
+        ? h('div', {
+          key: 'confirm',
+          style: { marginTop: 10, padding: 12, borderRadius: 8, background: 'rgba(178,106,0,.10)', border: '1px solid rgba(178,106,0,.30)', fontSize: 13, lineHeight: 1.7 },
+        }, [
+          h('div', { key: 't', style: { fontWeight: 700, color: COLORS.warn, marginBottom: 4 } }, t('rescueConfirmTitle')),
+          h('div', { key: 'w', style: { opacity: 0.9 } }, t('rescueConfirmWhat', { name: plugin.name, version: plugin.version, host: rescue.verdict?.hostVersion ?? '' })),
+          h('ul', { key: 'l', style: { margin: '6px 0 0', paddingLeft: 18, opacity: 0.85 } }, [
+            h('li', { key: 'a' }, t('rescueConfirmWill1')),
+            h('li', { key: 'b' }, t('rescueConfirmWill2')),
+            h('li', { key: 'c' }, t('rescueConfirmWill3')),
+          ]),
+          h('div', { key: 'd', style: { marginTop: 6, opacity: 0.8 } }, t('rescueConfirmLimit')),
+          h('div', { key: 'b', style: { marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
+            h('button', {
+              key: 'y',
+              onClick: () => rescue.apply({ plugin: plugin.name, version: plugin.version }),
+              style: buttonStyle({ background: COLORS.ok, color: '#fff' }),
+            }, t('rescueConfirmYes')),
+            h('button', { key: 'n', onClick: rescue.cancel, style: buttonStyle({}) }, t('cancel')),
+          ]),
+        ])
+        : null
+
+      /** Broken or inconclusive: the two things that can actually help, both user-driven. */
+      const fallbackActions = rescue.phase === 'rehearsed' && !canApply
+        ? h('div', { key: 'fb', style: { marginTop: 10 } }, [
+          h('div', { key: 'w', style: { fontSize: 12, opacity: 0.7, lineHeight: 1.6, marginBottom: 8 } }, t('rescueFallbackWhy')),
+          h('div', { key: 'b', style: { display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
+            h('button', {
+              key: 'ai',
+              onClick: () => rescue.handoff({ plugin: plugin.name, version: plugin.version, rehearsalVerdict: rescue.verdict?.verdict }),
+              style: buttonStyle({}),
+            }, t('rescueAskAi')),
+            h('button', {
+              key: 'rp',
+              onClick: () => rescue.report({ plugin: plugin.name, version: plugin.version, rehearsalVerdict: rescue.verdict?.verdict }),
+              style: buttonStyle({}),
+            }, t('rescueCheckReports')),
+            h('button', {
+              key: 'again',
+              onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
+              style: buttonStyle({}),
+            }, t('rescueRecheck')),
+          ]),
+        ])
+        : null
+
       return h('div', {
         style: { marginTop: 12, padding: 14, borderRadius: 10, border: '1px solid rgba(128,128,128,.25)' },
       }, [
@@ -473,10 +640,14 @@ window.__ModuleLoader__.load({
           h('span', { key: 'v', style: { fontSize: 12, opacity: 0.6 } }, plugin.version),
         ]),
         h('div', { key: 'w', style: { marginTop: 6, fontSize: 13, opacity: 0.8, lineHeight: 1.6 } },
-          t('rescueWhy')),
+          t('rescuePluginWhy')),
         busy
           ? h('div', { key: 'b', style: { marginTop: 10, fontSize: 13, opacity: 0.7 } },
-            rescue.phase === 'rehearsing' ? t('rescueChecking') : t('rescueApplying'))
+            rescue.phase === 'rehearsing' ? t('rescueChecking')
+              : rescue.phase === 'applying' ? t('rescueApplying')
+                : rescue.phase === 'handoff' ? t('rescuePreparing')
+                  : rescue.phase === 'report' ? t('rescueCheckingReportsNow')
+                    : t('rescueApplying'))
           : null,
         rescue.error !== undefined
           ? h('div', { key: 'e', style: { marginTop: 10, fontSize: 13, color: COLORS.warn } },
@@ -495,10 +666,48 @@ window.__ModuleLoader__.load({
               : null,
           ])
           : null,
+        confirmation,
+        fallbackActions,
         rescue.applied !== undefined && rescue.applied.applied === true
           ? h('div', { key: 'a', style: { marginTop: 10, fontSize: 13, color: COLORS.ok, lineHeight: 1.6 } }, [
             h('div', { key: 't', style: { fontWeight: 600 } }, t('rescueApplied')),
             h('div', { key: 'd', style: { marginTop: 4, opacity: 0.9 } }, t('rescueAppliedWhat')),
+          ])
+          : null,
+        rescue.handoffResult !== undefined
+          ? h('div', { key: 'ho', style: { marginTop: 10, fontSize: 13, lineHeight: 1.6 } }, [
+            h('div', { key: 't', style: { fontWeight: 600, color: COLORS.info } }, t('rescueAiReady')),
+            h('div', { key: 'd', style: { marginTop: 4, opacity: 0.85 } }, t('rescueAiReadyWhat')),
+            h('div', { key: 'p', style: { marginTop: 6, fontSize: 12, opacity: 0.65, wordBreak: 'break-all' } }, rescue.handoffResult.directory),
+            h('div', { key: 'b', style: { marginTop: 8 } }, [
+              h('button', {
+                key: 'copy',
+                onClick: () => rescue.copyPrompt(),
+                style: buttonStyle({}),
+              }, rescue.copied === true ? t('rescueCopied') : t('rescueCopyPrompt')),
+            ]),
+          ])
+          : null,
+        rescue.reportResult !== undefined
+          ? h('div', { key: 'rp', style: { marginTop: 10, fontSize: 13, lineHeight: 1.6 } }, [
+            h('div', { key: 't', style: { fontWeight: 600, color: COLORS.info } },
+              rescue.reportResult.existing.length > 0 ? t('rescueReportsFound') : t('rescueNoReports')),
+            ...(rescue.reportResult.existing.length > 0
+              ? rescue.reportResult.existing.slice(0, 5).map(item => h('div', { key: item.number, style: { marginTop: 4, fontSize: 12 } }, [
+                h('a', { key: 'a', href: item.url, target: '_blank', rel: 'noreferrer', style: { color: COLORS.info } },
+                  `#${item.number} [${item.state}] ${item.title}`),
+              ]))
+              : [h('div', { key: 'n', style: { marginTop: 6, fontSize: 12, opacity: 0.8 } }, t('rescueNoReportsWhat')),
+                h('div', { key: 'b', style: { marginTop: 8 } }, [
+                  h('a', {
+                    key: 'new',
+                    href: rescue.reportResult.newIssueUrl,
+                    target: '_blank',
+                    rel: 'noreferrer',
+                    style: { ...buttonStyle({}), display: 'inline-block', textDecoration: 'none', color: 'inherit' },
+                  }, t('rescueOpenIssue')),
+                ])]),
+            h('div', { key: 'f', style: { marginTop: 8, fontSize: 12, opacity: 0.6 } }, t('rescueNoFile')),
           ])
           : null,
         h('div', { key: 'act', style: { marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
@@ -509,24 +718,41 @@ window.__ModuleLoader__.load({
               style: buttonStyle({ background: COLORS.info, color: '#fff' }),
             }, t('rescueCheck'))
             : null,
-          rescue.phase === 'rehearsed' && rescue.verdict?.canApply === true
+          rescue.phase === 'rehearsed' && canApply
             ? h('button', {
               key: 'apply',
-              onClick: () => rescue.apply({ plugin: plugin.name, version: plugin.version }),
+              onClick: () => rescue.beginConfirm(),
               style: buttonStyle({ background: COLORS.ok, color: '#fff' }),
             }, t('rescueApply'))
-            : null,
-          rescue.phase === 'rehearsed' && rescue.verdict?.canApply !== true
-            ? h('button', {
-              key: 'brief',
-              onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
-              style: buttonStyle({}),
-            }, t('rescueRecheck'))
             : null,
           rescue.phase === 'done'
             ? h('button', { key: 'reset', onClick: rescue.reset, style: buttonStyle({}) }, t('acknowledge'))
             : null,
         ]),
+      ])
+    }
+
+    /** Recorded exemptions: the undo surface, plus the "upstream fixed it" prompt. */
+    function RescueRecords({ rescues, onUndo, t }) {
+      if (!Array.isArray(rescues) || rescues.length === 0) return null
+      return h('div', { key: 'records', style: { marginTop: 18, padding: 14, borderRadius: 10, background: 'rgba(128,128,128,.06)' } }, [
+        h('div', { key: 't', style: { fontSize: 13, fontWeight: 700, marginBottom: 6 } }, t('recordsTitle')),
+        h('div', { key: 's', style: { fontSize: 12, opacity: 0.65, marginBottom: 8, lineHeight: 1.6 } }, t('recordsWhy')),
+        ...rescues.map(entry => h('div', {
+          key: entry.key,
+          style: { display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap', padding: '6px 0', fontSize: 13, borderTop: '1px solid rgba(128,128,128,.15)' },
+        }, [
+          h('span', { key: 'n', style: { fontWeight: 600 } }, `${entry.name}@${entry.version}`),
+          h('span', { key: 'h', style: { fontSize: 12, opacity: 0.6 } }, t('recordsOn', { host: entry.runtimeVersion })),
+          entry.stale
+            ? h('span', { key: 's', style: { fontSize: 12, color: COLORS.ok } }, t('recordsStale', { installed: entry.installedVersion ?? '?' }))
+            : null,
+          h('button', {
+            key: 'u',
+            onClick: () => onUndo(entry.key),
+            style: { ...buttonStyle({}), marginLeft: 'auto', padding: '4px 10px', fontSize: 12 },
+          }, t('recordsUndo')),
+        ])),
       ])
     }
 
@@ -738,6 +964,19 @@ window.__ModuleLoader__.load({
         }
       }, [reload])
 
+      /**
+       * Undo one recorded exemption. Deliberately not optimistic: the list re-reads from
+       * disk afterwards, so the panel can never claim a rescue was reverted when it was not.
+       */
+      const undoRescue = React.useCallback(async (key) => {
+        try {
+          await rescue.undo({ key })
+          await reload()
+        } catch {
+          await reload()
+        }
+      }, [rescue, reload])
+
       return h('div', { style: { padding: '20px 4px', maxWidth: 760 } }, [
         h('div', { key: 'head', style: { marginBottom: 14, display: 'flex', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' } }, [
           h('div', { key: 'l', style: { flex: '1 1 320px', minWidth: 0 } }, [
@@ -771,6 +1010,9 @@ window.__ModuleLoader__.load({
           : null,
         !loading && error === undefined
           ? h(RescuePanel, { key: 'rescue', rescuable, rescue, t })
+          : null,
+        !loading && error === undefined
+          ? h(RescueRecords, { key: 'records', rescues: data?.rescues ?? [], onUndo: undoRescue, t })
           : null,
         autoFixable.length > 0 && repair.phase === 'idle'
           ? h('div', { key: 'fixbar', style: { marginTop: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' } }, [

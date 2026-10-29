@@ -3,7 +3,11 @@
  * by the browser half (`./client.js`) through a loopback-only route.
  * @module ui/status
  */
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+
 import { inspectDshHome } from '../repair/inspect.js'
+import { auditRescues } from '../rescue/rescue.js'
 /** Route the browser half reads; absolute so it works from the DSH web origin. */
 export const STATUS_PATH = '/plugins/dsh-plugin-health/status'
 
@@ -23,7 +27,7 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
     autoFixable: item.fix?.auto === true,
   }))
   return {
-    schemaVersion: 3,
+    schemaVersion: 4,
     generatedAt: new Date(now).toISOString(),
     runtimeVersion: typeof runtimeVersion === 'string' && runtimeVersion !== '' ? runtimeVersion : null,
     profile: result.profile ?? null,
@@ -41,6 +45,29 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
       version: plugin.version,
       requirements: plugin.requirements ?? {},
     })),
+    // Recorded rescues, so the panel can offer "undo" without shelling out. Computed here
+    // rather than in the browser half because it needs the profile on disk.
+    rescues: result.profileDir === null || result.profileDir === undefined
+      ? []
+      : auditRescues(result.profileDir, {
+        readManifest: (name) => {
+          try {
+            return JSON.parse(readFileSync(join(result.profileDir, 'node_modules', name, 'package.json'), 'utf8'))
+          } catch {
+            return undefined
+          }
+        },
+        runtimeVersion,
+      }).map(entry => ({
+        key: entry.key,
+        name: entry.name,
+        version: entry.version,
+        runtimeVersion: entry.runtimeVersion,
+        appliedAt: entry.appliedAt,
+        active: entry.active,
+        stale: entry.stale,
+        installedVersion: entry.installedVersion ?? null,
+      })),
   }
 }
 

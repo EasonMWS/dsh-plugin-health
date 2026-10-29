@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.8.0 (2026-10-29)
+
+### Added
+
+- **`boot` — the commands that still work when DSH will not start.** Everything else runs inside
+  the host, which is exactly what is missing when a plugin stops boot. `boot diagnose` explains
+  the failure from the logs the host left behind; `boot safe` disables every third-party entry;
+  `boot restore` removes that overlay again. `safe` only appends `disabled: true` to the
+  profile's own patch layer — nothing is deleted, no plugin is touched, and host entries are never
+  disabled. Both writers default to a dry run and require `--apply`.
+- **AI handoff and upstream reporting are reachable from the settings page**, not just the CLI.
+  When a rehearsal proves a plugin cannot boot, the card offers "ask my AI to analyse it" and
+  "see whether upstream already knows"; the first writes a brief and shows the prompt for the user
+  to copy, the second searches GitHub and either links the existing report or prepares a draft. Both
+  stop short of sending anything.
+- **Recorded exemptions are listed in the panel and can be revoked there**, so undoing a temporary
+  fix no longer requires a terminal. The list also flags a rescue as stale once a newer version is
+  installed, which is the signal that upstream finally fixed it.
+
+### Changed
+
+- **A temporary exemption now requires an explicit confirmation step.** The card restates what will
+  be written, that only an official exemption entry changes, that it is reversible, and — in the
+  same breath — that this is not official support and features may still misbehave. The old flow
+  wrote on the same click that revealed the verdict.
+- **The two repair concepts are named apart.** The quarantine flow is now "clean up N broken
+  files" (it deals with files a failed install left behind); the compatibility flow is "fix
+  compatibility" (it deals with a plugin that cannot load). Both used to be called "repair", which
+  left a first-time user choosing between two identical-looking buttons.
+
+### Fixed
+
+- `enterSafeMode` re-disabled entries that a previous run had already overlaid, so calling it
+  twice kept appending. It now compares the set of ids already disabled.
+
+124 tests (17 new), 123 pass, 1 platform skip.
+
 ## 0.7.0 (2026-10-29)
 
 ### Added

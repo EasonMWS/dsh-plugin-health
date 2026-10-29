@@ -139,7 +139,7 @@ test('English repair plan and results stay localized without changing the confir
   })
   app.render()
   await settle()
-  const planning = button(app.render(), 'Repair items (1)').props.onClick()
+  const planning = button(app.render(), 'Clean up 1 broken file(s)').props.onClick()
   assert.match(text(app.render()), /Preparing repair plan…/u)
   await planning
   let tree = app.render()
@@ -158,7 +158,7 @@ test('English repair plan and results stay localized without changing the confir
   assert.equal(JSON.parse(app.requests.filter(({ url }) => url.endsWith('/repair')).at(-1).options.body).dryRun, false)
   assert.equal(app.requests.find(({ url }) => url.endsWith('/repair')).options.headers['x-plugin-health-key'], 'test-key')
   button(tree, 'Done').props.onClick()
-  button(app.render(), 'Repair items (1)')
+  button(app.render(), 'Clean up 1 broken file(s)')
 })
 
 test('healthy, failed and manual-only checks use English copy', async () => {
@@ -179,7 +179,7 @@ test('healthy, failed and manual-only checks use English copy', async () => {
   const manual = client({ planned: { planned: [], manual: 1 } })
   manual.render()
   await settle()
-  await button(manual.render(), 'Repair items (1)').props.onClick()
+  await button(manual.render(), 'Clean up 1 broken file(s)').props.onClick()
   assert.match(text(manual.render()), /These issues need manual action/u)
 })
 
