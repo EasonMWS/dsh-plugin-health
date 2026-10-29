@@ -136,8 +136,10 @@ export function inspectDshHome({ home, profile, runtimeVersion } = {}) {
   inspectResidue(profileDir, findings)
   inspectLogs(profileDir, findings)
   inspectEnvironment(resolvedHome, profileDir, findings)
-  inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest)
+  const incompatiblePlugins = []
+  inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest, incompatiblePlugins)
   inspectProfileDrift(resolvedHome, selected, findings)
+  result.incompatiblePlugins = incompatiblePlugins
 
   // How many plugins were actually checked, so the UI can say "checked N" instead of implying a
   // sample. Host packages are reported separately because they are the reference, not the subject.
@@ -393,7 +395,7 @@ function listPackageDirectories(directory) {
   return out
 }
 
-function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest) {
+function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest, incompatible = []) {
   if (runtimeVersion === undefined || runtimeVersion === '') return
   const installed = manifest === undefined
     ? bundles.map((name) => ({ name, directory: nodeModulesPath(profileDir, name) }))
@@ -415,6 +417,9 @@ function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest)
         findings.push(finding('plugin-incompatible', 'warn', `Installed plugin is incompatible with dsh ${runtimeVersion}: ${issue.name}@${issue.version}`,
           `Unmet requirements: ${Object.entries(issue.requirements).map(([key, range]) => `${key} ${range}`).join(', ')}.`,
           { fix: { kind: 'manual', description: 'Update the plugin, install a compatible version, or grant an exact-version exemption.' } }))
+        // Carry the identity forward so the rescue flow can rehearse this exact version
+        // without re-parsing the finding title.
+        incompatible.push({ name: issue.name, version: issue.version, requirements: issue.requirements })
       }
     } catch {
       findings.push(finding('plugin-manifest-invalid', 'warn', `Cannot evaluate requirements for ${name}`, manifestPath))

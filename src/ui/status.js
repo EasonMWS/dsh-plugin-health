@@ -23,7 +23,7 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
     autoFixable: item.fix?.auto === true,
   }))
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     generatedAt: new Date(now).toISOString(),
     runtimeVersion: typeof runtimeVersion === 'string' && runtimeVersion !== '' ? runtimeVersion : null,
     profile: result.profile ?? null,
@@ -34,6 +34,13 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
     // What was actually inspected, so the UI can say "checked N plugins" instead of implying a sample.
     scanned: { plugins: result.scannedPlugins ?? null },
     issues,
+    // Incompatible plugins broken out for the rescue panel: a rescue needs the exact
+    // name and version to rehearse, which the human-readable issue list does not carry.
+    rescuable: (result.incompatiblePlugins ?? []).map(plugin => ({
+      name: plugin.name,
+      version: plugin.version,
+      requirements: plugin.requirements ?? {},
+    })),
   }
 }
 

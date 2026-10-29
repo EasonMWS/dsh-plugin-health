@@ -17,6 +17,7 @@ window.__ModuleLoader__.load({
 
     const STATUS_PATH = '/plugins/dsh-plugin-health/status'
     const REPAIR_PATH = '/plugins/dsh-plugin-health/repair'
+    const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
     const SECTION_SLOT = 'settings.section'
     const SECTION_ID = 'plugin-health'
     const ALERT_SLOT = 'sidebar.footer.action'
@@ -175,6 +176,162 @@ window.__ModuleLoader__.load({
         }
       }, [intervalMs, reload])
       return { ...state, reload }
+    }
+
+    /**
+     * Rescue flow: rehearse in a throwaway home first, then apply only if the rehearsal
+     * proved the plugin boots. The two steps are separate on purpose — the user sees the
+     * verdict before anything in their profile changes.
+     */
+    function useRescue(reload, key) {
+      const [phase, setPhase] = React.useState('idle')
+      const [verdict, setVerdict] = React.useState(undefined)
+      const [error, setError] = React.useState(undefined)
+      const [applied, setApplied] = React.useState(undefined)
+      const call = React.useCallback(async (action, body) => {
+        const response = await fetch(`${RESCUE_PATH}/${action}`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-plugin-health-key': key ?? '' },
+          credentials: 'same-origin',
+          body: JSON.stringify(body ?? {}),
+        })
+        if (!response.ok) {
+          let detail = `HTTP ${response.status}`
+          try { detail = (await response.json()).error ?? detail } catch { /* keep the status text */ }
+          throw new Error(detail)
+        }
+        return response.json()
+      }, [key])
+      const rehearse = React.useCallback(async (plugin) => {
+        setError(undefined); setApplied(undefined); setVerdict(undefined); setPhase('rehearsing')
+        try {
+          const result = await call('rehearse', plugin)
+          setVerdict(result)
+          setPhase('rehearsed')
+        } catch (failure) {
+          setError(failure instanceof Error ? failure.message : String(failure))
+          setPhase('idle')
+        }
+      }, [call])
+      const apply = React.useCallback(async (plugin) => {
+        setPhase('applying')
+        try {
+          const result = await call('apply', plugin)
+          setApplied(result)
+          setPhase('done')
+          if (typeof reload === 'function') await reload()
+        } catch (failure) {
+          setError(failure instanceof Error ? failure.message : String(failure))
+          setPhase('rehearsed')
+        }
+      }, [call, reload])
+      const reset = React.useCallback(() => {
+        setPhase('idle'); setVerdict(undefined); setError(undefined); setApplied(undefined)
+      }, [])
+      return { phase, verdict, applied, error, rehearse, apply, reset }
+    }
+
+    /** Shared button styling so the rescue actions match the rest of the section. */
+    function buttonStyle({ background, color, border } = {}) {
+      return {
+        border: border ?? (background === undefined ? '1px solid rgba(128,128,128,.35)' : 0),
+        borderRadius: 8,
+        padding: '8px 14px',
+        cursor: 'pointer',
+        background: background ?? 'transparent',
+        color: color ?? 'inherit',
+        font: 'inherit',
+        fontSize: 13,
+        fontWeight: background === undefined ? 400 : 600,
+      }
+    }
+
+    /**
+     * One incompatible plugin: explain, rehearse, then offer the exemption only when the
+     * rehearsal says the plugin actually boots. A failed rehearsal offers the AI brief
+     * and the upstream report instead, because exempting it would not have helped.
+     */
+    function RescueCard({ plugin, rescue }) {
+      const busy = rescue.phase === 'rehearsing' || rescue.phase === 'applying'
+      const showResult = rescue.verdict !== undefined
+      const color = rescue.verdict === undefined
+        ? COLORS.warn
+        : rescue.verdict.verdict === 'runs' ? COLORS.ok : rescue.verdict.verdict === 'broken' ? COLORS.error : COLORS.warn
+      return h('div', {
+        style: { marginTop: 12, padding: 14, borderRadius: 10, border: '1px solid rgba(128,128,128,.25)' },
+      }, [
+        h('div', { key: 'h', style: { display: 'flex', gap: 8, alignItems: 'baseline', flexWrap: 'wrap' } }, [
+          h('span', { key: 'n', style: { fontWeight: 600, fontSize: 13 } }, plugin.name),
+          h('span', { key: 'v', style: { fontSize: 12, opacity: 0.6 } }, plugin.version),
+        ]),
+        h('div', { key: 'w', style: { marginTop: 6, fontSize: 13, opacity: 0.8, lineHeight: 1.6 } },
+          '这个插件声明的版本范围不包含你当前的 DSH，所以被拦住了。先做一次隔离检查：'
+          + '在临时环境里把它装一遍、启动一遍，看代码本身到底能不能用。'),
+        busy
+          ? h('div', { key: 'b', style: { marginTop: 10, fontSize: 13, opacity: 0.7 } },
+            rescue.phase === 'rehearsing' ? '正在隔离环境里试装并启动，大约需要 30~60 秒…' : '正在应用…')
+          : null,
+        rescue.error !== undefined
+          ? h('div', { key: 'e', style: { marginTop: 10, fontSize: 13, color: COLORS.warn } }, `检查失败：${rescue.error}`)
+          : null,
+        showResult
+          ? h('div', {
+            key: 'r',
+            style: { marginTop: 10, padding: 10, borderRadius: 8, fontSize: 13, lineHeight: 1.6, color, background: 'rgba(128,128,128,.08)' },
+          }, [
+            h('div', { key: 'm', style: { fontWeight: 600 } }, rescue.verdict.verdict === 'runs' ? '代码没问题，只是声明过时了' :
+              rescue.verdict.verdict === 'broken' ? '这个插件真的跑不起来' : '检查结果不确定'),
+            h('div', { key: 'd', style: { marginTop: 4, opacity: 0.9 } }, rescue.verdict.message),
+            rescue.verdict.hostVersion ? h('div', { key: 'h', style: { marginTop: 4, fontSize: 12, opacity: 0.6 } }, `测试宿主：DSH ${rescue.verdict.hostVersion}`) : null,
+          ])
+          : null,
+        rescue.applied !== undefined && rescue.applied.applied === true
+          ? h('div', { key: 'a', style: { marginTop: 10, fontSize: 13, color: COLORS.ok, lineHeight: 1.6 } }, [
+            h('div', { key: 't', style: { fontWeight: 600 } }, '已临时放行'),
+            h('div', { key: 'd', style: { marginTop: 4, opacity: 0.9 } },
+              '重启 DSH 后这个插件就能加载了。这是临时措施：等作者发布支持当前版本的正式版后，'
+              + '在下面「临时放行记录」里点「撤销」即可恢复原状。'),
+          ])
+          : null,
+        h('div', { key: 'act', style: { marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
+          rescue.phase === 'idle'
+            ? h('button', {
+              key: 'go',
+              onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
+              style: buttonStyle({ background: COLORS.info, color: '#fff' }),
+            }, '检查能不能救')
+            : null,
+          rescue.phase === 'rehearsed' && rescue.verdict?.canApply === true
+            ? h('button', {
+              key: 'apply',
+              onClick: () => rescue.apply({ plugin: plugin.name, version: plugin.version }),
+              style: buttonStyle({ background: COLORS.ok, color: '#fff' }),
+            }, '临时放行')
+            : null,
+          rescue.phase === 'rehearsed' && rescue.verdict?.canApply !== true
+            ? h('button', {
+              key: 'brief',
+              onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
+              style: buttonStyle({}),
+            }, '重新检查')
+            : null,
+          rescue.phase === 'done'
+            ? h('button', { key: 'reset', onClick: rescue.reset, style: buttonStyle({}) }, '知道了')
+            : null,
+        ]),
+      ])
+    }
+
+    /** Shown when rescue is available: the list of incompatible plugins with their actions. */
+    function RescuePanel({ rescuable, rescue }) {
+      if (!Array.isArray(rescuable) || rescuable.length === 0) return null
+      return h('div', { key: 'rescue', style: { marginTop: 18 } }, [
+        h('div', { key: 't', style: { fontSize: 14, fontWeight: 700, marginBottom: 4 } }, '可以尝试修复'),
+        h('div', { key: 's', style: { fontSize: 12, opacity: 0.65, marginBottom: 4, lineHeight: 1.6 } },
+          '大部分“不兼容”其实只是插件把版本号写死了，代码本身在新的 DSH 上照样能跑。'
+          + '下面会先在临时环境里验证，确认能用才动你的配置。'),
+        ...rescuable.map((plugin, index) => h(RescueCard, { key: `${plugin.name}-${index}`, plugin, rescue })),
+      ])
     }
 
     /**
@@ -353,8 +510,10 @@ window.__ModuleLoader__.load({
     function HealthSection() {
       const { loading, error, data, reload } = useStatus()
       const repair = useRepair(reload)
+      const rescue = useRescue(reload, data?.repairKey)
       const [scanning, setScanning] = React.useState(false)
       const issues = data?.issues ?? []
+      const rescuable = data?.rescuable ?? []
       const actionable = issues.filter((issue) => issue.severity !== 'info')
       const autoFixable = actionable.filter((issue) => issue.autoFixable === true)
       const summary = data?.summary ?? {}
@@ -399,6 +558,9 @@ window.__ModuleLoader__.load({
         !loading && error === undefined && issues.length > actionable.length
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
             `${issues.length - actionable.length} 条提示不影响使用，已省略。`)
+          : null,
+        !loading && error === undefined
+          ? h(RescuePanel, { key: 'rescue', rescuable, rescue })
           : null,
         autoFixable.length > 0 && repair.phase === 'idle'
           ? h('div', { key: 'fixbar', style: { marginTop: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' } }, [

@@ -4,11 +4,12 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Plugin manager, doctor and conflict checker for
+Plugin health check **and repair** for
 [DeepSeek Harness (dsh)](https://github.com/deepseek-ai/deepseek-harness) — with a native settings
-page inside DSH.
+page inside DSH. It does not stop at telling you which plugins are broken: it can bring back the
+ones that are merely mis-declared, and it verifies they actually boot before touching your profile.
 
-> Status: `0.5.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `0.6.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>
@@ -17,6 +18,64 @@ page inside DSH.
 
 Listed on the [awesome-dsh-plugin](https://awesome-dsh-plugin.com/zh/p/EasonMWS/dsh-plugin-health/)
 directory and the [DSH Plugin Store](https://www.dshplugin.store/plugin/EasonMWS/dsh-plugin-health).
+
+## Most "incompatible" plugins are fine
+
+DSH reads a plugin's own declared version ranges at install time. If the running version is not in
+those ranges, the install is rejected.
+
+The catch: **most rejected plugins have perfectly good code** — the author just pinned exact
+versions and has not caught up with the new host. Measured on `0.2.1-rc.4`:
+
+| Plugin | Declared | Actually boots in isolation |
+| --- | --- | --- |
+| `@nanmicoder/dsh-agent-teams@0.1.27` | ❌ rejected | ✅ **full boot, all 94 entries active** |
+| `dsh-find-plugin@0.4.0` | ❌ rejected | ✅ **runs fine** |
+
+**Which means a static-only checker will call these plugins broken when they are not.**
+
+## So we verify first and act second
+
+```
+scan finds a rejected plugin
+  ↓
+rehearse in a throwaway home: exempt the gate, then really boot it   ← your profile is untouched
+  ├─ it boots → the code is fine, only the declaration is stale
+  │    → grant the exemption in your profile (one click to undo)
+  │    → record it and watch upstream for a real release
+  └─ it fails → genuinely incompatible; exempting it would not help
+       → change nothing, say so plainly
+       → optionally prepare a complete brief for your own agent
+```
+
+**The order matters.** Exempt-then-test leaves you running a plugin the gate no longer warns about
+but which still crashes. We prove it boots in isolation before your configuration changes.
+
+## What it looks like in Settings
+
+Under **Settings → Plugin health**, every incompatible plugin gets:
+
+- a **"Can this be saved?"** button — rehearses the install and boot in a throwaway home (30–60 s),
+  changing nothing;
+- if it boots, a **"Exempt temporarily"** button; if it does not, a plain statement that it cannot be saved;
+- every exemption is recorded, and once upstream ships a real fix you are told you can revert.
+
+Everything is reversible: an exemption is a single entry in the host's own `compatibility.json`,
+and undo restores exactly the value that was there before.
+
+## Safety boundaries (please read)
+
+| We do | We never do |
+| --- | --- |
+| Rehearse in an isolated temporary home | ❌ call your AI or spend your tokens |
+| Use DSH's official `allow-version` exemption | ❌ modify plugin source or anything on npm |
+| Record every change and support exact undo | ❌ grant an exemption when the rehearsal failed |
+| Check whether upstream already has a report | ❌ file issues on your behalf |
+| Prepare a complete AI brief | ❌ press send for you |
+
+**A temporary exemption means the gate lets it through — not that it is supported.** We only prove
+it boots in isolation; whether every feature works is still on you to observe. When the author ships
+an official version, revoke the exemption and upgrade.
 
 ## Looking for a plugin manager / doctor / checker?
 

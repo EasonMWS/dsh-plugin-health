@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.6.0 (2026-10-29)
+
+### Added
+
+- **Rescue: verify, then repair.** A plugin rejected by the version gate is now rehearsed in a
+  throwaway DSH home — the exemption is granted *there*, the plugin is installed and booted, and only
+  if that succeeds is the exemption granted in the user's real profile. This closes the gap that
+  static checks cannot: measured on `0.2.1-rc.4`, both `@nanmicoder/dsh-agent-teams@0.1.27` and
+  `dsh-find-plugin@0.4.0` are rejected by their declarations yet boot completely.
+  - `rescue --profile <p> --plugin <name@version>` rehearses and, with `--apply`, grants the
+    official exact-version exemption. `--undo` revokes it; `--status` lists recorded rescues.
+  - Every grant records the value that was there before, so undo restores it exactly instead of
+    deleting a key the user (or the host) had already put there.
+  - A failed rehearsal writes nothing at all: exempting a plugin that cannot boot would only hide
+    a real breakage behind a gate that no longer warns.
+- **Upstream tracking.** `rescue --status` polls the registry and distinguishes *a fix is published*
+  from *a newer version exists but still rejects this host* — the two are easy to conflate and only
+  the first one means the exemption can be dropped.
+- **Report de-duplication.** `report --plugin <name@version>` searches the upstream repository for an
+  existing report first. When one exists it links to it instead of drafting a duplicate; when none
+  exists it prepares the issue text and the "new issue" link. Nothing is ever filed automatically.
+- **AI handoff.** `handoff --plugin <name@version>` writes a brief, the rehearsal evidence and a
+  ready-to-paste prompt asking a local agent to restore *compatibility only*. The prompt makes the
+  boot test the acceptance criterion, so a "fix" that does not boot is explicitly a failure. This
+  tool never calls a model and never spends the user's tokens; sending remains the user's decision.
+- **Settings UI for the whole flow.** Each incompatible plugin gets a "can this be saved?" button,
+  the rehearsal verdict, and — only when the verdict is positive — a temporary-exemption button.
+  The rescue routes reuse the repair route's per-boot control key rather than minting a second one.
+
+### Changed
+
+- `smoke --boot-only` accepts activation alone, so UI-only plugins (which register no model-facing
+  tools and therefore could never satisfy `--tool`) can finally be checked.
+- `smoke --bypass-gate` grants the exemption inside the throwaway home only. Without it an
+  incompatible plugin is simply rejected and the run proves nothing about whether it would work.
+- Positioned as health check **and repair** in both READMEs, with the measured evidence, the
+  verify-then-repair ordering, and an explicit safety-boundary table.
+
 ## 0.5.0 (2026-10-26)
 
 ### Added

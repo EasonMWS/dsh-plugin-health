@@ -14,6 +14,7 @@ import { inspectDshHome } from './repair/inspect.js'
 import { formatInspection } from './repair/format.js'
 import { cachedStatus, runningProfile } from './ui/status.js'
 import { registerRepairRoute } from './ui/repair-route.js'
+import { registerRescueRoute } from './ui/rescue-route.js'
 
 export const name = 'plugin-health'
 export const inject = ['tools']
@@ -65,14 +66,16 @@ export function inspectionText({ profile, runtime, json } = {}) {
  * @returns {Promise<void>} resolves after the tool is registered or the fallback decided.
  */
 export async function apply(ctx) {
-  // Browser UI: read-only snapshot plus the one-click repair route, both loopback-only.
+  // Browser UI: read-only snapshot, the quarantine repair route, and the rescue routes.
+  // All are loopback-only; the mutating ones also require the per-launch control key.
   try {
     if (typeof ctx?.inject === 'function') {
       const resolveProfile = () => runningProfile(ctx)
-      registerRepairRoute(ctx, {
+      const key = registerRepairRoute(ctx, {
         resolveProfile,
         getStatus: () => cachedStatus({ ...resolveProfile(), runtimeVersion: hostRuntimeVersion() }),
       })
+      registerRescueRoute(ctx, { currentProfile: resolveProfile, key })
     }
   } catch (error) {
     try {

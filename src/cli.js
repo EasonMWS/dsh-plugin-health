@@ -8,13 +8,23 @@ import { DEFAULT_REGISTRY, fetchJson } from './util/http.js'
 import { createMatrix, hostSummary } from './compat/matrix.js'
 import { matrixToMarkdown, writeBadges } from './compat/report.js'
 import { buildFormat1Index, writeIndex } from './index/build.js'
-import { inspectDshHome } from './repair/inspect.js'
+import { inspectDshHome, listInstalledPlugins, resolveDshHome } from './repair/inspect.js'
 import { formatInspection } from './repair/format.js'
 import { applyRepairs, planRepairs } from './repair/apply.js'
-import { runRuntimeSmoke } from './runtime/smoke.js'
+import { runRuntimeSmoke, resolvePluginIdentity } from './runtime/smoke.js'
+import {
+  auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue,
+} from './rescue/rescue.js'
+import { checkUpstream } from './rescue/upstream.js'
+import { buildReport, findExistingReports, rememberReport, repositorySlug } from './rescue/reporting.js'
+import { buildBrief, writeHandoff } from './rescue/handoff.js'
+import { discoverDshDirectory, hostVersionOf } from './rescue/environment.js'
 
 const VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version
-const BOOLEAN_OPTIONS = new Set(['json', 'help', 'version', 'apply', 'yes', 'force', 'badges', 'no-badges'])
+const BOOLEAN_OPTIONS = new Set([
+  'json', 'help', 'version', 'apply', 'yes', 'force', 'badges', 'no-badges',
+  'boot-only', 'bypass-gate', 'undo', 'status', 'no-rehearse',
+])
 
 /**
  * Parse command and `--option value` pairs.
@@ -129,6 +139,28 @@ export function usage() {
     '  dsh-plugin-health index --catalog <file|url> --index-url <url> [options]',
     '  dsh-plugin-health doctor [--home <dir>] [--profile <name>] [--runtime <version>] [--json]',
     '  dsh-plugin-health repair [--home <dir>] [--profile <name>] [--runtime <version>] [--apply --yes]',
+    '  dsh-plugin-health rescue --profile <name> --plugin <name@version> [--apply] [--undo] [--status]',
+    '  dsh-plugin-health handoff --profile <name> --plugin <name@version>',
+    '  dsh-plugin-health report --profile <name> --plugin <name@version>',
+    '',
+    'rescue options (rehearse a rejected plugin in a throwaway home, then exempt it if it boots):',
+    '  --profile <name>       profile whose plugins and exemptions are used (required)',
+    '  --plugin <name@version>  the exact installed version to rescue, undo, or describe',
+    '  --apply                actually grant the exemption; without it the run is a dry run',
+    '  --undo                 revoke exemptions granted by this tool and clear the ledger',
+    '  --status               list recorded rescues and whether an upstream fix has landed',
+    '  --dsh-dir <dir>        installed @deepseek-ai/dsh to rehearse against (auto-discovered)',
+    '  --runtime <version>    host version to judge against (default: the installed host)',
+    '  --timeout <ms>         boot timeout for the rehearsal',
+    '  --install-timeout <ms> install timeout for the rehearsal',
+    '',
+    'handoff options:',
+    '  --plugin <name@version>  write a brief + prompt for your own agent (nothing is sent)',
+    '  --no-rehearse          skip the runtime rehearsal; write the brief from declarations only',
+    '',
+    'report options:',
+    '  --plugin <name@version>  check for an existing upstream report, then draft one',
+    '  --rehearsal <runs|broken>  include the runtime verdict in the drafted text',
     '',
     'matrix options:',
     '  --plugins <file|a,b>   plugin specs: npm name, name@version, or local directory (repeatable)',
@@ -146,6 +178,9 @@ export function usage() {
     '  --plugin <spec|tarball>  install using the official dsh plugin CLI',
     '  --tool <name>          assert tool registration after boot (repeatable)',
     '  --calls <file>         JSON array of {name, arguments, expectedValue?} tool calls',
+    '  --boot-only            accept activation alone, for UI-only plugins with no tools',
+    '  --bypass-gate          grant the exact-version exemption inside the throwaway test home only,',
+    '                         so an incompatible plugin can be judged instead of merely rejected',
     '  --timeout <ms>         runtime timeout, including assertions and shutdown (default: 30000)',
     '  --install-timeout <ms> installation timeout (default: 120000)',
     '  --out <dir>            parent for retained run directories (default: OS temporary directory)',
@@ -249,8 +284,9 @@ async function resolveLatestHost(registry) {
 
 async function cmdSmoke(options) {
   const callsPath = lastString(options, 'calls')
-  if (!lastString(options, 'dsh-dir') || !lastString(options, 'plugin') || (allStrings(options, 'tool').length === 0 && callsPath === undefined)) {
-    throw new UsageError('smoke requires --dsh-dir, --plugin, and at least one --tool or --calls assertion')
+  const bootOnly = booleanOption(options, 'boot-only')
+  if (!lastString(options, 'dsh-dir') || !lastString(options, 'plugin') || (allStrings(options, 'tool').length === 0 && callsPath === undefined && !bootOnly)) {
+    throw new UsageError('smoke requires --dsh-dir, --plugin, and at least one --tool or --calls assertion (or --boot-only)')
   }
   const report = await runRuntimeSmoke({
     dshDirectory: lastString(options, 'dsh-dir'),
@@ -258,6 +294,8 @@ async function cmdSmoke(options) {
     tools: allStrings(options, 'tool'),
     calls: callsPath === undefined ? [] : JSON.parse(readFileSync(callsPath, 'utf8')),
     out: lastString(options, 'out'),
+    bootOnly,
+    bypassGate: booleanOption(options, 'bypass-gate'),
     timeoutMs: numberOption(options, 'timeout', 30000),
     installTimeoutMs: numberOption(options, 'install-timeout', 120000),
   })
@@ -323,6 +361,214 @@ async function cmdRepair(options) {
 
 class UsageError extends Error {}
 
+/** Resolve the profile directory and running host version for rescue commands. */
+function rescueContext(options) {
+  const home = resolveDshHome(lastString(options, 'home'))
+  const profile = lastString(options, 'profile')
+  if (profile === undefined) throw new UsageError('rescue commands require --profile <name>')
+  const profileDir = join(home, 'profiles', profile)
+  if (!existsSync(profileDir)) throw new UsageError(`no such profile: ${profile} (looked in ${profileDir})`)
+  const runtimeVersion = lastString(options, 'runtime') ?? hostVersionOf(profileDir, home)
+  const dshDirectory = lastString(options, 'dsh-dir') ?? discoverDshDirectory(home, profileDir)
+  return { home, profile, profileDir, runtimeVersion, dshDirectory }
+}
+
+/** Read the installed version of a plugin from the profile, if present. */
+function manifestReader(profileDir) {
+  return (name) => {
+    const direct = join(profileDir, 'node_modules', name, 'package.json')
+    try {
+      return JSON.parse(readFileSync(direct, 'utf8'))
+    } catch {
+      for (const candidate of listInstalledPlugins(profileDir)) {
+        if (candidate.name !== name) continue
+        try {
+          return JSON.parse(readFileSync(join(candidate.directory, 'package.json'), 'utf8'))
+        } catch { return undefined }
+      }
+      return undefined
+    }
+  }
+}
+
+const RESCUE_OUTCOME_TEXT = {
+  runs: 'the plugin installs and boots on this host once the requirement is exempted',
+  broken: 'the plugin still fails to boot on this host even with the requirement exempted',
+  inconclusive: 'the isolated rehearsal could not reach a verdict (install or exemption failed)',
+}
+
+async function cmdRescue(options) {
+  const context = rescueContext(options)
+  if (context.dshDirectory === undefined) {
+    throw new UsageError('rescue needs an installed @deepseek-ai/dsh; pass --dsh-dir <dir> or install it somewhere reachable')
+  }
+  const plugin = lastString(options, 'plugin')
+  if (plugin === undefined) throw new UsageError('rescue requires --plugin <name@version>')
+  const dryRun = !booleanOption(options, 'apply')
+  const result = await rescuePlugin({
+    profileDir: context.profileDir,
+    dshDirectory: context.dshDirectory,
+    plugin,
+    runtimeVersion: context.runtimeVersion,
+    profile: context.profile,
+    dryRun,
+    timeoutMs: numberOption(options, 'timeout', 120000),
+    installTimeoutMs: numberOption(options, 'install-timeout', 300000),
+    out: lastString(options, 'out'),
+  })
+  if (booleanOption(options, 'json')) { console.log(JSON.stringify(result, null, 2)); return result.applied || result.wouldApply ? 0 : 1 }
+  const { name, version } = result.plugin
+  console.log(`rescue ${name}@${version} on dsh ${result.runtimeVersion} (profile ${result.profile})`)
+  console.log(`  rehearsal: ${result.verdict} — ${RESCUE_OUTCOME_TEXT[result.verdict]}`)
+  if (result.rehearsal?.directory) console.log(`  evidence:  ${result.rehearsal.directory}`)
+  if (result.verdict !== 'runs') {
+    console.log('\nnothing was changed. A declaration exemption would not have made this plugin work.')
+    console.log('run "dsh-plugin-health handoff --plugin ' + `${name}@${version}" to prepare an AI brief, or report it upstream.`)
+    return 1
+  }
+  if (result.wouldApply) {
+    console.log('\ndry run; nothing changed. Re-run with --apply to grant the exemption in this profile.')
+    console.log('it is recorded and can be removed with: dsh-plugin-health rescue --profile ' + context.profile + ' --undo')
+    return 0
+  }
+  console.log(`  applied:   exemption granted for ${result.entry.key} on ${context.runtimeVersion}`)
+  console.log('  undo with: dsh-plugin-health rescue --profile ' + context.profile + ' --undo')
+  return 0
+}
+
+async function cmdRescueStatus(options) {
+  const context = rescueContext(options)
+  const audits = auditRescues(context.profileDir, {
+    readManifest: manifestReader(context.profileDir),
+    runtimeVersion: context.runtimeVersion,
+  })
+  if (audits.length === 0) {
+    if (booleanOption(options, 'json')) console.log('[]')
+    else console.log('no rescues recorded for this profile')
+    return 0
+  }
+  const upstream = await checkUpstream({
+    entries: audits.filter(entry => entry.active),
+    profileDir: context.profileDir,
+    runtimeVersion: context.runtimeVersion,
+  })
+  const merged = audits.map((entry) => {
+    const found = upstream.find(item => item.key === entry.key)
+    return found === undefined ? entry : { ...entry, upstream: found.status, target: found.target }
+  })
+  if (booleanOption(options, 'json')) { console.log(JSON.stringify(merged, null, 2)); return 0 }
+  console.log(`rescued plugins in profile ${context.profile} (dsh ${context.runtimeVersion}):`)
+  for (const entry of merged) {
+    const state = entry.active ? 'active' : 'revoked'
+    const upstreamText = entry.upstream === 'fix-available'
+      ? `upstream has a fix: ${entry.target?.fixed ?? '?'} — upgrade, then undo the exemption`
+      : entry.upstream === 'newer-but-still-incompatible'
+        ? `newer version ${entry.target?.latest} exists but still rejects this host`
+        : entry.upstream === 'unknown' ? 'upstream check failed' : 'no upstream fix yet'
+    console.log(`  ${entry.key} on ${entry.runtimeVersion}: ${state}; ${upstreamText}`)
+  }
+  return 0
+}
+
+function cmdRescueUndo(options) {
+  const context = rescueContext(options)
+  const key = lastString(options, 'plugin')
+  const { undone, remaining } = undoRescue(context.profileDir, key === undefined ? {} : { key })
+  if (booleanOption(options, 'json')) { console.log(JSON.stringify({ undone, remaining }, null, 2)); return 0 }
+  if (undone.length === 0) { console.log('nothing to undo for this profile'); return 0 }
+  for (const entry of undone) console.log(`  revoked ${entry.key} on ${entry.runtimeVersion}`)
+  console.log(`${undone.length} rescue(s) revoked; ${remaining.length} still recorded`)
+  return 0
+}
+
+async function cmdHandoff(options) {
+  const context = rescueContext(options)
+  const plugin = lastString(options, 'plugin')
+  if (plugin === undefined) throw new UsageError('handoff requires --plugin <name@version>')
+  const identity = resolvePluginIdentity(plugin)
+  const readManifest = manifestReader(context.profileDir)
+  const manifest = readManifest(identity.name)
+  if (manifest === undefined) throw new UsageError(`plugin is not installed in profile ${context.profile}: ${identity.name}`)
+  const conflict = declarationConflict(manifest, context.runtimeVersion)
+  let smokeReport
+  if (context.dshDirectory !== undefined && !booleanOption(options, 'no-rehearse')) {
+    const rehearsal = await rehearse({
+      dshDirectory: context.dshDirectory,
+      plugin: `${identity.name}@${identity.version}`,
+      runtimeVersion: context.runtimeVersion,
+      timeoutMs: numberOption(options, 'timeout', 120000),
+      installTimeoutMs: numberOption(options, 'install-timeout', 300000),
+      out: lastString(options, 'out'),
+    })
+    smokeReport = rehearsal.report
+  }
+  const brief = buildBrief({
+    name: identity.name,
+    version: identity.version,
+    runtimeVersion: context.runtimeVersion,
+    requirements: conflict.requirements,
+    installedManifest: manifest,
+    smokeReport,
+    repositoryUrl: repositorySlug(manifest) === undefined ? undefined : `https://github.com/${repositorySlug(manifest)}`,
+    toolVersion: VERSION,
+  })
+  const written = writeHandoff(context.profileDir, brief, smokeReport)
+  if (booleanOption(options, 'json')) { console.log(JSON.stringify({ ...written, brief }, null, 2)); return 0 }
+  console.log(`prepared an AI brief for ${identity.name}@${identity.version} (nothing was sent)`)
+  for (const file of written.files) console.log(`  ${file}`)
+  console.log('\nThe prompt is ready to paste into your own agent. This tool never calls a model and never')
+  console.log('spends your tokens; sending it is entirely your decision. Copy it from:')
+  console.log(`  ${join(written.directory, 'prompt.md')}`)
+  return 0
+}
+
+async function cmdReport(options) {
+  const context = rescueContext(options)
+  const plugin = lastString(options, 'plugin')
+  if (plugin === undefined) throw new UsageError('report requires --plugin <name@version>')
+  const identity = resolvePluginIdentity(plugin)
+  const manifest = manifestReader(context.profileDir)(identity.name)
+  if (manifest === undefined) throw new UsageError(`plugin is not installed in profile ${context.profile}: ${identity.name}`)
+  const slug = repositorySlug(manifest)
+  if (slug === undefined) throw new UsageError(`cannot work out a GitHub repository for ${identity.name}; open the issue manually`)
+  console.log(`checking whether ${slug} already has a report for ${identity.name} on dsh ${context.runtimeVersion} ...`)
+  const existing = await findExistingReports({
+    slug, name: identity.name, runtimeVersion: context.runtimeVersion,
+    token: process.env.GITHUB_TOKEN,
+  })
+  if (!existing.checked) console.log(`  could not check GitHub (${existing.error}); the text below is still prepared`)
+  else if (existing.existing.length > 0) {
+    console.log(`  ${existing.existing.length} existing report(s) found — add to one of these instead of filing a duplicate:`)
+    for (const item of existing.existing) console.log(`    #${item.number} [${item.state}] ${item.title}\n      ${item.url}`)
+    return 0
+  } else console.log('  no existing report found for this package and host version')
+  const conflict = declarationConflict(manifest, context.runtimeVersion)
+  const report = buildReport({
+    name: identity.name,
+    version: identity.version,
+    runtimeVersion: context.runtimeVersion,
+    requirements: conflict.requirements,
+    rehearsal: lastString(options, 'rehearsal'),
+    repositoryUrl: `https://github.com/${slug}`,
+    toolVersion: VERSION,
+  })
+  rememberReport(context.profileDir, {
+    name: identity.name, version: identity.version,
+    runtimeVersion: context.runtimeVersion, slug, title: report.title,
+  })
+  const target = `https://github.com/${slug}/issues/new`
+  console.log(`\nprepared a report for ${slug} (nothing was filed):`)
+  console.log(`  open: ${target}`)
+  console.log(`  title: ${report.title}`)
+  if (booleanOption(options, 'json')) console.log(JSON.stringify(report, null, 2))
+  else {
+    console.log('\n--- body ---')
+    console.log(report.body)
+  }
+  console.log('\nThis tool does not file issues for you. Review, then paste it into the link above.')
+  return 0
+}
+
 /**
  * Run one CLI invocation.
  * @param {readonly string[]} argv - arguments without node/script.
@@ -339,12 +585,17 @@ export async function main(argv) {
     return 0
   }
   try {
+    if (command === 'rescue' && booleanOption(options, 'undo')) return cmdRescueUndo(options)
+    if (command === 'rescue' && booleanOption(options, 'status')) return await cmdRescueStatus(options)
     switch (command) {
       case 'matrix': return await cmdMatrix(options)
       case 'smoke': return await cmdSmoke(options)
       case 'index': return await cmdIndex(options)
       case 'doctor': return await cmdDoctor(options)
       case 'repair': return await cmdRepair(options)
+      case 'rescue': return await cmdRescue(options)
+      case 'handoff': return await cmdHandoff(options)
+      case 'report': return await cmdReport(options)
       default:
         console.error(`unknown command: ${command}`)
         console.error(usage())

@@ -40,6 +40,20 @@ export async function verifyTools(ctx, tools, calls) {
   return { registered, executed }
 }
 
+/**
+ * Without tool assertions the run is boot-only: activation is the whole claim, so
+ * record what actually activated instead of returning an empty, uninformative report.
+ */
+export function describeActivation(ctx) {
+  const loader = ctx.get('loader')
+  const entries = []
+  for (const entry of loader?.entries?.() ?? []) {
+    if (entry.disabled) continue
+    entries.push({ id: entry.options.id ?? null, name: entry.options.name ?? null, state: entry.fiber?.state ?? null })
+  }
+  return { bootOnly: true, activeEntries: entries }
+}
+
 async function main(configPath) {
   const config = JSON.parse(readFileSync(configPath, 'utf8'))
   const report = { ok: false, stage: 'boot' }
@@ -59,7 +73,9 @@ async function main(configPath) {
     verifyActivation(ctx)
     report.stage = 'assertions'
     save()
-    report.assertions = await verifyTools(ctx, config.tools, config.calls)
+    report.assertions = config.tools.length === 0 && config.calls.length === 0
+      ? describeActivation(ctx)
+      : await verifyTools(ctx, config.tools, config.calls)
     report.stage = 'shutdown'
     save()
     code = 0

@@ -120,6 +120,8 @@ export function createRepairHandler({ key, inspect = inspectDshHome, apply = app
  * Mount both routes on the host's web server.
  * @param {object} ctx - Cordis context.
  * @param {{getStatus: () => object, resolveProfile?: () => object}} options - providers.
+ * @returns {string} the control key, so sibling routes (rescue) guard with the same one
+ *   instead of minting a second key that has to be kept in sync.
  */
 export function registerRepairRoute(ctx, { getStatus, resolveProfile }) {
   const key = createRepairKey()
@@ -141,6 +143,7 @@ export function registerRepairRoute(ctx, { getStatus, resolveProfile }) {
       }
     }, 'dsh-plugin-health: status + repair routes')
   })
+  return key
 }
 
 /**
