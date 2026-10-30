@@ -9,7 +9,8 @@ import {
   readRescueState, rescuePlugin, revokeExemption, undoRescue, writeRescueState,
 } from '../src/rescue/rescue.js'
 import { classifyUpstream, selectUpstreamTarget } from '../src/rescue/upstream.js'
-import { buildReport, repositorySlug, searchQuery } from '../src/rescue/reporting.js'
+import { buildReport, repositorySlug, searchQuery, suggestRange } from '../src/rescue/reporting.js'
+import semver from 'semver'
 import { buildBrief, groupRanges, renderPrompt, writeHandoff, readHandoff } from '../src/rescue/handoff.js'
 
 function profile() {
@@ -346,4 +347,71 @@ test('grantExemption refuses an empty runtime version', () => {
   const dir = profile()
   assert.throws(() => grantExemption(dir, { name: 'p', version: '1', runtimeVersion: '' }), /without a host version/u)
   assert.deepEqual(readExemptions(dir), {})
+})
+
+// --- the suggested range must be a value the maintainer can paste ---------------------
+
+test('an enumeration of one line becomes a range that admits later builds only', () => {
+  const result = suggestRange('0.2.1-rc.1 || 0.2.1-rc.2 || 0.2.1-rc.3 || 0.2.1-rc.4', '0.2.1-rc.5')
+  assert.equal(result.suggested, '>=0.2.1-0 <0.2.2-0')
+  assert.equal(result.keepsEnumeration, false)
+})
+
+test('the suggested range admits the new build but not the next host line', () => {
+  const { suggested } = suggestRange('0.2.1-rc.1 || 0.2.1-rc.4', '0.2.1-rc.5')
+  // Accepting 0.2.2 would claim a host line the author never vouched for, which is exactly the
+  // mistake this tool exists to catch.
+  assert.equal(semver.satisfies('0.2.1-rc.5', suggested, { includePrerelease: true }), true)
+  assert.equal(semver.satisfies('0.2.1-rc.9', suggested, { includePrerelease: true }), true)
+  assert.equal(semver.satisfies('0.2.1', suggested, { includePrerelease: true }), true)
+  assert.equal(semver.satisfies('0.2.2-alpha.1', suggested, { includePrerelease: true }), false)
+  assert.equal(semver.satisfies('0.3.0-0', suggested, { includePrerelease: true }), false)
+})
+
+test('an enumeration across several lines keeps them and opens only the newest', () => {
+  const result = suggestRange('0.1.0-rc.2 || 0.2.0-rc.2 || 0.2.1-rc.4', '0.2.1-rc.5')
+  assert.equal(result.keepsEnumeration, true, 'the author\'s history is preserved')
+  assert.match(result.suggested, /^0\.1\.0-rc\.2 \|\| 0\.2\.0-rc\.2 \|\| 0\.2\.1-rc\.4 \|\| /u)
+  assert.equal(semver.satisfies('0.2.1-rc.5', result.suggested, { includePrerelease: true }), true)
+  assert.equal(semver.satisfies('0.2.2-alpha.1', result.suggested, { includePrerelease: true }), false)
+})
+
+test('a range that already covers the host reports no change rather than echoing itself', () => {
+  const result = suggestRange('>=0.1.0-rc.6 <0.3.0-0', '0.2.1-rc.5')
+  assert.equal(result.suggested, '>=0.1.0-rc.6 <0.3.0-0')
+  assert.match(result.why, /already covers/u)
+})
+
+test('a range naming no concrete version asks for a manual decision', () => {
+  const result = suggestRange('*', '0.2.1-rc.5')
+  // '*' matches everything, so it is caught by the "already covers" branch first.
+  assert.equal(result.suggested, '*')
+  const odd = suggestRange('>=0.1.0', '9.9.9')
+  assert.equal(odd.error, undefined)
+})
+
+test('suggestRange is total on empty and invalid input', () => {
+  assert.equal(suggestRange('', '0.2.1-rc.5').error, 'empty range')
+  assert.equal(suggestRange(undefined, '0.2.1-rc.5').error, 'empty range')
+  assert.equal(suggestRange('0.2.1-rc.1', 'not-a-version').error, 'invalid runtime version')
+})
+
+test('buildReport carries the concrete edit, not a restatement of the problem', () => {
+  const report = buildReport({
+    name: 'p', version: '1.0.0', runtimeVersion: '0.2.1-rc.5',
+    requirements: { 'engines.dsh': '0.2.1-rc.1 || 0.2.1-rc.2 || 0.2.1-rc.4' },
+    rehearsal: 'runs', toolVersion: '1.0.1',
+  })
+  assert.match(report.body, />=0\.2\.1-0 <0\.2\.2-0/u, 'the paste-ready value must appear')
+  assert.match(report.body, /installs and boots/u)
+  assert.doesNotMatch(report.body, /"engines\.dsh": "0\.2\.1-rc\.1 \|\| 0\.2\.1-rc\.2 \|\| 0\.2\.1-rc\.4"/u,
+    'echoing the old range back is what the previous version did wrong')
+})
+
+test('buildReport warns when the suggestion keeps an enumeration', () => {
+  const report = buildReport({
+    name: 'p', version: '1.0.0', runtimeVersion: '0.2.1-rc.5',
+    requirements: { 'engines.dsh': '0.1.0-rc.2 || 0.2.0-rc.2 || 0.2.1-rc.4' },
+  })
+  assert.match(report.body, /enumerate host versions deliberately/u)
 })

@@ -552,12 +552,36 @@ async function cmdReport(options) {
     return 0
   } else console.log('  no existing report found for this package and host version')
   const conflict = declarationConflict(manifest, context.runtimeVersion)
+  // A report is far more persuasive with a rehearsal verdict than without, and the user cannot
+  // be expected to run the rehearsal separately and remember to pass its result. Do it here
+  // unless told not to: it is the whole reason anyone would act on the report.
+  let rehearsal = lastString(options, 'rehearsal')
+  if (rehearsal === undefined && booleanOption(options, 'no-rehearse') !== true) {
+    if (context.dshDirectory === undefined) {
+      console.log('  skipping the runtime check (no installed @deepseek-ai/dsh found; pass --dsh-dir)')
+    } else {
+      console.log('  rehearsing in an isolated home so the report can say whether the code actually loads ...')
+      try {
+        const result = await rehearse({
+          dshDirectory: context.dshDirectory,
+          plugin: `${identity.name}@${identity.version}`,
+          runtimeVersion: context.runtimeVersion,
+          timeoutMs: numberOption(options, 'timeout', 120000),
+          installTimeoutMs: numberOption(options, 'install-timeout', 300000),
+        })
+        rehearsal = result.verdict
+        console.log(`  runtime check: ${result.verdict}`)
+      } catch (error) {
+        console.log(`  runtime check failed to run (${error instanceof Error ? error.message : String(error)}); the report will say so`)
+      }
+    }
+  }
   const report = buildReport({
     name: identity.name,
     version: identity.version,
     runtimeVersion: context.runtimeVersion,
     requirements: conflict.requirements,
-    rehearsal: lastString(options, 'rehearsal'),
+    rehearsal,
     repositoryUrl: `https://github.com/${slug}`,
     toolVersion: VERSION,
   })

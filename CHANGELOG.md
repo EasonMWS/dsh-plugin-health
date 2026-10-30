@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.1 (2026-10-30)
+
+### Fixed
+
+- **`report` now carries a value the maintainer can paste.** The previous version printed the
+  declared range back unchanged with a comment, which names the problem but not the edit — a report
+  nobody can act on. It now works the suggestion out from what the package declares: an enumeration
+  of one line becomes `>=0.2.1-0 <0.2.2-0`; an enumeration spanning several lines keeps that
+  history and opens only the newest; a range that already covers the host is reported as needing no
+  change. The ceiling stops at the next host line, never at the next major, so a future `0.2.2` is
+  not silently admitted on the author's behalf.
+- **`report` runs the rehearsal by default.** A verdict is the difference between "your ranges are
+  stale" and "your ranges are stale and the code does load" — the second is what gets a fix merged.
+  Users no longer have to run the rehearsal separately and remember to pass its result.
+
+163 tests (8 new), 162 pass, 1 platform skip.
+
 ## 1.0.0 (2026-10-29)
 
 First stable release. The four-layer flow — detect, verify, repair, escalate — is complete and
