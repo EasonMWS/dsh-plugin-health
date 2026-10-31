@@ -86,7 +86,7 @@ and undo restores exactly the value that was there before.
 
 ## Safety boundaries (please read)
 
-> **Security:** 1.1.0 fixes seven issues found in an external review of 1.0.2, including one rated
+> **Security:** 1.1.0 fixes seven issues found in a security test of 1.0.2, including one rated
 > high — the write routes' control key was handed out by the unauthenticated status endpoint. If you
 > run 1.0.3 or earlier, upgrade. See
 > [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5)

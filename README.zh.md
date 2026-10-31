@@ -80,7 +80,7 @@ DeepSeek Harness（dsh）的**插件体检 + 修复**工具，带 **DSH 内的�
 
 ## 安全边界（请务必读一遍）
 
-> **安全提示：** 1.1.0 修复了外部审计在 1.0.2 里发现的 7 个问题，其中一个评为 high ——
+> **安全提示：** 1.1.0 修复了安全测试在 1.0.2 里发现的 7 个问题，其中一个评为 high ——
 > 写路由的控制密钥被无鉴权的 status 接口下发了。**如果你在用 1.0.3 或更早，请升级。**
 > 详情见
 > [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5)

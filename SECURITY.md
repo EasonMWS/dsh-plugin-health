@@ -14,7 +14,7 @@ Include the version, the command or module affected, and a minimal reproduction.
 | --- | --- | --- | --- |
 | [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5) | High | `<= 1.0.3` | **1.1.0** |
 
-Seven issues from an external review. The reachable chain needed a **local process**: the write
+Seven issues found in a security test of 1.0.2. The reachable chain needed a **local process**: the write
 routes' control key was returned by the unauthenticated `/status` endpoint, so anything on the
 machine that could reach loopback could obtain it and then reach destructive actions — a config
 wipe on a patch layer the tool could not parse, an arbitrary-path write through the handoff
@@ -23,8 +23,6 @@ Remote and cross-origin attackers were never able to reach these routes (host he
 custom header forced a preflight).
 
 **If you run 1.0.3 or earlier, upgrade to 1.1.0.** The advisory carries the details.
-
-Thanks to the reviewer who found these and reported them privately.
 
 ## Scope
 

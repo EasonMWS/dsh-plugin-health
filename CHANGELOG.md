@@ -2,8 +2,8 @@
 
 ## 1.1.0 (2026-10-31)
 
-Security release. Seven issues reported by an external review of 1.0.2, all reproduced and fixed,
-each with a regression test. Thank you to the reviewer.
+Security release. Seven issues found in a security test of 1.0.2, all reproduced and fixed,
+each with a regression test.
 
 ### Fixed — the control key was handed to anyone who asked
 
