@@ -80,6 +80,13 @@ DeepSeek Harness（dsh）的**插件体检 + 修复**工具，带 **DSH 内的�
 
 ## 安全边界（请务必读一遍）
 
+> **安全提示：** 1.1.0 修复了外部审计在 1.0.2 里发现的 7 个问题，其中一个评为 high ——
+> 写路由的控制密钥被无鉴权的 status 接口下发了。**如果你在用 1.0.3 或更早，请升级。**
+> 详情见
+> [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5)
+> 与 [SECURITY.md](SECURITY.md)。那里也把信任边界写清楚了：写路由对**任何本地进程**可达，
+> 真正的边界是 loopback 接口本身。
+
 | 我们做什么 | 我们不做什么 |
 | --- | --- |
 | 在隔离的临时 home 里试装试启动 | ❌ 不自动调用你的 AI，不花你的 token |
