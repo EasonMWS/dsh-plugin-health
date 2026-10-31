@@ -1306,17 +1306,26 @@ window.__ModuleLoader__.load({
           } catch { /* fall through to the reported failure */ }
           return false
         }
+        /**
+         * Keep the sidebar alert in step with the snapshot.
+         *
+         * Two bugs lived here. The count was captured in `inject` at registration time, so it never
+         * updated; and once the alert existed the refresh returned early, so a later clean scan left
+         * a stale "N issues" chip on screen that no longer matched the panel. The count now lives in
+         * a variable the registration reads on each render, and the alert is torn down and rebuilt
+         * when the number changes — the slot has no other way to update its props.
+         */
+        let alertCount
         const refreshAlert = () => {
           fetch(STATUS_PATH, { headers: { accept: 'application/json' }, credentials: 'same-origin' })
             .then((response) => (response.ok ? response.json() : undefined))
             .then((data) => {
               const count = (data?.issues ?? []).filter((issue) => issue.severity !== 'info').length
-              if (count === 0) {
-                try { disposeAlert?.() } catch {}
-                disposeAlert = undefined
-                return
-              }
-              if (disposeAlert !== undefined) return
+              if (count === alertCount) return
+              try { disposeAlert?.() } catch {}
+              disposeAlert = undefined
+              alertCount = count
+              if (count === 0) return
               layoutCtx.slots.inject(ALERT_SLOT, () => {
                 const dispose = layoutCtx.slots.register({
                   name: ALERT_SLOT,

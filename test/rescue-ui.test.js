@@ -30,10 +30,12 @@ function snapshot({ rescuable = [PLUGIN], rescues = [] } = {}) {
  * Render the browser bundle and route rescue requests to scripted responses.
  * `handler(action, body)` returns the JSON body the fake server sends back.
  */
-function client({ data = snapshot(), handler } = {}) {
+function client({ data = snapshot(), handler, statusSequence } = {}) {
   const slots = new Map(), dictionaries = new Map(), instances = new Map(), requests = []
   /** Keyboard events the client dispatched, so a test can assert the settings shortcut fired. */
   const keyEvents = []
+  /** Poll callbacks registered via setInterval, so a test can trigger a refresh on demand. */
+  const intervals = []
   let language = 'en', active, pendingEffects = [], exports
   const React = {
     createElement: (type, props, ...children) => ({ type, props: props ?? {}, children: children.flat(Infinity) }),
@@ -90,11 +92,19 @@ function client({ data = snapshot(), handler } = {}) {
         })
       }
     },
-    setInterval: () => 0, clearInterval: () => {},
+    // Capture interval callbacks so a test can provoke a poll without waiting 60s.
+    setInterval: (callback) => { intervals.push(callback); return 0 },
+    clearInterval: () => {},
     fetch: async (url, options = {}) => {
       const body = options.body === undefined ? undefined : JSON.parse(options.body)
       requests.push({ url, body })
-      if (url.endsWith('/status')) return { ok: true, status: 200, json: async () => data }
+      if (url.endsWith('/status')) {
+        // `statusSequence` models the snapshot changing between polls; the last entry sticks.
+        const payload = statusSequence !== undefined && statusSequence.length > 0
+          ? (statusSequence.length > 1 ? statusSequence.shift() : statusSequence[0])
+          : data
+        return { ok: true, status: 200, json: async () => payload }
+      }
       if (url.endsWith('/repair')) return { ok: true, json: async () => ({ planned: [], manual: 0, actions: [] }) }
       const action = url.split('/').at(-1)
       const payload = handler === undefined ? {} : handler(action, body)
@@ -116,6 +126,8 @@ function client({ data = snapshot(), handler } = {}) {
   }
   return {
     slots, requests, keyEvents,
+    /** Run every registered poll callback once, simulating the 60s timer. */
+    triggerRefresh() { for (const callback of intervals) callback() },
     /**
      * The sidebar alert registration. The slot's `inject()` supplies the props the component
      * receives, so `open` is the callback a click would run.
@@ -373,4 +385,29 @@ test('the sidebar alert opens settings through the shell command, not selectPane
   assert.equal(app.keyEvents[0].code, 'Comma')
   assert.equal(String(app.keyEvents[0].ctrlKey || app.keyEvents[0].metaKey), 'true',
     'the shortcut needs a primary modifier or the host will not treat it as the command')
+})
+
+// --- the sidebar alert must not outlive the problem it reports -------------------------
+
+test('the alert is removed once a rescan comes back clean', async () => {
+  // A user saw "1 issue" after the panel itself showed nothing. The count was captured at
+  // registration and the refresh returned early whenever the alert already existed, so a later
+  // clean scan left a stale chip on screen.
+  const app = client({
+    data: { ...snapshot(), issues: [{ id: 'x', severity: 'warn', title: 'w', detail: 'd', fix: 'f' }] },
+    // The second /status call returns a clean snapshot.
+    statusSequence: [
+      { ...snapshot(), issues: [{ id: 'x', severity: 'warn', title: 'w', detail: 'd', fix: 'f' }] },
+      { ...snapshot(), issues: [] },
+    ],
+  })
+  app.render()
+  // The first snapshot arrives through a promise chain; give it a couple of turns.
+  for (let i = 0; i < 4; i += 1) await settle()
+  assert.ok(app.findAlert(), 'the alert appears while a warning exists')
+
+  // Simulate the 60s poll, whose /status now returns the clean snapshot.
+  app.triggerRefresh()
+  for (let i = 0; i < 4; i += 1) await settle()
+  assert.equal(app.findAlert(), undefined, 'a clean scan must remove the stale alert')
 })

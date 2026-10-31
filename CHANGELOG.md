@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.3 (2026-10-31)
+
+### Fixed
+
+- **The sidebar chip kept showing a count that was no longer true.** Reported from a real screen:
+  the chip said "1 issue" while the panel itself listed none. Two defects stacked. The count was
+  captured in the slot's `inject` at registration time, so it never updated; and the refresh
+  returned early whenever the alert already existed, so a chip was never removed once the problem
+  cleared. The count now lives in a variable the registration reads, and the alert is torn down and
+  rebuilt when the number changes — the slot has no other way to update its props.
+
+  A regression test drives a warning snapshot, then a clean one, and asserts the chip disappears;
+  it fails against the previous code.
+
+164 tests (1 new), 164 pass, 1 platform skip.
+
 ## 1.0.2 (2026-10-31)
 
 ### Fixed
