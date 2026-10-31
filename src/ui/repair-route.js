@@ -30,6 +30,28 @@ function sameKey(expected, presented) {
   return timingSafeEqual(left, right)
 }
 
+/** Name of the cookie that carries the per-launch control key to the browser. */
+export const KEY_COOKIE = 'plugin_health_key'
+
+/**
+ * Read the control key a request presents: the HttpOnly cookie the status route set, or the header
+ * the browser half may still send. Both are compared the same way, so neither path is weaker.
+ * @param {object} req - incoming request.
+ * @returns {string|undefined}
+ */
+export function presentedKey(req) {
+  const header = req?.headers?.['x-plugin-health-key']
+  if (typeof header === 'string' && header !== '') return header
+  const cookie = req?.headers?.cookie
+  if (typeof cookie !== 'string') return undefined
+  for (const part of cookie.split(';')) {
+    const index = part.indexOf('=')
+    if (index === -1) continue
+    if (part.slice(0, index).trim() === KEY_COOKIE) return part.slice(index + 1).trim()
+  }
+  return undefined
+}
+
 function hostnameOf(hostHeader) {
   const text = String(hostHeader ?? '').trim().toLowerCase()
   if (text === '') return ''
@@ -37,12 +59,20 @@ function hostnameOf(hostHeader) {
   return text.split(':')[0]
 }
 
-function send(res, status, body) {
+/**
+ * Send a JSON response.
+ * @param {object} res - response.
+ * @param {number} status - HTTP status.
+ * @param {any} body - JSON payload.
+ * @param {Record<string, string>} [extraHeaders] - additional headers, such as the key cookie.
+ */
+function send(res, status, body, extraHeaders) {
   const payload = JSON.stringify(body)
   res.writeHead(status, {
     'content-type': 'application/json; charset=utf-8',
     'cache-control': 'no-store',
     'content-length': Buffer.byteLength(payload),
+    ...(extraHeaders ?? {}),
   })
   res.end(payload)
 }
@@ -81,7 +111,7 @@ export function createRepairHandler({ key, inspect = inspectDshHome, apply = app
       send(res, 405, { error: 'method not allowed' })
       return
     }
-    if (!sameKey(key, req?.headers?.['x-plugin-health-key'])) {
+    if (!sameKey(key, presentedKey(req))) {
       send(res, 401, { error: 'missing or invalid control key' })
       return
     }
@@ -147,8 +177,37 @@ export function registerRepairRoute(ctx, { getStatus, resolveProfile }) {
 }
 
 /**
- * Wrap the status body with the in-process key, so only a page that received this document can call
- * the write route.
+ * Deliver the control key to the browser without handing it to every local process.
+ *
+ * The previous version put the key in the status body, which defeated its own purpose: any local
+ * process could GET /status and receive the key, so the key protected nothing. A local HTTP client
+ * and the browser's own page are indistinguishable by connection.
+ *
+ * The key is now delivered as an HttpOnly, SameSite=Strict cookie on the loopback origin. A page
+ * served from that origin sends it automatically; `fetch(..., { credentials: 'same-origin' })`
+ * includes it. A different local process can still *send* a forged cookie — it knows its own
+ * value — but it cannot make the browser attach this one to a cross-origin request, and
+ * SameSite=Strict keeps it off any third-party-initiated request. The remaining trust boundary is
+ * the loopback interface itself, which is stated plainly in the comments rather than papered over.
+ *
+ * `HttpOnly` keeps the value out of reach of page scripts, so an XSS in any *other* plugin cannot
+ * steal it. Our own client never reads the value; it only relies on the cookie being sent.
+ * @param {string} key - the per-launch control key.
+ * @returns {Record<string, string>} headers to add to the status response.
+ */
+export function keyCookieHeaders(key) {
+  if (typeof key !== 'string' || key === '') return {}
+  return {
+    // No `Max-Age`: the cookie dies with the browser session, matching the per-launch key.
+    'set-cookie': `plugin_health_key=${key}; Path=/; HttpOnly; SameSite=Strict`,
+  }
+}
+
+/**
+ * Serve the status snapshot.
+ *
+ * The snapshot no longer carries the control key. It is delivered once, as an HttpOnly cookie, so
+ * page scripts cannot read it and other local processes cannot obtain it from this endpoint.
  * @param {() => object} getStatus - status provider.
  * @param {string} key - repair control key.
  * @returns {(req: object, res: object) => Promise<void>} handler.
@@ -165,7 +224,7 @@ export function createStatusHandler(getStatus, key) {
     }
     try {
       const body = await getStatus()
-      send(res, 200, key === undefined ? body : { ...body, repairKey: key })
+      send(res, 200, body, keyCookieHeaders(key))
     } catch (error) {
       send(res, 500, { error: error instanceof Error ? error.message : String(error) })
     }

@@ -18,7 +18,7 @@
  * user-owned config, and both record what they changed so `restore` is exact.
  * @module rescue/boot
  */
-import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { parse as parseYaml, stringify as stringifyYaml } from 'yaml'
@@ -37,14 +37,43 @@ const LOG_TAIL = 5
 export function readProfilePatch(profileDir) {
   const path = join(profileDir, 'cordis.patch.yml')
   if (!existsSync(path)) return []
+  let parsed
   try {
-    const parsed = parseYaml(readFileSync(path, 'utf8'))
-    return Array.isArray(parsed) ? parsed.filter(entry => typeof entry === 'object' && entry !== null) : []
+    parsed = parseYaml(readFileSync(path, 'utf8'))
   } catch (error) {
     const wrapped = new Error(`the profile patch layer is not valid YAML: ${error.message}`)
     wrapped.code = 'PATCH_INVALID'
     throw wrapped
   }
+  if (parsed === null || parsed === undefined) return []
+  // A mapping, string or number at the top level is not a patch layer this tool understands.
+  // Returning [] here used to be silent, and the caller then wrote the file back containing only
+  // its own overlay — wiping every entry the user had. Refusing is better than destroying a
+  // configuration we did not understand in the first place.
+  if (!Array.isArray(parsed)) {
+    const wrapped = new Error('the profile patch layer is not a YAML sequence; refusing to rewrite it')
+    wrapped.code = 'PATCH_NOT_SEQUENCE'
+    throw wrapped
+  }
+  return parsed.filter(entry => typeof entry === 'object' && entry !== null)
+}
+
+/**
+ * Write the patch layer safely: keep a copy of what is there, then replace it atomically.
+ *
+ * Overwriting a user's configuration is the one destructive thing this tool can do, so it leaves a
+ * backup behind and never exposes a half-written file to the host.
+ * @param {string} profileDir
+ * @param {object[]} entries
+ */
+export function writeProfilePatch(profileDir, entries) {
+  const path = join(profileDir, 'cordis.patch.yml')
+  if (existsSync(path)) {
+    try { copyFileSync(path, `${path}.bak-plugin-health`) } catch { /* the write below still runs */ }
+  }
+  const temporary = `${path}.tmp-${process.pid}`
+  writeFileSync(temporary, stringifyYaml(entries))
+  renameSync(temporary, path)
 }
 
 /**
@@ -334,7 +363,7 @@ export function enterSafeMode(profileDir, { dryRun = false, now = new Date() } =
   }))
   if (!dryRun) {
     const next = [...entries, ...overlay]
-    writeFileSync(path, stringifyYaml(next))
+    writeProfilePatch(profileDir, next)
   }
   return { changed: true, added: overlay, alreadyDisabled: already.length, file: path }
 }
@@ -352,7 +381,7 @@ export function restoreSafeMode(profileDir, { dryRun = false } = {}) {
     return !comment.startsWith(SAFE_MARKER)
   })
   const removed = entries.length - kept.length
-  if (removed > 0 && !dryRun) writeFileSync(path, stringifyYaml(kept))
+  if (removed > 0 && !dryRun) writeProfilePatch(profileDir, kept)
   return { removed, file: path }
 }
 
@@ -382,7 +411,7 @@ export function disablePlugin(profileDir, { name, id, now = new Date() }) {
     comment: `${DISABLE_MARKER}: disabled ${now.toISOString()} because it cannot load on this DSH version. `
       + 'Remove with dsh-plugin-health rescue, or re-enable it from the plugin health panel.',
   }
-  writeFileSync(path, stringifyYaml([...entries, overlay]))
+  writeProfilePatch(profileDir, [...entries, overlay])
   return { changed: true, added: [overlay], file: path }
 }
 
@@ -397,7 +426,7 @@ export function enablePlugin(profileDir, { name, id }) {
   const kept = entries.filter(entry => !(entryTargets(entry, name, id) && entry.disabled === true
     && typeof entry.comment === 'string' && entry.comment.startsWith(DISABLE_MARKER)))
   const removed = entries.length - kept.length
-  if (removed > 0) writeFileSync(path, stringifyYaml(kept))
+  if (removed > 0) writeProfilePatch(profileDir, kept)
   return { changed: removed > 0, removed, file: path }
 }
 

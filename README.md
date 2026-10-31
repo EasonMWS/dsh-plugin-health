@@ -12,7 +12,7 @@ Every other tool stops at *"this plugin is incompatible."* This one answers the 
 only then decides whether to repair, to hand you a brief for your own agent, or to switch the
 plugin off so DSH keeps working.
 
-> Status: `1.0.3`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `1.1.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 **Live official format-1 index:** <https://easonmws.github.io/dsh-plugin-health/index.json>

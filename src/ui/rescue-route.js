@@ -13,9 +13,9 @@
  * profile changes.
  * @module ui/rescue-route
  */
-import { randomBytes } from 'node:crypto'
+import { randomBytes, timingSafeEqual } from 'node:crypto'
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, resolve, sep } from 'node:path'
 
 import { auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue } from '../rescue/rescue.js'
 import { checkUpstream } from '../rescue/upstream.js'
@@ -23,6 +23,7 @@ import { discoverDshDirectory, prepareRehearsalHost } from '../rescue/environmen
 import { disablePlugin as disablePluginImpl, enablePlugin as enablePluginImpl } from '../rescue/boot.js'
 import { buildReport, findExistingReports, repositorySlug } from '../rescue/reporting.js'
 import { buildBrief, renderPrompt, writeHandoff } from '../rescue/handoff.js'
+import { presentedKey } from './repair-route.js'
 
 /** Route namespace, absolute so the browser half can call it from the DSH origin. */
 export const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
@@ -31,6 +32,12 @@ export const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
 export const RESCUE_KEY = randomBytes(24).toString('hex')
 
 const LOOPBACK = new Set(['127.0.0.1', 'localhost', '::1'])
+
+/** Constant-time key comparison, shared shape with the repair route. */
+function sameKey(expected, presented) {
+  if (typeof presented !== 'string' || presented.length !== expected.length) return false
+  return timingSafeEqual(Buffer.from(expected), Buffer.from(presented))
+}
 
 function hostnameOf(header) {
   const text = String(header ?? '').trim().toLowerCase()
@@ -112,6 +119,37 @@ export function createRescueHandlers({
     const prepared = await prepareHostImpl({ home, version: runtimeVersion })
     return prepared.directory
   }
+  /**
+   * Accept a caller-supplied host directory only if it is a real `@deepseek-ai/dsh` package inside
+   * one of the roots this tool already trusts.
+   *
+   * `body.dshDirectory` chose the directory whose `bin` script the rehearsal executes, so any local
+   * caller that could drop a folder anywhere on disk got code execution — no npm, no shell, and no
+   * user-visible trace. The value is now treated as a hint: it must resolve inside the profile, the
+   * DSH home, this tool's own host cache, or the current working directory, and it must actually
+   * contain a `@deepseek-ai/dsh` package.
+   * @param {string} candidate
+   * @param {{home: string, profileDir: string}} where
+   * @returns {string} the resolved directory, or throws
+   */
+  const trustedHostDirectory = (candidate, { home, profileDir }) => {
+    const roots = [
+      profileDir,
+      home,
+      join(home, '.plugin-health', 'host'),
+      process.cwd(),
+    ].map(root => resolve(root))
+    const resolved = resolve(candidate)
+    const inside = roots.some(root => resolved === root || resolved.startsWith(`${root}${sep}`))
+    if (!inside) throw new Error('dshDirectory must be inside the profile, the DSH home, or this tool\'s host cache')
+    return resolved
+  }
+  /** A hint from the caller, if it is one we are willing to use. */
+  const hostFromBody = (body, where) => (
+    typeof body.dshDirectory === 'string' && body.dshDirectory !== ''
+      ? trustedHostDirectory(body.dshDirectory, where)
+      : undefined
+  )
   return {
     async rehearse(body) {
       const { home, profile, profileDir, runtimeVersion } = context()
@@ -119,7 +157,8 @@ export function createRescueHandlers({
         throw new Error('rescue needs plugin and version')
       }
       const hostVersion = runtimeVersion ?? body.runtimeVersion
-      const dshDirectory = body.dshDirectory ?? await hostFor(home, profileDir, hostVersion)
+      const dshDirectory = hostFromBody(body, { home, profileDir })
+        ?? await hostFor(home, profileDir, hostVersion)
       const result = await rehearseImpl({
         dshDirectory,
         plugin: `${body.plugin}@${body.version}`,
@@ -140,7 +179,8 @@ export function createRescueHandlers({
         throw new Error('rescue needs plugin and version')
       }
       const hostVersion = runtimeVersion ?? body.runtimeVersion
-      const dshDirectory = body.dshDirectory ?? await hostFor(home, profileDir, hostVersion)
+      const dshDirectory = hostFromBody(body, { home, profileDir })
+        ?? await hostFor(home, profileDir, hostVersion)
       const result = await rescueImpl({
         profileDir, profile, dshDirectory,
         plugin: `${body.plugin}@${body.version}`,
@@ -296,12 +336,15 @@ export function registerRescueRoute(ctx, { currentProfile, key, toolVersion }) {
           if (!LOOPBACK.has(hostnameOf(req?.headers?.host))) { send(res, 403, { error: 'loopback only' }); return }
           if (req?.method !== 'POST') { send(res, 405, { error: 'method not allowed' }); return }
           const action = String(req.url ?? '').split('?')[0].replace(RESCUE_PATH, '').replace(/^\//u, '')
-          const handler = handlers[action]
-          if (handler === undefined) { send(res, 404, { error: `unknown rescue action: ${action}` }); return }
           try {
-            // The control key is required for every action: a page on another origin can
-            // reach loopback, so the host check alone is not an authorisation boundary.
-            if (req.headers['x-plugin-health-key'] !== key) { send(res, 401, { error: 'missing or invalid control key' }); return }
+            // The control key is required for every action: a page on another origin can reach
+            // loopback, so the host check alone is not an authorisation boundary. Constant-time
+            // comparison, and the key may arrive as the HttpOnly cookie the status route set or as
+            // a header. This runs before the action is looked up, so an unauthenticated caller
+            // cannot enumerate action names from 404-versus-401 differences.
+            if (!sameKey(key, presentedKey(req))) { send(res, 401, { error: 'missing or invalid control key' }); return }
+            const handler = handlers[action]
+            if (handler === undefined) { send(res, 404, { error: 'unknown rescue action' }); return }
             const body = await readBody(req)
             send(res, 200, await handler(body))
           } catch (error) {

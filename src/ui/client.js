@@ -467,7 +467,7 @@ window.__ModuleLoader__.load({
      * `confirming` exists so a write never happens on the same click that reveals its
      * consequences; the user restates the trade-off before the exemption is written.
      */
-    function useRescue(reload, key) {
+    function useRescue(reload) {
       const [phase, setPhase] = React.useState('idle')
       const [verdict, setVerdict] = React.useState(undefined)
       const [error, setError] = React.useState(undefined)
@@ -479,7 +479,7 @@ window.__ModuleLoader__.load({
       const call = React.useCallback(async (action, body) => {
         const response = await fetch(`${RESCUE_PATH}/${action}`, {
           method: 'POST',
-          headers: { 'content-type': 'application/json', 'x-plugin-health-key': key ?? '' },
+          headers: { 'content-type': 'application/json' },
           credentials: 'same-origin',
           body: JSON.stringify(body ?? {}),
         })
@@ -489,7 +489,7 @@ window.__ModuleLoader__.load({
           throw new Error(detail)
         }
         return response.json()
-      }, [key])
+      }, [])
       const rehearse = React.useCallback(async (plugin) => {
         setError(undefined); setApplied(undefined); setVerdict(undefined)
         setHandoffResult(undefined); setReportResult(undefined); setPhase('rehearsing')
@@ -883,10 +883,10 @@ window.__ModuleLoader__.load({
       const [result, setResult] = React.useState(undefined)
       const [error, setError] = React.useState(undefined)
 
-      const call = async (dryRun, key) => {
+      const call = async (dryRun) => {
         const response = await fetch(REPAIR_PATH, {
           method: 'POST',
-          headers: { 'content-type': 'application/json', 'x-plugin-health-key': key },
+          headers: { 'content-type': 'application/json' },
           credentials: 'same-origin',
           body: JSON.stringify({ dryRun }),
         })
@@ -894,11 +894,11 @@ window.__ModuleLoader__.load({
         return response.json()
       }
 
-      const start = async (key) => {
+      const start = async () => {
         setPhase('planning')
         setError(undefined)
         try {
-          const next = await call(true, key)
+          const next = await call(true)
           setPlan(next)
           setPhase(next.planned.length === 0 ? 'nothing' : 'planned')
         } catch (failure) {
@@ -911,7 +911,7 @@ window.__ModuleLoader__.load({
         setPhase('applying')
         setError(undefined)
         try {
-          const next = await call(false, key)
+          const next = await call(false)
           setResult(next)
           setPhase('done')
           await reload()
@@ -1051,14 +1051,13 @@ window.__ModuleLoader__.load({
     function HealthSection({ t }) {
       const { loading, error, data, reload } = useStatus()
       const repair = useRepair(reload)
-      const rescue = useRescue(reload, data?.repairKey)
+      const rescue = useRescue(reload)
       const [scanning, setScanning] = React.useState(false)
       const issues = data?.issues ?? []
       const rescuable = data?.rescuable ?? []
       const actionable = issues.filter((issue) => issue.severity !== 'info')
       const autoFixable = actionable.filter((issue) => issue.autoFixable === true)
       const summary = data?.summary ?? {}
-      const repairKey = data?.repairKey
       const scanned = data?.scanned?.plugins?.total
 
       const rescan = React.useCallback(async () => {
@@ -1121,7 +1120,7 @@ window.__ModuleLoader__.load({
           ? h('div', { key: 'cleanup', style: { marginTop: 14, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' } }, [
             h('button', {
               key: 'b',
-              onClick: () => repair.start(repairKey),
+              onClick: () => repair.start(),
               style: buttonStyle('danger'),
             }, t('repair', { count: autoFixable.length })),
             h('span', { key: 'h', style: { fontSize: 12, opacity: 0.6, flex: '1 1 220px' } },
@@ -1154,7 +1153,7 @@ window.__ModuleLoader__.load({
             h('div', { key: 'actions', style: { marginTop: 12, display: 'flex', gap: 10, flexWrap: 'wrap' } }, [
               h('button', {
                 key: 'go',
-                onClick: () => repair.confirm(repairKey),
+                onClick: () => repair.confirm(),
                 style: buttonStyle('danger'),
               }, t('confirm')),
               h('button', {

@@ -15,7 +15,7 @@
  * @module rescue/handoff
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, resolve, sep } from 'node:path'
 
 /** Where handoff bundles are written inside a profile. */
 export const HANDOFF_DIR = 'plugin-health-handoff'
@@ -191,6 +191,48 @@ export function renderPrompt(brief) {
 }
 
 /**
+ * Turn a package name and version into a single safe path segment.
+ *
+ * The version came straight from the request body and was joined into a path unfiltered, so
+ * `version: "../../../evil"` escaped the profile directory and wrote wherever the process could
+ * reach — including autostart locations, which turns a file write into code execution. Only the
+ * name was filtered, which is why the hole survived review.
+ *
+ * A version is only ever semver-shaped in practice, so anything outside that set is replaced rather
+ * than rejected: a hostile value must not steer the path, and the caller still gets a directory.
+ * @param {string} name
+ * @param {string} version
+ * @returns {string}
+ */
+export function safeHandoffSegment(name, version) {
+  const clean = (value) => String(value ?? '')
+    .replace(/[@/\\]/gu, '_')
+    .replace(/\.\./gu, '_')
+    .replace(/[^A-Za-z0-9._+-]/gu, '_')
+    .slice(0, 120)
+  const joined = `${clean(name)}@${clean(version)}`
+  return joined === '@' ? '_unknown' : joined
+}
+
+/**
+ * Resolve the handoff directory for a package, refusing anything outside the handoff root.
+ * `resolve` collapses any traversal the sanitiser might have missed; the prefix check then proves
+ * the collapsed result is still inside, so a bug in one does not silently become a write elsewhere.
+ * @param {string} profileDir
+ * @param {string} name
+ * @param {string} version
+ * @returns {string}
+ */
+export function handoffDirectory(profileDir, name, version) {
+  const root = resolve(profileDir, HANDOFF_DIR)
+  const directory = resolve(root, safeHandoffSegment(name, version))
+  if (directory !== root && !directory.startsWith(`${root}${sep}`)) {
+    throw new Error(`refusing to write a handoff outside ${HANDOFF_DIR}`)
+  }
+  return directory
+}
+
+/**
  * Write the bundle to disk: the brief, the prompt, and the raw rehearsal report.
  * @param {string} profileDir
  * @param {object} brief
@@ -198,7 +240,7 @@ export function renderPrompt(brief) {
  * @returns {{directory: string, files: string[]}}
  */
 export function writeHandoff(profileDir, brief, smokeReport) {
-  const directory = join(profileDir, HANDOFF_DIR, `${brief.plugin.name.replace(/[@/]/gu, '_')}@${brief.plugin.version}`)
+  const directory = handoffDirectory(profileDir, brief.plugin.name, brief.plugin.version)
   mkdirSync(directory, { recursive: true })
   const files = []
   const write = (name, contents) => {
@@ -219,7 +261,7 @@ export function writeHandoff(profileDir, brief, smokeReport) {
  * @param {string} version
  */
 export function readHandoff(profileDir, name, version) {
-  const directory = join(profileDir, HANDOFF_DIR, `${name.replace(/[@/]/gu, '_')}@${version}`)
+  const directory = handoffDirectory(profileDir, name, version)
   try {
     return {
       directory,

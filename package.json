@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-health",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "The DSH plugin checker that can actually repair what it finds. Scans every installed plugin, rehearses each rejected one in a throwaway home to prove it boots, and only then writes a reversible exemption — or tells you honestly that it cannot be saved. Also recovers DSH when a plugin stops it booting, prepares AI briefs, and builds the official format-1 market index.",
   "type": "module",
   "main": "./src/plugin.js",

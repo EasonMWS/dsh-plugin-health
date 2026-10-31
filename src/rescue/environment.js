@@ -13,6 +13,7 @@
 import { spawn } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import semver from 'semver'
 
 /**
  * Read the running host version for a profile. DSH records the resolved host
@@ -83,14 +84,42 @@ export function discoverDshDirectory(home, profileDir) {
 }
 
 /**
+ * The only shapes a host version may take.
+ *
+ * Two holes lived here. `version` was interpolated into an argument passed to a shell
+ * (`shell: true` on Windows), so `0.2.1; calc.exe` was a command injection; and nothing stopped a
+ * non-semver spec, so `npm:evil` installed an arbitrary package that was then `require`d and run.
+ *
+ * An exact version is now required. A dist-tag, a `npm:` alias, a `git+` URL or a `file:` path is
+ * refused rather than sanitised — a host rehearsal has no legitimate reason to pull from anywhere
+ * but the registry.
+ * @param {string} version
+ * @returns {string} the exact version
+ */
+export function requireHostVersion(version) {
+  if (typeof version !== 'string' || version.trim() === '') {
+    throw new Error('a host rehearsal needs an exact version, not a dist-tag')
+  }
+  const text = version.trim()
+  if (semver.valid(text) === null) {
+    throw new Error(`refusing to install a host from ${JSON.stringify(version)}: an exact version is required`)
+  }
+  return text
+}
+
+/**
  * Install a host package for rehearsals when none is available.
  *
  * Only ever writes under `<home>/.plugin-health/host`, and only when the caller asked for a
  * rehearsal: a plain scan never triggers a download. The version matches what the profile
  * runs, because rehearsing against a different host would answer a different question.
+ *
+ * The install runs without a shell, with lifecycle scripts disabled, and against a fixed package
+ * name with a validated version — so neither the command line nor the package identity can be
+ * steered by a caller-supplied string.
  * @param {object} options
  * @param {string} options.home
- * @param {string} options.version - exact host version or dist-tag to install
+ * @param {string} options.version - exact host version to install
  * @param {Function} [options.runProcess] - injectable for tests
  * @returns {Promise<{directory: string, installed: boolean, output?: string}>}
  */
@@ -100,9 +129,15 @@ export async function prepareRehearsalHost({
   const root = rehearsalHostRoot(home)
   const directory = join(root, 'node_modules', '@deepseek-ai', 'dsh')
   if (existsSync(join(directory, 'package.json'))) return { directory, installed: false }
+  const exact = requireHostVersion(version)
   mkdirSync(root, { recursive: true })
-  const spec = version === undefined || version === '' ? '@deepseek-ai/dsh' : `@deepseek-ai/dsh@${version}`
-  const args = ['install', '--prefix', root, '--no-audit', '--no-fund', '--silent', spec]
+  const spec = `@deepseek-ai/dsh@${exact}`
+  const args = [
+    'install', '--prefix', root,
+    // No lifecycle scripts: the host package is only ever booted, never built.
+    '--ignore-scripts',
+    '--no-audit', '--no-fund', '--silent', spec,
+  ]
   if (registry !== undefined) args.push('--registry', registry)
   const result = await runProcess(args, { cwd: root })
   if (!result.ok) {
@@ -119,7 +154,8 @@ export async function prepareRehearsalHost({
 function runNpmInstall(args, { cwd }) {
   return new Promise((resolveResult) => {
     const child = spawn(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, {
-      cwd, shell: process.platform === 'win32', stdio: ['ignore', 'pipe', 'pipe'],
+      // No shell: arguments are passed as an array, so nothing in them can become syntax.
+      cwd, shell: false, stdio: ['ignore', 'pipe', 'pipe'],
     })
     let stdout = ''
     let stderr = ''

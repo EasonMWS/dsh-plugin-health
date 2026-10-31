@@ -1,5 +1,52 @@
 # Changelog
 
+## 1.1.0 (2026-10-31)
+
+Security release. Seven issues reported by an external review of 1.0.2, all reproduced and fixed,
+each with a regression test. Thank you to the reviewer.
+
+### Fixed — the control key was handed to anyone who asked
+
+- **/status returned the control key in its body.** The key existed to stop local processes from
+  calling the write routes, but the unauthenticated status route handed it out, so it protected
+  nothing. The key is now delivered as an `HttpOnly; SameSite=Strict` cookie: page scripts cannot
+  read it, and it does not ride a cross-site request. The remaining trust boundary is the loopback
+  interface, which is now stated in the code instead of papered over.
+
+### Fixed — destructive actions on a configuration the tool did not understand
+
+- **A patch layer that was not a YAML sequence was silently treated as empty**, and the next write
+  replaced the file with only this tool's overlay — wiping every entry the user had. It is now
+  refused with `PATCH_NOT_SEQUENCE`.
+- **The patch layer was written in place with no backup.** Writes now keep
+  `cordis.patch.yml.bak-plugin-health` and replace the file atomically via a temporary rename.
+
+### Fixed — request input that reached the filesystem or a shell
+
+- **Path traversal through the plugin version.** `handoff` filtered the package name but joined
+  the raw `version` into a path, so `version: "../../../evil"` escaped the profile directory —
+  a write primitive that could become execution via an autostart location. Both fields are now
+  sanitised and the resolved path is proven to stay under the handoff root.
+- **Command injection on Windows.** `prepareRehearsalHost` ran `npm` with `shell: true` and
+  interpolated the version into the argument string. The install now runs without a shell, with
+  `--ignore-scripts`, and only after the version is validated as exact semver — which also closes
+  the `npm:evil` alias path, since the spec can no longer name another package.
+
+### Fixed — caller-supplied directories and information leaks
+
+- **`body.dshDirectory` chose which `bin` script got executed**, so dropping a folder anywhere
+  on disk was enough for code execution. The value is now a hint that must resolve inside the
+  profile, the DSH home, or this tool's host cache.
+- **The rescue route compared the key non-constant-time**, and answered `404` for an unknown
+  action before authenticating, which let an unauthenticated caller enumerate action names. Both
+  are fixed: constant-time comparison, and authentication runs first.
+
+### Changed
+
+- The browser half no longer receives or sends the key at all; it relies on the cookie.
+
+176 tests (12 new security regressions), 176 pass, 1 platform skip.
+
 ## 1.0.3 (2026-10-31)
 
 ### Fixed

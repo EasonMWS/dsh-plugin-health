@@ -156,7 +156,10 @@ test('English repair plan and results stay localized without changing the confir
   assert.match(text(tree), /Items repaired: 2.*Quarantined: C:\\dsh\\broken.*Rewritten: C:\\dsh\\cordis.patch.yml/u)
   assert.match(text(tree), /Restore files from: C:\\dsh\\quarantine/u)
   assert.equal(JSON.parse(app.requests.filter(({ url }) => url.endsWith('/repair')).at(-1).options.body).dryRun, false)
-  assert.equal(app.requests.find(({ url }) => url.endsWith('/repair')).options.headers['x-plugin-health-key'], 'test-key')
+  // The control key is delivered as an HttpOnly cookie by /status, not carried in a header the
+  // page could read - so the request must not contain it, and must still be same-origin.
+  assert.equal(app.requests.find(({ url }) => url.endsWith('/repair')).options.headers['x-plugin-health-key'], undefined)
+  assert.equal(app.requests.find(({ url }) => url.endsWith('/repair')).options.credentials, 'same-origin')
   button(tree, 'Done').props.onClick()
   button(app.render(), 'Clean up 1 broken file(s)')
 })
