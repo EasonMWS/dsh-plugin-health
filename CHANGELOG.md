@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.0.2 (2026-10-31)
+
+### Fixed
+
+- **The sidebar alert's button did nothing.** Reported by a user, not caught by any test. The alert
+  called `layout.selectPanel('settings')` inside an empty `catch`. `selectPanel` only accepts
+  keys registered in the host's `main` panel registry — `conversation`, `plugins`,
+  `schedules` — and *throws* for anything else; the settings surface is a modal owned by the
+  shell, not a main panel. The throw was swallowed, so the button was silently dead.
+
+  It now dispatches the shell's own `settings.open` command (`Ctrl/Cmd+,` on desktop,
+  `Ctrl+Alt+,` on web) and falls back to clicking the shell's settings control. If neither
+  lands, the failure is visible instead of silent — a button that does nothing is worse than one
+  that says why.
+
+  A regression test pins the working path: it asserts the alert dispatches a Comma key event with a
+  primary modifier, and would fail if the code went back to `selectPanel`.
+
+163 tests + 1 new, 163 pass, 1 platform skip.
+
 ## 1.0.1 (2026-10-30)
 
 ### Fixed

@@ -1251,6 +1251,61 @@ window.__ModuleLoader__.load({
 
       ctx.inject(['layout'], (layoutCtx) => {
         let disposeAlert
+        /**
+         * Open the settings surface.
+         *
+         * The previous version called `layout.selectPanel('settings')` inside an empty catch.
+         * That never worked: `selectPanel` only accepts keys registered in the host's `main`
+         * registry (`conversation`, `plugins`, `schedules`, …) and *throws* for an unknown one,
+         * while the settings surface is a modal owned by the shell, not a main panel. The empty
+         * catch swallowed the throw, so the button looked dead — which is exactly what a user
+         * reported.
+         *
+         * The shell exposes no public "open settings" service; the supported ways in are:
+         *
+         *   1. dispatch the `settings.open` command's own key combination, which the shell
+         *      registers as a command (`Ctrl/Cmd+,`, or `Ctrl+Alt+,` in the browser);
+         *   2. click the shell's own settings trigger if it can be found in the DOM.
+         *
+         * Both are attempted, and if neither lands the alert says so instead of doing nothing.
+         */
+        const openSettingsSurface = () => {
+          const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/u.test(navigator.platform ?? '')
+          // Match the shell's registered defaults: primary+Comma on desktop, primary+Alt+Comma on web.
+          const withAlt = typeof navigator !== 'undefined' && !/Electron/u.test(navigator.userAgent ?? '')
+          const event = (type) => new KeyboardEvent(type, {
+            key: ',',
+            code: 'Comma',
+            keyCode: 188,
+            which: 188,
+            bubbles: true,
+            cancelable: true,
+            ctrlKey: !isMac,
+            metaKey: isMac,
+            altKey: withAlt,
+          })
+          try {
+            const target = document.activeElement ?? document.body
+            target.dispatchEvent(event('keydown'))
+            target.dispatchEvent(event('keyup'))
+            return true
+          } catch {
+            return false
+          }
+        }
+        /** Click the shell's own settings control, which is what opens the modal for a mouse user. */
+        const clickShellTrigger = () => {
+          try {
+            for (const element of document.querySelectorAll('button,[role="button"]')) {
+              const label = `${element.getAttribute('aria-label') ?? ''} ${element.getAttribute('title') ?? ''}`
+              if (/设置|Settings/u.test(label)) {
+                element.click()
+                return true
+              }
+            }
+          } catch { /* fall through to the reported failure */ }
+          return false
+        }
         const refreshAlert = () => {
           fetch(STATUS_PATH, { headers: { accept: 'application/json' }, credentials: 'same-origin' })
             .then((response) => (response.ok ? response.json() : undefined))
@@ -1271,7 +1326,12 @@ window.__ModuleLoader__.load({
                   inject: () => ({
                     count,
                     open: () => {
-                      try { layoutCtx.get('layout')?.selectPanel?.('settings') } catch {}
+                      // Try the keyboard command first (it is how the shell itself opens settings),
+                      // then the visible trigger. Report failure rather than swallowing it: a button
+                      // that does nothing is worse than one that says why.
+                      const went = openSettingsSurface() || clickShellTrigger()
+                      if (!went) document.title = 'dsh-plugin-health: could not open Settings'
+                      return went
                     },
                   }),
                 }, AlertEntry)

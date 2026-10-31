@@ -32,6 +32,8 @@ function snapshot({ rescuable = [PLUGIN], rescues = [] } = {}) {
  */
 function client({ data = snapshot(), handler } = {}) {
   const slots = new Map(), dictionaries = new Map(), instances = new Map(), requests = []
+  /** Keyboard events the client dispatched, so a test can assert the settings shortcut fired. */
+  const keyEvents = []
   let language = 'en', active, pendingEffects = [], exports
   const React = {
     createElement: (type, props, ...children) => ({ type, props: props ?? {}, children: children.flat(Infinity) }),
@@ -67,7 +69,27 @@ function client({ data = snapshot(), handler } = {}) {
   }
   runInNewContext(clientSource, {
     window: { __ModuleLoader__: { load: ({ factory }) => { exports = factory(() => React) } } },
-    navigator: { clipboard: { writeText: async (value) => { requests.push({ url: 'clipboard', body: value }) } } },
+    navigator: {
+      clipboard: { writeText: async (value) => { requests.push({ url: 'clipboard', body: value }) } },
+      platform: 'Win32',
+      userAgent: 'Electron/44.7.0',
+    },
+    // Minimal DOM: enough for the sidebar alert to dispatch its shortcut and report failure.
+    document: {
+      activeElement: undefined,
+      body: { dispatchEvent: () => true },
+      title: '',
+      querySelectorAll: () => [],
+    },
+    KeyboardEvent: class KeyboardEvent {
+      constructor(type, init) {
+        Object.assign(this, { type, ...init })
+        keyEvents.push({
+          type, key: init.key, code: init.code,
+          ctrlKey: init.ctrlKey, metaKey: init.metaKey, altKey: init.altKey,
+        })
+      }
+    },
     setInterval: () => 0, clearInterval: () => {},
     fetch: async (url, options = {}) => {
       const body = options.body === undefined ? undefined : JSON.parse(options.body)
@@ -93,7 +115,16 @@ function client({ data = snapshot(), handler } = {}) {
     return { ...node, children: node.children.map((child, i) => expand(child, `${path}/${child?.props?.key ?? i}`)) }
   }
   return {
-    slots, requests,
+    slots, requests, keyEvents,
+    /**
+     * The sidebar alert registration. The slot's `inject()` supplies the props the component
+     * receives, so `open` is the callback a click would run.
+     */
+    findAlert() {
+      const entry = slots.get('plugin-health-alert')
+      if (entry === undefined) return undefined
+      return { props: entry.meta.inject?.() ?? {} }
+    },
     setLocale: (next) => { language = next },
     render(id = 'plugin-health') {
       const { meta, component } = slots.get(id)
@@ -314,4 +345,32 @@ test('the rescue flow works in Chinese too', async () => {
   assert.match(flatten(first), /修复兼容问题/u)
   await click(first, '检查能不能救'); await settle()
   assert.match(flatten(app.render()), /代码没问题，只是声明过时了/u)
+})
+
+// --- the sidebar alert must actually open something -----------------------------------
+
+test('the sidebar alert opens settings through the shell command, not selectPanel', async () => {
+  // A user reported the 查看 button doing nothing. Root cause: the alert called
+  // layout.selectPanel('settings'), but 'settings' is not a `main` panel key - it is a modal owned
+  // by the shell - so selectPanel threw and an empty catch hid it. This test pins the working path.
+  const app = client({
+    data: { ...snapshot(), issues: [{ id: 'x', severity: 'warn', title: 'w', detail: 'd', fix: 'f' }] },
+  })
+  // The alert is registered from a fetch callback, so let the promise chain settle first.
+  app.render()
+  await settle()
+  await settle()
+
+  assert.equal(app.keyEvents.length, 0, 'nothing is dispatched until the user clicks')
+
+  const alert = app.findAlert()
+  assert.ok(alert, 'the sidebar alert should be registered when there are warnings')
+  assert.equal(typeof alert.props.open, 'function', 'the alert must expose an open callback')
+  alert.props.open()
+
+  assert.ok(app.keyEvents.length >= 1, 'clicking must dispatch the settings shortcut')
+  assert.equal(app.keyEvents[0].key, ',')
+  assert.equal(app.keyEvents[0].code, 'Comma')
+  assert.equal(String(app.keyEvents[0].ctrlKey || app.keyEvents[0].metaKey), 'true',
+    'the shortcut needs a primary modifier or the host will not treat it as the command')
 })
