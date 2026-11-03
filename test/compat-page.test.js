@@ -4,7 +4,8 @@ import assert from 'node:assert/strict'
 import { renderCompatPage } from '../src/compat/page.js'
 
 // The page is the only form of this data a person can be linked to, so it has to be correct on its
-// own: self-contained, honest about what a tick means, and readable without JavaScript.
+// own: self-contained, honest about what a tick means, readable without JavaScript, and translatable
+// without re-rendering the table.
 
 function matrix({ hosts = ['0.2.1-rc.5'], plugins } = {}) {
   return {
@@ -26,6 +27,13 @@ function matrix({ hosts = ['0.2.1-rc.5'], plugins } = {}) {
   }
 }
 
+/** The embedded bilingual dictionary, as the page itself would read it. */
+function embeddedDict(html) {
+  const match = html.match(/<script type="application\/json" id="i18n">([\s\S]*?)<\/script>/u)
+  assert.ok(match, 'the page must carry its dictionary inline')
+  return JSON.parse(match[1])
+}
+
 test('the page is self-contained: no external stylesheet or script', () => {
   const html = renderCompatPage(matrix())
   assert.doesNotMatch(html, /<link[^>]+stylesheet/iu)
@@ -42,14 +50,14 @@ test('every plugin becomes a row, with the host versions as columns', () => {
 
 test('a rejected plugin is marked in the row and counted', () => {
   const html = renderCompatPage(matrix())
-  assert.match(html, /rejected by 2|rejected by 1/u)
+  assert.match(html, /data-i18n="rejectedBy">rejected by<\/span> 1/u)
   assert.match(html, /data-bad="1"/u)
 })
 
 test('a tick does not claim the plugin works, and the page says so', () => {
   const html = renderCompatPage(matrix())
   // The distinction matters: the gate admits the plugin, nothing more.
-  assert.match(html, /does not mean the plugin\s+works/iu)
+  assert.match(html, /does not mean the plugin works/iu)
   assert.match(html, /not a security review/iu)
 })
 
@@ -61,7 +69,6 @@ test('a plugin that was never checked is not presented as compatible', () => {
       summary: { compatible: 0, incompatible: 0, errors: 0 },
     }],
   }))
-  // No results at all: the cell must read as unknown, not as a tick.
   assert.match(html, /not tested|unknown/u)
   assert.doesNotMatch(html, /data-name="dsh-unchecked"[\s\S]{0,400}?class="c ok"/u)
 })
@@ -92,7 +99,7 @@ test('an empty matrix still renders a valid page', () => {
 test('the summary counts rejections per host version', () => {
   const html = renderCompatPage(matrix())
   // One of the two plugins is rejected on this host, and the summary has to say which way round.
-  assert.match(html, /0\.2\.1-rc\.5<\/strong> — 1 of 2 plugins are rejected \(1 accepted\)/u)
+  assert.match(html, /0\.2\.1-rc\.5<\/strong>[^\n]*data-ok="1">1 of these plugins are rejected \(1 accepted\)/u)
 })
 
 test('categories come from the catalog and reach both the row and the filter', () => {
@@ -101,8 +108,8 @@ test('categories come from the catalog and reach both the row and the filter', (
   assert.match(html, /data-cat="ui"/u)
   assert.match(html, /data-cat="memory"/u)
   // Both must be selectable, or the column is decorative.
-  assert.match(html, /<option value="ui">ui<\/option>/u)
-  assert.match(html, /<option value="memory">memory<\/option>/u)
+  assert.match(html, /<option value="ui" data-cat-label="ui">ui<\/option>/u)
+  assert.match(html, /<option value="memory" data-cat-label="memory">memory<\/option>/u)
 })
 
 test('a plugin with no catalog entry is marked uncategorized, not blank', () => {
@@ -121,16 +128,18 @@ test('the publish date is shown and machine-sortable', () => {
 
 test('a missing publish date renders as a placeholder rather than "undefined"', () => {
   const html = renderCompatPage(matrix())
-  assert.doesNotMatch(html, /undefined/u)
-  assert.match(html, /data-released=""/u)
+  // Scope the check to the table: the inline script legitimately compares against `undefined`.
+  const body = html.slice(html.indexOf('<tbody'), html.indexOf('</tbody>'))
+  assert.doesNotMatch(body, /undefined/u)
+  assert.match(body, /data-released=""/u)
 })
 
 test('the top of the page states the total, the healthy count and the rejected count', () => {
   const html = renderCompatPage(matrix())
   // Two plugins, one accepted on every host, one rejected: the three numbers have to agree.
-  assert.match(html, /<span class="n">2<\/span><span class="k">plugins checked/u)
-  assert.match(html, /<span class="n">1<\/span><span class="k">load on every host/u)
-  assert.match(html, /<span class="n">1<\/span><span class="k">rejected by at least one/u)
+  assert.match(html, /<span class="n">2<\/span><span class="k" data-i18n="checked">/u)
+  assert.match(html, /<span class="n">1<\/span><span class="k" data-i18n="healthy" data-pct="50">/u)
+  assert.match(html, /<span class="n">1<\/span><span class="k" data-i18n="rejected" data-pct="50">/u)
 })
 
 test('a plugin that errors on a host is not counted as healthy', () => {
@@ -141,8 +150,7 @@ test('a plugin that errors on a host is not counted as healthy', () => {
       summary: { compatible: 0, incompatible: 0, errors: 1 },
     }],
   }), {})
-  // It must not appear in the healthy tally.
-  assert.match(html, /<span class="n">0<\/span><span class="k">load on every host/u)
+  assert.match(html, /<span class="n">0<\/span><span class="k" data-i18n="healthy"/u)
 })
 
 test('the page says where the data comes from, so a reader cannot mistake its scope', () => {
@@ -156,7 +164,74 @@ test('the page says where the data comes from, so a reader cannot mistake its sc
 
 test('host labels keep their real casing in the per-host summary', () => {
   const html = renderCompatPage(matrix())
-  // The summary label is uppercased; the version inside the list must not be.
   assert.match(html, /<strong>0\.2\.1-rc\.5<\/strong>/u)
   assert.doesNotMatch(html, /<strong>0\.2\.1-RC\.5<\/strong>/u)
+})
+
+// --- language ------------------------------------------------------------------------------
+
+test('the page ships both dictionaries and a toggle', () => {
+  const html = renderCompatPage(matrix())
+  const dict = embeddedDict(html)
+  assert.ok(dict.en && dict.zh, 'both languages must be present')
+  assert.match(html, /data-lang="en"/u)
+  assert.match(html, /data-lang="zh"/u)
+  // English is rendered into the markup so the first paint and a crawler both get real text.
+  assert.match(html, /<h1 data-i18n="heading">DSH plugin compatibility<\/h1>/u)
+})
+
+test('every translatable string exists in both languages', () => {
+  const dict = embeddedDict(renderCompatPage(matrix()))
+  const enKeys = Object.keys(dict.en).filter((k) => k !== 'categories').sort()
+  const zhKeys = Object.keys(dict.zh).filter((k) => k !== 'categories').sort()
+  assert.deepEqual(zhKeys, enKeys, 'the two dictionaries must define the same keys')
+})
+
+test('every key the markup asks for is actually defined', () => {
+  // A data-i18n pointing at a missing key renders the key itself, which is how "tallyStamp" once
+  // appeared in the page header. Comparing the two dictionaries cannot catch that, because both
+  // simply lack the key.
+  const html = renderCompatPage(matrix(), { catalog: new Map([['dsh-good', { category: 'ui' }]]) })
+  const dict = embeddedDict(html)
+  const used = new Set([
+    ...[...html.matchAll(/data-i18n="([^"]+)"/gu)].map((m) => m[1]),
+    ...[...html.matchAll(/data-i18n-placeholder="([^"]+)"/gu)].map((m) => m[1]),
+  ])
+  assert.ok(used.size > 10, 'the scan should find the page strings')
+  for (const key of used) {
+    assert.ok(dict.en[key] !== undefined, `en dictionary is missing "${key}"`)
+    assert.ok(dict.zh[key] !== undefined, `zh dictionary is missing "${key}"`)
+  }
+})
+
+test('no Chinese string is left in the English dictionary or vice versa', () => {
+  const dict = embeddedDict(renderCompatPage(matrix()))
+  // A few keys are punctuation rather than prose, so "contains Chinese" is not a useful rule there.
+  const symbolOnly = new Set(['shownOf', 'categories'])
+  for (const key of Object.keys(dict.en)) {
+    if (symbolOnly.has(key)) continue
+    assert.doesNotMatch(dict.en[key], /[\u4e00-\u9fff]/u, `en.${key} must not contain Chinese`)
+    assert.match(dict.zh[key], /[\u4e00-\u9fff]/u, `zh.${key} should be translated`)
+  }
+})
+
+test('categories are translated, including the ones the catalog actually uses', () => {
+  const dict = embeddedDict(renderCompatPage(matrix()))
+  // ui, tools and session are the three most common; a missing label would show as a raw slug.
+  for (const category of ['ui', 'tools', 'session', 'memory', 'security', 'uncategorized']) {
+    assert.ok(dict.zh.categories[category], `zh category missing: ${category}`)
+    assert.match(dict.zh.categories[category], /[\u4e00-\u9fff]/u, `zh category not translated: ${category}`)
+  }
+})
+
+test('the embedded dictionary cannot terminate the script element early', () => {
+  const html = renderCompatPage(matrix({
+    plugins: [{
+      name: 'dsh-</script><script>alert(1)</script>', version: '1.0.0',
+      results: {}, summary: { compatible: 0, incompatible: 0, errors: 0 },
+    }],
+  }))
+  const scripts = html.match(/<\/script>/gu) ?? []
+  assert.equal(scripts.length, 2, 'only the dictionary and the behaviour script may close')
+  assert.doesNotMatch(html, /<\/script><script>alert/u)
 })
