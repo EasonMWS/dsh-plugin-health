@@ -11,7 +11,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `1.6.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `1.6.1`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -37,6 +37,10 @@ buttons. The commands below are for people who prefer a shell.
 
 ## Fix a broken plugin
 
+When a plugin is rejected, a chip appears in the sidebar — no need to go looking:
+
+![The sidebar chip showing two plugin issues with a View button](docs/images/sidebar-alert.png)
+
 Open **Settings → Plugin health**. You get one line per problem, and one button per plugin:
 
 - **Check whether it can be saved** — installs and boots the plugin in a throwaway home (30–60 s).
@@ -47,6 +51,12 @@ Open **Settings → Plugin health**. You get one line per problem, and one butto
   switch the plugin off, or take a prepared brief to your own AI.
 
 Everything is reversible, and nothing is deleted.
+
+![The settings section with an incompatible plugin and the check button](docs/images/settings-finding.png)
+
+Once the rehearsal passes, you get the exemption and a Revoke button beside it:
+
+![A temporary exemption in effect, with one click to revoke it](docs/images/settings-exemption.png)
 
 **Or check everything at once.** If you prefer a shell:
 
@@ -200,12 +210,31 @@ Before installing anything:
 
 **<https://easonmws.github.io/dsh-plugin-health/compat/>**
 
-One row per plugin in the community catalog, one column per current host version. Filter by name, or
-show only the ones a host rejects. Updated daily.
+Every plugin in the community catalog, checked against the current host versions, with the counts at
+the top so you can see the state of the ecosystem at a glance:
+
+| | |
+| --- | --- |
+| **How many** | Total checked, how many load on every host, how many a host rejects |
+| **Category** | The catalog's own category, filterable |
+| **Released** | Publish date of the version shown — tells you whether the author is still active |
+| **Filter** | By name, by category, or only the rejected ones |
+| **Language** | English / 中文, remembered between visits |
 
 A tick means the plugin's declared range admits that host, so the installer will not reject it. It
-does not mean the plugin works, and it is not a security review. The same data is downloadable as
-[`matrix.json`](https://easonmws.github.io/dsh-plugin-health/compat/matrix.json).
+does **not** mean the plugin works, and it is not a security review. The page says which plugins it
+covers and which it cannot: GitHub-only and tarball-only entries are not on npm and are not checked.
+
+The same data is downloadable as
+[`matrix.json`](https://easonmws.github.io/dsh-plugin-health/compat/matrix.json), and you can build
+the page for your own plugin set:
+
+```sh
+dsh-plugin-health matrix --plugins list.txt \
+  --versions latest,next \
+  --catalog https://awesome-dsh-plugin.com/plugins.json \
+  --out site/compat
+```
 
 ## Use the plugin index as a data source
 
@@ -409,10 +438,6 @@ dsh plugin --profile web add dsh-plugin-health
   jumps straight to the section.
 - The host half only serves a loopback-only read-only snapshot; the plugin never modifies your
   profile.
-
-| Findings, verdict line, one-click repair | Dry-run plan before any write |
-| --- | --- |
-| ![Settings section with findings and the repair button](docs/images/settings-finding.png) | ![Repair plan shown before applying](docs/images/settings-repair-plan.png) |
 
 > **Upgrading DSH? Run the check first.**
 >

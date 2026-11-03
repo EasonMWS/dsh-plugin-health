@@ -10,7 +10,7 @@
 这个工具会把每个插件装进一次性环境真跑一遍，确认能启动才动手：修、交给你自己的 AI、
 或者关掉它让 DSH 继续能用。
 
-> 状态：`1.6.0`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`1.6.1`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 ```sh
@@ -36,6 +36,10 @@ npm install -g dsh-plugin-health
 
 ## 修复一个坏插件
 
+插件被拒时，侧栏会直接冒一个提示，不用自己去找：
+
+![侧栏提示：插件有 2 个问题，带查看按钮](docs/images/sidebar-alert.zh.png)
+
 打开 **设置 → 插件健康**。每个问题一行，每个插件一个按钮：
 
 - **检查能不能救** —— 在一次性环境里装一遍、启动一遍（30~60 秒）。你的配置一点不动。
@@ -43,6 +47,12 @@ npm install -g dsh-plugin-health
 - **起不来** → 不提供放行按钮。给两个选择：关掉这个插件，或者拿一份提示词交给你的 AI。
 
 每一步都可撤销，不删任何文件。
+
+![设置页里的不兼容插件和检查按钮](docs/images/settings-finding.zh.png)
+
+预演通过后才会写入放行，旁边就是撤销按钮：
+
+![临时放行生效后，一键就能撤销](docs/images/settings-exemption.zh.png)
 
 **一次看全部插件。** 如果你更习惯终端：
 
@@ -171,10 +181,28 @@ jobs:
 
 **<https://easonmws.github.io/dsh-plugin-health/compat/>**
 
-社区目录里每个插件一行，当前几个宿主版本各一列。可以按名字筛，也可以只看被拒的。每天更新。
+社区目录里的每个插件，对着当前几个宿主版本查一遍。顶上直接给数字，一眼看出生态现在的状况：
+
+| | |
+| --- | --- |
+| **多少** | 一共查了多少、多少所有宿主都接受、多少被拒 |
+| **分类** | 用目录自己的分类，可以筛 |
+| **发布日期** | 当前版本的发布时间——能看出作者还在不在维护 |
+| **筛选** | 按名字、按分类，或只看被拒的 |
+| **语言** | 中英文切换，会记住 |
 
 打勾表示插件的声明范围包含那个宿主版本，安装器不会拒绝它——**不代表插件能用，也不是安全审查**。
+页面里写清了覆盖范围：只在 GitHub 或 tarball 上的插件没发 npm，查不了，也不计入。
+
 同一份数据可以下载：[`matrix.json`](https://easonmws.github.io/dsh-plugin-health/compat/matrix.json)。
+也可以给自己的插件集生成一份：
+
+```sh
+dsh-plugin-health matrix --plugins list.txt \
+  --versions latest,next \
+  --catalog https://awesome-dsh-plugin.com/plugins.json \
+  --out site/compat
+```
 
 ## 把插件索引当数据源用
 
@@ -349,10 +377,6 @@ dsh plugin --profile web add dsh-plugin-health
 - **一切正常时什么都不显示**：没有徽章、没有横幅、没有侧栏条目；
 - **真的有问题时**，账号菜单上方会出现一个 `插件有 N 个问题` 的小入口，点一下直接跳到设置分区；
 - host 半身只提供 loopback 只读快照，不会修改你的 profile。
-
-| 问题列表 + 结论行 + 一键修复 | 执行前先给你看修复计划 |
-| --- | --- |
-| ![设置页里的问题与修复按钮](docs/images/settings-finding.png) | ![执行前展示的修复计划](docs/images/settings-repair-plan.png) |
 
 > **准备升级 DSH？先跑一遍体检。**
 >
