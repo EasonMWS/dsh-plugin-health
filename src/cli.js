@@ -7,6 +7,7 @@ import { join } from 'node:path'
 import { DEFAULT_REGISTRY, fetchJson } from './util/http.js'
 import { createMatrix, hostSummary } from './compat/matrix.js'
 import { matrixToMarkdown, writeBadges } from './compat/report.js'
+import { renderCompatPage } from './compat/page.js'
 import { buildFormat1Index, writeIndex } from './index/build.js'
 import { inspectDshHome, listInstalledPlugins, resolveDshHome } from './repair/inspect.js'
 import { formatInspection } from './repair/format.js'
@@ -230,6 +231,14 @@ async function cmdMatrix(options) {
   mkdirSync(out, { recursive: true })
   writeFileSync(join(out, 'matrix.json'), `${JSON.stringify(matrix, null, 2)}\n`)
   writeFileSync(join(out, 'matrix.md'), matrixToMarkdown(matrix))
+  // A standalone page is the only form of this data a person can be linked to; the JSON above only
+  // ever reached a CI artifact.
+  const htmlPath = join(out, 'index.html')
+  writeFileSync(htmlPath, renderCompatPage(matrix, {
+    title: lastString(options, 'html-title') ?? 'DSH plugin compatibility',
+    indexUrl: lastString(options, 'index-url'),
+    toolVersion: VERSION,
+  }))
   const badges = booleanOption(options, 'no-badges') ? undefined : writeBadges(matrix, out)
   const summary = hostSummary(matrix)
   console.log(`matrix: ${matrix.plugins.length} plugin(s) × ${matrix.hosts.length} host version(s)`)

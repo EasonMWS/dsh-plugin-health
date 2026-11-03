@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.3.0 (2026-11-03)
+
+### Added
+
+- **A public compatibility page.** `matrix` now writes a standalone `index.html` next to its
+  JSON: one row per plugin, one column per host version, a name filter and an "only incompatible"
+  toggle, all in a single self-contained file with no external requests. It states plainly that a
+  tick means the installer will accept the plugin, not that the plugin works.
+- **The daily build now scans the whole catalog.** It previously checked the six plugins hard-coded
+  in `examples/plugins.txt` — a smoke test dressed as data. It now takes every npm-published
+  plugin from the community catalog (4,389 at the time of writing) and publishes the result to
+  `/compat/`, linked from the index landing page.
+
+  The run costs about 20 minutes, because it makes one registry lookup per plugin. That is the price
+  of covering the catalogue instead of a sample.
+
+- The compatibility page and the index both deploy from one workflow, so a single job owns the Pages
+  site and they cannot overwrite each other's `index.html`.
+
+185 tests (9 new), 185 pass, 1 platform skip.
+
 ## 1.2.1 (2026-11-03)
 
 ### Fixed

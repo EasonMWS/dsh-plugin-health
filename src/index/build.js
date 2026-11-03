@@ -348,6 +348,7 @@ function landingPage(build) {
 <main>
   <h1>${title}</h1>
   <p>Official <strong>format-1</strong> plugin market index for DeepSeek Harness (dsh), built at ${escapeHtml(stats.generatedAt)} and validated with <code>@deepseek-ai/dsh-plugin-market-index</code>.</p>
+  <p><a href="compat/"><strong>Check plugin compatibility →</strong></a> — which plugins load on which host version.</p>
   <ul>
     <li><a href="index.json"><code>index.json</code></a> — ${stats.included} plugins, ${stats.versions} versions, host label <code>${escapeHtml(stats.hostVersion)}</code></li>
     <li><a href="build-report.md"><code>build-report.md</code></a> — category, label and warning report</li>

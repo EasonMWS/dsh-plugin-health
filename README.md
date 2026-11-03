@@ -11,7 +11,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `1.2.1`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `1.3.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -193,6 +193,19 @@ Under **Settings → Plugin health**, every incompatible plugin gets:
 
 Everything is reversible: an exemption is a single entry in the host's own `compatibility.json`,
 and undo restores exactly the value that was there before.
+
+## Check compatibility in a browser
+
+Before installing anything:
+
+**<https://easonmws.github.io/dsh-plugin-health/compat/>**
+
+One row per plugin in the community catalog, one column per current host version. Filter by name, or
+show only the ones a host rejects. Updated daily.
+
+A tick means the plugin's declared range admits that host, so the installer will not reject it. It
+does not mean the plugin works, and it is not a security review. The same data is downloadable as
+[`matrix.json`](https://easonmws.github.io/dsh-plugin-health/compat/matrix.json).
 
 ## Use the plugin index as a data source
 

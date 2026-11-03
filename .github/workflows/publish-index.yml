@@ -7,6 +7,10 @@ on:
         description: Number of npm plugins to include
         required: false
         default: '300'
+      scanLimit:
+        description: How many plugins to check for compatibility (0 = every npm plugin)
+        required: false
+        default: '0'
       host:
         description: Host version label for compatibility labels (empty = resolve npm latest)
         required: false
@@ -25,7 +29,7 @@ concurrency:
 
 jobs:
   build:
-    name: build format-1 index
+    name: build index and compatibility page
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -37,6 +41,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+
       # A hard-coded label goes stale within days and silently mislabels the whole index, so the
       # host version is resolved from npm at build time unless the caller pinned one.
       - name: Resolve host version
@@ -47,6 +52,38 @@ jobs:
           else
             echo "version=$(npm view @deepseek-ai/dsh version)" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Collect plugin list
+        run: |
+          node -e '
+            const fs = require("fs");
+            const get = async (url) => (await fetch(url)).json();
+            get("https://awesome-dsh-plugin.com/plugins.json").then((catalog) => {
+              const names = catalog.plugins.map((p) => p.npm).filter(Boolean);
+              const limit = Number(process.env.SCAN_LIMIT || 0);
+              const list = limit > 0 ? names.slice(0, limit) : names;
+              fs.writeFileSync("dsh-health-out/scan-plugins.txt", list.join("\n") + "\n");
+              console.log(`collected ${list.length} npm plugins for the compatibility scan`);
+            });
+          '
+        env:
+          SCAN_LIMIT: ${{ inputs.scanLimit || '0' }}
+
+      # Every row of the compatibility table comes from here. This is the slow step: one registry
+      # lookup per plugin, so a full catalog pass takes roughly 20 minutes. Writing to a
+      # subdirectory keeps it from overwriting the index landing page, which is also index.html.
+      - name: Compatibility matrix
+        run: |
+          mkdir -p site/compat
+          node bin/dsh-plugin-health.js matrix \
+            --plugins dsh-health-out/scan-plugins.txt \
+            --versions "${{ steps.host.outputs.version }},next,alpha" \
+            --out site/compat \
+            --concurrency 16 \
+            --no-badges \
+            --fail-on none \
+            --index-url https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/index.json
+
       - name: Build index
         env:
           INDEX_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/index.json
@@ -59,6 +96,20 @@ jobs:
             --index-url "$INDEX_URL" \
             --limit "$LIMIT" \
             --out site
+
+      - name: Report what was published
+        run: |
+          echo "### Published" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          node -e '
+            const m = JSON.parse(require("fs").readFileSync("site/compat/matrix.json", "utf8"));
+            const hosts = m.hosts.join(", ");
+            const bad = m.plugins.filter((p) => (p.summary && p.summary.incompatible) > 0).length;
+            console.log(`- ${m.plugins.length} plugins checked against ${hosts}`);
+            console.log(`- ${bad} have at least one host that rejects them`);
+            console.log(`- page: compat/`);
+          ' >> "$GITHUB_STEP_SUMMARY"
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
