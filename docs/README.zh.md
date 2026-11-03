@@ -4,13 +4,15 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+[English](https://github.com/EasonMWS/dsh-plugin-health/blob/main/README.md) · [中文](https://github.com/EasonMWS/dsh-plugin-health/blob/main/docs/README.zh.md)
+
 **DSH 更新完，插件突然不加载了？这个工具告诉你哪个坏了、哪个能救、哪个救不了——然后帮你修。**
 
 大部分被判「不兼容」的插件其实没坏，只是作者把版本号写死了，还没跟上新版 DSH。
 这个工具会把每个插件装进一次性环境真跑一遍，确认能启动才动手：修、交给你自己的 AI、
 或者关掉它让 DSH 继续能用。
 
-> 状态：`1.6.2`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`1.7.0`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 ```sh
