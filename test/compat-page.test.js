@@ -124,3 +124,39 @@ test('a missing publish date renders as a placeholder rather than "undefined"', 
   assert.doesNotMatch(html, /undefined/u)
   assert.match(html, /data-released=""/u)
 })
+
+test('the top of the page states the total, the healthy count and the rejected count', () => {
+  const html = renderCompatPage(matrix())
+  // Two plugins, one accepted on every host, one rejected: the three numbers have to agree.
+  assert.match(html, /<span class="n">2<\/span><span class="k">plugins checked/u)
+  assert.match(html, /<span class="n">1<\/span><span class="k">load on every host/u)
+  assert.match(html, /<span class="n">1<\/span><span class="k">rejected by at least one/u)
+})
+
+test('a plugin that errors on a host is not counted as healthy', () => {
+  const html = renderCompatPage(matrix({
+    plugins: [{
+      name: 'dsh-flaky', version: '1.0.0',
+      results: { '0.2.1-rc.5': { compatible: null, error: 'registry timeout' } },
+      summary: { compatible: 0, incompatible: 0, errors: 1 },
+    }],
+  }), {})
+  // It must not appear in the healthy tally.
+  assert.match(html, /<span class="n">0<\/span><span class="k">load on every host/u)
+})
+
+test('the page says where the data comes from, so a reader cannot mistake its scope', () => {
+  const html = renderCompatPage(matrix())
+  assert.match(html, /awesome-dsh-plugin/u)
+  assert.match(html, /published on npm/u)
+  assert.match(html, /cannot be checked and is not counted/u)
+  // The key claim: nothing is installed and no plugin code runs.
+  assert.match(html, /no plugin code is executed/u)
+})
+
+test('host labels keep their real casing in the per-host summary', () => {
+  const html = renderCompatPage(matrix())
+  // The summary label is uppercased; the version inside the list must not be.
+  assert.match(html, /<strong>0\.2\.1-rc\.5<\/strong>/u)
+  assert.doesNotMatch(html, /<strong>0\.2\.1-RC\.5<\/strong>/u)
+})
