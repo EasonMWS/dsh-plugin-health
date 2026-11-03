@@ -394,7 +394,9 @@ function rescueContext(options) {
   const profileDir = join(home, 'profiles', profile)
   if (!existsSync(profileDir)) throw new UsageError(`no such profile: ${profile} (looked in ${profileDir})`)
   const runtimeVersion = lastString(options, 'runtime') ?? hostVersionOf(profileDir, home)
-  const dshDirectory = lastString(options, 'dsh-dir') ?? discoverDshDirectory(home, profileDir)
+  // Discovery has to know which host version it is looking for: without it, a cached host from a
+  // previous release is accepted and the rehearsal proves the plugin on the wrong line.
+  const dshDirectory = lastString(options, 'dsh-dir') ?? discoverDshDirectory(home, profileDir, runtimeVersion)
   return { home, profile, profileDir, runtimeVersion, dshDirectory }
 }
 

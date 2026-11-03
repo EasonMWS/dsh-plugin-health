@@ -24,17 +24,26 @@ export function verifyActivation(ctx, extra = {}) {
   // simply is not in the list. That is how a rehearsal could pass for a plugin that never loaded.
   if (typeof extra.plugin === 'string' && extra.plugin !== '') {
     const entries = loader.entries()
+    // Exact matches only, on the package name and on the entry id.
+    //
+    // These used to be `name === plugin || id.includes(plugin)`, and the substring half made the
+    // whole assertion satisfiable by a neighbour: with `dsh-x` under test, an activated `dsh-x-ui`
+    // entry — a different package — passed as proof. A plugin that was disabled or absent then
+    // looked like it had loaded.
     const named = entries.filter((entry) => entry.options?.name === extra.plugin
-      || String(entry.options?.id ?? '').includes(extra.plugin))
+      || entry.options?.id === extra.plugin)
     assert.ok(
       named.length > 0,
       `${extra.plugin} never entered the profile: it is not among the ${entries.length} loaded entries`,
     )
-    const active = named.filter((entry) => !entry.disabled && entry.fiber?.state === 2)
-    assert.ok(
-      active.length > 0,
+    // Every entry carrying that name has to be active. One disabled duplicate is enough to mean the
+    // plugin under test did not load.
+    const inactiveMatches = named.filter((entry) => entry.disabled || entry.fiber?.state !== 2)
+    assert.equal(
+      inactiveMatches.length,
+      0,
       `${extra.plugin} was present but did not activate: ${
-        named.map((entry) => `${entry.options?.id ?? '?'}=${entry.disabled ? 'disabled' : `state ${entry.fiber?.state}`}`).join(', ')
+        inactiveMatches.map((entry) => `${entry.options?.id ?? '?'}=${entry.disabled ? 'disabled' : `state ${entry.fiber?.state}`}`).join(', ')
       }`,
     )
   }

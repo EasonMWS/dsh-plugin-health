@@ -8,6 +8,7 @@ import { join } from 'node:path'
 
 import { inspectDshHome } from '../repair/inspect.js'
 import { auditRescues } from '../rescue/rescue.js'
+import { checkLoopbackPeer } from './guard.js'
 import { snapshot as snapshotUpdate } from './update.js'
 /** Route the browser half reads; absolute so it works from the DSH web origin. */
 export const STATUS_PATH = '/plugins/dsh-plugin-health/status'
@@ -158,6 +159,10 @@ export function createStatusHandler(getStatus) {
       send(res, 403, { error: 'loopback only' })
       return
     }
+    // The status route hands out the control cookie, so it needs the peer check as much as the
+    // write routes do — the Host header alone is client-supplied.
+    const peer = checkLoopbackPeer(req)
+    if (!peer.ok) { send(res, peer.status, { error: peer.error }); return }
     if (req?.method !== 'GET') {
       send(res, 405, { error: 'method not allowed' })
       return

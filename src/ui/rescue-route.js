@@ -1,19 +1,21 @@
 /**
  * Host half of the rescue UI: the routes behind the "fix it" button.
  *
- * Three routes, all loopback-only and all behind the same per-launch control key the
- * existing repair route uses, because they change profile state:
+ * Routes, all loopback-only and all behind the same per-launch control key the existing repair route
+ * uses, because they change profile state:
  *
  *   POST .../rescue/rehearse   rehearse in a throwaway home — writes nothing
  *   POST .../rescue/apply      rehearse, then grant the exemption if it booted
  *   POST .../rescue/undo       revoke exemptions this tool granted
+ *   POST .../rescue/disable    switch a plugin off so DSH keeps booting
+ *   POST .../rescue/enable     undo that
+ *   POST .../update            ask the registry whether this plugin is current
  *
- * The rehearsal is deliberately a separate step from the apply. The UI shows the
- * verdict between the two, so a user sees "this will work" before anything in their
- * profile changes.
+ * The rehearsal is deliberately a separate step from the apply. The UI shows the verdict between the
+ * two, so a user sees "this will work" before anything in their profile changes.
  * @module ui/rescue-route
  */
-import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
+import { createHash, timingSafeEqual } from 'node:crypto'
 import semver from 'semver'
 import { readFileSync } from 'node:fs'
 import { join, resolve, sep } from 'node:path'
@@ -26,14 +28,11 @@ import { buildReport, findExistingReports, repositorySlug } from '../rescue/repo
 import { buildBrief, renderPrompt, writeHandoff } from '../rescue/handoff.js'
 import { presentedKey } from './repair-route.js'
 import { invalidateStatus } from './status.js'
-import { checkWriteRequest } from './guard.js'
+import { checkLoopbackPeer, checkStatusRequest, checkWriteRequest } from './guard.js'
 import { UPDATE_PATH, refreshUpdate, upgradeHint } from './update.js'
 
 /** Route namespace, absolute so the browser half can call it from the DSH origin. */
 export const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
-
-/** Per-launch control key; the browser half receives it with the status snapshot. */
-export const RESCUE_KEY = randomBytes(24).toString('hex')
 
 const LOOPBACK = new Set(['127.0.0.1', 'localhost', '::1'])
 
@@ -124,7 +123,9 @@ export function createRescueHandlers({
    * directory, used only for throwaway homes.
    */
   const hostFor = async (home, profileDir, runtimeVersion) => {
-    const found = dshDirectoryOf(home, profileDir)
+    // The version is what makes discovery useful: without it, any host on the machine is accepted,
+    // including a cached one from a previous release, and the rehearsal proves the wrong thing.
+    const found = dshDirectoryOf(home, profileDir, runtimeVersion)
     if (found !== undefined) return found
     const prepared = await prepareHostImpl({ home, version: runtimeVersion })
     return prepared.directory
@@ -170,6 +171,11 @@ export function createRescueHandlers({
       const result = await rehearseImpl({
         dshDirectory,
         plugin: `${identity.name}@${identity.version}`,
+        // The identity travels beside the spec: the spec is a string that could name a directory on
+        // the process's cwd, and nothing downstream may derive the package identity from it.
+        suppliedIdentity: identity,
+        pluginName: identity.name,
+        pluginVersion: identity.version,
         runtimeVersion: hostVersion,
         timeoutMs: body.timeoutMs, installTimeoutMs: body.installTimeoutMs,
       })
@@ -190,6 +196,7 @@ export function createRescueHandlers({
       const result = await rescueImpl({
         profileDir, profile, dshDirectory,
         plugin: `${identity.name}@${identity.version}`,
+        suppliedIdentity: identity,
         runtimeVersion: hostVersion,
         dryRun: false,
         timeoutMs: body.timeoutMs, installTimeoutMs: body.installTimeoutMs,
@@ -219,6 +226,9 @@ export function createRescueHandlers({
     async disable(body) {
       const { profileDir } = context()
       if (typeof body.plugin !== 'string' || body.plugin === '') throw new Error('disable needs plugin')
+      // The same shape check the rescue actions use: a caller must not be able to write an arbitrary
+      // string into the profile's patch layer.
+      if (!PACKAGE_NAME.test(body.plugin)) throw new Error(`not a package name: ${body.plugin}`)
       const result = disablePluginImpl(profileDir, { name: body.plugin, id: body.entryId })
       invalidateStatus()
       return { disabled: result.changed, entry: result.added?.[0] ?? null, file: result.file }
@@ -227,6 +237,7 @@ export function createRescueHandlers({
     async enable(body) {
       const { profileDir } = context()
       if (typeof body.plugin !== 'string' || body.plugin === '') throw new Error('enable needs plugin')
+      if (!PACKAGE_NAME.test(body.plugin)) throw new Error(`not a package name: ${body.plugin}`)
       const result = enablePluginImpl(profileDir, { name: body.plugin, id: body.entryId })
       invalidateStatus()
       return { enabled: result.changed, removed: result.removed ?? 0, file: result.file }
@@ -390,6 +401,10 @@ export function registerRescueRoute(ctx, { currentProfile, key, toolVersion, ref
    */
   const authorize = (req, res) => {
     if (!LOOPBACK.has(hostnameOf(req?.headers?.host))) { send(res, 403, { error: 'loopback only' }); return false }
+    // Host is client-supplied; the peer address is not. Without this, a host bound to a LAN address
+    // is reachable by any machine on the network using `Host: 127.0.0.1:<port>`.
+    const peer = checkLoopbackPeer(req)
+    if (!peer.ok) { send(res, peer.status, { error: peer.error }); return false }
     if (req?.method !== 'POST') { send(res, 405, { error: 'method not allowed' }); return false }
     // Runs before the key check: a cross-site page must not even reach the comparison, and a
     // 415/403 leaks less than a 401 does about whether the route is live.

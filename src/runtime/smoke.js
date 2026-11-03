@@ -149,9 +149,14 @@ export function resolvePluginIdentity(spec, known = {}) {
  */
 export async function runRuntimeSmoke({
   dshDirectory, plugin, tools = [], calls = [], out, bootOnly = false, bypassGate = false,
-  pluginName, pluginVersion,
+  pluginName, pluginVersion, registryOnly = false,
   timeoutMs = 30_000, installTimeoutMs = 120_000,
 }, { runProcess = runBoundedProcess } = {}) {
+  // A registry-only run must be told the identity: there is no path to read it from, and the spec
+  // came from a request rather than from a human.
+  if (registryOnly && (typeof pluginName !== 'string' || pluginName === '')) {
+    throw new Error('a registry-only smoke run needs the plugin name; the spec is not a path')
+  }
   if (typeof dshDirectory !== 'string' || typeof plugin !== 'string' || plugin === '' || plugin.startsWith('-')) {
     throw new Error('smoke requires --dsh-dir <installed @deepseek-ai/dsh directory> and --plugin <spec|tarball>')
   }
@@ -170,7 +175,9 @@ export async function runRuntimeSmoke({
   if (manifest.name !== '@deepseek-ai/dsh') throw new Error('--dsh-dir must contain @deepseek-ai/dsh/package.json')
   const bin = typeof manifest.bin === 'string' ? manifest.bin : manifest.bin?.dsh
   if (typeof bin !== 'string') throw new Error('the installed DSH package declares no dsh executable')
-  const pluginSpec = existsSync(plugin) ? resolve(plugin) : plugin
+  // A spec from a request must never be interpreted as a path: `existsSync` is relative to the
+  // host's cwd, so a directory there named like `foo@1.0.0` would decide what gets installed.
+  const pluginSpec = registryOnly || !existsSync(plugin) ? plugin : resolve(plugin)
   // `allow-version` needs the exact `name@version` pair the gate rejected. Only resolve it
   // when we are actually going to grant the exemption: a plain smoke run must not fail
   // just because a tarball's identity cannot be read from its path.

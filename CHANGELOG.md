@@ -1,5 +1,72 @@
 # Changelog
 
+## 2.1.1 (2026-11-03)
+
+A second review of 2.0.0 found that four of that release's fixes were incomplete or ineffective, and
+that three of the HTTP smoke checks proved nothing. This release finishes the job and, where a claim
+in the previous notes was still too strong, narrows it.
+
+### Security
+
+- **The loopback check only looked at the `Host` header.** That header is written by the client, so
+  with the web server bound to a LAN address — which the host supports, and which its own README
+  calls deliberate network exposure — any machine on the network could send `Host: 127.0.0.1:<port>`,
+  pass every check, call `/status`, receive the control cookie, and then disable plugins or run a
+  rescue. The peer address is the part of a connection a client cannot choose, so all four handlers
+  now require it to be loopback as well: the whole of `127.0.0.0/8`, `::1`, and the `::ffff:127.x`
+  form a dual-stack socket reports. The `Host` check stays, because it is what stops DNS rebinding.
+- **A request body could still choose what got installed.** `requireInstalledPlugin` verified that
+  `foo@1.0.0` was installed, then passed the string `"foo@1.0.0"` down the chain — where
+  `runRuntimeSmoke` treats a spec that exists on disk as a *path*. A directory named `foo@1.0.0/` in
+  the DSH process's working directory, with any manifest inside it, decided which package was
+  installed, booted, and written into `compatibility.json`. Rehearsing a package the user never had
+  and exempting it is exactly the failure 2.0.0 claimed to remove.
+
+  The identity now travels beside the spec (`pluginName`/`pluginVersion`, plus a `registryOnly` flag
+  that forbids treating a spec as a path at all), so nothing downstream re-derives a package name
+  from a string a caller chose.
+- **A chunked request could skip the content-type requirement.** The "is there a body?" test read
+  `content-length`; a chunked request has none, so it was treated as empty and the guard waved it
+  through. Only an explicit `0`, or no body framing at all, counts as empty now.
+- **`GET /repair` was outside the status guard.** The write guard deliberately lets read methods
+  through, which left the dry-run scan reachable by a same-site page holding the cookie. It now goes
+  through `checkStatusRequest` like `/status` does.
+- `disable` / `enable` accepted any string as a plugin name and wrote it into the profile's patch
+  layer. Inside the loopback boundary that is only a denial of service, but the name is validated now.
+
+### Fixed
+
+- **Host discovery was never told which version it was looking for.** 2.0.0 made
+  `discoverDshDirectory` skip candidates whose manifest reports another version, but the rescue route
+  and the CLI both called it without a version — so the check was dead code on the paths that matter,
+  and a cached host from a previous release was used. The UI then said "this can be saved"
+  (`canApply: true`) while `apply` refused forever with `inconclusive`, because `rescuePlugin`'s own
+  host-version assertion caught the mismatch. Users upgrading from 1.x could not get out of that
+  state. Both call sites now pass the running version.
+- **The activation assertion could be satisfied by a neighbour.** It matched entry ids by substring,
+  so with `dsh-x` under test an activated `dsh-x-ui` entry counted as proof, and a plugin that was
+  disabled or absent passed. Matching is now exact on the package name and the entry id, and *every*
+  entry carrying that name has to be active.
+
+### Changed
+
+- `scripts/http-smoke.js` now mounts the real `registerRepairRoute` / `registerRescueRoute` instead of
+  calling the handlers directly. Previously its rescue cases bypassed the route's guard and key check
+  entirely, so three "passes" asserted nothing. It now also covers the rescue route's negative cases
+  and a chunked body: 16 checks.
+- The dead `RESCUE_KEY` export is gone. It was never read, and its comment claimed the browser
+  receives it.
+- `test/loopback-peer.test.js` and `test/identity-and-activation.test.js` cover the four findings,
+  including a real socket whose peer address is not loopback.
+
+### Documentation
+
+- `SECURITY.md` said remote attackers "were never able to reach these routes". That was true for
+  cross-origin pages, but not for a host bound to a LAN address. It now states the peer requirement
+  and the LAN case explicitly.
+
+277 tests (16 new), 276 pass, 1 platform skip. Plus 16 checks over a real HTTP socket against the
+real route registration.
 ## 2.1.0 (2026-11-03)
 
 ### Added
@@ -91,8 +158,9 @@ broke that:
 - **The rehearsal could boot a different host than the one being exempted.** Downloaded hosts were
   cached in one unversioned directory, so after a host upgrade the rehearsal proved the plugin on the
   previous line while `compatibility.json` recorded the new one. The cache is now keyed by version,
-  discovery skips candidates whose manifest reports another version, and `rescuePlugin` refuses to
-  grant when `report.hostVersion !== runtimeVersion`.
+  and `rescuePlugin` refuses to grant when `report.hostVersion !== runtimeVersion`. (Discovery was
+  also taught to skip candidates whose manifest reports another version, but its callers did not
+  pass a version, so that half only took effect in 2.1.1.)
 - **"runs" ignored timeout, orphaned processes and non-zero exit.** It read `details.ok` alone, which
   only reports what the worker saw; the parent's `report.ok` and `runtime.ok` also go false on those
   failures. All three now have to hold.

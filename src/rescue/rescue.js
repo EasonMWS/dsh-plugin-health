@@ -157,9 +157,12 @@ export function declarationConflict(manifest, runtimeVersion) {
  * Rehearse a rescue in an isolated home. Never mutates the user's profile.
  * @returns {Promise<{verdict: 'runs'|'broken'|'inconclusive', report: object}>}
  */
-export async function rehearse({ dshDirectory, plugin, runtimeVersion, timeoutMs, installTimeoutMs, out }) {
+export async function rehearse({ dshDirectory, plugin, pluginName, pluginVersion, runtimeVersion, timeoutMs, installTimeoutMs, out }) {
   const report = await runRuntimeSmoke({
     dshDirectory, plugin, bootOnly: true, bypassGate: true,
+    // The identity travels separately from the spec. `runRuntimeSmoke` treats a spec that happens to
+    // exist on disk as a path, so an attacker-chosen name must never be the only source of identity.
+    pluginName, pluginVersion, registryOnly: pluginName !== undefined,
     timeoutMs, installTimeoutMs, out,
   })
   const install = report.stages.find(stage => stage.name === 'install')
@@ -238,7 +241,7 @@ export function revokeExemption(profileDir, { key, previous, runtimeVersion }) {
  * @param {boolean} [options.dryRun]
  */
 export async function rescuePlugin({
-  profileDir, dshDirectory, plugin, runtimeVersion, profile, dryRun = false,
+  profileDir, dshDirectory, plugin, suppliedIdentity, runtimeVersion, profile, dryRun = false,
   timeoutMs, installTimeoutMs, out, rehearseImpl = rehearse,
 }) {
   // An exemption written without a version becomes `[null]` and then never matches, leaving an
@@ -246,9 +249,14 @@ export async function rescuePlugin({
   if (typeof runtimeVersion !== 'string' || runtimeVersion === '') {
     throw new Error('a rescue needs the exact host version it is granted for')
   }
-  const identity = resolvePluginIdentity(plugin)
+  // When the caller already knows the identity (the UI route read it out of the installed manifest),
+  // use it as-is. Re-deriving it from a string lets a directory that happens to be named like a spec
+  // on the process's cwd decide which package gets installed and which exemption gets written.
+  const identity = suppliedIdentity ?? resolvePluginIdentity(plugin)
   const { verdict, report } = await rehearseImpl({
     dshDirectory, plugin: `${identity.name}@${identity.version}`, runtimeVersion,
+    pluginName: suppliedIdentity === undefined ? undefined : identity.name,
+    pluginVersion: suppliedIdentity === undefined ? undefined : identity.version,
     timeoutMs, installTimeoutMs, out,
   })
   const base = { plugin: identity, runtimeVersion, profile, verdict, rehearsal: report }

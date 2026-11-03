@@ -18,7 +18,7 @@ import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
 import { applyRepairs, planRepairs } from '../repair/apply.js'
 import { inspectDshHome } from '../repair/inspect.js'
 import { invalidateStatus, STATUS_PATH } from './status.js'
-import { checkStatusRequest, checkWriteRequest } from './guard.js'
+import { checkLoopbackPeer, checkStatusRequest, checkWriteRequest } from './guard.js'
 
 /** Route that performs the one-click repair. */
 export const REPAIR_PATH = '/plugins/dsh-plugin-health/repair'
@@ -116,12 +116,19 @@ export function createRepairHandler({ key, inspect = inspectDshHome, apply = app
       send(res, 403, { error: 'loopback only' })
       return
     }
+    // The Host header is written by the client. The peer address is not, and it is the only check
+    // that holds when the web server is bound to a LAN address instead of loopback.
+    const peer = checkLoopbackPeer(req)
+    if (!peer.ok) { send(res, peer.status, { error: peer.error }); return }
     if (req?.method !== 'GET' && req?.method !== 'POST') {
       send(res, 405, { error: 'method not allowed' })
       return
     }
     // Cross-site pages must be turned away before the key is even compared — see ui/guard.js.
-    const guard = checkWriteRequest(req)
+    // A GET here is a dry-run scan, but it is still a request a same-site page can fire with the
+    // cookie. The write guard deliberately waves read methods through, so this one needs the status
+    // guard as well — without it, GET is the only unguarded entry point on this route.
+    const guard = req?.method === 'GET' ? checkStatusRequest(req) : checkWriteRequest(req)
     if (!guard.ok) {
       send(res, guard.status, { error: guard.error })
       return
@@ -240,6 +247,10 @@ export function createStatusHandler(getStatus, key) {
       send(res, 403, { error: 'loopback only' })
       return
     }
+    // The Host header is written by the client. The peer address is not, and it is the only check
+    // that holds when the web server is bound to a LAN address instead of loopback.
+    const peer = checkLoopbackPeer(req)
+    if (!peer.ok) { send(res, peer.status, { error: peer.error }); return }
     if (req?.method !== 'GET') {
       send(res, 405, { error: 'method not allowed' })
       return

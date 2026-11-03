@@ -40,8 +40,19 @@ from a previous release, a verdict that ignored timeout and orphaned processes, 
 that never asserted the plugin itself had loaded), plus a `compatibility.json` that was rewritten when
 it failed to parse. All are fixed in 2.0.0.
 
-Remote and cross-origin attackers were never able to reach these routes: the `Host` header check stops
-DNS rebinding, and every write now also needs a same-origin `Origin`.
+Cross-origin attackers were never able to reach these routes: the `Host` check stops DNS rebinding, and
+every write needs a same-origin `Origin`, which a page has to send.
+
+**A host bound to a LAN address was a different matter, and 2.1.1 fixes it.** Every route decided
+"loopback only" from the `Host` header — which the client writes. With the web server listening on
+`0.0.0.0` or a specific LAN address (the host supports both), another machine on the network could
+send `Host: 127.0.0.1:<port>`, pass every check, read the control cookie from `/status`, and then
+disable plugins or run a rescue. All four handlers now also require the **peer address** to be
+loopback — the one part of a connection a client cannot choose. The `Host` check stays, because it is
+what stops DNS rebinding.
+
+If you bind the DSH web server to a non-loopback address, treat every plugin route as exposed to the
+network and check that the host's own authentication is what you are relying on.
 
 **If you run 1.0.3 or earlier, upgrade to 1.1.0.** The advisory carries the details.
 

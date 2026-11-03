@@ -41,9 +41,11 @@ export function checkWriteRequest(req) {
 
   const mediaType = mediaTypeOf(req)
   // An empty body is legitimate for actions that take no arguments, but when a body is present it
-  // has to declare itself JSON.
+  // has to declare itself JSON. "No content-length" is not the same as "no body": a chunked request
+  // has no length and can carry anything, so only an explicit zero counts as empty.
   const declared = req?.headers?.['content-length']
-  const mayBeEmpty = mediaType === '' && (declared === undefined || declared === '0')
+  const chunked = req?.headers?.['transfer-encoding'] !== undefined
+  const mayBeEmpty = mediaType === '' && !chunked && (declared === undefined || declared === '0' || declared === 0)
   if (!mayBeEmpty && mediaType !== 'application/json') {
     return { ok: false, status: 415, error: 'write requests must be application/json' }
   }
@@ -68,6 +70,37 @@ export function checkWriteRequest(req) {
 
   return { ok: true }
 }
+
+/**
+ * Is the connection actually coming from this machine?
+ *
+ * Every route so far checked only the `Host` header, which the client writes — so with the web server
+ * bound to a LAN address, another machine on the network could send `Host: 127.0.0.1:<port>` and pass.
+ * The peer address is the one part of the connection a client cannot choose.
+ * @param {object} req
+ * @returns {{ok: true} | {ok: false, status: number, error: string}}
+ */
+export function checkLoopbackPeer(req) {
+  const address = req?.socket?.remoteAddress ?? req?.connection?.remoteAddress
+  // No socket means a hand-built request (tests, internal calls). There is nothing to verify, and
+  // every real request has one.
+  if (typeof address !== 'string' || address === '') return { ok: true }
+  if (LOOPBACK_ADDRESSES.some(pattern => pattern.test(address))) return { ok: true }
+  return { ok: false, status: 403, error: 'loopback only' }
+}
+
+/**
+ * Peer addresses that mean "this machine".
+ *
+ * IPv4 loopback is all of 127.0.0.0/8, not just 127.0.0.1 — some systems resolve `localhost` to
+ * 127.0.0.53 or similar. An IPv4 connection over a dual-stack socket arrives as `::ffff:127.0.0.1`.
+ */
+const LOOPBACK_ADDRESSES = [
+  /^127\.\d{1,3}\.\d{1,3}\.\d{1,3}$/u,
+  /^::1$/u,
+  /^::ffff:127\.\d{1,3}\.\d{1,3}\.\d{1,3}$/u,
+  /^0:0:0:0:0:0:0:1$/u,
+]
 
 /**
  * Guard for the status route, which is a GET but still hands out the control cookie. A page on
