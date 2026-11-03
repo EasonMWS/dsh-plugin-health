@@ -8,9 +8,9 @@ on:
         required: false
         default: '300'
       host:
-        description: Host version label for compatibility labels
+        description: Host version label for compatibility labels (empty = resolve npm latest)
         required: false
-        default: '0.2.1-rc.2'
+        default: ''
   schedule:
     - cron: '23 4 * * *'
 
@@ -37,11 +37,21 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      # A hard-coded label goes stale within days and silently mislabels the whole index, so the
+      # host version is resolved from npm at build time unless the caller pinned one.
+      - name: Resolve host version
+        id: host
+        run: |
+          if [ -n "${{ inputs.host }}" ]; then
+            echo "version=${{ inputs.host }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=$(npm view @deepseek-ai/dsh version)" >> "$GITHUB_OUTPUT"
+          fi
       - name: Build index
         env:
           INDEX_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/index.json
           LIMIT: ${{ inputs.limit || '300' }}
-          HOST: ${{ inputs.host || '0.2.1-rc.2' }}
+          HOST: ${{ steps.host.outputs.version }}
         run: |
           node bin/dsh-plugin-health.js index \
             --catalog https://awesome-dsh-plugin.com/plugins.json \

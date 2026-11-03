@@ -1,5 +1,39 @@
 # Changelog
 
+## 1.2.0 (2026-11-03)
+
+No behaviour changes. This release is about being findable: the tool worked, but the three things
+that make it useful to people other than the person who installed it were buried past line 390 of a
+500-line README.
+
+### Changed
+
+- **The README is organised by who you are.** A routing table at the top sends users whose plugins
+  broke, plugin authors, plugin-market builders and security reviewers to their own section. The
+  opening paragraph now describes the problem ("DSH updated, your plugins stopped loading") instead
+  of the architecture.
+- **The GitHub Action moved from line 392 to line 111** — plugin authors are the audience with the
+  most to gain and the least reason to scroll. The section now covers the `pull-requests: write`
+  permission the comment needs (previously omitted, so a copy-paste failed), the reusable-workflow
+  form, failure thresholds, and badge output.
+- **The plugin index is documented as something you use**, not just something we publish: the
+  format-1 URL, how to add it as a source inside DSH, how to build your own, and what the health
+  score does and does not mean.
+- **A Security section sits near the top** with the advisory and one sentence of trust boundary,
+  instead of a blockquote inside "Safety boundaries".
+
+### Fixed
+
+- `action.yml` had no `branding` block, which is required before an Action can be published to
+  the GitHub Marketplace, and no outputs. It now has both, plus outputs for the JSON path, the
+  markdown path, and the incompatibility count.
+- The reusable-workflow example in the README pinned `@v0.1.5`.
+- `publish-index.yml` hard-coded the host version label to `0.2.1-rc.2`. Every index built since
+  rc.3 has been labelled with a stale host, silently mislabelling 300 plugins. The label is now
+  resolved from npm at build time unless the caller pins one.
+
+176 tests, 176 pass, 1 platform skip.
+
 ## 1.1.0 (2026-10-31)
 
 Security release. Seven issues found in a security test of 1.0.2, all reproduced and fixed,

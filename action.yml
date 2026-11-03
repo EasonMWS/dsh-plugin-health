@@ -1,6 +1,10 @@
-name: DSH plugin health matrix
-description: Evaluate DeepSeek Harness (dsh) plugin compatibility against multiple DSH host versions.
-author: dsh-plugin-health contributors
+name: DSH plugin compatibility matrix
+description: Check a DeepSeek Harness (DSH) plugin against several host versions and comment the matrix on the pull request.
+author: EasonMWS
+
+branding:
+  icon: activity
+  color: blue
 
 inputs:
   plugins:
@@ -19,6 +23,17 @@ inputs:
     required: false
     default: none
 
+outputs:
+  json:
+    description: Path to the machine-readable matrix.
+    value: ${{ steps.run.outputs.json }}
+  markdown:
+    description: Path to the ready-to-paste markdown table.
+    value: ${{ steps.run.outputs.markdown }}
+  incompatible:
+    description: Number of incompatible plugin/version pairs found.
+    value: ${{ steps.run.outputs.incompatible }}
+
 runs:
   using: composite
   steps:
@@ -27,10 +42,18 @@ runs:
         node-version: '22'
     - shell: bash
       run: npm ci --prefix "${{ github.action_path }}"
-    - shell: bash
-      run: >
-        node "${{ github.action_path }}/bin/dsh-plugin-health.js" matrix
-        --plugins "${{ inputs.plugins }}"
-        --versions "${{ inputs.versions }}"
-        --out "${{ inputs.out }}"
-        --fail-on "${{ inputs.failOn }}"
+    - id: run
+      shell: bash
+      run: |
+        node "${{ github.action_path }}/bin/dsh-plugin-health.js" matrix \
+          --plugins "${{ inputs.plugins }}" \
+          --versions "${{ inputs.versions }}" \
+          --out "${{ inputs.out }}" \
+          --fail-on "${{ inputs.failOn }}"
+        echo "json=${{ inputs.out }}/matrix.json" >> "$GITHUB_OUTPUT"
+        echo "markdown=${{ inputs.out }}/matrix.md" >> "$GITHUB_OUTPUT"
+        total=$(node -e "
+          const m = require('./${{ inputs.out }}/matrix.json')
+          console.log(m.plugins.reduce((n, p) => n + (p.summary?.incompatible ?? 0), 0))
+        " 2>/dev/null || echo 0)
+        echo "incompatible=$total" >> "$GITHUB_OUTPUT"
