@@ -181,8 +181,35 @@ test('a successful parent leaving background descendants fails and stops their p
   assert.equal(result.orphaned, true)
   const pid = Number(result.stdout.trim())
   assert.ok(pid > 0)
-  assert.throws(() => process.kill(pid, 0), { code: 'ESRCH' })
+  // The descendant has to be gone as a *running* process. `process.kill(pid, 0)` is not enough to say
+  // that: in a container where PID 1 does not reap orphans — which is the normal CI setup — the
+  // killed grandchild stays on the process table as a zombie, and signalling a zombie succeeds. What
+  // matters is that nothing is still executing, so a `Z` state counts as terminated.
+  assert.equal(isGoneOrZombie(pid), true, `process ${pid} is still running`)
 })
+
+/**
+ * Whether a pid is no longer executing: either the signal probe fails, or it is a zombie.
+ * @param {number} pid
+ * @returns {boolean}
+ */
+function isGoneOrZombie(pid) {
+  try {
+    process.kill(pid, 0)
+  } catch (error) {
+    if (error.code === 'ESRCH') return true
+    throw error
+  }
+  try {
+    // /proc/<pid>/stat: `pid (comm) state ...`; comm may contain spaces and parentheses.
+    const stat = readFileSync(`/proc/${pid}/stat`, 'utf8')
+    const state = stat.slice(stat.lastIndexOf(')') + 2, stat.lastIndexOf(')') + 3)
+    return state === 'Z'
+  } catch {
+    // No procfs (macOS, BSD). Fall back to the signal probe alone.
+    return false
+  }
+}
 
 // --- plugin identity resolution -------------------------------------------------------
 // A CI run failed because a packed tarball was treated as a directory: `existsSync` is
