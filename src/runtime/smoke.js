@@ -213,7 +213,11 @@ export async function runRuntimeSmoke({
     report.stages.push({ name: 'install', ...installed })
     save()
     if (!installed.ok) return report
-    writeFileSync(configPath, JSON.stringify({ hostDir, profile, tools, calls, resultPath: workerResult }))
+    writeFileSync(configPath, JSON.stringify({
+    hostDir, profile, tools, calls, resultPath: workerResult,
+    // The plugin under test: activation of *this* package is the claim a boot-only rehearsal makes.
+    plugin: resolvedName,
+  }))
     const runtime = await runProcess(['--expose-internals', WORKER, configPath], { cwd: directory, env, timeoutMs })
     const stage = { name: 'runtime', ...runtime, ok: false }
     report.stages.push(stage)

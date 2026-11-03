@@ -2,11 +2,33 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 
 import { createRescueHandlers, verdictMessage, RESCUE_PATH } from '../src/ui/rescue-route.js'
 
 const profileContext = { home: '/home/x', profile: 'desktop', runtimeVersion: '0.2.1-rc.4' }
+
+/**
+ * A throwaway profile that actually contains a plugin.
+ *
+ * The rescue route only acts on plugins the profile already has — letting a request body name an
+ * arbitrary package is how "install and run anything" got in — so a fixture that does not install the
+ * plugin cannot exercise the happy path.
+ */
+function profileWith(plugin = { name: 'p', version: '1.0.0' }, runtimeVersion = '0.2.1-rc.4') {
+  const home = mkdtempSync(join(tmpdir(), 'dsh-rescue-route-'))
+  const profileDir = join(home, 'profiles', 'desktop')
+  mkdirSync(join(profileDir, 'node_modules', plugin.name), { recursive: true })
+  writeFileSync(
+    join(profileDir, 'node_modules', plugin.name, 'package.json'),
+    JSON.stringify({ name: plugin.name, version: plugin.version, engines: { dsh: '0.2.1-rc.4' } }),
+  )
+  return {
+    profileDir,
+    context: { home, profile: 'desktop', profileDir, runtimeVersion },
+    dispose: () => rmSync(home, { recursive: true, force: true }),
+  }
+}
 
 test('rescue route is namespaced next to the other plugin-health routes', () => {
   assert.equal(RESCUE_PATH, '/plugins/dsh-plugin-health/rescue')
@@ -20,9 +42,11 @@ test('verdictMessage returns a locale key instead of deciding the language', () 
   assert.deepEqual(verdictMessage('inconclusive'), { level: 'warn', messageKey: 'rescueVerdictInconclusive' })
 })
 
-test('rehearse reports the verdict and whether applying is safe', async () => {
+test('rehearse reports the verdict and whether applying is safe', async (t) => {
+  const profile = profileWith()
+  t.after(profile.dispose)
   const handlers = createRescueHandlers({
-    currentProfile: () => profileContext,
+    currentProfile: () => profile.context,
     dshDirectoryOf: () => '/host/dsh',
     rehearseImpl: async ({ plugin, runtimeVersion }) => {
       assert.equal(plugin, 'p@1.0.0', 'the handler must pass an exact name@version')
@@ -36,9 +60,11 @@ test('rehearse reports the verdict and whether applying is safe', async () => {
   assert.equal(result.hostVersion, '0.2.1-rc.4')
 })
 
-test('rehearse refuses to offer apply when the rehearsal fails', async () => {
+test('rehearse refuses to offer apply when the rehearsal fails', async (t) => {
+  const profile = profileWith()
+  t.after(profile.dispose)
   const handlers = createRescueHandlers({
-    currentProfile: () => profileContext,
+    currentProfile: () => profile.context,
     dshDirectoryOf: () => '/host/dsh',
     rehearseImpl: async () => ({ verdict: 'broken', report: { stages: [] } }),
   })
@@ -46,13 +72,15 @@ test('rehearse refuses to offer apply when the rehearsal fails', async () => {
   assert.equal(result.canApply, false, 'the UI must not offer a button that cannot help')
 })
 
-test('when no host is installed the rehearsal downloads one instead of failing', async () => {
+test('when no host is installed the rehearsal downloads one instead of failing', async (t) => {
   // The desktop app bundles the host inside app.asar, so having no on-disk host is the normal
   // case there. Failing would make the feature unusable for the people it targets, so the first
   // rehearsal fetches its own copy. Injected here so the test never touches the network.
   let prepared
+  const profile = profileWith()
+  t.after(profile.dispose)
   const handlers = createRescueHandlers({
-    currentProfile: () => profileContext,
+    currentProfile: () => profile.context,
     dshDirectoryOf: () => undefined,
     prepareHostImpl: async (options) => {
       prepared = options
@@ -68,9 +96,11 @@ test('when no host is installed the rehearsal downloads one instead of failing',
   assert.equal(prepared.version, '0.2.1-rc.4', 'the download must match the host the user actually runs')
 })
 
-test('a host that cannot be downloaded surfaces the install failure', async () => {
+test('a host that cannot be downloaded surfaces the install failure', async (t) => {
+  const profile = profileWith()
+  t.after(profile.dispose)
   const handlers = createRescueHandlers({
-    currentProfile: () => profileContext,
+    currentProfile: () => profile.context,
     dshDirectoryOf: () => undefined,
     prepareHostImpl: async () => {
       throw new Error('could not download a DSH host to rehearse against (@deepseek-ai/dsh@0.2.1-rc.4): network down')
@@ -82,15 +112,27 @@ test('a host that cannot be downloaded surfaces the install failure', async () =
   )
 })
 
-test('rehearse requires a plugin and version', async () => {
-  const handlers = createRescueHandlers({ currentProfile: () => profileContext, dshDirectoryOf: () => '/host/dsh' })
-  await assert.rejects(() => handlers.rehearse({ plugin: 'p' }), /needs plugin and version/u)
+test('rehearse requires an installed plugin and an exact version', async (t) => {
+  const profile = profileWith()
+  t.after(profile.dispose)
+  const handlers = createRescueHandlers({ currentProfile: () => profile.context, dshDirectoryOf: () => '/host/dsh' })
+  await assert.rejects(() => handlers.rehearse({ plugin: 'p' }), /version must be an exact installed version/u)
+  await assert.rejects(
+    () => handlers.rehearse({ plugin: 'not-installed', version: '1.0.0' }),
+    /not installed in this profile/u,
+  )
+  await assert.rejects(
+    () => handlers.rehearse({ plugin: 'p', version: '2.0.0' }),
+    /is not installed; this profile has/u,
+  )
 })
 
-test('apply always runs non-dry, so the route can only ever change the profile deliberately', async () => {
+test('apply always runs non-dry, so the route can only ever change the profile deliberately', async (t) => {
   let seen
+  const profile = profileWith()
+  t.after(profile.dispose)
   const handlers = createRescueHandlers({
-    currentProfile: () => profileContext,
+    currentProfile: () => profile.context,
     dshDirectoryOf: () => '/host/dsh',
     rescueImpl: async (options) => {
       seen = options
@@ -99,9 +141,54 @@ test('apply always runs non-dry, so the route can only ever change the profile d
   })
   const result = await handlers.apply({ plugin: 'p', version: '1.0.0' })
   assert.equal(seen.dryRun, false)
-  assert.equal(seen.profileDir, '/home/x/profiles/desktop')
+  assert.equal(resolve(seen.profileDir), resolve(profile.profileDir))
   assert.equal(result.applied, true)
   assert.equal(result.verdict, 'runs')
+})
+
+test('a request body cannot name a package that is not installed', async (t) => {
+  // This is the whole of the report: without it, `plugin: "x@npm:evil"` or `plugin: "/tmp/pwn"`
+  // made the route install and boot something the user never had, with their environment.
+  const profile = profileWith()
+  t.after(profile.dispose)
+  const handlers = createRescueHandlers({
+    currentProfile: () => profile.context,
+    dshDirectoryOf: () => '/host/dsh',
+    rehearseImpl: async () => {
+      assert.fail('the rehearsal must never run for a plugin that is not installed')
+    },
+    rescueImpl: async () => {
+      assert.fail('apply must never run for a plugin that is not installed')
+    },
+  })
+
+  for (const spec of [
+    { plugin: 'attacker-pkg', version: '1.0.0' },
+    { plugin: 'p@npm:attacker-pkg', version: '1.0.0' },
+    { plugin: '../../../../etc', version: '1.0.0' },
+    { plugin: '/tmp/pwn', version: '1.0.0' },
+    { plugin: 'p', version: '1.0.0 || 2.0.0' },
+    { plugin: 'p', version: 'latest' },
+  ]) {
+    await assert.rejects(() => handlers.rehearse(spec), /installed npm package name|exact installed version|not installed/u)
+    await assert.rejects(() => handlers.apply(spec), /installed npm package name|exact installed version|not installed/u)
+  }
+})
+
+test('a scoped package name still works', async (t) => {
+  const profile = profileWith({ name: '@scope/plugin', version: '2.3.4' })
+  t.after(profile.dispose)
+  let seen
+  const handlers = createRescueHandlers({
+    currentProfile: () => profile.context,
+    dshDirectoryOf: () => '/host/dsh',
+    rehearseImpl: async ({ plugin }) => {
+      seen = plugin
+      return { verdict: 'runs', report: { directory: '/tmp/run', hostVersion: '0.2.1-rc.4' } }
+    },
+  })
+  await handlers.rehearse({ plugin: '@scope/plugin', version: '2.3.4' })
+  assert.equal(seen, '@scope/plugin@2.3.4')
 })
 
 test('undo forwards a specific key and reports how many remain', async () => {

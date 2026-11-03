@@ -42,18 +42,39 @@ runs:
         node-version: '22'
     - shell: bash
       run: npm ci --prefix "${{ github.action_path }}"
+    # Inputs go through the environment, never straight into the script text. A caller can pass a
+    # branch name or a PR title; interpolating that into a shell line would execute it on the runner,
+    # and a reusable workflow runs with pull-requests: write.
     - id: run
       shell: bash
+      env:
+        INPUT_PLUGINS: ${{ inputs.plugins }}
+        INPUT_VERSIONS: ${{ inputs.versions }}
+        INPUT_OUT: ${{ inputs.out }}
+        INPUT_FAIL_ON: ${{ inputs.failOn }}
+        ACTION_PATH: ${{ github.action_path }}
       run: |
-        node "${{ github.action_path }}/bin/dsh-plugin-health.js" matrix \
-          --plugins "${{ inputs.plugins }}" \
-          --versions "${{ inputs.versions }}" \
-          --out "${{ inputs.out }}" \
-          --fail-on "${{ inputs.failOn }}"
-        echo "json=${{ inputs.out }}/matrix.json" >> "$GITHUB_OUTPUT"
-        echo "markdown=${{ inputs.out }}/matrix.md" >> "$GITHUB_OUTPUT"
-        total=$(node -e "
-          const m = require('./${{ inputs.out }}/matrix.json')
+        set -u
+        status=0
+        node "$ACTION_PATH/bin/dsh-plugin-health.js" matrix \
+          --plugins "$INPUT_PLUGINS" \
+          --versions "$INPUT_VERSIONS" \
+          --out "$INPUT_OUT" \
+          --fail-on "$INPUT_FAIL_ON" || status=$?
+
+        # Written before the exit code is honoured: `--fail-on` is meant to fail the job, and with
+        # `set -e` (or an early exit) the outputs below would never be set, leaving callers with an
+        # empty matrix path exactly when the matrix matters most.
+        {
+          echo "json=$INPUT_OUT/matrix.json"
+          echo "markdown=$INPUT_OUT/matrix.md"
+        } >> "$GITHUB_OUTPUT"
+        total="$(node -e '
+          const fs = require("fs")
+          const file = process.argv[1]
+          if (!fs.existsSync(file)) { console.log(0); process.exit(0) }
+          const m = JSON.parse(fs.readFileSync(file, "utf8"))
           console.log(m.plugins.reduce((n, p) => n + (p.summary?.incompatible ?? 0), 0))
-        " 2>/dev/null || echo 0)
-        echo "incompatible=$total" >> "$GITHUB_OUTPUT"
+        ' "$INPUT_OUT/matrix.json" 2>/dev/null || echo 0)"
+        echo "incompatible=${total:-0}" >> "$GITHUB_OUTPUT"
+        exit "$status"

@@ -12,7 +12,7 @@
 这个工具会把每个插件装进一次性环境真跑一遍，确认能启动才动手：修、交给你自己的 AI、
 或者关掉它让 DSH 继续能用。
 
-> 状态：`1.7.0`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`2.0.0`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 ```sh
@@ -247,7 +247,7 @@ stars 取对数 25）再按兼容性和能力风险加减，0–100。**它不�
 **还在用 1.0.3 或更早？请升级。** 1.1.0 修复了安全测试在 1.0.2 里发现的 7 个问题，
 其中一个评为 high：写路由的控制密钥被无鉴权的 status 接口下发了。
 
-见 [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5)
+见 [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5) and [GHSA-52w2-cq6j-xhg7](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-52w2-cq6j-xhg7)
 和 [SECURITY.md](SECURITY.md)。
 
 **信任边界，直说：** 写路由对**任何本地进程**可达。真正的边界是 loopback 接口，不是那个密钥。

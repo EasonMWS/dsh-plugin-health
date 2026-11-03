@@ -3,17 +3,22 @@
  *
  * Safety rules, in order:
  * 1. loopback-only Host (same fence as the status route) — a DNS-rebinding page cannot reach it;
- * 2. an in-process random key minted per boot, handed only to the same-origin page — a local
- *    process cannot "prove" it was told the key, so it cannot trigger writes;
- * 3. only findings whose `fix.auto === true` are applied; everything else is reported as manual;
- * 4. repairs never delete: files/directories move to a quarantine directory, the patch rewrite keeps
+ * 2. the write must look like it came from our own origin: JSON content type, matching `Origin`,
+ *    and a `Sec-Fetch-Site` that is not cross-site (see `ui/guard.js`). This is what stops a page
+ *    served from another local port, which is same-*site* and therefore carries the key cookie;
+ * 3. an in-process random key minted per boot. The key separates our page from clients that never
+ *    loaded it. It does **not** separate a local process: anything that can read the status route's
+ *    `Set-Cookie` can replay it, and nothing on loopback can tell the two apart;
+ * 4. only findings whose `fix.auto === true` are applied; everything else is reported as manual;
+ * 5. repairs never delete: files/directories move to a quarantine directory, the patch rewrite keeps
  *    a backup plus the user's comments.
  * @module ui/repair-route
  */
-import { randomBytes, timingSafeEqual } from 'node:crypto'
+import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
 import { applyRepairs, planRepairs } from '../repair/apply.js'
 import { inspectDshHome } from '../repair/inspect.js'
 import { invalidateStatus, STATUS_PATH } from './status.js'
+import { checkStatusRequest, checkWriteRequest } from './guard.js'
 
 /** Route that performs the one-click repair. */
 export const REPAIR_PATH = '/plugins/dsh-plugin-health/repair'
@@ -24,9 +29,13 @@ export function createRepairKey() {
 }
 
 function sameKey(expected, presented) {
-  if (typeof presented !== 'string' || presented.length !== expected.length) return false
-  const left = Buffer.from(expected)
-  const right = Buffer.from(presented)
+  if (typeof presented !== 'string') return false
+  // Compare digests, not the raw values. `timingSafeEqual` throws unless the *byte* lengths match,
+  // while `length` counts UTF-16 units: 48 copies of "é" pass the length check with 96 bytes and
+  // crash the handler with ERR_CRYPTO_TIMING_SAFE_EQUAL_LENGTH. A request header is arbitrary text,
+  // so that is reachable from the network side of the loopback fence.
+  const left = createHash('sha256').update(expected).digest()
+  const right = createHash('sha256').update(presented).digest()
   return timingSafeEqual(left, right)
 }
 
@@ -109,6 +118,12 @@ export function createRepairHandler({ key, inspect = inspectDshHome, apply = app
     }
     if (req?.method !== 'GET' && req?.method !== 'POST') {
       send(res, 405, { error: 'method not allowed' })
+      return
+    }
+    // Cross-site pages must be turned away before the key is even compared — see ui/guard.js.
+    const guard = checkWriteRequest(req)
+    if (!guard.ok) {
+      send(res, guard.status, { error: guard.error })
       return
     }
     if (!sameKey(key, presentedKey(req))) {
@@ -206,8 +221,15 @@ export function keyCookieHeaders(key) {
 /**
  * Serve the status snapshot.
  *
- * The snapshot no longer carries the control key. It is delivered once, as an HttpOnly cookie, so
- * page scripts cannot read it and other local processes cannot obtain it from this endpoint.
+ * The snapshot body does not carry the control key. It is delivered as an HttpOnly cookie so page
+ * scripts on *other* origins cannot read it.
+ *
+ * Be precise about what that buys: `HttpOnly` stops JavaScript in a page from reading the value. It
+ * does not stop a local process, which can read `Set-Cookie` exactly like any other response header,
+ * and it does not stop a page on another local port — cookies ignore the port, so such a page is
+ * same-site and the browser attaches the cookie for it. The second problem is handled by
+ * `checkStatusRequest` and `ui/guard.js`; the first cannot be handled on loopback at all, and
+ * `SECURITY.md` says the loopback interface is the boundary.
  * @param {() => object} getStatus - status provider.
  * @param {string} key - repair control key.
  * @returns {(req: object, res: object) => Promise<void>} handler.
@@ -220,6 +242,11 @@ export function createStatusHandler(getStatus, key) {
     }
     if (req?.method !== 'GET') {
       send(res, 405, { error: 'method not allowed' })
+      return
+    }
+    const guard = checkStatusRequest(req)
+    if (!guard.ok) {
+      send(res, guard.status, { error: guard.error })
       return
     }
     try {

@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
-import { createStatusHandler, presentedKey, KEY_COOKIE } from '../src/ui/repair-route.js'
+import { createRepairHandler, createStatusHandler, presentedKey, KEY_COOKIE } from '../src/ui/repair-route.js'
 import { safeHandoffSegment, handoffDirectory } from '../src/rescue/handoff.js'
 import { requireHostVersion, prepareRehearsalHost } from '../src/rescue/environment.js'
 import { readProfilePatch, writeProfilePatch, disablePlugin } from '../src/rescue/boot.js'
@@ -161,5 +161,19 @@ test('disablePlugin refuses to run on a patch layer it cannot parse', () => {
     assert.equal(readFileSync(join(dir, 'cordis.patch.yml'), 'utf8'), mapping, 'the file must be untouched')
   } finally {
     rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('a non-ASCII key of the right length does not crash the comparison', async () => {
+  // `length` counts UTF-16 units and `timingSafeEqual` compares bytes, so 48 copies of "é" passed the
+  // length gate with 96 bytes and threw ERR_CRYPTO_TIMING_SAFE_EQUAL_LENGTH — inside a handler that
+  // did not catch it. The comparison now works on digests, so any string is safe to present.
+  const key = 'k'.repeat(48)
+  const handler = createRepairHandler({ key, inspect: async () => ({ summary: { error: 0, warn: 0 } }) })
+  for (const presented of ['é'.repeat(48), '插件'.repeat(16), '\u0000'.repeat(48)]) {
+    const { captured, res } = recorder()
+    const request = { method: 'GET', headers: { host: '127.0.0.1:1234', 'x-plugin-health-key': presented } }
+    await assert.doesNotReject(() => handler(request, res), 'a wrong key must be rejected, not fatal')
+    assert.equal(captured.status, 401, 'a wrong key is a 401')
   }
 })

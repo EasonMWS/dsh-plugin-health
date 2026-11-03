@@ -28,7 +28,7 @@ export const HANDOFF_DIR = 'plugin-health-handoff'
  */
 export function buildBrief({
   name, version, runtimeVersion, requirements = {}, installedManifest,
-  smokeReport, repositoryUrl, toolVersion,
+  smokeReport, repositoryUrl, toolVersion, verdict,
 }) {
   const stages = (smokeReport?.stages ?? []).map(stage => ({
     name: stage.name,
@@ -37,6 +37,11 @@ export function buildBrief({
     stage: stage.details?.stage,
     error: stage.details?.error ?? stage.error ?? undefined,
   }))
+  // The UI knows the verdict as a word; a route that only received that word must not be mistaken
+  // for "no rehearsal happened", or every brief generated after a failed boot claims the code is fine.
+  const resolved = verdict ?? (smokeReport === undefined
+    ? 'not-run'
+    : smokeReport.ok === true ? 'runs' : 'failed')
   return {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
@@ -52,10 +57,7 @@ export function buildBrief({
     host: { runtimeVersion, toolVersion: toolVersion ?? null },
     // `not-run` is a distinct verdict: reporting a missing rehearsal as "failed" would tell
     // the agent the plugin is broken when nobody actually checked.
-    rehearsal: {
-      verdict: smokeReport === undefined ? 'not-run' : smokeReport.ok === true ? 'runs' : 'failed',
-      stages,
-    },
+    rehearsal: { verdict: resolved, stages },
     constraints: [
       'Restore compatibility only. Do not add features, refactor, or change behaviour.',
       'Do not widen a peer range past what you can verify; prefer admitting the exact tested version.',
@@ -166,9 +168,16 @@ export function renderPrompt(brief) {
   lines.push('')
   lines.push('This is a bounded task, not an open-ended repair session.')
   lines.push('')
-  if (notRun || booted) {
-    lines.push('- **Stay in the declarations.** The boot test says the code is fine; the only thing to change is')
-    lines.push('  the version ranges. If you find yourself editing plugin source, stop — that is out of scope.')
+  if (booted) {
+    lines.push('- **Stay in the declarations.** A boot test ran and the code loaded; the only thing to change')
+    lines.push('  is the version ranges. If you find yourself editing plugin source, stop — that is out of scope.')
+  } else if (notRun) {
+    // Saying "the boot test says the code is fine" here would be a fabrication: no test ran. The brief
+    // is reached from the failed-boot path, so telling the agent the declaration is the only suspect
+    // sends it to widen a range on a plugin that may well crash.
+    lines.push('- **No boot test has been run for this plugin yet.** Work from the declarations first, but do')
+    lines.push('  not assume the code is healthy: if you can boot it on the target host, do that before deciding')
+    lines.push('  a range change is enough.')
   } else {
     lines.push('- **One diagnosis, one attempt.** Identify the single cause and make one minimal change. If it')
     lines.push('  still does not boot, stop and report what you found instead of trying variations.')

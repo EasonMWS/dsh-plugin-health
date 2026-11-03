@@ -7,7 +7,7 @@ import { parse as parseYaml, stringify as stringifyYaml } from 'yaml'
 
 import {
   SAFE_MARKER, detectBootFailures, diagnoseBoot, disablePlugin, enablePlugin, enterSafeMode, isSelf, readBootEvidence,
-  parseCrashReport, readCrashLogs, readProfilePatch, restoreSafeMode, thirdPartyEntries,
+  parseCrashReport, readCrashLogs, readProfilePatch, restoreSafeMode, thirdPartyEntries, writeProfilePatch,
 } from '../src/rescue/boot.js'
 
 /** A profile with one host entry and two third-party entries, plus a comment to preserve. */
@@ -302,4 +302,32 @@ test('diagnoseBoot says so plainly when a crash exists but names no plugin', () 
   } finally {
     rmSync(dir, { recursive: true, force: true })
   }
+})
+
+
+
+test("keeps the user's comments through a disable", () => {
+  // Round-tripping through parse+stringify dropped every comment; the README and the repair docs both
+  // promise they survive.
+  const { profileDir } = profileWith()
+  const file = join(profileDir, 'cordis.patch.yml')
+  disablePlugin(profileDir, { name: 'dsh-winbox' })
+  const after = readFileSync(file, 'utf8')
+  assert.match(after, /# user comment that must survive/u)
+  assert.match(after, /dsh-session-recall/u, 'the other entries must stay')
+  assert.ok(readProfilePatch(profileDir).some(entry => entry.name === 'dsh-winbox' && entry.disabled === true))
+})
+
+test('restoring safe mode keeps the comments and drops only the overlays', () => {
+  const { profileDir } = profileWith()
+  const file = join(profileDir, 'cordis.patch.yml')
+  const overlay = { name: 'dsh-session-recall', disabled: true, comment: SAFE_MARKER }
+  writeProfilePatch(profileDir, [...readProfilePatch(profileDir), overlay])
+  assert.match(readFileSync(file, 'utf8'), /# user comment that must survive/u)
+
+  writeProfilePatch(profileDir, readProfilePatch(profileDir).filter(entry => entry.comment !== SAFE_MARKER))
+  const after = readFileSync(file, 'utf8')
+  assert.match(after, /# user comment that must survive/u)
+  assert.doesNotMatch(after, new RegExp(SAFE_MARKER, 'u'), 'the overlay was removed')
+  assert.match(after, /dsh-winbox/u, 'the untouched entries remain')
 })

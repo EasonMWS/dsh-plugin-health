@@ -9,7 +9,7 @@ import { homedir, platform } from 'node:os'
 import { join } from 'node:path'
 import { parse as parseYaml } from 'yaml'
 import { evaluatePluginCompatibility } from '../compat/evaluate.js'
-import { readExemptions } from '../rescue/rescue.js'
+import { EXEMPTION_FILE, readExemptions } from '../rescue/rescue.js'
 
 const SEVERITY_ORDER = { error: 0, warn: 1, info: 2 }
 
@@ -229,11 +229,16 @@ function inspectNodeModules(profileDir, manifest, findings) {
 function inspectResidue(profileDir, findings) {
   const roots = [profileDir, join(profileDir, 'node_modules')]
   const patterns = [/\.bak-/u, /\.lock$/u, /\.lock\.takeover-/u]
+  // This tool's own backups look like residue to a pattern that only knows `.bak-`. Flagging the file
+  // we just wrote, and offering to quarantine it, would destroy the only copy of what replaced the
+  // user's `cordis.patch.yml` — the recovery path for the write that needed the backup.
+  const ours = new Set(['cordis.patch.yml.bak-plugin-health', `${EXEMPTION_FILE}.bak-plugin-health`])
   for (const root of roots) {
     if (!existsSync(root)) continue
     let entries = []
     try { entries = readdirSync(root, { withFileTypes: true }) } catch { continue }
     for (const entry of entries) {
+      if (ours.has(entry.name)) continue
       if (patterns.some((pattern) => pattern.test(entry.name))) {
         findings.push(finding('residue', 'warn', `Stale residue file: ${entry.name}`, join(root, entry.name),
           { fix: { kind: 'quarantine', auto: true, target: join(root, entry.name), description: 'Move the residue file to quarantine; it can be restored from there.' } }))
@@ -405,6 +410,39 @@ function listPackageDirectories(directory) {
  * @param {string} profileDir
  * @returns {Map<string, string>}
  */
+/**
+ * Names of plugins switched off in the profile's patch layer.
+ *
+ * `disablePlugin` appends `{ name, disabled: true, ... }` (with the entry's own id when it has one),
+ * and `enablePlugin` removes it, so presence in this set means "the user already dealt with this".
+ * @param {string} profileDir
+ * @returns {Set<string>}
+ */
+function patchDisabledNames(profileDir) {
+  const names = new Set()
+  const path = join(profileDir, 'cordis.patch.yml')
+  if (!existsSync(path)) return names
+  let parsed
+  try {
+    parsed = parseYaml(readFileSync(path, 'utf8'))
+  } catch {
+    return names
+  }
+  const visit = (list) => {
+    if (!Array.isArray(list)) return
+    for (const entry of list) {
+      if (typeof entry !== 'object' || entry === null) continue
+      if (entry.disabled === true && typeof entry.name === 'string' && entry.name !== '') {
+        names.add(entry.name)
+      }
+      // Inserts may nest their overrides one level down.
+      if (entry.insert !== undefined) visit(entry.insert)
+    }
+  }
+  visit(parsed)
+  return names
+}
+
 function patchEntryIds(profileDir) {
   const ids = new Map()
   const path = join(profileDir, 'cordis.patch.yml')
@@ -438,6 +476,10 @@ function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest,
   // The patch-layer id, so switching a plugin off can target the entry the profile actually
   // registers. A bundle inserted as `id: plugin-health` has a name that is not that id.
   const idByName = patchEntryIds(profileDir)
+  // Plugins this tool has already switched off. Without this the panel keeps reporting a plugin the
+  // user just disabled and offers the same fix again — the scan contradicting the action the same
+  // panel just performed.
+  const disabled = patchDisabledNames(profileDir)
   const installed = manifest === undefined
     ? bundles.map((name) => ({ name, directory: nodeModulesPath(profileDir, name) }))
     : listInstalledPlugins(profileDir, manifest)
@@ -448,6 +490,8 @@ function inspectRuntime(profileDir, bundles, runtimeVersion, findings, manifest,
     if (seen.has(name)) continue
     seen.add(name)
     if (name.startsWith('@deepseek-ai/')) continue // host packages are the reference, not plugins
+    // Switched off on purpose: it cannot load here, and that is already the decision.
+    if (disabled.has(name)) continue
     const manifestPath = join(plugin.directory ?? nodeModulesPath(profileDir, name), 'package.json')
     if (!existsSync(manifestPath)) continue
     const read = safeReadJson(manifestPath)

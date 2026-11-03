@@ -98,8 +98,10 @@ function ceilingFor(version) {
   const minor = semver.minor(version)
   const patch = semver.patch(version)
   // A version on a `.0` patch is the first of its line, so its ceiling is the next minor;
-  // anything later is a patch line whose ceiling is the next patch.
-  return patch === 0 ? `0.${minor + 1}.0-0` : `0.${minor}.${patch + 1}-0`
+  // anything later is a patch line whose ceiling is the next patch. The major has to come from the
+  // version: it was hard-coded to `0`, which turned every suggestion for a 1.x host into an empty
+  // range like `>=1.3.0 <0.4.0-0`.
+  return patch === 0 ? `${major}.${minor + 1}.0-0` : `${major}.${minor}.${patch + 1}-0`
 }
 
 /**
@@ -153,7 +155,7 @@ export function suggestRange(range, runtimeVersion) {
 
   if (lines.size === 1) {
     // Same line: replace the whole enumeration with one range covering it and later builds.
-    const suggested = `>=${line}-0 <${ceiling}`
+    const suggested = ensureAdmits(`>=${line}-0 <${ceiling}`, runtimeVersion)
     return {
       suggested,
       why: enumerated
@@ -166,10 +168,26 @@ export function suggestRange(range, runtimeVersion) {
   // Several lines enumerated: keep the history and open the top end only as far as the
   // author's own newest version justifies.
   return {
-    suggested: `${text} || >=${newest} <${ceiling}`,
+    suggested: ensureAdmits(`${text} || >=${newest} <${ceiling}`, runtimeVersion),
     why: `adds the admitted top of the ${line} line without dropping the versions you already list, and without claiming the next host line`,
     keepsEnumeration: true,
   }
+}
+
+/**
+ * Make sure a suggestion actually admits the version it was written for.
+ *
+ * The whole point of the suggested range is that pasting it fixes the rejection. A ceiling derived
+ * from the newest *enumerated* version can sit below the running host — the common case is a host
+ * line bump, where every enumerated version is on the previous line — and the suggestion then reads
+ * as a fix while still being rejected. When that happens, admit the exact version and say so.
+ * @param {string} suggested
+ * @param {string} runtimeVersion
+ * @returns {string}
+ */
+function ensureAdmits(suggested, runtimeVersion) {
+  if (semver.satisfies(runtimeVersion, suggested, { includePrerelease: true })) return suggested
+  return `${suggested} || ${runtimeVersion}`
 }
 
 /**

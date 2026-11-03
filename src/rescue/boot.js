@@ -21,7 +21,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-import { parse as parseYaml, stringify as stringifyYaml } from 'yaml'
+import { parse as parseYaml, parseDocument, stringify as stringifyYaml } from 'yaml'
 
 /** Marker so `restore` removes exactly the entries this tool added and nothing else. */
 export const SAFE_MARKER = 'dsh-plugin-health-safe-mode'
@@ -69,11 +69,91 @@ export function readProfilePatch(profileDir) {
 export function writeProfilePatch(profileDir, entries) {
   const path = join(profileDir, 'cordis.patch.yml')
   if (existsSync(path)) {
-    try { copyFileSync(path, `${path}.bak-plugin-health`) } catch { /* the write below still runs */ }
+    // A backup that cannot be written means the caller is about to replace the only copy of the
+    // user's file. Failing here is better than discovering it afterwards.
+    copyFileSync(path, `${path}.bak-plugin-health`)
   }
+  const text = preserveComments(path, entries) ?? stringifyYaml(entries)
   const temporary = `${path}.tmp-${process.pid}`
-  writeFileSync(temporary, stringifyYaml(entries))
-  renameSync(temporary, path)
+  try {
+    writeFileSync(temporary, text, { flag: 'wx' })
+    renameSync(temporary, path)
+  } finally {
+    if (existsSync(temporary)) rmSync(temporary, { force: true })
+  }
+}
+
+/**
+ * Apply an append-or-remove to the existing document, so the user's comments survive.
+ *
+ * `parse` + `stringify` round-trips through plain objects, which drops every comment in the file —
+ * including the ones this tool's own documentation promises to keep. Every caller here does one of
+ * two things: append an entry, or remove entries it added. Both can be expressed on the parsed
+ * document, which keeps the comments attached to the nodes that stay.
+ *
+ * Anything else — a reordering, an in-place edit, a file that is not a sequence — returns undefined
+ * and the caller falls back to a full rewrite, so the behaviour is never worse than before.
+ * @param {string} path
+ * @param {object[]} entries
+ * @returns {string|undefined}
+ */
+function preserveComments(path, entries) {
+  if (!existsSync(path)) return undefined
+  const original = readFileSync(path, 'utf8')
+  let document
+  try {
+    document = parseDocument(original)
+  } catch {
+    return undefined
+  }
+  if (document.errors.length > 0) return undefined
+  const sequence = document.contents
+  if (sequence === null || sequence === undefined || !Array.isArray(sequence.items)) return undefined
+
+  const current = sequence.items.map(item => (item === null || item === undefined ? null : item.toJSON?.() ?? item))
+  const samePrefix = (count) => {
+    if (count > current.length || count > entries.length) return false
+    for (let i = 0; i < count; i++) {
+      if (JSON.stringify(current[i]) !== JSON.stringify(entries[i])) return false
+    }
+    return true
+  }
+
+  // Pure append: everything already in the file is unchanged and new entries follow.
+  if (samePrefix(current.length) && entries.length >= current.length) {
+    const additions = entries.slice(current.length)
+    if (additions.length === 0) return String(document)
+    const { createNode } = yamlNodes()
+    for (const addition of additions) sequence.items.push(createNode(addition))
+    return String(document)
+  }
+
+  // Pure removal: the remaining entries are a subsequence of what is there now.
+  if (entries.length < current.length) {
+    const keep = new Set()
+    let cursor = 0
+    for (const wanted of entries) {
+      const needle = JSON.stringify(wanted)
+      let found = -1
+      for (let i = cursor; i < current.length; i++) {
+        if (JSON.stringify(current[i]) === needle) { found = i; break }
+      }
+      if (found === -1) return undefined
+      keep.add(found)
+      cursor = found + 1
+    }
+    for (let i = current.length - 1; i >= 0; i--) {
+      if (!keep.has(i)) sequence.items.splice(i, 1)
+    }
+    return String(document)
+  }
+
+  return undefined
+}
+
+/** Lazily pulled in so the module graph stays unchanged for callers that never patch a document. */
+function yamlNodes() {
+  return { createNode: (value) => parseDocument(stringifyYaml([value])).contents.items[0] }
 }
 
 /**

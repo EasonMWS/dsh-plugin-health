@@ -22,7 +22,9 @@ on:
         description: dsh-plugin-health version to run
         required: false
         type: string
-        default: '0.1.5'
+        # Was pinned to 0.1.5, a release from before the security advisory: anyone who did not
+        # override it silently got a build with the known issues still in it.
+        default: '1.7.0'
       comment:
         description: Post or update the matrix comment on the pull request
         required: false
@@ -50,12 +52,19 @@ jobs:
           npm install --prefix "$TOOL_DIR" --no-audit --no-fund --no-progress "dsh-plugin-health@$TOOL_VERSION"
           echo "TOOL_BIN=$TOOL_DIR/node_modules/.bin/dsh-plugin-health" >> "$GITHUB_ENV"
       - name: Build matrix
+        # Inputs arrive through the environment. A caller can pass a branch name or a PR title, and
+        # interpolating that into the script would execute it on the runner — this workflow is
+        # invoked with `pull-requests: write`.
+        env:
+          INPUT_PLUGINS: ${{ inputs.plugins }}
+          INPUT_VERSIONS: ${{ inputs.versions }}
+          INPUT_FAIL_ON: ${{ inputs.failOn }}
         run: |
           "$TOOL_BIN" matrix \
-            --plugins "${{ inputs.plugins }}" \
-            --versions "${{ inputs.versions }}" \
+            --plugins "$INPUT_PLUGINS" \
+            --versions "$INPUT_VERSIONS" \
             --out dsh-health-out/matrix \
-            --fail-on "${{ inputs.failOn }}"
+            --fail-on "$INPUT_FAIL_ON"
       - name: Add matrix to job summary
         run: |
           cat dsh-health-out/matrix/matrix.md >> "$GITHUB_STEP_SUMMARY"

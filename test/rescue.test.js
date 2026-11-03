@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -43,6 +43,53 @@ test('grantExemption is idempotent for the same version', () => {
   grantExemption(dir, { name: 'p', version: '1', runtimeVersion: '0.2.1-rc.4' })
   grantExemption(dir, { name: 'p', version: '1', runtimeVersion: '0.2.1-rc.4' })
   assert.deepEqual(readExemptions(dir)['p@1'], ['0.2.1-rc.4'])
+})
+
+test('refuses to rewrite a compatibility.json it cannot parse', () => {
+  // The scan tolerates a damaged file; a write must not. Backing up and replacing it with the single
+  // entry we were adding is how a user loses every exemption the host had.
+  const dir = profile()
+  const truncated = '{"p@1":["0.2.1-rc.'
+  writeFileSync(join(dir, 'compatibility.json'), truncated)
+  assert.throws(
+    () => grantExemption(dir, { name: 'q', version: '1.0.0', runtimeVersion: '0.2.1-rc.4' }),
+    /refusing to rewrite compatibility\.json/u,
+  )
+  assert.equal(readFileSync(join(dir, 'compatibility.json'), 'utf8'), truncated, 'the file must be untouched')
+  assert.deepEqual(readExemptions(dir), {}, 'a scan still tolerates it')
+})
+
+test('keeps keys the tool does not understand', () => {
+  const dir = profile()
+  writeFileSync(join(dir, 'compatibility.json'), JSON.stringify({
+    $schema: 'https://example.test/schema.json',
+    'p@1': ['0.2.1-rc.2'],
+  }))
+  grantExemption(dir, { name: 'q', version: '1.0.0', runtimeVersion: '0.2.1-rc.4' })
+  const written = JSON.parse(readFileSync(join(dir, 'compatibility.json'), 'utf8'))
+  assert.equal(written.$schema, 'https://example.test/schema.json', 'a host-owned key must survive')
+  assert.deepEqual(written['p@1'], ['0.2.1-rc.2'])
+  assert.deepEqual(written['q@1.0.0'], ['0.2.1-rc.4'])
+})
+
+test('writes atomically and keeps a backup', () => {
+  const dir = profile()
+  writeFileSync(join(dir, 'compatibility.json'), '{"p@1":["0.2.1-rc.2"]}')
+  grantExemption(dir, { name: 'q', version: '1.0.0', runtimeVersion: '0.2.1-rc.4' })
+  assert.ok(existsSync(join(dir, 'compatibility.json.bak-plugin-health')), 'the previous file must be recoverable')
+  const strays = readdirSync(dir).filter(name => name.includes('.tmp-'))
+  assert.deepEqual(strays, [], 'no temporary file may be left behind')
+})
+
+test('undo removes only the version it granted, even across host upgrades', () => {
+  // Rescuing the same plugin on two host lines used to leave the first exemption behind, because the
+  // second entry restored a snapshot that still contained it.
+  const dir = profile()
+  const first = grantExemption(dir, { name: 'p', version: '1.0.0', runtimeVersion: '0.2.1-rc.3' })
+  const second = grantExemption(dir, { name: 'p', version: '1.0.0', runtimeVersion: '0.2.1-rc.4' })
+  revokeExemption(dir, { key: first.key, previous: first.previous, runtimeVersion: '0.2.1-rc.3' })
+  revokeExemption(dir, { key: second.key, previous: second.previous, runtimeVersion: '0.2.1-rc.4' })
+  assert.deepEqual(readExemptions(dir), {}, 'both versions must be gone once both are revoked')
 })
 
 test('revokeExemption removes the key this tool created', () => {
@@ -125,11 +172,30 @@ test('rescuePlugin applies only after a passing rehearsal and records the previo
     plugin: 'p@1.0.0',
     runtimeVersion: '0.2.1-rc.4',
     profile: 'test',
-    rehearseImpl: async () => ({ verdict: 'runs', report: { stages: [], directory: '/tmp/run' } }),
+    rehearseImpl: async ({ runtimeVersion }) => ({ verdict: 'runs', report: { stages: [], directory: '/tmp/run', hostVersion: runtimeVersion } }),
   })
   assert.equal(result.applied, true)
   assert.deepEqual(readExemptions(dir)['p@1.0.0'], ['0.2.1-rc.3', '0.2.1-rc.4'])
   assert.deepEqual(readRescueState(dir).entries[0].previous, ['0.2.1-rc.3'])
+})
+
+test('refuses to exempt a version the rehearsal did not boot', async () => {
+  // The cached-host bug: the download was reused across host upgrades, so a rehearsal proved the
+  // plugin on the previous line and the exemption was written for the new one.
+  const dir = mkdtempSync(join(tmpdir(), 'dsh-rescue-plugin-'))
+  const result = await rescuePlugin({
+    profileDir: dir, dshDirectory: '/host/dsh', plugin: 'p@1.0.0',
+    runtimeVersion: '0.2.1-rc.4', profile: 'desktop',
+    rehearseImpl: async () => ({
+      verdict: 'runs',
+      report: { stages: [], directory: '/tmp/run', hostVersion: '0.2.1-rc.3' },
+    }),
+  })
+  assert.equal(result.applied, false, 'an untested host must never be exempted')
+  assert.equal(result.verdict, 'inconclusive')
+  assert.match(result.reason, /rehearsed on 0.2.1-rc.3/u)
+  assert.deepEqual(readExemptions(dir), {})
+  assert.deepEqual(readRescueState(dir).entries, [])
 })
 
 test('rescuePlugin in dry-run mode rehearses but writes nothing', async () => {
@@ -141,7 +207,7 @@ test('rescuePlugin in dry-run mode rehearses but writes nothing', async () => {
     runtimeVersion: '0.2.1-rc.4',
     profile: 'test',
     dryRun: true,
-    rehearseImpl: async () => ({ verdict: 'runs', report: { stages: [] } }),
+    rehearseImpl: async ({ runtimeVersion }) => ({ verdict: 'runs', report: { stages: [], hostVersion: runtimeVersion } }),
   })
   assert.equal(result.wouldApply, true)
   assert.deepEqual(readExemptions(dir), {})
@@ -204,6 +270,32 @@ test('repositorySlug handles the shapes a package.json actually uses', () => {
 
 test('searchQuery names the package and the host version so a duplicate is recognisable', () => {
   assert.equal(searchQuery({ name: 'p', runtimeVersion: '0.2.1-rc.4' }), 'p 0.2.1-rc.4 compatibility')
+})
+
+test('every suggested range admits the version it is meant to fix', async () => {
+  // A suggestion that does not contain the running host reads as a fix and still gets rejected. The
+  // host-line bump is the case that matters: every enumerated version sits on the previous line.
+  const semver = (await import('semver')).default
+  const cases = [
+    ['0.2.1-rc.3', '0.2.2-alpha.1'],
+    ['>=1.2.0 <1.3.0', '1.4.0'],
+    ['0.2.1-rc.2 || 0.2.1-rc.3', '0.2.1-rc.5'],
+    ['0.1.0-rc.2 || 0.1.0-rc.3 || 0.2.0-rc.1', '0.2.1-rc.5'],
+  ]
+  for (const [range, runtime] of cases) {
+    const result = suggestRange(range, runtime)
+    assert.equal(result.error, undefined, `${range} produced an error: ${result.error}`)
+    assert.ok(
+      semver.satisfies(runtime, result.suggested, { includePrerelease: true }),
+      `${range} suggested "${result.suggested}", which still rejects ${runtime}`,
+    )
+  }
+})
+
+test('the suggested ceiling follows the major version it was built from', () => {
+  // The ceiling was hard-coded to 0.x, so a 1.x host produced an empty range like <0.4.0-0.
+  const result = suggestRange('>=1.2.0 <1.3.0', '1.4.0')
+  assert.doesNotMatch(result.suggested, /<0\./u, 'a 1.x suggestion must not be capped at 0.x')
 })
 
 test('buildReport states the declaration mismatch and never invents code damage', () => {

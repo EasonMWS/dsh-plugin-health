@@ -18,7 +18,8 @@
  * tell the user when an upstream release makes the exemption unnecessary.
  * @module rescue/rescue
  */
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
+import { randomBytes } from 'node:crypto'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
 import { evaluatePluginCompatibility } from '../compat/evaluate.js'
@@ -31,23 +32,79 @@ export const EXEMPTION_FILE = 'compatibility.json'
 export const RESCUE_STATE_FILE = 'plugin-health-rescue.json'
 
 /**
- * Read the host's exemption map for a profile. A missing or unreadable file is an
- * empty map: this is a host-owned file and we never want to fail a scan over it.
+ * Read the host's exemption map for a profile, tolerating damage.
+ *
+ * Tolerant is right for a *scan*: a health check that crashes on a malformed file is worse than one
+ * that reports it. It is wrong before a *write* — `writeExemptions` uses `readExemptionsForWrite`,
+ * because writing back a shrunk view is how the whole file gets replaced by a single entry after a
+ * truncated or extended `compatibility.json`.
  * @param {string} profileDir
  * @returns {Record<string, string[]>}
  */
 export function readExemptions(profileDir) {
+  const { exemptions } = readExemptionsForWrite(profileDir, { tolerate: true })
+  return exemptions
+}
+
+/**
+ * Read the exemption map in a form that is safe to write back.
+ *
+ * A missing file is a legitimate empty map; anything else that cannot be understood is an error, so
+ * the caller refuses to write rather than silently discarding a user's (or the host's) data. Keys the
+ * tool does not understand are preserved verbatim.
+ * @param {string} profileDir
+ * @param {{tolerate?: boolean}} [options] - tolerate turns every failure into an empty map.
+ * @returns {{exemptions: Record<string, string[]>, raw: Record<string, unknown>}}
+ */
+export function readExemptionsForWrite(profileDir, { tolerate = false } = {}) {
   const path = join(profileDir, EXEMPTION_FILE)
+  if (!existsSync(path)) return { exemptions: {}, raw: {} }
+  let parsed
   try {
-    const parsed = JSON.parse(readFileSync(path, 'utf8'))
-    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return {}
-    const out = {}
-    for (const [key, versions] of Object.entries(parsed)) {
-      if (Array.isArray(versions)) out[key] = versions.filter(v => typeof v === 'string')
-    }
-    return out
-  } catch {
-    return {}
+    parsed = JSON.parse(readFileSync(path, 'utf8'))
+  } catch (error) {
+    if (tolerate) return { exemptions: {}, raw: {} }
+    throw new Error(`refusing to rewrite ${EXEMPTION_FILE}: it is not valid JSON (${error.message})`)
+  }
+  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+    if (tolerate) return { exemptions: {}, raw: {} }
+    throw new Error(`refusing to rewrite ${EXEMPTION_FILE}: expected a JSON object`)
+  }
+  const exemptions = {}
+  for (const [key, versions] of Object.entries(parsed)) {
+    if (Array.isArray(versions)) exemptions[key] = versions.filter(v => typeof v === 'string')
+  }
+  return { exemptions, raw: parsed }
+}
+
+/**
+ * Write the exemption map atomically, keeping the previous file and unknown keys.
+ * @param {string} profileDir
+ * @param {Record<string, string[]>} exemptions
+ * @param {Record<string, unknown>} [raw] - the file as read, so unknown keys survive.
+ */
+function writeExemptions(profileDir, exemptions, raw = {}) {
+  const path = join(profileDir, EXEMPTION_FILE)
+  mkdirSync(dirname(path), { recursive: true })
+  // Start from the keys we do not own. An exemption is a `string[]`; anything else belongs to the
+  // host or to a newer version of it and survives untouched. Exemption keys then come solely from
+  // the caller, so a key it dropped really is gone and one it added is written.
+  const next = {}
+  for (const [key, value] of Object.entries(raw)) {
+    const isExemption = Array.isArray(value) && value.every(entry => typeof entry === 'string')
+    if (!isExemption) next[key] = value
+  }
+  for (const [key, versions] of Object.entries(exemptions)) {
+    if (Array.isArray(versions) && versions.length === 0) continue
+    next[key] = versions
+  }
+  const temporary = `${path}.tmp-${process.pid}-${randomBytes(6).toString('hex')}`
+  try {
+    writeFileSync(temporary, `${JSON.stringify(next, null, 2)}\n`, { flag: 'wx' })
+    if (existsSync(path)) copyFileSync(path, `${path}.bak-plugin-health`)
+    renameSync(temporary, path)
+  } finally {
+    if (existsSync(temporary)) rmSync(temporary, { force: true })
   }
 }
 
@@ -113,7 +170,14 @@ export async function rehearse({ dshDirectory, plugin, runtimeVersion, timeoutMs
     return { verdict: 'inconclusive', report }
   }
   if (!install?.ok) return { verdict: 'inconclusive', report }
-  if (runtime?.details?.ok === true) return { verdict: 'runs', report }
+  // All three have to hold. `details.ok` only reports what the worker saw inside its own checks; the
+  // parent separately computes `report.ok` and `runtime.ok`, which go false on a timeout, on a plugin
+  // that leaves a process behind, and on a non-zero exit. Reading `details` alone let a plugin that
+  // never shut down count as a pass — and the exemption then covered a host the plugin had just been
+  // shown to hang on.
+  if (report.ok === true && runtime?.ok === true && runtime?.details?.ok === true) {
+    return { verdict: 'runs', report }
+  }
   return { verdict: 'broken', report }
 }
 
@@ -124,17 +188,19 @@ export async function rehearse({ dshDirectory, plugin, runtimeVersion, timeoutMs
  * @param {{name: string, version: string, runtimeVersion: string}} target
  */
 export function grantExemption(profileDir, { name, version, runtimeVersion }) {
-  const exemptions = readExemptions(profileDir)
   const key = `${name}@${version}`
   // Writing a null here would produce an exemption that can never match and a ledger entry that
   // cannot be explained later, so the value is validated at the last possible moment too.
   if (typeof runtimeVersion !== 'string' || runtimeVersion === '') {
     throw new Error(`refusing to exempt ${key} without a host version`)
   }
+  // Strict read: `compatibility.json` may have been truncated by a crashed write, or extended by a
+  // newer host. Reading it tolerantly and writing the shrunk result back would replace the user's
+  // whole file with the one entry this call adds.
+  const { exemptions, raw } = readExemptionsForWrite(profileDir)
   const previous = exemptions[key] ?? null
   const next = [...new Set([...(previous ?? []), runtimeVersion])]
-  const updated = { ...exemptions, [key]: next }
-  writeFileSync(join(profileDir, EXEMPTION_FILE), `${JSON.stringify(updated, null, 2)}\n`)
+  writeExemptions(profileDir, { ...exemptions, [key]: next }, raw)
   return { key, previous, granted: next }
 }
 
@@ -145,18 +211,19 @@ export function grantExemption(profileDir, { name, version, runtimeVersion }) {
  * @param {{key: string, previous: string[]|null, runtimeVersion: string}} entry
  */
 export function revokeExemption(profileDir, { key, previous, runtimeVersion }) {
-  const exemptions = readExemptions(profileDir)
+  const { exemptions, raw } = readExemptionsForWrite(profileDir)
   if (!Object.hasOwn(exemptions, key)) return { changed: false, key }
-  if (previous === null) {
-    // This tool created the key, so removing the last version removes the key too.
-    const remaining = exemptions[key].filter(v => v !== runtimeVersion)
-    if (remaining.length === 0) delete exemptions[key]
-    else exemptions[key] = remaining
+  // Remove only the version this entry granted. Restoring a snapshot wholesale is what made a
+  // second rescue on a newer host resurrect the version the first rescue had just revoked, leaving
+  // an exemption nobody could undo once the ledger was cleared.
+  const remaining = exemptions[key].filter(v => v !== runtimeVersion)
+  if (remaining.length === 0) {
+    delete exemptions[key]
   } else {
-    // The user (or the host) already had versions listed here; restore exactly those.
-    exemptions[key] = previous
+    exemptions[key] = remaining
   }
-  writeFileSync(join(profileDir, EXEMPTION_FILE), `${JSON.stringify(exemptions, null, 2)}\n`)
+  void previous
+  writeExemptions(profileDir, exemptions, raw)
   return { changed: true, key }
 }
 
@@ -186,6 +253,18 @@ export async function rescuePlugin({
   })
   const base = { plugin: identity, runtimeVersion, profile, verdict, rehearsal: report }
   if (verdict !== 'runs') return { ...base, applied: false }
+  // The rehearsal has to have booted the version we are about to exempt. Anything else — a cached
+  // host from a previous release, a caller-supplied version that never got checked — means we would
+  // be writing an exemption for a host this plugin was never proven on, which is the one thing the
+  // whole flow exists to prevent.
+  if (report?.hostVersion !== runtimeVersion) {
+    return {
+      ...base,
+      verdict: 'inconclusive',
+      applied: false,
+      reason: `rehearsed on ${report?.hostVersion ?? 'an unknown host'}, refusing to exempt ${runtimeVersion}`,
+    }
+  }
   if (dryRun) return { ...base, applied: false, wouldApply: true }
 
   const grant = grantExemption(profileDir, { ...identity, runtimeVersion })

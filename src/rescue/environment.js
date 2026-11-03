@@ -12,7 +12,7 @@
  */
 import { spawn } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import semver from 'semver'
 
 /**
@@ -56,21 +56,46 @@ export function hostVersionOf(profileDir, home) {
  * fetches its own copy once and reuses it — the copy is only ever used inside a throwaway
  * home, never to run the user's profile.
  * @param {string} home
+ * @param {string} [version] - exact host version. When given, the cache lives in a per-version
+ *   directory so a rehearsal can never boot a host other than the one it is proving.
  */
-export function rehearsalHostRoot(home) {
-  return join(home, '.plugin-health', 'host')
+export function rehearsalHostRoot(home, version) {
+  const base = join(home, '.plugin-health', 'host')
+  return version === undefined ? base : join(base, version)
+}
+
+/**
+ * Does this directory hold the exact host version we are about to rehearse against?
+ * @param {string} directory
+ * @param {string} version
+ * @returns {boolean}
+ */
+function cacheMatches(directory, version) {
+  try {
+    const manifest = JSON.parse(readFileSync(join(directory, 'package.json'), 'utf8'))
+    return manifest?.version === version
+  } catch {
+    return false
+  }
 }
 
 /**
  * Find an installed `@deepseek-ai/dsh` package that the rehearsal can boot through.
+ *
+ * When `version` is supplied, a candidate whose manifest reports a different version is skipped.
+ * That check is the difference between "we rehearsed this plugin" and "we rehearsed a plugin on
+ * some host we happened to have lying around": the exemption is written for the running version,
+ * so booting anything else proves nothing about it.
  * @param {string} home
  * @param {string} profileDir
+ * @param {string} [version] - exact host version the rehearsal is meant to prove.
  * @returns {string|undefined}
  */
-export function discoverDshDirectory(home, profileDir) {
+export function discoverDshDirectory(home, profileDir, version) {
   const candidates = [
     // A copy this tool prepared earlier, so later runs do not download again.
-    join(rehearsalHostRoot(home), 'node_modules', '@deepseek-ai', 'dsh'),
+    ...(version === undefined ? [rehearsalHostRoot(home)] : [rehearsalHostRoot(home, version), rehearsalHostRoot(home)])
+      .map((root) => join(root, 'node_modules', '@deepseek-ai', 'dsh')),
     join(profileDir, 'node_modules', '@deepseek-ai', 'dsh'),
     join(home, 'node_modules', '@deepseek-ai', 'dsh'),
     // A plain `npm install @deepseek-ai/dsh` in a scratch dir is the documented way
@@ -78,7 +103,9 @@ export function discoverDshDirectory(home, profileDir) {
     join(process.cwd(), 'node_modules', '@deepseek-ai', 'dsh'),
   ]
   for (const candidate of candidates) {
-    if (existsSync(join(candidate, 'package.json'))) return candidate
+    if (!existsSync(join(candidate, 'package.json'))) continue
+    if (version !== undefined && !cacheMatches(candidate, version)) continue
+    return candidate
   }
   return undefined
 }
@@ -126,10 +153,13 @@ export function requireHostVersion(version) {
 export async function prepareRehearsalHost({
   home, version, runProcess = runNpmInstall, registry,
 }) {
-  const root = rehearsalHostRoot(home)
-  const directory = join(root, 'node_modules', '@deepseek-ai', 'dsh')
-  if (existsSync(join(directory, 'package.json'))) return { directory, installed: false }
   const exact = requireHostVersion(version)
+  // Cached hosts are keyed by version. One shared directory silently booted whichever copy had been
+  // downloaded first, so after a host upgrade the rehearsal proved the plugin on the *previous* host
+  // line while the exemption was written for the new one.
+  const root = rehearsalHostRoot(home, exact)
+  const directory = join(root, 'node_modules', '@deepseek-ai', 'dsh')
+  if (cacheMatches(directory, exact)) return { directory, installed: false }
   mkdirSync(root, { recursive: true })
   const spec = `@deepseek-ai/dsh@${exact}`
   const args = [
@@ -150,10 +180,27 @@ export async function prepareRehearsalHost({
   return { directory, installed: true, output: result.stdout }
 }
 
+/**
+ * How to launch npm without a shell.
+ *
+ * On Windows the npm entry point is a `.cmd` shim, and since the CVE-2024-27980 fix Node refuses to
+ * spawn `.cmd`/`.bat` without `shell: true` — it throws `EINVAL`. So the desktop app, which is the
+ * main case for downloading a rehearsal host, could never download one at all. Running the
+ * JavaScript entry point with the same Node binary sidesteps the shim and keeps the no-shell rule.
+ * @returns {{command: string, args: string[]}}
+ */
+function npmInvocation(args) {
+  if (process.platform !== 'win32') return { command: 'npm', args }
+  const npmCli = join(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js')
+  if (existsSync(npmCli)) return { command: process.execPath, args: [npmCli, ...args] }
+  return { command: 'npm.cmd', args }
+}
+
 /** Default runner: a real npm install, bounded by a timeout. */
 function runNpmInstall(args, { cwd }) {
   return new Promise((resolveResult) => {
-    const child = spawn(process.platform === 'win32' ? 'npm.cmd' : 'npm', args, {
+    const invocation = npmInvocation(args)
+    const child = spawn(invocation.command, invocation.args, {
       // No shell: arguments are passed as an array, so nothing in them can become syntax.
       cwd, shell: false, stdio: ['ignore', 'pipe', 'pipe'],
     })

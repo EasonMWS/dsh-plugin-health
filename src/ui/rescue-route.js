@@ -13,7 +13,8 @@
  * profile changes.
  * @module ui/rescue-route
  */
-import { randomBytes, timingSafeEqual } from 'node:crypto'
+import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
+import semver from 'semver'
 import { readFileSync } from 'node:fs'
 import { join, resolve, sep } from 'node:path'
 
@@ -24,6 +25,8 @@ import { disablePlugin as disablePluginImpl, enablePlugin as enablePluginImpl } 
 import { buildReport, findExistingReports, repositorySlug } from '../rescue/reporting.js'
 import { buildBrief, renderPrompt, writeHandoff } from '../rescue/handoff.js'
 import { presentedKey } from './repair-route.js'
+import { invalidateStatus } from './status.js'
+import { checkWriteRequest } from './guard.js'
 
 /** Route namespace, absolute so the browser half can call it from the DSH origin. */
 export const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
@@ -35,8 +38,14 @@ const LOOPBACK = new Set(['127.0.0.1', 'localhost', '::1'])
 
 /** Constant-time key comparison, shared shape with the repair route. */
 function sameKey(expected, presented) {
-  if (typeof presented !== 'string' || presented.length !== expected.length) return false
-  return timingSafeEqual(Buffer.from(expected), Buffer.from(presented))
+  if (typeof presented !== 'string') return false
+  // Compare digests, not the raw values. `timingSafeEqual` throws unless the *byte* lengths match,
+  // while `length` counts UTF-16 units: 48 copies of "é" pass the length check with 96 bytes and
+  // crash the handler with ERR_CRYPTO_TIMING_SAFE_EQUAL_LENGTH. A request header is arbitrary text,
+  // so that is reachable from the network side of the loopback fence.
+  const left = createHash('sha256').update(expected).digest()
+  const right = createHash('sha256').update(presented).digest()
+  return timingSafeEqual(left, right)
 }
 
 function hostnameOf(header) {
@@ -153,15 +162,13 @@ export function createRescueHandlers({
   return {
     async rehearse(body) {
       const { home, profile, profileDir, runtimeVersion } = context()
-      if (typeof body.plugin !== 'string' || typeof body.version !== 'string') {
-        throw new Error('rescue needs plugin and version')
-      }
+      const identity = requireInstalledPlugin(profileDir, body?.plugin, body?.version)
       const hostVersion = runtimeVersion ?? body.runtimeVersion
       const dshDirectory = hostFromBody(body, { home, profileDir })
         ?? await hostFor(home, profileDir, hostVersion)
       const result = await rehearseImpl({
         dshDirectory,
-        plugin: `${body.plugin}@${body.version}`,
+        plugin: `${identity.name}@${identity.version}`,
         runtimeVersion: hostVersion,
         timeoutMs: body.timeoutMs, installTimeoutMs: body.installTimeoutMs,
       })
@@ -175,19 +182,18 @@ export function createRescueHandlers({
     },
     async apply(body) {
       const { home, profileDir, profile, runtimeVersion } = context()
-      if (typeof body.plugin !== 'string' || typeof body.version !== 'string') {
-        throw new Error('rescue needs plugin and version')
-      }
+      const identity = requireInstalledPlugin(profileDir, body?.plugin, body?.version)
       const hostVersion = runtimeVersion ?? body.runtimeVersion
       const dshDirectory = hostFromBody(body, { home, profileDir })
         ?? await hostFor(home, profileDir, hostVersion)
       const result = await rescueImpl({
         profileDir, profile, dshDirectory,
-        plugin: `${body.plugin}@${body.version}`,
+        plugin: `${identity.name}@${identity.version}`,
         runtimeVersion: hostVersion,
         dryRun: false,
         timeoutMs: body.timeoutMs, installTimeoutMs: body.installTimeoutMs,
       })
+      invalidateStatus()
       return {
         applied: result.applied === true,
         verdict: result.verdict,
@@ -198,6 +204,7 @@ export function createRescueHandlers({
     async undo(body) {
       const { profileDir } = context()
       const { undone, remaining } = undoImpl(profileDir, typeof body.key === 'string' ? { key: body.key } : {})
+      invalidateStatus()
       return { undone, remaining: remaining.length }
     },
     /**
@@ -212,6 +219,7 @@ export function createRescueHandlers({
       const { profileDir } = context()
       if (typeof body.plugin !== 'string' || body.plugin === '') throw new Error('disable needs plugin')
       const result = disablePluginImpl(profileDir, { name: body.plugin, id: body.entryId })
+      invalidateStatus()
       return { disabled: result.changed, entry: result.added?.[0] ?? null, file: result.file }
     },
     /** Re-enable a plugin this tool switched off. */
@@ -219,6 +227,7 @@ export function createRescueHandlers({
       const { profileDir } = context()
       if (typeof body.plugin !== 'string' || body.plugin === '') throw new Error('enable needs plugin')
       const result = enablePluginImpl(profileDir, { name: body.plugin, id: body.entryId })
+      invalidateStatus()
       return { enabled: result.changed, removed: result.removed ?? 0, file: result.file }
     },
     async status() {
@@ -260,6 +269,9 @@ export function createRescueHandlers({
         requirements: conflict.requirements,
         installedManifest: manifest,
         smokeReport: body.rehearsal,
+        // The browser half sends the verdict as a word, not a report; both are accepted so the
+        // prompt never claims "no test ran" after a test that failed.
+        verdict: typeof body.rehearsalVerdict === 'string' ? body.rehearsalVerdict : undefined,
         repositoryUrl: repositorySlug(manifest) === undefined ? undefined : `https://github.com/${repositorySlug(manifest)}`,
         toolVersion,
       })
@@ -305,14 +317,57 @@ export function createRescueHandlers({
   }
 }
 
-/** Read a plugin's installed manifest from the profile, tolerating absence. */
+/**
+ * An npm package name, and nothing else.
+ *
+ * The name arrives in a request body, is joined into a path, and is interpolated into a package spec
+ * handed to `dsh plugin add`. Without this, `../../../etc` reads any `package.json` on disk and
+ * `x@npm:evil` makes npm install a package other than the one the user already has.
+ */
+const PACKAGE_NAME = /^(?:@[a-z0-9-~][a-z0-9-._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/u
+
+/**
+ * Read a plugin's installed manifest from the profile.
+ *
+ * Returns `undefined` when the plugin is not installed. The name is validated first and the resolved
+ * path is checked to stay under `node_modules`, so a traversal attempt is a miss rather than a read.
+ */
 function readInstalledManifest(profileDir, name) {
-  if (typeof name !== 'string' || name === '') return undefined
+  if (typeof name !== 'string' || !PACKAGE_NAME.test(name) || name.length > 214) return undefined
+  const root = resolve(profileDir, 'node_modules')
+  const directory = resolve(root, name)
+  if (directory !== root && !directory.startsWith(`${root}${sep}`)) return undefined
   try {
-    return JSON.parse(readFileSync(join(profileDir, 'node_modules', name, 'package.json'), 'utf8'))
+    return JSON.parse(readFileSync(join(directory, 'package.json'), 'utf8'))
   } catch {
     return undefined
   }
+}
+
+/**
+ * Resolve a request's plugin to the copy that is actually installed.
+ *
+ * The rescue flow exists to make a plugin you already have load again; it has no business installing
+ * an arbitrary package named in a request body. Insisting the profile already holds this exact name
+ * and version removes the whole class of "the request body decides what runs" findings.
+ * @param {string} profileDir
+ * @param {unknown} plugin
+ * @param {unknown} version
+ * @returns {{name: string, version: string}}
+ */
+function requireInstalledPlugin(profileDir, plugin, version) {
+  if (typeof plugin !== 'string' || !PACKAGE_NAME.test(plugin) || plugin.length > 214) {
+    throw new Error('plugin must be an installed npm package name')
+  }
+  if (typeof version !== 'string' || semver.valid(version) === null) {
+    throw new Error('version must be an exact installed version')
+  }
+  const manifest = readInstalledManifest(profileDir, plugin)
+  if (manifest === undefined) throw new Error(`${plugin} is not installed in this profile`)
+  if (manifest.version !== version) {
+    throw new Error(`${plugin}@${version} is not installed; this profile has ${manifest.name}@${manifest.version}`)
+  }
+  return { name: plugin, version }
 }
 
 /**
@@ -335,6 +390,10 @@ export function registerRescueRoute(ctx, { currentProfile, key, toolVersion }) {
         handler: async (req, res) => {
           if (!LOOPBACK.has(hostnameOf(req?.headers?.host))) { send(res, 403, { error: 'loopback only' }); return }
           if (req?.method !== 'POST') { send(res, 405, { error: 'method not allowed' }); return }
+          // Runs before the key check: a cross-site page must not even reach the comparison, and a
+          // 415/403 leaks less than a 401 does about whether the route is live.
+          const guard = checkWriteRequest(req)
+          if (!guard.ok) { send(res, guard.status, { error: guard.error }); return }
           const action = String(req.url ?? '').split('?')[0].replace(RESCUE_PATH, '').replace(/^\//u, '')
           try {
             // The control key is required for every action: a page on another origin can reach

@@ -13,7 +13,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `1.7.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `2.0.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -279,7 +279,7 @@ tarball-only entries are skipped and reported.
 **Running 1.0.3 or earlier? Upgrade.** 1.1.0 fixes seven issues found in a security test of 1.0.2,
 one rated high: the write routes' control key was handed out by the unauthenticated status endpoint.
 
-See [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5)
+See [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5) and [GHSA-52w2-cq6j-xhg7](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-52w2-cq6j-xhg7)
 and [SECURITY.md](SECURITY.md).
 
 **Trust boundary, stated plainly:** the write routes are reachable by any local process. The loopback

@@ -6,7 +6,7 @@ import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 /** Cordis const-enum ACTIVE is 2 in the supported rc.2/rc.3 host lines. */
-export function verifyActivation(ctx) {
+export function verifyActivation(ctx, extra = {}) {
   const loader = ctx.get('loader')
   assert.ok(loader, 'profile exited before runtime acceptance')
   const inactive = []
@@ -17,6 +17,27 @@ export function verifyActivation(ctx) {
     inactive.push(`${entry.options.id ?? '?'} (${entry.options.name}): ${fiber === undefined ? 'not loaded' : `fiber state ${fiber.state}`}${missing.length ? `, waiting for ${missing.join(', ')}` : ''}`)
   }
   assert.equal(inactive.length, 0, `profile entries did not activate:\n${inactive.join('\n')}`)
+
+  // "Every entry that is present activated" is not the same claim as "the plugin under test
+  // activated". A plugin that never got mounted — no bundle entry, its own patch sets
+  // `disabled: true`, the loader skipped it — leaves the assertion above satisfied, because it
+  // simply is not in the list. That is how a rehearsal could pass for a plugin that never loaded.
+  if (typeof extra.plugin === 'string' && extra.plugin !== '') {
+    const entries = loader.entries()
+    const named = entries.filter((entry) => entry.options?.name === extra.plugin
+      || String(entry.options?.id ?? '').includes(extra.plugin))
+    assert.ok(
+      named.length > 0,
+      `${extra.plugin} never entered the profile: it is not among the ${entries.length} loaded entries`,
+    )
+    const active = named.filter((entry) => !entry.disabled && entry.fiber?.state === 2)
+    assert.ok(
+      active.length > 0,
+      `${extra.plugin} was present but did not activate: ${
+        named.map((entry) => `${entry.options?.id ?? '?'}=${entry.disabled ? 'disabled' : `state ${entry.fiber?.state}`}`).join(', ')
+      }`,
+    )
+  }
 }
 
 /** Registration alone does not prove execution; callers can supply real tool calls too. */
@@ -70,7 +91,7 @@ async function main(configPath) {
       environment: loadLayeredEnv('dsh-health-smoke'), profile: config.profile, patchFiles: [], args: [],
     }))
     // Some hosts only warn about pending entries; do not turn that into a green smoke result.
-    verifyActivation(ctx)
+    verifyActivation(ctx, { plugin: config.plugin })
     report.stage = 'assertions'
     save()
     report.assertions = config.tools.length === 0 && config.calls.length === 0
