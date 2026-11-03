@@ -8,6 +8,7 @@ import { DEFAULT_REGISTRY, fetchJson } from './util/http.js'
 import { createMatrix, hostSummary } from './compat/matrix.js'
 import { matrixToMarkdown, writeBadges } from './compat/report.js'
 import { renderCompatPage } from './compat/page.js'
+import { loadCatalogCategories } from './compat/catalog.js'
 import { buildFormat1Index, writeIndex } from './index/build.js'
 import { inspectDshHome, listInstalledPlugins, resolveDshHome } from './repair/inspect.js'
 import { formatInspection } from './repair/format.js'
@@ -179,6 +180,8 @@ export function usage() {
     '  --out <dir>            output directory (default: dsh-health-out/matrix)',
     '  --fail-on <any|none|host>  exit 1 when the selected host(s) have incompatibilities',
     '  --no-badges            skip static SVG badges',
+    '  --catalog <file|url>   awesome-dsh-plugin snapshot, for the category column in the HTML page',
+    '  --html-title <text>    title for the generated HTML page',
     '  --json                 also print the matrix JSON to stdout',
     '  --registry <url>       npm registry (default: https://registry.npmjs.org)',
     '  --concurrency <n>      network concurrency (default: 6)',
@@ -232,10 +235,14 @@ async function cmdMatrix(options) {
   writeFileSync(join(out, 'matrix.json'), `${JSON.stringify(matrix, null, 2)}\n`)
   writeFileSync(join(out, 'matrix.md'), matrixToMarkdown(matrix))
   // A standalone page is the only form of this data a person can be linked to; the JSON above only
-  // ever reached a CI artifact.
+  // ever reached a CI artifact. Categories are not in the registry, so they come from the community
+  // catalog when the caller supplies one.
+  const catalogPath = lastString(options, 'catalog')
+  const catalog = catalogPath === undefined ? undefined : await loadCatalogCategories(catalogPath)
   const htmlPath = join(out, 'index.html')
   writeFileSync(htmlPath, renderCompatPage(matrix, {
     title: lastString(options, 'html-title') ?? 'DSH plugin compatibility',
+    catalog,
     indexUrl: lastString(options, 'index-url'),
     toolVersion: VERSION,
   }))

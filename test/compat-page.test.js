@@ -89,7 +89,38 @@ test('an empty matrix still renders a valid page', () => {
   assert.doesNotMatch(html, /data-name=/u)
 })
 
-test('the summary counts per host version', () => {
+test('the summary counts rejections per host version', () => {
   const html = renderCompatPage(matrix())
-  assert.match(html, /0\.2\.1-rc\.5<\/strong>: 1 of 2/u)
+  // One of the two plugins is rejected on this host, and the summary has to say which way round.
+  assert.match(html, /0\.2\.1-rc\.5<\/strong> — 1 of 2 plugins are rejected \(1 accepted\)/u)
+})
+
+test('categories come from the catalog and reach both the row and the filter', () => {
+  const catalog = new Map([['dsh-good', { category: 'ui' }], ['dsh-bad', { category: 'memory' }]])
+  const html = renderCompatPage(matrix(), { catalog })
+  assert.match(html, /data-cat="ui"/u)
+  assert.match(html, /data-cat="memory"/u)
+  // Both must be selectable, or the column is decorative.
+  assert.match(html, /<option value="ui">ui<\/option>/u)
+  assert.match(html, /<option value="memory">memory<\/option>/u)
+})
+
+test('a plugin with no catalog entry is marked uncategorized, not blank', () => {
+  const html = renderCompatPage(matrix(), { catalog: new Map() })
+  assert.match(html, /data-cat="uncategorized"/u)
+  assert.doesNotMatch(html, /data-cat=""/u)
+})
+
+test('the publish date is shown and machine-sortable', () => {
+  const doc = matrix()
+  doc.plugins[0].publishedAt = '2026-10-17T11:51:49.327Z'
+  const html = renderCompatPage(doc)
+  assert.match(html, /data-released="2026-10-17"/u)
+  assert.match(html, />2026-10-17</u)
+})
+
+test('a missing publish date renders as a placeholder rather than "undefined"', () => {
+  const html = renderCompatPage(matrix())
+  assert.doesNotMatch(html, /undefined/u)
+  assert.match(html, /data-released=""/u)
 })

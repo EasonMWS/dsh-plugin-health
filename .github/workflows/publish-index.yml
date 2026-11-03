@@ -83,6 +83,7 @@ jobs:
             --concurrency 16 \
             --no-badges \
             --fail-on none \
+            --catalog https://awesome-dsh-plugin.com/plugins.json \
             --index-url https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/index.json
 
       - name: Build index

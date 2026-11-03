@@ -74,7 +74,10 @@ export async function resolvePlugins(specs, { cwd = process.cwd(), registry = DE
     if (typeof version !== 'string' || semver.valid(version) === null) throw new Error(`cannot resolve a version for ${spec}`)
     const manifest = packument.versions?.[version]
     if (manifest === undefined) throw new Error(`${name}@${version} is not published`)
-    resolved.push({ spec, name: manifest.name ?? name, version: manifest.version ?? version, manifest, source: 'npm' })
+    // The registry records a publish timestamp per version. It lets a reader tell a maintained
+    // plugin from one that has not been touched since before the host they are running existed.
+    const publishedAt = typeof packument.time?.[version] === 'string' ? packument.time[version] : undefined
+    resolved.push({ spec, name: manifest.name ?? name, version: manifest.version ?? version, manifest, source: 'npm', publishedAt })
   }
   return resolved
 }
@@ -125,6 +128,7 @@ export function evaluateMatrix(plugins, hosts, { exemptions = {}, generatedAt = 
       version: plugin.version ?? 'unknown',
       source: plugin.source ?? 'npm',
       repository: plugin.manifest === undefined ? undefined : repositoryUrl(plugin.manifest),
+      ...(typeof plugin.publishedAt === 'string' ? { publishedAt: plugin.publishedAt } : {}),
       ...(typeof plugin.error === 'string' ? { error: plugin.error } : {}),
       results,
       summary: { compatible, incompatible, errors },

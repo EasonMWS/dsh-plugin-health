@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.4.0 (2026-11-03)
+
+### Added
+
+- **The compatibility page gained a category, a release date, and the filters that make a
+  four-thousand-row table usable.** A category pill per row, taken from the community catalog (the
+  registry has no such field), with a dropdown to filter by it; the publish date of the version shown,
+  because "rejected" reads differently on something released last week and something untouched since
+  two host lines ago; and sortable Plugin / Released headers. Host columns are deliberately not
+  sortable — "how many hosts reject this" is what people actually mean, and that is the existing
+  filter.
+
+- `matrix --catalog <file|url>` supplies the categories. Without it the page still renders; rows
+  simply read `uncategorized` rather than blank, so an empty column cannot be mistaken for "no
+  categories exist".
+
+- `matrix.json` rows now carry `publishedAt` when the registry reports one.
+
+189 tests (4 new), 189 pass, 1 platform skip.
+
 ## 1.3.0 (2026-11-03)
 
 ### Added
