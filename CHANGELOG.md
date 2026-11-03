@@ -1,5 +1,38 @@
 # Changelog
 
+## 2.1.3 (2026-11-03)
+
+### Fixed
+
+- **The panel's buttons still failed after 2.1.2, because the key never reached the page.** 2.1.2
+  assumed a stale cookie: the control key is minted per launch and delivered as an HttpOnly cookie,
+  and cookies are scoped by host rather than port, so a restart on a new port looked like the cause.
+  It was not. On a real installation with 2.1.2 running, refreshing the key changed nothing — the
+  write routes still answered 401 on every attempt.
+
+  The cookie is set on the response and does reach the client, but it is not sent back on the write
+  requests in this host, and there is no way for the page to tell. So the status snapshot now carries
+  the key in its body as well, and the client keeps it in memory and sends it as
+  `X-Plugin-Health-Key` — the same header the routes already accept. The cookie remains as the
+  primary channel for any host where it works; the header is the path that does not depend on it.
+
+  This is not a weaker boundary than the cookie. A local process could already read `Set-Cookie` from
+  that same response, which `SECURITY.md` states plainly; what keeps a page on another origin out is
+  the peer and same-origin checks, not where the key is stored. The one real difference is that page
+  script in the DSH origin can now read the value, so an XSS in another plugin could take it — and
+  such a plugin already runs with the user's full permissions.
+
+- **An authentication failure was reported as a network failure.** "Could not reach the registry:
+  missing or invalid control key" sent the reader to check their connection, which is never the
+  problem. A refused key now says so, and says to reload.
+
+### Changed
+
+- `http-smoke.js` gained the case that would have caught this: a write authorised by the key read
+  from the status body, with no cookie at all — 19 checks.
+
+280 tests, 279 pass, 1 platform skip.
+
 ## 2.1.2 (2026-11-03)
 
 ### Fixed

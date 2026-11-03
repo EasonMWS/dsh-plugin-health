@@ -262,7 +262,17 @@ export function createStatusHandler(getStatus, key) {
     }
     try {
       const body = await getStatus()
-      send(res, 200, body, keyCookieHeaders(key))
+      // The key is delivered twice, on purpose. The cookie is the primary channel and cannot be read
+      // by page script; the body copy is the fallback, because a host that proxies these routes may
+      // not carry `Set-Cookie` through to the browser — and then every write fails with a 401 that
+      // looks exactly like a network error.
+      //
+      // This is not a weaker boundary than the cookie. A local process on the same machine can read
+      // `Set-Cookie` from this very response, which SECURITY.md says plainly; what stops a *page* on
+      // another origin is that it cannot read this body at all (no CORS headers). The one real
+      // difference is that page script in the DSH origin can now read the value, so an XSS in another
+      // plugin could take it — but such a plugin already runs with the user's full permissions.
+      send(res, 200, { ...body, key }, keyCookieHeaders(key))
     } catch (error) {
       send(res, 500, { error: error instanceof Error ? error.message : String(error) })
     }

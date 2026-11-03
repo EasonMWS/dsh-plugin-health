@@ -28,16 +28,32 @@ function recorder() {
   }
 }
 
-// --- F1: the control key must not be readable from the unauthenticated status route ----------
+// --- F1: the control key must not be readable from a page on another origin -------------------
+//
+// The original finding was that the unauthenticated status route handed the key to anything that
+// could reach loopback. The first fix moved it into an HttpOnly cookie — and that turned out to
+// break every write in the real host, because the key never arrived. The key is now delivered both
+// as the cookie and in the body, and what actually separates a hostile page from this route is the
+// peer check plus the same-origin guard, not the storage channel: a cross-origin page cannot read
+// either response (no CORS), and a local process can read both.
 
-test('the status route does not put the control key in the body', async () => {
+test('the status route hands the key to the page that loaded it', async () => {
   const { captured, res } = recorder()
   const handler = createStatusHandler(async () => ({ schemaVersion: 4, issues: [] }), 'super-secret')
   await handler({ method: 'GET', headers: { host: '127.0.0.1:1234' } }, res)
   assert.equal(captured.status, 200)
-  assert.equal(captured.body.repairKey, undefined, 'the key must never appear in the body')
-  assert.equal(JSON.stringify(captured.body).includes('super-secret'), false,
-    'the key must not leak anywhere in the payload')
+  // In the body as well as the cookie: without this copy, a host that does not carry `Set-Cookie`
+  // through leaves every write failing with a 401 the UI can only call a network error.
+  assert.equal(captured.body.key, 'super-secret')
+  assert.match(captured.headers['set-cookie'], /HttpOnly/u, 'the cookie copy still exists')
+})
+
+test('the status route refuses a cross-site page before handing out the key', async () => {
+  const { captured, res } = recorder()
+  const handler = createStatusHandler(async () => ({ schemaVersion: 4 }), 'super-secret')
+  await handler({ method: 'GET', headers: { host: '127.0.0.1:1234', 'sec-fetch-site': 'cross-site' } }, res)
+  assert.equal(captured.status, 403)
+  assert.equal(captured.body?.key, undefined, 'no key for a cross-site request')
 })
 
 test('the status route delivers the key as an HttpOnly, SameSite=Strict cookie', async () => {

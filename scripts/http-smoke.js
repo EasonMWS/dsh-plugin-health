@@ -157,6 +157,9 @@ await attempt('same-origin status', async () => {
   check('same-origin status', response.status, 200)
   check('status delivers the cookie',
     typeof response.setCookie === 'string' && response.setCookie.includes('plugin_health_key='), true)
+  // The key also has to be readable from the body: that is the path the page uses when the host
+  // does not carry Set-Cookie through to it.
+  check('status hands the key to the page it served', typeof response.body?.key === 'string' && response.body.key.length > 0, true)
 })
 await attempt('cross-site status', async () => {
   const response = await call(STATUS, { method: 'GET', headers: { 'sec-fetch-site': 'cross-site' } })
@@ -177,6 +180,18 @@ await attempt('rescue through the cookie the browser actually uses', async () =>
   })
   check('rescue via cookie', response.status, 200)
 })
+await attempt('a write authorised by the header the page read from /status', async () => {
+  // No cookie at all: exactly the situation that produced a permanent 401 in the real app.
+  const status = await call(STATUS, { method: 'GET' })
+  const fromBody = status.body?.key
+  check('the status body carries a key', typeof fromBody === 'string', true)
+  const response = await call(`${RESCUE}/undo`, {
+    headers: { 'content-type': 'application/json', ...SAME_ORIGIN, 'x-plugin-health-key': fromBody },
+    body: '{}',
+  })
+  check('a write with the body key and no cookie', response.status, 200)
+})
+
 await attempt('same-origin keyed repair', async () => {
   const response = await call(REPAIR, {
     headers: { 'content-type': 'application/json', ...SAME_ORIGIN, 'x-plugin-health-key': key },

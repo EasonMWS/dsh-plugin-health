@@ -22,6 +22,10 @@ window.__ModuleLoader__.load({
     // The published compatibility table. Hard-coded rather than derived: it is a public URL we own,
     // and a user clicking it should get the site, not something computed from their profile.
     const COMPAT_URL = 'https://easonmws.github.io/dsh-plugin-health/compat/'
+    // The control key for this launch, learned from the status snapshot. Held in memory rather than
+    // relied on through a cookie: when the host does not pass `Set-Cookie` through to the page, every
+    // write fails with a 401 that the UI can only describe as a network problem.
+    let controlKey
     const SECTION_SLOT = 'settings.section'
     const SECTION_ID = 'plugin-health'
     const ALERT_SLOT = 'sidebar.footer.action'
@@ -283,6 +287,7 @@ window.__ModuleLoader__.load({
         updateHowTo: '升级：{command}',
         updateUpToDate: '已是最新版本 {version}',
         updateFailed: '查不到最新版本：{error}',
+        updateDenied: '插件界面没有拿到本次启动的密钥，刷新页面即可（重启 DSH 后端口会变）。',
         updateDisabled: '已通过环境变量关闭更新检查',
         checkRetry: 'DSH 刚启动时可能还没准备好，点「重新扫描」再试一次。',
         omitted: '{count} 条提示不影响使用，已省略。', repair: '清理 {count} 项损坏文件',
@@ -365,6 +370,7 @@ window.__ModuleLoader__.load({
         updateHowTo: 'Upgrade with: {command}',
         updateUpToDate: 'You are on the latest version, {version}',
         updateFailed: 'Could not reach the registry: {error}',
+        updateDenied: 'The panel could not obtain this launch\'s key. Reload the page — a DSH restart changes the port.',
         updateDisabled: 'Update checks are off (environment variable)',
         checkRetry: 'DSH may still be starting. Select Rescan to try again.',
         omitted: 'Informational findings omitted: {count}. They do not affect usage.', repair: 'Clean up {count} broken file(s)',
@@ -456,14 +462,31 @@ window.__ModuleLoader__.load({
     async function postWrite(path, body) {
       const send = () => fetch(path, {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: {
+          'content-type': 'application/json',
+          ...(controlKey === undefined ? {} : { 'x-plugin-health-key': controlKey }),
+        },
         credentials: 'same-origin',
         cache: 'no-store',
         body: JSON.stringify(body ?? {}),
       })
+      /** Re-read the status snapshot, which is the only thing that knows this launch's key. */
+      const refreshKey = async () => {
+        try {
+          const response = await fetch(STATUS_PATH, {
+            headers: { accept: 'application/json' },
+            credentials: 'same-origin',
+            cache: 'no-store',
+          })
+          const data = await response.json()
+          if (typeof data?.key === 'string' && data.key !== '') controlKey = data.key
+        } catch { /* the retry below will report the failure */ }
+      }
+      if (controlKey === undefined) await refreshKey()
       let response = await send()
       if (response.status === 401) {
-        await fetch(STATUS_PATH, { headers: { accept: 'application/json' }, credentials: 'same-origin', cache: 'no-store' })
+        // A stale or absent key: refresh once and retry once. Any other status is a real answer.
+        await refreshKey()
         response = await send()
       }
       if (!response.ok) {
@@ -524,7 +547,7 @@ window.__ModuleLoader__.load({
      * The boot-time check is silent by design; this is the path a user drives. Deliberately not
      * optimistic: the state shown afterwards is whatever the host reported, including a failure.
      */
-    function useUpdate(reload) {
+    function useUpdate(reload, t) {
       const [phase, setPhase] = React.useState('idle')
       const [state, setState] = React.useState(undefined)
       const [error, setError] = React.useState(undefined)
@@ -536,7 +559,10 @@ window.__ModuleLoader__.load({
           setPhase('done')
           await reload()
         } catch (failure) {
-          setError(failure instanceof Error ? failure.message : String(failure))
+          const message = failure instanceof Error ? failure.message : String(failure)
+          // A refused key is not a network problem, and saying so costs the user a pointless
+          // investigation into their connection.
+          setError(/control key/u.test(message) ? t('updateDenied') : message)
           setPhase('failed')
         }
       }, [reload])
@@ -1138,7 +1164,7 @@ window.__ModuleLoader__.load({
       const summary = data?.summary ?? {}
       const scanned = data?.scanned?.plugins?.total
       // The boot-time check already ran; this hook only handles the user asking again.
-      const update = useUpdate(reload)
+      const update = useUpdate(reload, t)
       const updateState = update.state ?? data?.update
       const ourVersion = updateState?.currentVersion
       const latestVersion = updateState?.latestVersion
