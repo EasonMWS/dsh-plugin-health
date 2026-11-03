@@ -55,6 +55,7 @@ jobs:
 
       - name: Collect plugin list
         run: |
+          mkdir -p dsh-health-out
           node -e '
             const fs = require("fs");
             const get = async (url) => (await fetch(url)).json();
