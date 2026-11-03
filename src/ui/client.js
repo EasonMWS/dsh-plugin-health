@@ -441,6 +441,39 @@ window.__ModuleLoader__.load({
     }
 
     /** Poll the host snapshot; the route is cheap and cached server-side for a few seconds. */
+    /**
+     * POST JSON to one of this plugin's write routes.
+     *
+     * The control key is minted per launch and handed to the page as a cookie. Cookies are scoped by
+     * host, not port, so when DSH restarts on a different port the browser keeps sending the previous
+     * launch's key — every write then fails with 401 until something re-issues the cookie. A reload
+     * would fix it, but being asked to reload after a restart is a bad answer: on a 401 this refreshes
+     * the key from the status route (which is what issues the cookie) and retries exactly once.
+     * @param {string} path
+     * @param {object} body
+     * @returns {Promise<object>} the parsed response.
+     */
+    async function postWrite(path, body) {
+      const send = () => fetch(path, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        credentials: 'same-origin',
+        cache: 'no-store',
+        body: JSON.stringify(body ?? {}),
+      })
+      let response = await send()
+      if (response.status === 401) {
+        await fetch(STATUS_PATH, { headers: { accept: 'application/json' }, credentials: 'same-origin', cache: 'no-store' })
+        response = await send()
+      }
+      if (!response.ok) {
+        let detail = `HTTP ${response.status}`
+        try { detail = (await response.json()).error ?? detail } catch { /* keep the status text */ }
+        throw new Error(detail)
+      }
+      return response.json()
+    }
+
     function useStatus(intervalMs = 30000) {
       const [state, setState] = React.useState({ loading: true, error: undefined, data: undefined })
       const reload = React.useCallback(async () => {
@@ -499,18 +532,7 @@ window.__ModuleLoader__.load({
         setPhase('checking')
         setError(undefined)
         try {
-          const response = await fetch(UPDATE_PATH, {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            credentials: 'same-origin',
-            body: '{}',
-          })
-          if (!response.ok) {
-            let detail = `HTTP ${response.status}`
-            try { detail = (await response.json()).error ?? detail } catch { /* keep the status text */ }
-            throw new Error(detail)
-          }
-          setState(await response.json())
+          setState(await postWrite(UPDATE_PATH, {}))
           setPhase('done')
           await reload()
         } catch (failure) {
@@ -530,20 +552,7 @@ window.__ModuleLoader__.load({
       const [reportResult, setReportResult] = React.useState(undefined)
       const [disabled, setDisabled] = React.useState(undefined)
       const [copied, setCopied] = React.useState(false)
-      const call = React.useCallback(async (action, body) => {
-        const response = await fetch(`${RESCUE_PATH}/${action}`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify(body ?? {}),
-        })
-        if (!response.ok) {
-          let detail = `HTTP ${response.status}`
-          try { detail = (await response.json()).error ?? detail } catch { /* keep the status text */ }
-          throw new Error(detail)
-        }
-        return response.json()
-      }, [])
+      const call = React.useCallback((action, body) => postWrite(`${RESCUE_PATH}/${action}`, body), [])
       const rehearse = React.useCallback(async (plugin) => {
         setError(undefined); setApplied(undefined); setVerdict(undefined)
         setHandoffResult(undefined); setReportResult(undefined); setPhase('rehearsing')
@@ -937,16 +946,7 @@ window.__ModuleLoader__.load({
       const [result, setResult] = React.useState(undefined)
       const [error, setError] = React.useState(undefined)
 
-      const call = async (dryRun) => {
-        const response = await fetch(REPAIR_PATH, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify({ dryRun }),
-        })
-        if (!response.ok) throw new Error(`HTTP ${response.status}`)
-        return response.json()
-      }
+      const call = (dryRun) => postWrite(REPAIR_PATH, { dryRun })
 
       const start = async () => {
         setPhase('planning')

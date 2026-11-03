@@ -1,5 +1,26 @@
 # Changelog
 
+## 2.1.2 (2026-11-03)
+
+### Fixed
+
+- **The panel's buttons stopped working after a DSH restart.** The control key is minted per launch
+  and delivered to the page as a cookie, and cookies are scoped by host rather than port — so after a
+  restart the browser kept sending the previous launch's key. Every write route answered 401 and the
+  UI showed it as "could not reach the registry", because that is the message the update button
+  reports for any failure.
+
+  A page reload cleared it, which is a bad answer: being told to reload after a restart, with no
+  explanation, is indistinguishable from the plugin being broken. All three write paths now refresh
+  the key from the status route — the one endpoint that issues the cookie — and retry exactly once
+  when they see a 401. Any other status is passed through untouched, because a 400 is an answer, not
+  a stale credential.
+
+  Found on a real installation: upgrading 1.1.0 to 2.1.1 and restarting produced a 401 on every
+  write until the page was reloaded.
+
+279 tests (2 new), 278 pass, 1 platform skip.
+
 ## 2.1.1 (2026-11-03)
 
 A second review of 2.0.0 found that four of that release's fixes were incomplete or ineffective, and

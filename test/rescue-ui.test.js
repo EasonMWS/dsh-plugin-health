@@ -30,7 +30,7 @@ function snapshot({ rescuable = [PLUGIN], rescues = [] } = {}) {
  * Render the browser bundle and route rescue requests to scripted responses.
  * `handler(action, body)` returns the JSON body the fake server sends back.
  */
-function client({ data = snapshot(), handler, statusSequence } = {}) {
+function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite = false } = {}) {
   const slots = new Map(), dictionaries = new Map(), instances = new Map(), requests = []
   /** Keyboard events the client dispatched, so a test can assert the settings shortcut fired. */
   const keyEvents = []
@@ -98,6 +98,12 @@ function client({ data = snapshot(), handler, statusSequence } = {}) {
     fetch: async (url, options = {}) => {
       const body = options.body === undefined ? undefined : JSON.parse(options.body)
       requests.push({ url, body })
+      // Simulate the cookie holding a key from the previous host launch: the first write is refused,
+      // and reading the status route is what re-issues a usable key.
+      if (rejectFirstWrite && options.method === 'POST' && !url.endsWith('/status')) {
+        rejectFirstWrite = false
+        return { ok: false, status: 401, json: async () => ({ error: 'missing or invalid control key' }) }
+      }
       if (url.endsWith('/status')) {
         // `statusSequence` models the snapshot changing between polls; the last entry sticks.
         const payload = statusSequence !== undefined && statusSequence.length > 0
@@ -507,4 +513,37 @@ test('the new controls are translated', async () => {
   const text = flatten(app.render())
   assert.match(text, /检查更新/u)
   assert.match(text, /浏览全部插件健康状况/u)
+})
+
+test('a write refused for a stale key refreshes the key and retries once', async () => {
+  // Cookies are scoped by host, not port, so a DSH restart on a new port leaves the browser sending
+  // the previous launch's control key. Without this, the panel's buttons stay broken until the user
+  // reloads — which is exactly what happened after upgrading to 2.1.1.
+  const app = client({
+    rejectFirstWrite: true,
+    handler: (action) => (action === 'update'
+      ? { currentVersion: '2.1.1', latestVersion: '2.1.1', updateAvailable: false, status: 'ok', checkedAt: null, error: null }
+      : undefined),
+  })
+  app.render()
+  await settle()
+  await click(app.render(), 'Check for updates')
+  await settle()
+  const text = flatten(app.render())
+  assert.match(text, /latest version, 2\.1\.1/u, 'the retried request succeeded')
+  assert.doesNotMatch(text, /Could not reach the registry/u)
+  // The status route has to be read in between: that is what re-issues the cookie.
+  const order = app.requests.map((request) => request.url.replace(/^.*\//u, ''))
+  const writeIndex = order.indexOf('update')
+  assert.ok(order.indexOf('status', writeIndex) > writeIndex, 'the key is refreshed after the refusal')
+})
+
+test('a write that fails for another reason is not retried', async () => {
+  const app = client({ handler: () => undefined })
+  app.render()
+  await settle()
+  await click(app.render(), 'Check for updates')
+  await settle()
+  const writes = app.requests.filter((request) => String(request.url).endsWith('/update'))
+  assert.equal(writes.length, 1, 'a 400 is a real answer, not a stale key')
 })
