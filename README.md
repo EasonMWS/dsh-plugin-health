@@ -11,7 +11,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `1.6.1`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `1.6.2`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -39,7 +39,7 @@ buttons. The commands below are for people who prefer a shell.
 
 When a plugin is rejected, a chip appears in the sidebar — no need to go looking:
 
-![The sidebar chip showing two plugin issues with a View button](docs/images/sidebar-alert.png)
+![The sidebar chip showing two plugin issues with a View button](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/sidebar-alert.png)
 
 Open **Settings → Plugin health**. You get one line per problem, and one button per plugin:
 
@@ -52,11 +52,11 @@ Open **Settings → Plugin health**. You get one line per problem, and one butto
 
 Everything is reversible, and nothing is deleted.
 
-![The settings section with an incompatible plugin and the check button](docs/images/settings-finding.png)
+![The settings section with an incompatible plugin and the check button](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.png)
 
 Once the rehearsal passes, you get the exemption and a Revoke button beside it:
 
-![A temporary exemption in effect, with one click to revoke it](docs/images/settings-exemption.png)
+![A temporary exemption in effect, with one click to revoke it](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-exemption.png)
 
 **Or check everything at once.** If you prefer a shell:
 

@@ -10,7 +10,7 @@
 这个工具会把每个插件装进一次性环境真跑一遍，确认能启动才动手：修、交给你自己的 AI、
 或者关掉它让 DSH 继续能用。
 
-> 状态：`1.6.1`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
+> 状态：`1.6.2`。兼容判定完全对齐官方 DSH `0.2.1-rc.2` 的规则，索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 ```sh
@@ -38,7 +38,7 @@ npm install -g dsh-plugin-health
 
 插件被拒时，侧栏会直接冒一个提示，不用自己去找：
 
-![侧栏提示：插件有 2 个问题，带查看按钮](docs/images/sidebar-alert.zh.png)
+![侧栏提示：插件有 2 个问题，带查看按钮](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/sidebar-alert.zh.png)
 
 打开 **设置 → 插件健康**。每个问题一行，每个插件一个按钮：
 
@@ -48,11 +48,11 @@ npm install -g dsh-plugin-health
 
 每一步都可撤销，不删任何文件。
 
-![设置页里的不兼容插件和检查按钮](docs/images/settings-finding.zh.png)
+![设置页里的不兼容插件和检查按钮](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.zh.png)
 
 预演通过后才会写入放行，旁边就是撤销按钮：
 
-![临时放行生效后，一键就能撤销](docs/images/settings-exemption.zh.png)
+![临时放行生效后，一键就能撤销](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-exemption.zh.png)
 
 **一次看全部插件。** 如果你更习惯终端：
 
