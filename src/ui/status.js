@@ -8,6 +8,7 @@ import { join } from 'node:path'
 
 import { inspectDshHome } from '../repair/inspect.js'
 import { auditRescues } from '../rescue/rescue.js'
+import { snapshot as snapshotUpdate } from './update.js'
 /** Route the browser half reads; absolute so it works from the DSH web origin. */
 export const STATUS_PATH = '/plugins/dsh-plugin-health/status'
 
@@ -38,6 +39,9 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
     // What was actually inspected, so the UI can say "checked N plugins" instead of implying a sample.
     scanned: { plugins: result.scannedPlugins ?? null },
     issues,
+    // Read from module state rather than computed here: a status poll must never make a network
+    // request, and the UI needs the answer at the same moment it needs the findings.
+    update: snapshotUpdate(),
     // Incompatible plugins broken out for the rescue panel: a rescue needs the exact
     // name and version to rehearse, which the human-readable issue list does not carry.
     rescuable: (result.incompatiblePlugins ?? []).map(plugin => ({

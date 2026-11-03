@@ -27,6 +27,7 @@ import { buildBrief, renderPrompt, writeHandoff } from '../rescue/handoff.js'
 import { presentedKey } from './repair-route.js'
 import { invalidateStatus } from './status.js'
 import { checkWriteRequest } from './guard.js'
+import { UPDATE_PATH, refreshUpdate, upgradeHint } from './update.js'
 
 /** Route namespace, absolute so the browser half can call it from the DSH origin. */
 export const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
@@ -379,29 +380,39 @@ function requireInstalledPlugin(profileDir, plugin, version) {
  * @param {object} ctx - Cordis context.
  * @param {{currentProfile: () => {home?: string, profile?: string, runtimeVersion?: string}, key: string}} options
  */
-export function registerRescueRoute(ctx, { currentProfile, key, toolVersion }) {
+export function registerRescueRoute(ctx, { currentProfile, key, toolVersion, refreshUpdateImpl = refreshUpdate }) {
   if (typeof key !== 'string' || key === '') throw new Error('rescue route needs the control key from the repair route')
   const handlers = createRescueHandlers({ currentProfile, toolVersion })
+
+  /**
+   * The fence every write route in this module shares: loopback host, write guards, control key.
+   * Returns true when the request may proceed; otherwise the response has already been sent.
+   */
+  const authorize = (req, res) => {
+    if (!LOOPBACK.has(hostnameOf(req?.headers?.host))) { send(res, 403, { error: 'loopback only' }); return false }
+    if (req?.method !== 'POST') { send(res, 405, { error: 'method not allowed' }); return false }
+    // Runs before the key check: a cross-site page must not even reach the comparison, and a
+    // 415/403 leaks less than a 401 does about whether the route is live.
+    const guard = checkWriteRequest(req)
+    if (!guard.ok) { send(res, guard.status, { error: guard.error }); return false }
+    // The control key is required for every action: a page on another origin can reach loopback, so
+    // the host check alone is not an authorisation boundary. Constant-time comparison, and the key
+    // may arrive as the HttpOnly cookie the status route set or as a header. This runs before the
+    // action is looked up, so an unauthenticated caller cannot enumerate action names from
+    // 404-versus-401 differences.
+    if (!sameKey(key, presentedKey(req))) { send(res, 401, { error: 'missing or invalid control key' }); return false }
+    return true
+  }
+
   ctx.inject(['webServer'], (webCtx) => {
     webCtx.effect(() => {
       const dispose = webCtx.webServer.register({
         kind: 'prefix',
         path: RESCUE_PATH,
         handler: async (req, res) => {
-          if (!LOOPBACK.has(hostnameOf(req?.headers?.host))) { send(res, 403, { error: 'loopback only' }); return }
-          if (req?.method !== 'POST') { send(res, 405, { error: 'method not allowed' }); return }
-          // Runs before the key check: a cross-site page must not even reach the comparison, and a
-          // 415/403 leaks less than a 401 does about whether the route is live.
-          const guard = checkWriteRequest(req)
-          if (!guard.ok) { send(res, guard.status, { error: guard.error }); return }
+          if (!authorize(req, res)) return
           const action = String(req.url ?? '').split('?')[0].replace(RESCUE_PATH, '').replace(/^\//u, '')
           try {
-            // The control key is required for every action: a page on another origin can reach
-            // loopback, so the host check alone is not an authorisation boundary. Constant-time
-            // comparison, and the key may arrive as the HttpOnly cookie the status route set or as
-            // a header. This runs before the action is looked up, so an unauthenticated caller
-            // cannot enumerate action names from 404-versus-401 differences.
-            if (!sameKey(key, presentedKey(req))) { send(res, 401, { error: 'missing or invalid control key' }); return }
             const handler = handlers[action]
             if (handler === undefined) { send(res, 404, { error: 'unknown rescue action' }); return }
             const body = await readBody(req)
@@ -411,7 +422,24 @@ export function registerRescueRoute(ctx, { currentProfile, key, toolVersion }) {
           }
         },
       })
-      return () => dispose()
+      // "Check for updates" lives under the same fence rather than getting its own: it is the only
+      // action that reaches the network, so it must be exactly as hard to trigger from another page
+      // as anything that writes.
+      const disposeUpdate = webCtx.webServer.register({
+        kind: 'exact',
+        path: UPDATE_PATH,
+        handler: async (req, res) => {
+          if (!authorize(req, res)) return
+          try {
+            await readBody(req)
+            const state = await refreshUpdateImpl({ force: true })
+            send(res, 200, { ...state, upgradeHint: state.updateAvailable ? upgradeHint(state.latestVersion) : null })
+          } catch (error) {
+            send(res, 500, { error: error instanceof Error ? error.message : String(error) })
+          }
+        },
+      })
+      return () => { dispose(); disposeUpdate() }
     }, 'dsh-plugin-health: rescue route')
   })
 }

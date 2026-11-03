@@ -18,6 +18,10 @@ window.__ModuleLoader__.load({
     const STATUS_PATH = '/plugins/dsh-plugin-health/status'
     const REPAIR_PATH = '/plugins/dsh-plugin-health/repair'
     const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
+    const UPDATE_PATH = '/plugins/dsh-plugin-health/update'
+    // The published compatibility table. Hard-coded rather than derived: it is a public URL we own,
+    // and a user clicking it should get the site, not something computed from their profile.
+    const COMPAT_URL = 'https://easonmws.github.io/dsh-plugin-health/compat/'
     const SECTION_SLOT = 'settings.section'
     const SECTION_ID = 'plugin-health'
     const ALERT_SLOT = 'sidebar.footer.action'
@@ -273,6 +277,13 @@ window.__ModuleLoader__.load({
         errors: '{count} 个错误', warnings: '{count} 个警告', ready: '可以放心用', attention: '有问题建议处理',
         checked: '共检查 {count} 个插件', checkedWithVersion: '共检查 {count} 个插件，DSH {version}',
         scanning: '正在扫描…', rescan: '重新扫描', checking: '正在检查…', checkFailed: '检查失败',
+        checkUpdate: '检查更新', checkingUpdate: '正在查询…',
+        browseAll: '浏览全部插件健康状况',
+        updateAvailable: '有新版本 {version}（当前 {current}）',
+        updateHowTo: '升级：{command}',
+        updateUpToDate: '已是最新版本 {version}',
+        updateFailed: '查不到最新版本：{error}',
+        updateDisabled: '已通过环境变量关闭更新检查',
         checkRetry: 'DSH 刚启动时可能还没准备好，点「重新扫描」再试一次。',
         omitted: '{count} 条提示不影响使用，已省略。', repair: '清理 {count} 项损坏文件',
         repairSafety: '这些项是装坏的文件：只隔离不删除，原文件可以在隔离区找回，执行前会先给你看计划。',
@@ -348,6 +359,13 @@ window.__ModuleLoader__.load({
         errors: 'Errors: {count}', warnings: 'Warnings: {count}', ready: 'Ready to use', attention: 'Issues need attention',
         checked: 'Plugins checked: {count}', checkedWithVersion: 'Plugins checked: {count}, DSH {version}',
         scanning: 'Scanning…', rescan: 'Rescan', checking: 'Checking…', checkFailed: 'Check failed',
+        checkUpdate: 'Check for updates', checkingUpdate: 'Checking…',
+        browseAll: 'Browse all plugin health',
+        updateAvailable: 'Version {version} is available (you have {current})',
+        updateHowTo: 'Upgrade with: {command}',
+        updateUpToDate: 'You are on the latest version, {version}',
+        updateFailed: 'Could not reach the registry: {error}',
+        updateDisabled: 'Update checks are off (environment variable)',
         checkRetry: 'DSH may still be starting. Select Rescan to try again.',
         omitted: 'Informational findings omitted: {count}. They do not affect usage.', repair: 'Clean up {count} broken file(s)',
         repairSafety: 'These are files left behind by a failed install: they are quarantined rather than deleted, can be restored, and you review the plan before anything happens.',
@@ -467,6 +485,42 @@ window.__ModuleLoader__.load({
      * `confirming` exists so a write never happens on the same click that reveals its
      * consequences; the user restates the trade-off before the exemption is written.
      */
+    /**
+     * Ask the host for a fresh update check.
+     *
+     * The boot-time check is silent by design; this is the path a user drives. Deliberately not
+     * optimistic: the state shown afterwards is whatever the host reported, including a failure.
+     */
+    function useUpdate(reload) {
+      const [phase, setPhase] = React.useState('idle')
+      const [state, setState] = React.useState(undefined)
+      const [error, setError] = React.useState(undefined)
+      const check = React.useCallback(async () => {
+        setPhase('checking')
+        setError(undefined)
+        try {
+          const response = await fetch(UPDATE_PATH, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            credentials: 'same-origin',
+            body: '{}',
+          })
+          if (!response.ok) {
+            let detail = `HTTP ${response.status}`
+            try { detail = (await response.json()).error ?? detail } catch { /* keep the status text */ }
+            throw new Error(detail)
+          }
+          setState(await response.json())
+          setPhase('done')
+          await reload()
+        } catch (failure) {
+          setError(failure instanceof Error ? failure.message : String(failure))
+          setPhase('failed')
+        }
+      }, [reload])
+      return { phase, state, error, check }
+    }
+
     function useRescue(reload) {
       const [phase, setPhase] = React.useState('idle')
       const [verdict, setVerdict] = React.useState(undefined)
@@ -1030,6 +1084,30 @@ window.__ModuleLoader__.load({
       ])
     }
 
+    /** The one border-and-padding treatment every secondary control in this panel uses. */
+    function PanelButton({ onClick, disabled, href, label }) {
+      const style = {
+        border: '1px solid rgba(128,128,128,.35)',
+        borderRadius: 8,
+        padding: '7px 14px',
+        cursor: disabled === true ? 'default' : 'pointer',
+        background: 'transparent',
+        color: 'inherit',
+        font: 'inherit',
+        fontSize: 13,
+        opacity: disabled === true ? 0.55 : 1,
+        textDecoration: 'none',
+        display: 'inline-block',
+        whiteSpace: 'nowrap',
+      }
+      if (href !== undefined) {
+        // A real anchor, not a click handler: the desktop shell hands target="_blank" to the
+        // system browser, which a window.open call is not always allowed to do.
+        return h('a', { href, target: '_blank', rel: 'noreferrer noopener', style }, label)
+      }
+      return h('button', { type: 'button', onClick, disabled: disabled === true, style }, label)
+    }
+
     function ScanButton({ onClick, busy, t }) {
       return h('button', {
         onClick,
@@ -1059,6 +1137,11 @@ window.__ModuleLoader__.load({
       const autoFixable = actionable.filter((issue) => issue.autoFixable === true)
       const summary = data?.summary ?? {}
       const scanned = data?.scanned?.plugins?.total
+      // The boot-time check already ran; this hook only handles the user asking again.
+      const update = useUpdate(reload)
+      const updateState = update.state ?? data?.update
+      const ourVersion = updateState?.currentVersion
+      const latestVersion = updateState?.latestVersion
 
       const rescan = React.useCallback(async () => {
         setScanning(true)
@@ -1089,8 +1172,43 @@ window.__ModuleLoader__.load({
             h('div', { key: 's', style: { fontSize: 13, opacity: 0.65, marginTop: 4 } },
               t('description')),
           ]),
-          h('div', { key: 'r', style: { flex: '0 0 auto' } }, h(ScanButton, { onClick: rescan, busy: scanning || loading, t })),
+          h('div', { key: 'r', style: { flex: '0 0 auto', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' } }, [
+            h(ScanButton, { key: 'scan', onClick: rescan, busy: scanning || loading, t }),
+            h(PanelButton, {
+              key: 'upd',
+              onClick: update.check,
+              disabled: update.phase === 'checking',
+              label: update.phase === 'checking' ? t('checkingUpdate') : t('checkUpdate'),
+            }),
+            // The compatibility table is the most useful thing this project publishes when nothing
+            // is wrong locally, so it gets a first-class control rather than a line buried in prose.
+            h(PanelButton, { key: 'all', href: COMPAT_URL, label: t('browseAll') }),
+          ]),
         ]),
+        // Only speak up when there is something to do. A permanent "up to date" line trains people
+        // to ignore the strip, which is where a real update notice has to appear.
+        update.phase === 'failed'
+          ? h('div', { key: 'uf', style: { fontSize: 13, color: COLORS.warn, marginBottom: 10 } },
+            t('updateFailed', { error: update.error ?? '' }))
+          : null,
+        update.phase === 'done' && updateState?.updateAvailable === false
+          ? h('div', { key: 'uo', style: { fontSize: 13, opacity: 0.7, marginBottom: 10 } },
+            t('updateUpToDate', { version: latestVersion ?? '' }))
+          : null,
+        updateState?.updateAvailable === true
+          ? h('div', {
+            key: 'ua',
+            style: {
+              marginBottom: 12, padding: '10px 12px', borderRadius: 8, fontSize: 13,
+              background: 'rgba(26,115,232,.10)', border: '1px solid rgba(26,115,232,.35)',
+            },
+          }, [
+            h('div', { key: 't', style: { fontWeight: 600, marginBottom: 3 } },
+              t('updateAvailable', { version: latestVersion ?? '', current: ourVersion ?? '' })),
+            h('div', { key: 'h', style: { opacity: 0.85, wordBreak: 'break-all', fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: 12 } },
+              t('updateHowTo', { command: updateState.upgradeHint ?? `dsh plugin add dsh-plugin-health@${latestVersion ?? ''}` })),
+          ])
+          : null,
         loading ? h('div', { key: 'l', style: { fontSize: 13, opacity: 0.7 } }, t('checking')) : null,
         error !== undefined ? h('div', { key: 'e', style: { fontSize: 13, color: COLORS.warn } }, [
           h('div', { key: 't', style: { fontWeight: 600, marginBottom: 4 } }, t('checkFailed')),

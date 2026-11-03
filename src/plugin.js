@@ -15,6 +15,7 @@ import { formatInspection } from './repair/format.js'
 import { cachedStatus, runningProfile } from './ui/status.js'
 import { registerRepairRoute } from './ui/repair-route.js'
 import { registerRescueRoute } from './ui/rescue-route.js'
+import { startAutoCheck } from './ui/update.js'
 
 export const name = 'plugin-health'
 export const inject = ['tools']
@@ -88,6 +89,9 @@ export async function apply(ctx) {
         getStatus: () => cachedStatus({ ...resolveProfile(), runtimeVersion: hostRuntimeVersion() }),
       })
       registerRescueRoute(ctx, { currentProfile: resolveRescueProfile, key, toolVersion: VERSION })
+      // Fire and forget: the panel the user opens should already know whether this plugin is current,
+      // and a slow or blocked registry must never add time to booting DSH.
+      startAutoCheck()
     }
   } catch (error) {
     try {

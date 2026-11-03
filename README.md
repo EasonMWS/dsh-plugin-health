@@ -13,7 +13,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `2.0.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `2.1.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -433,8 +433,12 @@ dsh plugin --profile web add dsh-plugin-health
   anything plugin-shaped in `node_modules`. The header tells you how many were inspected.
 - Every finding is written in plain language with a concrete next step — a first-time user can act
   without reading CLI docs.
-- One line at the top says whether you can relax (`可以放心用`) or should act (`有问题建议处理`), and a
-  `重新扫描` button re-runs the check on demand.
+- One line at the top says whether you can relax (`可以放心用`) or should act (`有问题建议处理`),
+  with three controls beside it: `重新扫描` to re-run the check, `检查更新` to ask the registry
+  whether this plugin itself is current, and `浏览全部插件健康状况` to open the
+  [public compatibility table](https://easonmws.github.io/dsh-plugin-health/compat/).
+- **It checks for its own updates when DSH opens** and only speaks up when there is something newer,
+  with the exact upgrade command. No "you are up to date" banner on every visit.
 - **If nothing is wrong, nothing is shown.** The plugin adds no badge, no banner, no sidebar entry.
 - **When something is wrong**, a compact `插件有 N 个问题` entry appears above the account menu and
   jumps straight to the section.

@@ -13,6 +13,7 @@ import { join } from 'node:path'
 
 import { createRepairHandler, createStatusHandler } from '../src/ui/repair-route.js'
 import { createRescueHandlers } from '../src/ui/rescue-route.js'
+import { UPDATE_PATH } from '../src/ui/update.js'
 
 const key = 'k'.repeat(48)
 const profileDir = mkdtempSync(join(tmpdir(), 'dsh-http-check-'))
@@ -39,6 +40,16 @@ const rescue = createRescueHandlers({
 const server = createServer((req, res) => {
   const route = async () => {
     if (req.url.endsWith('/status')) return status(req, res)
+    if (req.url === UPDATE_PATH) {
+      // Stand in for the real registration: same fence, a canned update state instead of npm.
+      if (!['127.0.0.1', 'localhost', '::1'].includes(String(req.headers.host ?? '').split(':')[0])) {
+        res.writeHead(403).end('{}')
+        return
+      }
+      res.writeHead(200, { 'content-type': 'application/json' })
+      res.end(JSON.stringify({ currentVersion: '2.0.0', latestVersion: '2.0.0', updateAvailable: false, status: 'ok' }))
+      return
+    }
     if (req.url.includes('/rescue/')) {
       const result = await rescue.undo({})
       res.writeHead(200, { 'content-type': 'application/json' })
@@ -160,7 +171,9 @@ const rescueCall = await call('/plugins/dsh-plugin-health/rescue/undo', {
 check('same-origin rescue action', rescueCall.status, 200)
 check('rescue handler actually ran', counters.undo, 1)
 
-// 7. The cookie alone is enough — that is the path the browser UI uses.
+// 7. The update route is exercised by test/update-route.test.js against the real registration.
+
+// 8. The cookie alone is enough — that is the path the browser UI uses.
 const viaCookie = await call('/plugins/dsh-plugin-health/rescue/undo', {
   headers: {
     'content-type': 'application/json',

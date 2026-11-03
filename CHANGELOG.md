@@ -1,5 +1,51 @@
 # Changelog
 
+## 2.1.0 (2026-11-03)
+
+### Added
+
+- **The plugin checks whether it is current, every time DSH opens.** A health tool that is itself out
+  of date is worse than useless: it tells you your plugins need attention while quietly missing the
+  fix that was released for the checker. The check is fired and forgotten when the plugin loads —
+  nothing about DSH startup waits for it — and the result rides along with the status snapshot the
+  panel already polls, so the answer is there before you open the section.
+
+  It stays quiet by design. One request per boot, then at most one every six hours, and it only
+  speaks up when there is actually something newer, along with the exact command
+  (`dsh plugin --profile <profile> add dsh-plugin-health@2.1.0`). An "up to date" banner on every
+  visit would train people to ignore the strip where a real notice has to appear.
+
+  A check that fails is recorded as a failure, never as "you are current" — the two statements are
+  different and only one of them is true. `DSH_PLUGIN_HEALTH_NO_UPDATE=1` turns the automatic check
+  off entirely, for anyone who does not want a health tool making outbound requests.
+
+- **Two new controls in the panel header.** `检查更新` / `Check for updates` asks the registry again on
+  demand, because the boot-time check is deliberately silent. `浏览全部插件健康状况` /
+  `Browse all plugin health` opens the public compatibility table — 4,389 plugins across two host
+  versions — in the system browser, which is the most useful thing this project publishes when
+  nothing is wrong on your own machine. It is a real anchor with `target="_blank"`, not a click
+  handler, so the desktop shell hands it to the system browser rather than trying to render it
+  inside the settings pane.
+
+### Security
+
+- The new `POST /plugins/dsh-plugin-health/update` route sits behind the same fence as every other
+  write route — loopback host, JSON content type, matching `Origin`, non-cross-site `Sec-Fetch-Site`,
+  constant-time control key — rather than getting its own. It is the only control in the package that
+  reaches the network on its own, so a page on another local port must not be able to trigger it.
+  The guard was extracted into one `authorize()` shared by both routes, so they cannot drift.
+
+- The control-key comparison now works on SHA-256 digests. It compared UTF-16 lengths and then bytes,
+  so 48 non-ASCII characters produced 96 bytes and `timingSafeEqual` threw
+  `ERR_CRYPTO_TIMING_SAFE_EQUAL_LENGTH` from inside an uncaught handler.
+
+### Changed
+
+- `registerRescueRoute` now extracts the host check, the write guards and the key comparison into one
+  shared `authorize()`, so the two write routes cannot drift apart.
+
+261 tests (23 new), 260 pass, 1 platform skip. Plus 11 checks over a real HTTP socket
+(`scripts/http-smoke.js`) and 8 against the real route registration (`test/update-route.test.js`).
 ## 2.0.0 (2026-11-03)
 
 Two independent reviews of 1.5.0 found that several guarantees this tool advertises did not actually

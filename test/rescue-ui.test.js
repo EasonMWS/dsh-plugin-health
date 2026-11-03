@@ -163,6 +163,7 @@ const findAll = (node, predicate, out = []) => {
   return out
 }
 const buttons = (tree) => findAll(tree, node => node.type === 'button')
+const links = (tree) => findAll(tree, node => node.type === 'a')
 const click = (tree, label) => {
   const found = buttons(tree).find(node => flatten(node).trim() === label)
   assert.ok(found, `missing button: ${label}\n  have: ${buttons(tree).map(node => flatten(node).trim()).join(' | ')}`)
@@ -176,7 +177,10 @@ test('the rescue panel renders the plugin and one check button', async () => {
   const view = app.render()
   assert.match(flatten(view), /legacy-plugin/u)
   assert.match(flatten(view), /Fix compatibility/u, 'the section heading is the compatibility one')
-  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check whether it can be saved'])
+  assert.deepEqual(
+    buttons(view).map(node => flatten(node).trim()),
+    ['Rescan', 'Check for updates', 'Check whether it can be saved'],
+  )
 })
 
 test('a rehearsal that boots offers the exemption, not a dead end', async () => {
@@ -190,7 +194,7 @@ test('a rehearsal that boots offers the exemption, not a dead end', async () => 
   await settle()
   const view = app.render()
   assert.match(flatten(view), /only the declaration is out of date/u)
-  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Exempt temporarily'])
+  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check for updates', 'Exempt temporarily'])
 })
 
 test('exempting asks for confirmation before writing anything', async () => {
@@ -227,7 +231,7 @@ test('cancelling the confirmation writes nothing and returns to the verdict', as
   await click(app.render(), 'Cancel'); await settle()
   const view = app.render()
   assert.doesNotMatch(flatten(view), /Confirm before exempting/u)
-  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Exempt temporarily'])
+  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check for updates', 'Exempt temporarily'])
   assert.equal(app.requests.filter(request => request.url.endsWith('/apply')).length, 0)
 })
 
@@ -410,4 +414,97 @@ test('the alert is removed once a rescan comes back clean', async () => {
   app.triggerRefresh()
   for (let i = 0; i < 4; i += 1) await settle()
   assert.equal(app.findAlert(), undefined, 'a clean scan must remove the stale alert')
+})
+
+test('the header offers the compatibility page as a real link, opened in a new tab', async () => {
+  const app = client()
+  app.render()
+  await settle()
+  const view = app.render()
+  const anchor = links(view).find((node) => /Browse all plugin health/u.test(flatten(node)))
+  assert.ok(anchor, 'the panel must offer a way to the published table')
+  assert.match(anchor.props.href, /dsh-plugin-health\/compat\/$/u)
+  assert.equal(anchor.props.target, '_blank', 'it belongs in the system browser, not in the settings pane')
+  assert.match(anchor.props.rel, /noopener/u)
+})
+
+test('asking for an update posts to the update route and reports up to date', async () => {
+  const app = client({
+    handler: (action) => (action === 'update'
+      ? { currentVersion: '2.0.0', latestVersion: '2.0.0', updateAvailable: false, status: 'ok', checkedAt: null, error: null }
+      : undefined),
+  })
+  app.render()
+  await settle()
+  const view = app.render()
+  await click(view, 'Check for updates')
+  await settle()
+  const after = app.render()
+  assert.ok(
+    app.requests.some((request) => String(request.url).endsWith('/update')),
+    'the click must reach the host',
+  )
+  assert.match(flatten(after), /latest version, 2\.0\.0/u)
+})
+
+test('an available update names the version and the exact command', async () => {
+  const app = client({
+    handler: (action) => (action === 'update'
+      ? {
+        currentVersion: '2.0.0', latestVersion: '2.1.0', updateAvailable: true, status: 'ok',
+        checkedAt: null, error: null,
+        upgradeHint: 'dsh plugin --profile desktop add dsh-plugin-health@2.1.0',
+      }
+      : undefined),
+  })
+  app.render()
+  await settle()
+  const view = app.render()
+  await click(view, 'Check for updates')
+  await settle()
+  const text = flatten(app.render())
+  assert.match(text, /Version 2\.1\.0 is available \(you have 2\.0\.0\)/u)
+  // The command has to carry the version: "upgrade to latest" is how people end up on a build that
+  // is not the one the panel just told them about.
+  assert.match(text, /dsh-plugin-health@2\.1\.0/u)
+})
+
+test('a failed update check says it failed, not that everything is current', async () => {
+  const app = client({ handler: () => undefined })
+  app.render()
+  await settle()
+  const view = app.render()
+  await click(view, 'Check for updates')
+  await settle()
+  const text = flatten(app.render())
+  assert.match(text, /Could not reach the registry/u)
+  assert.doesNotMatch(text, /latest version/u, 'a failed check must not read as an up-to-date one')
+})
+
+test('the update state that arrived with the status snapshot is shown without clicking anything', async () => {
+  // The boot-time check already ran before the user opened this panel; the banner has to use it.
+  const app = client({
+    data: {
+      ...snapshot(),
+      update: {
+        currentVersion: '2.0.0', latestVersion: '2.1.0', updateAvailable: true, status: 'ok',
+        checkedAt: '2026-11-03T15:00:00Z', error: null,
+        upgradeHint: 'dsh plugin --profile desktop add dsh-plugin-health@2.1.0',
+      },
+    },
+  })
+  app.render()
+  await settle()
+  const text = flatten(app.render())
+  assert.match(text, /Version 2\.1\.0 is available/u)
+})
+
+test('the new controls are translated', async () => {
+  const app = client()
+  app.setLocale('zh')
+  app.render()
+  await settle()
+  const text = flatten(app.render())
+  assert.match(text, /检查更新/u)
+  assert.match(text, /浏览全部插件健康状况/u)
 })
