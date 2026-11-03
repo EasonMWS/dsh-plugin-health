@@ -1,5 +1,31 @@
 # Changelog
 
+## 1.2.1 (2026-11-03)
+
+### Fixed
+
+- **1.2.0 shipped both READMEs with corrupted text.** Every em dash, arrow and Chinese character in
+  the paragraphs that release rewrote had been mangled into mojibake — the em dashes in the English
+  file, and the entire body of the Chinese one. The cause was round-tripping UTF-8 through a shell
+  that re-encoded it; the rewrite is now done in a script that reads and writes UTF-8 directly, and a
+  check for the mojibake sequences runs as part of it.
+
+  Nothing functional was affected — the package, the CLI and the Action were untouched. Only the
+  rendered documentation was wrong.
+
+### Added
+
+The three audience items 1.2.0 promised but did not deliver:
+
+- **"No terminal needed"** near the install line, so a user who will never open a shell is not
+  turned away by the first block of commands.
+- **A batch-check example** (\doctor --profile\) showing what a healthy-ish profile looks like, for
+  people who prefer a shell to a settings page.
+- **A section explaining what "exempt temporarily" means** — gate, not support; host-version
+  specific; how to undo it — instead of leaving it scattered across the page.
+
+176 tests, 176 pass, 1 platform skip.
+
 ## 1.2.0 (2026-11-03)
 
 No behaviour changes. This release is about being findable: the tool worked, but the three things
