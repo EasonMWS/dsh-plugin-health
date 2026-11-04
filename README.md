@@ -13,7 +13,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `2.1.4`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `2.1.5`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -81,10 +81,10 @@ whether every feature works is still yours to observe.
   value that was there before.
 - Once the author ships a supported release, the panel tells you to revoke and upgrade.
 
-## What makes this different: four layers, not one
+## What happens between "rejected" and "fixed": four layers
 
-A static checker reads declarations. That is layer one of four — and on its own it is wrong often
-enough to be dangerous. Here is the whole path, and where each layer runs:
+Reading declarations is the first layer. Four things happen between a plugin being rejected and your
+DSH working again:
 
 | # | Layer | What it does | Where |
 | --- | --- | --- | --- |
@@ -93,7 +93,7 @@ enough to be dangerous. Here is the whole path, and where each layer runs:
 | **3** | **Repair** | If the rehearsal booted, writes a single official `allow-version` exemption to *your* profile — recorded, one click to undo | your profile |
 | **4** | **Escalate** | If it did not boot, changes nothing and offers two real decisions: switch the plugin off, or take a prepared brief to your own agent. Checks upstream for an existing report first | your choice |
 
-**Layer 2 is the reason this exists.** Without it, layer 3 is a guess.
+**Layer 2 is the one that decides.** Without it, layer 3 would be a guess.
 
 ## Why that middle layer matters
 
@@ -106,9 +106,10 @@ caught up with the new host. Measured on `0.2.1-rc.4`:
 | `dsh-find-plugin@0.4.0` | ❌ rejected | ✅ **runs fine** |
 | `@feng0531/dsh-vcs@0.4.10` | ❌ rejected | ❌ **fails: waits for a service the host no longer provides** |
 
-The first two are false alarms a static checker would report as broken. **The third is why the
-rehearsal must exist**: exempting it would have produced exactly the outcome the gate was trying to
-prevent — a plugin that loads and then misbehaves, with no warning left anywhere.
+By declaration, all three are equally rejected. Two of them boot without complaint; one does not.
+**Reading declarations cannot tell them apart, which is why the rehearsal runs before anything is
+written.** Exempting the third would have produced exactly the outcome the gate exists to prevent — a
+plugin that loads and then misbehaves, with no warning left anywhere.
 
 ## For plugin authors: checks on every pull request
 

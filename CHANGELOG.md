@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.1.5 (2026-11-03)
+
+### Changed
+
+- **The docs no longer position this against other tools.** Several packages in this ecosystem overlap
+  with it, so "the checker that can actually repair" and "a static checker would report these as
+  broken" are claims about someone else's output that the reader cannot check and that are not
+  necessary to make the point. The measurement is the argument: three plugins rejected by identical
+  declarations, two of which boot and one of which does not. The section now says that, and stops
+  there.
+
+  Section titles changed with it: "What makes this different: four layers, not one" became "What
+  happens between 'rejected' and 'fixed': four layers", and the same in Chinese. The npm description
+  now opens with what the package does rather than with what it can "actually" do.
+
+- **The honest comparison stayed.** "Reading declarations cannot tell them apart" is the reason the
+  rehearsal exists, and it is a statement about this package's own method, not about other packages.
+
+- **A test enforces the distinction.** `test/docs-tone.test.js` fails on "the only <thing>", "unlike
+  other tools", "can actually", and the Chinese equivalents — while deliberately not matching the
+  innocent uses of the same words: "only then decides", "we only prove it boots", "read-only",
+  "Git-only plugins". A word-based rule would have flagged all of those; the rule is placement-based.
+
+288 tests (3 new), 287 pass, 1 platform skip.
+
 ## 2.1.4 (2026-11-03)
 
 ### Documentation
