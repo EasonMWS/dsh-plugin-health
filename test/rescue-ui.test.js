@@ -547,3 +547,71 @@ test('a write that fails for another reason is not retried', async () => {
   const writes = app.requests.filter((request) => String(request.url).endsWith('/update'))
   assert.equal(writes.length, 1, 'a 400 is a real answer, not a stale key')
 })
+
+test('an available update offers a button, not just a command', async () => {
+  // The command was the only way to act on an update notice. Someone who installed this from the
+  // settings panel should not have to open a terminal to upgrade it.
+  const app = client({
+    data: {
+      ...snapshot(),
+      update: {
+        currentVersion: '2.0.0', latestVersion: '2.1.0', updateAvailable: true, status: 'ok',
+        checkedAt: null, error: null, upgradeHint: 'dsh plugin add dsh-plugin-health@2.1.0',
+      },
+    },
+    handler: (action, body) => (body?.action === 'install'
+      ? { phase: 'done', targetVersion: '2.1.0', previousVersion: '2.0.0', restartRequiredFrom: '2.0.0', log: [] }
+      : undefined),
+  })
+  app.render()
+  await settle()
+  const view = app.render()
+  const labels = buttons(view).map((node) => flatten(node).trim())
+  assert.ok(labels.includes('Update now'), `expected an Update now button, got: ${labels.join(' | ')}`)
+  // The command is still shown for anyone who prefers it.
+  assert.match(flatten(view), /dsh-plugin-health@2\.1\.0/u)
+})
+
+test('clicking update installs and then asks for a restart', async () => {
+  const app = client({
+    data: {
+      ...snapshot(),
+      update: {
+        currentVersion: '2.0.0', latestVersion: '2.1.0', updateAvailable: true, status: 'ok',
+        checkedAt: null, error: null, upgradeHint: 'dsh plugin add dsh-plugin-health@2.1.0',
+      },
+    },
+    handler: (action, body) => (body?.action === 'install'
+      ? { phase: 'done', targetVersion: '2.1.0', previousVersion: '2.0.0', restartRequiredFrom: '2.0.0', log: [] }
+      : undefined),
+  })
+  app.render()
+  await settle()
+  await click(app.render(), 'Update now')
+  await settle()
+  const sent = app.requests.find((request) => request.body?.action === 'install')
+  assert.ok(sent, 'the click must ask the host to install')
+  assert.equal(sent.body.version, '2.1.0', 'the exact version the check found')
+  // The files are updated; the running host is not. Saying "updated" without that would be a lie.
+  assert.match(flatten(app.render()), /restart DSH/u)
+})
+
+test('a failed install shows the package manager\'s reason and offers a retry', async () => {
+  const app = client({
+    data: {
+      ...snapshot(),
+      update: { currentVersion: '2.0.0', latestVersion: '2.1.0', updateAvailable: true, status: 'ok', checkedAt: null, error: null },
+    },
+    handler: (action, body) => (body?.action === 'install'
+      ? { phase: 'failed', error: 'the package manager exited with code 1', log: ['ERR_PNPM_FETCH_404 not found'], targetVersion: '2.1.0' }
+      : undefined),
+  })
+  app.render()
+  await settle()
+  await click(app.render(), 'Update now')
+  await settle()
+  const text = flatten(app.render())
+  assert.match(text, /Update failed/u)
+  assert.match(text, /FETCH_404/u, 'the reason must be visible, not just an exit code')
+  assert.ok(buttons(app.render()).some((node) => /Try again/u.test(flatten(node))), 'a retry must be offered')
+})

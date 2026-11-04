@@ -1,5 +1,41 @@
 # Changelog
 
+## 2.2.0 (2026-11-03)
+
+### Added
+
+- **An update can be installed from the panel.** Until now the panel told you a new version existed and
+  printed a command; acting on it meant opening a terminal, which is the thing this plugin exists to
+  avoid. Checking now ends in an **Update now** button.
+
+  This is the most dangerous operation the package performs — it replaces the plugin's own code in a
+  profile DSH is booting from — so it is deliberately conservative:
+
+  - **The profile's own package manager runs the install.** A profile here is a pnpm workspace; running
+    `npm install` into it produces a tree pnpm cannot reconcile, and the next `dsh plugin add` then
+    fails for a reason unrelated to the plugin being installed. The manager is detected, not assumed.
+  - **Non-interactive.** pnpm prompts about new releases and about supply-chain policy; in a background
+    process a prompt is a hang. The invocation passes the flags that turn prompts into decisions, and a
+    finite timeout abandons it if it still blocks.
+  - **Success is judged by what is on disk**, not by the exit code. A package manager can exit 0 and
+    leave the old files in place; believing the exit code would show a successful update while the user
+    keeps running the old code.
+  - **The version is validated** before it reaches a command line, and only the exact version the check
+    found is installed — never a range.
+  - **One install at a time.** A second click joins the first rather than starting a second package
+    manager against the same directory.
+  - **Restart is stated, not performed.** The files change; the running host keeps the code it loaded.
+    The panel says so. Restarting on the user's behalf would end their session without asking.
+
+- **A quiet sidebar notice when an update exists.** The boot-time check already ran and its answer is in
+  the status snapshot, so the sidebar can mention an update without a request of its own. It appears
+  only when there is something to say, and it yields to broken plugins: findings lead, because a plugin
+  that will not load is why someone is looking at this panel.
+
+- A failure shows the package manager's own message, not just an exit code, plus a retry button.
+
+306 tests (14 new), 305 pass, 1 platform skip.
+
 ## 2.1.6 (2026-11-03)
 
 ### Added

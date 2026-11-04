@@ -119,12 +119,15 @@ test('a non-loopback host is refused outright', async () => {
   assert.equal(app.calls(), 0)
 })
 
-test('the route is POST-only', async () => {
+test('a GET reports state instead of acting', async () => {
+  // Changed in 2.2.0: the panel needs to render an update banner on load without triggering a
+  // network check or an install, so the route answers a read with what it already knows.
   const app = mount({})
   const handler = app.routes.get(UPDATE_PATH)
   const { captured, res } = recorder()
   await handler({ ...request({ 'x-plugin-health-key': KEY }), method: 'GET' }, res)
-  assert.equal(captured.status, 405)
+  assert.equal(captured.status, 200)
+  assert.equal(app.calls(), 0, 'a read must not reach the registry')
 })
 
 test('a check that blows up reports an error instead of hanging the panel', async () => {

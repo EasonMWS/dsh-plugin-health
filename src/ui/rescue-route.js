@@ -29,7 +29,8 @@ import { buildBrief, renderPrompt, writeHandoff } from '../rescue/handoff.js'
 import { presentedKey } from './repair-route.js'
 import { invalidateStatus } from './status.js'
 import { checkLoopbackPeer, checkStatusRequest, checkWriteRequest } from './guard.js'
-import { UPDATE_PATH, refreshUpdate, upgradeHint } from './update.js'
+import { UPDATE_PATH, refreshUpdate, snapshot as snapshotUpdate, upgradeHint } from './update.js'
+import { installSnapshot, installUpdate } from './install.js'
 
 /** Route namespace, absolute so the browser half can call it from the DSH origin. */
 export const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
@@ -391,7 +392,7 @@ function requireInstalledPlugin(profileDir, plugin, version) {
  * @param {object} ctx - Cordis context.
  * @param {{currentProfile: () => {home?: string, profile?: string, runtimeVersion?: string}, key: string}} options
  */
-export function registerRescueRoute(ctx, { currentProfile, key, toolVersion, refreshUpdateImpl = refreshUpdate }) {
+export function registerRescueRoute(ctx, { currentProfile, key, toolVersion, refreshUpdateImpl = refreshUpdate, installUpdateImpl = installUpdate, installRunProcess }) {
   if (typeof key !== 'string' || key === '') throw new Error('rescue route needs the control key from the repair route')
   const handlers = createRescueHandlers({ currentProfile, toolVersion })
 
@@ -415,6 +416,23 @@ export function registerRescueRoute(ctx, { currentProfile, key, toolVersion, ref
     // may arrive as the HttpOnly cookie the status route set or as a header. This runs before the
     // action is looked up, so an unauthenticated caller cannot enumerate action names from
     // 404-versus-401 differences.
+    if (!sameKey(key, presentedKey(req))) { send(res, 401, { error: 'missing or invalid control key' }); return false }
+    return true
+  }
+
+  /**
+   * The fence for a read on a route that is otherwise a write route.
+   *
+   * `authorize` starts by demanding `Content-Type: application/json`, which a GET has no reason to
+   * carry. The parts that still matter for a read are the ones a client cannot forge: the peer
+   * address, and the browser's own statement about where the request came from.
+   */
+  const authorizeRead = (req, res) => {
+    if (!LOOPBACK.has(hostnameOf(req?.headers?.host))) { send(res, 403, { error: 'loopback only' }); return false }
+    const peer = checkLoopbackPeer(req)
+    if (!peer.ok) { send(res, peer.status, { error: peer.error }); return false }
+    const guard = checkStatusRequest(req)
+    if (!guard.ok) { send(res, guard.status, { error: guard.error }); return false }
     if (!sameKey(key, presentedKey(req))) { send(res, 401, { error: 'missing or invalid control key' }); return false }
     return true
   }
@@ -444,11 +462,45 @@ export function registerRescueRoute(ctx, { currentProfile, key, toolVersion, ref
         kind: 'exact',
         path: UPDATE_PATH,
         handler: async (req, res) => {
+          // A GET reports what is already known. It touches neither the network nor the profile, so
+          // the panel can render a banner on load without a second round trip.
+          if (req?.method === 'GET') {
+            if (!authorizeRead(req, res)) return
+            const state = snapshotUpdate()
+            send(res, 200, {
+              ...state,
+              upgradeHint: state.updateAvailable ? upgradeHint(state.latestVersion) : null,
+              install: installSnapshot(),
+            })
+            return
+          }
           if (!authorize(req, res)) return
           try {
-            await readBody(req)
+            const body = await readBody(req)
+            // Installing is a different action from checking and has to be asked for by name: it
+            // rewrites the plugin inside the running profile, and nothing else in this package does
+            // that on the user's behalf.
+            if (body?.action === 'install') {
+              const { profileDir } = currentProfile() ?? {}
+              const version = typeof body.version === 'string' && body.version !== ''
+                ? body.version
+                : snapshotUpdate().latestVersion
+              const result = await installUpdateImpl({
+                profileDir,
+                version,
+                currentVersion: snapshotUpdate().currentVersion,
+                manager: body.manager,
+                runProcess: installRunProcess,
+              })
+              send(res, result.phase === 'failed' ? 400 : 200, result)
+              return
+            }
             const state = await refreshUpdateImpl({ force: true })
-            send(res, 200, { ...state, upgradeHint: state.updateAvailable ? upgradeHint(state.latestVersion) : null })
+            send(res, 200, {
+              ...state,
+              upgradeHint: state.updateAvailable ? upgradeHint(state.latestVersion) : null,
+              install: installSnapshot(),
+            })
           } catch (error) {
             send(res, 500, { error: error instanceof Error ? error.message : String(error) })
           }

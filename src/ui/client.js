@@ -283,6 +283,15 @@ window.__ModuleLoader__.load({
         scanning: '正在扫描…', rescan: '重新扫描', checking: '正在检查…', checkFailed: '检查失败',
         checkUpdate: '检查更新', checkingUpdate: '正在查询…',
         browseAll: '浏览全部插件健康状况',
+        updateNow: '立即更新',
+        updating: '正在更新…',
+        updateDone: '已更新到 {version}，重启 DSH 生效',
+        updateRestart: '重启 DSH 后生效',
+        updateInstallFailed: '更新失败：{error}',
+        updateRetry: '重试',
+        updateRestartNow: '重启 DSH',
+        alertUpdate: '插件健康有新版本 {version}',
+        alertUpdateTitle: '点一下打开设置页更新',
         updateAvailable: '有新版本 {version}（当前 {current}）',
         updateHowTo: '升级：{command}',
         updateUpToDate: '已是最新版本 {version}',
@@ -366,6 +375,15 @@ window.__ModuleLoader__.load({
         scanning: 'Scanning…', rescan: 'Rescan', checking: 'Checking…', checkFailed: 'Check failed',
         checkUpdate: 'Check for updates', checkingUpdate: 'Checking…',
         browseAll: 'Browse all plugin health',
+        updateNow: 'Update now',
+        updating: 'Updating…',
+        updateDone: 'Updated to {version} — restart DSH to load it',
+        updateRestart: 'Restart DSH to load it',
+        updateInstallFailed: 'Update failed: {error}',
+        updateRetry: 'Try again',
+        updateRestartNow: 'Restart DSH',
+        alertUpdate: 'Plugin health {version} available',
+        alertUpdateTitle: 'Open Settings to update',
         updateAvailable: 'Version {version} is available (you have {current})',
         updateHowTo: 'Upgrade with: {command}',
         updateUpToDate: 'You are on the latest version, {version}',
@@ -551,6 +569,7 @@ window.__ModuleLoader__.load({
       const [phase, setPhase] = React.useState('idle')
       const [state, setState] = React.useState(undefined)
       const [error, setError] = React.useState(undefined)
+      const [install, setInstall] = React.useState(undefined)
       const check = React.useCallback(async () => {
         setPhase('checking')
         setError(undefined)
@@ -565,8 +584,30 @@ window.__ModuleLoader__.load({
           setError(/control key/u.test(message) ? t('updateDenied') : message)
           setPhase('failed')
         }
-      }, [reload])
-      return { phase, state, error, check }
+      }, [reload, t])
+      /**
+       * Install the version the check found.
+       *
+       * Deliberately not optimistic: the result rendered afterwards is whatever the host says is on
+       * disk. A successful install still needs a restart, and the panel says so rather than implying
+       * the new code is already running.
+       */
+      const installNow = React.useCallback(async (version) => {
+        setPhase('installing')
+        setError(undefined)
+        setInstall(undefined)
+        try {
+          const result = await postWrite(UPDATE_PATH, { action: 'install', version })
+          setInstall(result)
+          setPhase(result?.phase === 'failed' ? 'installFailed' : 'installed')
+          if (result?.phase !== 'failed') await reload()
+        } catch (failure) {
+          const message = failure instanceof Error ? failure.message : String(failure)
+          setError(/control key/u.test(message) ? t('updateDenied') : message)
+          setPhase('installFailed')
+        }
+      }, [reload, t])
+      return { phase, state, error, install, check, installNow }
     }
 
     function useRescue(reload) {
@@ -1227,12 +1268,68 @@ window.__ModuleLoader__.load({
             style: {
               marginBottom: 12, padding: '10px 12px', borderRadius: 8, fontSize: 13,
               background: 'rgba(26,115,232,.10)', border: '1px solid rgba(26,115,232,.35)',
+              display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
+            },
+          }, [
+            h('div', { key: 't', style: { flex: '1 1 240px', minWidth: 0 } },
+              t('updateAvailable', { version: latestVersion ?? '', current: ourVersion ?? '' })),
+            h(PanelButton, {
+              key: 'go',
+              onClick: () => update.installNow(latestVersion),
+              disabled: update.phase === 'installing',
+              label: update.phase === 'installing' ? t('updating') : t('updateNow'),
+            }),
+            // The command stays available for anyone who would rather do it themselves; it is no
+            // longer the only way to act.
+            h('div', {
+              key: 'h',
+              style: {
+                flex: '1 1 100%', opacity: 0.7, wordBreak: 'break-all', fontSize: 11.5,
+                fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace',
+              },
+            }, t('updateHowTo', {
+              command: updateState.upgradeHint ?? `dsh plugin add dsh-plugin-health@${latestVersion ?? ''}`,
+            })),
+          ])
+          : null,
+        update.phase === 'installed'
+          ? h('div', {
+            key: 'ui',
+            style: {
+              marginBottom: 12, padding: '10px 12px', borderRadius: 8, fontSize: 13,
+              background: 'rgba(19,115,51,.10)', border: '1px solid rgba(19,115,51,.35)',
+            },
+          }, [
+            h('div', { key: 't', style: { fontWeight: 600 } },
+              t('updateDone', { version: update.install?.targetVersion ?? latestVersion ?? '' })),
+          ])
+          : null,
+        update.phase === 'installFailed'
+          ? h('div', {
+            key: 'uf2',
+            style: {
+              marginBottom: 12, padding: '10px 12px', borderRadius: 8, fontSize: 13,
+              color: COLORS.warn, background: 'rgba(197,34,31,.06)', border: '1px solid rgba(197,34,31,.30)',
             },
           }, [
             h('div', { key: 't', style: { fontWeight: 600, marginBottom: 3 } },
-              t('updateAvailable', { version: latestVersion ?? '', current: ourVersion ?? '' })),
-            h('div', { key: 'h', style: { opacity: 0.85, wordBreak: 'break-all', fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', fontSize: 12 } },
-              t('updateHowTo', { command: updateState.upgradeHint ?? `dsh plugin add dsh-plugin-health@${latestVersion ?? ''}` })),
+              t('updateInstallFailed', { error: update.error ?? update.install?.error ?? '' })),
+            // The package manager's own words, because "exited with code 1" is not actionable.
+            (update.install?.log ?? []).length > 0
+              ? h('pre', {
+                key: 'log',
+                style: {
+                  margin: '6px 0 0', padding: 8, borderRadius: 6, fontSize: 11.5, overflow: 'auto',
+                  maxHeight: 120, background: 'rgba(128,128,128,.12)',
+                  fontFamily: 'ui-monospace,SFMono-Regular,Menlo,monospace', whiteSpace: 'pre-wrap',
+                },
+              }, update.install.log.join('\n'))
+              : null,
+            h('div', { key: 'retry', style: { marginTop: 8 } },
+              h(PanelButton, {
+                onClick: () => update.installNow(latestVersion),
+                label: t('updateRetry'),
+              })),
           ])
           : null,
         loading ? h('div', { key: 'l', style: { fontSize: 13, opacity: 0.7 } }, t('checking')) : null,
@@ -1337,12 +1434,20 @@ window.__ModuleLoader__.load({
       ])
     }
 
-    /** Sidebar entry that exists only while there is something worth acting on. */
+    /**
+     * Sidebar entry that exists only while there is something worth acting on.
+     *
+     * Two kinds now: plugins the scan flagged, and an update of this plugin. An update is a lower
+     * priority than a broken plugin, so when both apply the issue count leads and the update is a
+     * second line — the user came here because something is wrong, not to upgrade a tool.
+     */
     function AlertEntry(props) {
       const { t } = props
+      const tone = props.kind === 'update' ? COLORS.info : COLORS.error
+      const background = props.kind === 'update' ? 'rgba(26,115,232,.10)' : 'rgba(217,48,37,.10)'
       return h('button', {
         onClick: props.open,
-        title: t('alertTitle'),
+        title: t(props.kind === 'update' ? 'alertUpdateTitle' : 'alertTitle'),
         style: {
           display: 'flex',
           alignItems: 'center',
@@ -1352,16 +1457,19 @@ window.__ModuleLoader__.load({
           borderRadius: 8,
           padding: '8px 10px',
           cursor: 'pointer',
-          background: 'rgba(217,48,37,.10)',
-          color: COLORS.error,
+          background,
+          color: tone,
           font: 'inherit',
           fontSize: 13,
           fontWeight: 600,
           textAlign: 'left',
         },
       }, [
-        h('span', { key: 'i' }, '!'),
-        h('span', { key: 't', style: { flex: 1 } }, t('alertCount', { count: props.count })),
+        h('span', { key: 'i' }, props.kind === 'update' ? '↑' : '!'),
+        h('span', { key: 't', style: { flex: 1 } },
+          props.kind === 'update'
+            ? t('alertUpdate', { version: props.version ?? '' })
+            : t('alertCount', { count: props.count })),
         h('span', { key: 'a', style: { fontSize: 12, opacity: 0.7 } }, t('view')),
       ])
     }
@@ -1458,17 +1566,23 @@ window.__ModuleLoader__.load({
          * a variable the registration reads on each render, and the alert is torn down and rebuilt
          * when the number changes — the slot has no other way to update its props.
          */
-        let alertCount
+        let alertKey
         const refreshAlert = () => {
           fetch(STATUS_PATH, { headers: { accept: 'application/json' }, credentials: 'same-origin' })
             .then((response) => (response.ok ? response.json() : undefined))
             .then((data) => {
               const count = (data?.issues ?? []).filter((issue) => issue.severity !== 'info').length
-              if (count === alertCount) return
+              // The boot-time check leaves its answer in the status snapshot, so the sidebar can
+              // mention an update without a request of its own.
+              const updateVersion = data?.update?.updateAvailable === true ? data.update.latestVersion : undefined
+              // Findings outrank an update: a broken plugin is why the user is looking at this panel.
+              const kind = count > 0 ? 'issues' : (updateVersion === undefined ? 'none' : 'update')
+              const key = `${kind}:${count}:${updateVersion ?? ''}`
+              if (key === alertKey) return
               try { disposeAlert?.() } catch {}
               disposeAlert = undefined
-              alertCount = count
-              if (count === 0) return
+              alertKey = key
+              if (kind === 'none') return
               layoutCtx.slots.inject(ALERT_SLOT, () => {
                 const dispose = layoutCtx.slots.register({
                   name: ALERT_SLOT,
@@ -1476,7 +1590,9 @@ window.__ModuleLoader__.load({
                   order: 90,
                   locale: NS,
                   inject: () => ({
+                    kind,
                     count,
+                    version: updateVersion,
                     open: () => {
                       // Try the keyboard command first (it is how the shell itself opens settings),
                       // then the visible trigger. Report failure rather than swallowing it: a button

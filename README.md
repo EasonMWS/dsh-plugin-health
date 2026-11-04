@@ -13,7 +13,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `2.1.6`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `2.2.0`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -218,6 +218,12 @@ and undo restores exactly the value that was there before.
 | **Rescan** | Re-runs the whole check now |
 | **Check for updates** | Asks npm whether *this plugin* is current, on demand |
 | **Browse all plugin health** | Opens the [public compatibility table](https://easonmws.github.io/dsh-plugin-health/compat/) in your browser |
+
+**An update installs from the panel — one button, no terminal.** Checking ends in **Update now**,
+which runs the profile's own package manager (pnpm in a pnpm profile, never npm into it) against the
+exact version the check found. It says it needs a restart rather than performing one: the files change
+on disk, the running host keeps the code it loaded, and restarting on your behalf would end your
+session without asking. A failure shows the package manager's own message, not an exit code.
 
 **It checks for its own updates when DSH starts, and stays quiet about it.** A health tool that is
 itself out of date is worse than useless — it tells you your plugins need attention while missing the
