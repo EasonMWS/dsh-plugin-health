@@ -250,20 +250,46 @@ test('a GET on the update route reports without installing', async () => {
   assert.ok(captured.body.install !== undefined, 'the read reports install state')
 })
 
-test('the Windows invocation prefers a native executable over a shell', () => {
+test('the invocation avoids a shell when a real executable is available', () => {
   // A .cmd shim needs shell:true, and shell:true concatenates arguments instead of escaping them.
-  // pnpm ships a native executable; npm ships a JavaScript entry point. Neither needs a shell.
-  const { command, args, shell } = managerInvocation('pnpm', ['add', 'x@1.0.0'])
+  // pnpm ships a native executable and npm ships a JavaScript entry point, so a normal install needs
+  // no shell — but CI installs pnpm on its own, outside the Node directory, so the fallback has to
+  // stay available. This asserts the shape of each route rather than demanding one of them.
+  for (const manager of ['pnpm', 'npm']) {
+    const { command, args, shell } = managerInvocation(manager, ['add', 'x@1.0.0'])
+    if (process.platform !== 'win32') {
+      assert.equal(command, manager)
+      assert.equal(shell, undefined)
+    } else if (shell === true) {
+      // A shell is acceptable only for the shim, and only when it is the shim being named.
+      assert.equal(command, `${manager}.cmd`, `a shell is only for the .cmd shim, got ${command}`)
+    } else {
+      assert.ok(!command.endsWith('.cmd'), `${command} does not need a shell`)
+    }
+    // Whichever route is taken, the package spec stays one argument and is never re-split.
+    assert.deepEqual(args.slice(-1), ['x@1.0.0'])
+  }
+})
+
+test('the shim fallback names the shim and asks for a shell, on Windows only', () => {
+  // CI installs pnpm outside the Node directory, so this route is real. It cannot be reached on a
+  // machine with a bundled pnpm, so it is asserted by asking for a prefix with nothing under it.
+  const empty = mkdtempSync(join(tmpdir(), 'no-manager-'))
+  const { command, args, shell } = managerInvocation('pnpm', ['add', 'x@1.0.0'], { execPath: join(empty, 'node.exe') })
   if (process.platform === 'win32') {
-    assert.ok(shell === undefined, 'no shell on Windows')
-    assert.ok(/pnpm(\.exe|$)/u.test(command), `expected a native pnpm, got ${command}`)
+    assert.equal(command, 'pnpm.cmd')
+    assert.equal(shell, true)
+    // The reason this is acceptable: everything on the command line is either a fixed flag or a
+    // version this module matched against a strict pattern.
+    assert.deepEqual(args, ['add', 'x@1.0.0'])
   } else {
     assert.equal(command, 'pnpm')
+    assert.equal(shell, undefined)
   }
-  assert.deepEqual(args.slice(-1), ['x@1.0.0'], 'the arguments survive intact')
+})
 
-  const npmInvocation = managerInvocation('npm', ['install', 'x@1.0.0'])
-  if (process.platform === 'win32' && npmInvocation.shell === undefined) {
-    assert.match(npmInvocation.command, /(node|npm)/iu)
-  }
+test('the spec stays a single argument, so nothing in it can become syntax', () => {
+  const { args } = managerInvocation('pnpm', ['add', 'dsh-plugin-health@1.0.0'])
+  assert.equal(args.filter((value) => value.includes('dsh-plugin-health')).length, 1)
+  assert.ok(args.every((value) => typeof value === 'string' && !value.includes('\n')))
 })

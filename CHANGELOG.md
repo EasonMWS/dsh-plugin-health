@@ -11,6 +11,12 @@ profile rather than an injected runner:
   add` no longer accepts — it exits with a usage error before touching anything. The flag that does
   the useful work here is `--yes`, which turns a prompt into an answer.
 
+- **A test assumed the native executable is always there.** CI installs pnpm outside the Node
+  directory, so the `.cmd` shim route is genuinely reachable; the assertion demanded the native path
+  and failed on windows-latest while passing locally. The route is now asserted for its shape — a
+  shell is acceptable only for the shim, and the spec stays one argument — with a separate test that
+  forces the fallback.
+
 - **The Windows invocation fell back to a shell.** It looked for `node_modules/pnpm/bin/pnpm.cjs`,
   which does not exist (pnpm's entry point is `pnpm.mjs`), so it dropped to the `.cmd` shim with
   `shell: true`. pnpm ships a native `pnpm.exe`; that is used now, so the install runs with
