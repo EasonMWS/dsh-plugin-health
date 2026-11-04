@@ -150,6 +150,9 @@ const STRINGS = {
  *          catalog?: Map<string, {category?: string, added?: string}>}} [meta]
  * @returns {string} complete HTML document
  */
+/** Absolute URL of this page, for canonical and link previews. */
+const COMPAT_URL = 'https://easonmws.github.io/dsh-plugin-health/compat/'
+
 export function renderCompatPage(matrix, meta = {}) {
   const hosts = matrix.hosts ?? []
   const catalog = meta.catalog instanceof Map ? meta.catalog : new Map()
@@ -225,6 +228,15 @@ export function renderCompatPage(matrix, meta = {}) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(en.description)} ${esc(String(total))} plugins, ${hosts.length} host versions, updated daily.">
+<link rel="canonical" href="${COMPAT_URL}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="dsh-plugin-health">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(en.description)} ${esc(String(total))} plugins checked across ${hosts.length} host versions.">
+<meta property="og:url" content="${COMPAT_URL}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="${esc(title)}">
+<meta name="twitter:description" content="${esc(en.description)} ${esc(String(total))} plugins checked across ${hosts.length} host versions.">
 <style>
   :root { color-scheme: light dark; --ok:#137333; --bad:#c5221f; --unk:#8a6d00; --line:#8883; --pill:#8881; }
   * { box-sizing: border-box; }

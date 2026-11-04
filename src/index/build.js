@@ -325,15 +325,52 @@ function escapeHtml(value) {
   })[character])
 }
 
+/**
+ * Canonical origin of the published site, so a link preview and a search result both point at one
+ * place instead of at a GitHub Pages preview URL.
+ */
+const SITE_URL = 'https://easonmws.github.io/dsh-plugin-health/'
+
+/**
+ * The sentence that decides whether someone clicks the result.
+ *
+ * "DSH Plugin Health Index" is the name of an artefact; nobody searches for it. What people search
+ * for is the symptom — plugins that stopped loading after a DSH upgrade — so that leads, and the
+ * numbers follow as evidence that the page is worth opening.
+ * @param {object} build
+ * @returns {string}
+ */
+function landingDescription(build) {
+  const stats = build.stats ?? {}
+  const host = stats.hostVersion === undefined || stats.hostVersion === '' ? '' : ` for DSH ${stats.hostVersion}`
+  // A count of one reads badly and a count of zero reads worse, so only mention a real index.
+  const count = typeof stats.included === 'number' && stats.included > 1
+    ? ` Indexing ${stats.included} plugins.`
+    : ''
+  return `Check which DeepSeek Harness plugins still load${host}, and repair the ones an upgrade left `
+    + `behind. Compatibility table for every catalogued plugin, plus a format-1 market index.${count}`
+}
+
 function landingPage(build) {
   const { stats } = build
   const title = escapeHtml(build.doc.title?.en ?? 'DSH plugin index')
+  const description = landingDescription(build)
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
+<meta name="description" content="${escapeHtml(description)}">
+<link rel="canonical" href="${SITE_URL}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="dsh-plugin-health">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${escapeHtml(description)}">
+<meta property="og:url" content="${SITE_URL}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${escapeHtml(description)}">
 <style>
   :root { color-scheme: light dark; }
   body { margin: 0; font: 16px/1.6 system-ui, sans-serif; }

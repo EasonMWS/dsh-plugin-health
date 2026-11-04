@@ -120,3 +120,54 @@ test('every internal anchor resolves to a heading', () => {
     }
   }
 })
+
+// A published site nobody can find is the same as no site. These are the bare minimum for a search
+// engine and a link preview, and they were all missing before 2.1.6: no description on the landing
+// page, no Open Graph tags on either page, no sitemap, no robots.txt.
+
+test('the landing page carries the metadata a search result needs', () => {
+  const source = readFileSync(new URL('../src/index/build.js', import.meta.url), 'utf8')
+  for (const [label, pattern] of [
+    ['a description', /<meta name="description" content=/u],
+    ['a canonical URL', /<link rel="canonical" href=/u],
+    ['og:title', /property="og:title"/u],
+    ['og:description', /property="og:description"/u],
+    ['og:url', /property="og:url"/u],
+    ['a twitter card', /name="twitter:card"/u],
+  ]) {
+    assert.match(source, pattern, `the landing page is missing ${label}`)
+  }
+  // The description has to lead with the symptom people search for, not with the artefact's name.
+  assert.match(source, /stopped loading|plugins still load/u)
+})
+
+test('the compatibility page carries the same metadata', () => {
+  const source = readFileSync(new URL('../src/compat/page.js', import.meta.url), 'utf8')
+  for (const [label, pattern] of [
+    ['a description', /<meta name="description" content=/u],
+    ['a canonical URL', /<link rel="canonical" href=/u],
+    ['og:title', /property="og:title"/u],
+    ['og:url', /property="og:url"/u],
+  ]) {
+    assert.match(source, pattern, `the compatibility page is missing ${label}`)
+  }
+})
+
+test('the deploy publishes a sitemap and robots.txt', () => {
+  const workflow = readFileSync(new URL('../.github/workflows/publish-index.yml', import.meta.url), 'utf8')
+  assert.match(workflow, /site\/sitemap\.xml/u, 'no sitemap is written')
+  assert.match(workflow, /site\/robots\.txt/u, 'no robots.txt is written')
+  // The namespace is sitemaps.org; sitemap.org does not serve that schema and crawlers ignore it.
+  assert.match(workflow, /http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9/u)
+  assert.doesNotMatch(workflow, /xmlns="http:\/\/www\.sitemap\.org\//u, 'typo in the sitemap namespace')
+})
+
+test('both READMEs point at the site above the fold', () => {
+  // A reader who will not install yet should not have to scroll to find the table.
+  for (const [name, file] of [['README.md', '../README.md'], ['docs/README.zh.md', '../docs/README.zh.md']]) {
+    const text = readFileSync(new URL(file, import.meta.url), 'utf8')
+    const firstScreen = text.split('\n').slice(0, 40).join('\n')
+    assert.match(firstScreen, /easonmws\.github\.io\/dsh-plugin-health\/compat\//u,
+      `${name} does not link to the compatibility table within the first screen`)
+  }
+})

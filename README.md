@@ -13,7 +13,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `2.1.5`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `2.1.6`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -22,6 +22,10 @@ npm install -g dsh-plugin-health
 
 **No terminal needed.** Install it, restart DSH, then open **Settings → Plugin health** and press the
 buttons. The commands below are for people who prefer a shell.
+
+**Not ready to install?** Check any plugin first, in the browser:
+**<https://easonmws.github.io/dsh-plugin-health/compat/>** — every catalogued plugin against every
+current host version, rebuilt daily.
 
 ---
 

@@ -99,6 +99,35 @@ jobs:
             --limit "$LIMIT" \
             --out site
 
+      # The one thing standing between a working site and a findable one. Without a sitemap, a search
+      # engine has to discover 4,389 compatibility rows by following links; with one it is told, once.
+      - name: Publish crawl metadata
+        env:
+          ORIGIN: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const origin = process.env.ORIGIN;
+            const today = new Date().toISOString().slice(0, 10);
+            const urls = [
+              { loc: `${origin}/`, priority: "1.0", freq: "daily" },
+              { loc: `${origin}/compat/`, priority: "0.9", freq: "daily" },
+              // Machine-readable entry points. Lower priority, but they are the reason a plugin author
+              // links here instead of copying a table.
+              { loc: `${origin}/index.json`, priority: "0.6", freq: "daily" },
+              { loc: `${origin}/compat/matrix.json`, priority: "0.6", freq: "daily" },
+            ];
+            const body = urls.map((u) =>
+              `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${today}</lastmod>\n`
+              + `    <changefreq>${u.freq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`
+            ).join("\n");
+            fs.writeFileSync("site/sitemap.xml",
+              `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`);
+            fs.writeFileSync("site/robots.txt",
+              `User-agent: *\nAllow: /\n\nSitemap: ${origin}/sitemap.xml\n`);
+            console.log("wrote sitemap.xml and robots.txt");
+          '
+
       - name: Report what was published
         run: |
           echo "### Published" >> "$GITHUB_STEP_SUMMARY"

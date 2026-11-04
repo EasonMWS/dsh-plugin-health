@@ -1,5 +1,32 @@
 # Changelog
 
+## 2.1.6 (2026-11-03)
+
+### Added
+
+- **The published site now says what it is, to a search engine and to a link preview.** The landing
+  page had a title and nothing else: no description, no canonical URL, no Open Graph tags. It read
+  "DSH Plugin Health Index" — the name of an artefact, which is not what anyone types into a search
+  box. The description now leads with the symptom (plugins that stopped loading after a DSH upgrade)
+  and follows with the evidence, and both pages carry `og:` and Twitter card tags so a shared link
+  renders as something.
+
+- **A sitemap and a robots.txt are published with the site.** Without a sitemap, a crawler has to
+  discover the compatibility table and the index by following links from one page; with one it is
+  told, once, that four URLs matter and that they change daily. Both are generated in the deploy
+  step, so they cannot drift from what was actually published.
+
+- **Both READMEs link to the compatibility table within the first screen.** A reader who is not ready
+  to install a package should still be able to check the plugin they are worried about, and that link
+  was below 200 lines of prose.
+
+### Fixed
+
+- The compatibility page had a description but no canonical URL, so a preview of it and a preview of
+  the landing page could look like two different sites.
+
+292 tests (4 new), 291 pass, 1 platform skip.
+
 ## 2.1.5 (2026-11-03)
 
 ### Changed
