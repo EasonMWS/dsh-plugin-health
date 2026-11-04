@@ -77,6 +77,10 @@ test('pnpm is told not to prompt and not to enforce the release-age gate', async
   assert.ok(args.includes('dsh-plugin-health@2.1.6'), 'the exact version, not a range')
   assert.ok(args.includes('--config.minimumReleaseAge=0'), 'a just-published version must be installable')
   assert.ok(args.some((a) => a.startsWith('--reporter')), 'no interactive progress renderer')
+  // pnpm 12 removed --no-frozen-lockfile from `add`; passing it makes the whole install fail with a
+  // usage error. -y is the flag that actually turns a prompt into an answer.
+  assert.ok(args.includes('--yes'), 'prompts must be answered, not waited on')
+  assert.ok(!args.includes('--no-frozen-lockfile'), 'this flag does not exist on pnpm 12 add')
 })
 
 test('a version is validated, because it ends up on a command line', async () => {
@@ -244,4 +248,22 @@ test('a GET on the update route reports without installing', async () => {
   assert.equal(captured.status, 200)
   assert.equal(installed, 0, 'a read must never install')
   assert.ok(captured.body.install !== undefined, 'the read reports install state')
+})
+
+test('the Windows invocation prefers a native executable over a shell', () => {
+  // A .cmd shim needs shell:true, and shell:true concatenates arguments instead of escaping them.
+  // pnpm ships a native executable; npm ships a JavaScript entry point. Neither needs a shell.
+  const { command, args, shell } = managerInvocation('pnpm', ['add', 'x@1.0.0'])
+  if (process.platform === 'win32') {
+    assert.ok(shell === undefined, 'no shell on Windows')
+    assert.ok(/pnpm(\.exe|$)/u.test(command), `expected a native pnpm, got ${command}`)
+  } else {
+    assert.equal(command, 'pnpm')
+  }
+  assert.deepEqual(args.slice(-1), ['x@1.0.0'], 'the arguments survive intact')
+
+  const npmInvocation = managerInvocation('npm', ['install', 'x@1.0.0'])
+  if (process.platform === 'win32' && npmInvocation.shell === undefined) {
+    assert.match(npmInvocation.command, /(node|npm)/iu)
+  }
 })

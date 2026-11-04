@@ -90,10 +90,20 @@ export function detectPackageManager(profileDir) {
  */
 export function managerInvocation(manager, args, { execPath = process.execPath } = {}) {
   if (process.platform !== 'win32') return { command: manager, args }
-  const cli = join(dirname(execPath), 'node_modules', manager, 'bin', manager === 'pnpm' ? 'pnpm.cjs' : 'npm-cli.js')
-  if (existsSync(cli)) return { command: execPath, args: [cli, ...args] }
-  // No bundled entry point: fall back to the shim with a shell, which is still safe here because the
-  // arguments are a fixed list plus a version this module validated against the registry.
+  const prefix = dirname(execPath)
+  // A bundled native executable is the cleanest option on Windows: no shim, no shell, and nothing to
+  // escape. pnpm ships one; npm does not.
+  if (manager === 'pnpm') {
+    const native = join(prefix, 'node_modules', 'pnpm', 'pnpm.exe')
+    if (existsSync(native)) return { command: native, args }
+    const esm = join(prefix, 'node_modules', 'pnpm', 'bin', 'pnpm.mjs')
+    if (existsSync(esm)) return { command: execPath, args: [esm, ...args] }
+  }
+  // npm's JavaScript entry point, which has kept this name for years.
+  const npmCli = join(prefix, 'node_modules', 'npm', 'bin', 'npm-cli.js')
+  if (manager === 'npm' && existsSync(npmCli)) return { command: execPath, args: [npmCli, ...args] }
+  // Last resort: the .cmd shim, which needs a shell. The arguments are a fixed list plus a version
+  // this module validated against the registry, so there is nothing user-controlled to escape.
   return { command: `${manager}.cmd`, args, shell: true }
 }
 
@@ -208,7 +218,7 @@ export async function installUpdate({
   // `--config.minimumReleaseAge=0` is what makes a just-published version installable without the
   // workspace's exclude list having to know about it.
   const args = kind === 'pnpm'
-    ? ['add', `${PACKAGE}@${version}`, '--config.minimumReleaseAge=0', '--reporter=append-only', '--no-frozen-lockfile']
+    ? ['add', `${PACKAGE}@${version}`, '--config.minimumReleaseAge=0', '--reporter=append-only', '--yes']
     : ['install', `${PACKAGE}@${version}`, '--no-audit', '--no-fund', '--no-progress']
 
   inFlight = (async () => {

@@ -1,5 +1,26 @@
 # Changelog
 
+## 2.2.1 (2026-11-03)
+
+### Fixed
+
+Two defects in 2.2.0's one-click update, both found by running the installer against a real pnpm
+profile rather than an injected runner:
+
+- **The install failed outright on pnpm 12.** The command passed `--no-frozen-lockfile`, which `pnpm
+  add` no longer accepts — it exits with a usage error before touching anything. The flag that does
+  the useful work here is `--yes`, which turns a prompt into an answer.
+
+- **The Windows invocation fell back to a shell.** It looked for `node_modules/pnpm/bin/pnpm.cjs`,
+  which does not exist (pnpm's entry point is `pnpm.mjs`), so it dropped to the `.cmd` shim with
+  `shell: true`. pnpm ships a native `pnpm.exe`; that is used now, so the install runs with
+  `shell: false` and arguments that are escaped rather than concatenated.
+
+Verified end to end afterwards: `2.1.0 → 2.2.0` in a real pnpm profile, four seconds, with the
+package manager's own output recording the version change.
+
+307 tests (1 new), 306 pass, 1 platform skip.
+
 ## 2.2.0 (2026-11-03)
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-health",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Finds the plugins a DSH upgrade left behind and repairs them: scans every installed plugin, rehearses each rejected one in a throwaway home to prove it boots, then writes a reversible exemption — or says plainly that it cannot be saved. Also recovers DSH when a plugin stops it booting, prepares AI briefs, and builds the official format-1 market index.",
   "type": "module",
   "main": "./src/plugin.js",
