@@ -1,5 +1,32 @@
 # Changelog
 
+## 2.1.4 (2026-11-03)
+
+### Documentation
+
+- **The README still told readers to upgrade to 1.1.0.** An external review spotted it: the Security
+  section had not moved since that release, so a reader landing on the page in November was told the
+  newest problem was the 1.0.2 key disclosure — while 2.0.0 had shipped a high-severity advisory and
+  2.1.1 had fixed a loopback bypass that lets a LAN client disable your plugins. The section is now a
+  version table covering all of 1.1.0, 2.0.0, 2.1.1 and 2.1.3, with both advisories cited and the
+  LAN-binding caveat stated.
+
+- **Neither README described the 2.1.0 features.** The on-demand update check, the link to the public
+  compatibility table, and the quiet boot-time update check were shipped but undocumented; the
+  `DSH_PLUGIN_HEALTH_NO_UPDATE` opt-out existed only in a changelog. Both languages now have a
+  controls table and an explanation of why the check is silent by design.
+
+- **"What 1.0 promises" was describing a line that no longer ships.** Renamed to 2.x, with the three
+  deliberate 2.0.0 breaks restated so the frozen list is not read as covering them. The status-route
+  row now also mentions the `key` field added in 2.1.3, because a security-relevant addition should
+  not be something a reader discovers by inspecting the payload.
+
+- Five tests now fail if the README drifts again: both languages must document the same features,
+  both advisories must be cited in both files, the upgrade advice must not name a superseded version,
+  the promises heading must match the shipped major, and every internal anchor must resolve.
+
+280 tests, 279 pass, 1 platform skip.
+
 ## 2.1.3 (2026-11-03)
 
 ### Fixed

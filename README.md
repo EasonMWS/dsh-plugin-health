@@ -13,7 +13,7 @@ Most "incompatible" plugins are not broken. The author just pinned exact version
 caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
 decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
 
-> Status: `2.1.3`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
+> Status: `2.1.4`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
 > published `@deepseek-ai/dsh-plugin-market-index` validator.
 
 ```sh
@@ -206,6 +206,26 @@ Under **Settings → Plugin health**, every incompatible plugin gets:
 Everything is reversible: an exemption is a single entry in the host's own `compatibility.json`,
 and undo restores exactly the value that was there before.
 
+### Three controls in the header
+
+| Control | What it does |
+| --- | --- |
+| **Rescan** | Re-runs the whole check now |
+| **Check for updates** | Asks npm whether *this plugin* is current, on demand |
+| **Browse all plugin health** | Opens the [public compatibility table](https://easonmws.github.io/dsh-plugin-health/compat/) in your browser |
+
+**It checks for its own updates when DSH starts, and stays quiet about it.** A health tool that is
+itself out of date is worse than useless — it tells you your plugins need attention while missing the
+fix released for the checker. One request per launch, at most one every six hours, and it only speaks
+up when something newer exists, with the exact upgrade command. An "up to date" banner on every visit
+would train you to ignore the strip where a real notice has to appear.
+
+A check that fails is recorded as a failure, never as "you are current": those are different
+statements and only one of them is true.
+
+**No outbound traffic from a health tool?** Set `DSH_PLUGIN_HEALTH_NO_UPDATE=1` and it makes no
+update requests at all. The panel's **Check for updates** button still works — that one is you asking.
+
 ## Check compatibility in a browser
 
 Before installing anything:
@@ -276,23 +296,34 @@ tarball-only entries are skipped and reported.
 
 ## Security
 
-**Running 1.0.3 or earlier? Upgrade.** 1.1.0 fixes seven issues found in a security test of 1.0.2,
-one rated high: the write routes' control key was handed out by the unauthenticated status endpoint.
+**Running anything below 2.1.3? Upgrade.** Three rounds of review fixed these, and one release fixed
+problems the previous one had only half-fixed — so the version matters:
 
-See [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5) and [GHSA-52w2-cq6j-xhg7](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-52w2-cq6j-xhg7)
-and [SECURITY.md](SECURITY.md).
+| Version | What it fixed |
+| --- | --- |
+| **1.1.0** | Seven issues from a security test of 1.0.2, one rated high: the write routes' control key was handed out by the unauthenticated status endpoint |
+| **2.0.0** | 25 findings from two more reviews. A cross-origin page could drive every write route (cookies ignore the port, so same-site is not same-origin); a request body could name any package to install and run; three paths granted an exemption without a rehearsal on the target host |
+| **2.1.1** | Four fixes from the previous release that did not hold. The worst: the loopback check read only the `Host` header, which the client writes — so with the web server bound to a LAN address, any machine on the network could send `Host: 127.0.0.1:<port>`, pass every check, read the key from `/status`, and disable plugins |
+| **2.1.3** | The panel could not obtain its key, so every button answered 401; the message also blamed the network for what was an authentication failure |
+
+**If you bind the DSH web server to a non-loopback address** (`0.0.0.0` or a LAN IP), treat every
+plugin route as exposed to the network and check that the host's own authentication is what you are
+relying on.
+
+- [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5) — 1.1.0
+- [GHSA-52w2-cq6j-xhg7](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-52w2-cq6j-xhg7) — 2.0.0
+- [SECURITY.md](SECURITY.md) — the trust boundary, in full
 
 **Trust boundary, stated plainly:** the write routes are reachable by any local process. The loopback
-interface is the boundary — not the control key.
+interface is the boundary — not the control key. A local process can read `Set-Cookie` and replay it;
+what the key does stop is a page on another local port, and that is what the peer and same-origin
+checks enforce.
 
 ## Safety boundaries (please read)
 
-> **Security:** 1.1.0 fixes seven issues found in a security test of 1.0.2, including one rated
-> high — the write routes' control key was handed out by the unauthenticated status endpoint. If you
-> run 1.0.3 or earlier, upgrade. See
-> [GHSA-vj8q-543v-9hw5](https://github.com/EasonMWS/dsh-plugin-health/security/advisories/GHSA-vj8q-543v-9hw5)
-> and [SECURITY.md](SECURITY.md), which also states the trust boundary plainly: the write routes are
-> reachable by any local process, and the loopback interface is the boundary.
+> **Security:** see [Security](#security) above for the full version table. The short version: below
+> 2.1.3 you are missing at least one fix that matters, and the loopback check before 2.1.1 could be
+> bypassed by a LAN client with a forged `Host` header.
 
 | We do | We never do |
 | --- | --- |
@@ -306,12 +337,17 @@ interface is the boundary — not the control key.
 it boots in isolation; whether every feature works is still on you to observe. When the author ships
 an official version, revoke the exemption and upgrade.
 
-## What 1.0 promises
+## What 2.x promises
 
 A major version is a promise about stability, so here is exactly what is frozen and what is not —
 rather than letting you find out by upgrading.
 
-**Frozen** — these will not break within 1.x:
+2.0.0 broke three things on purpose, and they are listed in the changelog: writes need
+`application/json`, the rescue actions refuse plugins that are not installed, and a
+`compatibility.json` that cannot be parsed is refused rather than rewritten. Everything below has
+held since 1.0 and still holds.
+
+**Frozen** — these will not break within 2.x:
 
 | Surface | Guarantee |
 | --- | --- |
@@ -319,7 +355,7 @@ rather than letting you find out by upgrading.
 | The `plugin_health` agent tool's name and input schema | Additive fields only |
 | Exit codes (`0` success, `1` findings/failure, `2` usage error) | Unchanged |
 | Files this tool writes (`compatibility.json`, `plugin-health-rescue.json`, handoff bundles) | Format documented and forward-compatible: unknown keys are preserved, never dropped |
-| The status route shape (`/plugins/dsh-plugin-health/status`) | Fields may be added; existing fields keep their names and types |
+| The status route shape (`/plugins/dsh-plugin-health/status`) | Fields may be added; existing fields keep their names and types. Since 2.1.3 the body also carries `key`, the per-launch control key the panel uses to authenticate its own writes — see [Security](#security) for why that is not a weaker boundary than the cookie |
 
 **Not frozen** — may change in a minor release, because they are presentation or internals:
 
