@@ -57,7 +57,7 @@ npm install -g dsh-plugin-health
 
 Health 的放行记录可以撤销。撤销不会逆转插件执行已经造成的影响。
 
-![设置页里的不兼容插件和检查按钮](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.zh.png)
+![设置页：显示模式选择、能力边界说明、插件启动情况，以及一个被拒绝的插件](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.zh.png)
 
 预演通过后才会写入放行，旁边就是撤销按钮：
 
@@ -655,7 +655,7 @@ dsh-plugin-health review --profile desktop --runtime 0.2.1-rc.6 --compare before
 `access` 为 `read` 或 `write`。多个包声明写入同一作用域的同一文件时会列出重叠证据。
 实际并发写入和锁行为需另行验证。
 
-新版在默认隔离区执行清理时会提供修复编号。
+新版在默认备份目录执行清理时会提供修复编号。
 `dsh-plugin-health repair --restore <run-id>` 可预览恢复，添加 `--apply --yes` 后恢复符合条件的项。
 原位置被占用或配置在修复之后已被编辑时，工具会保留现有内容并提示原因。
 恢复后请启动 DSH 验证相关功能。

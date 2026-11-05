@@ -22,8 +22,8 @@ if (!existsSync(edge)) throw new Error(`no browser at ${edge}; set DSH_SCREENSHO
 // `width`/`height` are chosen per state to fit the content exactly, so the image has no scrollbar
 // and no trailing whitespace.
 const SHOTS = [
-  { state: 'finding', name: 'settings-finding', width: 728, height: 592 },
-  { state: 'exempt', name: 'settings-exemption', width: 728, height: 527 },
+  { state: 'finding', name: 'settings-finding', width: 728, height: 780 },
+  { state: 'exempt', name: 'settings-exemption', width: 728, height: 700 },
   { state: 'sidebar', name: 'sidebar-alert', width: 268, height: 74 },
 ]
 

@@ -63,7 +63,7 @@ Open **Settings → Plugin health**. You get one line per problem, and one butto
 
 You can revoke Health's exemption record. Revocation does not undo effects of plugin execution.
 
-![The settings section with an incompatible plugin and the check button](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.png)
+![The settings section: a mode selector, the capability boundary, live startup status, and a rejected plugin](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.png)
 
 Once the rehearsal passes, you get the exemption and a Revoke button beside it:
 

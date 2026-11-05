@@ -33,6 +33,17 @@ const base = {
   home: 'C:\\Users\\Eason\\.dsh',
   scanned: { plugins: { total: 19 } },
   repairKey: 'k'.repeat(48),
+  // Synthetic loader state, so the live panel renders real rows instead of its "unavailable"
+  // fallback. A README picture should show what a user sees, not a caveat about a missing fixture.
+  liveReview: {
+    available: true,
+    sampledAt: '2026-11-03T13:00:00Z',
+    entries: [
+      { id: 'dsh-thinking-levels', name: 'dsh-thinking-levels', state: 'active', since: '2026-11-03T12:59:40Z' },
+      { id: 'dsh-session-recall', name: 'dsh-session-recall', state: 'active', since: '2026-11-03T12:59:41Z' },
+      { id: 'dsh-winbox', name: 'dsh-winbox', state: 'active', since: '2026-11-03T12:59:42Z' },
+    ],
+  },
 }
 
 const SNAPSHOTS = {
