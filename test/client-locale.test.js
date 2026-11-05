@@ -236,7 +236,10 @@ test('audience wording changes without hiding failures or implying malware prote
   app.setLocale('zh'); app.render(); await settle()
   let tree = app.render()
   assert.match(text(tree), /插件启动情况.*未能启动 1 项.*功能名称「search」被重复使用/u)
-  assert.doesNotMatch(text(tree), /宿主|激活失败|注册|Profile|package\.json|版本豁免/u)
+  // The counters are visible in every mode now, by design. What daily mode still must not show is
+  // the technical vocabulary: profile names, package paths, version-exemption terms.
+  assert.match(text(tree), /\u8fd0\u884c\u4e2d/u, 'the counters are readable in daily mode')
+  assert.doesNotMatch(text(tree), /\u5bbf\u4e3b|Profile|package\.json|\u7248\u672c\u8c41\u514d/u)
   for (const mode of ['daily', 'advanced', 'developer']) {
     find(app.render(), node => node.type === 'select').props.onChange({ target: { value: mode } })
     tree = app.render()

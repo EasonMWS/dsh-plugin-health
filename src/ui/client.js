@@ -62,10 +62,20 @@ window.__ModuleLoader__.load({
       .dph-panel .dph-head { display: flex; align-items: start; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
       .dph-panel .dph-head-copy { flex: 1 1 250px; }
       .dph-panel .dph-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-      .dph-panel .dph-mode { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding: 16px;
-        border: 1px solid var(--dph-line); border-radius: 14px; background: var(--dph-tint); margin-bottom: 20px; }
-      .dph-panel .dph-mode label { display: grid; gap: 5px; font-size: 12px; flex: 0 1 190px; }
-      .dph-panel .dph-mode-copy { flex: 1 1 210px; }
+      .dph-panel .dph-actions-sep { width: 1px; height: 22px; background: var(--dph-line); margin: 0 2px; }
+      /* The description of the current mode sits under the toolbar, not inside it, so the buttons
+         stay on one row and the sentence still has room to wrap. */
+      .dph-panel .dph-mode-copy { margin: 4px 0 12px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; font-size: 12px; }
+      .dph-panel .dph-mode-copy strong { font-size: 13px; }
+      .dph-panel .dph-mode-copy .dph-chips { margin-top: 0; }
+      /* The mode control belongs to the toolbar, not to the page body: a full-width tinted card
+         pushed everything down and read as a section of its own. */
+      .dph-panel .dph-mode { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .dph-panel .dph-mode label { display: flex; gap: 6px; align-items: center; font-size: 12px; }
+      .dph-panel .dph-mode select { padding: 6px 8px; font: inherit; font-size: 13px; }
+      .dph-panel .dph-mode-copy { flex: 1 1 100%; font-size: 12px; }
+      .dph-panel .dph-mode-copy strong { font-weight: 600; }
+      .dph-panel .dph-mode-copy p { margin: 2px 0 0; }
       .dph-panel .dph-muted { opacity: .74; font-size: 12px; }
       .dph-panel .dph-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
       .dph-panel .dph-chip { border: 1px solid var(--dph-line); border-radius: 99px; padding: 2px 8px; font-size: 11px; }
@@ -1709,9 +1719,11 @@ window.__ModuleLoader__.load({
         h('h3', { key: 'title' }, t('reviewActivation')),
         h('p', { key: 'summary', role: 'status', style: { color: failed.length ? COLORS.error : 'inherit' } },
           t('liveSummary', { active, failed: failed.length })),
-        advanced ? h('div', { key: 'metrics', className: 'dph-metrics', 'aria-hidden': true },
+        // Shown in every mode. A number answers "is anything broken" faster than a sentence, and
+        // the sentence is exactly what a first-time reader has to decode.
+        h('div', { key: 'metrics', className: 'dph-metrics' },
           [[active, 'liveActive'], [failed.length, 'liveFailed'], [others.length - active, 'liveWaiting']].map(([count, label]) =>
-            h('div', { key: label, className: 'dph-metric' }, [h('strong', { key: 'count' }, count), t(label)]))) : null,
+            h('div', { key: label, className: 'dph-metric' }, [h('strong', { key: 'count' }, count), t(label)]))),
         failed.map(row => h('div', { key: row.id, className: 'dph-failed' }, [
           h('strong', { key: 'name' }, row.name),
           advanced ? h('div', { key: 'id', className: 'dph-muted' }, `${row.id} · ${stateName(row.state)}`) : null,
@@ -1907,25 +1919,34 @@ window.__ModuleLoader__.load({
             // The compatibility table is the most useful thing this project publishes when nothing
             // is wrong locally, so it gets a first-class control rather than a line buried in prose.
             h(PanelButton, { key: 'all', href: COMPAT_URL, label: t('browseAll') }),
+            // The view control lives with the actions: it selects what the page shows. A separate
+            // tinted card above the content made it look like a section of its own and pushed the
+            // panel down for something that is a display preference.
+            h('span', { key: 'sep', className: 'dph-actions-sep', 'aria-hidden': true }),
+            h('div', { key: 'view', className: 'dph-mode' }, [
+              h('label', { key: 'label' }, [t('viewLabel'),
+                h('select', {
+                  key: 'select',
+                  value: view,
+                  'aria-label': t('viewLabel'),
+                  onChange: (event) => {
+                    const next = event.target.value
+                    if (!VIEWS.includes(next)) return
+                    setView(next)
+                    try { window.localStorage.setItem(VIEW_KEY, next) } catch { /* Session-only fallback. */ }
+                  },
+                }, VIEWS.map(mode => h('option', { key: mode, value: mode }, t('view.' + mode)))),
+              ]),
+            ]),
           ]),
         ]),
-        h('div', { key: 'view', className: 'dph-mode' }, [
-          h('label', { key: 'label' }, [t('viewLabel'),
-          h('select', { key: 'select', value: view, 'aria-label': t('viewLabel'), onChange: (event) => {
-            const next = event.target.value
-            if (!VIEWS.includes(next)) return
-            setView(next)
-            try { window.localStorage.setItem(VIEW_KEY, next) } catch { /* Session-only fallback. */ }
-          } }, VIEWS.map(mode => h('option', { key: mode, value: mode }, t(`view.${mode}`)))),
-          ]),
-          h('div', { key: view, className: 'dph-mode-copy dph-enter', role: 'status' }, [
-            h('strong', { key: 'task' }, t(`viewTask.${view}`)),
-            h('p', { key: 'hint', className: 'dph-muted' }, t(`viewHint.${view}`)),
-            h('div', { key: 'chips', className: 'dph-chips' },
-              ['chipIssues', ...(advanced ? ['chipRuntime', 'chipPreview'] : []), ...(view === 'developer' ? ['chipEvidence'] : [])]
-                .map(key => h('span', { key, className: 'dph-chip' }, t(key)))),
-          ]),
-          h('p', { key: 'scope', className: 'dph-muted', style: { flexBasis: '100%' } }, t('modeScope')),
+        h('div', { key: 'viewcopy', className: 'dph-mode-copy dph-enter', role: 'status' }, [
+          h('strong', { key: 'task' }, t('viewTask.' + view)),
+          h('span', { key: 'hint', className: 'dph-muted' }, ' ' + t('viewHint.' + view)),
+          h('span', { key: 'chips', className: 'dph-chips' },
+            ['chipIssues', ...(advanced ? ['chipRuntime', 'chipPreview'] : []), ...(view === 'developer' ? ['chipEvidence'] : [])]
+              .map(key => h('span', { key, className: 'dph-chip' }, t(key)))),
+          h('span', { key: 'scope', className: 'dph-muted' }, ' ' + t('modeScope')),
         ]),
         h('p', { key: 'security-scope', className: 'dph-muted', style: { marginBottom: 14 } }, t('securityScope')),
         // Only speak up when there is something to do. A permanent "up to date" line trains people
