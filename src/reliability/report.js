@@ -3,6 +3,7 @@ import { closeSync, fstatSync, openSync, readSync, realpathSync, statSync } from
 import { isAbsolute, join, relative, resolve, sep } from 'node:path'
 import semver from 'semver'
 import { parseDocument } from 'yaml'
+import { yamlComplexityProblem } from '../util/yaml-guard.js'
 import { evaluatePluginCompatibility } from '../compat/evaluate.js'
 import { listInstalledPlugins, listProfiles, resolveDshHome } from '../repair/inspect.js'
 import { EXEMPTION_FILE } from '../rescue/rescue.js'
@@ -104,6 +105,14 @@ function addPatch(layer, read, patches, rows, findings, limits, optional = false
   try {
     const text = read()
     patches.push({ layer, fingerprint: digest(text) })
+    // Before the parser, not after: an alias bomb costs seconds inside parseDocument, and the
+    // later maxAliasCount check cannot give that time back to the event loop.
+    const complexity = yamlComplexityProblem(text)
+    if (complexity !== undefined) {
+      limits.add('patch-too-many-anchors')
+      findings.push({ id: 'patch-complexity', severity: 'warn', title: `${layer}: ${complexity}` })
+      return
+    }
     const document = parseDocument(text)
     if (document.errors.length || document.warnings.length) throw new Error('unsupported YAML')
     const entries = document.toJS({ maxAliasCount: 50 })

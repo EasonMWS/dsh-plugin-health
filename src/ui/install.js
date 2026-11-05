@@ -23,7 +23,8 @@ import { spawn } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
-import { CURRENT_VERSION } from './update.js'
+import { unmetRequirements } from '../compat/evaluate.js'
+import { CURRENT_VERSION, compareVersions } from './update.js'
 
 /** The package this module upgrades. */
 const PACKAGE = 'dsh-plugin-health'
@@ -186,6 +187,7 @@ export async function installUpdate({
   profileDir,
   version,
   currentVersion = CURRENT_VERSION,
+  runtimeVersion,
   manager,
   timeoutMs = DEFAULT_TIMEOUT_MS,
   runProcess,
@@ -199,6 +201,12 @@ export async function installUpdate({
     return { ...state, phase: 'failed', error: `not a version: ${String(version)}` }
   }
   if (inFlight !== undefined) return inFlight
+  // Never move backwards. This action exists to pick up a released fix; a downgrade would undo one
+  // and could land on a build whose engines.dsh excludes the running host, leaving the plugin unable
+  // to load after the restart — the exact failure this package exists to prevent.
+  if (typeof currentVersion === 'string' && currentVersion !== '' && compareVersions(currentVersion, version) > 0) {
+    return { ...state, phase: 'failed', error: `refusing to downgrade from ${currentVersion} to ${version}` }
+  }
 
   const kind = manager ?? detectPackageManager(profileDir)
   if (kind !== 'npm' && kind !== 'pnpm') return { ...state, phase: 'failed', error: 'unsupported package manager' }
@@ -253,9 +261,25 @@ export async function installUpdate({
         }
         return state
       }
+      // The files are now the target version. Ask that version's own manifest whether it will load
+      // on the running host: a successful install that cannot boot is the worst possible outcome for
+      // a tool whose job is keeping DSH bootable.
+      let bootWarning
+      try {
+        const manifest = JSON.parse(readFileSync(join(profileDir, 'node_modules', PACKAGE, 'package.json'), 'utf8'))
+        // Without a host version there is nothing to compare against. Treating "unknown" as
+        // "incompatible" would warn on every install a caller made without passing one.
+        const unmet = typeof runtimeVersion === 'string' && runtimeVersion !== ''
+          ? unmetRequirements(manifest, runtimeVersion)
+          : {}
+        if (Object.keys(unmet).length > 0) {
+          bootWarning = `${version} declares ${JSON.stringify(unmet)}, which excludes the running host ${runtimeVersion}`
+        }
+      } catch { /* a missing manifest is handled above by the on-disk check */ }
       state = {
         ...state,
         phase: 'done',
+        bootWarning,
         finishedAt: new Date().toISOString(),
         // The running host still has the previous code loaded, so the panel has to say so rather than
         // pretend the new version is live.

@@ -30,4 +30,15 @@ jobs:
       - name: Publish
         env:
           NPM_CONFIG_LOGLEVEL: verbose
-        run: npm publish --provenance --access public --registry https://registry.npmjs.org
+        # A prerelease needs an explicit dist-tag: npm 11 refuses to publish one without it, and npm
+        # 10 would silently make it `latest` — which would push a beta to everyone reading /latest,
+        # including this tool's own update check. The tag is derived from the version so a stable
+        # release still lands on latest.
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          case "$VERSION" in
+            *-*) TAG="$(node -p "require('./package.json').version.split('-')[1].split('.')[0]")" ;;
+            *)   TAG="latest" ;;
+          esac
+          echo "publishing $VERSION with dist-tag $TAG"
+          npm publish --provenance --access public --registry https://registry.npmjs.org --tag "$TAG"

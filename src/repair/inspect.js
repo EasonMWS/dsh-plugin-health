@@ -10,6 +10,7 @@ import { join } from 'node:path'
 import { parse as parseYaml } from 'yaml'
 import { evaluatePluginCompatibility } from '../compat/evaluate.js'
 import { EXEMPTION_FILE, readExemptions } from '../rescue/rescue.js'
+import { yamlComplexityProblem } from '../util/yaml-guard.js'
 
 const SEVERITY_ORDER = { error: 0, warn: 1, info: 2 }
 
@@ -160,7 +161,10 @@ function inspectPatch(profileDir, findings) {
   if (!existsSync(patchPath)) return
   let parsed
   try {
-    parsed = parseYaml(readFileSync(patchPath, 'utf8'))
+    const patchText1 = readFileSync(patchPath, 'utf8')
+    const complexity1 = yamlComplexityProblem(patchText1)
+    if (complexity1 !== undefined) throw new Error(complexity1)
+    parsed = parseYaml(patchText1)
   } catch (error) {
     findings.push(finding('patch-invalid', 'error', 'cordis.patch.yml cannot be parsed', `${patchPath}: ${error instanceof Error ? error.message : String(error)}`,
       { fix: { kind: 'manual', description: 'Fix the YAML or restore the file from a backup before starting DSH.' } }))
@@ -347,7 +351,10 @@ function readPatchPluginNames(profileDir) {
   if (!existsSync(patchPath)) return []
   let parsed
   try {
-    parsed = parseYaml(readFileSync(patchPath, 'utf8'))
+    const patchText2 = readFileSync(patchPath, 'utf8')
+    const complexity2 = yamlComplexityProblem(patchText2)
+    if (complexity2 !== undefined) throw new Error(complexity2)
+    parsed = parseYaml(patchText2)
   } catch {
     return []
   }
@@ -424,7 +431,10 @@ function patchDisabledNames(profileDir) {
   if (!existsSync(path)) return names
   let parsed
   try {
-    parsed = parseYaml(readFileSync(path, 'utf8'))
+    const patchText3 = readFileSync(path, 'utf8')
+    const complexity3 = yamlComplexityProblem(patchText3)
+    if (complexity3 !== undefined) throw new Error(complexity3)
+    parsed = parseYaml(patchText3)
   } catch {
     return names
   }
@@ -449,7 +459,10 @@ function patchEntryIds(profileDir) {
   if (!existsSync(path)) return ids
   let parsed
   try {
-    parsed = parseYaml(readFileSync(path, 'utf8'))
+    const patchText4 = readFileSync(path, 'utf8')
+    const complexity4 = yamlComplexityProblem(patchText4)
+    if (complexity4 !== undefined) throw new Error(complexity4)
+    parsed = parseYaml(patchText4)
   } catch {
     return ids
   }

@@ -89,7 +89,7 @@ test('npm also disables lifecycle scripts during self-update', async (t) => {
   const dir = profileWith('2.0.0', { manager: 'npm' })
   t.after(() => rmSync(dir, { recursive: true, force: true }))
   const fake = fakeManager('2.1.6')
-  const result = await installUpdate({ profileDir: dir, version: '2.1.6', runProcess: fake.runProcess })
+  const result = await installUpdate({ profileDir: dir, version: '2.1.6', currentVersion: '2.0.0', runProcess: fake.runProcess })
   assert.equal(result.phase, 'done')
   assert.equal(fake.calls[0].manager, 'npm')
   assert.ok(fake.calls[0].args.includes('--ignore-scripts'))
@@ -134,6 +134,7 @@ test('a timeout is not reported as success', async () => {
   const state = await installUpdate({
     profileDir: dir,
     version: '2.1.6',
+    currentVersion: '2.0.0',
     timeoutMs: 1_000,
     runProcess: async () => ({ ok: false, code: null, output: '', timedOut: true }),
   })
@@ -150,6 +151,7 @@ test('success is decided by what is on disk, not by the exit code', async () => 
   const state = await installUpdate({
     profileDir: dir,
     version: '2.1.6',
+    currentVersion: '2.0.0',
     runProcess: async () => ({ ok: true, code: 0, output: 'Done', timedOut: false, writeManifest: false }),
   })
   assert.equal(state.phase, 'failed')
@@ -181,8 +183,8 @@ test('two clicks do not start two package managers against one directory', async
     return { ok: true, code: 0, output: '', timedOut: false }
   }
   const [a, b] = await Promise.all([
-    installUpdate({ profileDir: dir, version: '2.1.6', runProcess }),
-    installUpdate({ profileDir: dir, version: '2.1.6', runProcess }),
+    installUpdate({ profileDir: dir, version: '2.1.6', currentVersion: '2.0.0', runProcess }),
+    installUpdate({ profileDir: dir, version: '2.1.6', currentVersion: '2.0.0', runProcess }),
   ])
   assert.equal(started, 1, 'the second call must join the first, not start another install')
   assert.equal(a.phase, 'done')
@@ -208,7 +210,9 @@ test('the install action is reachable over the real route, and only with a key',
     key: KEY,
     installUpdateImpl: async ({ profileDir, version }) => {
       installed += 1
-      assert.equal(profileDir, '/tmp/profile')
+      // The route derives the profile directory from home and profile, the same way every other
+      // action does. Reading profileDir off currentProfile() is what broke this in a real host.
+      assert.equal(profileDir, '/tmp/profiles/desktop')
       assert.equal(version, '9.9.9')
       return { phase: 'done', targetVersion: version, previousVersion: '2.0.0', restartRequiredFrom: '2.0.0', log: [] }
     },
