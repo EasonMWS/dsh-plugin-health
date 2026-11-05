@@ -8,8 +8,9 @@ import { join } from 'node:path'
 
 import { inspectDshHome } from '../repair/inspect.js'
 import { auditRescues } from '../rescue/rescue.js'
-import { checkLoopbackPeer } from './guard.js'
+import { checkLoopbackPeer, checkStatusRequest } from './guard.js'
 import { snapshot as snapshotUpdate } from './update.js'
+import { buildReliabilityReport } from '../reliability/report.js'
 /** Route the browser half reads; absolute so it works from the DSH web origin. */
 export const STATUS_PATH = '/plugins/dsh-plugin-health/status'
 
@@ -18,8 +19,15 @@ export const STATUS_PATH = '/plugins/dsh-plugin-health/status'
  * @param {{home?: string, profile?: string, runtimeVersion?: string, now?: number}} [options]
  * @returns {{schemaVersion: number, generatedAt: string, runtimeVersion: string|null, profile: string|null, profileDir: string|null, home: string, summary: object, incompatible: number, scanned: object, issues: object[]}}
  */
-export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } = {}) {
+export function buildStatus({ home, profile, runtimeVersion, targetVersion, liveEntries, now = Date.now() } = {}) {
   const result = inspectDshHome({ home, profile, runtimeVersion })
+  let review
+  try {
+    review = buildReliabilityReport({ home: result.home, profile: result.profile, runtimeVersion, targetVersion, liveEntries })
+  } catch {
+    // The existing doctor findings still explain malformed or missing profile configuration.
+    review = null
+  }
   const issues = result.findings.map((item) => ({
     id: item.id,
     severity: item.severity,
@@ -40,6 +48,7 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
     // What was actually inspected, so the UI can say "checked N plugins" instead of implying a sample.
     scanned: { plugins: result.scannedPlugins ?? null },
     issues,
+    review,
     // Read from module state rather than computed here: a status poll must never make a network
     // request, and the UI needs the answer at the same moment it needs the findings.
     update: snapshotUpdate(),
@@ -87,11 +96,21 @@ export function buildStatus({ home, profile, runtimeVersion, now = Date.now() } 
  */
 export function cachedStatus(options, ttlMs = 5_000) {
   const now = Date.now()
-  const key = JSON.stringify([options?.home ?? '', options?.profile ?? '', options?.runtimeVersion ?? ''])
+  const key = JSON.stringify([options?.home ?? '', options?.profile ?? '', options?.runtimeVersion ?? '', options?.targetVersion ?? ''])
   if (cache !== undefined && cache.key === key && now - cache.at < ttlMs) return cache.value
   const value = buildStatus({ ...options, now })
   cache = { key, at: now, value }
   return value
+}
+
+export function statusForRequest(req, { liveReview = null, ...options }) {
+  const query = new URL(req?.url ?? '/', 'http://localhost').searchParams
+  const targetVersion = query.get('target') ?? undefined
+  const disk = cachedStatus({ ...options, targetVersion }, query.get('fresh') === '1' ? 0 : undefined)
+  return {
+    ...disk, liveReview,
+    review: disk.review === null ? null : { ...disk.review, activation: liveReview?.entries ?? null },
+  }
 }
 
 let cache
@@ -167,8 +186,10 @@ export function createStatusHandler(getStatus) {
       send(res, 405, { error: 'method not allowed' })
       return
     }
+    const guard = checkStatusRequest(req)
+    if (!guard.ok) { send(res, guard.status, { error: guard.error }); return }
     try {
-      send(res, 200, await getStatus())
+      send(res, 200, await getStatus(req))
     } catch (error) {
       send(res, 500, { error: error instanceof Error ? error.message : String(error) })
     }
@@ -180,6 +201,7 @@ function send(res, status, body) {
   res.writeHead(status, {
     'content-type': 'application/json; charset=utf-8',
     'cache-control': 'no-store',
+    'x-content-type-options': 'nosniff',
     'content-length': Buffer.byteLength(payload),
   })
   res.end(payload)

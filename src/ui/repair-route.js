@@ -15,6 +15,7 @@
  * @module ui/repair-route
  */
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
+import { lstatSync, readFileSync } from 'node:fs'
 import { applyRepairs, planRepairs } from '../repair/apply.js'
 import { inspectDshHome } from '../repair/inspect.js'
 import { invalidateStatus, STATUS_PATH } from './status.js'
@@ -80,6 +81,7 @@ function send(res, status, body, extraHeaders) {
   res.writeHead(status, {
     'content-type': 'application/json; charset=utf-8',
     'cache-control': 'no-store',
+    'x-content-type-options': 'nosniff',
     'content-length': Buffer.byteLength(payload),
     ...(extraHeaders ?? {}),
   })
@@ -111,6 +113,27 @@ async function readBody(req, limit = 4096) {
  * @returns {(req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => Promise<void>} handler.
  */
 export function createRepairHandler({ key, inspect = inspectDshHome, apply = applyRepairs, resolveProfile }) {
+  // A preview is scoped to its real targets, not just to the button that requested it. Keep a
+  // small, expiring, one-use table so two tabs can preview independently without authorizing new
+  // repairs that appeared after either preview. This is not a lock against other local processes.
+  const previews = new Map()
+  const signature = (result, plan) => createHash('sha256').update(JSON.stringify({
+    home: result.home, profile: result.profile, profileDir: result.profileDir,
+    auto: plan.auto.map(finding => {
+      const path = finding.fix?.target ?? finding.fix?.path ?? finding.path
+      let metadata = null
+      let content = null
+      try {
+        const stat = lstatSync(path, { bigint: true })
+        metadata = Object.fromEntries(['dev', 'ino', 'mode', 'size', 'mtimeNs', 'ctimeNs'].map(key => [key, String(stat[key])]))
+        // Hash small files as well, so equal-size edits with restored mtime cannot reuse a plan.
+        if (stat.isFile() && stat.size <= 1024n * 1024n) content = createHash('sha256').update(readFileSync(path)).digest('hex')
+      } catch (error) {
+        metadata = { error: error.code ?? 'unreadable' }
+      }
+      return { id: finding.id, path, fix: finding.fix, metadata, content }
+    }),
+  })).digest('hex')
   return async function repairHandler(req, res) {
     if (!['127.0.0.1', 'localhost', '::1'].includes(hostnameOf(req?.headers?.host))) {
       send(res, 403, { error: 'loopback only' })
@@ -151,15 +174,33 @@ export function createRepairHandler({ key, inspect = inspectDshHome, apply = app
       const location = resolveProfile === undefined ? {} : resolveProfile()
       const result = inspect({ home: location.home, profile: location.profile })
       const plan = planRepairs(result.findings)
+      const fingerprint = signature(result, plan)
+      const now = Date.now()
+      for (const [token, preview] of previews) if (now >= preview.expires) previews.delete(token)
+      if (!dryRun) {
+        const preview = previews.get(body?.planToken)
+        previews.delete(body?.planToken)
+        if (!preview || preview.fingerprint !== fingerprint) {
+          send(res, 409, { error: 'repair plan changed or expired; preview again before applying', code: 'repair-plan-changed' })
+          return
+        }
+      }
       const outcome = await apply(result.findings, { home: result.home, dryRun })
+      let planToken = null
+      if (dryRun) {
+        planToken = randomBytes(24).toString('hex')
+        while (previews.size >= 16) previews.delete(previews.keys().next().value)
+        previews.set(planToken, { fingerprint, expires: now + 5 * 60_000 })
+      }
       if (!dryRun) invalidateStatus()
       send(res, 200, {
-        dryRun,
+        dryRun, planToken,
         planned: plan.auto.map((finding) => ({ id: finding.id, description: finding.fix?.description ?? '' })),
         manual: plan.manual.length,
         actions: outcome.actions,
         skipped: outcome.skipped.map((item) => ({ id: item.id, reason: item.skipReason ?? '' })),
         quarantineDir: outcome.quarantineDir,
+        restoreRun: outcome.restoreRun ?? null,
         summary: result.summary,
       })
     } catch (error) {
@@ -199,21 +240,9 @@ export function registerRepairRoute(ctx, { getStatus, resolveProfile }) {
 }
 
 /**
- * Deliver the control key to the browser without handing it to every local process.
- *
- * The previous version put the key in the status body, which defeated its own purpose: any local
- * process could GET /status and receive the key, so the key protected nothing. A local HTTP client
- * and the browser's own page are indistinguishable by connection.
- *
- * The key is now delivered as an HttpOnly, SameSite=Strict cookie on the loopback origin. A page
- * served from that origin sends it automatically; `fetch(..., { credentials: 'same-origin' })`
- * includes it. A different local process can still *send* a forged cookie — it knows its own
- * value — but it cannot make the browser attach this one to a cross-origin request, and
- * SameSite=Strict keeps it off any third-party-initiated request. The remaining trust boundary is
- * the loopback interface itself, which is stated plainly in the comments rather than papered over.
- *
- * `HttpOnly` keeps the value out of reach of page scripts, so an XSS in any *other* plugin cannot
- * steal it. Our own client never reads the value; it only relies on the cookie being sent.
+ * Cookie copy of the control key. The status body also carries the key for hosts that do not
+ * forward Set-Cookie. Same-origin scripts and local HTTP clients can read that copy. Isolation
+ * from other web origins comes from request guards and no CORS, not from hiding this value.
  * @param {string} key - the per-launch control key.
  * @returns {Record<string, string>} headers to add to the status response.
  */
@@ -228,8 +257,8 @@ export function keyCookieHeaders(key) {
 /**
  * Serve the status snapshot.
  *
- * The snapshot body does not carry the control key. It is delivered as an HttpOnly cookie so page
- * scripts on *other* origins cannot read it.
+ * The snapshot body and an HttpOnly cookie carry the control key. Other origins cannot read the
+ * response; same-origin scripts and local HTTP clients can.
  *
  * Be precise about what that buys: `HttpOnly` stops JavaScript in a page from reading the value. It
  * does not stop a local process, which can read `Set-Cookie` exactly like any other response header,
@@ -261,7 +290,7 @@ export function createStatusHandler(getStatus, key) {
       return
     }
     try {
-      const body = await getStatus()
+      const body = await getStatus(req)
       // The key is delivered twice, on purpose. The cookie is the primary channel and cannot be read
       // by page script; the body copy is the fallback, because a host that proxies these routes may
       // not carry `Set-Cookie` through to the browser — and then every write fails with a 401 that

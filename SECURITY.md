@@ -40,8 +40,10 @@ from a previous release, a verdict that ignored timeout and orphaned processes, 
 that never asserted the plugin itself had loaded), plus a `compatibility.json` that was rewritten when
 it failed to parse. All are fixed in 2.0.0.
 
-Cross-origin attackers were never able to reach these routes: the `Host` check stops DNS rebinding, and
-every write needs a same-origin `Origin`, which a page has to send.
+The current route guards check loopback Host and peer addresses, reject conflicting browser Origin
+and Fetch Metadata headers, and require JSON for nonempty writes. Requests without browser headers
+can still come from local programs. These checks protect these HTTP routes; they do not constrain
+code already running in DSH. Historical gaps are described above.
 
 **A host bound to a LAN address was a different matter, and 2.1.1 fixes it.** Every route decided
 "loopback only" from the `Host` header — which the client writes. With the web server listening on
@@ -57,6 +59,91 @@ network and check that the host's own authentication is what you are relying on.
 **If you run 1.0.3 or earlier, upgrade to 1.1.0.** The advisory carries the details.
 
 ## Scope
+
+### Malware containment is not implemented
+
+**Health cannot currently stop a malicious plugin from spreading, stealing data, or changing files.**
+It diagnoses plugin compatibility, installation problems and observed activation failures. A passing
+check means the checks described in the report passed during that trial; it does not mean the plugin
+is safe. Malicious code can activate normally, behave differently later, or interfere with evidence
+inside the process or account where it runs.
+
+| Area | What Health currently does | What it does not enforce |
+| --- | --- | --- |
+| Files | Reads manifests/configuration; compares declared shared-write paths; makes explicitly requested repairs with backups | No file-access mediation, prevention of writes outside a workspace, protection of startup locations, or rollback of arbitrary plugin writes |
+| Network | Its own status polling is local; update/report actions can contact their configured public services | No per-plugin network allowlist, connection blocking, or prevention of data exfiltration |
+| Child processes | Startup trials have time limits and best-effort cleanup of their process trees | No general process-creation permission gate; Windows trials cannot detect every child left after its parent exits |
+| Secrets | Report output omits selected configuration values and raw live error messages | No secret isolation from a running plugin; trials inherit the launching process environment and account permissions |
+| Other plugins and Health itself | Reads the host Loader inventory and reports sampled failures and transitions | No isolation between plugins sharing a host process; no guarantee a hostile plugin cannot bypass, disable or falsify observation |
+| Disable / safe mode | Writes configuration overlays to help restore normal loading | No guaranteed immediate termination of loaded code, no cleanup of persistence, and no malware removal |
+| Repair quarantine | Moves damaged/residual items into an ordinary backup directory for recovery | No OS restriction on executing or accessing those files; this is not antivirus quarantine |
+| Repair restore | Reverses supported, recorded Health repair operations when conflict checks pass | No undo of leaked data, arbitrary plugin changes, or system compromise |
+
+The three UI modes change information density. They do not change operating-system permissions or
+the trust level of plugins. The live view samples Loader state when status is requested; it does not
+continuously intercept file, network or process operations.
+
+### A startup trial is execution, not a safe way to open unknown software
+
+`smoke`, combination checks and rescue rehearsals install and execute the selected plugin code.
+They create a separate DSH data directory and launch a worker with the current account's permissions
+and inherited environment. Health does not impose OS file, network or process restrictions on that
+worker. The installation stage calls the host's package manager; Health does not impose its own
+lifecycle-script prohibition on that stage. Host policy determines how installation scripts are
+handled. Disabling scripts for Health's **self-update** is a different operation and does not make
+startup trials safe.
+
+The temporary directory protects against accidentally selecting the normal profile as the trial's
+configuration. It does not prevent the tested code from reading or writing the normal profile or
+other account-accessible paths. A timeout, failed trial or withheld version exemption does not imply
+that no effects occurred. Logs and result files also share this account-level trust boundary.
+
+Only use these trials for code you already trust. Unknown or suspected malicious software requires
+a separately configured security environment with restricted files, credentials, networking and
+process permissions. Health does not create or verify such an environment.
+
+### What a future containment design would require
+
+Containment must be enforced outside the untrusted plugin's execution context, before loading its
+code. A proposed host design would place plugins in restricted workers and mediate file access,
+network requests, process creation and secret delivery through a trusted permission service. It
+would need to cover package installation and lifecycle hooks as well as activation and tool calls,
+deny ungranted capabilities by default, track worker lifetimes, and record evidence outside workers'
+write access. Shared state would need coordinated writes or transactions through that service.
+
+Moving code into another process with the same unrestricted account is insufficient by itself.
+JavaScript API wrappers, declarations and post-event observation are also insufficient when a plugin
+can bypass them. OS-enforced restrictions and adversarial validation would be necessary before
+describing a future version as containing hostile plugins. None of that containment is implemented
+or claimed by this release.
+
+### 3.0 beta hardening
+
+- UI repair confirmation requires a one-use preview token, valid for five minutes and bound to the
+  profile, proposed actions and target file metadata (plus content hashes for small regular files).
+  New targets, edits, expired plans and replayed confirmations are refused with HTTP 409 until the
+  user previews again. This narrows the preview-to-apply gap; it is not a filesystem transaction or a
+  lock against another process changing files during the operation.
+- All status variants and write routes validate a supplied `Origin` against the actual connection
+  scheme, host, and port, alongside Fetch Metadata. TLS is determined from the socket, never from
+  caller-supplied forwarding headers. HTTPS termination by a proxy is therefore not implicitly
+  trusted. JSON responses use `nosniff` and `no-store`.
+- Rescue action dispatch accepts only explicitly registered actions. Installed package identity
+  must match both name and version, so an npm alias cannot cause rescue to download a different
+  registry package. Request-supplied host hints must resolve inside the DSH home, match the running
+  DSH version, and point to an executable inside that package. These checks constrain request input;
+  they do not prove the authenticity of local files.
+- Self-update disables package lifecycle scripts and preserves the profile's release-age policy.
+  A policy refusal is reported as an installation failure rather than silently removing the policy.
+- Reliability snapshots contain package metadata, fingerprints, configuration key names and
+  declared resource paths. They exclude configuration values and raw runtime error messages.
+  Names and paths may still identify a private project; review snapshots before sharing them.
+  The live observer samples only when status is read and does not intercept filesystem or network
+  activity. It cannot certify third-party plugin safety.
+
+The scheme comparison and explicit action table are defense in depth. They are not evidence that
+the previously guarded routes were remotely exploitable in a modern browser. The local-user and
+same-origin plugin trust boundaries below still apply.
 
 `dsh-plugin-health` is a local developer tool:
 
@@ -85,11 +172,13 @@ The control key narrows this in one direction only, and it is worth being precis
   port, so a page on any other `127.0.0.1:<port>` is *same-site* with the DSH origin and carries the
   cookie without ever reading it — `SameSite=Strict` does not help there. That is closed by requiring
   `Content-Type: application/json` on writes (which forces the CORS preflight), an `Origin` that
-  matches the request's `Host`, and a `Sec-Fetch-Site` that is not cross-site.
+  matches the connection scheme, host and port, and a `Sec-Fetch-Site` that is not cross-site.
 - **Against a local process** it does not work, and never did. `HttpOnly` stops page script from
   reading the cookie; it does not stop anything that speaks HTTP. A process that can issue
   `GET /plugins/dsh-plugin-health/status` can read `Set-Cookie` and replay it. Earlier releases
   claimed otherwise in a code comment; that comment was wrong and has been corrected.
+- **Against same-origin plugins** it does not provide isolation. The status JSON includes a key
+  fallback for hosts that do not forward cookies; code running in the DSH web origin can read it.
 - **Against the request body** the key is now irrelevant for the dangerous action: `rehearse` and
   `apply` only act on a plugin that is already installed in the profile at exactly the stated version,
   so a caller cannot name a package to download and run.

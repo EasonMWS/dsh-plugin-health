@@ -31,8 +31,116 @@ window.__ModuleLoader__.load({
     const ALERT_SLOT = 'sidebar.footer.action'
     const ALERT_ID = 'plugin-health-alert'
     const NS = 'plugin-health'
+    const VIEW_KEY = 'dsh-plugin-health:view'
+    const VIEWS = ['daily', 'advanced', 'developer']
 
-    const COLORS = { error: '#d93025', warn: '#b26a00', info: '#1a73e8', ok: '#188038' }
+    const COLORS = {
+      error: 'var(--dph-error, #b42318)', warn: 'var(--dph-warn, #946000)',
+      info: 'var(--dph-accent, #245fc5)', ok: 'var(--dph-ok, #18734a)',
+    }
+    // Local to this settings surface. Never style host buttons, headings or forms globally.
+    const PANEL_CSS = `
+      .dph-panel { --dph-accent: light-dark(#245fc5,#91b7ff); --dph-error: light-dark(#b42318,#ffaaa1);
+        --dph-warn: light-dark(#946000,#eec46a); --dph-ok: light-dark(#18734a,#87d6aa);
+        --dph-line: color-mix(in srgb,currentColor 17%,transparent);
+        --dph-tint: color-mix(in srgb,currentColor 3%,transparent);
+        max-width: 880px; padding: 24px 8px; line-height: 1.6; font-size: 13px; overflow-wrap: anywhere; }
+      .dph-panel *, .dph-panel *::before, .dph-panel *::after { box-sizing: border-box; }
+      .dph-panel [hidden] { display: none !important; }
+      .dph-panel button, .dph-panel select, .dph-panel input { font: inherit; min-height: 36px; max-width: 100%; }
+      .dph-panel button, .dph-panel a { transition: background-color 160ms, box-shadow 160ms, opacity 160ms; }
+      .dph-panel button:not(:disabled):hover, .dph-panel a:hover { box-shadow: 0 0 0 2px var(--dph-line); }
+      .dph-panel button:disabled { opacity: .55; cursor: wait; }
+      .dph-panel :is(button,a,input,select):focus-visible { outline: 2px solid var(--dph-accent); outline-offset: 3px; }
+      .dph-panel :is(input,select) { border: 1px solid var(--dph-line); border-radius: 9px; padding: 8px 10px;
+        background: var(--dph-tint); color: inherit; }
+      .dph-panel option { background: Canvas; color: CanvasText; }
+      .dph-panel h2, .dph-panel h3, .dph-panel p { margin: 0; }
+      .dph-panel h2 { font-size: 22px; letter-spacing: -.03em; line-height: 1.4; }
+      .dph-panel h3 { font-size: 14px; font-weight: 650; }
+      .dph-panel p + p { margin-top: 8px; }
+      .dph-panel .dph-head { display: flex; align-items: start; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+      .dph-panel .dph-head-copy { flex: 1 1 250px; }
+      .dph-panel .dph-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .dph-panel .dph-mode { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding: 16px;
+        border: 1px solid var(--dph-line); border-radius: 14px; background: var(--dph-tint); margin-bottom: 20px; }
+      .dph-panel .dph-mode label { display: grid; gap: 5px; font-size: 12px; flex: 0 1 190px; }
+      .dph-panel .dph-mode-copy { flex: 1 1 210px; }
+      .dph-panel .dph-muted { opacity: .74; font-size: 12px; }
+      .dph-panel .dph-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+      .dph-panel .dph-chip { border: 1px solid var(--dph-line); border-radius: 99px; padding: 2px 8px; font-size: 11px; }
+      .dph-panel .dph-card { border: 1px solid var(--dph-line); border-radius: 14px; padding: 16px; margin: 16px 0; }
+      .dph-panel .dph-card > p, .dph-panel .dph-card > form { margin-top: 10px; }
+      .dph-panel .dph-disclosure { border: 1px solid var(--dph-line); border-radius: 12px; margin: 10px 0; overflow: hidden; }
+      .dph-panel .dph-trigger { display: flex; align-items: center; gap: 10px; width: 100%; border: 0;
+        background: transparent; color: inherit; text-align: start; padding: 13px 14px; cursor: pointer; }
+      .dph-panel .dph-trigger:hover { background: var(--dph-tint); box-shadow: none !important; }
+      .dph-panel .dph-trigger:focus-visible { outline-offset: -3px; }
+      .dph-panel .dph-trigger-title { flex: 1; min-width: 0; font-weight: 600; }
+      .dph-panel .dph-chevron { flex: 0 0 8px; width: 8px; height: 8px; border-right: 1.5px solid;
+        border-bottom: 1.5px solid; transform: rotate(-45deg); transition: transform 200ms ease; }
+      .dph-panel [aria-expanded="true"] .dph-chevron { transform: rotate(45deg); }
+      .dph-panel .dph-collapse { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden;
+        transition: grid-template-rows 220ms ease, opacity 180ms ease, visibility 220ms; }
+      .dph-panel .dph-collapse[data-open="true"] { grid-template-rows: 1fr; opacity: 1; visibility: visible; }
+      .dph-panel .dph-collapse-clip { min-height: 0; overflow: hidden; }
+      .dph-panel .dph-detail-body { padding: 0 14px 14px; }
+      .dph-panel .dph-detail-body > * + * { margin-top: 8px; }
+      .dph-panel .dph-row { padding: 10px 0; border-bottom: 1px solid var(--dph-line); }
+      .dph-panel .dph-row:last-child { border-bottom: 0; }
+      .dph-panel .dph-row-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+      .dph-panel .dph-row-head strong { flex: 1 1 180px; min-width: 0; font-weight: 550; }
+      .dph-panel .dph-failed { border-left: 3px solid var(--dph-error); padding: 10px 12px; margin-top: 10px; background: var(--dph-tint); }
+      .dph-panel .dph-metrics { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+      .dph-panel .dph-metric { flex: 1 1 100px; padding: 10px 12px; border: 1px solid var(--dph-line); border-radius: 10px; }
+      .dph-panel .dph-metric strong { font-size: 22px; line-height: 1.3; display: block; font-variant-numeric: tabular-nums; }
+      .dph-panel code { font-size: 12px; overflow-wrap: anywhere; white-space: pre-wrap; }
+      .dph-panel .dph-code { display: block; padding: 12px; border-radius: 8px; background: var(--dph-tint); margin: 8px 0; }
+      .dph-panel .dph-enter { animation: dph-enter 180ms ease-out; }
+      @keyframes dph-enter { from { opacity: .5; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+      @media (max-width: 520px) {
+        .dph-panel { padding: 16px 0; }
+        .dph-panel .dph-mode { padding: 12px; }
+        .dph-panel .dph-mode label { flex: 1 1 100%; }
+        .dph-panel .dph-card { padding: 12px; }
+        .dph-panel .dph-trigger { flex-wrap: wrap; gap: 8px; }
+        .dph-panel button, .dph-panel a { white-space: normal !important; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .dph-panel *, .dph-panel *::before, .dph-panel *::after { animation: none !important; transition: none !important; }
+      }
+    `
+    let disclosureId = 0
+
+    function safeReportUrl(value) {
+      try {
+        if (typeof value !== 'string' || /[\u0000-\u0020\u007f]/u.test(value)) return undefined
+        const url = new URL(value)
+        if (url.protocol !== 'https:' || url.hostname !== 'github.com' || url.username || url.password || url.port) return undefined
+        if (!/^\/[\w.-]+\/[\w.-]+\/issues\/(?:\d+|new)$/u.test(url.pathname)) return undefined
+        return url.href
+      } catch { return undefined }
+    }
+
+    /** Keep the body mounted for a reversible height transition and stable focus/state. */
+    function Disclosure({ title, body, badge, severity, defaultOpen = false, revealKey, t }) {
+      const [open, setOpen] = React.useState(defaultOpen)
+      const [id] = React.useState(() => `dph-detail-${++disclosureId}`)
+      React.useEffect(() => { if (revealKey) setOpen(true) }, [revealKey])
+      return h('section', { className: 'dph-disclosure' }, [
+        h('button', { key: 'toggle', type: 'button', className: 'dph-trigger',
+          'aria-expanded': open, 'aria-controls': id, onClick: () => setOpen(value => !value) }, [
+          severity ? dot(severity) : null,
+          h('span', { key: 'title', className: 'dph-trigger-title' }, title),
+          badge ? h('span', { key: 'badge', className: 'dph-muted' }, badge) : null,
+          t ? h('span', { key: 'hint', className: 'dph-muted' }, t(open ? 'collapse' : 'details')) : null,
+          h('span', { key: 'chevron', className: 'dph-chevron', 'aria-hidden': true }),
+        ]),
+        h('div', { key: 'body', id, className: 'dph-collapse', 'data-open': String(open),
+          'aria-hidden': !open, inert: open ? undefined : '' },
+        h('div', { className: 'dph-collapse-clip' }, h('div', { className: 'dph-detail-body' }, body))),
+      ])
+    }
 
     /** Friendly copy for the reported finding ids; unknown ids fall back to the host title. */
     const COPY = {
@@ -274,11 +382,73 @@ window.__ModuleLoader__.load({
     const dictionaries = {
       zh: {
         nav: '插件健康',
-        description: '检查你电脑上已安装的每个插件能否在当前 DSH 版本上正常加载。只读检查，不会改动任何东西。',
+        technicalDetails: '查看详细信息', operationFailed: '这次操作没有完成，请查看详细信息后重试。',
+        securityScope: '检查安装和启动状态。Health 无法查杀病毒或阻止恶意程序扩散。',
+        trialTitle: '试运行前，请确认插件来源可信',
+        trialRisk: '这一步会下载、安装并运行插件代码。临时目录不限制它访问当前账号有权限访问的文件、网络或启动其他程序。Health 无法阻止它的恶意行为。来源不明或怀疑有恶意的插件，请取消。',
+        trialConfirm: '我信任此插件，开始试运行', trialCancel: '取消试运行',
+        reportsUnavailable: '这次没有完成反馈查询，请稍后重试。',
+        description: '查看当前配置的插件、加载状态和安装问题。扫描为只读。',
         'severity.error': '会影响使用', 'severity.warn': '建议处理', 'severity.info': '提示',
         collapse: '收起', details: '详情', nextStep: '怎么做：{fix}',
-        healthy: '一切正常，没有发现插件冲突', installedChecked: '已检查 {count} 个已安装插件',
-        errors: '{count} 个错误', warnings: '{count} 个警告', ready: '可以放心用', attention: '有问题建议处理',
+        healthy: '本次体检未发现安装或配置问题', installedChecked: '已检查 {count} 个已安装插件',
+        errors: '{count} 个错误', warnings: '{count} 个警告', ready: '本次体检无警告', attention: '有问题建议处理',
+        reviewTitle: '插件清单与升级预检', reviewTarget: '目标 DSH 版本',
+        viewLabel: '显示模式',
+        'view.daily': '日常检查', 'view.advanced': '进阶诊断', 'view.developer': '开发验证',
+        'viewHint.daily': '查看使用问题和修复入口。',
+        'viewHint.advanced': '查看加载变化、配置覆盖和升级预检。',
+        'viewHint.developer': '在进阶诊断的基础上导出运行证据，并使用命令行验证。',
+        'viewTask.daily': '先确认能否正常使用，再处理需要关注的问题。',
+        'viewTask.advanced': '追踪加载变化，检查配置，再决定是否升级。',
+        'viewTask.developer': '保留现场证据，为可信插件复现启动问题。',
+        modeScope: '切换模式只调整信息展示，检查范围保持一致。',
+        chipIssues: '问题与修复', chipRuntime: '加载变化', chipPreview: '升级预检', chipEvidence: '验证与导出',
+        liveActive: '运行中', liveFailed: '激活失败', liveWaiting: '其他状态',
+        liveCadence: '页面打开时每 30 秒读取宿主状态，短暂变化可能无法捕获。',
+        staleStatus: '刷新未成功，下面保留上次结果。请重新扫描后再操作。',
+        infoFindings: '其他检查提示', exportHelp: '导出文件含插件名称和配置标识，分享前请检查内容。',
+        previewStale: '配置已变化或刷新失败，请重新预检后使用结果。',
+        reviewNetworkFail: '暂时无法获取预检结果，请稍后重试。',
+        requestTimeout: '读取超时，请重试。',
+        reviewInvalidTarget: '请输入完整版本号，例如 0.2.1-rc.5。',
+        liveFailureHelp: '先检查插件更新和注册冲突，处理后重新扫描。',
+        developerPreflight: '1. 检查版本声明', developerCombination: '2. 验证可信插件组合',
+        developerTrust: '组合验证会安装并执行插件，使用当前系统账号的权限。请只指定可信插件。',
+        liveSummary: '运行中 {active} 项，激活失败 {failed} 项',
+        liveSample: '本次观察：{time}', liveChanges: '最近观察到的变化', liveNoChanges: '本次启动期间暂未观察到变化。',
+        liveOther: '查看其他加载条目',
+        liveTransition: '{name}（{id}）：{before} → {after}',
+        liveDuplicate: '工具 {tool} 已被注册，宿主拒绝了这次注册。',
+        liveDeveloper: '开发验证', liveExport: '下载运行证据',
+        liveDeveloperHelp: '用命令行生成预检 JSON，或为可信插件指定组合并验证启动。',
+        'review.pending': '等待中', 'review.loading': '加载中', 'review.failed': '激活失败',
+        'review.unloading': '卸载中', 'review.absent': '未出现',
+        reviewRun: '预检', reviewFail: '预检失败。请输入完整版本号，例如 0.2.1-rc.5。',
+        reviewResult: 'DSH {version} · {count} 个版本声明不匹配',
+        reviewNoTarget: '请输入目标版本，开始检查版本声明。',
+        reviewSnapshot: '下载当前配置快照', reviewActivation: '宿主加载状态',
+        reviewNoActivation: '当前宿主未提供可读取的加载状态。',
+        reviewLimits: '这里只检查版本声明和可识别的配置层。动态工具、共享文件及启动参数尚未验证。',
+        reviewSources: '查看检测范围', reviewPackages: '磁盘上的包',
+        'review.compatible': '声明兼容', 'review.incompatible': '声明不匹配', 'review.exempted': '已有版本豁免',
+        'review.undeclared': '没有兼容声明', 'review.unknown': '无法判断', 'review.not-checked': '未检查',
+        'review.active': '已启动', 'review.disabled': '已禁用', 'review.not-active': '未激活',
+        reviewCore: '配置中有宿主包副本：{name}@{version}。实际加载来源待验证。',
+        reviewDuplicate: '重复插入 {id}（{layer}）',
+        reviewSharedWrite: '{packages} 声明写入同一路径 {path}。实际并发行为待验证。',
+        reviewOverride: '{id} 的配置覆盖：{before} → {after}',
+        reviewRemoved: '后层未保留字段：{keys}', reviewModuleChanged: '后层替换了模块名称。',
+        'limit.launch-overlays-not-read': '未读取通过启动参数传入的覆盖层',
+        'limit.tool-and-file-behavior-not-tested': '未试跑工具或监测文件读写',
+        'limit.unsupported-patch-rows': '跳过了无法静态解释的配置项',
+        'limit.unreadable-patch': '无法检查配置层 {detail}',
+        'limit.unreadable-package': '有包的声明无法读取',
+        'limit.in-box-bundles-not-read': '未读取宿主内置配置层',
+        'limit.unsupported-package-name': '跳过了无法识别的包名',
+        'limit.exemptions-unreadable': '无法读取版本豁免',
+        'limit.unreadable-profile-file': '无法读取 {detail}',
+        'limit.invalid-resource-declaration': '有文件访问声明不符合格式',
         checked: '共检查 {count} 个插件', checkedWithVersion: '共检查 {count} 个插件，DSH {version}',
         scanning: '正在扫描…', rescan: '重新扫描', checking: '正在检查…', checkFailed: '检查失败',
         checkUpdate: '检查更新', checkingUpdate: '正在查询…',
@@ -302,9 +472,11 @@ window.__ModuleLoader__.load({
         omitted: '{count} 条提示不影响使用，已省略。', repair: '清理 {count} 项损坏文件',
         repairSafety: '这些项是装坏的文件：只隔离不删除，原文件可以在隔离区找回，执行前会先给你看计划。',
         planning: '正在生成修复计划…', planned: '将要执行的操作', manual: '另有 {count} 项需要你手动处理，不会动。',
+        repairFailed: '修复未完成', repairRetry: '重新生成计划',
+        repairFailedHelp: '请先查看失败原因。重试会重新检查并生成计划，执行前仍需确认。',
         confirm: '确认修复', cancel: '取消', nothing: '这些问题需要你手动处理，工具不会自动改。', applying: '正在应用…',
         repaired: '已修复 {count} 项', quarantined: '已隔离：{path}', rewritten: '已重写：{path}（备份在隔离区）',
-        restoreFrom: '可从这里找回：{path}', acknowledge: '知道了', lastChecked: '上次检查：{time}', unknown: '未知',
+        restoreFrom: '可从这里找回：{path}', restorePreview: '终端恢复预览', acknowledge: '知道了', lastChecked: '上次检查：{time}', unknown: '未知',
         versionProfile: 'DSH {version} · Profile：{profile}', dateLocale: 'zh-CN',
         alertTitle: '查看插件健康检查结果', alertCount: '插件有 {count} 个问题', view: '查看',
         'plan.bundle-manifest-invalid': '把损坏的插件目录移到隔离区。',
@@ -312,38 +484,38 @@ window.__ModuleLoader__.load({
         'plan.patch-empty-entry': '移除顶层空 [] 条目，并备份原始文件。',
         'plan.residue': '把残留文件移到隔离区；可以从那里恢复。',
         rescueTitle: '修复兼容问题',
-        rescueWhy: '大部分“不兼容”只是插件把版本号写死了，代码本身在新 DSH 上照样能跑。下面会先在临时环境里验证，确认能用才动你的配置。',
-        rescueCheck: '检查能不能救',
-        rescueChecking: '正在隔离环境里试装并启动，大约需要 30~60 秒…',
+        rescueWhy: '先在临时 DSH 目录试启动插件。试跑会执行插件代码，使用当前系统账号的权限。启动结果仅覆盖这次试跑。',
+        rescueCheck: '查看试运行说明',
+        rescueChecking: '正在临时 DSH 目录里安装并启动，大约需要 30~60 秒…',
         rescueApplying: '正在重新验证一次，然后写入配置（确保放行的正是刚刚验证过的状态）…',
         rescueFailed: '检查失败：{error}',
-        rescueVerdictOk: '代码没问题，只是声明过时了',
-        rescueVerdictBroken: '这个插件真的跑不起来',
+        rescueVerdictOk: '已通过独立启动检查',
+        rescueVerdictBroken: '本次未能启动',
         rescueVerdictUnknown: '检查结果不确定',
         rescueTestedOn: '测试宿主：DSH {version}',
         rescueApply: '临时放行',
         rescueApplied: '已临时放行',
-        rescueAppliedWhat: '重启 DSH 后这个插件就能加载了。这是临时措施：等作者发布支持当前版本的正式版后，在「临时放行记录」里点「撤销」即可恢复原状。',
+        rescueAppliedWhat: '下次启动时，版本门禁会放行此插件。请在当前配置中确认它是否正常工作。你可以在「临时放行记录」撤销。',
         rescueRecheck: '重新检查',
-        rescueVerdictRuns: '放行之后这个插件就能加载了，代码本身没问题，只是声明的版本范围过时了。',
-        rescueVerdictBrokenWhy: '即使放行，这个插件仍然启动失败。所以放行没有意义，什么都没有改动。',
-        rescueVerdictInconclusive: '隔离检查没能得出结论，所以什么都没有改动。',
-        rescuePluginWhy: '这个插件声明的版本范围不包含你当前的 DSH，所以被拦住了。先做一次隔离检查：在临时环境里把它装一遍、启动一遍，看代码本身到底能不能用。',
+        rescueVerdictRuns: '插件在本次临时配置中成功启动。当前插件组合和具体功能尚未验证。',
+        rescueVerdictBrokenWhy: '本次试运行启动失败，未写入版本放行记录。试运行代码可能已经产生其他影响。',
+        rescueVerdictInconclusive: '本次试运行没有得出结论，未写入版本放行记录。试运行代码可能已经产生其他影响。',
+        rescuePluginWhy: '插件声明的支持范围不包含当前 DSH 版本。可信插件可在临时目录试启动，结果仅覆盖本次启动。',
         rescuePreparing: '正在准备交给 AI 的上下文…',
         rescueCheckingReportsNow: '正在查询上游是否已有报告…',
         rescueConfirmTitle: '放行前请确认',
         rescueConfirmWhat: '即将为 {name}@{version} 在 DSH {host} 上写入一条「精确版本豁免」。',
         rescueConfirmWill1: '只写入官方支持的一条豁免记录，不修改插件本身，不改 npm 上的包。',
-        rescueConfirmWill2: 'DSH 下次启动会允许加载这个插件（我们刚刚在隔离环境里验证过它能启动）。',
-        rescueConfirmWill3: '随时可以在「临时放行记录」里撤销，恢复到放行前的状态。',
+        rescueConfirmWill2: 'DSH 下次启动会跳过这个插件的版本限制，本次临时目录试运行已成功启动。',
+        rescueConfirmWill3: '可以在「临时放行记录」撤销这条许可；这不会撤销插件此前造成的影响。',
         rescueConfirmLimit: '但这只是放行门禁，不等于官方支持。插件的具体功能是否都正常，仍需你自己观察；作者发布正式支持版本后，请撤销并升级。',
         rescueConfirmYes: '确认放行',
-        rescueFallbackWhy: '这个插件救不了。两个选择：',
+        rescueFallbackWhy: '暂时无法自动解决，可以选择下一步：',
         rescueChoiceOffTitle: '关掉它，继续用 DSH',
-        rescueChoiceOffWhat: '停止加载这个插件。不删文件，随时可以恢复。',
+        rescueChoiceOffWhat: '写入下次启动时禁用的设置，保留插件文件。不会立即终止正在运行的插件。',
         rescueChoiceOffAction: '关掉',
         rescueChoiceAiTitle: '让 AI 试着修',
-        rescueChoiceAiWhat: '生成提示词，交给你自己的 AI。工具不联网、不花你的 token。',
+        rescueChoiceAiWhat: '这一步只整理提示词，供你交给自己的 AI，不会自动调用模型或发送。',
         rescueChoiceAiAction: '生成提示词',
         rescueDisabledTitle: '已关掉',
         rescueDisabledWhat: '重启 DSH 后它不再加载。作者发布兼容版本后重装即可。',
@@ -353,24 +525,86 @@ window.__ModuleLoader__.load({
         rescueAiReadyWhat: '已把你的插件版本、声明范围、隔离测试结果整理成一份提示词。这个工具不会调用任何模型、不花你的 token；把下面这份 prompt 粘给你自己的 AI 即可，发不发由你决定。',
         rescueCopyPrompt: '复制 prompt',
         rescueCopied: '已复制',
-        rescueReportsFound: '上游已有相关报告，直接去补充信息比新开一个更好',
-        rescueNoReports: '上游还没有人报过这个问题',
+        rescueReportsFound: '这次找到了相关反馈，可以打开查看',
+        rescueNoReports: '这次没有找到相关反馈',
         rescueNoReportsWhat: '已经准备好一份 issue 正文（只写我们能证明的事实：声明范围、宿主版本、隔离测试结论）。',
         rescueOpenIssue: '打开新建 issue 页面',
         rescueNoFile: '这个工具不会替你提交 issue —— 请自己确认内容后再发。',
         recordsTitle: '临时放行记录',
-        recordsWhy: '以下是当前生效的临时放行。作者发布正式支持版本后，这里会提示你可以撤销。',
+        recordsWhy: '以下版本暂时跳过了兼容性限制。更换本机插件版本后，请重新检查这些记录。',
         recordsOn: '在 DSH {host} 上',
-        recordsStale: '上游已更新到 {installed}，可以撤销并升级了',
+        recordsStale: '本机已安装版本变为 {installed}，请重新检查这条临时许可。',
         recordsUndo: '撤销',
       },
       en: {
         nav: 'Plugin health',
-        description: 'Check whether each installed plugin can load on your current DSH version. The scan is read-only and does not change any files.',
+        technicalDetails: 'View diagnostic details', operationFailed: 'This operation did not complete. Review the details before trying again.',
+        securityScope: 'Checks installation and startup. Health cannot remove malware or stop it spreading.',
+        trialTitle: 'Confirm you trust the plugin before running it',
+        trialRisk: 'This downloads, installs and executes plugin code. The temporary directory does not restrict access to files, networks or other programs available to your account. Health cannot block malicious behavior. Cancel if the source is unknown or the plugin seems malicious.',
+        trialConfirm: 'I trust this plugin; run the check', trialCancel: 'Cancel startup check',
+        reportsUnavailable: 'This search did not complete. Please try again later.',
+        description: 'Review installed packages, loader state and installation issues in this profile. Scanning is read-only.',
         'severity.error': 'Affects usage', 'severity.warn': 'Needs attention', 'severity.info': 'Information',
         collapse: 'Collapse', details: 'Details', nextStep: 'Next step: {fix}',
-        healthy: 'No plugin conflicts found', installedChecked: 'Installed plugins checked: {count}',
-        errors: 'Errors: {count}', warnings: 'Warnings: {count}', ready: 'Ready to use', attention: 'Issues need attention',
+        healthy: 'No installation or configuration issues found by this scan', installedChecked: 'Installed plugins checked: {count}',
+        errors: 'Errors: {count}', warnings: 'Warnings: {count}', ready: 'No warnings in this scan', attention: 'Issues need attention',
+        reviewTitle: 'Plugin inventory and upgrade preview', reviewTarget: 'Target DSH version',
+        viewLabel: 'View',
+        'view.daily': 'Daily check', 'view.advanced': 'Advanced diagnostics', 'view.developer': 'Developer verification',
+        'viewHint.daily': 'See issues that affect use and how to recover.',
+        'viewHint.advanced': 'See runtime changes, configuration overrides and upgrade previews.',
+        'viewHint.developer': 'Export runtime evidence and use the CLI alongside advanced diagnostics.',
+        'viewTask.daily': 'Check whether things are working, then address the issues that need attention.',
+        'viewTask.advanced': 'Follow loader changes and inspect configuration before upgrading.',
+        'viewTask.developer': 'Keep evidence and reproduce startup issues for trusted plugins.',
+        modeScope: 'Changing the view adjusts the display. The scan coverage stays the same.',
+        chipIssues: 'Issues & recovery', chipRuntime: 'Loader changes', chipPreview: 'Upgrade preview', chipEvidence: 'Verify & export',
+        liveActive: 'Active', liveFailed: 'Failed', liveWaiting: 'Other states',
+        liveCadence: 'Reads host state every 30 seconds while this page is open. Brief changes may be missed.',
+        staleStatus: 'Refresh failed. The last results remain below. Rescan before taking action.',
+        infoFindings: 'Other scan findings', exportHelp: 'Exports contain plugin names and configuration identifiers. Review them before sharing.',
+        previewStale: 'Configuration changed or refresh failed. Run the preview again before relying on it.',
+        reviewNetworkFail: 'The preview is unavailable. Please try again shortly.',
+        requestTimeout: 'The read timed out. Please try again.',
+        reviewInvalidTarget: 'Enter an exact version such as 0.2.1-rc.5.',
+        liveFailureHelp: 'Check for plugin updates and registration conflicts, then rescan.',
+        developerPreflight: '1. Check version declarations', developerCombination: '2. Verify a trusted combination',
+        developerTrust: 'Combination checks install and execute plugins with your OS account permissions. Only specify trusted plugins.',
+        liveSummary: 'Active: {active} · Failed to activate: {failed}',
+        liveSample: 'Observed at {time}', liveChanges: 'Recently observed changes', liveNoChanges: 'No changes observed in this host session yet.',
+        liveOther: 'Other loader entries',
+        liveTransition: '{name} ({id}): {before} → {after}',
+        liveDuplicate: 'The host rejected the registration because tool {tool} is already registered.',
+        liveDeveloper: 'Developer verification', liveExport: 'Download runtime evidence',
+        liveDeveloperHelp: 'Use the CLI for preflight JSON or to verify startup for a combination of trusted plugins.',
+        'review.pending': 'Waiting', 'review.loading': 'Loading', 'review.failed': 'Failed to activate',
+        'review.unloading': 'Unloading', 'review.absent': 'Absent',
+        reviewRun: 'Check target', reviewFail: 'The preview failed. Enter an exact version such as 0.2.1-rc.5.',
+        reviewResult: 'DSH {version} · {count} declaration mismatches',
+        reviewNoTarget: 'Enter a target version to check compatibility declarations.',
+        reviewSnapshot: 'Download current snapshot', reviewActivation: 'Live loader state',
+        reviewNoActivation: 'Live loader state is unavailable on this host.',
+        reviewLimits: 'This checks version declarations and recognized configuration layers. Dynamic tools, shared files and launch arguments are unverified.',
+        reviewSources: 'View scan coverage', reviewPackages: 'Packages on disk',
+        'review.compatible': 'Declared compatible', 'review.incompatible': 'Version mismatch', 'review.exempted': 'Version exemption',
+        'review.undeclared': 'No compatibility declaration', 'review.unknown': 'Unknown', 'review.not-checked': 'Unchecked',
+        'review.active': 'Active', 'review.disabled': 'Disabled', 'review.not-active': 'Inactive',
+        reviewCore: 'Host package copy in profile: {name}@{version}. Effective resolution is unverified.',
+        reviewDuplicate: 'Repeated insert ID {id} ({layer})',
+        reviewSharedWrite: '{packages} declare writes to {path}. Concurrent behavior is unverified.',
+        reviewOverride: 'Configuration override for {id}: {before} → {after}',
+        reviewRemoved: 'Fields omitted by the later layer: {keys}', reviewModuleChanged: 'The later layer changes the module name.',
+        'limit.launch-overlays-not-read': 'Launch argument overlays were outside the scan',
+        'limit.tool-and-file-behavior-not-tested': 'Tool calls and file access were untested',
+        'limit.unsupported-patch-rows': 'Some patch rows could not be interpreted statically',
+        'limit.unreadable-patch': 'Could not check configuration layer {detail}',
+        'limit.unreadable-package': 'Some package manifests could not be read',
+        'limit.in-box-bundles-not-read': 'In-box bundle layers were outside the scan',
+        'limit.unsupported-package-name': 'Unrecognized package names were skipped',
+        'limit.exemptions-unreadable': 'Could not read version exemptions',
+        'limit.unreadable-profile-file': 'Could not read {detail}',
+        'limit.invalid-resource-declaration': 'Some file access declarations were invalid',
         checked: 'Plugins checked: {count}', checkedWithVersion: 'Plugins checked: {count}, DSH {version}',
         scanning: 'Scanning…', rescan: 'Rescan', checking: 'Checking…', checkFailed: 'Check failed',
         checkUpdate: 'Check for updates', checkingUpdate: 'Checking…',
@@ -394,9 +628,11 @@ window.__ModuleLoader__.load({
         omitted: 'Informational findings omitted: {count}. They do not affect usage.', repair: 'Clean up {count} broken file(s)',
         repairSafety: 'These are files left behind by a failed install: they are quarantined rather than deleted, can be restored, and you review the plan before anything happens.',
         planning: 'Preparing repair plan…', planned: 'Planned actions', manual: 'Items requiring manual action: {count}. They will not be changed.',
+        repairFailed: 'Repair did not complete', repairRetry: 'Build a new plan',
+        repairFailedHelp: 'Review the reason below. Retrying rechecks the files and builds a plan for confirmation.',
         confirm: 'Confirm repair', cancel: 'Cancel', nothing: 'These issues need manual action. The tool will not change them automatically.', applying: 'Applying…',
         repaired: 'Items repaired: {count}', quarantined: 'Quarantined: {path}', rewritten: 'Rewritten: {path} (backup in quarantine)',
-        restoreFrom: 'Restore files from: {path}', acknowledge: 'Done', lastChecked: 'Last checked: {time}', unknown: 'Unknown',
+        restoreFrom: 'Restore files from: {path}', restorePreview: 'Preview restore in a terminal', acknowledge: 'Done', lastChecked: 'Last checked: {time}', unknown: 'Unknown',
         versionProfile: 'DSH {version} · Profile: {profile}', dateLocale: 'en',
         alertTitle: 'View plugin health results', alertCount: 'Plugin issues: {count}', view: 'View',
         'plan.bundle-manifest-invalid': 'Move the broken bundle directory to quarantine.',
@@ -404,58 +640,259 @@ window.__ModuleLoader__.load({
         'plan.patch-empty-entry': 'Remove top-level empty [] entries and back up the original file.',
         'plan.residue': 'Move the residue file to quarantine; it can be restored from there.',
         rescueTitle: 'Fix compatibility',
-        rescueWhy: 'Most "incompatible" plugins only pinned their version ranges; the code itself still runs on the new DSH. Each check below rehearses the install and boot in a throwaway environment, and your configuration only changes when that succeeds.',
-        rescueCheck: 'Check whether it can be saved',
-        rescueChecking: 'Rehearsing the install and boot in an isolated environment — about 30–60 seconds…',
+        rescueWhy: 'Run a startup check in a temporary DSH directory first. This executes plugin code with your OS account permissions. The result covers this trial.',
+        rescueCheck: 'Review startup check',
+        rescueChecking: 'Installing and starting in a temporary DSH directory — about 30–60 seconds…',
         rescueApplying: 'Verifying once more, then writing the configuration so the exemption covers exactly what was just proven to boot…',
         rescueFailed: 'Check failed: {error}',
-        rescueVerdictOk: 'The code is fine; only the declaration is out of date',
-        rescueVerdictBroken: 'This plugin genuinely fails to start',
+        rescueVerdictOk: 'Passed the standalone startup check',
+        rescueVerdictBroken: 'Did not start in this trial',
         rescueVerdictUnknown: 'The check was inconclusive',
         rescueTestedOn: 'Tested on DSH {version}',
         rescueApply: 'Exempt temporarily',
         rescueApplied: 'Temporarily exempted',
-        rescueAppliedWhat: 'The plugin will load after you restart DSH. This is temporary: once the author ships a release that supports your version, use Undo in the rescue records to restore the original state.',
+        rescueAppliedWhat: 'The version gate will allow this plugin on the next start. Check that it works with your profile. You can undo the exemption in the rescue records.',
         rescueRecheck: 'Check again',
-        rescueVerdictRuns: 'With the exemption in place this plugin loads: the code is fine, only the declared version range is out of date.',
-        rescueVerdictBrokenWhy: 'Even with the exemption this plugin fails to start, so exempting it would not help. Nothing was changed.',
-        rescueVerdictInconclusive: 'The isolated check could not reach a verdict, so nothing was changed.',
-        rescuePluginWhy: 'This plugin declares a version range that does not include your DSH, so the host blocks it. The first step is an isolated check: install and boot it in a throwaway environment to see whether the code itself works.',
+        rescueVerdictRuns: 'The plugin started in the temporary profile. Your plugin combination and individual features are unverified.',
+        rescueVerdictBrokenWhy: 'Startup failed in this trial. No version exemption was written. The code that ran may have had other effects.',
+        rescueVerdictInconclusive: 'This trial was inconclusive. No version exemption was written. The code that ran may have had other effects.',
+        rescuePluginWhy: 'The plugin does not declare support for this DSH version. A trusted plugin can be tried in a temporary directory; the result covers that startup only.',
         rescuePreparing: 'Preparing the context to hand to your AI…',
         rescueCheckingReportsNow: 'Checking whether upstream already has a report…',
         rescueConfirmTitle: 'Confirm before exempting',
         rescueConfirmWhat: 'This will write one exact-version exemption for {name}@{version} on DSH {host}.',
         rescueConfirmWill1: 'Only one exemption entry is written — the plugin itself and anything on npm are untouched.',
-        rescueConfirmWill2: 'DSH will load this plugin after its next start (we just proved in isolation that it boots).',
-        rescueConfirmWill3: 'You can undo it at any time from the temporary exemptions list, restoring the previous state exactly.',
+        rescueConfirmWill2: 'The next DSH launch skips the plugin’s version check. It started successfully in this temporary-directory trial.',
+        rescueConfirmWill3: 'Revoke the permission under Temporary exemptions. This does not undo earlier effects of the plugin.',
         rescueConfirmLimit: 'This only lets the gate through; it is not official support. Whether every feature works is still for you to observe, and you should revoke it once the author ships a supported release.',
         rescueConfirmYes: 'Exempt it',
-        rescueFallbackWhy: 'This one cannot be saved. Two options:',
+        rescueFallbackWhy: 'Automatic recovery is unavailable for now. Choose a next step:',
         rescueChoiceOffTitle: 'Turn it off, keep using DSH',
-        rescueChoiceOffWhat: 'Stops loading this plugin. No files deleted, reversible.',
+        rescueChoiceOffWhat: 'Disables it for the next launch and keeps its files. This does not immediately stop running plugin code.',
         rescueChoiceOffAction: 'Turn off',
         rescueChoiceAiTitle: 'Let AI try to fix it',
-        rescueChoiceAiWhat: 'Generates a prompt for your own AI. No network calls, no tokens spent.',
+        rescueChoiceAiWhat: 'Prepares a prompt for your own AI. This step does not call a model or send the prompt.',
         rescueChoiceAiAction: 'Generate prompt',
         rescueDisabledTitle: 'Turned off',
         rescueDisabledWhat: 'It will not load after a restart. Reinstall once the author ships a compatible version.',
         rescueAskAi: 'Ask my AI to analyse it',
         rescueCheckReports: 'See whether upstream already knows',
         rescueAiReady: 'AI context is ready (nothing sent)',
-        rescueAiReadyWhat: 'Your plugin version, declared ranges and the isolated test result are written into a prompt. This tool never calls a model and never spends your tokens — paste the prompt into your own AI, and deciding to send it is entirely yours.',
+        rescueAiReadyWhat: 'Plugin versions, declared ranges and the temporary-directory trial result are prepared for your AI. This action does not call a model or send the prompt. Review it before sharing.',
         rescueCopyPrompt: 'Copy prompt',
         rescueCopied: 'Copied',
-        rescueReportsFound: 'Upstream already has related reports — adding to one beats opening a duplicate',
-        rescueNoReports: 'Nobody has reported this upstream yet',
-        rescueNoReportsWhat: 'An issue body is prepared, stating only what we can prove: the declared ranges, the host version and the isolated test verdict.',
+        rescueReportsFound: 'This search found related reports you can open',
+        rescueNoReports: 'No matching reports found in this search',
+        rescueNoReportsWhat: 'An issue draft contains the declared ranges, DSH version and temporary-directory trial result for you to review.',
         rescueOpenIssue: 'Open the new-issue page',
         rescueNoFile: 'This tool does not file the issue for you — review it, then post it yourself.',
         recordsTitle: 'Temporary exemptions',
-        recordsWhy: 'These exemptions are currently in effect. Once the author ships a supported release, this list tells you it can be revoked.',
+        recordsWhy: 'These versions temporarily skip compatibility checks. Review the records after changing the installed plugin version.',
         recordsOn: 'on DSH {host}',
-        recordsStale: 'Upstream now has {installed} — you can revoke and upgrade',
+        recordsStale: 'Installed version changed to {installed}; review this temporary permission.',
         recordsUndo: 'Revoke',
       },
+    }
+    // Wording is selected independently of the checks and permissions. Every view sees the
+    // same failures and execution warnings; simpler views explain the consequence first.
+    const AUDIENCE_COPY = {
+      zh: {
+        daily: {
+          description: '查看哪些插件有问题，以及接下来可以怎么处理。',
+          'viewTask.daily': '看懂问题，按提示处理。',
+          'viewHint.daily': '适合日常使用，只展开你需要的信息。',
+          modeScope: '三种模式检查的内容相同，说明的详细程度不同。',
+          reviewActivation: '插件启动情况', reviewNoActivation: '暂时无法读取插件是否启动，请稍后重新检查。',
+          liveSummary: '已启动 {active} 项，未能启动 {failed} 项',
+          liveDuplicate: '功能名称「{tool}」被重复使用，DSH 因此没有启动这个插件。',
+          liveFailureHelp: '先看看这个插件有没有新版，处理后点「重新扫描」。',
+          liveCadence: '页面打开时每 30 秒更新一次，可能看不到一闪而过的问题。',
+          liveSample: '状态更新时间：{time}',
+          versionProfile: 'DSH {version} · 当前环境：{profile}',
+          repairSafety: '处理前会列出要改动的内容。损坏文件会移到备份位置，方便找回。',
+          restoreFrom: '备份保存在：{path}', quarantined: '已移到备份位置：{path}',
+          'plan.bundle-manifest-invalid': '把损坏插件的文件夹移到备份位置。',
+          'plan.package-dir-broken': '备份不完整的插件文件，之后可重新安装。',
+          'plan.patch-empty-entry': '备份设置文件，再清理其中的空白记录。',
+          'plan.residue': '把上次安装留下的文件移到备份位置。',
+          recordsTitle: '允许尝试启动的插件', recordsWhy: '这些插件暂时跳过了版本限制。如果使用有问题，可以在这里取消。',
+          recordsUndo: '取消允许',
+          rescueTitle: '插件版本不合适',
+          rescueWhy: '试运行会实际运行插件，能访问你这个账号有权限访问的文件和网络。请先阅读说明。',
+          rescueTestedOn: '试运行时使用的 DSH：{version}',
+          rescueVerdictRuns: '这个插件在本次检查中启动了。还没有检查全部功能，也没有判断它是否有恶意行为。',
+          rescueVerdictBrokenWhy: '这次没有启动成功，未保存允许启动的记录。已运行的代码仍可能产生其他影响。',
+          rescueVerdictInconclusive: '这次没有得出结论，未保存允许启动的记录。已运行的代码仍可能产生其他影响。',
+          rescuePreparing: '正在整理问题说明…', rescueCheckingReportsNow: '正在查找类似反馈…',
+          rescuePluginWhy: '这个插件标注支持的 DSH 版本与你正在用的不同。优先看看有没有新版；确认来源可信后，也可以尝试启动检查。',
+          rescueApply: '允许下次尝试启动', rescueConfirmTitle: '确认允许这个版本启动',
+          rescueConfirmWhat: '将允许 {name}@{version} 在 DSH {host} 下尝试启动。',
+          rescueConfirmWill1: '会保存一条允许启动的记录，不会修复插件代码。',
+          rescueConfirmWill2: '下次打开 DSH 时会跳过这个插件的版本限制。',
+          rescueConfirmWill3: '可以在「允许尝试启动的插件」中取消。',
+          rescueConfirmLimit: '这次试运行只证明它当时能启动，不能证明所有功能正常或没有恶意行为。',
+          rescueConfirmYes: '确认允许启动', rescueApplied: '已允许下次尝试启动',
+          rescueAppliedWhat: '下次打开 DSH 后，请检查这个插件的功能。遇到问题可在下面取消允许。',
+          rescueChoiceAiAction: '整理问题说明', rescueAskAi: '整理问题，交给我的 AI',
+          rescueChoiceAiWhat: '把问题整理成文字，你可以交给自己使用的 AI。不会自动发送。',
+          rescueCopyPrompt: '复制问题说明', rescueAiReady: '问题说明已准备好，尚未发送',
+          rescueAiReadyWhat: '已整理插件版本和本次检查结果。复制后可交给你自己的 AI；发送前请检查内容。',
+          rescueCheckReports: '查看有没有类似反馈', rescueOpenIssue: '打开反馈页面',
+          rescueNoReportsWhat: '已整理一份反馈草稿，你可以检查后发给插件作者。',
+          rescueNoFile: '打开页面后，请检查内容并自行决定是否发送。',
+          'finding.bundle-manifest-invalid.what': '这个插件的安装信息读不出来，DSH 无法正常识别它。',
+          'finding.plugin-incompatible.what': '这个插件标注支持的版本与你正在用的 DSH 不同，因此没有被加载。',
+          'finding.bundle-manifest-invalid.fix': '先备份损坏文件，再重新安装这个插件。',
+          'finding.package-dir-broken.what': '插件缺少必要的安装信息，可能是安装中断造成的。',
+          'finding.package-dir-broken.fix': '先备份不完整的文件，再重新安装插件。',
+          'finding.dependency-missing.what': '这个插件需要的配套文件没有安装完整。',
+          'finding.dependency-missing.fix': '重新安装这个插件，然后重启 DSH。',
+          'finding.patch-invalid.title': '插件设置文件读不出来',
+          'finding.patch-invalid.what': '插件设置文件可能被改坏了，DSH 可能无法启动。',
+          'finding.patch-invalid.fix': '从备份恢复设置文件；不确定时，请把问题详情交给熟悉 DSH 的人。',
+          'finding.patch-not-array.title': '插件设置文件格式不正确',
+          'finding.patch-not-array.what': 'DSH 无法按当前格式读取插件设置。',
+          'finding.patch-not-array.fix': '从备份恢复设置文件，或请熟悉 DSH 的人协助。',
+          'finding.patch-empty-entry.title': '插件设置里有空白记录',
+          'finding.patch-empty-entry.what': '编辑插件设置后留下了空白记录，可能干扰启动。',
+          'finding.patch-empty-entry.fix': '可以使用下面的清理功能，先备份再移除空白记录。',
+          'finding.plugin-manifest-invalid.title': '插件安装信息读不出来',
+          'finding.plugin-manifest-invalid.what': '无法读取插件的安装信息，暂时不能判断版本是否合适。',
+          'finding.profile-bundles-empty.title': '当前环境还没有启用插件',
+          'finding.profile-bundles-empty.what': '刚开始使用或尚未安装插件时，这属于正常情况。',
+          'finding.profile-bundles-empty.fix': '如果你记得装过插件，请确认当前使用环境是否选对。',
+          'finding.profile-missing.title': '找不到当前使用环境',
+          'finding.profile-missing.what': '当前环境的文件夹不存在。',
+          'finding.profile-missing.fix': '确认选对了使用环境，再重新启动 DSH。',
+          'finding.profile-manifest-missing.title': '当前环境的设置文件丢失',
+          'finding.profile-manifest-missing.what': '缺少 DSH 读取当前环境所需的设置文件。',
+          'finding.profile-manifest-invalid.title': '当前环境的设置文件损坏',
+          'finding.profile-manifest-invalid.what': 'DSH 读不懂当前环境的设置文件。',
+        },
+        advanced: {
+          description: '追踪插件启动变化，排查设置冲突，了解升级影响。',
+          'viewTask.advanced': '看看问题出现在哪里，升级会影响哪些插件。',
+          'viewHint.advanced': '适合经常安装或调整插件的用户。',
+          reviewActivation: '插件启动状态', liveSummary: '已启动 {active} 项，启动失败 {failed} 项',
+          liveOther: '查看其余启动记录', liveChanges: '最近的启动状态变化',
+          liveDuplicate: '名称为 {tool} 的功能重复，DSH 拒绝了后一次注册。',
+          liveFailureHelp: '检查插件更新及重复功能，调整后重新扫描。',
+          liveCadence: '每 30 秒读取一次 DSH 的启动记录，可能漏掉两次读取之间的变化。',
+          reviewTitle: '升级前检查', reviewTarget: '准备升级到的 DSH 版本', reviewRun: '检查升级影响',
+          reviewResult: 'DSH {version} · {count} 个插件标注的支持版本不包含它',
+          reviewNoTarget: '输入准备使用的 DSH 版本，查看哪些插件可能受影响。',
+          reviewPackages: '已安装的插件和配套包', reviewSnapshot: '下载当前检查记录',
+          reviewLimits: '根据插件标注的支持版本和设置文件判断，尚未试用插件功能。',
+          'review.exempted': '已允许跳过版本检查', 'review.undeclared': '没有标注支持版本',
+          'review.incompatible': '未标注支持此版本', 'review.compatible': '标注支持此版本',
+          reviewCore: '当前环境中还有一份 DSH 组件 {name}@{version}，尚未确认实际使用的是哪一份。',
+          reviewDuplicate: '设置中重复添加了 {id}，出现在 {layer}。',
+          reviewSharedWrite: '{packages} 标注会修改同一文件 {path}，是否真的冲突仍需验证。',
+          reviewOverride: '{id} 的设置被后面的配置替换：{before} → {after}',
+          reviewRemoved: '后面的配置没有保留这些设置项：{keys}', reviewModuleChanged: '后面的配置改用了另一个模块。',
+        },
+      },
+      en: {
+        daily: {
+          description: 'See which plugins have problems and what you can do next.',
+          'viewTask.daily': 'Understand the problem and follow the next step.',
+          'viewHint.daily': 'For everyday use. Open more information when you need it.',
+          modeScope: 'All views run the same checks, with different levels of detail.',
+          reviewActivation: 'Plugin startup', reviewNoActivation: 'Plugin startup information is unavailable. Please check again shortly.',
+          liveSummary: 'Started: {active} · Could not start: {failed}',
+          liveDuplicate: 'The feature name {tool} is used more than once, so DSH did not start this plugin.',
+          liveFailureHelp: 'Check whether this plugin has an update, then select Rescan.',
+          liveCadence: 'Updates every 30 seconds while this page is open. Brief problems may be missed.',
+          liveSample: 'Status updated at {time}',
+          versionProfile: 'DSH {version} · Current setup: {profile}',
+          repairSafety: 'Review the changes first. Broken files move to a backup location so they can be recovered.',
+          restoreFrom: 'Backup location: {path}', quarantined: 'Moved to backup: {path}',
+          'plan.bundle-manifest-invalid': 'Move the damaged plugin folder to a backup location.',
+          'plan.package-dir-broken': 'Back up incomplete plugin files so the plugin can be reinstalled.',
+          'plan.patch-empty-entry': 'Back up settings, then remove empty records.',
+          'plan.residue': 'Move files left by an earlier installation to a backup location.',
+          recordsTitle: 'Plugins allowed to try starting', recordsWhy: 'These plugins temporarily skip the version check. You can cancel that permission here.',
+          recordsUndo: 'Cancel permission',
+          rescueTitle: 'Plugin version does not match',
+          rescueWhy: 'The trial runs plugin code with access to files and networks available to your account. Read the explanation first.',
+          rescueTestedOn: 'DSH used for this trial: {version}',
+          rescueVerdictRuns: 'The plugin started in this trial. Its other features and any malicious behavior have not been checked.',
+          rescueVerdictBrokenWhy: 'It did not start this time. No startup permission was saved. Code that ran may still have had other effects.',
+          rescueVerdictInconclusive: 'This trial was inconclusive. No startup permission was saved. Code that ran may still have had other effects.',
+          rescuePreparing: 'Preparing a problem summary…', rescueCheckingReportsNow: 'Looking for similar reports…',
+          rescuePluginWhy: 'This plugin does not list support for your DSH version. Check for an update first. If you trust its source, you can try a startup check.',
+          rescueApply: 'Allow startup next time', rescueConfirmTitle: 'Confirm this version may start',
+          rescueConfirmWhat: 'Allow {name}@{version} to try starting on DSH {host}.',
+          rescueConfirmWill1: 'Saves a startup permission. It does not repair plugin code.',
+          rescueConfirmWill2: 'The next DSH launch will skip this plugin’s version check.',
+          rescueConfirmWill3: 'Cancel it under “Plugins allowed to try starting”.',
+          rescueConfirmLimit: 'This trial showed that it started once. Its other features and safety are unverified.',
+          rescueConfirmYes: 'Confirm startup permission', rescueApplied: 'Allowed to start next time',
+          rescueAppliedWhat: 'Check the plugin’s features after reopening DSH. Cancel the permission below if problems occur.',
+          rescueChoiceAiAction: 'Prepare a problem summary', rescueAskAi: 'Prepare a summary for my AI',
+          rescueChoiceAiWhat: 'Prepares text for an AI you use. Nothing is sent automatically.',
+          rescueCopyPrompt: 'Copy problem summary', rescueAiReady: 'Problem summary ready, not sent',
+          rescueAiReadyWhat: 'Plugin versions and this check’s result are ready to copy to your AI. Review the content before sending.',
+          rescueCheckReports: 'Look for similar reports', rescueOpenIssue: 'Open the feedback page',
+          rescueNoReportsWhat: 'A feedback draft is ready for you to review and send to the plugin author.',
+          rescueNoFile: 'Review the content on the page and decide whether to send it.',
+          'finding.bundle-manifest-invalid.what': 'The plugin’s installation information cannot be read, so DSH cannot identify it.',
+          'finding.plugin-incompatible.what': 'The plugin lists support for a different DSH version, so it was not loaded.',
+          'finding.bundle-manifest-invalid.fix': 'Back up the damaged files, then reinstall the plugin.',
+          'finding.package-dir-broken.what': 'Required installation information is missing, possibly because installation was interrupted.',
+          'finding.package-dir-broken.fix': 'Back up the incomplete files, then reinstall the plugin.',
+          'finding.dependency-missing.what': 'Some supporting files this plugin needs are missing.',
+          'finding.dependency-missing.fix': 'Reinstall the plugin, then restart DSH.',
+          'finding.patch-invalid.title': 'Plugin settings cannot be read',
+          'finding.patch-invalid.what': 'The settings file may be damaged, which can prevent DSH from starting.',
+          'finding.patch-invalid.fix': 'Restore a settings backup. If unsure, share the details with someone familiar with DSH.',
+          'finding.patch-not-array.title': 'Plugin settings have the wrong format',
+          'finding.patch-not-array.what': 'DSH cannot read the settings in their current format.',
+          'finding.patch-not-array.fix': 'Restore a settings backup, or ask someone familiar with DSH for help.',
+          'finding.patch-empty-entry.title': 'Plugin settings contain empty records',
+          'finding.patch-empty-entry.what': 'Empty records left after editing settings may interfere with startup.',
+          'finding.patch-empty-entry.fix': 'Use the cleanup below to back up settings and remove the empty records.',
+          'finding.plugin-manifest-invalid.title': 'Plugin installation information cannot be read',
+          'finding.plugin-manifest-invalid.what': 'Version support cannot be checked until the installation information can be read.',
+          'finding.profile-bundles-empty.title': 'No plugins are enabled in this setup',
+          'finding.profile-bundles-empty.what': 'This is normal when you first start or have not installed plugins yet.',
+          'finding.profile-bundles-empty.fix': 'If you remember installing plugins, check that the right setup is selected.',
+          'finding.profile-missing.title': 'Current setup was not found',
+          'finding.profile-missing.what': 'The folder for this setup does not exist.',
+          'finding.profile-missing.fix': 'Check that the right setup is selected, then restart DSH.',
+          'finding.profile-manifest-missing.title': 'Current setup settings are missing',
+          'finding.profile-manifest-missing.what': 'The settings file DSH needs for this setup is missing.',
+          'finding.profile-manifest-invalid.title': 'Current setup settings are damaged',
+          'finding.profile-manifest-invalid.what': 'DSH cannot read the settings for this setup.',
+        },
+        advanced: {
+          description: 'Follow plugin startup changes, investigate setting conflicts and check upgrade impact.',
+          'viewTask.advanced': 'Find where a problem starts and which plugins an upgrade may affect.',
+          'viewHint.advanced': 'For people who regularly install or adjust plugins.',
+          reviewActivation: 'Plugin startup status', liveSummary: 'Started: {active} · Startup failed: {failed}',
+          liveOther: 'Other startup records', liveChanges: 'Recent startup changes',
+          liveDuplicate: 'The feature name {tool} is duplicated. DSH rejected the later registration.',
+          liveFailureHelp: 'Check plugin updates and duplicate features, then rescan after making changes.',
+          liveCadence: 'Reads DSH startup records every 30 seconds. Changes between reads may be missed.',
+          reviewTitle: 'Before you upgrade', reviewTarget: 'DSH version you plan to use', reviewRun: 'Check upgrade impact',
+          reviewResult: 'DSH {version} · {count} plugins do not list support for this version',
+          reviewNoTarget: 'Enter the DSH version you plan to use to check which plugins may be affected.',
+          reviewPackages: 'Installed plugins and supporting packages', reviewSnapshot: 'Download current check record',
+          reviewLimits: 'Checks the support versions and settings listed by plugins. Plugin features have not been tried.',
+          'review.exempted': 'Allowed to skip the version check', 'review.undeclared': 'No supported versions listed',
+          'review.incompatible': 'Support not listed for this version', 'review.compatible': 'Lists support for this version',
+          reviewCore: 'This setup contains another copy of DSH component {name}@{version}. The copy actually used is unverified.',
+          reviewDuplicate: 'Settings add {id} more than once in {layer}.',
+          reviewSharedWrite: '{packages} list writes to the same file {path}. An actual conflict is unverified.',
+          reviewOverride: 'Later settings replace {id}: {before} → {after}',
+          reviewRemoved: 'The later settings omit these fields: {keys}', reviewModuleChanged: 'The later settings select another module.',
+        },
+      },
+    }
+    for (const [language, modes] of Object.entries(AUDIENCE_COPY)) {
+      for (const [view, entries] of Object.entries(modes)) {
+        for (const [key, value] of Object.entries(entries)) dictionaries[language][`audience.${view}.${key}`] = value
+      }
     }
     // The host locale registry uses flat keys and owns fallback and live language changes.
     for (const [language, findings] of Object.entries({ zh: COPY, en: COPY_EN })) {
@@ -477,6 +914,32 @@ window.__ModuleLoader__.load({
      * @param {object} body
      * @returns {Promise<object>} the parsed response.
      */
+    async function readSnapshot(path) {
+      const controller = new AbortController()
+      let timer
+      try {
+        return await Promise.race([
+          (async () => {
+            const response = await fetch(path, { headers: { accept: 'application/json' },
+              credentials: 'same-origin', cache: 'no-store', signal: controller.signal })
+            if (!response.ok) {
+              const error = new Error(`HTTP ${response.status}`)
+              error.status = response.status
+              throw error
+            }
+            return response.json()
+          })(),
+          new Promise((_, reject) => {
+            timer = setTimeout(() => {
+              const error = new Error('requestTimeout')
+              reject(error)
+              controller.abort()
+            }, 15_000)
+          }),
+        ])
+      } finally { clearTimeout(timer) }
+    }
+
     async function postWrite(path, body) {
       const send = () => fetch(path, {
         method: 'POST',
@@ -491,12 +954,7 @@ window.__ModuleLoader__.load({
       /** Re-read the status snapshot, which is the only thing that knows this launch's key. */
       const refreshKey = async () => {
         try {
-          const response = await fetch(STATUS_PATH, {
-            headers: { accept: 'application/json' },
-            credentials: 'same-origin',
-            cache: 'no-store',
-          })
-          const data = await response.json()
+          const data = await readSnapshot(STATUS_PATH)
           if (typeof data?.key === 'string' && data.key !== '') controlKey = data.key
         } catch { /* the retry below will report the failure */ }
       }
@@ -517,29 +975,33 @@ window.__ModuleLoader__.load({
 
     function useStatus(intervalMs = 30000) {
       const [state, setState] = React.useState({ loading: true, error: undefined, data: undefined })
-      const reload = React.useCallback(async () => {
+      const request = React.useRef({ sequence: 0, alive: true, pending: false })
+      const reload = React.useCallback(async (fresh = false) => {
+        const sequence = ++request.current.sequence
+        request.current.pending = true
         try {
-          const response = await fetch(STATUS_PATH, {
-            headers: { accept: 'application/json' },
-            credentials: 'same-origin',
-          })
-          if (!response.ok) throw new Error(`HTTP ${response.status}`)
-          const data = await response.json()
-          setState({ loading: false, error: undefined, data })
+          const data = await readSnapshot(fresh === true ? `${STATUS_PATH}?fresh=1` : STATUS_PATH)
+          if (request.current.alive && sequence === request.current.sequence) {
+            setState({ loading: false, error: undefined, data })
+          }
         } catch (error) {
-          setState({ loading: false, error: error instanceof Error ? error.message : String(error), data: undefined })
+          if (request.current.alive && sequence === request.current.sequence) {
+            setState(previous => ({ ...previous, loading: false, error: error instanceof Error ? error.message : String(error) }))
+          }
+        } finally {
+          if (sequence === request.current.sequence) request.current.pending = false
         }
       }, [])
       React.useEffect(() => {
-        let alive = true
+        request.current.alive = true
         const load = async () => {
-          if (!alive) return
+          if (!request.current.alive || request.current.pending || (typeof document !== 'undefined' && document.hidden)) return
           await reload()
         }
         load()
         const timer = setInterval(load, intervalMs)
         return () => {
-          alive = false
+          request.current.alive = false
           clearInterval(timer)
         }
       }, [intervalMs, reload])
@@ -570,7 +1032,10 @@ window.__ModuleLoader__.load({
       const [state, setState] = React.useState(undefined)
       const [error, setError] = React.useState(undefined)
       const [install, setInstall] = React.useState(undefined)
+      const busy = React.useRef(false)
       const check = React.useCallback(async () => {
+        if (busy.current) return
+        busy.current = true
         setPhase('checking')
         setError(undefined)
         try {
@@ -583,7 +1048,7 @@ window.__ModuleLoader__.load({
           // investigation into their connection.
           setError(/control key/u.test(message) ? t('updateDenied') : message)
           setPhase('failed')
-        }
+        } finally { busy.current = false }
       }, [reload, t])
       /**
        * Install the version the check found.
@@ -593,6 +1058,8 @@ window.__ModuleLoader__.load({
        * the new code is already running.
        */
       const installNow = React.useCallback(async (version) => {
+        if (busy.current) return
+        busy.current = true
         setPhase('installing')
         setError(undefined)
         setInstall(undefined)
@@ -605,7 +1072,7 @@ window.__ModuleLoader__.load({
           const message = failure instanceof Error ? failure.message : String(failure)
           setError(/control key/u.test(message) ? t('updateDenied') : message)
           setPhase('installFailed')
-        }
+        } finally { busy.current = false }
       }, [reload, t])
       return { phase, state, error, install, check, installNow }
     }
@@ -724,8 +1191,8 @@ window.__ModuleLoader__.load({
      * the action that follows it gets the filled treatment.
      */
     const BUTTON = {
-      primary: { background: COLORS.info, color: '#fff', border: 0, weight: 600 },
-      danger: { background: COLORS.warn, color: '#fff', border: 0, weight: 600 },
+      primary: { background: '#245fc5', color: '#fff', border: 0, weight: 600 },
+      danger: { background: '#946000', color: '#fff', border: 0, weight: 600 },
       secondary: { background: 'transparent', color: 'inherit', border: '1px solid rgba(128,128,128,.38)', weight: 400 },
     }
 
@@ -756,8 +1223,13 @@ window.__ModuleLoader__.load({
      * A broken verdict deliberately offers no exemption button at all: exempting a plugin
      * that cannot boot hides a real breakage behind a gate that no longer warns.
      */
-    function RescueCard({ plugin, rescue, t }) {
-      const busy = ['rehearsing', 'applying', 'confirming', 'handoff', 'report'].includes(rescue.phase)
+    function RescueCard({ plugin, reload, technical, t }) {
+      const rescue = useRescue(reload)
+      const [trial, setTrial] = React.useState(false)
+      const trialRef = React.useRef(null)
+      const trialPending = React.useRef(false)
+      React.useEffect(() => { if (trial) trialRef.current?.focus() }, [trial])
+      const busy = ['rehearsing', 'applying', 'confirming', 'handoff', 'report', 'disabling'].includes(rescue.phase)
       const showResult = rescue.verdict !== undefined
       const canApply = rescue.verdict?.canApply === true
       const color = rescue.verdict === undefined
@@ -778,7 +1250,7 @@ window.__ModuleLoader__.load({
         if (rescue.phase !== 'confirming') return
         const node = confirmRef?.current
         if (node && typeof node.scrollIntoView === 'function') {
-          node.scrollIntoView({ block: 'center', behavior: 'smooth' })
+          node.scrollIntoView({ block: 'center', behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
         }
       }, [rescue.phase])
       const confirmation = rescue.phase === 'confirming'
@@ -852,7 +1324,7 @@ window.__ModuleLoader__.load({
             }, t('rescueCheckReports')),
             h('button', {
               key: 'again',
-              onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
+              onClick: () => setTrial(true),
               style: buttonStyle('secondary'),
             }, t('rescueRecheck')),
           ]),
@@ -868,6 +1340,7 @@ window.__ModuleLoader__.load({
         : null
 
       return h('div', {
+        'data-plugin': `${plugin.name}@${plugin.version}`,
         style: { marginTop: 10, padding: '12px 14px', borderRadius: 10, border: '1px solid rgba(128,128,128,.25)' },
       }, [
         h('div', { key: 'h', style: { display: 'flex', gap: 7, alignItems: 'baseline', flexWrap: 'wrap', marginBottom: 4 } }, [
@@ -876,6 +1349,20 @@ window.__ModuleLoader__.load({
         ]),
         h('div', { key: 'w', style: { fontSize: 12.5, opacity: 0.78, lineHeight: 1.55 } },
           t('rescuePluginWhy')),
+        trial ? h('section', { key: 'trial', className: 'dph-card', 'data-trial-confirmation': true }, [
+          h('h3', { key: 'title', ref: trialRef, tabIndex: -1 }, t('trialTitle')),
+          h('p', { key: 'risk' }, t('trialRisk')),
+          h('div', { key: 'actions', className: 'dph-actions', style: { marginTop: 12 } }, [
+            h('button', { key: 'confirm', type: 'button', style: buttonStyle('primary'), onClick: async () => {
+              if (trialPending.current) return
+              trialPending.current = true
+              setTrial(false)
+              try { await rescue.rehearse({ plugin: plugin.name, version: plugin.version }) }
+              finally { trialPending.current = false }
+            } }, t('trialConfirm')),
+            h('button', { key: 'cancel', type: 'button', style: buttonStyle('secondary'), onClick: () => setTrial(false) }, t('trialCancel')),
+          ]),
+        ]) : null,
         busy
           ? h('div', { key: 'b', style: { marginTop: 10, fontSize: 13, opacity: 0.7 } },
             rescue.phase === 'rehearsing' ? t('rescueChecking')
@@ -886,7 +1373,10 @@ window.__ModuleLoader__.load({
           : null,
         rescue.error !== undefined
           ? h('div', { key: 'e', style: { marginTop: 10, fontSize: 13, color: COLORS.warn } },
-            t('rescueFailed', { error: rescue.error }))
+            technical ? t('rescueFailed', { error: rescue.error }) : [
+              h('p', { key: 'message' }, t('operationFailed')),
+              h(DiagnosticDetail, { key: 'detail', value: rescue.error, t }),
+            ])
           : null,
         showResult
           ? h('div', {
@@ -902,7 +1392,7 @@ window.__ModuleLoader__.load({
           ])
           : null,
         confirmation,
-        fallbackActions,
+        trial ? null : fallbackActions,
         disabledNote,
         rescue.applied !== undefined && rescue.applied.applied === true
           ? h('div', { key: 'a', style: { marginTop: 10, fontSize: 13, color: COLORS.ok, lineHeight: 1.6 } }, [
@@ -924,20 +1414,22 @@ window.__ModuleLoader__.load({
             ]),
           ])
           : null,
-        rescue.reportResult !== undefined
+        rescue.reportResult?.checked === false
+          ? h('p', { key: 'report-failed', role: 'status' }, t('reportsUnavailable'))
+          : rescue.reportResult !== undefined
           ? h('div', { key: 'rp', style: { marginTop: 10, fontSize: 13, lineHeight: 1.6 } }, [
             h('div', { key: 't', style: { fontWeight: 600, color: COLORS.info } },
               rescue.reportResult.existing.length > 0 ? t('rescueReportsFound') : t('rescueNoReports')),
             ...(rescue.reportResult.existing.length > 0
               ? rescue.reportResult.existing.slice(0, 5).map(item => h('div', { key: item.number, style: { marginTop: 4, fontSize: 12 } }, [
-                h('a', { key: 'a', href: item.url, target: '_blank', rel: 'noreferrer', style: { color: COLORS.info } },
+                h('a', { key: 'a', href: safeReportUrl(item.url), target: '_blank', rel: 'noreferrer noopener', style: { color: COLORS.info } },
                   `#${item.number} [${item.state}] ${item.title}`),
               ]))
               : [h('div', { key: 'n', style: { marginTop: 6, fontSize: 12, opacity: 0.8 } }, t('rescueNoReportsWhat')),
                 h('div', { key: 'b', style: { marginTop: 8 } }, [
                   h('a', {
                     key: 'new',
-                    href: rescue.reportResult.newIssueUrl,
+                    href: safeReportUrl(rescue.reportResult.newIssueUrl),
                     target: '_blank',
                     rel: 'noreferrer',
                     style: { ...buttonStyle('secondary'), display: 'inline-block', textDecoration: 'none', color: 'inherit' },
@@ -946,11 +1438,11 @@ window.__ModuleLoader__.load({
             h('div', { key: 'f', style: { marginTop: 8, fontSize: 12, opacity: 0.6 } }, t('rescueNoFile')),
           ])
           : null,
-        h('div', { key: 'act', style: { marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
+        h('div', { key: 'act', hidden: trial, style: { marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' } }, [
           rescue.phase === 'idle'
             ? h('button', {
               key: 'go',
-              onClick: () => rescue.rehearse({ plugin: plugin.name, version: plugin.version }),
+              onClick: () => setTrial(true),
               style: buttonStyle('primary'),
             }, t('rescueCheck'))
             : null,
@@ -981,7 +1473,7 @@ window.__ModuleLoader__.load({
           h('span', { key: 'n', style: { fontWeight: 600 } }, `${entry.name}@${entry.version}`),
           h('span', { key: 'h', style: { fontSize: 12, opacity: 0.6 } }, t('recordsOn', { host: entry.runtimeVersion })),
           entry.stale
-            ? h('span', { key: 's', style: { fontSize: 12, color: COLORS.ok } }, t('recordsStale', { installed: entry.installedVersion ?? '?' }))
+            ? h('span', { key: 's', style: { fontSize: 12, color: COLORS.warn } }, t('recordsStale', { installed: entry.installedVersion ?? '?' }))
             : null,
           h('button', {
             key: 'u',
@@ -993,13 +1485,13 @@ window.__ModuleLoader__.load({
     }
 
     /** Shown when rescue is available: the list of incompatible plugins with their actions. */
-    function RescuePanel({ rescuable, rescue, t }) {
+    function RescuePanel({ rescuable, reload, profileKey, technical, t }) {
       if (!Array.isArray(rescuable) || rescuable.length === 0) return null
       return h('div', { key: 'rescue', style: { marginTop: 18 } }, [
         h('div', { key: 't', style: { fontSize: 14, fontWeight: 700, marginBottom: 4 } }, t('rescueTitle')),
         h('div', { key: 's', style: { fontSize: 12, opacity: 0.65, marginBottom: 4, lineHeight: 1.6 } },
           t('rescueWhy')),
-        ...rescuable.map((plugin, index) => h(RescueCard, { key: `${plugin.name}-${index}`, plugin, rescue, t })),
+        ...rescuable.map(plugin => h(RescueCard, { key: `${profileKey}/${plugin.name}@${plugin.version}/${plugin.id ?? ''}`, plugin, reload, technical, t })),
       ])
     }
 
@@ -1012,10 +1504,13 @@ window.__ModuleLoader__.load({
       const [plan, setPlan] = React.useState(undefined)
       const [result, setResult] = React.useState(undefined)
       const [error, setError] = React.useState(undefined)
+      const busy = React.useRef(false)
 
-      const call = (dryRun) => postWrite(REPAIR_PATH, { dryRun })
+      const call = (dryRun) => postWrite(REPAIR_PATH, { dryRun, ...(dryRun ? {} : { planToken: plan?.planToken }) })
 
       const start = async () => {
+        if (busy.current) return
+        busy.current = true
         setPhase('planning')
         setError(undefined)
         try {
@@ -1025,10 +1520,12 @@ window.__ModuleLoader__.load({
         } catch (failure) {
           setError(failure instanceof Error ? failure.message : String(failure))
           setPhase('error')
-        }
+        } finally { busy.current = false }
       }
 
-      const confirm = async (key) => {
+      const confirm = async () => {
+        if (busy.current) return
+        busy.current = true
         setPhase('applying')
         setError(undefined)
         try {
@@ -1039,7 +1536,7 @@ window.__ModuleLoader__.load({
         } catch (failure) {
           setError(failure instanceof Error ? failure.message : String(failure))
           setPhase('error')
-        }
+        } finally { busy.current = false }
       }
 
       const reset = () => {
@@ -1054,6 +1551,8 @@ window.__ModuleLoader__.load({
 
     function dot(severity, size = 8) {
       return h('span', {
+        key: 'dot',
+        'aria-hidden': true,
         style: {
           display: 'inline-block',
           width: size,
@@ -1066,39 +1565,24 @@ window.__ModuleLoader__.load({
     }
 
     /** One finding: a plain-language headline, expandable details, and a concrete next step. */
-    function Finding({ issue, t }) {
-      const [open, setOpen] = React.useState(false)
+    function DiagnosticDetail({ value, technical = false, t }) {
+      const content = h('div', { style: { opacity: 0.75, fontSize: 12, wordBreak: 'break-word', fontFamily: 'ui-monospace, monospace' } }, value)
+      return technical ? content : h(Disclosure, { title: t('technicalDetails'), body: content })
+    }
+
+    function Finding({ issue, technical, t }) {
       const copy = Object.hasOwn(COPY, issue.id)
         ? { title: t(`finding.${issue.id}.title`), what: t(`finding.${issue.id}.what`), fix: t(`finding.${issue.id}.fix`) }
         : { title: issue.title, what: '', fix: issue.fix }
-      return h('div', {
-        style: {
-          border: '1px solid rgba(128,128,128,.22)',
-          borderRadius: 10,
-          padding: '12px 14px',
-          marginBottom: 10,
-          background: 'transparent',
-        },
-      }, [
-        h('div', {
-          key: 'head',
-          onClick: () => setOpen(!open),
-          style: { display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', flexWrap: 'wrap' },
-        }, [
-          dot(issue.severity),
-          h('span', { key: 't', style: { flex: '1 1 200px', minWidth: 0, fontWeight: 600, fontSize: 14, lineHeight: 1.5 } }, copy.title),
-          h('span', { key: 'badge', style: { flex: '0 0 auto', fontSize: 11, opacity: 0.6, whiteSpace: 'nowrap' } }, ['error', 'warn', 'info'].includes(issue.severity) ? t(`severity.${issue.severity}`) : ''),
-          h('span', { key: 'a', style: { flex: '0 0 auto', fontSize: 12, opacity: 0.5, whiteSpace: 'nowrap' } }, open ? t('collapse') : t('details')),
-        ]),
-        open ? h('div', { key: 'body', style: { marginTop: 10, paddingLeft: 18, fontSize: 13, lineHeight: 1.65 } }, [
+      return h(Disclosure, {
+        title: copy.title, severity: issue.severity, t,
+        badge: ['error', 'warn', 'info'].includes(issue.severity) ? t(`severity.${issue.severity}`) : '',
+        body: [
           copy.what ? h('div', { key: 'what', style: { marginBottom: 8, opacity: 0.85 } }, copy.what) : null,
-          issue.detail ? h('div', {
-            key: 'detail',
-            style: { marginBottom: 8, opacity: 0.6, fontSize: 12, wordBreak: 'break-word', fontFamily: 'ui-monospace, monospace' },
-          }, issue.detail) : null,
+          issue.detail ? h(DiagnosticDetail, { key: 'detail', value: issue.detail, technical, t }) : null,
           copy.fix ? h('div', { key: 'fix', style: { color: COLORS.info } }, t('nextStep', { fix: copy.fix })) : null,
-        ]) : null,
-      ])
+        ],
+      })
     }
 
     function EmptyState({ scanned, t }) {
@@ -1177,6 +1661,7 @@ window.__ModuleLoader__.load({
 
     function ScanButton({ onClick, busy, t }) {
       return h('button', {
+        type: 'button',
         onClick,
         disabled: busy === true,
         style: {
@@ -1193,11 +1678,182 @@ window.__ModuleLoader__.load({
       }, busy === true ? t('scanning') : t('rescan'))
     }
 
-    function HealthSection({ t }) {
+    function downloadJson(filename, data) {
+      const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }))
+      const link = document.createElement('a')
+      link.href = url
+      link.download = filename
+      link.click()
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+    }
+
+    function initialView() {
+      try {
+        const saved = window.localStorage.getItem(VIEW_KEY)
+        if (VIEWS.includes(saved)) return saved
+      } catch { /* Some DSH surfaces do not allow browser storage. */ }
+      return 'daily'
+    }
+
+    function RuntimeReview({ live, advanced, t }) {
+      if (!live) return h('section', { className: 'dph-card' }, [
+        h('h3', { key: 'title' }, t('reviewActivation')),
+        h('p', { key: 'none', className: 'dph-muted' }, t('reviewNoActivation')),
+      ])
+      const failed = live.entries.filter(row => row.state === 'failed')
+      const others = live.entries.filter(row => row.state !== 'failed')
+      const active = live.entries.filter(row => row.state === 'active').length
+      const formatTime = (value) => new Date(value).toLocaleTimeString(t('dateLocale'))
+      const stateName = (state) => t(`review.${state ?? 'absent'}`)
+      return h('section', { className: 'dph-card' }, [
+        h('h3', { key: 'title' }, t('reviewActivation')),
+        h('p', { key: 'summary', role: 'status', style: { color: failed.length ? COLORS.error : 'inherit' } },
+          t('liveSummary', { active, failed: failed.length })),
+        advanced ? h('div', { key: 'metrics', className: 'dph-metrics', 'aria-hidden': true },
+          [[active, 'liveActive'], [failed.length, 'liveFailed'], [others.length - active, 'liveWaiting']].map(([count, label]) =>
+            h('div', { key: label, className: 'dph-metric' }, [h('strong', { key: 'count' }, count), t(label)]))) : null,
+        failed.map(row => h('div', { key: row.id, className: 'dph-failed' }, [
+          h('strong', { key: 'name' }, row.name),
+          advanced ? h('div', { key: 'id', className: 'dph-muted' }, `${row.id} · ${stateName(row.state)}`) : null,
+          row.diagnostic?.kind === 'duplicate-tool' ? h('p', { key: 'diagnostic' }, t('liveDuplicate', row.diagnostic)) : null,
+        ])),
+        failed.length ? h('p', { key: 'help', className: 'dph-muted' }, t('liveFailureHelp')) : null,
+        h('div', { key: 'advanced', hidden: !advanced }, [
+          others.length ? h(Disclosure, { key: 'entries', title: `${t('liveOther')} (${others.length})`,
+            body: others.map(row => h('div', { key: row.id, className: 'dph-row' }, [
+              h('div', { key: 'head', className: 'dph-row-head' }, [
+                h('strong', { key: 'name' }, row.name), h('span', { key: 'state', className: 'dph-chip' }, stateName(row.state)),
+              ]), h('div', { key: 'id', className: 'dph-muted' }, row.id),
+            ])),
+          }) : null,
+          live.sampledAt ? h(Disclosure, { key: 'changes', title: t('liveChanges'),
+            badge: String((live.changes ?? []).length), body: [
+              (live.changes ?? []).length === 0 ? h('p', { key: 'none' }, t('liveNoChanges')) :
+                live.changes.map((change, index) => h('div', { key: index, className: 'dph-row' }, [
+                  h('div', { key: 'event' }, t('liveTransition', { ...change, before: stateName(change.before), after: stateName(change.after) })),
+                  h('div', { key: 'time', className: 'dph-muted' }, formatTime(change.sampledAt)),
+                ])),
+            ],
+          }) : null,
+        ]),
+        h('p', { key: 'cadence', className: 'dph-muted' }, t('liveCadence')),
+        live.sampledAt ? h('p', { key: 'time', className: 'dph-muted' }, t('liveSample', { time: formatTime(live.sampledAt) })) : null,
+      ])
+    }
+
+    function reportRevision(review) {
+      // A target-version verdict changes when the target changes; it is not a disk change.
+      return JSON.stringify([review.profile, review.currentVersion,
+        review.packages.map(row => [row.name, row.source, row.version, row.fingerprint]), review.patches, review.limits])
+    }
+
+    function ProfileReview({ review, stale, t }) {
+      const [target, setTarget] = React.useState('')
+      const [preview, setPreview] = React.useState(null)
+      const [busy, setBusy] = React.useState(false)
+      const [failed, setFailed] = React.useState('')
+      const request = React.useRef(0)
+      const sourceKey = reportRevision(review)
+      const [previewKey, setPreviewKey] = React.useState('')
+      React.useEffect(() => () => { request.current++ }, [])
+      const submit = async (event) => {
+        event.preventDefault()
+        const sequence = ++request.current
+        setBusy(true)
+        setFailed('')
+        setPreview(null)
+        try {
+          const query = new URLSearchParams({ target: target.trim(), fresh: '1' })
+          const data = await readSnapshot(`${STATUS_PATH}?${query}`)
+          if (data.review?.targetVersion !== target.trim() || data.review?.profile !== review.profile) {
+            throw new Error('invalid-target')
+          }
+          if (sequence === request.current) {
+            setPreview(data.review)
+            setPreviewKey(reportRevision(data.review))
+          }
+        } catch (error) {
+          if (sequence === request.current) setFailed(error.message === 'requestTimeout' ? 'requestTimeout' :
+            error.status === 400 || error.message === 'invalid-target' ? 'reviewInvalidTarget' : 'reviewNetworkFail')
+        } finally {
+          if (sequence === request.current) setBusy(false)
+        }
+      }
+      const result = preview ?? review
+      const mismatches = result.packages.filter(row => row.declaration.state === 'incompatible')
+      const packages = [...mismatches, ...result.packages.filter(row => row.declaration.state !== 'incompatible')]
+      // A fresh preview can be newer than the panel's cached scan. Only a later observation
+      // can invalidate it; otherwise that old panel would flag a newly checked config as stale.
+      const newerScan = !preview?.capturedAt || !review.capturedAt || Date.parse(review.capturedAt) >= Date.parse(preview.capturedAt)
+      return h('section', { className: 'dph-card' }, [
+        h('h3', { key: 'title' }, t('reviewTitle')),
+        h('form', { key: 'form', onSubmit: submit, style: { display: 'flex', flexWrap: 'wrap', alignItems: 'end', gap: 8 } }, [
+          h('label', { key: 'field', style: { display: 'grid', gap: 4, fontSize: 12 } }, [
+            t('reviewTarget'),
+            h('input', { key: 'target', value: target, placeholder: review.currentVersion ?? '0.2.1-rc.5', required: true,
+              maxLength: 100, disabled: busy, onChange: (event) => {
+                setTarget(event.target.value)
+                setPreview(null)
+                setFailed('')
+              },
+            }),
+          ]),
+          h('button', { key: 'run', type: 'submit', disabled: busy, style: buttonStyle('primary') }, t(busy ? 'checking' : 'reviewRun')),
+          h('button', { key: 'save', type: 'button', onClick: () => downloadJson('dsh-profile-snapshot.json', review),
+            style: buttonStyle('secondary') }, t('reviewSnapshot')),
+        ]),
+        h('p', { key: 'result', role: 'status', style: { fontSize: 13 } },
+          failed ? t(failed) : result.targetVersion
+            ? t('reviewResult', { version: result.targetVersion, count: mismatches.length })
+            : t('reviewNoTarget')),
+        preview && (stale || (newerScan && sourceKey !== previewKey)) ? h('p', { key: 'stale', role: 'status', style: { color: COLORS.warn } }, t('previewStale')) : null,
+        h(Disclosure, { key: 'packages', title: `${t('reviewPackages')} (${packages.length})`,
+          revealKey: preview && mismatches.length > 0 ? preview : null,
+          body: packages.map(row => h('div', { key: row.name, className: 'dph-row' }, [
+            h('div', { key: 'head', className: 'dph-row-head' }, [
+              h('strong', { key: 'name' }, `${row.name}@${row.version ?? '?'}`),
+              h('span', { key: 'state', className: 'dph-chip', style: { color: row.declaration.state === 'incompatible' ? COLORS.error : 'inherit' } }, t(`review.${row.declaration.state}`)),
+            ]),
+            row.declaration.requirements ? h('div', { key: 'requirements', className: 'dph-muted' }, Object.values(row.declaration.requirements).join(', ')) : null,
+          ])),
+        }),
+        ...result.findings.map((finding, index) => h('p', { key: `finding-${index}`, style: { fontSize: 13 } },
+          finding.kind === 'profile-host-package' ? t('reviewCore', finding) :
+            finding.kind === 'duplicate-insert-id' ? t('reviewDuplicate', finding) :
+            finding.kind === 'declared-shared-write' ? t('reviewSharedWrite', {
+              packages: finding.packages.join(', '), path: `${finding.scope}:${finding.path}`,
+            }) :
+              [
+                t('reviewOverride', { id: finding.id, before: finding.previousLayer, after: finding.layer }),
+                finding.moduleChanged ? ` ${t('reviewModuleChanged')}` : '',
+                finding.removedKeys.length ? ` ${t('reviewRemoved', { keys: finding.removedKeys.join(', ') })}` : '',
+              ])),
+        h(Disclosure, { key: 'coverage', title: t('reviewSources'), body: [
+          h('p', { key: 'limit' }, t('reviewLimits')),
+          h('ul', { key: 'limits' }, result.limits.map(limit => {
+            const [kind, detail] = limit.split(/:(.*)/u)
+            return h('li', { key: limit }, t(`limit.${kind}`, { detail: detail ?? '' }))
+          })),
+        ] }),
+        h('p', { key: 'privacy', className: 'dph-muted' }, t('exportHelp')),
+      ])
+    }
+
+    function HealthSection({ t: translate }) {
       const { loading, error, data, reload } = useStatus()
       const repair = useRepair(reload)
       const rescue = useRescue(reload)
       const [scanning, setScanning] = React.useState(false)
+      const [view, setView] = React.useState(initialView)
+      const t = React.useCallback((key, params) => {
+        const scoped = `audience.${view}.${key}`
+        return translate(Object.hasOwn(dictionaries.en, scoped) ? scoped : key, params)
+      }, [translate, view])
+      const technical = view === 'developer'
+      const advanced = view !== 'daily'
+      const live = data?.liveReview ?? (Array.isArray(data?.review?.activation)
+        ? { entries: data.review.activation } : null)
+      const failedCount = live?.entries.filter(row => row.state === 'failed').length ?? 0
       const issues = data?.issues ?? []
       const rescuable = data?.rescuable ?? []
       const actionable = issues.filter((issue) => issue.severity !== 'info')
@@ -1213,7 +1869,7 @@ window.__ModuleLoader__.load({
       const rescan = React.useCallback(async () => {
         setScanning(true)
         try {
-          await reload()
+          await reload(true)
         } finally {
           setScanning(false)
         }
@@ -1232,19 +1888,20 @@ window.__ModuleLoader__.load({
         }
       }, [rescue, reload])
 
-      return h('div', { style: { padding: '20px 4px', maxWidth: 760 } }, [
-        h('div', { key: 'head', style: { marginBottom: 14, display: 'flex', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' } }, [
-          h('div', { key: 'l', style: { flex: '1 1 320px', minWidth: 0 } }, [
-            h('div', { key: 't', style: { fontSize: 17, fontWeight: 700 } }, t('nav')),
-            h('div', { key: 's', style: { fontSize: 13, opacity: 0.65, marginTop: 4 } },
+      return h('div', { className: 'dph-panel', 'data-view': view }, [
+        h('style', { key: 'styles' }, PANEL_CSS),
+        h('div', { key: 'head', className: 'dph-head' }, [
+          h('div', { key: 'l', className: 'dph-head-copy' }, [
+            h('h2', { key: 't' }, t('nav')),
+            h('div', { key: 's', className: 'dph-muted', style: { marginTop: 6 } },
               t('description')),
           ]),
-          h('div', { key: 'r', style: { flex: '0 0 auto', display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' } }, [
+          h('div', { key: 'r', className: 'dph-actions' }, [
             h(ScanButton, { key: 'scan', onClick: rescan, busy: scanning || loading, t }),
             h(PanelButton, {
               key: 'upd',
               onClick: update.check,
-              disabled: update.phase === 'checking',
+              disabled: ['checking', 'installing'].includes(update.phase),
               label: update.phase === 'checking' ? t('checkingUpdate') : t('checkUpdate'),
             }),
             // The compatibility table is the most useful thing this project publishes when nothing
@@ -1252,6 +1909,25 @@ window.__ModuleLoader__.load({
             h(PanelButton, { key: 'all', href: COMPAT_URL, label: t('browseAll') }),
           ]),
         ]),
+        h('div', { key: 'view', className: 'dph-mode' }, [
+          h('label', { key: 'label' }, [t('viewLabel'),
+          h('select', { key: 'select', value: view, 'aria-label': t('viewLabel'), onChange: (event) => {
+            const next = event.target.value
+            if (!VIEWS.includes(next)) return
+            setView(next)
+            try { window.localStorage.setItem(VIEW_KEY, next) } catch { /* Session-only fallback. */ }
+          } }, VIEWS.map(mode => h('option', { key: mode, value: mode }, t(`view.${mode}`)))),
+          ]),
+          h('div', { key: view, className: 'dph-mode-copy dph-enter', role: 'status' }, [
+            h('strong', { key: 'task' }, t(`viewTask.${view}`)),
+            h('p', { key: 'hint', className: 'dph-muted' }, t(`viewHint.${view}`)),
+            h('div', { key: 'chips', className: 'dph-chips' },
+              ['chipIssues', ...(advanced ? ['chipRuntime', 'chipPreview'] : []), ...(view === 'developer' ? ['chipEvidence'] : [])]
+                .map(key => h('span', { key, className: 'dph-chip' }, t(key)))),
+          ]),
+          h('p', { key: 'scope', className: 'dph-muted', style: { flexBasis: '100%' } }, t('modeScope')),
+        ]),
+        h('p', { key: 'security-scope', className: 'dph-muted', style: { marginBottom: 14 } }, t('securityScope')),
         // Only speak up when there is something to do. A permanent "up to date" line trains people
         // to ignore the strip, which is where a real update notice has to appear.
         update.phase === 'failed'
@@ -1276,7 +1952,7 @@ window.__ModuleLoader__.load({
             h(PanelButton, {
               key: 'go',
               onClick: () => update.installNow(latestVersion),
-              disabled: update.phase === 'installing',
+              disabled: ['checking', 'installing'].includes(update.phase),
               label: update.phase === 'installing' ? t('updating') : t('updateNow'),
             }),
             // The command stays available for anyone who would rather do it themselves; it is no
@@ -1333,31 +2009,35 @@ window.__ModuleLoader__.load({
           ])
           : null,
         loading ? h('div', { key: 'l', style: { fontSize: 13, opacity: 0.7 } }, t('checking')) : null,
-        error !== undefined ? h('div', { key: 'e', style: { fontSize: 13, color: COLORS.warn } }, [
+        error !== undefined ? h('div', { key: 'e', role: 'status', style: { fontSize: 13, color: COLORS.warn } }, [
           h('div', { key: 't', style: { fontWeight: 600, marginBottom: 4 } }, t('checkFailed')),
-          h('div', { key: 'd' }, error),
+          error === 'requestTimeout' ? h('div', { key: 'd' }, t('requestTimeout')) :
+            h(DiagnosticDetail, { key: 'd', value: error, technical, t }),
           h('div', { key: 'h', style: { marginTop: 4, opacity: 0.7 } }, t('checkRetry')),
+          data ? h('p', { key: 'stale' }, t('staleStatus')) : null,
         ]) : null,
         !loading && error === undefined
           ? h(Verdict, {
             key: 'v',
             t,
-            errorCount: summary.error ?? 0,
+            errorCount: (summary.error ?? 0) + failedCount,
             warnCount: summary.warn ?? 0,
             scanned,
             runtimeVersion: data?.runtimeVersion,
           })
           : null,
-        !loading && error === undefined ? (actionable.length === 0 ? h(EmptyState, { key: 'ok', scanned, t }) : h('div', { key: 'list' },
-          actionable.map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue, t })))) : null,
-        !loading && error === undefined && issues.length > actionable.length
+        data ? h(RuntimeReview, { key: 'runtime', live, advanced, t }) : null,
+        !loading && data ? (actionable.length === 0
+          ? (failedCount === 0 && error === undefined ? h(EmptyState, { key: 'ok', scanned, t }) : null) : h('div', { key: 'list' },
+          actionable.map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue, technical, t })))) : null,
+        !loading && error === undefined && !advanced && issues.length > actionable.length
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
             t('omitted', { count: issues.length - actionable.length }))
           : null,
         // The cleanup flow belongs next to the findings it acts on: it deals with leftover files,
         // not with compatibility. Placing it below the rescue card made it look like part of that
         // flow, and its old green fill read as "safe" for a destructive action.
-        autoFixable.length > 0 && repair.phase === 'idle'
+        error === undefined && autoFixable.length > 0 && repair.phase === 'idle'
           ? h('div', { key: 'cleanup', style: { marginTop: 14, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' } }, [
             h('button', {
               key: 'b',
@@ -1375,7 +2055,7 @@ window.__ModuleLoader__.load({
           ? h('div', { key: 'rescue-divider', style: { marginTop: 22, borderTop: '1px solid rgba(128,128,128,.22)' } })
           : null,
         !loading && error === undefined
-          ? h(RescuePanel, { key: 'rescue', rescuable, rescue, t })
+          ? h(RescuePanel, { key: 'rescue', rescuable, reload, profileKey: `${data.home}/${data.profile}`, technical, t })
           : null,
         !loading && error === undefined && (data?.rescues ?? []).length > 0
           ? h('div', { key: 'records-divider', style: { marginTop: 22, borderTop: '1px solid rgba(128,128,128,.22)' } })
@@ -1384,6 +2064,15 @@ window.__ModuleLoader__.load({
           ? h(RescueRecords, { key: 'records', rescues: data?.rescues ?? [], onUndo: undoRescue, t })
           : null,
         repair.phase === 'planning' ? h('div', { key: 'p', style: { marginTop: 14, fontSize: 13, opacity: 0.7 } }, t('planning')) : null,
+        repair.phase === 'error' ? h('section', { key: 'repair-error', role: 'alert', className: 'dph-card' }, [
+          h('h3', { key: 'title', style: { color: COLORS.error } }, t('repairFailed')),
+          h('p', { key: 'help' }, t('repairFailedHelp')),
+          h(DiagnosticDetail, { key: 'error', value: repair.error, technical, t }),
+          h('div', { key: 'actions', className: 'dph-actions', style: { marginTop: 12 } }, [
+            h('button', { key: 'retry', type: 'button', onClick: repair.start, style: buttonStyle('secondary') }, t('repairRetry')),
+            h('button', { key: 'cancel', type: 'button', onClick: repair.reset, style: buttonStyle('secondary') }, t('cancel')),
+          ]),
+        ]) : null,
         repair.phase === 'planned' && repair.plan
           ? h('div', { key: 'plan', style: { marginTop: 14, padding: 14, borderRadius: 10, border: '1px solid rgba(128,128,128,.25)', fontSize: 13 } }, [
             h('div', { key: 't', style: { fontWeight: 600, marginBottom: 8 } }, t('planned')),
@@ -1415,6 +2104,10 @@ window.__ModuleLoader__.load({
             repair.result.quarantineDir
               ? h('div', { key: 'q', style: { marginTop: 8, fontSize: 12, opacity: 0.7 } }, t('restoreFrom', { path: repair.result.quarantineDir }))
               : null,
+            technical && repair.result.restoreRun
+              ? h('div', { key: 'restore', style: { fontSize: 12, marginTop: 6 } },
+                `${t('restorePreview')}: `, h('code', null, `dsh-plugin-health repair --restore ${repair.result.restoreRun}`))
+              : null,
             h('div', { key: 'r', style: { marginTop: 10 } }, [
               h('button', {
                 key: 'again',
@@ -1424,11 +2117,31 @@ window.__ModuleLoader__.load({
             ]),
           ])
           : null,
+        data?.review ? h('div', { key: 'advanced-review', hidden: !advanced, className: 'dph-enter' },
+          h(ProfileReview, { key: `${data.home}/${data.review.profile}`, review: data.review, stale: error !== undefined, t })) : null,
+        advanced && issues.some(issue => issue.severity === 'info') ? h(Disclosure, {
+          key: 'information', title: t('infoFindings'), badge: String(issues.length - actionable.length),
+          body: issues.filter(issue => issue.severity === 'info').map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue, technical, t })),
+        }) : null,
+        data ? h('section', { key: 'developer', hidden: view !== 'developer', className: 'dph-card dph-enter' }, [
+          h('h3', { key: 'title' }, t('liveDeveloper')),
+          h('p', { key: 'help', className: 'dph-muted' }, t('liveDeveloperHelp')),
+          h('p', { key: 'one' }, t('developerPreflight')),
+          h('code', { key: 'review', className: 'dph-code' }, 'dsh-plugin-health review --json --target <version>'),
+          h('p', { key: 'two' }, t('developerCombination')),
+          h('code', { key: 'smoke', className: 'dph-code' }, 'dsh-plugin-health smoke --dsh-dir <dir> --plugin <name@version> --with <name@version> --boot-only'),
+          h('p', { key: 'trust', className: 'dph-muted' }, t('developerTrust')),
+          live?.sampledAt ? h('div', { key: 'export', style: { marginTop: 12 } }, h('button', {
+            type: 'button', style: buttonStyle('secondary'),
+            onClick: () => downloadJson('dsh-runtime-review.json', { schemaVersion: 1, profile: data.profile, runtimeVersion: data.runtimeVersion, ...live }),
+          }, t('liveExport'))) : null,
+          h('p', { key: 'privacy', className: 'dph-muted' }, t('exportHelp')),
+        ]) : null,
         data
           ? h('div', { key: 'meta', style: { marginTop: 20, fontSize: 12, opacity: 0.5, lineHeight: 1.7 } }, [
             h('div', { key: 'c' }, `${t('lastChecked', { time: new Date(data.generatedAt).toLocaleString(t('dateLocale')) })}${scanned !== undefined ? ` · ${t('checked', { count: scanned })}` : ''}`),
             h('div', { key: 'v' }, t('versionProfile', { version: data.runtimeVersion ?? t('unknown'), profile: data.profile ?? t('unknown') })),
-            h('div', { key: 'h', style: { opacity: 0.8 } }, `${data.home}`),
+            advanced ? h('div', { key: 'h', style: { opacity: 0.8 } }, `${data.home}`) : null,
           ])
           : null,
       ])
@@ -1549,7 +2262,7 @@ window.__ModuleLoader__.load({
           try {
             for (const element of document.querySelectorAll('button,[role="button"]')) {
               const label = `${element.getAttribute('aria-label') ?? ''} ${element.getAttribute('title') ?? ''}`
-              if (/设置|Settings/u.test(label)) {
+              if (/设置|Settings/u.test(label) && !element.disabled && !element.closest?.('.dph-panel') && element.getClientRects().length > 0) {
                 element.click()
                 return true
               }
@@ -1567,11 +2280,15 @@ window.__ModuleLoader__.load({
          * when the number changes — the slot has no other way to update its props.
          */
         let alertKey
+        let alertAlive = true
+        let alertSequence = 0
         const refreshAlert = () => {
-          fetch(STATUS_PATH, { headers: { accept: 'application/json' }, credentials: 'same-origin' })
-            .then((response) => (response.ok ? response.json() : undefined))
+          const sequence = ++alertSequence
+          readSnapshot(STATUS_PATH)
             .then((data) => {
+              if (!data || !alertAlive || sequence !== alertSequence) return
               const count = (data?.issues ?? []).filter((issue) => issue.severity !== 'info').length
+                + (data?.liveReview?.entries ?? []).filter(row => row.state === 'failed').length
               // The boot-time check leaves its answer in the status snapshot, so the sidebar can
               // mention an update without a request of its own.
               const updateVersion = data?.update?.updateAvailable === true ? data.update.latestVersion : undefined
@@ -1594,10 +2311,9 @@ window.__ModuleLoader__.load({
                     count,
                     version: updateVersion,
                     open: () => {
-                      // Try the keyboard command first (it is how the shell itself opens settings),
-                      // then the visible trigger. Report failure rather than swallowing it: a button
-                      // that does nothing is worse than one that says why.
-                      const went = openSettingsSurface() || clickShellTrigger()
+                      // Prefer the visible host control; dispatching a shortcut alone cannot
+                      // prove that a host command handled it.
+                      const went = clickShellTrigger() || openSettingsSurface()
                       if (!went) document.title = 'dsh-plugin-health: could not open Settings'
                       return went
                     },
@@ -1614,7 +2330,11 @@ window.__ModuleLoader__.load({
         }
         refreshAlert()
         const timer = setInterval(refreshAlert, 60000)
-        return () => clearInterval(timer)
+        return () => {
+          alertAlive = false
+          clearInterval(timer)
+          disposeAlert?.()
+        }
       })
     }
 

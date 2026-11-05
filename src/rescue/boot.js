@@ -18,7 +18,7 @@
  * user-owned config, and both record what they changed so `restore` is exact.
  * @module rescue/boot
  */
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, statSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { parse as parseYaml, parseDocument, stringify as stringifyYaml } from 'yaml'

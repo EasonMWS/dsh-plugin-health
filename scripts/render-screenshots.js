@@ -1,20 +1,21 @@
 // Render the plugin's real settings section to a screenshot, without a running host.
 //
-// The section is drawn entirely with inline style objects and literal colours (\`COLORS\` in
-// client.js) rather than the host stylesheet, so a faithful DOM can be rebuilt outside DSH: the
-// component tree is the same one the host renders, only the React runtime is a stub.
+// Render the component tree, its scoped stylesheet and semantic attributes using a small hook
+// stub. This produces static screenshots only; browser interaction checks verify real React,
+// keyboard focus and animation separately.
 //
 // This exists because the README shipped screenshots from before the sidebar and rescue flow were
 // rewritten, and there is no way to attach to a running host from here. Regenerate with:
 //
-//   node scripts/render-screenshots.js <state> <lang> <out.html>
+//   node scripts/render-screenshots.js <state> <lang> <out.html> [daily|advanced|developer]
 //
 // then point a headless browser at the produced file.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { runInNewContext } from 'node:vm'
 
-const [state = 'finding', language = 'en', out = 'docs/images/.render.html'] = process.argv.slice(2)
+const [state = 'finding', language = 'en', out = 'docs/images/.render.html', view = 'daily'] = process.argv.slice(2)
+if (!['daily', 'advanced', 'developer'].includes(view)) throw new Error(`unknown view: ${view}`)
 
 const clientSource = readFileSync(new URL('../src/ui/client.js', import.meta.url), 'utf8')
 
@@ -102,6 +103,11 @@ const React = {
       record.hooks[index] = typeof value === 'function' ? value(record.hooks[index]) : value
     }]
   },
+  useRef(initial) {
+    const record = active, index = record.cursor++
+    if (!(index in record.hooks)) record.hooks[index] = { current: initial }
+    return record.hooks[index]
+  },
   useCallback(callback, deps) {
     const index = active.cursor++, previous = active.hooks[index]
     if (!previous || deps.some((value, i) => value !== previous.deps[i])) active.hooks[index] = { callback, deps }
@@ -150,7 +156,11 @@ const layoutCtx = {
 }
 
 runInNewContext(clientSource, {
-  window: { __ModuleLoader__: { load: ({ factory }) => { exports = factory(() => React) } } },
+  AbortController, setTimeout, clearTimeout,
+  window: {
+    __ModuleLoader__: { load: ({ factory }) => { exports = factory(() => React) } },
+    localStorage: { getItem: (key) => key === 'dsh-plugin-health:view' ? view : null },
+  },
   navigator: { clipboard: { writeText: async () => {} } },
   setInterval: () => 0,
   clearInterval: () => {},
@@ -210,7 +220,7 @@ function styleToCss(style) {
   for (const [rawKey, value] of Object.entries(style)) {
     if (value === undefined || value === null || value === false) continue
     const key = rawKey.startsWith('--') ? rawKey : rawKey.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)
-    const text = typeof value === 'number' && !UNITLESS.has(rawKey) ? `${value}px` : String(value)
+    const text = typeof value === 'number' && !UNITLESS.has(rawKey) && !rawKey.startsWith('--') ? `${value}px` : String(value)
     parts.push(`${key}:${text}`)
   }
   return parts.length === 0 ? '' : ` style="${escapeAttr(parts.join(';'))}"`
@@ -225,24 +235,49 @@ function escapeText(value) {
 }
 
 const VOID_TAGS = new Set(['br', 'img', 'input', 'hr'])
+const BOOLEAN_ATTRS = new Set(['hidden', 'disabled', 'required', 'multiple', 'open', 'checked', 'selected', 'readOnly', 'autoFocus', 'inert'])
+const SCALAR_ATTRS = new Set([
+  'id', 'className', 'htmlFor', 'title', 'href', 'target', 'rel', 'download', 'type', 'name',
+  'role', 'tabIndex', 'placeholder', 'maxLength', 'minLength', 'min', 'max', 'step', 'pattern',
+  'autoComplete', 'inputMode', 'rows', 'cols', 'width', 'height', 'src', 'alt',
+])
 
-function toHtml(node) {
+function toHtml(node, selectedValues) {
   if (node === null || node === undefined || typeof node === 'boolean') return ''
   if (typeof node === 'string' || typeof node === 'number') return escapeText(node)
   if (typeof node !== 'object') return ''
-  if (Array.isArray(node)) return node.map(toHtml).join('')
+  if (Array.isArray(node)) return node.map(child => toHtml(child, selectedValues)).join('')
 
   const tag = typeof node.type === 'string' ? node.type : 'div'
   const props = node.props ?? {}
   let attrs = styleToCss(props.style)
 
-  // Text inputs and buttons keep just enough of their identity to look right in a screenshot.
-  if (tag === 'button') attrs += ' type="button"'
-  if (props.disabled === true) attrs += ' disabled'
-  if (props.title) attrs += ` title="${escapeAttr(props.title)}"`
-  if (props.href) attrs += ` href="${escapeAttr(props.href)}"`
+  // Preserve the attributes used by scoped CSS, disclosure visibility and accessible controls.
+  // Do not serialize callbacks, React keys or ref objects as HTML.
+  for (const [name, value] of Object.entries(props)) {
+    if (name === 'selected' && tag === 'option' && selectedValues !== undefined) continue
+    if (BOOLEAN_ATTRS.has(name)) {
+      if (value === true || (name === 'inert' && value === '')) attrs += ` ${name.toLowerCase()}`
+    } else if ((SCALAR_ATTRS.has(name) || /^(?:aria|data)-[a-z0-9-]+$/u.test(name)) && value != null) {
+      const htmlName = name === 'className' ? 'class' : name === 'htmlFor' ? 'for' : name.toLowerCase()
+      attrs += ` ${htmlName}="${escapeAttr(value)}"`
+    }
+  }
+  const value = props.value ?? props.defaultValue
+  if (tag === 'select') {
+    selectedValues = value === undefined ? undefined : new Set((Array.isArray(value) ? value : [value]).map(String))
+  } else if (tag === 'input' || tag === 'option' || tag === 'button') {
+    if (value !== undefined) attrs += ` value="${escapeAttr(value)}"`
+  }
+  if (tag === 'option' && selectedValues?.has(String(value ?? node.children.join('')))) attrs += ' selected'
 
-  const inner = node.children.map(toHtml).join('')
+  // <style> is raw text in HTML. Entity-escaping its selectors breaks combinators, quotes and
+  // CSS variables; only neutralize a literal closing tag. The stylesheet comes from client.js.
+  const inner = tag === 'style'
+    ? node.children.join('').replace(/<\/style/giu, '<\\/style')
+    : tag === 'textarea' && value !== undefined
+      ? escapeText(value)
+      : node.children.map(child => toHtml(child, selectedValues)).join('')
   if (VOID_TAGS.has(tag)) return `<${tag}${attrs}>`
   return `<${tag}${attrs}>${inner}</${tag}>`
 }

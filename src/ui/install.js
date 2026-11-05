@@ -89,6 +89,7 @@ export function detectPackageManager(profileDir) {
  * @returns {{command: string, args: string[]}}
  */
 export function managerInvocation(manager, args, { execPath = process.execPath } = {}) {
+  if (manager !== 'npm' && manager !== 'pnpm') throw new Error('unsupported package manager')
   if (process.platform !== 'win32') return { command: manager, args }
   const prefix = dirname(execPath)
   // A bundled native executable is the cleanest option on Windows: no shim, no shell, and nothing to
@@ -200,6 +201,7 @@ export async function installUpdate({
   if (inFlight !== undefined) return inFlight
 
   const kind = manager ?? detectPackageManager(profileDir)
+  if (kind !== 'npm' && kind !== 'pnpm') return { ...state, phase: 'failed', error: 'unsupported package manager' }
   const previousVersion = installedVersion(profileDir) ?? currentVersion ?? null
   const startedAt = new Date().toISOString()
   state = {
@@ -215,11 +217,11 @@ export async function installUpdate({
 
   // `add <pkg>@<version>` rather than `update`: it is explicit about the target, it updates the
   // profile's package.json, and it does not resolve a range the profile may have pinned elsewhere.
-  // `--config.minimumReleaseAge=0` is what makes a just-published version installable without the
-  // workspace's exclude list having to know about it.
+  // Preserve the profile's release-age policy. Updating this package must not run lifecycle scripts
+  // from the profile or dependencies; this package ships its runtime directly and needs no build.
   const args = kind === 'pnpm'
-    ? ['add', `${PACKAGE}@${version}`, '--config.minimumReleaseAge=0', '--reporter=append-only', '--yes']
-    : ['install', `${PACKAGE}@${version}`, '--no-audit', '--no-fund', '--no-progress']
+    ? ['add', `${PACKAGE}@${version}`, '--ignore-scripts', '--reporter=append-only', '--yes']
+    : ['install', `${PACKAGE}@${version}`, '--ignore-scripts', '--no-audit', '--no-fund', '--no-progress']
 
   inFlight = (async () => {
     try {

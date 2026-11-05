@@ -8,19 +8,35 @@
 // The client is `node:http` rather than `fetch` because `fetch` treats `Host` as a forbidden header,
 // which would defeat the very check under test.
 import { createServer, request } from 'node:http'
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 import { registerRepairRoute } from '../src/ui/repair-route.js'
 import { registerRescueRoute } from '../src/ui/rescue-route.js'
+import { statusForRequest } from '../src/ui/status.js'
+import { createLiveObserver } from '../src/reliability/live.js'
 
 const home = mkdtempSync(join(tmpdir(), 'dsh-http-check-'))
 const profileDir = join(home, 'profiles', 'desktop')
 mkdirSync(join(profileDir, 'node_modules'), { recursive: true })
 writeFileSync(join(profileDir, 'cordis.patch.yml'), '# user comment\n- id: user\n  name: some-plugin\n')
+writeFileSync(join(profileDir, 'package.json'), JSON.stringify({ dsh: { profile: { bundles: ['some-plugin'] } } }))
+const pluginDirectory = join(profileDir, 'node_modules', 'some-plugin')
+mkdirSync(pluginDirectory)
+writeFileSync(join(pluginDirectory, 'package.json'), JSON.stringify({
+  name: 'some-plugin', version: '1.0.0', engines: { dsh: '0.2.1-rc.5' },
+}))
 
 const routes = []
+const observe = createLiveObserver()
+const liveLocation = { home, profile: 'desktop', runtimeVersion: '0.2.1-rc.5' }
+let fiberState = 2
+const loaderCtx = { get: () => ({ *entries() {
+  yield { id: 'user', options: { name: 'some-plugin' }, fiber: {
+    state: fiberState, _error: new Error('tool "archive" is already registered'),
+  } }
+} }) }
 const ctx = {
   inject: (_deps, fn) => fn({
     effect: (f) => f(),
@@ -29,7 +45,7 @@ const ctx = {
 }
 const key = registerRepairRoute(ctx, {
   resolveProfile: () => ({ home, profile: 'desktop' }),
-  getStatus: () => ({ schemaVersion: 4, issues: [] }),
+  getStatus: (req) => statusForRequest(req, { ...liveLocation, liveReview: observe(loaderCtx, liveLocation) }),
 })
 registerRescueRoute(ctx, {
   currentProfile: () => ({ home, profile: 'desktop', profileDir, runtimeVersion: '0.2.1-rc.5' }),
@@ -166,6 +182,25 @@ await attempt('cross-site status', async () => {
   check('cross-site status request', response.status, 403)
   check('cross-site status sets no cookie', response.setCookie, undefined)
 })
+await attempt('preview target version over the status route', async () => {
+  const response = await call(`${STATUS}?target=0.2.1-rc.6`, { method: 'GET', headers: { 'sec-fetch-site': 'same-origin' } })
+  const report = response.body?.review
+  check('preview uses the requested DSH version', report?.targetVersion, '0.2.1-rc.6')
+  check('preview returns the actual declaration mismatch', report?.packages[0]?.declaration.state, 'incompatible')
+  const current = await call(STATUS, { method: 'GET' })
+  check('preview does not change the current status', current.body?.review?.packages[0]?.declaration.state, 'compatible')
+})
+await attempt('live activation changes over the status route', async () => {
+  const before = await call(STATUS, { method: 'GET' })
+  fiberState = 3
+  const failed = await call(STATUS, { method: 'GET' })
+  check('live state refreshes independently from disk cache', failed.body?.generatedAt, before.body?.generatedAt)
+  check('host registration conflict surfaces through status', failed.body?.liveReview?.entries[0]?.diagnostic?.tool, 'archive')
+  check('failure is captured as an observed transition', failed.body?.liveReview?.changes[0]?.after, 'failed')
+  fiberState = 2
+  const recovered = await call(STATUS, { method: 'GET' })
+  check('recovered activation replaces the failure', recovered.body?.liveReview?.entries[0]?.state, 'active')
+})
 await attempt('same-origin rescue with the key', async () => {
   const response = await call(`${RESCUE}/undo`, {
     headers: { 'content-type': 'application/json', ...SAME_ORIGIN, 'x-plugin-health-key': key },
@@ -199,6 +234,37 @@ await attempt('same-origin keyed repair', async () => {
   })
   check('same-origin keyed repair', response.status, 200)
   check('the repair handler actually ran', response.body?.dryRun, true)
+})
+
+await attempt('repair confirmation stays bound to its preview', async () => {
+  const headers = { 'content-type': 'application/json', ...SAME_ORIGIN, 'x-plugin-health-key': key }
+  const first = join(profileDir, 'package.json.bak-first')
+  const second = join(profileDir, 'package.json.bak-second')
+  writeFileSync(first, '{}')
+  const missing = await call(REPAIR, { headers, body: JSON.stringify({ dryRun: false }) })
+  check('repair requires a preview token', missing.status, 409)
+  const preview = await call(REPAIR, { headers, body: JSON.stringify({ dryRun: true }) })
+  check('repair preview returns a token', typeof preview.body.planToken, 'string')
+  writeFileSync(second, '{}')
+  const stale = await call(REPAIR, { headers, body: JSON.stringify({ dryRun: false, planToken: preview.body.planToken }) })
+  check('repair refuses a newly appearing target', stale.status, 409)
+  check('stale preview leaves both files alone', existsSync(first) && existsSync(second), true)
+  const current = await call(REPAIR, { headers, body: JSON.stringify({ dryRun: true }) })
+  const body = JSON.stringify({ dryRun: false, planToken: current.body.planToken })
+  check('fresh repair confirmation succeeds', (await call(REPAIR, { headers, body })).status, 200)
+  check('confirmed repair quarantines the previewed files', !existsSync(first) && !existsSync(second), true)
+  check('repair preview token cannot be reused', (await call(REPAIR, { headers, body })).status, 409)
+})
+
+await attempt('status checks Origin without Fetch Metadata', async () => {
+  check('cross-origin status read is refused',
+    (await call(STATUS, { method: 'GET', headers: { origin: 'http://127.0.0.1:3000' } })).status, 403)
+})
+
+await attempt('rescue excludes inherited actions', async () => {
+  check('Object constructor is not a rescue action', (await call(`${RESCUE}/constructor`, {
+    headers: { 'content-type': 'application/json', ...SAME_ORIGIN, 'x-plugin-health-key': key },
+  })).status, 404)
 })
 
 server.closeAllConnections?.()

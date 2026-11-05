@@ -29,6 +29,7 @@ export {
   writeIndex,
 } from './index/build.js'
 export { inspectDshHome, listProfiles, resolveDshHome } from './repair/inspect.js'
-export { applyRepairs, planRepairs, removeEmptyPatchEntries } from './repair/apply.js'
+export { applyRepairs, planRepairs, removeEmptyPatchEntries, restoreRepairs } from './repair/apply.js'
 export { main, parseArgv, usage } from './cli.js'
 export { runRuntimeSmoke } from './runtime/smoke.js'
+export { buildReliabilityReport, compareReliabilityReports } from './reliability/report.js'

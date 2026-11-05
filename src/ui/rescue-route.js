@@ -17,8 +17,9 @@
  */
 import { createHash, timingSafeEqual } from 'node:crypto'
 import semver from 'semver'
-import { readFileSync } from 'node:fs'
-import { join, resolve, sep } from 'node:path'
+import { realpathSync } from 'node:fs'
+import { isAbsolute, join, relative, resolve, sep } from 'node:path'
+import { readBoundedText } from '../reliability/report.js'
 
 import { auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue } from '../rescue/rescue.js'
 import { checkUpstream } from '../rescue/upstream.js'
@@ -61,6 +62,7 @@ function send(res, status, body) {
   res.writeHead(status, {
     'content-type': 'application/json; charset=utf-8',
     'cache-control': 'no-store',
+    'x-content-type-options': 'nosniff',
     'content-length': Buffer.byteLength(payload),
   })
   res.end(payload)
@@ -133,27 +135,29 @@ export function createRescueHandlers({
   }
   /**
    * Accept a caller-supplied host directory only if it is a real `@deepseek-ai/dsh` package inside
-   * one of the roots this tool already trusts.
-   *
-   * `body.dshDirectory` chose the directory whose `bin` script the rehearsal executes, so any local
-   * caller that could drop a folder anywhere on disk got code execution — no npm, no shell, and no
-   * user-visible trace. The value is now treated as a hint: it must resolve inside the profile, the
-   * DSH home, this tool's own host cache, or the current working directory, and it must actually
-   * contain a `@deepseek-ai/dsh` package.
+   * the DSH home, with the exact running version and an executable contained in the package.
+   * Resolve links before checking containment. This constrains a request hint; it does not
+   * authenticate package provenance or isolate the code from the local user account.
    * @param {string} candidate
-   * @param {{home: string, profileDir: string}} where
+   * @param {{home: string, runtimeVersion: string}} where
    * @returns {string} the resolved directory, or throws
    */
-  const trustedHostDirectory = (candidate, { home, profileDir }) => {
-    const roots = [
-      profileDir,
-      home,
-      join(home, '.plugin-health', 'host'),
-      process.cwd(),
-    ].map(root => resolve(root))
-    const resolved = resolve(candidate)
-    const inside = roots.some(root => resolved === root || resolved.startsWith(`${root}${sep}`))
-    if (!inside) throw new Error('dshDirectory must be inside the profile, the DSH home, or this tool\'s host cache')
+  const trustedHostDirectory = (candidate, { home, runtimeVersion }) => {
+    const root = realpathSync(home)
+    const resolved = realpathSync(candidate)
+    const inside = (base, target) => {
+      const tail = relative(base, target)
+      return tail !== '' && tail !== '..' && !tail.startsWith(`..${sep}`) && !isAbsolute(tail)
+    }
+    if (!inside(root, resolved)) throw new Error('dshDirectory must resolve inside the DSH home')
+    const manifest = JSON.parse(readBoundedText(join(resolved, 'package.json')))
+    if (manifest.name !== '@deepseek-ai/dsh' || !semver.valid(runtimeVersion) || manifest.version !== runtimeVersion) {
+      throw new Error('dshDirectory must contain the exact running @deepseek-ai/dsh version')
+    }
+    const bin = typeof manifest.bin === 'string' ? manifest.bin : manifest.bin?.dsh
+    if (typeof bin !== 'string' || !inside(resolved, realpathSync(resolve(resolved, bin)))) {
+      throw new Error('the DSH executable must resolve inside its package')
+    }
     return resolved
   }
   /** A hint from the caller, if it is one we are willing to use. */
@@ -167,7 +171,7 @@ export function createRescueHandlers({
       const { home, profile, profileDir, runtimeVersion } = context()
       const identity = requireInstalledPlugin(profileDir, body?.plugin, body?.version)
       const hostVersion = runtimeVersion ?? body.runtimeVersion
-      const dshDirectory = hostFromBody(body, { home, profileDir })
+      const dshDirectory = hostFromBody(body, { home, runtimeVersion: hostVersion })
         ?? await hostFor(home, profileDir, hostVersion)
       const result = await rehearseImpl({
         dshDirectory,
@@ -192,7 +196,7 @@ export function createRescueHandlers({
       const { home, profileDir, profile, runtimeVersion } = context()
       const identity = requireInstalledPlugin(profileDir, body?.plugin, body?.version)
       const hostVersion = runtimeVersion ?? body.runtimeVersion
-      const dshDirectory = hostFromBody(body, { home, profileDir })
+      const dshDirectory = hostFromBody(body, { home, runtimeVersion: hostVersion })
         ?? await hostFor(home, profileDir, hostVersion)
       const result = await rescueImpl({
         profileDir, profile, dshDirectory,
@@ -351,7 +355,8 @@ function readInstalledManifest(profileDir, name) {
   const directory = resolve(root, name)
   if (directory !== root && !directory.startsWith(`${root}${sep}`)) return undefined
   try {
-    return JSON.parse(readFileSync(join(directory, 'package.json'), 'utf8'))
+    const manifest = JSON.parse(readBoundedText(join(directory, 'package.json')))
+    return manifest?.name === name ? manifest : undefined
   } catch {
     return undefined
   }
@@ -446,8 +451,8 @@ export function registerRescueRoute(ctx, { currentProfile, key, toolVersion, ref
           if (!authorize(req, res)) return
           const action = String(req.url ?? '').split('?')[0].replace(RESCUE_PATH, '').replace(/^\//u, '')
           try {
-            const handler = handlers[action]
-            if (handler === undefined) { send(res, 404, { error: 'unknown rescue action' }); return }
+            const handler = Object.hasOwn(handlers, action) ? handlers[action] : undefined
+            if (typeof handler !== 'function') { send(res, 404, { error: 'unknown rescue action' }); return }
             const body = await readBody(req)
             send(res, 200, await handler(body))
           } catch (error) {
@@ -489,7 +494,6 @@ export function registerRescueRoute(ctx, { currentProfile, key, toolVersion, ref
                 profileDir,
                 version,
                 currentVersion: snapshotUpdate().currentVersion,
-                manager: body.manager,
                 runProcess: installRunProcess,
               })
               send(res, result.phase === 'failed' ? 400 : 200, result)

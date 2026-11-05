@@ -12,10 +12,11 @@ import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { inspectDshHome } from './repair/inspect.js'
 import { formatInspection } from './repair/format.js'
-import { cachedStatus, runningProfile } from './ui/status.js'
+import { runningProfile, statusForRequest } from './ui/status.js'
 import { registerRepairRoute } from './ui/repair-route.js'
 import { registerRescueRoute } from './ui/rescue-route.js'
 import { startAutoCheck } from './ui/update.js'
+import { createLiveObserver } from './reliability/live.js'
 
 export const name = 'plugin-health'
 export const inject = ['tools']
@@ -81,12 +82,19 @@ export async function apply(ctx) {
   try {
     if (typeof ctx?.inject === 'function') {
       const resolveProfile = () => runningProfile(ctx)
+      const observe = createLiveObserver()
       // A rescue must judge the plugin against the host the user is actually running, so the
       // version is resolved here where the host package is visible, not guessed later.
       const resolveRescueProfile = () => ({ ...runningProfile(ctx), runtimeVersion: hostRuntimeVersion() })
       const key = registerRepairRoute(ctx, {
         resolveProfile,
-        getStatus: () => cachedStatus({ ...resolveProfile(), runtimeVersion: hostRuntimeVersion() }),
+        getStatus: (req) => {
+          const location = resolveProfile()
+          return statusForRequest(req, {
+            ...location, runtimeVersion: hostRuntimeVersion(),
+            liveReview: observe(ctx, location),
+          })
+        },
       })
       registerRescueRoute(ctx, { currentProfile: resolveRescueProfile, key, toolVersion: VERSION })
       // Fire and forget: the panel the user opens should already know whether this plugin is current,

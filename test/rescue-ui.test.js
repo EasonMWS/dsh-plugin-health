@@ -30,7 +30,7 @@ function snapshot({ rescuable = [PLUGIN], rescues = [] } = {}) {
  * Render the browser bundle and route rescue requests to scripted responses.
  * `handler(action, body)` returns the JSON body the fake server sends back.
  */
-function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite = false } = {}) {
+function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite = false, storage = new Map() } = {}) {
   const slots = new Map(), dictionaries = new Map(), instances = new Map(), requests = []
   /** Keyboard events the client dispatched, so a test can assert the settings shortcut fired. */
   const keyEvents = []
@@ -43,6 +43,11 @@ function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite =
       const record = active, index = record.cursor++
       if (!(index in record.hooks)) record.hooks[index] = typeof initial === 'function' ? initial() : initial
       return [record.hooks[index], (value) => { record.hooks[index] = typeof value === 'function' ? value(record.hooks[index]) : value }]
+    },
+    useRef(initial) {
+      const index = active.cursor++
+      if (!(index in active.hooks)) active.hooks[index] = { current: initial }
+      return active.hooks[index]
     },
     useCallback(callback, deps) {
       const index = active.cursor++, previous = active.hooks[index]
@@ -70,7 +75,13 @@ function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite =
     },
   }
   runInNewContext(clientSource, {
-    window: { __ModuleLoader__: { load: ({ factory }) => { exports = factory(() => React) } } },
+  AbortController, setTimeout, clearTimeout,
+    URL,
+    URLSearchParams,
+    window: {
+      __ModuleLoader__: { load: ({ factory }) => { exports = factory(() => React) } },
+      localStorage: { getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value) },
+    },
     navigator: {
       clipboard: { writeText: async (value) => { requests.push({ url: 'clipboard', body: value }) } },
       platform: 'Win32',
@@ -104,7 +115,7 @@ function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite =
         rejectFirstWrite = false
         return { ok: false, status: 401, json: async () => ({ error: 'missing or invalid control key' }) }
       }
-      if (url.endsWith('/status')) {
+      if (url.endsWith('/status') || url.endsWith('/status?fresh=1')) {
         // `statusSequence` models the snapshot changing between polls; the last entry sticks.
         const payload = statusSequence !== undefined && statusSequence.length > 0
           ? (statusSequence.length > 1 ? statusSequence.shift() : statusSequence[0])
@@ -132,6 +143,7 @@ function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite =
   }
   return {
     slots, requests, keyEvents,
+    setData: (next) => { data = next },
     /** Run every registered poll callback once, simulating the 60s timer. */
     triggerRefresh() { for (const callback of intervals) callback() },
     /**
@@ -158,12 +170,12 @@ function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite =
 
 const settle = () => new Promise((resolve) => setImmediate(resolve))
 const flatten = (node) => {
-  if (node === null || node === undefined || typeof node === 'boolean') return ''
+  if (node === null || node === undefined || typeof node === 'boolean' || node.type === 'style' || node.props?.hidden || node.props?.['aria-hidden'] === true) return ''
   if (typeof node !== 'object') return String(node)
   return node.children.map(flatten).join(' ')
 }
 const findAll = (node, predicate, out = []) => {
-  if (!node || typeof node !== 'object') return out
+  if (!node || typeof node !== 'object' || node.type === 'style' || node.props?.hidden || node.props?.['aria-hidden'] === true) return out
   if (predicate(node)) out.push(node)
   for (const child of node.children) findAll(child, predicate, out)
   return out
@@ -176,16 +188,215 @@ const click = (tree, label) => {
   return found.props.onClick()
 }
 
+const card = (app, plugin = PLUGIN) => {
+  const found = findAll(app.render(), node => node.props['data-plugin'] === `${plugin.name}@${plugin.version}`)[0]
+  assert.ok(found, `missing rescue card: ${plugin.name}@${plugin.version}`)
+  return found
+}
+const switchView = (app, value) => findAll(app.render(), node => node.type === 'select')[0].props.onChange({ target: { value } })
+const trialRequests = app => app.requests.filter(request => request.url.endsWith('/rehearse'))
+async function runTrial(app, { plugin = PLUGIN, review = 'Review startup check', confirm = 'I trust this plugin; run the check' } = {}) {
+  const before = trialRequests(app).length
+  await click(card(app, plugin), review)
+  assert.equal(trialRequests(app).length, before, 'reviewing the warning must not execute the plugin')
+  await click(card(app, plugin), confirm)
+}
+
+for (const view of ['daily', 'advanced', 'developer']) {
+  test(`${view}: startup and repeated checks require confirmation; cancelling executes nothing`, async () => {
+    const app = client({
+      storage: new Map([['dsh-plugin-health:view', view]]),
+      handler: action => action === 'rehearse'
+        ? { verdict: 'inconclusive', canApply: false, messageKey: 'rescueVerdictInconclusive' }
+        : undefined,
+    })
+    app.render(); await settle()
+    await click(card(app), 'Review startup check')
+    const warning = card(app)
+    assert.match(flatten(warning), /downloads, installs and executes plugin code/u)
+    assert.match(flatten(warning), /does not restrict access to files, networks or other programs/u)
+    assert.match(flatten(warning), /Cancel if the source is unknown/u)
+    assert.equal(trialRequests(app).length, 0)
+    await click(warning, 'Cancel startup check')
+    assert.equal(trialRequests(app).length, 0)
+    assert.doesNotMatch(flatten(card(app)), /Confirm you trust the plugin before running it/u)
+
+    await runTrial(app)
+    assert.deepEqual(trialRequests(app).map(request => request.body), [{ plugin: PLUGIN.name, version: PLUGIN.version }])
+    assert.match(flatten(card(app)), /trial was inconclusive.*No (?:version exemption was written|startup permission was saved)/u)
+    assert.doesNotMatch(flatten(card(app)), /cannot be saved|Nothing was changed|Allow startup next time|Exempt temporarily/u)
+    await click(card(app), 'Check again')
+    assert.equal(trialRequests(app).length, 1, 'a repeat check must wait for fresh confirmation')
+    assert.match(flatten(card(app)), /Confirm you trust the plugin before running it/u)
+    await click(card(app), 'Cancel startup check')
+    assert.equal(trialRequests(app).length, 1)
+    assert.match(flatten(card(app)), /trial was inconclusive/u)
+
+    await click(card(app), 'Check again')
+    const confirm = buttons(card(app)).find(node => flatten(node).trim() === 'I trust this plugin; run the check')
+    const running = confirm.props.onClick()
+    await confirm.props.onClick() // An already queued second click must not run the code twice.
+    await running
+    assert.equal(trialRequests(app).length, 2)
+  })
+}
+
+test('two plugin trials keep out-of-order results and startup permissions on the matching card', async () => {
+  const other = { ...PLUGIN, name: 'other-plugin', id: 'other' }
+  const pending = new Map(), applied = []
+  const app = client({
+    data: snapshot({ rescuable: [PLUGIN, other] }),
+    handler: (action, body) => {
+      if (action === 'rehearse') return new Promise(resolve => pending.set(body.plugin, resolve))
+      if (action === 'apply') {
+        applied.push(body)
+        return { applied: true, verdict: 'runs', messageKey: 'rescueVerdictRuns' }
+      }
+    },
+  })
+  app.render(); await settle()
+  const first = runTrial(app)
+  await settle()
+  assert.match(flatten(card(app)), /Installing and starting/u)
+  assert.ok(buttons(card(app, other)).some(node => flatten(node).trim() === 'Review startup check'))
+  const second = runTrial(app, { plugin: other })
+  await settle()
+  pending.get(other.name)({ verdict: 'broken', canApply: false, messageKey: 'rescueVerdictBrokenWhy' })
+  await second
+  assert.match(flatten(card(app)), /Installing and starting/u)
+  assert.match(flatten(card(app, other)), /Did not start in this trial/u)
+  pending.get(PLUGIN.name)({ verdict: 'runs', canApply: true, messageKey: 'rescueVerdictRuns', hostVersion: '0.2.1-rc.4' })
+  await first
+  assert.match(flatten(card(app)), /Passed the standalone startup check/u)
+  assert.doesNotMatch(flatten(card(app, other)), /Passed the standalone startup check|Allow startup next time/u)
+
+  switchView(app, 'developer')
+  assert.ok(buttons(card(app)).some(node => flatten(node).trim() === 'Exempt temporarily'))
+  assert.doesNotMatch(flatten(card(app, other)), /Exempt temporarily/u)
+  switchView(app, 'daily')
+  await click(card(app), 'Allow startup next time')
+  assert.match(flatten(card(app)), /legacy-plugin@1.0.0/u)
+  assert.doesNotMatch(flatten(card(app, other)), /Confirm this version may start/u)
+  await click(card(app), 'Confirm startup permission')
+  assert.deepEqual(applied, [{ plugin: PLUGIN.name, version: PLUGIN.version }])
+  assert.match(flatten(card(app)), /Allowed to start next time/u)
+  assert.doesNotMatch(flatten(card(app, other)), /Allowed to start next time/u)
+})
+
+for (const changed of ['version', 'profile']) {
+  test(`a changed ${changed} does not inherit the previous successful trial`, async () => {
+    const app = client({ handler: action => action === 'rehearse'
+      ? { verdict: 'runs', canApply: true, messageKey: 'rescueVerdictRuns' } : undefined })
+    app.render(); await settle()
+    await runTrial(app)
+    assert.match(flatten(card(app)), /Passed the standalone startup check/u)
+    const nextPlugin = changed === 'version' ? { ...PLUGIN, version: '2.0.0' } : PLUGIN
+    const next = snapshot({ rescuable: [nextPlugin] })
+    if (changed === 'profile') next.profile = 'another-setup'
+    app.setData(next)
+    await click(app.render(), 'Rescan')
+    const fresh = card(app, nextPlugin)
+    assert.ok(buttons(fresh).some(node => flatten(node).trim() === 'Review startup check'))
+    assert.doesNotMatch(flatten(fresh), /Passed the standalone startup check|Allow startup next time/u)
+    assert.equal(trialRequests(app).length, 1)
+    assert.equal(app.requests.filter(request => request.url.endsWith('/apply')).length, 0)
+  })
+}
+
+test('a failed report search is not presented as an empty successful search', async () => {
+  let available = false
+  const app = client({ handler: action => {
+    if (action === 'rehearse') return { verdict: 'broken', canApply: false, messageKey: 'rescueVerdictBrokenWhy' }
+    if (action === 'report') return {
+      checked: available, error: available ? null : 'GitHub responded 503', existing: [],
+      newIssueUrl: 'https://github.com/o/r/issues/new', title: 't', body: 'b',
+    }
+  } })
+  app.render(); await settle()
+  await runTrial(app)
+  await click(card(app), 'Look for similar reports')
+  let view = card(app)
+  assert.match(flatten(view), /This search did not complete/u)
+  assert.doesNotMatch(flatten(view), /Nobody has reported|No matching reports|feedback draft is ready/u)
+  assert.equal(links(view).some(node => node.props.href?.endsWith('/issues/new')), false)
+  available = true
+  await click(view, 'Look for similar reports')
+  view = card(app)
+  assert.match(flatten(view), /No matching reports found in this search/u)
+  assert.ok(links(view).some(node => node.props.href === 'https://github.com/o/r/issues/new'))
+})
+
+test('the settings preview sends the target and displays the version mismatch separately from activation', async () => {
+  const review = {
+    profile: 'desktop', currentVersion: '0.2.1-rc.4', targetVersion: '0.2.1-rc.4',
+    packages: [{ name: 'legacy-plugin', version: '1.0.0', declaration: { state: 'compatible' } }],
+    activation: [{ id: 'legacy', name: 'legacy-plugin', state: 'active' }], findings: [], limits: [],
+  }
+  const app = client({
+    data: { ...snapshot({ rescuable: [] }), review },
+    handler: action => {
+      if (action !== 'status?target=0.2.1-rc.5&fresh=1') return
+      return { review: { ...review, targetVersion: '0.2.1-rc.5', packages: [
+        { ...review.packages[0], declaration: { state: 'incompatible', requirements: { 'engines.dsh': '0.2.1-rc.4' } } },
+      ] } }
+    },
+  })
+  app.render()
+  await settle()
+  findAll(app.render(), node => node.type === 'select')[0].props.onChange({ target: { value: 'advanced' } })
+  const input = findAll(app.render(), node => node.type === 'input')[0]
+  input.props.onChange({ target: { value: '0.2.1-rc.5' } })
+  const form = findAll(app.render(), node => node.type === 'form')[0]
+  await form.props.onSubmit({ preventDefault() {} })
+  app.render() // Flush the effect that reveals mismatches.
+  const entries = buttons(app.render()).find(node => flatten(node).includes('Other startup records'))
+  entries.props.onClick()
+  const view = flatten(app.render())
+  assert.match(view, /DSH 0.2.1-rc.5 · 1 plugins do not list support for this version/u)
+  assert.match(view, /legacy-plugin@1.0.0\s+Support not listed for this version/u)
+  assert.match(view, /legacy-plugin\s+Active\s+legacy/u)
+})
+
+test('the view keeps daily recovery visible, remembers the selected level and shows live failures', async () => {
+  const storage = new Map()
+  const failed = { id: 'runtime-plugin', name: 'dsh-runtime-plugin', state: 'failed', diagnostic: { kind: 'duplicate-tool', tool: 'archive' } }
+  const data = {
+    ...snapshot({ rescuable: [] }),
+    liveReview: {
+      sampledAt: '2026-10-29T12:00:00Z', entries: [failed],
+      changes: [{ ...failed, before: 'active', after: 'failed', sampledAt: '2026-10-29T12:00:00Z' }],
+    },
+    review: { profile: 'desktop', targetVersion: '0.2.1-rc.4', packages: [], findings: [], limits: [] },
+  }
+  const app = client({ data, storage })
+  app.render()
+  await settle()
+  const daily = app.render()
+  const select = tree => findAll(tree, node => node.type === 'select')[0]
+  assert.equal(select(daily).props.value, 'daily')
+  assert.match(flatten(daily), /Could not start: 1.*feature name archive is used more than once/u)
+  assert.doesNotMatch(flatten(daily), /Recent startup changes|Check upgrade impact|Download runtime evidence/u)
+  assert.equal(app.findAlert()?.props.count, 1)
+  select(daily).props.onChange({ target: { value: 'advanced' } })
+  buttons(app.render()).find(node => flatten(node).includes('Recent startup changes')).props.onClick()
+  const advanced = app.render()
+  assert.match(flatten(advanced), /Recent startup changes.*Active → Failed to activate.*Check upgrade impact/u)
+  assert.doesNotMatch(flatten(advanced), /Download runtime evidence/u)
+  select(advanced).props.onChange({ target: { value: 'developer' } })
+  assert.match(flatten(app.render()), /dsh-plugin-health review --json.*Download runtime evidence/u)
+  assert.equal(select(client({ data, storage }).render()).props.value, 'developer')
+})
+
 test('the rescue panel renders the plugin and one check button', async () => {
   const app = client()
   const tree = app.render()
   await settle()
   const view = app.render()
   assert.match(flatten(view), /legacy-plugin/u)
-  assert.match(flatten(view), /Fix compatibility/u, 'the section heading is the compatibility one')
+  assert.match(flatten(view), /Plugin version does not match/u, 'the section heading is the compatibility one')
   assert.deepEqual(
     buttons(view).map(node => flatten(node).trim()),
-    ['Rescan', 'Check for updates', 'Check whether it can be saved'],
+    ['Rescan', 'Check for updates', 'Plugin is incompatible with this DSH version Needs attention Details', 'Review startup check'],
   )
 })
 
@@ -196,11 +407,11 @@ test('a rehearsal that boots offers the exemption, not a dead end', async () => 
       : undefined,
   })
   app.render(); await settle()
-  await click(app.render(), 'Check whether it can be saved')
+  await runTrial(app)
   await settle()
   const view = app.render()
-  assert.match(flatten(view), /only the declaration is out of date/u)
-  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check for updates', 'Exempt temporarily'])
+  assert.match(flatten(view), /Passed the standalone startup check.*started in this trial.*other features and any malicious behavior have not been checked/u)
+  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check for updates', 'Plugin is incompatible with this DSH version Needs attention Details', 'Allow startup next time'])
 })
 
 test('exempting asks for confirmation before writing anything', async () => {
@@ -213,14 +424,14 @@ test('exempting asks for confirmation before writing anything', async () => {
     },
   })
   app.render(); await settle()
-  await click(app.render(), 'Check whether it can be saved'); await settle()
+  await runTrial(app); await settle()
   // The first click only reveals the consequences; nothing may be written yet.
-  await click(app.render(), 'Exempt temporarily'); await settle()
+  await click(app.render(), 'Allow startup next time'); await settle()
   assert.equal(written.length, 0, 'no write may happen on the click that reveals the trade-off')
   const confirmView = app.render()
-  assert.match(flatten(confirmView), /Confirm before exempting/u)
-  assert.match(flatten(confirmView), /not official support/u, 'the limit is stated in the confirmation itself')
-  await click(confirmView, 'Exempt it'); await settle()
+  assert.match(flatten(confirmView), /Confirm this version may start/u)
+  assert.match(flatten(confirmView), /safety are unverified/u, 'the limit is stated in the confirmation itself')
+  await click(confirmView, 'Confirm startup permission'); await settle()
   assert.equal(written.length, 1)
   assert.deepEqual(written[0], { plugin: 'legacy-plugin', version: '1.0.0' })
 })
@@ -232,12 +443,12 @@ test('cancelling the confirmation writes nothing and returns to the verdict', as
       : undefined,
   })
   app.render(); await settle()
-  await click(app.render(), 'Check whether it can be saved'); await settle()
-  await click(app.render(), 'Exempt temporarily'); await settle()
+  await runTrial(app); await settle()
+  await click(app.render(), 'Allow startup next time'); await settle()
   await click(app.render(), 'Cancel'); await settle()
   const view = app.render()
-  assert.doesNotMatch(flatten(view), /Confirm before exempting/u)
-  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check for updates', 'Exempt temporarily'])
+  assert.doesNotMatch(flatten(view), /Confirm this version may start/u)
+  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check for updates', 'Plugin is incompatible with this DSH version Needs attention Details', 'Allow startup next time'])
   assert.equal(app.requests.filter(request => request.url.endsWith('/apply')).length, 0)
 })
 
@@ -248,16 +459,16 @@ test('a plugin that cannot boot offers exactly two decisions and no exemption', 
       : undefined,
   })
   app.render(); await settle()
-  await click(app.render(), 'Check whether it can be saved'); await settle()
+  await runTrial(app); await settle()
   const view = app.render()
   // An exemption for a plugin that cannot boot would hide a real breakage behind a gate that
   // no longer warns, so the button must not exist at all.
-  assert.doesNotMatch(flatten(view), /Exempt temporarily/u)
+  assert.doesNotMatch(flatten(view), /Allow startup next time/u)
   assert.match(flatten(view), /Turn it off, keep using DSH/u)
   assert.match(flatten(view), /Let AI try to fix it/u)
   const labels = buttons(view).map(node => flatten(node).trim())
   assert.ok(labels.includes('Turn off'))
-  assert.ok(labels.includes('Generate prompt'))
+  assert.ok(labels.includes('Prepare a problem summary'))
 })
 
 test('turning a plugin off sends its patch entry id', async () => {
@@ -270,7 +481,7 @@ test('turning a plugin off sends its patch entry id', async () => {
     },
   })
   app.render(); await settle()
-  await click(app.render(), 'Check whether it can be saved'); await settle()
+  await runTrial(app); await settle()
   await click(app.render(), 'Turn off'); await settle()
   assert.deepEqual(sent, [{ plugin: 'legacy-plugin', entryId: 'legacy' }])
   assert.match(flatten(app.render()), /It will not load after a restart/u)
@@ -285,14 +496,14 @@ test('generating the AI brief shows the prompt and copies only when asked', asyn
     },
   })
   app.render(); await settle()
-  await click(app.render(), 'Check whether it can be saved'); await settle()
-  await click(app.render(), 'Generate prompt'); await settle()
+  await runTrial(app); await settle()
+  await click(app.render(), 'Prepare a problem summary'); await settle()
   const view = app.render()
-  assert.match(flatten(view), /AI context is ready \(nothing sent\)/u)
+  assert.match(flatten(view), /Problem summary ready, not sent/u)
   assert.match(flatten(view), /C:\\dsh\\handoff/u)
   // Copying is a separate, explicit click — the brief existing is not consent to touch the clipboard.
   assert.equal(app.requests.filter(request => request.url === 'clipboard').length, 0)
-  await click(view, 'Copy prompt'); await settle()
+  await click(view, 'Copy problem summary'); await settle()
   const copied = app.requests.filter(request => request.url === 'clipboard')
   assert.equal(copied.length, 1)
   assert.equal(copied[0].body, 'THE PROMPT TEXT')
@@ -312,12 +523,29 @@ test('checking upstream links existing reports and offers no drafting when one e
     },
   })
   app.render(); await settle()
-  await click(app.render(), 'Check whether it can be saved'); await settle()
-  await click(app.render(), 'See whether upstream already knows'); await settle()
+  await runTrial(app); await settle()
+  await click(app.render(), 'Look for similar reports'); await settle()
   const view = app.render()
   assert.match(flatten(view), /already reported/u)
   assert.match(flatten(view), /#7/u)
-  assert.doesNotMatch(flatten(view), /Open the new-issue page/u, 'a duplicate must not be encouraged')
+  assert.doesNotMatch(flatten(view), /Open the feedback page/u, 'a duplicate must not be encouraged')
+  assert.equal(links(view).find(node => flatten(node).includes('#7')).props.href, 'https://github.com/o/r/issues/7')
+})
+
+test('report links reject executable schemes, credentials and lookalike hosts', async () => {
+  const urls = ['javascript:alert(1)', 'data:text/html,bad', 'https://github.com.evil.test/o/r/issues/7',
+    'https://name:secret@github.com/o/r/issues/7', 'https://github.com/o/r/issues/7\n']
+  for (const url of urls) {
+    const app = client({ handler: action => action === 'rehearse'
+      ? { verdict: 'broken', canApply: false }
+      : action === 'report' ? { existing: [{ number: 7, title: '<script>untrusted</script>', url }] } : undefined })
+    app.render(); await settle()
+    await runTrial(app); await settle()
+    await click(app.render(), 'Look for similar reports'); await settle()
+    const link = links(app.render()).find(node => flatten(node).includes('#7'))
+    assert.equal(link.props.href, undefined, url)
+    assert.equal(link.props.dangerouslySetInnerHTML, undefined)
+  }
 })
 
 test('recorded exemptions list an undo button that revokes that key', async () => {
@@ -334,9 +562,9 @@ test('recorded exemptions list an undo button that revokes that key', async () =
   })
   app.render(); await settle()
   const view = app.render()
-  assert.match(flatten(view), /Temporary exemptions/u)
-  assert.match(flatten(view), /Upstream now has 1\.1\.0/u, 'a stale rescue tells the user they can upgrade')
-  await click(view, 'Revoke'); await settle()
+  assert.match(flatten(view), /Plugins allowed to try starting/u)
+  assert.match(flatten(view), /Installed version changed to 1\.1\.0/u, 'the local version changed; this does not claim an upstream fix')
+  await click(view, 'Cancel permission'); await settle()
   assert.deepEqual(revoked, [{ key: 'legacy-plugin@1.0.0' }])
 })
 
@@ -349,9 +577,12 @@ test('a failing request surfaces the message instead of silently doing nothing',
     },
   })
   app.render(); await settle()
-  await click(app.render(), 'Check whether it can be saved'); await settle()
-  await click(app.render(), 'Exempt temporarily'); await settle()
-  await click(app.render(), 'Exempt it'); await settle()
+  await runTrial(app); await settle()
+  await click(app.render(), 'Allow startup next time'); await settle()
+  await click(app.render(), 'Confirm startup permission'); await settle()
+  assert.match(flatten(app.render()), /This operation did not complete/u)
+  assert.doesNotMatch(flatten(app.render()), /no script for apply/u)
+  await click(app.render(), 'View diagnostic details')
   assert.match(flatten(app.render()), /no script for apply/u)
 })
 
@@ -364,9 +595,9 @@ test('the rescue flow works in Chinese too', async () => {
   app.setLocale('zh')
   app.render(); await settle()
   const first = app.render()
-  assert.match(flatten(first), /修复兼容问题/u)
-  await click(first, '检查能不能救'); await settle()
-  assert.match(flatten(app.render()), /代码没问题，只是声明过时了/u)
+  assert.match(flatten(first), /插件版本不合适/u)
+  await runTrial(app, { review: '查看试运行说明', confirm: '我信任此插件，开始试运行' }); await settle()
+  assert.match(flatten(app.render()), /已通过独立启动检查.*本次检查中启动了.*还没有检查全部功能.*没有判断它是否有恶意行为/u)
 })
 
 // --- the sidebar alert must actually open something -----------------------------------
@@ -614,4 +845,30 @@ test('a failed install shows the package manager\'s reason and offers a retry', 
   assert.match(text, /Update failed/u)
   assert.match(text, /FETCH_404/u, 'the reason must be visible, not just an exit code')
   assert.ok(buttons(app.render()).some((node) => /Try again/u.test(flatten(node))), 'a retry must be offered')
+})
+
+test('update checking and installation cannot overwrite one another or submit twice', async () => {
+  let finishCheck, finishInstall
+  const update = { currentVersion: '2.0.0', latestVersion: '2.1.0', updateAvailable: true, status: 'ok' }
+  const app = client({ data: { ...snapshot(), update }, handler: (action, body) => {
+    if (action !== 'update') return
+    return new Promise(resolve => { if (body.action === 'install') finishInstall = resolve; else finishCheck = resolve })
+  } })
+  app.render(); await settle()
+  const checking = click(app.render(), 'Check for updates')
+  await settle()
+  const installButton = buttons(app.render()).find(node => flatten(node).trim() === 'Update now')
+  assert.equal(installButton.props.disabled, true)
+  await installButton.props.onClick() // A queued same-tick click is blocked by the hook too.
+  assert.equal(app.requests.filter(request => request.body?.action === 'install').length, 0)
+  finishCheck(update); await checking
+  const installing = click(app.render(), 'Update now')
+  await settle()
+  const checkButton = buttons(app.render()).find(node => flatten(node).trim() === 'Check for updates')
+  assert.equal(checkButton.props.disabled, true)
+  await checkButton.props.onClick()
+  assert.match(flatten(app.render()), /Updating…/u)
+  assert.equal(app.requests.filter(request => request.url.endsWith('/update')).length, 2)
+  finishInstall({ phase: 'done', targetVersion: '2.1.0' }); await installing
+  assert.match(flatten(app.render()), /restart DSH/u)
 })

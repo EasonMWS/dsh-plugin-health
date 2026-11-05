@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { parse as parseYaml } from 'yaml'
 import { inspectDshHome } from '../src/repair/inspect.js'
-import { applyRepairs, planRepairs, removeEmptyPatchEntries } from '../src/repair/apply.js'
+import { applyRepairs, planRepairs, removeEmptyPatchEntries, restoreRepairs } from '../src/repair/apply.js'
 
 function fixtureHome() {
   const home = mkdtempSync(join(tmpdir(), 'dsh-health-home-'))
@@ -98,6 +98,29 @@ test('applyRepairs quarantines broken directories and rewrites the patch', async
   } finally {
     fixture.cleanup()
   }
+})
+
+test('restore returns quarantined files and keeps edits made since the repair', async (t) => {
+  const fixture = fixtureHome()
+  t.after(fixture.cleanup)
+  const { home, profile } = fixture
+  const patch = join(profile, 'cordis.patch.yml')
+  const original = readFileSync(patch, 'utf8')
+  const result = inspectDshHome({ home, profile: 'web' })
+  const applied = await applyRepairs(result.findings, { home, dryRun: false })
+  const repaired = readFileSync(patch, 'utf8')
+  const run = applied.restoreRun
+  assert.ok(restoreRepairs({ home, run }).results.every(row => row.state === 'would-restore'))
+  assert.equal(readFileSync(patch, 'utf8'), repaired)
+  const changed = repaired + '# later edit\n'
+  writeFileSync(patch, changed)
+  const restored = restoreRepairs({ home, run, dryRun: false })
+  assert.equal(restored.results.find(row => row.target === patch).state, 'blocked')
+  assert.equal(readFileSync(patch, 'utf8'), changed)
+  assert.ok(existsSync(join(profile, 'node_modules', 'dsh-broken')))
+  writeFileSync(patch, repaired)
+  assert.equal(restoreRepairs({ home, run, dryRun: false }).results.find(row => row.target === patch).state, 'restored')
+  assert.equal(readFileSync(patch, 'utf8'), original)
 })
 
 // --- exemptions must be honoured by the scan -------------------------------------------

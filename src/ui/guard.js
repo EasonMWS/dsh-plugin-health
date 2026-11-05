@@ -11,7 +11,7 @@
  * 1. `Content-Type: application/json` is required for writes. A `text/plain` POST is a CORS simple
  *    request and needs no preflight; requiring a non-simple type forces one, and the preflight fails
  *    because the routes answer OPTIONS with 405 and no CORS headers.
- * 2. The request's own origin has to match. `Origin`, when present, must equal the request's `Host`;
+ * 2. The request's own origin has to match the transport scheme, host and port;
  *    `Sec-Fetch-Site`, when present, must be `same-origin` or `none`. Both are set by the browser and
  *    cannot be forged by page script.
  *
@@ -50,19 +50,25 @@ export function checkWriteRequest(req) {
     return { ok: false, status: 415, error: 'write requests must be application/json' }
   }
 
-  const host = String(req?.headers?.host ?? '').trim().toLowerCase()
-  const origin = req?.headers?.origin
-  if (typeof origin === 'string' && origin !== '') {
-    // Same-origin means the Origin's authority is exactly the Host we were reached on.
-    let authority
-    try {
-      authority = new URL(origin).host.toLowerCase()
-    } catch {
-      return { ok: false, status: 403, error: 'cross-origin request refused' }
-    }
-    if (host === '' || authority !== host) return { ok: false, status: 403, error: 'cross-origin request refused' }
-  }
+  return checkStatusRequest(req)
+}
 
+/** Origin is scheme + host + port. Forwarded headers are not a trusted TLS signal. */
+function checkOrigin(req) {
+  const origin = req?.headers?.origin
+  if (origin === undefined) return { ok: true }
+  try {
+    if (typeof origin !== 'string') throw new Error('invalid origin')
+    const parsed = new URL(origin)
+    const expected = new URL(`${req?.socket?.encrypted ? 'https' : 'http'}://${req?.headers?.host}`)
+    if (parsed.origin !== origin || parsed.origin !== expected.origin) throw new Error('different origin')
+  } catch {
+    return { ok: false, status: 403, error: 'cross-origin request refused' }
+  }
+  return { ok: true }
+}
+
+function checkFetchSite(req) {
   const site = req?.headers?.['sec-fetch-site']
   if (typeof site === 'string' && site !== '' && site !== 'same-origin' && site !== 'none') {
     return { ok: false, status: 403, error: 'cross-site request refused' }
@@ -110,9 +116,6 @@ const LOOPBACK_ADDRESSES = [
  * @returns {{ok: true} | {ok: false, status: number, error: string}}
  */
 export function checkStatusRequest(req) {
-  const site = req?.headers?.['sec-fetch-site']
-  if (typeof site === 'string' && site !== '' && site !== 'same-origin' && site !== 'none') {
-    return { ok: false, status: 403, error: 'cross-site request refused' }
-  }
-  return { ok: true }
+  const origin = checkOrigin(req)
+  return origin.ok ? checkFetchSite(req) : origin
 }

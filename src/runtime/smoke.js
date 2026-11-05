@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, statSync, writeFileSy
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import semver from 'semver'
 
 const WORKER = fileURLToPath(new URL('./worker.js', import.meta.url))
 const LOG_LIMIT = 64 * 1024
@@ -20,6 +21,8 @@ export function runBoundedProcess(args, { cwd, env, timeoutMs, killAfterMs = 100
     let timedOut = false
     let orphaned = false
     let forceTimer
+    let closeDeadline
+    let cleanupUnconfirmed = false
     let forceComplete = false
     let closed
     const append = (current, chunk) => {
@@ -32,9 +35,16 @@ export function runBoundedProcess(args, { cwd, env, timeoutMs, killAfterMs = 100
     const kill = (signal) => {
       if (child.pid === undefined) return
       if (process.platform === 'win32') {
+        if (child.exitCode !== null || child.signalCode !== null) return
         // Node cannot signal a Windows process tree. taskkill also stops pnpm children.
         const killer = spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], { stdio: 'ignore' })
-        killer.on('error', () => { child.kill('SIGKILL') })
+        const fallback = () => {
+          cleanupUnconfirmed = true
+          try { child.kill('SIGKILL') } catch { /* process already exited or cannot be signalled */ }
+        }
+        killer.once('error', fallback)
+        killer.once('exit', (code) => { if (code !== 0) fallback() })
+        killer.unref()
       } else {
         try { process.kill(-child.pid, signal) } catch (error) {
           if (error.code !== 'ESRCH') child.kill(signal)
@@ -47,6 +57,16 @@ export function runBoundedProcess(args, { cwd, env, timeoutMs, killAfterMs = 100
         kill('SIGKILL')
         forceComplete = true
         finish()
+        if (closed === undefined) {
+          closeDeadline = setTimeout(() => {
+            cleanupUnconfirmed = true
+            closed = { exitCode: child.exitCode, signal: child.signalCode }
+            child.stdout.destroy()
+            child.stderr.destroy()
+            child.unref()
+            finish()
+          }, 1000)
+        }
       }, killAfterMs)
     }
     const timer = setTimeout(() => {
@@ -56,11 +76,15 @@ export function runBoundedProcess(args, { cwd, env, timeoutMs, killAfterMs = 100
     const finish = () => {
       if (closed === undefined || ((timedOut || orphaned) && !forceComplete)) return
       clearTimeout(timer)
-      resolveResult({ ok: !timedOut && !orphaned && closed.exitCode === 0, ...closed, timedOut, orphaned, stdout, stderr, truncated })
+      clearTimeout(closeDeadline)
+      resolveResult({ ok: !timedOut && !orphaned && closed.exitCode === 0, ...closed, timedOut, orphaned, stdout, stderr, truncated,
+        ...(cleanupUnconfirmed ? { cleanupUnconfirmed: true } : {}),
+      })
     }
     child.on('error', (error) => {
       clearTimeout(timer)
       clearTimeout(forceTimer)
+      clearTimeout(closeDeadline)
       reject(error)
     })
     child.on('close', (exitCode, signal) => {
@@ -132,7 +156,8 @@ export function resolvePluginIdentity(spec, known = {}) {
 
 /**
  * Install through the official CLI, boot through its public profile-boot export,
- * then verify caller-selected tools. No existing profile is read or modified.
+ * then verify caller-selected tools. The orchestrator selects a new DSH_HOME for the trial;
+ * executed code still has the current account's access to existing profiles and other resources.
  * The run directory and bounded logs remain available on success and failure.
  *
  * `bootOnly` accepts a run with no tool assertions. That is the only meaningful
@@ -140,16 +165,15 @@ export function resolvePluginIdentity(spec, known = {}) {
  * question there is whether every entry activates at all, which `verifyActivation`
  * in the worker answers. Tool assertions still run when supplied.
  *
- * `bypassGate` grants the official exact-version exemption *inside the throwaway
+ * `bypassGate` grants the official exact-version exemption *inside the temporary
  * test home only*, before installing. Without it an incompatible plugin is simply
  * rejected and the run tells us nothing about whether the code would have worked.
- * The exemption is never written to a real profile: the home is deleted with the
- * run directory's parent policy, and this is what separates "the gate says no"
- * from "the plugin actually breaks".
+ * Health writes that trial exemption to the new home, not the selected normal profile.
+ * Trial files are retained. None of this restricts plugin behavior or establishes a security boundary.
  */
 export async function runRuntimeSmoke({
   dshDirectory, plugin, tools = [], calls = [], out, bootOnly = false, bypassGate = false,
-  pluginName, pluginVersion, registryOnly = false,
+  pluginName, pluginVersion, registryOnly = false, companions = [],
   timeoutMs = 30_000, installTimeoutMs = 120_000,
 }, { runProcess = runBoundedProcess } = {}) {
   // A registry-only run must be told the identity: there is no path to read it from, and the spec
@@ -159,6 +183,11 @@ export async function runRuntimeSmoke({
   }
   if (typeof dshDirectory !== 'string' || typeof plugin !== 'string' || plugin === '' || plugin.startsWith('-')) {
     throw new Error('smoke requires --dsh-dir <installed @deepseek-ai/dsh directory> and --plugin <spec|tarball>')
+  }
+  if (!Array.isArray(companions) || companions.length > 12 ||
+      companions.some(spec => typeof spec !== 'string' || !spec || spec.startsWith('-')) ||
+      (companions.length > 0 && registryOnly)) {
+    throw new Error('supply up to 12 companion plugins in a local smoke run')
   }
   for (const timeout of [timeoutMs, installTimeoutMs]) {
     if (!Number.isFinite(timeout) || timeout <= 0) throw new Error('smoke timeouts must be positive numbers')
@@ -186,6 +215,16 @@ export async function runRuntimeSmoke({
     : { name: undefined, version: undefined }
   const resolvedName = resolved.name
   const resolvedVersion = resolved.version
+  const combination = companions.length === 0 ? null : [pluginSpec, ...companions].map(spec => {
+    const input = existsSync(spec) ? resolve(spec) : spec
+    const identity = resolvePluginIdentity(input)
+    if (!/^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*$/iu.test(identity.name) ||
+        !semver.valid(identity.version)) throw new Error('combination inputs need exact package versions or unpacked package directories')
+    return { spec: input, ...identity }
+  })
+  if (combination && new Set(combination.map(row => row.name)).size !== combination.length) {
+    throw new Error('a combination must use distinct package names')
+  }
   const parent = out === undefined ? tmpdir() : resolve(out)
   mkdirSync(parent, { recursive: true })
   const directory = mkdtempSync(join(parent, 'dsh-health-smoke-'))
@@ -199,13 +238,14 @@ export async function runRuntimeSmoke({
     schemaVersion: 1, generatedAt: new Date().toISOString(),
     hostVersion: manifest.version, plugin: pluginSpec, directory, home, profile,
     ok: false, stages: [],
+    ...(combination ? { combination } : {}),
   }
   const save = () => { writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`) }
   save()
   try {
     if (bypassGate) {
       // The host's own gate rejected this exact-version pair; grant the exemption it asks
-      // for inside the isolated home so the install can proceed and the boot can be judged.
+      // for inside the temporary DSH home so the install can proceed and the boot can be judged.
       const granted = await runProcess([
         resolve(hostDir, bin), 'plugin', '--profile', profile, 'allow-version',
         `${resolvedName}@${resolvedVersion}`, '--dsh-version', manifest.version, '--accept-risk',
@@ -214,17 +254,19 @@ export async function runRuntimeSmoke({
       save()
       if (!granted.ok) return report
     }
-    const installed = await runProcess([resolve(hostDir, bin), 'plugin', '--profile', profile, 'add', pluginSpec], {
-      cwd: directory, env, timeoutMs: installTimeoutMs,
-    })
-    report.stages.push({ name: 'install', ...installed })
-    save()
-    if (!installed.ok) return report
+    for (const subject of combination ?? [{ spec: pluginSpec }]) {
+      const installed = await runProcess([resolve(hostDir, bin), 'plugin', '--profile', profile, 'add', subject.spec], {
+        cwd: directory, env, timeoutMs: installTimeoutMs,
+      })
+      report.stages.push({ name: 'install', ...installed, ...(combination ? { plugin: subject.name } : {}) })
+      save()
+      if (!installed.ok) return report
+    }
     writeFileSync(configPath, JSON.stringify({
-    hostDir, profile, tools, calls, resultPath: workerResult,
-    // The plugin under test: activation of *this* package is the claim a boot-only rehearsal makes.
-    plugin: resolvedName,
-  }))
+      hostDir, profile, tools, calls, resultPath: workerResult,
+      plugin: resolvedName,
+      plugins: combination?.map(row => row.name),
+    }))
     const runtime = await runProcess(['--expose-internals', WORKER, configPath], { cwd: directory, env, timeoutMs })
     const stage = { name: 'runtime', ...runtime, ok: false }
     report.stages.push(stage)

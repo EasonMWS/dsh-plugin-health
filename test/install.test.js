@@ -65,7 +65,7 @@ test('the package manager is detected from the profile, never assumed', () => {
   assert.equal(detectPackageManager(empty), 'npm')
 })
 
-test('pnpm is told not to prompt and not to enforce the release-age gate', async () => {
+test('pnpm preserves release-age policy and disables lifecycle scripts', async () => {
   // pnpm asks about new releases and about supply-chain policy. In a process nobody is watching, a
   // prompt is a hang — so the flags that turn prompts into decisions have to be there.
   const dir = profileWith()
@@ -75,12 +75,24 @@ test('pnpm is told not to prompt and not to enforce the release-age gate', async
   assert.equal(manager, 'pnpm')
   assert.equal(cwd, dir)
   assert.ok(args.includes('dsh-plugin-health@2.1.6'), 'the exact version, not a range')
-  assert.ok(args.includes('--config.minimumReleaseAge=0'), 'a just-published version must be installable')
+  assert.ok(!args.some(arg => /minimumReleaseAge/iu.test(arg)), 'the profile release-age policy must remain in effect')
+  assert.ok(args.includes('--ignore-scripts'), 'updating this plugin must not execute profile or dependency scripts')
   assert.ok(args.some((a) => a.startsWith('--reporter')), 'no interactive progress renderer')
   // pnpm 12 removed --no-frozen-lockfile from `add`; passing it makes the whole install fail with a
   // usage error. -y is the flag that actually turns a prompt into an answer.
   assert.ok(args.includes('--yes'), 'prompts must be answered, not waited on')
   assert.ok(!args.includes('--no-frozen-lockfile'), 'this flag does not exist on pnpm 12 add')
+})
+
+test('npm also disables lifecycle scripts during self-update', async (t) => {
+  resetInstallStateForTests()
+  const dir = profileWith('2.0.0', { manager: 'npm' })
+  t.after(() => rmSync(dir, { recursive: true, force: true }))
+  const fake = fakeManager('2.1.6')
+  const result = await installUpdate({ profileDir: dir, version: '2.1.6', runProcess: fake.runProcess })
+  assert.equal(result.phase, 'done')
+  assert.equal(fake.calls[0].manager, 'npm')
+  assert.ok(fake.calls[0].args.includes('--ignore-scripts'))
 })
 
 test('a version is validated, because it ends up on a command line', async () => {

@@ -3,7 +3,7 @@
  * @module cli
  */
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { basename, join } from 'node:path'
 import { DEFAULT_REGISTRY, fetchJson } from './util/http.js'
 import { createMatrix, hostSummary } from './compat/matrix.js'
 import { matrixToMarkdown, writeBadges } from './compat/report.js'
@@ -12,7 +12,7 @@ import { loadCatalogCategories } from './compat/catalog.js'
 import { buildFormat1Index, writeIndex } from './index/build.js'
 import { inspectDshHome, listInstalledPlugins, resolveDshHome } from './repair/inspect.js'
 import { formatInspection } from './repair/format.js'
-import { applyRepairs, planRepairs } from './repair/apply.js'
+import { applyRepairs, planRepairs, restoreRepairs } from './repair/apply.js'
 import { runRuntimeSmoke, resolvePluginIdentity } from './runtime/smoke.js'
 import {
   auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue,
@@ -22,6 +22,7 @@ import { buildReport, findExistingReports, rememberReport, repositorySlug } from
 import { buildBrief, writeHandoff } from './rescue/handoff.js'
 import { discoverDshDirectory, hostVersionOf } from './rescue/environment.js'
 import { diagnoseBoot, enterSafeMode, restoreSafeMode } from './rescue/boot.js'
+import { buildReliabilityReport, compareReliabilityReports, readBoundedText } from './reliability/report.js'
 
 const VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version
 const BOOLEAN_OPTIONS = new Set([
@@ -138,10 +139,14 @@ export function usage() {
     '',
     'Usage:',
     '  dsh-plugin-health matrix --plugins <file|specs> [options]',
-    '  dsh-plugin-health smoke --dsh-dir <dir> --plugin <spec|tarball> --tool <name> [options]',
+    '  dsh-plugin-health smoke --dsh-dir <dir> --plugin <spec|tarball> --tool <name> [--with <spec>] [options]',
     '  dsh-plugin-health index --catalog <file|url> --index-url <url> [options]',
     '  dsh-plugin-health doctor [--home <dir>] [--profile <name>] [--runtime <version>] [--json]',
+    '  dsh-plugin-health review [--home <dir>] [--profile <name>] [--runtime <version>]',
+    '      [--target <version>] [--candidate <unpacked-dir>] [--save <snapshot.json>]',
+    '      [--compare <snapshot.json>] [--json]',
     '  dsh-plugin-health repair [--home <dir>] [--profile <name>] [--runtime <version>] [--apply --yes]',
+    '  dsh-plugin-health repair --restore <run-id> [--home <dir>] [--apply --yes] [--json]',
     '  dsh-plugin-health rescue --profile <name> --plugin <name@version> [--apply] [--undo] [--status]',
     '  dsh-plugin-health handoff --profile <name> --plugin <name@version>',
     '  dsh-plugin-health report --profile <name> --plugin <name@version>',
@@ -310,6 +315,8 @@ async function resolveLatestHost(registry) {
 async function cmdSmoke(options) {
   const callsPath = lastString(options, 'calls')
   const bootOnly = booleanOption(options, 'boot-only')
+  const companions = allStrings(options, 'with')
+  if (companions.length !== (options.get('with')?.length ?? 0)) throw new UsageError('--with requires a companion package')
   if (!lastString(options, 'dsh-dir') || !lastString(options, 'plugin') || (allStrings(options, 'tool').length === 0 && callsPath === undefined && !bootOnly)) {
     throw new UsageError('smoke requires --dsh-dir, --plugin, and at least one --tool or --calls assertion (or --boot-only)')
   }
@@ -320,6 +327,7 @@ async function cmdSmoke(options) {
     calls: callsPath === undefined ? [] : JSON.parse(readFileSync(callsPath, 'utf8')),
     out: lastString(options, 'out'),
     bootOnly,
+    companions,
     bypassGate: booleanOption(options, 'bypass-gate'),
     timeoutMs: numberOption(options, 'timeout', 30000),
     installTimeoutMs: numberOption(options, 'install-timeout', 120000),
@@ -328,7 +336,7 @@ async function cmdSmoke(options) {
   else {
     console.log(`smoke: ${report.ok ? 'passed' : 'failed'} (${report.plugin}, dsh ${report.hostVersion})`)
     for (const stage of report.stages) {
-      console.log(`  ${stage.name}: ${stage.timedOut ? 'timed out' : stage.ok ? 'passed' : 'failed'}${stage.details?.stage ? ` (${stage.details.stage})` : ''}`)
+      console.log(`  ${stage.name}${stage.plugin ? ` ${stage.plugin}` : ''}: ${stage.timedOut ? 'timed out' : stage.ok ? 'passed' : 'failed'}${stage.details?.stage ? ` (${stage.details.stage})` : ''}`)
       if (stage.details?.error) console.error(stage.details.error)
       if (stage.error) console.error(stage.error)
       if (!stage.ok && stage.stderr) console.error(stage.stderr)
@@ -354,7 +362,78 @@ async function cmdDoctor(options) {
   return result.summary.error > 0 ? 1 : 0
 }
 
+function cmdReview(options) {
+  for (const flag of ['home', 'profile', 'runtime', 'target', 'candidate', 'save', 'compare']) {
+    if (options.has(flag) && !lastString(options, flag)) throw new UsageError(`--${flag} requires a value`)
+  }
+  const candidateDirectory = lastString(options, 'candidate')
+  const save = lastString(options, 'save')
+  const compare = lastString(options, 'compare')
+  if (candidateDirectory !== undefined && (save !== undefined || compare !== undefined)) {
+    throw new UsageError('capture and compare profile snapshots separately from candidate checks')
+  }
+  const report = buildReliabilityReport({
+    home: lastString(options, 'home'),
+    profile: lastString(options, 'profile'),
+    runtimeVersion: lastString(options, 'runtime'),
+    targetVersion: lastString(options, 'target'),
+    candidateDirectory,
+  })
+  const changes = compare === undefined ? null
+    : compareReliabilityReports(JSON.parse(readBoundedText(compare, 8 * 1024 * 1024)), report)
+  if (save !== undefined) writeFileSync(save, `${JSON.stringify(report, null, 2)}\n`, { flag: 'wx', mode: 0o600 })
+  if (booleanOption(options, 'json')) {
+    console.log(JSON.stringify({ ...report, changes }, null, 2))
+  } else {
+    console.log(`Profile ${report.profile} · Target DSH ${report.targetVersion ?? 'not specified'}`)
+    const inspected = report.candidate ? [...report.packages, report.candidate] : report.packages
+    for (const row of inspected) {
+      const ranges = row.declaration.requirements
+      console.log(`  ${row.name}@${row.version ?? '?'} [${row.source}]: ${row.declaration.state}${ranges ? ` ${JSON.stringify(ranges)}` : ''}`)
+    }
+    for (const finding of report.findings) {
+      if (finding.kind === 'profile-host-package') {
+        console.log(`  Host package copy in profile: ${finding.name}@${finding.version} (effective resolution unverified)`)
+      } else if (finding.kind === 'duplicate-insert-id') {
+        console.log(`  Repeated insert ID "${finding.id}": ${finding.previousLayer} → ${finding.layer}`)
+      } else if (finding.kind === 'declared-shared-write') {
+        console.log(`  Declared writers for ${finding.scope}:${finding.path}: ${finding.packages.join(', ')}`)
+      } else {
+        console.log(`  Row "${finding.id}" overridden: ${finding.previousLayer} → ${finding.layer}` +
+          (finding.moduleChanged ? '; module changed' : '') +
+          (finding.removedKeys.length ? `; omitted config keys: ${finding.removedKeys.join(', ')}` : ''))
+      }
+    }
+    if (changes !== null) {
+      console.log(`Changes since ${changes.before}: ${changes.packages.length} package(s), ${changes.patches.length} configuration source(s)`)
+      for (const row of [...changes.packages, ...changes.patches]) {
+        console.log(`  ${row.change}: ${row.name}${row.before || row.after ? ` (${row.before ?? '—'} → ${row.after ?? '—'})` : ''}`)
+      }
+    }
+    console.log(`Resource declarations: ${report.resourceDeclarations}. Shared-write findings describe declared intent.`)
+    console.log(`Coverage limits: ${report.limits.join(', ')}`)
+    if (save !== undefined) console.log(`Saved snapshot to ${save}`)
+  }
+  // CI can gate on a known declaration mismatch. Unknowns remain explicit in the report.
+  return report.candidate?.declaration.state === 'incompatible' ||
+    report.packages.some(row => row.name !== report.candidate?.name && row.declaration.state === 'incompatible') ? 1 : 0
+}
+
 async function cmdRepair(options) {
+  if (options.has('restore')) {
+    const run = lastString(options, 'restore')
+    if (run === undefined) throw new UsageError('--restore requires a repair run ID')
+    const dryRun = !booleanOption(options, 'apply')
+    if (!dryRun && !booleanOption(options, 'yes')) throw new UsageError('repair --restore --apply requires --yes')
+    const result = restoreRepairs({ home: resolveDshHome(lastString(options, 'home')), run, dryRun })
+    if (booleanOption(options, 'json')) {
+      console.log(JSON.stringify(result, null, 2))
+    } else {
+      for (const row of result.results) console.log(`${row.state}: ${row.target}${row.reason ? ` (${row.reason})` : ''}`)
+      if (dryRun) console.log('Preview only. Add --apply --yes to restore eligible items.')
+    }
+    return result.results.some(row => row.state === 'blocked') ? 1 : 0
+  }
   const result = inspectDshHome({
     home: lastString(options, 'home'),
     profile: lastString(options, 'profile'),
@@ -380,7 +459,10 @@ async function cmdRepair(options) {
     if (action.kind === 'quarantine') console.log(`  - quarantined ${action.from} -> ${action.to}`)
     else console.log(`  - rewrote ${action.file} (backup ${action.backup})`)
   }
-  if (applied.actions.length > 0) console.log(`quarantine: ${applied.quarantineDir}`)
+  if (applied.actions.length > 0) {
+    console.log(`quarantine: ${applied.quarantineDir}`)
+    if (!lastString(options, 'quarantine')) console.log(`restore preview: dsh-plugin-health repair --restore ${basename(applied.quarantineDir)}`)
+  }
   return 0
 }
 
@@ -722,6 +804,7 @@ export async function main(argv) {
       case 'smoke': return await cmdSmoke(options)
       case 'index': return await cmdIndex(options)
       case 'doctor': return await cmdDoctor(options)
+      case 'review': return cmdReview(options)
       case 'repair': return await cmdRepair(options)
       case 'rescue': return await cmdRescue(options)
       case 'handoff': return await cmdHandoff(options)

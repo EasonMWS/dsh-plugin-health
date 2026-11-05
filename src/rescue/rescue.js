@@ -154,7 +154,8 @@ export function declarationConflict(manifest, runtimeVersion) {
 }
 
 /**
- * Rehearse a rescue in an isolated home. Never mutates the user's profile.
+ * Rehearse a rescue using a separate temporary DSH data directory. Health does not write a
+ * normal-profile exemption here; executed plugin code retains the current account's permissions.
  * @returns {Promise<{verdict: 'runs'|'broken'|'inconclusive', report: object}>}
  */
 export async function rehearse({ dshDirectory, plugin, pluginName, pluginVersion, runtimeVersion, timeoutMs, installTimeoutMs, out }) {

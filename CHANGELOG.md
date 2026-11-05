@@ -1,5 +1,52 @@
 # Changelog
 
+## 3.0.0-beta.4
+
+- Matched daily, advanced and developer wording to their audiences in Chinese and English. Daily
+  users see impacts and next steps; diagnostic paths and raw errors remain available on demand.
+  Changing the view does not change permissions, protection requirements or reported failures.
+- Made the malware boundary visible in every view: Health observes installation and loading,
+  but cannot contain malware. Corrected documentation and metadata that overstated trial isolation,
+  recovery or the meaning of a passing check.
+- Required an explicit trust confirmation before every UI startup trial, including retries.
+  The confirmation explains that installation and execution retain the current account's access.
+  Cancelling performs no trial; repeated confirmation cannot launch duplicate requests.
+- Isolated trial state per plugin, version and profile so one result cannot authorize a different
+  card. Failed report queries no longer appear as a successful search with no reports.
+- Added audience, confirmation, state-isolation and report-failure regression checks, plus real
+  browser coverage of the revised wording and trial workflow.
+
+## 3.0.0-beta.3
+
+- Reworked the settings layout with scoped styles, theme-aware colors, narrow-screen wrapping and
+  clearer tasks for each view. Mode switches retain the upgrade preview and disclosure state.
+- Added keyboard-accessible animated disclosures. Closed content is inert and hidden from assistive
+  technology; reduced-motion preferences also apply to confirmation scrolling.
+- Kept the last results after a failed refresh, labeled them stale, and prevented late responses from
+  overwriting a newer scan. Read requests have a 15-second deadline, and a failed sidebar poll no
+  longer clears existing warnings. Update checks and installation cannot overwrite each other's state.
+- Bound repair confirmation to a five-minute, one-use preview token. Changed targets require a new
+  preview. Failed repairs show their reason and let the user build a fresh plan before confirming.
+- Added a real React/Edge component acceptance script covering mode changes, keyboard controls,
+  preview state, downloads, 360px layouts, reduced motion and dark appearance.
+- Hardened local write origin checks, rescue action and installed-package identity checks, host
+  directory validation and self-update installation policy. Browser report links accept only HTTPS
+  GitHub issue URLs without credentials.
+
+## 3.0.0-beta.2
+
+- Added three persistent settings views for daily checks, advanced diagnostics and developer verification.
+- Sampled live loader state independently of cached disk scans, highlighted activation failures and kept recent observations in memory.
+- Added developer export of live evidence and recognized duplicate tool registration diagnostics without exporting raw errors.
+
+## 3.0.0-beta.1
+
+- Added a settings and CLI review of installed packages, host activation evidence, target-version declarations,
+  literal configuration overrides, and optional shared-file declarations. Saved snapshots can be compared offline.
+- Added a smoke test for a user-selected plugin combination and a recovery preview for repairs in the default quarantine.
+- Fixed Windows startup check timeouts when the process-tree termination command fails.
+- Limited self-updates to the package managers supported by the installer and clarified the evidence shown after a startup check.
+
 ## 2.2.1 (2026-11-03)
 
 ### Fixed

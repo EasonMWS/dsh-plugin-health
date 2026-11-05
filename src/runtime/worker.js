@@ -9,11 +9,12 @@ import { pathToFileURL } from 'node:url'
 export function verifyActivation(ctx, extra = {}) {
   const loader = ctx.get('loader')
   assert.ok(loader, 'profile exited before runtime acceptance')
+  const entries = [...loader.entries()]
   const inactive = []
-  for (const entry of loader.entries()) {
+  for (const entry of entries) {
     if (entry.disabled || entry.fiber?.state === 2) continue
     const fiber = entry.fiber
-    const missing = fiber === undefined ? [] : Object.keys(fiber.inject).filter(name => fiber.ctx.get(name) === undefined)
+    const missing = fiber === undefined ? [] : Object.keys(fiber.inject ?? {}).filter(name => fiber.ctx.get(name) === undefined)
     inactive.push(`${entry.options.id ?? '?'} (${entry.options.name}): ${fiber === undefined ? 'not loaded' : `fiber state ${fiber.state}`}${missing.length ? `, waiting for ${missing.join(', ')}` : ''}`)
   }
   assert.equal(inactive.length, 0, `profile entries did not activate:\n${inactive.join('\n')}`)
@@ -22,8 +23,14 @@ export function verifyActivation(ctx, extra = {}) {
   // activated". A plugin that never got mounted — no bundle entry, its own patch sets
   // `disabled: true`, the loader skipped it — leaves the assertion above satisfied, because it
   // simply is not in the list. That is how a rehearsal could pass for a plugin that never loaded.
-  if (typeof extra.plugin === 'string' && extra.plugin !== '') {
-    const entries = loader.entries()
+  if (Array.isArray(extra.plugins)) {
+    for (const name of extra.plugins) {
+      const named = entries.filter(entry => typeof entry.options?.name === 'string' &&
+        (entry.options.name === name || entry.options.name.startsWith(`${name}/`)))
+      assert.ok(named.length, `${name} never entered the profile`)
+      assert.ok(named.every(entry => !entry.disabled && entry.fiber?.state === 2), `${name} did not activate`)
+    }
+  } else if (typeof extra.plugin === 'string' && extra.plugin !== '') {
     // Exact matches only, on the package name and on the entry id.
     //
     // These used to be `name === plugin || id.includes(plugin)`, and the substring half made the
@@ -100,7 +107,7 @@ async function main(configPath) {
       environment: loadLayeredEnv('dsh-health-smoke'), profile: config.profile, patchFiles: [], args: [],
     }))
     // Some hosts only warn about pending entries; do not turn that into a green smoke result.
-    verifyActivation(ctx, { plugin: config.plugin })
+    verifyActivation(ctx, { plugin: config.plugin, plugins: config.plugins })
     report.stage = 'assertions'
     save()
     report.assertions = config.tools.length === 0 && config.calls.length === 0

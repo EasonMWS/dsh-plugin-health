@@ -39,6 +39,31 @@ test('smoke installs and boots in the same isolated home and preserves runtime e
   assert.equal(JSON.parse(readFileSync(join(report.directory, 'smoke.json'), 'utf8')).ok, true)
 })
 
+test('combination smoke installs both packages before boot and requires both package names', async () => {
+  const options = fixture()
+  const commands = []
+  const report = await runRuntimeSmoke({ ...options, companions: ['second-plugin@2.0.0'] }, {
+    runProcess: async (args, settings) => {
+      commands.push({ args, env: settings.env.DSH_HOME })
+      if (commands.length === 3) {
+        const config = JSON.parse(readFileSync(args.at(-1), 'utf8'))
+        assert.deepEqual(config.plugins, ['fixture-plugin', 'second-plugin'])
+        writeFileSync(config.resultPath, JSON.stringify({ ok: true, stage: 'complete' }))
+      }
+      return success
+    },
+  })
+  assert.equal(report.ok, true)
+  assert.deepEqual(commands.slice(0, 2).map(row => row.args.at(-1)), ['fixture-plugin@1.0.0', 'second-plugin@2.0.0'])
+  assert.ok(commands.every(row => row.env === report.home))
+  const entry = (id, name) => ({ options: { id, name }, fiber: { state: 2 } })
+  const ctx = { get: () => ({ *entries() {
+    yield entry('fixture', 'fixture-plugin')
+    yield entry('second-plugin', 'unrelated-plugin')
+  } }) }
+  assert.throws(() => verifyActivation(ctx, { plugins: ['fixture-plugin', 'second-plugin'] }), /second-plugin never entered/u)
+})
+
 test('installation failure does not boot or claim runtime compatibility', async () => {
   let count = 0
   const report = await runRuntimeSmoke(fixture(), { runProcess: async () => {

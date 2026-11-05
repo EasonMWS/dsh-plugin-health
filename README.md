@@ -9,12 +9,16 @@
 **DSH updated and your plugins stopped loading? This tells you which ones broke, which can be fixed,
 and which cannot — then fixes them for you.**
 
-Most "incompatible" plugins are not broken. The author just pinned exact version numbers and has not
-caught up. This tool installs each one in a throwaway environment, boots it for real, and only then
-decides: repair it, hand you a brief for your own AI, or switch it off so DSH keeps working.
+Some rejected plugins have outdated version declarations. For trusted plugins, this tool can install
+and boot them using a separate temporary DSH data directory before offering a version exemption,
+a brief for your own AI, or a configuration change to disable the plugin.
 
-> Status: `2.2.1`. Built against the official DSH `0.2.1-rc.2` compatibility rules and the
-> published `@deepseek-ai/dsh-plugin-market-index` validator.
+**Health diagnoses compatibility and observed loading problems; it does not contain malware.**
+Startup checks execute plugin code with your account permissions and cannot safely open unknown
+software. Read [Health's security boundaries](SECURITY.md#malware-containment-is-not-implemented)
+and the [official DSH safety notice](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md).
+
+> Source candidate: `3.0.0-beta.4`. The registry install below follows the published npm release.
 
 ```sh
 npm install -g dsh-plugin-health
@@ -49,14 +53,15 @@ When a plugin is rejected, a chip appears in the sidebar — no need to go looki
 
 Open **Settings → Plugin health**. You get one line per problem, and one button per plugin:
 
-- **Check whether it can be saved** — installs and boots the plugin in a throwaway home (30–60 s).
-  Nothing in your profile changes.
+- **Check whether it can be saved** — installs and boots a trusted plugin in a separate temporary
+  DSH data directory (30–60 s). Health does not yet write a version exemption to your normal profile;
+  the executed plugin still has your account's access to files, network and processes.
 - **If it boots** → *Exempt temporarily*. One entry is written to the host's own
   `compatibility.json`, with one-click undo.
 - **If it does not boot** → no exemption button at all. Two honest choices:
   switch the plugin off, or take a prepared brief to your own AI.
 
-Everything is reversible, and nothing is deleted.
+You can revoke Health's exemption record. Revocation does not undo effects of plugin execution.
 
 ![The settings section with an incompatible plugin and the check button](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.png)
 
@@ -76,13 +81,13 @@ scanned 19 plugins…
 
 ## What "exempt temporarily" actually means
 
-**The gate lets it through — that is not official support.** We only prove it boots in isolation;
-whether every feature works is still yours to observe.
+**The gate lets it through — that is not official support.** A passing trial records that startup
+checks completed in the temporary DSH data directory. It does not certify plugin safety or all features.
 
 - It writes DSH's own `allow-version` exemption. No plugin is modified, nothing on npm is touched.
 - It applies to the host version you granted it for. After an upgrade, it needs re-checking.
-- It is listed under "Temporary exemptions" and can be undone in one click, restoring exactly the
-  value that was there before.
+- It is listed under "Temporary exemptions". Revoking it restores the recorded exemption value,
+  not files, network activity or other effects produced by the plugin.
 - Once the author ships a supported release, the panel tells you to revoke and upgrade.
 
 ## What happens between "rejected" and "fixed": four layers
@@ -93,26 +98,25 @@ DSH working again:
 | # | Layer | What it does | Where |
 | --- | --- | --- | --- |
 | **1** | **Detect** | Scans every installed plugin — bundles, `dependencies`, `cordis.patch.yml` inserts (including nested ones) and `node_modules` — and compares each declaration against the version you actually run | your machine |
-| **2** | **Verify** | Rehearses the rejected plugin in a **throwaway DSH home**: grants the exemption *there*, installs it, boots it, checks every entry activated | isolated, disposable |
+| **2** | **Verify** | Rehearses a trusted plugin in a **separate temporary DSH data directory**: grants the exemption *there*, installs it, boots it, checks activation | current account; trial files retained |
 | **3** | **Repair** | If the rehearsal booted, writes a single official `allow-version` exemption to *your* profile — recorded, one click to undo | your profile |
-| **4** | **Escalate** | If it did not boot, changes nothing and offers two real decisions: switch the plugin off, or take a prepared brief to your own agent. Checks upstream for an existing report first | your choice |
+| **4** | **Escalate** | If the trial fails or is inconclusive, withholds the normal-profile exemption and offers a disable option or a brief for your own agent. Checks upstream for an existing report first | your choice |
 
 **Layer 2 is the one that decides.** Without it, layer 3 would be a guess.
 
 ## Why that middle layer matters
 
-Most rejected plugins have perfectly good code — the author pinned exact versions and has not
-caught up with the new host. Measured on `0.2.1-rc.4`:
+An outdated version declaration does not tell us whether a plugin will boot. Measured on `0.2.1-rc.4`:
 
-| Plugin | Declared | Actually boots in isolation |
+| Plugin | Declared | Observed startup in a temporary DSH data directory |
 | --- | --- | --- |
 | `@nanmicoder/dsh-agent-teams@0.1.27` | ❌ rejected | ✅ **full boot, all 94 entries active** |
 | `dsh-find-plugin@0.4.0` | ❌ rejected | ✅ **runs fine** |
 | `@feng0531/dsh-vcs@0.4.10` | ❌ rejected | ❌ **fails: waits for a service the host no longer provides** |
 
 By declaration, all three are equally rejected. Two of them boot without complaint; one does not.
-**Reading declarations cannot tell them apart, which is why the rehearsal runs before anything is
-written.** Exempting the third would have produced exactly the outcome the gate exists to prevent — a
+**Reading declarations cannot tell them apart, which is why the trial precedes the normal-profile
+exemption.** Exempting the third would have produced exactly the outcome the gate exists to prevent — a
 plugin that loads and then misbehaves, with no warning left anywhere.
 
 ## For plugin authors: checks on every pull request
@@ -183,33 +187,32 @@ Full inputs: [`action.yml`](action.yml) · example: [`examples/dsh-compat.yml`](
 ```
 scan finds a rejected plugin
   ↓
-rehearse in a throwaway home: exempt the gate, then really boot it   ← your profile is untouched
-  ├─ it boots → the code is fine, only the declaration is stale
+trial in a temporary DSH data directory: exempt there, then boot trusted code
+  ├─ it boots → standalone startup passed in this trial
   │    → confirm, then write one exemption in your profile (undo in one click)
   │    → record it and watch upstream for a real release
   │    → when a fix ships, the record tells you to revoke and upgrade
-  └─ it fails → genuinely incompatible; exempting it would not help
-       → change nothing, say so plainly
+  └─ it fails or is inconclusive → report what this trial observed
+       → do not write the normal-profile exemption
        → two choices: switch it off, or generate a brief for your own agent
 ```
 
-**The order is the safety property.** Exempt-then-test leaves you running a plugin the gate no
-longer warns about but which still crashes. We prove it boots in isolation before your
-configuration changes.
+The order avoids writing a normal-profile exemption before startup checks pass. It does not
+constrain the tested code's access to your computer or make an unknown plugin safe to execute.
 
 ## What it looks like in Settings
 
 Under **Settings → Plugin health**, every incompatible plugin gets:
 
-- a **"Check whether it can be saved"** button — rehearses install + boot in a throwaway home
-  (30–60 s), changing nothing;
+- a **"Check whether it can be saved"** button — rehearses install + boot in a temporary DSH data
+  directory (30–60 s), before writing a normal-profile exemption;
 - **if it boots**: a confirmation step that restates exactly what will be written, that it is
   reversible, and that it is *not* official support — then the exemption;
 - **if it does not boot**: no exemption button at all, plus the two honest options;
 - every exemption listed with an undo button, flagged once upstream ships a fix.
 
-Everything is reversible: an exemption is a single entry in the host's own `compatibility.json`,
-and undo restores exactly the value that was there before.
+An exemption is an entry in the host's own `compatibility.json`. Undo restores the recorded
+exemption value. It does not reverse plugin side effects or guarantee that loaded code has stopped.
 
 ### Three controls in the header
 
@@ -336,19 +339,23 @@ checks enforce.
 > 2.1.3 you are missing at least one fix that matters, and the loopback check before 2.1.1 could be
 > bypassed by a LAN client with a forged `Host` header.
 
-| We do | We never do |
+| Health's actions | What Health itself does not do |
 | --- | --- |
-| Rehearse in an isolated temporary home | ❌ call your AI or spend your tokens |
+| Rehearse trusted code using a temporary DSH data directory | ❌ call your AI or spend your tokens |
 | Use DSH's official `allow-version` exemption | ❌ modify plugin source or anything on npm |
-| Record every change and support exact undo | ❌ grant an exemption when the rehearsal failed |
+| Record version exemptions and support revoking them | ❌ grant an exemption when the rehearsal failed |
 | Check whether upstream already has a report | ❌ file issues on your behalf |
 | Prepare a complete AI brief | ❌ press send for you |
 
-**A temporary exemption means the gate lets it through — not that it is supported.** We only prove
-it boots in isolation; whether every feature works is still on you to observe. When the author ships
-an official version, revoke the exemption and upgrade.
+These statements describe Health's own actions. Code executed during a trial has the account's
+permissions and is outside these guarantees. A failed trial can already have produced side effects.
+Health's repair quarantine is an ordinary backup directory, not antivirus isolation.
 
-## What 2.x promises
+**A temporary exemption allows loading on the selected host version.** The trial covers observed
+startup checks, not malicious behavior or all features. When the author ships a supported version,
+revoke the exemption and upgrade. Revoking permission does not undo plugin effects.
+
+## What 3.x promises
 
 A major version is a promise about stability, so here is exactly what is frozen and what is not —
 rather than letting you find out by upgrading.
@@ -358,7 +365,7 @@ rather than letting you find out by upgrading.
 `compatibility.json` that cannot be parsed is refused rather than rewritten. Everything below has
 held since 1.0 and still holds.
 
-**Frozen** — these will not break within 2.x:
+**Frozen** for 3.x:
 
 | Surface | Guarantee |
 | --- | --- |
@@ -416,7 +423,7 @@ This package is what you want if you are searching for any of these:
 | a **plugin manager** for DSH | shows every installed plugin and its state in one page |
 | a **plugin checker / inspector / scanner** | scans all installed plugins, not a sample |
 | a **plugin doctor** / diagnostics | explains what is broken and what to do about it |
-| **plugin conflict** detection | flags plugins that will not load on your DSH version |
+| Plugin upgrade and conflict review | checks declared DSH ranges, literal patch overrides and declared shared writes |
 | to **fix / repair a broken plugin** | one-click repair (quarantine only, never deletes) |
 | why a plugin **stopped working after a DSH update** | compares declared ranges against the new host |
 | 插件管理 / 插件检查 / 插件冲突 / 插件诊断 / 插件不兼容 | 中文界面，设置 → 插件健康 |
@@ -547,7 +554,9 @@ dsh plugin --profile desktop add dsh-plugin-health
 #                 ^^^^^^^ desktop app uses `desktop`; `dsh web` uses `web`
 ```
 
-The bundle declares `engines.dsh`, adds no UI, and changes nothing by itself.
+The bundle declares `engines.dsh` and registers this read-only tool alongside the settings UI.
+Profile changes use the UI's explicit repair and exemption controls; startup can also check for
+Health updates as described above.
 
 ## 1. Compatibility matrix
 
@@ -607,8 +616,8 @@ the supplied calls, and disposes the profile. It requires at least one `--tool` 
 assertion. `--tool` alone checks registration, not tool behavior or browser rendering.
 
 Installation has a 120-second limit. Boot, calls and shutdown share a 30-second limit; override
-with `--install-timeout` and `--timeout` (milliseconds). On timeout, the whole child process tree
-is stopped, including a plugin that never finishes initialization. The report names the failing
+with `--install-timeout` and `--timeout` (milliseconds). On timeout, Health attempts to stop the
+trial's child process tree; cleanup is best effort. The report names the failing
 stage (`install`, `boot`, `assertions` or `shutdown`) and preserves the host diagnostic. Exit 1
 means acceptance failed, even if a signal handler exits zero after a timeout.
 On POSIX, a process that exits zero but leaves background descendants also fails acceptance and
@@ -616,14 +625,17 @@ its remaining process group is stopped. Windows uses `taskkill /T` for timeouts;
 after their parent has already exited is not supported there.
 
 Every run retains its home, `smoke.json`, `runtime.json` and bounded stdout/stderr in a new run
-directory. Existing profiles are not modified. There is no automatic cleanup; inspect logs before
-sharing them. Repeat with a separate installed host directory for each version in your matrix.
+directory. Health selects that new directory as the trial's profile; it does not prevent the tested
+code from accessing existing profiles. There is no automatic cleanup; inspect logs before sharing
+them. Repeat with a separate installed host directory for each version in your matrix.
 The installed host needs Node.js and pnpm versions supported by that DSH release, and must export
 `profile-boot` (tested with `0.2.1-rc.2` and `0.2.1-rc.3`).
 
-**This runs plugin code with your OS account permissions.** A temporary DSH home is isolation from
-your normal profile, not a security sandbox. Only run packages you trust; use a container or VM
-for untrusted code. Runtime smoke does not certify all plugin behavior or UI compatibility.
+**This runs plugin code with your OS account permissions and inherited environment.** A temporary
+DSH home selects separate test data; it does not restrict file, network or process access. Only run
+packages you trust. Unknown software needs a separately configured environment that restricts files,
+credentials, networking and processes; Health does not create or verify that environment. Startup
+checks cannot certify all plugin behavior, safety or UI compatibility.
 
 ### Example run (2026-10-17, 7 plugins × 4 hosts)
 
@@ -659,6 +671,77 @@ Repairs are opt-in (`--apply`), default to a dry run, and never delete:
   records every action);
 - `cordis.patch.yml` is edited textually (top-level `- []` entries only) after a backup, so comments
   and formatting survive.
+
+## Review your profile before making changes
+
+Open **Settings → Plugin health** and choose a view. **Daily check** suits occasional users who want
+problem summaries and recovery controls. **Advanced diagnostics** suits frequent users managing
+several plugins, adding loader entries, recent transitions, configuration findings and target-version
+preview. **Developer verification** suits plugin authors, adding runtime evidence export and CLI examples.
+
+These are display preferences, not different protection levels. Permissions and scan coverage are
+the same in all three views. Preview inputs, results and
+expanded sections remain when switching views in the open panel. Disclosures support Enter and Space,
+respect reduced-motion preferences and wrap on narrow screens. The panel reads host state every 30
+seconds. A failed refresh preserves the last results with a stale notice, and a later configuration
+change prompts a new preview. Review exported plugin names, configuration identifiers and paths before sharing.
+Read requests time out after 15 seconds and allow retry. Repair confirmation uses a one-use preview
+valid for five minutes. New or changed targets require another preview; failed repairs show their reason
+and offer a fresh plan before confirmation.
+
+`scripts/browser-qa.mjs` exercises the real React component in Edge using synthetic host responses,
+including three views, keyboard interaction, transitions, downloads, 360px layouts and dark appearance.
+Its setup instructions keep test dependencies outside the package. Native DSH desktop acceptance is separate.
+
+The status endpoint samples the current loader as the panel or sidebar refreshes. It records the last
+24 observed transitions in memory for this host session. If the host retains a recognized duplicate-tool
+error, the panel shows the tool name and the rejected entry. This is a sampled view of activation.
+Tool execution, file writes and network access require a separate test.
+
+The downloadable snapshot can be compared from a terminal, including when DSH cannot start.
+
+```sh
+dsh-plugin-health review --profile desktop --runtime 0.2.1-rc.5 --save before.json
+dsh-plugin-health review --profile desktop --target 0.2.1-rc.6 --candidate ./unpacked-plugin --json
+dsh-plugin-health review --profile desktop --runtime 0.2.1-rc.6 --compare before.json
+```
+
+The candidate command reads an unpacked local package without installing or starting it. It models
+the bundle's declared patch in the current order, or at the end of the bundle list for a new install.
+The report separates declarations from loader state. It identifies repeated literal insert IDs,
+configuration keys omitted by later rows and selected core package copies inside the profile.
+It leaves dynamic patch rows, launcher overlays and actual tool or file behavior unverified.
+The snapshot stores package metadata and file fingerprints. It is a comparison baseline, and repair
+backups are stored separately. Exit status 1 indicates a known declaration mismatch or a command error.
+For CI, retain the JSON report alongside the existing runtime acceptance checks.
+
+To test trusted packages together, repeat `--with <name@version|unpacked-dir>` on a
+`smoke --dsh-dir <dir> --plugin <name@version|unpacked-dir>` command with `--boot-only` or
+your existing tool assertions. The trial installs the selected packages in one temporary profile,
+checks that each enters the loader, and records each install separately. The same OS permission
+boundary as the single-plugin trial applies.
+
+Plugin authors can optionally declare exact file access in `package.json`:
+
+```json
+{
+  "dshPluginHealth": {
+    "version": 1,
+    "resources": [
+      { "scope": "workspace", "path": "archive/index.json", "access": "write" }
+    ]
+  }
+}
+```
+
+Scopes are `workspace`, `profile` and `dsh-home`. Entries are relative file names with `read` or `write`
+access. Review flags multiple declared writers to the same scoped file, including a local candidate.
+This is evidence of declared intent and requires cooperation from plugin authors.
+
+For new repairs using the default quarantine, the repair output includes a run ID.
+`dsh-plugin-health repair --restore <run-id>` previews recovery. Add `--apply --yes` to restore
+eligible items. Recovery refuses to overwrite an occupied quarantine destination or a patch edited
+after repair. Start DSH afterward to verify the affected behavior.
 
 ## Roadmap
 
