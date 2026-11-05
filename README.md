@@ -104,6 +104,46 @@ DSH working again:
 
 **Layer 2 is the one that decides.** Without it, layer 3 would be a guess.
 
+## What layer 1 looks at, beyond version declarations
+
+An incompatible version is the loudest failure and the easiest to explain, but a profile that has been
+installed and removed from for months rarely has just that one problem. Layer 1 reads the whole
+configuration, not only the ranges:
+
+| What it finds | Why it matters |
+| --- | --- |
+| **Duplicate insert ids** | Two plugins registering the same entry id. The second one silently replaces the first, and the plugin that lost its entry looks broken for no visible reason |
+| **Module replacement** | One plugin's patch removes or replaces a module another plugin provides |
+| **Fields dropped by a later layer** | A patch in `home` or `profile` overwrites a field a bundle set, so the bundle's own behaviour changes without any version changing |
+| **Host-core packages inside a profile** | A copy of a package the host already ships, which can shadow the host's own |
+| **Overlapping shared-write declarations** | Two plugins declaring a write to the same path |
+
+That last row is deliberately called *overlap*, not *conflict*. A declared write to the same file is
+evidence of a risk, not proof that two plugins raced — one of them may never run, or may write a
+different key. The report says which declarations overlap and which layer each came from, and stops
+there. Deciding what to do with that is a judgement about your setup, and the tool does not have it.
+
+## Checking plugins that only fail together
+
+A plugin can boot cleanly on its own and still break when it loads beside its neighbour — they both
+want the same tool name, or one needs a service the other replaces. A single-plugin rehearsal cannot
+see that.
+
+`smoke` takes repeated `--with <spec>` companions, up to twelve:
+
+```sh
+dsh-plugin-health smoke --dsh-dir <installed @deepseek-ai/dsh> \
+  --plugin @scope/plugin-a@1.4.0 --boot-only \
+  --with @scope/plugin-b@2.0.1 \
+  --with @scope/plugin-c@0.9.0
+```
+
+The check requires each named package to actually reach `active` in the loader. An entry that merely
+shares a name does not count, because that is exactly the failure mode being hunted: something is
+registered, so a shallow check reports success while the plugin you asked about never loaded.
+
+This is still a data directory, not a sandbox. See [Safety boundaries](#safety-boundaries-please-read).
+
 ## Why that middle layer matters
 
 An outdated version declaration does not tell us whether a plugin will boot. Measured on `0.2.1-rc.4`:
