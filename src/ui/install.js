@@ -158,7 +158,17 @@ function runManager({ manager, args, cwd, timeoutMs, runProcess }) {
     let timedOut = false
     const timer = setTimeout(() => {
       timedOut = true
-      try { child.kill() } catch { /* already gone */ }
+      // On Windows the package manager runs through a shell, so child.kill() ends the shell and
+      // leaves the real work orphaned — still installing, and no longer tracked by the in-flight
+      // guard. taskkill /T stops the tree. Same approach as runtime/smoke.js.
+      if (process.platform === 'win32' && child.pid !== undefined) {
+        try {
+          const killer = spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], { stdio: 'ignore' })
+          killer.on('error', () => { try { child.kill() } catch { /* already gone */ } })
+        } catch { try { child.kill() } catch { /* already gone */ } }
+      } else {
+        try { child.kill() } catch { /* already gone */ }
+      }
     }, timeoutMs)
     child.stdout.on('data', (chunk) => { output += chunk.toString() })
     child.stderr.on('data', (chunk) => { output += chunk.toString() })

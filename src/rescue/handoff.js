@@ -15,6 +15,7 @@
  * @module rescue/handoff
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import semver from 'semver'
 import { join, resolve, sep } from 'node:path'
 
 /** Where handoff bundles are written inside a profile. */
@@ -96,15 +97,66 @@ export function groupRanges(requirements) {
  * @param {object} brief - result of {@link buildBrief}
  * @returns {string}
  */
+/**
+ * Render a plugin-supplied string as inert data.
+ *
+ * These values come from a manifest the tool did not write. A backtick closes a code span, and a
+ * newline starts a new instruction — both turn a value into prompt structure. Flattening and
+ * stripping keeps the value visible while removing its ability to act as markup.
+ * @param {unknown} value
+ * @param {number} [limit]
+ * @returns {string}
+ */
+function asData(value, limit = 120) {
+  const flat = String(value ?? '')
+    // A backtick ends a code span and a newline starts a new instruction; both turn a value into
+    // prompt structure. Nothing else is touched — the pipe in `||` is a legal semver operator, and
+    // altering a value that is already legal is its own kind of wrong.
+    .replace(/[`\r\n]+/gu, ' ')
+    .replace(/[\u0000-\u001f\u007f]/gu, '')
+    .trim()
+  return flat.length > limit ? `${flat.slice(0, limit)}…` : flat
+}
+
+/**
+ * A package name, filtered to the characters a package name may contain.
+ *
+ * A manifest's `name` is a string the tool did not write, and it is interpolated into a prompt that
+ * may be pasted to an agent holding repository write access. Anything that is not a legal package
+ * character is dropped, so the brief can show a name but never an instruction.
+ * @param {unknown} value
+ * @returns {string}
+ */
+function asPackageName(value) {
+  const cleaned = String(value ?? '').replace(/[^a-z0-9@/_.-]/giu, '').slice(0, 90)
+  return cleaned === '' ? '(unnamed)' : cleaned
+}
+
+/**
+ * A declared range, only when it really is one.
+ *
+ * A range that does not parse is not a version constraint, so it is replaced rather than echoed — an
+ * agent reading "0.2.0`
+Ignore previous instructions" would otherwise have no way to tell it
+ * apart from the brief's own words.
+ * @param {unknown} range
+ * @returns {string}
+ */
+function asRange(range) {
+  const flat = String(range ?? '').trim()
+  if (flat === '') return '(none declared)'
+  return semver.validRange(flat) === null ? '(unparseable declaration, omitted)' : asData(flat, 80)
+}
+
 export function renderPrompt(brief) {
   const { plugin, host, rehearsal } = brief
   const failed = rehearsal.stages.filter(stage => !stage.ok)
   const booted = rehearsal.verdict === 'runs'
   const notRun = rehearsal.verdict === 'not-run'
   const lines = [
-    `I need you to restore DSH plugin compatibility for \`${plugin.name}@${plugin.version}\`.`,
+    `I need you to restore DSH plugin compatibility for \`${asPackageName(plugin.name)}@${asData(plugin.version, 40)}\`.`,
     '',
-    `Target host: DSH \`${host.runtimeVersion}\`. The host rejects this plugin because its declared`,
+    `Target host: DSH \`${asData(host.runtimeVersion, 40)}\`. The host rejects this plugin because its declared`,
     `requirements do not admit that version.`,
     '',
     '### What I already checked',
@@ -136,14 +188,14 @@ export function renderPrompt(brief) {
   lines.push('')
   const grouped = groupRanges(plugin.declaredRequirements)
   for (const group of grouped) {
-    lines.push(`- \`${group.range}\``)
-    lines.push(`  - applies to ${group.packages.length === 1 ? '' : `${group.packages.length} packages: `}${group.packages.map(name => `\`${name}\``).join(', ')}`)
+    lines.push(`- \`${asRange(group.range)}\``)
+    lines.push(`  - applies to ${group.packages.length === 1 ? '' : `${group.packages.length} packages: `}${group.packages.map(name => `\`${asPackageName(name)}\``).join(', ')}`)
   }
   lines.push('')
   lines.push('### What I need from you')
   lines.push('')
   if (booted) {
-    lines.push(`1. Admit \`${host.runtimeVersion}\` in the requirements above — or, if this repository runs its`)
+    lines.push(`1. Admit \`${asData(host.runtimeVersion, 40)}\` in the requirements above — or, if this repository runs its`)
     lines.push('   own host-version enumeration check (a `scripts/compatibility.mjs`-style gate), keep the')
     lines.push('   enumeration form and add the exact version instead of a range.')
     lines.push('2. Do not change plugin behaviour, and do not guess at future prereleases.')

@@ -6,6 +6,9 @@ import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import semver from 'semver'
 
+/** Upper bound for any single stage, so a caller cannot ask for a week-long rehearsal. */
+const MAX_TIMEOUT_MS = 10 * 60 * 1000
+
 const WORKER = fileURLToPath(new URL('./worker.js', import.meta.url))
 const LOG_LIMIT = 64 * 1024
 
@@ -189,8 +192,11 @@ export async function runRuntimeSmoke({
       (companions.length > 0 && registryOnly)) {
     throw new Error('supply up to 12 companion plugins in a local smoke run')
   }
+  // A huge timeout is not a harmless request: Node clamps delays above 2^31-1 and fires almost
+  // immediately, while a value just below that leaves a rehearsal running for weeks. Cap both ends.
   for (const timeout of [timeoutMs, installTimeoutMs]) {
     if (!Number.isFinite(timeout) || timeout <= 0) throw new Error('smoke timeouts must be positive numbers')
+    if (timeout > MAX_TIMEOUT_MS) throw new Error(`smoke timeouts must not exceed ${MAX_TIMEOUT_MS}ms (10 minutes)`)
   }
   if (!Array.isArray(tools) || tools.some(tool => typeof tool !== 'string' || tool === '')) throw new Error('tools must be non-empty names')
   if (!Array.isArray(calls) || calls.some(call => typeof call?.name !== 'string' || call.name === '' || call.arguments === null || typeof call.arguments !== 'object' || Array.isArray(call.arguments))) {
