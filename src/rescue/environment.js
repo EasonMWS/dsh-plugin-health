@@ -11,6 +11,7 @@
  * @module rescue/environment
  */
 import { spawn } from 'node:child_process'
+import { nodeCommand } from '../util/node-exec.js'
 import { existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import semver from 'semver'
@@ -191,8 +192,9 @@ export async function prepareRehearsalHost({
  */
 function npmInvocation(args) {
   if (process.platform !== 'win32') return { command: 'npm', args }
-  const npmCli = join(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js')
-  if (existsSync(npmCli)) return { command: process.execPath, args: [npmCli, ...args] }
+  const node = nodeCommand()
+  const npmCli = join(dirname(node.command), 'node_modules', 'npm', 'bin', 'npm-cli.js')
+  if (existsSync(npmCli)) return { command: node.command, args: [npmCli, ...args], env: node.env }
   return { command: 'npm.cmd', args }
 }
 
@@ -202,7 +204,12 @@ function runNpmInstall(args, { cwd }) {
     const invocation = npmInvocation(args)
     const child = spawn(invocation.command, invocation.args, {
       // No shell: arguments are passed as an array, so nothing in them can become syntax.
-      cwd, shell: false, stdio: ['ignore', 'pipe', 'pipe'],
+      cwd,
+      // In the desktop build the command is Electron, so it needs ELECTRON_RUN_AS_NODE to behave as
+      // Node rather than launching a second copy of the application.
+      env: invocation.env ?? process.env,
+      shell: false,
+      stdio: ['ignore', 'pipe', 'pipe'],
     })
     let stdout = ''
     let stderr = ''

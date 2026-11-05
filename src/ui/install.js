@@ -24,6 +24,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
 import { unmetRequirements } from '../compat/evaluate.js'
+import { nodeCommand } from '../util/node-exec.js'
 import { CURRENT_VERSION, compareVersions } from './update.js'
 
 /** The package this module upgrades. */
@@ -89,7 +90,7 @@ export function detectPackageManager(profileDir) {
  * @param {{execPath?: string}} [options]
  * @returns {{command: string, args: string[]}}
  */
-export function managerInvocation(manager, args, { execPath = process.execPath } = {}) {
+export function managerInvocation(manager, args, { execPath = nodeCommand().command } = {}) {
   if (manager !== 'npm' && manager !== 'pnpm') throw new Error('unsupported package manager')
   if (process.platform !== 'win32') return { command: manager, args }
   const prefix = dirname(execPath)

@@ -1,5 +1,6 @@
 /** Opt-in runtime acceptance in a new, retained DSH home. */
 import { spawn } from 'node:child_process'
+import { nodeCommand } from '../util/node-exec.js'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -15,8 +16,11 @@ const LOG_LIMIT = 64 * 1024
 /** Run without a shell; bound both execution and shutdown, including child processes. */
 export function runBoundedProcess(args, { cwd, env, timeoutMs, killAfterMs = 1000 }) {
   return new Promise((resolveResult, reject) => {
-    const child = spawn(process.execPath, args, {
-      cwd, env, detached: process.platform !== 'win32', stdio: ['ignore', 'pipe', 'pipe'],
+    // Inside the desktop build this is Electron: the executable is the application, and without
+    // ELECTRON_RUN_AS_NODE the child is a second window rather than the script.
+    const node = nodeCommand({ env })
+    const child = spawn(node.command, args, {
+      cwd, env: node.env, detached: process.platform !== 'win32', stdio: ['ignore', 'pipe', 'pipe'],
     })
     let stdout = ''
     let stderr = ''
