@@ -1,5 +1,25 @@
 # Changelog
 
+## 3.0.1
+
+Documentation only. No code changed — the package is 3.0.0 plus a fuller README, published so the
+npm page carries it.
+
+- **Two sections the 3.0 README was missing.** What layer 1 examines beyond version declarations
+  (duplicate insert ids, module replacement, fields a later patch layer overwrites, host-core packages
+  copied into a profile, overlapping shared-write declarations), and how a plugin is rehearsed beside
+  its peers with repeated `--with`. Both are described in English and Chinese.
+
+- **"Overlap", not "conflict".** A declared write to the same path is evidence of a risk, not proof
+  that two plugins raced. The section says so, because calling it a conflict would be the kind of
+  claim this project spent a release removing.
+
+- **The companion check is explained where it is documented.** It requires each named package to reach
+  `active` in the loader; a same-named entry does not satisfy it, which is the failure it exists to
+  catch.
+
+Also fixes the README's install-version line, which still said 3.0.0.
+
 ## 3.0.0
 
 Three rounds of external review caught real defects in this release before it shipped — two of them
