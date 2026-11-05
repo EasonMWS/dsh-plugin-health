@@ -472,7 +472,8 @@ Install it as a bundle and DSH gets a native **Settings → Plugin health** sect
 including finding details and repair confirmations.
 
 ```sh
-dsh plugin --profile web add dsh-plugin-health
+dsh plugin --profile desktop add dsh-plugin-health
+#                 ^^^^^^^ desktop app uses `desktop`; `dsh web` uses `web`
 ```
 
 - **It checks every plugin you actually have installed**, not a sample and not just the bundle list:
@@ -542,7 +543,8 @@ The package is also an installable DSH bundle. Installing it into a profile adds
 incompatible with the running DSH version.
 
 ```sh
-dsh plugin --profile web add dsh-plugin-health
+dsh plugin --profile desktop add dsh-plugin-health
+#                 ^^^^^^^ desktop app uses `desktop`; `dsh web` uses `web`
 ```
 
 The bundle declares `engines.dsh`, adds no UI, and changes nothing by itself.

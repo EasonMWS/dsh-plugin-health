@@ -399,7 +399,8 @@ dsh: nothing was installed.
 把它作为 bundle 装进 profile，DSH 设置里会多出一个原生分区 **设置 → 插件健康**：
 
 ```sh
-dsh plugin --profile web add dsh-plugin-health
+dsh plugin --profile desktop add dsh-plugin-health
+#                 ^^^^^^^ 桌面版用 `desktop`；`dsh web` 用 `web`
 ```
 
 - **它检查的是你机器上真实安装的每一个插件**，不是抽样，也不只看 bundle 列表：
@@ -461,7 +462,8 @@ node bin/dsh-plugin-health.js --help
 配置、profile 差异，以及已装插件与当前 DSH 版本的不兼容。
 
 ```sh
-dsh plugin --profile web add dsh-plugin-health
+dsh plugin --profile desktop add dsh-plugin-health
+#                 ^^^^^^^ 桌面版用 `desktop`；`dsh web` 用 `web`
 ```
 
 bundle 声明了 `engines.dsh`，不带 UI，自身不改变任何东西。

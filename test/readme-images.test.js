@@ -171,3 +171,28 @@ test('both READMEs point at the site above the fold', () => {
       `${name} does not link to the compatibility table within the first screen`)
   }
 })
+
+test('the install command names a profile that the app actually loads', () => {
+  // Both READMEs said `--profile web`. The code's own default is desktop then web, and the desktop
+  // app installs to `desktop`, so a reader on the desktop app put the plugin into a profile their
+  // app never loads — and then saw no panel, with nothing on the page explaining why.
+  for (const file of ['../README.md', '../docs/README.zh.md']) {
+    const doc = readFileSync(new URL(file, import.meta.url), 'utf8')
+    const commands = [...doc.matchAll(/dsh plugin --profile (\w+) add dsh-plugin-health/gu)].map((m) => m[1])
+    assert.ok(commands.length > 0, `${file} must show the install command`)
+    for (const profile of commands) {
+      // Any profile is fine except the one a desktop user cannot see.
+      assert.notEqual(profile, 'web', `${file}: --profile web is the wrong default; the desktop app reads the desktop profile`)
+    }
+    // The line explaining how to choose must not go missing either.
+    assert.match(doc, /desktop app uses|桌面版用/u, `${file} must say which profile the desktop app uses`)
+  }
+})
+
+test('the READMEs agree with the code about the default profile', () => {
+  // The code falls back to desktop, then web. If that changes, the docs have to change with it.
+  const source = readFileSync(new URL('../src/repair/inspect.js', import.meta.url), 'utf8')
+  const match = source.match(/profiles\.includes\('(\w+)'\)/u)
+  assert.ok(match, 'the default-profile logic moved; update this test and the READMEs together')
+  assert.equal(match[1], 'desktop')
+})
