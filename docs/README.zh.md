@@ -15,7 +15,7 @@
 执行插件代码，不能用来安全试跑未知软件。详见 [Health 能力边界](../SECURITY.md#malware-containment-is-not-implemented)
 及 [DSH 官方安全说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md)。
 
-> 源码候选版：`3.0.0-beta.7`。下方的 npm 安装命令使用已发布的版本。索引由官方发布的
+> 源码候选版：`3.0.0`。下方的 npm 安装命令使用已发布的版本。索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 ```sh

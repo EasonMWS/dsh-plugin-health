@@ -1,5 +1,138 @@
 # Changelog
 
+## 3.0.0
+
+Three rounds of external review caught real defects in this release before it shipped — two of them
+in fixes from the round before. What is published here is the third attempt at the same two problems,
+and both were reproduced from the reviewer's own scripts rather than taken on trust.
+
+### Breaking changes
+
+- **Repairing from the routes is two steps now.** `POST /repair` with `{dryRun: true}` returns a
+  `planToken`; applying must send it back as `{dryRun: false, planToken}`. A client that posts
+  `{dryRun: false}` without a preview gets 409. The old single call could not tell a plan the user had
+  reviewed from one replayed by anyone else, which was the point of the change.
+
+- **Rescue actions refuse a plugin that is not installed at the stated version.** They already did
+  since 2.0.0; the check now also runs before the rehearsal rather than after.
+
+- **A damaged `compatibility.json` is refused rather than rewritten.** Unchanged from 2.0.0, restated
+  because it is still the most common surprise.
+
+### Added
+
+- **A reliability report that reads configuration the tool did not write.** Installed packages, the
+  declared ranges of both the running and a target host, every patch layer, and an unpacked candidate
+  directory. It finds duplicate insert ids, module replacements, fields dropped by a later layer,
+  host-core packages duplicated inside a profile, and voluntarily declared shared writes.
+
+  It reports *overlap*, never *conflict proved*: a declared write to the same path is evidence of a
+  risk, not proof that two plugins raced. The findings say so.
+
+- **Live loader state.** Every status read samples pending / loading / active / failed / not-active /
+  unloading / disabled, and keeps the last 24 transitions in this host's memory. It cannot intercept
+  file, network or process behaviour, and the code, the documentation and the panel all say that
+  rather than implying otherwise.
+
+- **Three display modes** — daily, advanced, developer — stored in localStorage. They change wording
+  and how much detail is shown, not what is detected. Daily mode still surfaces every failure and
+  keeps every confirmation step.
+
+- **Combined startup checks.** A plugin plus up to twelve companions install into one throwaway data
+  directory and boot together. The check requires each named package to actually reach active in the
+  loader, so an unrelated entry with a similar id cannot stand in for it.
+
+- **Repairs can be undone.** A schema-2 repair log records what was moved; `restoreRepairs()` previews
+  first, runs in reverse order, and returns `blocked` when the configuration or its backup changed
+  underneath it.
+
+### Security
+
+- **The YAML parser was bounded by bytes, not by work.** Alias resolution costs time with the square
+  of the alias count — 20k aliases in a 224KB file took two seconds, and a 692KB file took 212
+  seconds — and `maxAliasCount` only applies later, during `toJS`. A plugin nobody ever loaded could
+  ship such a patch and stall the host on every status poll. Parsing now counts anchors and aliases
+  with yaml's own lexer before handing anything to the parser, and caps flow-collection depth.
+
+  The first attempt at this counted with a regular expression and could be bypassed by an anchor name
+  starting with punctuation or a non-ASCII character. Six of the seven names the reviewer tried got
+  through. The lexer does not have that problem because it is the grammar.
+
+- **Origin checks compare the scheme** as well as host and port, and apply to reads that arrive
+  without Fetch Metadata.
+
+- **Repair previews are bound to a single-use token** carrying the environment, the actions, the
+  target metadata and a small file hash. Replay, staleness and a changed plan all return 409.
+
+- **Rescue dispatch reaches only its own registered functions**, so `constructor` and `__proto__` are
+  not actions.
+
+- **A request-supplied host directory must resolve inside the DSH_HOME**, carry the exact running
+  version, and have its executable resolve inside its own package.
+
+- **Self-update passes `--ignore-scripts`** and no longer overrides `minimumReleaseAge`. It refuses to
+  move backwards, and reports a warning when the version it installed would not load on the running
+  host.
+
+- **The AI brief treats plugin-supplied strings as data.** Ranges are validated with semver, names
+  are filtered to the characters a package name may contain, errors are quoted and labelled, and the
+  `Repository:` line is printed only for a plain `owner/repo` URL. A manifest could otherwise write
+  its own instructions into a prompt the user pastes to an agent holding repository write access.
+
+### Fixed
+
+- **The install action could never have worked in a real host.** It read `profileDir` off a context
+  that supplies only `home` and `profile`, so every request answered 400. Every test built its own
+  context and included the field. There is now a test that goes through `plugin.apply()` with a
+  host-shaped context over a real socket, and it fails when the fix is reverted.
+
+- **Processes launched from the desktop build were the desktop build.** Inside Electron,
+  `process.execPath` is the application binary, so a rehearsal, a self-update and a host download each
+  started a second copy of the app instead of the script. They now pass `ELECTRON_RUN_AS_NODE`.
+
+- **The publish workflow could not publish a prerelease at all**, and on an older npm would have
+  published one as `latest` — pushing a beta to everyone reading `/latest`, including this tool's own
+  update check. The dist-tag is derived from the version.
+
+- **A plugin the user switched off kept being reported as incompatible**, and the panel offered the
+  same fix again.
+
+- **The rescue routes did not invalidate the status cache**, so the UI reloaded a snapshot predating
+  the action it had just taken.
+
+- **Generated issue text suggested ranges that still rejected the host**, and the AI brief claimed a
+  passing boot test when none had run.
+
+### Documentation
+
+- README, SECURITY.md and the panel now state that this tool does not contain malware and cannot stop
+  a plugin from writing outside the workspace, sending data, launching programs, or acting after a
+  normal activation. A throwaway data directory is a directory, not a sandbox; the worker inherits the
+  account's permissions. Earlier wording about a "fully isolated environment" and a "complete
+  rollback" is gone.
+
+- Every claim about *other* tools was removed. Several packages in this ecosystem overlap with this
+  one, and a comparison the reader cannot check is not worth making.
+
+### Verified
+
+- 368 tests, 367 pass, 1 platform skip (a POSIX process-group test that does not apply on Windows).
+- 35 HTTP checks against the real route registration.
+- 17 browser checks in Edge against a synthetic host.
+- Four fixture outcomes against the official `0.2.1-rc.4` host: healthy boots, pending / throwing /
+  hanging fail as expected.
+
+### Not verified in this release
+
+- **Native DSH desktop injection.** The panel renders correctly in a real install and reports the
+  running host version, but a repair has not been driven end to end from the desktop UI.
+- **Refreshing the page between an install and a restart.** Whether the new client meets the old
+  routes in memory depends on the host, and has not been observed.
+- **Node 20 / 22 and Linux CI** for this revision; the review ran the suite on Linux with Node 20 and
+  22, but the project's own CI matrix has not been run for this commit.
+
+These are the reason to exercise the beta channel before pointing `latest` at this version.
+
 ## 3.0.0-beta.4
 
 - Matched daily, advanced and developer wording to their audiences in Chinese and English. Daily
