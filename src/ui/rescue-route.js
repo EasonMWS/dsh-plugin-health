@@ -4,7 +4,7 @@
  * Routes, all loopback-only and all behind the same per-launch control key the existing repair route
  * uses, because they change profile state:
  *
- *   POST .../rescue/rehearse   rehearse in a throwaway home 鈥?writes nothing
+ *   POST .../rescue/rehearse   rehearse in a throwaway home — writes nothing
  *   POST .../rescue/apply      rehearse, then grant the exemption if it booted
  *   POST .../rescue/undo       revoke exemptions this tool granted
  *   POST .../rescue/disable    switch a plugin off so DSH keeps booting
@@ -42,7 +42,7 @@ const LOOPBACK = new Set(['127.0.0.1', 'localhost', '::1'])
 function sameKey(expected, presented) {
   if (typeof presented !== 'string') return false
   // Compare digests, not the raw values. `timingSafeEqual` throws unless the *byte* lengths match,
-  // while `length` counts UTF-16 units: 48 copies of "茅" pass the length check with 96 bytes and
+  // while `length` counts UTF-16 units: 48 copies of "é" pass the length check with 96 bytes and
   // crash the handler with ERR_CRYPTO_TIMING_SAFE_EQUAL_LENGTH. A request header is arbitrary text,
   // so that is reachable from the network side of the loopback fence.
   const left = createHash('sha256').update(expected).digest()
@@ -122,7 +122,7 @@ export function createRescueHandlers({
    *
    * The desktop app bundles the host inside app.asar, so a perfectly normal install has no
    * on-disk @deepseek-ai/dsh. Failing there would make the feature unusable for exactly the
-   * people it targets, so the first rehearsal fetches its own copy 鈥?into the tool's own
+   * people it targets, so the first rehearsal fetches its own copy — into the tool's own
    * directory, used only for throwaway homes.
    */
   const hostFor = async (home, profileDir, runtimeVersion) => {
@@ -225,7 +225,7 @@ export function createRescueHandlers({
      *
      * This is the honest alternative to a rescue that failed: the plugin cannot be made to work
      * here, so the user's DSH should at least stay usable. It writes a `disabled: true` overlay
-     * to the profile patch layer 鈥?the same mechanism the host itself uses for overrides 鈥?and
+     * to the profile patch layer — the same mechanism the host itself uses for overrides — and
      * never touches the plugin's files, so `enable` (or a reinstall) undoes it exactly.
      */
     async disable(body) {

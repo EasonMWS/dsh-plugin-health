@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 import * as plugin from '../src/plugin.js'
+import { CURRENT_VERSION } from '../src/ui/update.js'
 
 // Every previous route test built its own `currentProfile` and handed it straight to
 // `createRescueHandlers`. That is convenient and it hid a real defect: `plugin.js` supplies
@@ -70,7 +71,9 @@ test('the install action receives a profile directory from the real host context
     // Install the version already on disk: the downgrade guard must not interfere, and the point is
     // not the install outcome anyway — it is that the request reaches installUpdate with a real
     // directory instead of failing on `undefined`.
-    const INSTALLED = '3.0.0'
+    // The running version, not a literal: a literal falls behind the next version bump and the
+    // downgrade guard then refuses the request before it reaches the installer.
+    const INSTALLED = CURRENT_VERSION
     writeFileSync(join(profileDir, 'node_modules', 'dsh-plugin-health', 'package.json'),
       JSON.stringify({ name: 'dsh-plugin-health', version: INSTALLED }))
 

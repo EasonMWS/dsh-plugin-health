@@ -153,7 +153,9 @@ function runManager({ manager, args, cwd, timeoutMs, runProcess }) {
       stdio: ['ignore', 'pipe', 'pipe'],
       // pnpm reads these to decide whether it is allowed to prompt. In a process nobody is watching,
       // a prompt is a hang; these make it choose.
-      env: { ...process.env, CI: '1', npm_config_yes: 'true', ADBLOCK: '1', NO_UPDATE_NOTIFIER: '1' },
+      // nodeCommand().env adds ELECTRON_RUN_AS_NODE on the desktop build, where managerInvocation may
+      // launch the application binary with npm-cli.js or pnpm.mjs.
+      env: { ...nodeCommand().env, CI: '1', npm_config_yes: 'true', ADBLOCK: '1', NO_UPDATE_NOTIFIER: '1' },
     })
     let output = ''
     let timedOut = false
