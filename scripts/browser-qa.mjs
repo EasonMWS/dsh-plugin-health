@@ -256,8 +256,11 @@ try {
 
     const trigger = page.locator('.dph-trigger').filter({ hasText: /启动记录|加载条目/u }).first()
     assert.ok(await trigger.count() > 0, 'no loader-list trigger in advanced mode')
-    await trigger.click()
-    await page.waitForTimeout(400)
+    // It is a toggle, and earlier checks may already have opened it.
+    if (await trigger.getAttribute('aria-expanded') !== 'true') {
+      await trigger.click()
+      await page.waitForTimeout(400)
+    }
 
     const box = page.locator('input[type="search"]').first()
     assert.equal(await box.isVisible(), true, 'opening the list must reveal the search box')
