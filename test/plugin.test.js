@@ -25,14 +25,25 @@ test('bundle patch inserts this package as one row', () => {
 })
 
 test('the bundle manifest is compatible with current DSH host versions', () => {
-  for (const host of ['0.1.7-rc.2', '0.2.0-rc.2', '0.2.1-rc.2']) {
+  // These are the versions this package has actually been installed into and booted against, not a
+  // list copied from the range. The lower bound was narrowed to 0.2.0-rc.0 for exactly this reason:
+  // anything below it was a promise nobody had tested, and 0.1.x belongs to an era of the host that
+  // current users are not running.
+  for (const host of ['0.2.0-rc.1', '0.2.1-rc.4', '0.2.2-rc.1']) {
     assert.equal(
       evaluatePluginCompatibility(packageJson, { runtimeVersion: host }),
       undefined,
       `expected bundle to be compatible with ${host}`,
     )
   }
-  assert.notEqual(evaluatePluginCompatibility(packageJson, { runtimeVersion: '0.3.0-rc.1' }), undefined)
+  // Outside the declared range, and it has to say so rather than pass silently.
+  for (const host of ['0.1.7-rc.2', '0.3.0-rc.1']) {
+    assert.notEqual(
+      evaluatePluginCompatibility(packageJson, { runtimeVersion: host }),
+      undefined,
+      `${host} is outside the declared range and must be reported`,
+    )
+  }
 })
 
 test('plugin loading is harmless outside a DSH host', async () => {

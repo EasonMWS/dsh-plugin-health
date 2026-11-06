@@ -1,5 +1,37 @@
 # Changelog
 
+## 3.0.2
+
+**The declared host range was wider than anything this package had been tested against.**
+
+`engines.dsh` said `>=0.1.0-rc.6 <0.3.0-0` — a promise to every host in that span. The range was
+written when the project started and never re-derived from evidence; the package had only ever been
+installed and booted on 0.2.1-rc.4.
+
+Three hosts have now been installed and booted for real:
+
+| Host | Declared | Actually boots |
+| --- | --- | --- |
+| 0.2.0-rc.1 | ✅ | ✅ |
+| 0.2.1-rc.4 | ✅ | ✅ |
+| 0.2.2-rc.1 | ✅ | ✅ |
+
+The lower bound is now `0.2.0-rc.0`. Everything below it is a host version from the project's early
+era that current users are not running, and 0.1.x could not be exercised here at all: installing it
+timed out resolving its dependency tree, so there was no evidence either way.
+
+A tool whose entire argument is *do not declare what you have not tested* cannot carry an untested
+lower bound in its own manifest. If you are still on a 0.1.x host, this package will now refuse to
+load rather than fail in some less obvious way — upgrade the host, or stay on 3.0.1.
+
+The upper bound is unchanged. No 0.3.x host exists on npm yet; the exclusion is there so the package
+refuses a major bump rather than assuming it still works.
+
+Also updates the test that pinned this: it asserted compatibility with 0.1.7-rc.2 and two other
+versions that were never installed, so it was checking the range against itself. It now lists the
+three hosts that were actually run, and asserts that hosts outside the range are reported rather than
+passing silently.
+
 ## 3.0.1
 
 Documentation only. No code changed — the package is 3.0.0 plus a fuller README, published so the

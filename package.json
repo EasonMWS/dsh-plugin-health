@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-health",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Diagnoses DSH plugin installation, compatibility and observed loading problems. Offers repair previews, trusted-plugin startup trials, reversible version exemptions, recovery tools, AI briefs and official format-1 market indexes. Does not detect or contain malware.",
   "type": "module",
   "main": "./src/plugin.js",
@@ -29,7 +29,7 @@
   ],
   "engines": {
     "node": ">=20",
-    "dsh": ">=0.1.0-rc.6 <0.3.0-0"
+    "dsh": ">=0.2.0-rc.0 <0.3.0-0"
   },
   "dsh": {
     "bundle": {
@@ -45,8 +45,8 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/dsh-app-boot": ">=0.1.0-rc.6 <0.3.0-0",
-    "@deepseek-ai/dsh-tools": ">=0.1.0-rc.6 <0.3.0-0"
+    "@deepseek-ai/dsh-app-boot": ">=0.2.0-rc.0 <0.3.0-0",
+    "@deepseek-ai/dsh-tools": ">=0.2.0-rc.0 <0.3.0-0"
   },
   "peerDependenciesMeta": {
     "@deepseek-ai/dsh-app-boot": {
