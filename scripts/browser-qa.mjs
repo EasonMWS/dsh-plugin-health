@@ -250,6 +250,39 @@ try {
     for (const hint of hints) assert.ok(hint.trim().length > 4, 'each counter needs a readable explanation')
   })
 
+  await check('the loader list searches and groups', async () => {
+    await page.locator('.dph-mode select').selectOption('advanced')
+    await page.waitForTimeout(600)
+
+    const trigger = page.locator('.dph-trigger').filter({ hasText: /启动记录|加载条目/u }).first()
+    assert.ok(await trigger.count() > 0, 'no loader-list trigger in advanced mode')
+    await trigger.click()
+    await page.waitForTimeout(400)
+
+    const box = page.locator('input[type="search"]').first()
+    assert.equal(await box.isVisible(), true, 'opening the list must reveal the search box')
+
+    const labels = await page.locator('.dph-group-label').allTextContents()
+    assert.ok(labels.length >= 1, 'entries should be grouped by origin: ' + JSON.stringify(labels))
+
+    const before = await page.locator('.dph-row').count()
+    assert.ok(before >= 1, 'the fixture should list at least one entry')
+    const first = (await page.locator('.dph-row strong').first().innerText()).split('@')[0].trim()
+    await box.fill(first)
+    await page.waitForTimeout(400)
+    assert.ok(await page.locator('.dph-row').count() <= before, 'typing must not widen the list')
+
+    await box.fill('zzz-nothing-matches')
+    await page.waitForTimeout(400)
+    assert.equal(await page.locator('text=没有匹配').count(), 1, 'an empty result must say so')
+    await box.fill('')
+    await page.waitForTimeout(300)
+
+    // Return to daily so the checks after this one see the mode they expect.
+    await page.locator('.dph-mode select').selectOption('daily')
+    await page.waitForTimeout(400)
+  })
+
   await check('normal interactions issue no write requests', async () => {
     assert.equal(requests.filter(row => row.method !== 'GET').length, 0)
   })

@@ -51,7 +51,7 @@ npm install -g dsh-plugin-health
 打开 **设置 → 插件健康**。每个问题一行，每个插件一个按钮：
 
 - **检查能不能救** —— 使用单独的临时 DSH 数据目录试装、启动可信插件（30~60 秒）。
-  此时 Health 尚未向正常 profile 写入版本放行记录；被执行的插件仍可访问当前账号有权限的文件、网络和进程。
+  这一步不会向你的正常 profile 写入任何东西；被执行的插件仍可访问当前账号有权限的文件、网络和进程。
 - **能启动** → *临时放行*。往宿主自己的 `compatibility.json` 写一条记录，一键可撤销。
 - **起不来** → 不提供放行按钮。给两个选择：关掉这个插件，或者拿一份提示词交给你的 AI。
 
@@ -696,13 +696,17 @@ dsh-plugin-health review --profile desktop --runtime 0.2.1-rc.6 --compare before
 原位置被占用或配置在修复之后已被编辑时，工具会保留现有内容并提示原因。
 恢复后请启动 DSH 验证相关功能。
 
-## 路线图
+## 已经做完的事
 
-- 浏览器插件的运行时验收（当前 `smoke` 探测 agent 工具）；
-- 支持 GitHub/tarball 目录条目的 commit-pinned git 源；
-- 全目录矩阵 + 每晚构建并发布索引；
-- DSH 内的插件面板（渲染矩阵与诊断结果）；
-- 可复用的 GitHub Action 与公开兼容性看板。
+这一节之前列的都是“计划”，现在全部在包里：
+
+| 能力 | 怎么用 |
+| --- | --- |
+| 只有界面的插件也能验收 | `smoke --boot-only` 只要求激活，不探测 agent 工具 |
+| 支持 git 和 tarball 来源 | `smoke --plugin <spec|tarball>` |
+| 全 catalog 的矩阵，每夜构建 | `.github/workflows/publish-index.yml`，与索引一起发布 |
+| 面板里直接看矩阵和 doctor 结果 | 设置 → 插件健康，三种显示模式 |
+| 可复用的 GitHub Action 和公开看板 | `action.yml`，以及[兼容性页面](https://easonmws.github.io/dsh-plugin-health/compat/) |
 
 ## 开发
 

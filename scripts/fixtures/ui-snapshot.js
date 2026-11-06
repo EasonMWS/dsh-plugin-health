@@ -13,6 +13,11 @@ export function uiSnapshot(targetVersion, { withRescue = false } = {}) {
     { id: 'organizer', name: 'dsh-file-organizer', state: 'active' },
     { id: 'knowledge', name: '@example/knowledge-base-with-a-long-package-name', state: 'failed',
       diagnostic: { kind: 'duplicate-tool', tool: 'search_notes' } },
+    // Not-active entries, so the loader list has something to show, search and group.
+    { id: 'winbox', name: 'dsh-winbox', state: 'loading' },
+    { id: 'recall', name: 'dsh-session-recall', state: 'disabled' },
+    { id: 'base', name: '@deepseek-ai/dsh-base', state: 'pending' },
+    { id: 'timer', name: 'cordis-plugin-timer', state: 'loading' },
   ]
   return {
     schemaVersion: 4, generatedAt: at, runtimeVersion: '0.2.1-rc.3', profile: 'desktop',
@@ -29,7 +34,7 @@ export function uiSnapshot(targetVersion, { withRescue = false } = {}) {
       { id: 'registry-mirror', severity: 'info', title: 'Custom registry', detail: '', fix: '' },
     ],
     update: { currentVersion: '3.0.0-beta.4', latestVersion: '3.0.0-beta.4', updateAvailable: false },
-    liveReview: { sampledAt: at, entries, changes: [
+    liveReview: { available: true, sampledAt: at, entries, changes: [
       { id: 'knowledge', name: '@example/knowledge-base-with-a-long-package-name',
         before: 'active', after: 'failed', sampledAt: at },
     ] },

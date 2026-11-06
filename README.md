@@ -54,8 +54,8 @@ When a plugin is rejected, a chip appears in the sidebar — no need to go looki
 Open **Settings → Plugin health**. You get one line per problem, and one button per plugin:
 
 - **Check whether it can be saved** — installs and boots a trusted plugin in a separate temporary
-  DSH data directory (30–60 s). Health does not yet write a version exemption to your normal profile;
-  the executed plugin still has your account's access to files, network and processes.
+  DSH data directory (30–60 s). Nothing is written to your profile during this step; the executed
+  plugin still has your account's access to files, network and processes.
 - **If it boots** → *Exempt temporarily*. One entry is written to the host's own
   `compatibility.json`, with one-click undo.
 - **If it does not boot** → no exemption button at all. Two honest choices:
@@ -783,13 +783,17 @@ For new repairs using the default quarantine, the repair output includes a run I
 eligible items. Recovery refuses to overwrite an occupied quarantine destination or a patch edited
 after repair. Start DSH afterward to verify the affected behavior.
 
-## Roadmap
+## What shipped, in the order it landed
 
-- runtime acceptance for browser-only plugins (the current smoke command probes agent tools);
-- git/tarball catalog entries with commit-pinned sources;
-- matrix over the whole catalog, published nightly next to the index;
-- a DSH plugin panel that renders the matrix and doctor results in-app;
-- a reusable GitHub Action and a public compatibility dashboard.
+Everything this section used to list as future work is in the package:
+
+| Capability | How to use it |
+| --- | --- |
+| Runtime acceptance for browser-only plugins | `smoke --boot-only` accepts activation alone, without probing agent tools |
+| Git and tarball sources, not just registry specs | `smoke --plugin <spec|tarball>` |
+| A matrix over the whole catalog, built nightly | `.github/workflows/publish-index.yml`, published beside the index |
+| An in-app panel for the matrix and doctor results | Settings → Plugin health, in three view modes |
+| A reusable GitHub Action and a public dashboard | `action.yml`, and [the compatibility page](https://easonmws.github.io/dsh-plugin-health/compat/) |
 
 ## Development
 
