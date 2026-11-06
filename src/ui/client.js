@@ -490,7 +490,8 @@ window.__ModuleLoader__.load({
         updateRestartNow: '重启 DSH',
         alertUpdate: '插件健康有新版本 {version}',
         alertUpdateTitle: '点一下打开设置页更新',
-  alertOpenFailed: '没能自动打开设置页：按 Ctrl+逗号（Mac 上 Cmd+逗号）或点侧栏的设置图标。',
+  alertOpenFailed: '打不开设置页，请按 Ctrl+逗号手动打开',
+  alertRetry: '重试',
         updateAvailable: '有新版本 {version}（当前 {current}）',
         updateHowTo: '升级：{command}',
         updateUpToDate: '已是最新版本 {version}',
@@ -656,7 +657,8 @@ window.__ModuleLoader__.load({
         updateRestartNow: 'Restart DSH',
         alertUpdate: 'Plugin health {version} available',
         alertUpdateTitle: 'Open Settings to update',
-  alertOpenFailed: 'Could not open Settings: press Ctrl+Comma (Cmd+Comma on a Mac), or use the settings icon in the sidebar.',
+  alertOpenFailed: 'Could not open Settings, press Ctrl+Comma',
+  alertRetry: 'Retry',
         updateAvailable: 'Version {version} is available (you have {current})',
         updateHowTo: 'Upgrade with: {command}',
         updateUpToDate: 'You are on the latest version, {version}',
@@ -2262,11 +2264,17 @@ window.__ModuleLoader__.load({
      */
     function AlertEntry(props) {
       const { t } = props
+      // Whether the last press failed to reach the settings surface. Kept in state rather than
+      // written into the DOM: mutating the button's text would clobber the spans React renders, and
+      // the replaced text would then be matched by any future handler that looks at the label.
+      const [openFailed, setOpenFailed] = React.useState(false)
+      React.useEffect(() => { setOpenFailed(false) }, [props.kind, props.count, props.version])
       const tone = props.kind === 'update' ? COLORS.info : COLORS.error
       const background = props.kind === 'update' ? 'rgba(26,115,232,.10)' : 'rgba(217,48,37,.10)'
       return h('button', {
-        onClick: props.open,
-        title: t(props.kind === 'update' ? 'alertUpdateTitle' : 'alertTitle'),
+        'data-dph-alert': props.kind,
+        onClick: () => props.open((ok) => { if (!ok) setOpenFailed(true) }),
+        title: t(openFailed ? 'alertOpenFailed' : (props.kind === 'update' ? 'alertUpdateTitle' : 'alertTitle')),
         style: {
           display: 'flex',
           alignItems: 'center',
@@ -2284,12 +2292,15 @@ window.__ModuleLoader__.load({
           textAlign: 'left',
         },
       }, [
-        h('span', { key: 'i' }, props.kind === 'update' ? '↑' : '!'),
+        h('span', { key: 'i' }, openFailed ? '!' : props.kind === 'update' ? '↑' : '!'),
         h('span', { key: 't', style: { flex: 1 } },
-          props.kind === 'update'
-            ? t('alertUpdate', { version: props.version ?? '' })
-            : t('alertCount', { count: props.count })),
-        h('span', { key: 'a', style: { fontSize: 12, opacity: 0.7 } }, t('view')),
+          openFailed
+            ? t('alertOpenFailed')
+            : props.kind === 'update'
+              ? t('alertUpdate', { version: props.version ?? '' })
+              : t('alertCount', { count: props.count })),
+        h('span', { key: 'a', style: { fontSize: 12, opacity: 0.7 } },
+          openFailed ? t('alertRetry') : t('view')),
       ])
     }
 
@@ -2339,34 +2350,62 @@ window.__ModuleLoader__.load({
          *
          * Both are attempted, and if neither lands the alert says so instead of doing nothing.
          */
-        /** Whether the shell's settings dialog is on screen. */
+        /**
+         * Definite selectors for the shell's settings surface.
+         *
+         * Deliberately narrow. An earlier version clicked anything whose label mentioned "settings",
+         * which matched this tool's own strip, a sibling plugin's "Reset all settings" button, and
+         * anything else an extension felt like naming. If the shell renames these, the tool stops
+         * opening settings and says so — that is better than pressing an unknown button.
+         */
+        const SETTINGS_SELECTORS = [
+          '[data-dsh-settings-open]',
+          '[data-testid="settings-button"]',
+          '[data-testid="open-settings"]',
+          'button[aria-label="Settings"]',
+          'button[aria-label="设置"]',
+          '[role="button"][aria-label="Settings"]',
+          '[role="button"][aria-label="设置"]',
+        ]
+
+        /** Selectors that identify the settings surface itself, not just any dialog. */
+        const SETTINGS_DIALOG_SELECTORS = [
+          '[data-dsh-settings]',
+          '[data-testid="settings-dialog"]',
+          '[data-testid="settings-panel"]',
+          '[role="dialog"][aria-label="Settings"]',
+          '[role="dialog"][aria-label="设置"]',
+        ]
+
+        /** Is the settings surface actually on screen? A toast or a confirm box is not it. */
         const settingsVisible = () => {
-          const dialogs = [...document.querySelectorAll('[role="dialog"], dialog, [data-dsh-settings]')]
-          return dialogs.some((el) => el.getClientRects().length > 0)
+          for (const selector of SETTINGS_DIALOG_SELECTORS) {
+            for (const element of document.querySelectorAll(selector)) {
+              if (element.getClientRects().length > 0) return true
+            }
+          }
+          return false
         }
 
         /**
-         * Click the shell's own settings control.
+         * Click the shell's settings control, if one of the known selectors matches.
          *
-         * Matched by accessible name in either language. Icon-only controls are accepted when their
-         * name mentions settings anywhere, because the shell's wording is not this tool's to depend
-         * on. Our own panel is excluded: it has controls whose labels mention settings too.
+         * No label matching: a text search is what clicked a sibling plugin's reset button. An
+         * unrecognised DOM means "I do not know how to open settings here", which is an honest
+         * answer the caller can report.
          */
         const clickShellTrigger = () => {
-          for (const element of document.querySelectorAll('button, [role="button"], a')) {
-            const label = [
-              element.getAttribute('aria-label'),
-              element.getAttribute('title'),
-              element.textContent,
-            ].filter(Boolean).join(' ')
-            if (!/设置|settings/iu.test(label)) continue
-            if (element.disabled) continue
-            if (element.closest?.('.dph-panel, .dph-disclosure')) continue
-            if (element.getClientRects().length === 0) continue
-            try {
-              element.click()
-              return true
-            } catch { /* try the next candidate */ }
+          for (const selector of SETTINGS_SELECTORS) {
+            for (const element of document.querySelectorAll(selector)) {
+              if (element.disabled) continue
+              if (element.getClientRects().length === 0) continue
+              // Never press a control inside this tool's own panel.
+              if (element.closest?.('.dph-panel, .dph-disclosure')) continue
+              try {
+                element.click()
+                return true
+              } catch { /* try the next match */ }
+            }
           }
           return false
         }
@@ -2397,35 +2436,21 @@ window.__ModuleLoader__.load({
         }
 
         /**
-         * Show the fallback instruction in the strip the user just clicked.
+         * Try to open settings, then report the outcome once the frame has settled.
          *
-         * document.title is not a place a user looks. The strip is: it is what they pressed, and the
-         * next refresh rebuilds it, so the notice is temporary by construction.
-         */
-        const reportOpenFailure = (element) => {
-          try {
-            const host = element?.querySelector?.('[data-dph-alert-text]')
-            if (host) host.textContent = t('alertOpenFailed')
-            else if (element) element.textContent = t('alertOpenFailed')
-          } catch { /* the message is best-effort; the fallback below still runs */ }
-          document.title = 'dsh-plugin-health: could not open Settings'
-        }
-
-        /**
-         * Open the settings surface and report whether it opened.
+         * The shortcut goes first: it cannot be confused with a control that happens to be named
+         * something similar, and it is what the shell registers for this action. The DOM path is a
+         * fallback for surfaces that do not bind the key.
          *
-         * The previous version returned true as soon as a synthetic event was dispatched, which made
-         * the caller's failure branch unreachable. This checks the dialog afterwards instead.
+         * @param {(ok: boolean) => void} done called once with what actually happened
          */
-        const openSettingsSurface = (element) => {
-          if (settingsVisible()) return true
-          const clicked = clickShellTrigger()
-          if (!clicked && !dispatchSettingsShortcut()) return false
-          // The click is synchronous but React's render is not; check once the frame has landed.
-          setTimeout(() => {
-            if (!settingsVisible()) reportOpenFailure(element)
-          }, 150)
-          return true
+        const openSettingsSurface = (done) => {
+          if (settingsVisible()) { done(true); return }
+          const tried = dispatchSettingsShortcut()
+          if (!settingsVisible() && !clickShellTrigger() && !tried) { done(false); return }
+          // React mounts the dialog asynchronously; one frame plus a settle is enough here, and the
+          // caller reports the failure if it never appears.
+          setTimeout(() => done(settingsVisible()), 200)
         }
 
         /**
@@ -2468,11 +2493,7 @@ window.__ModuleLoader__.load({
                     kind,
                     count,
                     version: updateVersion,
-                    open: (event) => {
-                      const went = openSettingsSurface(event?.currentTarget)
-                      if (!went) reportOpenFailure(event?.currentTarget)
-                      return went
-                    },
+                    open: (done) => openSettingsSurface(done),
                   }),
                 }, AlertEntry)
                 disposeAlert = dispose

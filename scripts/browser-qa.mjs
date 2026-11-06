@@ -60,7 +60,8 @@ const assets = new Map([
 const requests = [], checks = [], errors = [], warnings = []
 let allowScriptedRepair = false
 let allowScriptedRescue = false
-const sourceSha256 = createHash('sha256').update(readFileSync(join(root, 'src/ui/client.js'))).digest('hex')
+const clientSource = readFileSync(join(root, 'src/ui/client.js'), 'utf8')
+const sourceSha256 = createHash('sha256').update(clientSource).digest('hex')
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, 'http://127.0.0.1')
   const request = { method: req.method, path: url.pathname, query: url.search }
@@ -330,6 +331,53 @@ try {
     assert.equal(await second.getByRole('button', { name: '查看试运行说明', exact: true }).isVisible(), true)
     assert.equal(await second.getByRole('button', { name: '允许下次尝试启动', exact: true }).count(), 0)
   })
+  await check('the update strip opens Settings and never presses another control', async () => {
+    // A separate page so this does not depend on whatever state the checks above left behind.
+    const strip = '<button id="strip" title="点一下打开设置页更新">↑ 插件健康有新版本 3.0.4 查看</button>'
+    const shell = '<button data-dsh-settings-open aria-label="Settings">gear</button>'
+    const danger = '<button id="danger">Reset all settings</button>'
+
+    const scenes = [
+      { name: 'strip before the shell icon', body: strip + shell, expectOpen: true },
+      { name: 'shell icon before the strip', body: shell + strip, expectOpen: true },
+      { name: 'a sibling reset button exists', body: danger + strip, expectOpen: false },
+    ]
+
+    for (const scene of scenes) {
+      const probe = await browser.newPage()
+      const pageErrors = []
+      probe.on('pageerror', (e) => pageErrors.push(String(e)))
+      await probe.setContent('<body>' + scene.body + '<script>' + [
+        'window.log = []',
+        'window.result = null',
+        // Pull the real helpers out of the shipped bundle.
+        clientSource.match(/const SETTINGS_SELECTORS = \[[\s\S]*?\n        \]/u)?.[0] ?? '',
+        clientSource.match(/const SETTINGS_DIALOG_SELECTORS = \[[\s\S]*?\n        \]/u)?.[0] ?? '',
+        'const settingsVisible = ' + (clientSource.match(/const settingsVisible = \(\) => \{[\s\S]*?\n        \}/u)?.[0]?.replace('const settingsVisible = ', '') ?? '(() => false)'),
+        'const clickShellTrigger = ' + (clientSource.match(/const clickShellTrigger = \(\) => \{[\s\S]*?\n        \}/u)?.[0]?.replace('const clickShellTrigger = ', '') ?? '(() => false)'),
+        'const dispatchSettingsShortcut = ' + (clientSource.match(/const dispatchSettingsShortcut = \(\) => \{[\s\S]*?\n        \}/u)?.[0]?.replace('const dispatchSettingsShortcut = ', '') ?? '(() => false)'),
+        'const openSettingsSurface = ' + (clientSource.match(/const openSettingsSurface = \(done\) => \{[\s\S]*?\n        \}/u)?.[0]?.replace('const openSettingsSurface = ', '') ?? '((d) => d(false))'),
+        "document.querySelectorAll('button[id=\"strip\"]').forEach((s) => s.addEventListener('click', () => { window.log.push('strip'); openSettingsSurface((ok) => { window.result = ok }) }))",
+        "document.querySelectorAll('[data-dsh-settings-open]').forEach((b) => b.addEventListener('click', () => { window.log.push('shell'); const d = document.createElement('div'); d.setAttribute('data-dsh-settings',''); document.body.append(d) }))",
+        "document.querySelectorAll('#danger').forEach((b) => b.addEventListener('click', () => window.log.push('DANGER')))",
+        "window.addEventListener('keydown', (e) => { if (e.key === ',' && (e.ctrlKey || e.metaKey)) window.log.push('shortcut') })",
+      ].join('\n') + '</script></body>')
+
+      await probe.click('#strip')
+      await probe.waitForTimeout(450)
+      const log = await probe.evaluate(() => window.log)
+      const result = await probe.evaluate(() => window.result)
+      const opened = await probe.evaluate(() => !!document.querySelector('[data-dsh-settings]'))
+
+      assert.equal(log.includes('DANGER'), false, scene.name + ': it pressed another plugin\'s reset button')
+      assert.equal(log.filter((x) => x === 'strip').length, 1, scene.name + ': the strip clicked itself')
+      assert.equal(opened, scene.expectOpen, scene.name + ': dialog state disagrees with expectation')
+      assert.equal(result, opened, scene.name + ': it reported ' + result + ' but the dialog was ' + opened)
+      assert.deepEqual(pageErrors, [], scene.name + ': runtime errors')
+      await probe.close()
+    }
+  })
+
   await check('React/browser report no runtime errors', async () => { assert.deepEqual(errors, []) })
   writeFileSync(join(out, 'browser-qa.json'), JSON.stringify({ passed: true, checks, errors, warnings,
     sourceSha256, browser: browser.version(), fixture: true, nativeDshDesktop: false, requests }, null, 2) + '\n')

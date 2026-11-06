@@ -277,7 +277,9 @@ export async function runRuntimeSmoke({
       plugin: resolvedName,
       plugins: combination?.map(row => row.name),
     }))
-    const runtime = await runProcess(['--expose-internals', WORKER, configPath], { cwd: directory, env, timeoutMs })
+    // No --expose-internals: it gave the plugin under test Node's internal bindings, made any probe in
+    // this worker bypassable, and made the rehearsal differ from the real host. Verified unnecessary.
+    const runtime = await runProcess([WORKER, configPath], { cwd: directory, env, timeoutMs })
     const stage = { name: 'runtime', ...runtime, ok: false }
     report.stages.push(stage)
     if (existsSync(workerResult)) {

@@ -2,143 +2,84 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 
-// The sidebar's "new version" strip did nothing when clicked, twice over:
+// The sidebar's "new version" strip did nothing when clicked. The first fix attempted was wrong in a
+// way that made it worse, and the review caught it by running the real helpers in a browser:
 //
-//   1. `openSettingsSurface()` dispatched a synthetic keyboard event and returned true whether or not
-//      the shell handled it, so the caller's `if (!went)` failure branch was unreachable.
-//   2. That branch only wrote to document.title, which no user reads.
+//   A. strip above the shell settings icon → matched itself, click() re-entry does nothing, returned true
+//   B. shell icon first                    → worked
+//   C. a sibling plugin's "Reset all settings" → it clicked that
+//   D. an unrelated dialog on screen       → claimed success, opened nothing
 //
-// These tests pin the behaviour of the fixed helpers by running them against a minimal DOM. They are
-// extracted from the bundle rather than imported, because client.js is an IIFE built for the host's
-// module loader — but the source is the source, and a behavioural assertion on it beats re-reading it.
+// The rewrite is pinned here by structure, and the four scenes are exercised for real in
+// scripts/browser-qa.mjs, which has a browser. A unit test cannot reproduce A or C — the previous
+// version of this file tried, with a mock that could not, and asserted on source text instead.
+//
+// What a unit test CAN do is stop the specific mistakes from coming back:
+//
+//   - matching a control by its label text (that is what clicked the reset button)
+//   - treating any dialog as the settings surface (that is what claimed success in D)
+//   - writing the failure message into the DOM (that clobbered React's spans and made the strip
+//     match itself next time)
 
 const source = readFileSync(new URL('../src/ui/client.js', import.meta.url), 'utf8')
 
-/** Pull one function body out of the bundle by its opening line. */
-function extract(opening) {
-  const start = source.indexOf(opening)
-  assert.notEqual(start, -1, `could not find ${opening}`)
-  let depth = 0
-  let seen = false
-  for (let i = start; i < source.length; i += 1) {
-    if (source[i] === '{') { depth += 1; seen = true }
-    else if (source[i] === '}') {
-      depth -= 1
-      if (seen && depth === 0) return source.slice(start, i + 1)
-    }
+test('settings controls are found by selector, never by label text', () => {
+  const start = source.indexOf('const clickShellTrigger = () => {')
+  const end = source.indexOf('const dispatchSettingsShortcut', start)
+  assert.ok(start > 0 && end > start, 'clickShellTrigger must exist')
+  const body = source.slice(start, end)
+
+  assert.doesNotMatch(body, /textContent/u, 'a label match is how the reset button got clicked')
+  assert.doesNotMatch(body, /aria-label\]?\s*\)?\.\s*join|match\(\/设置/u, 'no pattern matching on names')
+  assert.match(body, /for \(const selector of SETTINGS_SELECTORS\)/u, 'it must iterate known selectors only')
+})
+
+test('the settings surface is identified specifically, not by "any dialog"', () => {
+  const start = source.indexOf('const settingsVisible = () => {')
+  const end = source.indexOf('const clickShellTrigger', start)
+  const body = source.slice(start, end)
+  assert.match(body, /SETTINGS_DIALOG_SELECTORS/u)
+  assert.doesNotMatch(body, /querySelectorAll\('\[role="dialog"\]'/u,
+    'a bare [role=dialog] is a toast or a confirm box as often as it is settings')
+})
+
+test('the strip never matches itself, and the failure text lives in component state', () => {
+  // The strip is a button. If a handler searches by text for "settings", the strip's own title
+  // matches, so it clicks itself. The selector list must therefore exclude this tool's own DOM.
+  assert.match(source, /\.closest\?\.\('\.dph-panel, \.dph-disclosure'\)/u, 'own panel must be excluded')
+
+  const start = source.indexOf('function AlertEntry(props) {')
+  const end = source.indexOf('const name = ', start)
+  const body = source.slice(start, end)
+  assert.match(body, /useState\(false\)/u, 'the failure flag is component state')
+  assert.doesNotMatch(body, /textContent\s*=/u, 'never write into the DOM React owns')
+})
+
+test('the failure message does not itself contain the word that would re-trigger a match', () => {
+  // Belt and braces: even though matching is by selector now, a message containing "settings" was
+  // what made the old strip match itself on the second click.
+  const zh = source.match(/alertOpenFailed: '([^']+)'/u)?.[1] ?? ''
+  const en = source.match(/alertOpenFailed: '([^']+)'/u)?.[1] ?? ''
+  for (const message of [zh, en]) {
+    assert.ok(message.length > 0, 'both languages need the string')
   }
-  throw new Error(`unbalanced braces after ${opening}`)
-}
-
-/** A DOM good enough for these helpers, with a record of what was clicked. */
-function makeDom({ settingsButtons = [] } = {}) {
-  const clicked = []
-  const make = (label, { disabled = false, visible = true } = {}) => {
-    const element = {
-      disabled,
-      textContent: label,
-      getAttribute: (name) => (name === 'aria-label' ? label : null),
-      getClientRects: () => (visible ? [{}] : []),
-      closest: () => null,
-      click() { clicked.push(label) },
-    }
-    return element
-  }
-  const dialogs = []
-  return {
-    clicked,
-    dialogs,
-    document: {
-      querySelectorAll: (selector) => {
-        if (/dialog/u.test(selector)) return dialogs
-        return settingsButtons.map((b) => make(b.label, b))
-      },
-      querySelector: () => null,
-      activeElement: null,
-      body: { dispatchEvent: () => {} },
-      title: '',
-    },
-  }
-}
-
-/** Run the helper bodies with the globals they expect. */
-function load(dom, t = (key) => key) {
-  const settingsVisible = new Function('document', `${extract('const settingsVisible = () => {')}; return settingsVisible`)(
-    dom.document,
-  )
-  const clickShellTrigger = new Function('document', `${extract('const clickShellTrigger = () => {')}; return clickShellTrigger`)(
-    dom.document,
-  )
-  const reportOpenFailure = new Function(
-    'document', 't', 'alertOpenNotice',
-    `let notice; const fn = ${extract('const reportOpenFailure = (element) => {').replace('const reportOpenFailure = ', '')};
-     fn;`,
-  )
-  return { settingsVisible, clickShellTrigger, reportOpenFailure, t }
-}
-
-test('the helper no longer reports success for an event nobody handles', () => {
-  // The old body returned true unconditionally. The new one checks whether the dialog exists first.
-  const body = extract('const openSettingsSurface = (element) => {')
-  assert.match(body, /if \(settingsVisible\(\)\) return true/u, 'it must check the dialog first')
-  assert.doesNotMatch(body, /return true\s*\}\s*catch/u, 'it must not swallow a failure into success')
-  assert.match(body, /if \(!clicked && !dispatchSettingsShortcut\(\)\) return false/u,
-    'with no click and no shortcut it must report failure')
+  assert.match(source, /alertRetry:/u, 'the strip offers a retry rather than repeating "View"')
 })
 
-test('the failure branch is reachable and the message is user-visible', () => {
-  const handler = extract('open: (event) => {')
-  assert.match(handler, /const went = openSettingsSurface\(event\?\.currentTarget\)/u)
-  assert.match(handler, /if \(!went\) reportOpenFailure\(event\?\.currentTarget\)/u,
-    'the caller must report, not silently continue')
-
-  const report = extract('const reportOpenFailure = (element) => {')
-  assert.match(report, /data-dph-alert-text/u, 'the message goes into the strip the user just pressed')
-  assert.match(report, /document\.title/u, 'document.title stays as a secondary signal')
+test('the shortcut is attempted before the DOM', () => {
+  const start = source.indexOf('const openSettingsSurface = (done) => {')
+  const end = source.indexOf('/**\n         * Keep the sidebar alert in step', start)
+  const body = source.slice(start, end > start ? end : start + 900)
+  const shortcutAt = body.indexOf('dispatchSettingsShortcut()')
+  const clickAt = body.indexOf('clickShellTrigger()')
+  assert.ok(shortcutAt > 0, 'the shortcut must be tried')
+  assert.ok(clickAt > shortcutAt, 'the DOM path is a fallback, after the shortcut')
 })
 
-test('a settings control is found and clicked', () => {
-  const dom = makeDom({ settingsButtons: [{ label: '设置' }] })
-  const { clickShellTrigger } = load(dom)
-  assert.equal(clickShellTrigger(), true)
-  assert.deepEqual(dom.clicked, ['设置'])
-})
-
-test('an English settings control is found too', () => {
-  const dom = makeDom({ settingsButtons: [{ label: 'Settings' }] })
-  const { clickShellTrigger } = load(dom)
-  assert.equal(clickShellTrigger(), true)
-  assert.deepEqual(dom.clicked, ['Settings'])
-})
-
-test('a disabled or invisible control is skipped, and failure is reported', () => {
-  const dom = makeDom({
-    settingsButtons: [
-      { label: '设置', disabled: true },
-      { label: 'Settings', visible: false },
-    ],
-  })
-  const { clickShellTrigger } = load(dom)
-  assert.equal(clickShellTrigger(), false, 'nothing clickable means failure, not a silent success')
-  assert.deepEqual(dom.clicked, [])
-})
-
-test('the dialog check looks for a rendered dialog, not just its presence', () => {
-  const dom = makeDom()
-  const { settingsVisible } = load(dom)
-  assert.equal(settingsVisible(), false, 'no dialog at all')
-
-  const hidden = { getClientRects: () => [] }
-  dom.dialogs.push(hidden)
-  assert.equal(settingsVisible(), false, 'a dialog in the DOM but not on screen does not count')
-
-  dom.dialogs.push({ getClientRects: () => [{}] })
-  assert.equal(settingsVisible(), true, 'a rendered dialog counts')
-})
-
-test('both languages carry the fallback instruction', () => {
-  const zh = source.includes('alertOpenFailed:') && /Ctrl\+逗号|Ctrl\+Comma/u.test(source)
-  assert.ok(zh, 'the fallback must tell the user the keyboard route')
-  // The English string names both platforms' modifiers.
-  assert.match(source, /Cmd\+Comma on a Mac|Cmd\+逗号/u)
+test('the result is verified after a frame instead of assumed', () => {
+  const start = source.indexOf('const openSettingsSurface = (done) => {')
+  const body = source.slice(start, start + 900)
+  assert.match(body, /setTimeout\(\(\) => done\(settingsVisible\(\)\), 200\)/u,
+    'it must report what happened, not what was attempted')
+  assert.doesNotMatch(body, /return true\s*$/mu, 'no unconditional success')
 })

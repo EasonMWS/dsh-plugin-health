@@ -619,7 +619,9 @@ test('the sidebar alert opens settings through the shell command, not selectPane
   const alert = app.findAlert()
   assert.ok(alert, 'the sidebar alert should be registered when there are warnings')
   assert.equal(typeof alert.props.open, 'function', 'the alert must expose an open callback')
-  alert.props.open()
+  // The callback reports the outcome asynchronously; nothing needs to be asserted about it here
+  // beyond the shortcut being dispatched, which is this test's subject.
+  alert.props.open(() => {})
 
   assert.ok(app.keyEvents.length >= 1, 'clicking must dispatch the settings shortcut')
   assert.equal(app.keyEvents[0].key, ',')

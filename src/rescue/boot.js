@@ -21,6 +21,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
+import { yamlComplexityProblem } from '../util/yaml-guard.js'
 import { parse as parseYaml, parseDocument, stringify as stringifyYaml } from 'yaml'
 
 /** Marker so `restore` removes exactly the entries this tool added and nothing else. */
@@ -39,7 +40,10 @@ export function readProfilePatch(profileDir) {
   if (!existsSync(path)) return []
   let parsed
   try {
-    parsed = parseYaml(readFileSync(path, 'utf8'))
+    const patchText = readFileSync(path, 'utf8')
+    const complexity = yamlComplexityProblem(patchText)
+    if (complexity !== undefined) throw new Error(complexity)
+    parsed = parseYaml(patchText)
   } catch (error) {
     const wrapped = new Error(`the profile patch layer is not valid YAML: ${error.message}`)
     wrapped.code = 'PATCH_INVALID'
@@ -102,6 +106,8 @@ function preserveComments(path, entries) {
   const original = readFileSync(path, 'utf8')
   let document
   try {
+    const complexity = yamlComplexityProblem(original)
+    if (complexity !== undefined) return undefined
     document = parseDocument(original)
   } catch {
     return undefined
