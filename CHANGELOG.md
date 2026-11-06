@@ -1,36 +1,101 @@
 # Changelog
 
+## 3.0.5
+
+**3.0.4 was published with the wrong content.** Its publish workflow was cancelled while still running, but npm had already accepted the tarball — so 3.0.4 on the registry is byte-identical to 3.0.3. This release carries the changes that were meant to be in it.
+
+### The settings markup is read from DSH instead of invented
+
+The dialog is recognised by `data-shortcut-modal="settings"` and the button by `aria-haspopup="dialog"`, both taken from `@deepseek-ai/dsh-client-ui-settings-general` 0.2.1-rc.4 (`lib/client.js:280-293` and `:451-462`). The same markup is in 0.2.0-rc.2, 0.2.1-rc.5 and 0.2.2-rc.1, so the previous guesses affected the whole supported host range.
+
+What that looked like in practice: on the desktop build the settings dialog opened and the sidebar strip still said it could not. The earlier fix, which matched buttons by their label text, could also press another plugin's "Reset all settings" control.
+
+### No synthetic keyboard event
+
+The desktop build receives shortcuts natively and its DOM keydown handler returns early, so a dispatched event does nothing there. The web build treats the shortcut as a toggle, so pairing it with the click would close settings again. Clicking the shell's own button is the one path that works on both.
+
+### The failure message no longer names a key combination
+
+"Ctrl+Comma" was wrong on macOS (Cmd), wrong on the web build (Ctrl+Alt), and wrong for anyone who rebound the shortcut. It points at the settings button instead.
+
+### The tests use the real markup
+
+They previously used attributes this tool invented, which is why twenty browser checks passed while the button did not work: the tests shared the code's assumption about the host. Helper extraction now throws instead of substituting placeholder functions — a scene expecting "could not open" had been passing against a placeholder that always returned false.
+
+### Smaller fixes
+
+- `src/rescue/boot.js` parsed the profile patch in two places without the YAML complexity guard. Both are guarded now; 10k anchors plus 10k aliases in a 230KB file measured ~3s.
+- `--expose-internals` removed from the rehearsal worker. Verified unnecessary by booting the real 0.2.1-rc.4 host without it. It had been handing the plugin under test Node's internal bindings and making the rehearsal differ from the real host.
+- 18 files were CRLF while `.gitattributes` asks for LF. Converted.
+
+### Verified
+
+- 375 unit tests, 374 pass, 1 platform skip
+- 35 HTTP checks against the real route registration
+- 20 browser checks, using markup copied from the published DSH package
+- Five scenes against the real markup: dialog opens and is recognised, button ordering does not matter, no settings button means an honest failure, a gear without `aria-haspopup` is never pressed, an unrelated dialog is not mistaken for settings
+
+### Still not done
+
+- **The rehearsal inherits your whole environment.** `src/runtime/smoke.js:246` is `{ ...process.env }`, so a plugin under test can read every `*_TOKEN` and `*_KEY` you have exported. That is this tool's own risk to fix.
+- The single-plugin disable route does not exclude Health itself or `@deepseek-ai/*` host packages.
+
+## 3.0.4
+
+Cancelled before it could publish; the registry copy is byte-identical to 3.0.3. Superseded by 3.0.5.
+See that entry for the changes that were meant to ship here.
+
+## 3.0.3
+
+### The loader list got searchable, and the counters explain themselves
+
+Three changes from watching someone use the panel.
+
+The three startup counters were labelled Active / Failed / Other states. "Other states" held six
+different things — waiting, loading, unloading, inactive, disabled, absent — so the number answered
+nothing a reader could act on. Each counter now carries a line saying what it counts, and the vague
+one is called "not running" with the actual states named underneath.
+
+The loader list was a flat run of two hundred-odd rows mixing the host's own packages with the ones
+you installed. It now groups by origin — the host ships under `@deepseek-ai/` — and has a search box
+filtering on name and id. The question a reader has is "is the thing I installed healthy", which is
+a different question from "is the host healthy".
+
+The target-version field was empty and required, so the preview button refused to fire until the
+reader looked up the version they were already on. It starts at the running version.
+
+Daily mode now shows the counters too. That is the point of them: a number answers "is anything
+broken" faster than a sentence, and the sentence was what a first-time reader had to decode. Daily
+mode still keeps the technical vocabulary out.
+
+### Fixed
+
+- The loader-list search check never ran. The disclosure trigger is a toggle, and earlier checks in
+  the same file had already opened it, so an unconditional click closed the very panel being tested.
+
+### Documentation
+
+- Removed two passages that were genuinely out of date: the step-2 caveat said no exemption was
+  written while the next line said one was, and the roadmap listed five capabilities as future work
+  that all ship today.
+
 ## 3.0.2
 
-**The declared host range was wider than anything this package had been tested against.**
+### The declared host range now matches what has been booted
 
-`engines.dsh` said `>=0.1.0-rc.6 <0.3.0-0` — a promise to every host in that span. The range was
-written when the project started and never re-derived from evidence; the package had only ever been
-installed and booted on 0.2.1-rc.4.
+`engines.dsh` said `>=0.1.0-rc.6 <0.3.0-0`. That span was written when the project started and never
+re-derived; the package had only ever been installed and booted on 0.2.1-rc.4.
 
-Three hosts have now been installed and booted for real:
+Three hosts have now been installed and booted for real: 0.2.0-rc.1, 0.2.1-rc.4 and 0.2.2-rc.1. All
+three load this plugin cleanly. The lower bound is now `0.2.0-rc.0`. 0.1.x belongs to an era current
+users are not running, and could not be exercised here at all — installing it timed out resolving a
+61-package dependency tree.
 
-| Host | Declared | Actually boots |
-| --- | --- | --- |
-| 0.2.0-rc.1 | ✅ | ✅ |
-| 0.2.1-rc.4 | ✅ | ✅ |
-| 0.2.2-rc.1 | ✅ | ✅ |
+A tool whose whole argument is *do not declare what you have not tested* cannot carry an untested
+lower bound in its own manifest.
 
-The lower bound is now `0.2.0-rc.0`. Everything below it is a host version from the project's early
-era that current users are not running, and 0.1.x could not be exercised here at all: installing it
-timed out resolving its dependency tree, so there was no evidence either way.
-
-A tool whose entire argument is *do not declare what you have not tested* cannot carry an untested
-lower bound in its own manifest. If you are still on a 0.1.x host, this package will now refuse to
-load rather than fail in some less obvious way — upgrade the host, or stay on 3.0.1.
-
-The upper bound is unchanged. No 0.3.x host exists on npm yet; the exclusion is there so the package
-refuses a major bump rather than assuming it still works.
-
-Also updates the test that pinned this: it asserted compatibility with 0.1.7-rc.2 and two other
-versions that were never installed, so it was checking the range against itself. It now lists the
-three hosts that were actually run, and asserts that hosts outside the range are reported rather than
-passing silently.
+The test that pinned this asserted compatibility with 0.1.7-rc.2 and two other versions that were
+never installed, so it was checking the range against itself.
 
 ## 3.0.1
 
