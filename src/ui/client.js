@@ -490,6 +490,7 @@ window.__ModuleLoader__.load({
         updateRestartNow: '重启 DSH',
         alertUpdate: '插件健康有新版本 {version}',
         alertUpdateTitle: '点一下打开设置页更新',
+  alertOpenFailed: '没能自动打开设置页：按 Ctrl+逗号（Mac 上 Cmd+逗号）或点侧栏的设置图标。',
         updateAvailable: '有新版本 {version}（当前 {current}）',
         updateHowTo: '升级：{command}',
         updateUpToDate: '已是最新版本 {version}',
@@ -655,6 +656,7 @@ window.__ModuleLoader__.load({
         updateRestartNow: 'Restart DSH',
         alertUpdate: 'Plugin health {version} available',
         alertUpdateTitle: 'Open Settings to update',
+  alertOpenFailed: 'Could not open Settings: press Ctrl+Comma (Cmd+Comma on a Mac), or use the settings icon in the sidebar.',
         updateAvailable: 'Version {version} is available (you have {current})',
         updateHowTo: 'Upgrade with: {command}',
         updateUpToDate: 'You are on the latest version, {version}',
@@ -2337,9 +2339,41 @@ window.__ModuleLoader__.load({
          *
          * Both are attempted, and if neither lands the alert says so instead of doing nothing.
          */
-        const openSettingsSurface = () => {
+        /** Whether the shell's settings dialog is on screen. */
+        const settingsVisible = () => {
+          const dialogs = [...document.querySelectorAll('[role="dialog"], dialog, [data-dsh-settings]')]
+          return dialogs.some((el) => el.getClientRects().length > 0)
+        }
+
+        /**
+         * Click the shell's own settings control.
+         *
+         * Matched by accessible name in either language. Icon-only controls are accepted when their
+         * name mentions settings anywhere, because the shell's wording is not this tool's to depend
+         * on. Our own panel is excluded: it has controls whose labels mention settings too.
+         */
+        const clickShellTrigger = () => {
+          for (const element of document.querySelectorAll('button, [role="button"], a')) {
+            const label = [
+              element.getAttribute('aria-label'),
+              element.getAttribute('title'),
+              element.textContent,
+            ].filter(Boolean).join(' ')
+            if (!/设置|settings/iu.test(label)) continue
+            if (element.disabled) continue
+            if (element.closest?.('.dph-panel, .dph-disclosure')) continue
+            if (element.getClientRects().length === 0) continue
+            try {
+              element.click()
+              return true
+            } catch { /* try the next candidate */ }
+          }
+          return false
+        }
+
+        /** Dispatch the shell's own key combination for opening settings. */
+        const dispatchSettingsShortcut = () => {
           const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/u.test(navigator.platform ?? '')
-          // Match the shell's registered defaults: primary+Comma on desktop, primary+Alt+Comma on web.
           const withAlt = typeof navigator !== 'undefined' && !/Electron/u.test(navigator.userAgent ?? '')
           const event = (type) => new KeyboardEvent(type, {
             key: ',',
@@ -2361,19 +2395,39 @@ window.__ModuleLoader__.load({
             return false
           }
         }
-        /** Click the shell's own settings control, which is what opens the modal for a mouse user. */
-        const clickShellTrigger = () => {
+
+        /**
+         * Show the fallback instruction in the strip the user just clicked.
+         *
+         * document.title is not a place a user looks. The strip is: it is what they pressed, and the
+         * next refresh rebuilds it, so the notice is temporary by construction.
+         */
+        const reportOpenFailure = (element) => {
           try {
-            for (const element of document.querySelectorAll('button,[role="button"]')) {
-              const label = `${element.getAttribute('aria-label') ?? ''} ${element.getAttribute('title') ?? ''}`
-              if (/设置|Settings/u.test(label) && !element.disabled && !element.closest?.('.dph-panel') && element.getClientRects().length > 0) {
-                element.click()
-                return true
-              }
-            }
-          } catch { /* fall through to the reported failure */ }
-          return false
+            const host = element?.querySelector?.('[data-dph-alert-text]')
+            if (host) host.textContent = t('alertOpenFailed')
+            else if (element) element.textContent = t('alertOpenFailed')
+          } catch { /* the message is best-effort; the fallback below still runs */ }
+          document.title = 'dsh-plugin-health: could not open Settings'
         }
+
+        /**
+         * Open the settings surface and report whether it opened.
+         *
+         * The previous version returned true as soon as a synthetic event was dispatched, which made
+         * the caller's failure branch unreachable. This checks the dialog afterwards instead.
+         */
+        const openSettingsSurface = (element) => {
+          if (settingsVisible()) return true
+          const clicked = clickShellTrigger()
+          if (!clicked && !dispatchSettingsShortcut()) return false
+          // The click is synchronous but React's render is not; check once the frame has landed.
+          setTimeout(() => {
+            if (!settingsVisible()) reportOpenFailure(element)
+          }, 150)
+          return true
+        }
+
         /**
          * Keep the sidebar alert in step with the snapshot.
          *
@@ -2414,11 +2468,9 @@ window.__ModuleLoader__.load({
                     kind,
                     count,
                     version: updateVersion,
-                    open: () => {
-                      // Prefer the visible host control; dispatching a shortcut alone cannot
-                      // prove that a host command handled it.
-                      const went = clickShellTrigger() || openSettingsSurface()
-                      if (!went) document.title = 'dsh-plugin-health: could not open Settings'
+                    open: (event) => {
+                      const went = openSettingsSurface(event?.currentTarget)
+                      if (!went) reportOpenFailure(event?.currentTarget)
                       return went
                     },
                   }),
