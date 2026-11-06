@@ -102,7 +102,16 @@ window.__ModuleLoader__.load({
       .dph-panel .dph-row-head strong { flex: 1 1 180px; min-width: 0; font-weight: 550; }
       .dph-panel .dph-failed { border-left: 3px solid var(--dph-error); padding: 10px 12px; margin-top: 10px; background: var(--dph-tint); }
       .dph-panel .dph-metrics { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
-      .dph-panel .dph-metric { flex: 1 1 100px; padding: 10px 12px; border: 1px solid var(--dph-line); border-radius: 10px; }
+      .dph-panel .dph-metric { flex: 1 1 140px; padding: 10px 12px; border: 1px solid var(--dph-line); border-radius: 10px; }
+      /* The counter answers "how many"; the label says what of; the hint says what it means. Three
+         lines is the price of not shipping a number nobody can interpret. */
+      .dph-panel .dph-metric-label { display: block; font-size: 12px; font-weight: 600; margin-top: 2px; }
+      .dph-panel .dph-metric-hint { display: block; font-size: 11px; opacity: .68; margin-top: 3px; line-height: 1.35; }
+      .dph-panel .dph-search { display: grid; gap: 4px; margin: 4px 0 10px; font-size: 12px; }
+      .dph-panel .dph-search input { padding: 7px 9px; font: inherit; font-size: 13px; border: 1px solid var(--dph-line);
+        border-radius: 8px; background: transparent; color: inherit; }
+      .dph-panel .dph-entry-group + .dph-entry-group { margin-top: 12px; }
+      .dph-panel .dph-group-label { font-size: 11px; letter-spacing: .02em; text-transform: none; margin: 6px 0 2px; }
       .dph-panel .dph-metric strong { font-size: 22px; line-height: 1.3; display: block; font-variant-numeric: tabular-nums; }
       .dph-panel code { font-size: 12px; overflow-wrap: anywhere; white-space: pre-wrap; }
       .dph-panel .dph-code { display: block; padding: 12px; border-radius: 8px; background: var(--dph-tint); margin: 8px 0; }
@@ -414,7 +423,10 @@ window.__ModuleLoader__.load({
         'viewTask.developer': '保留现场证据，为可信插件复现启动问题。',
         modeScope: '切换模式只调整信息展示，检查范围保持一致。',
         chipIssues: '问题与修复', chipRuntime: '加载变化', chipPreview: '升级预检', chipEvidence: '验证与导出',
-        liveActive: '运行中', liveFailed: '激活失败', liveWaiting: '其他状态',
+        liveActive: '运行中', liveFailed: '激活失败', liveWaiting: '未运行',
+  liveActiveHint: 'DSH 已经加载，可以正常使用',
+  liveFailedHint: '加载时报错，通常有具体原因',
+  liveWaitingHint: '待启动、加载中、已禁用或尚未出现',
         liveCadence: '页面打开时每 30 秒读取宿主状态，短暂变化可能无法捕获。',
         staleStatus: '刷新未成功，下面保留上次结果。请重新扫描后再操作。',
         infoFindings: '其他检查提示', exportHelp: '导出文件含插件名称和配置标识，分享前请检查内容。',
@@ -428,6 +440,12 @@ window.__ModuleLoader__.load({
         liveSummary: '运行中 {active} 项，激活失败 {failed} 项',
         liveSample: '本次观察：{time}', liveChanges: '最近观察到的变化', liveNoChanges: '本次启动期间暂未观察到变化。',
         liveOther: '查看其他加载条目',
+  liveSearch: '搜索',
+  liveSearchHint: '按名称或 id 筛选',
+  liveNoMatch: '没有匹配的条目。',
+  liveOfficial: '宿主自带',
+  liveUserInstalled: '你安装的',
+  liveCount: '{count} 项',
         liveTransition: '{name}（{id}）：{before} → {after}',
         liveDuplicate: '工具 {tool} 已被注册，宿主拒绝了这次注册。',
         liveDeveloper: '开发验证', liveExport: '下载运行证据',
@@ -570,7 +588,10 @@ window.__ModuleLoader__.load({
         'viewTask.developer': 'Keep evidence and reproduce startup issues for trusted plugins.',
         modeScope: 'Changing the view adjusts the display. The scan coverage stays the same.',
         chipIssues: 'Issues & recovery', chipRuntime: 'Loader changes', chipPreview: 'Upgrade preview', chipEvidence: 'Verify & export',
-        liveActive: 'Active', liveFailed: 'Failed', liveWaiting: 'Other states',
+        liveActive: 'Active', liveFailed: 'Failed', liveWaiting: 'Not running',
+  liveActiveHint: 'DSH loaded it and it is usable',
+  liveFailedHint: 'Threw while loading, usually with a reason',
+  liveWaitingHint: 'Waiting, loading, disabled, or never appeared',
         liveCadence: 'Reads host state every 30 seconds while this page is open. Brief changes may be missed.',
         staleStatus: 'Refresh failed. The last results remain below. Rescan before taking action.',
         infoFindings: 'Other scan findings', exportHelp: 'Exports contain plugin names and configuration identifiers. Review them before sharing.',
@@ -584,6 +605,12 @@ window.__ModuleLoader__.load({
         liveSummary: 'Active: {active} · Failed to activate: {failed}',
         liveSample: 'Observed at {time}', liveChanges: 'Recently observed changes', liveNoChanges: 'No changes observed in this host session yet.',
         liveOther: 'Other loader entries',
+  liveSearch: 'Search',
+  liveSearchHint: 'Filter by name or id',
+  liveNoMatch: 'Nothing matches.',
+  liveOfficial: 'Shipped with the host',
+  liveUserInstalled: 'Installed by you',
+  liveCount: '{count} entries',
         liveTransition: '{name} ({id}): {before} → {after}',
         liveDuplicate: 'The host rejected the registration because tool {tool} is already registered.',
         liveDeveloper: 'Developer verification', liveExport: 'Download runtime evidence',
@@ -1705,6 +1732,62 @@ window.__ModuleLoader__.load({
       return 'daily'
     }
 
+    /**
+     * Every loader entry that is not currently active, grouped by who put it there and searchable.
+     *
+     * With 212 entries a flat list is unreadable, and the question a reader actually has is
+     * "is the thing I installed healthy" — which is a different question from "is the host itself
+     * healthy". The split is by package scope: the host ships under @deepseek-ai/.
+     */
+    function EntryList({ rows, t, stateName }) {
+      const [query, setQuery] = React.useState('')
+      const needle = query.trim().toLowerCase()
+      const matches = needle === ''
+        ? rows
+        : rows.filter(row => `${row.name} ${row.id}`.toLowerCase().includes(needle))
+      // The host's own packages are noise for most readers; theirs are the ones they can act on.
+      const groups = [
+        { key: 'user', label: t('liveUserInstalled'), rows: matches.filter(row => !isHostPackage(row.name)) },
+        { key: 'host', label: t('liveOfficial'), rows: matches.filter(row => isHostPackage(row.name)) },
+      ].filter(group => group.rows.length > 0)
+      const row = (entry) => h('div', { key: entry.id, className: 'dph-row' }, [
+        h('div', { key: 'head', className: 'dph-row-head' }, [
+          h('strong', { key: 'name' }, entry.name),
+          h('span', { key: 'state', className: 'dph-chip' }, stateName(entry.state)),
+        ]),
+        h('div', { key: 'id', className: 'dph-muted' }, entry.id),
+      ])
+      return h(Disclosure, {
+        title: `${t('liveOther')} (${rows.length})`,
+        revealKey: needle === '' ? null : needle,
+        body: [
+          h('label', { key: 'search', className: 'dph-search' }, [
+            h('span', { key: 'label', className: 'dph-muted' }, t('liveSearch')),
+            h('input', {
+              key: 'input',
+              type: 'search',
+              value: query,
+              placeholder: t('liveSearchHint'),
+              'aria-label': t('liveSearchHint'),
+              onChange: (event) => setQuery(event.target.value),
+            }),
+          ]),
+          matches.length === 0
+            ? h('p', { key: 'none', className: 'dph-muted' }, t('liveNoMatch'))
+            : groups.map(group => h('div', { key: group.key, className: 'dph-entry-group' }, [
+                h('div', { key: 'label', className: 'dph-muted dph-group-label' },
+                  `${group.label} · ${t('liveCount', { count: group.rows.length })}`),
+                ...group.rows.map(row),
+              ])),
+        ],
+      })
+    }
+
+    /** The host ships its own packages under this scope; anything else came from the user. */
+    function isHostPackage(name) {
+      return typeof name === 'string' && (name.startsWith('@deepseek-ai/') || name.startsWith('cordis'))
+    }
+
     function RuntimeReview({ live, advanced, t }) {
       if (!live) return h('section', { className: 'dph-card' }, [
         h('h3', { key: 'title' }, t('reviewActivation')),
@@ -1719,11 +1802,15 @@ window.__ModuleLoader__.load({
         h('h3', { key: 'title' }, t('reviewActivation')),
         h('p', { key: 'summary', role: 'status', style: { color: failed.length ? COLORS.error : 'inherit' } },
           t('liveSummary', { active, failed: failed.length })),
-        // Shown in every mode. A number answers "is anything broken" faster than a sentence, and
-        // the sentence is exactly what a first-time reader has to decode.
+        // Shown in every mode. A number answers "is anything broken" faster than a sentence, but only
+        // if the reader knows what is being counted — so each one carries a line saying so.
         h('div', { key: 'metrics', className: 'dph-metrics' },
           [[active, 'liveActive'], [failed.length, 'liveFailed'], [others.length - active, 'liveWaiting']].map(([count, label]) =>
-            h('div', { key: label, className: 'dph-metric' }, [h('strong', { key: 'count' }, count), t(label)]))),
+            h('div', { key: label, className: 'dph-metric' }, [
+              h('strong', { key: 'count' }, count),
+              h('span', { key: 'label', className: 'dph-metric-label' }, t(label)),
+              h('span', { key: 'hint', className: 'dph-metric-hint' }, t(`${label}Hint`)),
+            ]))),
         failed.map(row => h('div', { key: row.id, className: 'dph-failed' }, [
           h('strong', { key: 'name' }, row.name),
           advanced ? h('div', { key: 'id', className: 'dph-muted' }, `${row.id} · ${stateName(row.state)}`) : null,
@@ -1731,13 +1818,7 @@ window.__ModuleLoader__.load({
         ])),
         failed.length ? h('p', { key: 'help', className: 'dph-muted' }, t('liveFailureHelp')) : null,
         h('div', { key: 'advanced', hidden: !advanced }, [
-          others.length ? h(Disclosure, { key: 'entries', title: `${t('liveOther')} (${others.length})`,
-            body: others.map(row => h('div', { key: row.id, className: 'dph-row' }, [
-              h('div', { key: 'head', className: 'dph-row-head' }, [
-                h('strong', { key: 'name' }, row.name), h('span', { key: 'state', className: 'dph-chip' }, stateName(row.state)),
-              ]), h('div', { key: 'id', className: 'dph-muted' }, row.id),
-            ])),
-          }) : null,
+          others.length ? h(EntryList, { key: 'entries', rows: others, t, stateName }) : null,
           live.sampledAt ? h(Disclosure, { key: 'changes', title: t('liveChanges'),
             badge: String((live.changes ?? []).length), body: [
               (live.changes ?? []).length === 0 ? h('p', { key: 'none' }, t('liveNoChanges')) :
@@ -1760,7 +1841,9 @@ window.__ModuleLoader__.load({
     }
 
     function ProfileReview({ review, stale, t }) {
-      const [target, setTarget] = React.useState('')
+      // Pre-filled with the running host version: the common question is "would the version I am on
+      // reject anything", and an empty required field made the reader find that version themselves.
+      const [target, setTarget] = React.useState(review.currentVersion ?? '')
       const [preview, setPreview] = React.useState(null)
       const [busy, setBusy] = React.useState(false)
       const [failed, setFailed] = React.useState('')
@@ -1802,7 +1885,7 @@ window.__ModuleLoader__.load({
         h('form', { key: 'form', onSubmit: submit, style: { display: 'flex', flexWrap: 'wrap', alignItems: 'end', gap: 8 } }, [
           h('label', { key: 'field', style: { display: 'grid', gap: 4, fontSize: 12 } }, [
             t('reviewTarget'),
-            h('input', { key: 'target', value: target, placeholder: review.currentVersion ?? '0.2.1-rc.5', required: true,
+            h('input', { key: 'target', value: target, placeholder: review.currentVersion ?? '0.2.1-rc.5',
               maxLength: 100, disabled: busy, onChange: (event) => {
                 setTarget(event.target.value)
                 setPreview(null)
@@ -1810,7 +1893,7 @@ window.__ModuleLoader__.load({
               },
             }),
           ]),
-          h('button', { key: 'run', type: 'submit', disabled: busy, style: buttonStyle('primary') }, t(busy ? 'checking' : 'reviewRun')),
+          h('button', { key: 'run', type: 'submit', disabled: busy || target.trim() === '', style: buttonStyle('primary') }, t(busy ? 'checking' : 'reviewRun')),
           h('button', { key: 'save', type: 'button', onClick: () => downloadJson('dsh-profile-snapshot.json', review),
             style: buttonStyle('secondary') }, t('reviewSnapshot')),
         ]),

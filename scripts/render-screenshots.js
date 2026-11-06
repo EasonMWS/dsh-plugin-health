@@ -98,7 +98,9 @@ const SNAPSHOTS = {
   },
 }
 
-const snapshot = SNAPSHOTS[state]
+const snapshot = process.env.DSH_SNAPSHOT_FILE
+  ? JSON.parse(readFileSync(process.env.DSH_SNAPSHOT_FILE, 'utf8'))
+  : SNAPSHOTS[state]
 if (snapshot === undefined) throw new Error(`unknown state: ${state}; try ${Object.keys(SNAPSHOTS).join(', ')}`)
 
 // --- a React stub sufficient for this bundle ------------------------------------------------

@@ -118,7 +118,9 @@ try {
     assert.equal(await page.getByRole('button', { name: '下载运行证据', exact: true }).count(), 0)
     assert.match(await panel.innerText(), /插件启动情况/)
     assert.match(await panel.innerText(), /功能名称「search_notes」被重复使用/)
-    assert.doesNotMatch(await panel.innerText(), /宿主加载状态|激活失败|node_modules|package\.json/)
+    // The counters are visible in daily mode by design. The technical wording is not.
+    assert.match(await panel.innerText(), /运行中/)
+    assert.doesNotMatch(await panel.innerText(), /宿主加载状态|node_modules|package\.json/)
   })
   const detail = page.getByRole('button', { name: /插件文件损坏/ })
   await check('Enter expands findings and Space collapses with focus preserved', async () => {
@@ -242,6 +244,12 @@ try {
     assert.notEqual(colors.text, colors.background)
     assert.equal(await page.evaluate(() => matchMedia('(prefers-color-scheme: dark)').matches), true)
   })
+  await check('the startup counters say what they count', async () => {
+    const hints = await page.locator('.dph-metric-hint').allTextContents()
+    assert.equal(hints.length, 3)
+    for (const hint of hints) assert.ok(hint.trim().length > 4, 'each counter needs a readable explanation')
+  })
+
   await check('normal interactions issue no write requests', async () => {
     assert.equal(requests.filter(row => row.method !== 'GET').length, 0)
   })
