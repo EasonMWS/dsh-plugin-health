@@ -331,16 +331,39 @@ try {
     assert.equal(await second.getByRole('button', { name: '查看试运行说明', exact: true }).isVisible(), true)
     assert.equal(await second.getByRole('button', { name: '允许下次尝试启动', exact: true }).count(), 0)
   })
-  await check('the update strip opens Settings and never presses another control', async () => {
-    // A separate page so this does not depend on whatever state the checks above left behind.
-    const strip = '<button id="strip" title="点一下打开设置页更新">↑ 插件健康有新版本 3.0.4 查看</button>'
-    const shell = '<button data-dsh-settings-open aria-label="Settings">gear</button>'
-    const danger = '<button id="danger">Reset all settings</button>'
+  await check('the update strip finds the real settings control and never presses another', async () => {
+    // Markup from @deepseek-ai/dsh-client-ui-settings-general 0.2.1-rc.4: dialog at lib/client.js:280-293,
+    // button at :451-462. Re-check against the package when the supported host range moves.
+    const realButton = '<button aria-label="Settings" aria-haspopup="dialog" aria-expanded="false">gear</button>'
+    const extract = (opening) => {
+      const at = clientSource.indexOf(opening)
+      // Fail loudly: the previous version substituted placeholders, so a scene expecting "cannot open"
+      // passed against (() => false).
+      if (at < 0) throw new Error('helper not found in client.js: ' + opening)
+      if (opening.includes('SELECTORS = [')) {
+        let depth = 0
+        for (let i = at; i < clientSource.length; i += 1) {
+          if (clientSource[i] === '[') depth += 1
+          else if (clientSource[i] === ']') { depth -= 1; if (depth === 0) return clientSource.slice(at, i + 1) }
+        }
+        throw new Error('unbalanced array: ' + opening)
+      }
+      let depth = 0, seen = false
+      for (let i = at; i < clientSource.length; i += 1) {
+        if (clientSource[i] === '{') { depth += 1; seen = true }
+        else if (clientSource[i] === '}') { depth -= 1; if (seen && depth === 0) return clientSource.slice(at, i + 1) }
+      }
+      throw new Error('unbalanced function: ' + opening)
+    }
+    const helpers = ['const SETTINGS_DIALOG_SELECTORS = [', 'const SETTINGS_SELECTORS = [',
+      'const settingsVisible = () => {', 'const clickShellTrigger = () => {',
+      'const openSettingsSurface = (done) => {'].map(extract).join('\n')
 
     const scenes = [
-      { name: 'strip before the shell icon', body: strip + shell, expectOpen: true },
-      { name: 'shell icon before the strip', body: shell + strip, expectOpen: true },
-      { name: 'a sibling reset button exists', body: danger + strip, expectOpen: false },
+      { name: 'real markup, settings button present', body: '<nav><button data-strip>strip</button>' + realButton + '</nav>', expectOpen: true },
+      { name: 'no settings button', body: '<nav><button data-strip>strip</button></nav>', expectOpen: false },
+      { name: 'a gear without aria-haspopup must not be pressed', body: '<main><button id="danger" aria-label="Settings">Reset all settings</button></main><nav><button data-strip>strip</button></nav>', expectOpen: false },
+      { name: 'an unrelated dialog does not count as settings', body: '<div role="dialog" aria-modal="true">Saved</div><nav><button data-strip>strip</button>' + realButton + '</nav>', expectOpen: true },
     ]
 
     for (const scene of scenes) {
@@ -348,31 +371,20 @@ try {
       const pageErrors = []
       probe.on('pageerror', (e) => pageErrors.push(String(e)))
       await probe.setContent('<body>' + scene.body + '<script>' + [
-        'window.log = []',
-        'window.result = null',
-        // Pull the real helpers out of the shipped bundle.
-        clientSource.match(/const SETTINGS_SELECTORS = \[[\s\S]*?\n        \]/u)?.[0] ?? '',
-        clientSource.match(/const SETTINGS_DIALOG_SELECTORS = \[[\s\S]*?\n        \]/u)?.[0] ?? '',
-        'const settingsVisible = ' + (clientSource.match(/const settingsVisible = \(\) => \{[\s\S]*?\n        \}/u)?.[0]?.replace('const settingsVisible = ', '') ?? '(() => false)'),
-        'const clickShellTrigger = ' + (clientSource.match(/const clickShellTrigger = \(\) => \{[\s\S]*?\n        \}/u)?.[0]?.replace('const clickShellTrigger = ', '') ?? '(() => false)'),
-        'const dispatchSettingsShortcut = ' + (clientSource.match(/const dispatchSettingsShortcut = \(\) => \{[\s\S]*?\n        \}/u)?.[0]?.replace('const dispatchSettingsShortcut = ', '') ?? '(() => false)'),
-        'const openSettingsSurface = ' + (clientSource.match(/const openSettingsSurface = \(done\) => \{[\s\S]*?\n        \}/u)?.[0]?.replace('const openSettingsSurface = ', '') ?? '((d) => d(false))'),
-        "document.querySelectorAll('button[id=\"strip\"]').forEach((s) => s.addEventListener('click', () => { window.log.push('strip'); openSettingsSurface((ok) => { window.result = ok }) }))",
-        "document.querySelectorAll('[data-dsh-settings-open]').forEach((b) => b.addEventListener('click', () => { window.log.push('shell'); const d = document.createElement('div'); d.setAttribute('data-dsh-settings',''); document.body.append(d) }))",
+        'window.log = []', 'window.result = null', helpers,
+        "document.querySelectorAll('[data-strip]').forEach((s) => s.addEventListener('click', () => { window.log.push('strip'); openSettingsSurface((ok) => { window.result = ok }) }))",
+        "document.querySelectorAll('button[aria-haspopup=\"dialog\"][aria-label=\"Settings\"]').forEach((b) => b.addEventListener('click', () => { window.log.push('trigger'); setTimeout(() => { const d = document.createElement('div'); d.setAttribute('role','dialog'); d.setAttribute('aria-modal','true'); d.setAttribute('data-shortcut-modal','settings'); document.body.append(d) }, 50) }))",
         "document.querySelectorAll('#danger').forEach((b) => b.addEventListener('click', () => window.log.push('DANGER')))",
-        "window.addEventListener('keydown', (e) => { if (e.key === ',' && (e.ctrlKey || e.metaKey)) window.log.push('shortcut') })",
       ].join('\n') + '</script></body>')
-
-      await probe.click('#strip')
-      await probe.waitForTimeout(450)
+      await probe.click('[data-strip]')
+      await probe.waitForTimeout(600)
       const log = await probe.evaluate(() => window.log)
       const result = await probe.evaluate(() => window.result)
-      const opened = await probe.evaluate(() => !!document.querySelector('[data-dsh-settings]'))
-
-      assert.equal(log.includes('DANGER'), false, scene.name + ': it pressed another plugin\'s reset button')
+      const opened = await probe.evaluate(() => !!document.querySelector('[data-shortcut-modal="settings"]'))
+      assert.equal(log.includes('DANGER'), false, scene.name + ': pressed another control')
       assert.equal(log.filter((x) => x === 'strip').length, 1, scene.name + ': the strip clicked itself')
-      assert.equal(opened, scene.expectOpen, scene.name + ': dialog state disagrees with expectation')
-      assert.equal(result, opened, scene.name + ': it reported ' + result + ' but the dialog was ' + opened)
+      assert.equal(opened, scene.expectOpen, scene.name + ': dialog state')
+      assert.equal(result, opened, scene.name + ': reported ' + result + ' while the dialog was ' + opened)
       assert.deepEqual(pageErrors, [], scene.name + ': runtime errors')
       await probe.close()
     }

@@ -490,7 +490,7 @@ window.__ModuleLoader__.load({
         updateRestartNow: '重启 DSH',
         alertUpdate: '插件健康有新版本 {version}',
         alertUpdateTitle: '点一下打开设置页更新',
-  alertOpenFailed: '打不开设置页，请按 Ctrl+逗号手动打开',
+  alertOpenFailed: '没能打开设置页，请点侧栏的设置图标',
   alertRetry: '重试',
         updateAvailable: '有新版本 {version}（当前 {current}）',
         updateHowTo: '升级：{command}',
@@ -657,7 +657,7 @@ window.__ModuleLoader__.load({
         updateRestartNow: 'Restart DSH',
         alertUpdate: 'Plugin health {version} available',
         alertUpdateTitle: 'Open Settings to update',
-  alertOpenFailed: 'Could not open Settings, press Ctrl+Comma',
+  alertOpenFailed: 'Could not open Settings, use the settings icon in the sidebar',
   alertRetry: 'Retry',
         updateAvailable: 'Version {version} is available (you have {current})',
         updateHowTo: 'Upgrade with: {command}',
@@ -2351,33 +2351,34 @@ window.__ModuleLoader__.load({
          * Both are attempted, and if neither lands the alert says so instead of doing nothing.
          */
         /**
-         * Definite selectors for the shell's settings surface.
+         * The settings dialog, by the markup DSH actually emits.
          *
-         * Deliberately narrow. An earlier version clicked anything whose label mentioned "settings",
-         * which matched this tool's own strip, a sibling plugin's "Reset all settings" button, and
-         * anything else an extension felt like naming. If the shell renames these, the tool stops
-         * opening settings and says so — that is better than pressing an unknown button.
+         * Read out of @deepseek-ai/dsh-client-ui-settings-general 0.2.1-rc.4, lib/client.js:280-293:
+         *   <div role="dialog" aria-modal="true" data-shortcut-modal="settings" aria-labelledby=…>
+         * The same markup is in 0.2.0-rc.2, 0.2.1-rc.5 and 0.2.2-rc.1. The earlier list
+         * (data-dsh-settings, data-testid=…) was invented, so this never matched and the strip
+         * reported failure while the dialog was plainly open. Re-check these against the package
+         * when the supported host range moves.
+         */
+        const SETTINGS_DIALOG_SELECTORS = [
+          '[data-shortcut-modal="settings"]',
+          '[role="dialog"][aria-modal="true"][data-shortcut-modal="settings"]',
+        ]
+
+        /**
+         * The settings button, by the same markup (lib/client.js:451-462):
+         *   <button aria-label="设置" aria-haspopup="dialog" aria-expanded=…>
+         * `aria-haspopup="dialog"` is what distinguishes it from any other gear labelled
+         * "Settings" inside another plugin's UI.
          */
         const SETTINGS_SELECTORS = [
-          '[data-dsh-settings-open]',
-          '[data-testid="settings-button"]',
-          '[data-testid="open-settings"]',
-          'button[aria-label="Settings"]',
-          'button[aria-label="设置"]',
-          '[role="button"][aria-label="Settings"]',
-          '[role="button"][aria-label="设置"]',
+          'button[aria-haspopup="dialog"][aria-label="设置"]',
+          'button[aria-haspopup="dialog"][aria-label="Settings"]',
+          'button[aria-haspopup="dialog"][title="设置"]',
+          'button[aria-haspopup="dialog"][title="Settings"]',
         ]
 
-        /** Selectors that identify the settings surface itself, not just any dialog. */
-        const SETTINGS_DIALOG_SELECTORS = [
-          '[data-dsh-settings]',
-          '[data-testid="settings-dialog"]',
-          '[data-testid="settings-panel"]',
-          '[role="dialog"][aria-label="Settings"]',
-          '[role="dialog"][aria-label="设置"]',
-        ]
-
-        /** Is the settings surface actually on screen? A toast or a confirm box is not it. */
+        /** Is the settings dialog on screen? Only the real markup counts. */
         const settingsVisible = () => {
           for (const selector of SETTINGS_DIALOG_SELECTORS) {
             for (const element of document.querySelectorAll(selector)) {
@@ -2388,11 +2389,12 @@ window.__ModuleLoader__.load({
         }
 
         /**
-         * Click the shell's settings control, if one of the known selectors matches.
+         * Click the shell's settings button, if one matching the real markup is present.
          *
-         * No label matching: a text search is what clicked a sibling plugin's reset button. An
-         * unrecognised DOM means "I do not know how to open settings here", which is an honest
-         * answer the caller can report.
+         * No synthetic keyboard event: the desktop build receives shortcuts natively and its DOM
+         * keydown handler returns early, so a dispatched event does nothing there; on the web build
+         * the shortcut toggles, so combining it with a click would close settings again. Clicking the
+         * real button is the one path that works in both.
          */
         const clickShellTrigger = () => {
           for (const selector of SETTINGS_SELECTORS) {
@@ -2410,47 +2412,17 @@ window.__ModuleLoader__.load({
           return false
         }
 
-        /** Dispatch the shell's own key combination for opening settings. */
-        const dispatchSettingsShortcut = () => {
-          const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/u.test(navigator.platform ?? '')
-          const withAlt = typeof navigator !== 'undefined' && !/Electron/u.test(navigator.userAgent ?? '')
-          const event = (type) => new KeyboardEvent(type, {
-            key: ',',
-            code: 'Comma',
-            keyCode: 188,
-            which: 188,
-            bubbles: true,
-            cancelable: true,
-            ctrlKey: !isMac,
-            metaKey: isMac,
-            altKey: withAlt,
-          })
-          try {
-            const target = document.activeElement ?? document.body
-            target.dispatchEvent(event('keydown'))
-            target.dispatchEvent(event('keyup'))
-            return true
-          } catch {
-            return false
-          }
-        }
-
         /**
-         * Try to open settings, then report the outcome once the frame has settled.
+         * Try to open settings, then report what actually happened once the frame has settled.
          *
-         * The shortcut goes first: it cannot be confused with a control that happens to be named
-         * something similar, and it is what the shell registers for this action. The DOM path is a
-         * fallback for surfaces that do not bind the key.
-         *
-         * @param {(ok: boolean) => void} done called once with what actually happened
+         * DSH mounts the dialog asynchronously, so the answer is read after a delay rather than
+         * assumed from the click.
+         * @param {(ok: boolean) => void} done called once with the outcome
          */
         const openSettingsSurface = (done) => {
           if (settingsVisible()) { done(true); return }
-          const tried = dispatchSettingsShortcut()
-          if (!settingsVisible() && !clickShellTrigger() && !tried) { done(false); return }
-          // React mounts the dialog asynchronously; one frame plus a settle is enough here, and the
-          // caller reports the failure if it never appears.
-          setTimeout(() => done(settingsVisible()), 200)
+          if (!clickShellTrigger()) { done(false); return }
+          setTimeout(() => done(settingsVisible()), 250)
         }
 
         /**

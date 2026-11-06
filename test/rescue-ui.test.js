@@ -30,7 +30,7 @@ function snapshot({ rescuable = [PLUGIN], rescues = [] } = {}) {
  * Render the browser bundle and route rescue requests to scripted responses.
  * `handler(action, body)` returns the JSON body the fake server sends back.
  */
-function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite = false, storage = new Map() } = {}) {
+function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite = false, storage = new Map(), documentOverride } = {}) {
   const slots = new Map(), dictionaries = new Map(), instances = new Map(), requests = []
   /** Keyboard events the client dispatched, so a test can assert the settings shortcut fired. */
   const keyEvents = []
@@ -87,8 +87,8 @@ function client({ data = snapshot(), handler, statusSequence, rejectFirstWrite =
       platform: 'Win32',
       userAgent: 'Electron/44.7.0',
     },
-    // Minimal DOM: enough for the sidebar alert to dispatch its shortcut and report failure.
-    document: {
+    // Minimal DOM. A test that needs the shell's real settings button passes its own.
+    document: documentOverride ?? {
       activeElement: undefined,
       body: { dispatchEvent: () => true },
       title: '',
@@ -602,14 +602,41 @@ test('the rescue flow works in Chinese too', async () => {
 
 // --- the sidebar alert must actually open something -----------------------------------
 
-test('the sidebar alert opens settings through the shell command, not selectPanel', async () => {
-  // A user reported the 查看 button doing nothing. Root cause: the alert called
-  // layout.selectPanel('settings'), but 'settings' is not a `main` panel key - it is a modal owned
-  // by the shell - so selectPanel threw and an empty catch hid it. This test pins the working path.
+test('the sidebar alert opens settings by pressing the shell control, not by a synthetic key', async () => {
+  // A user reported the 查看 button doing nothing. Two causes in sequence: first it called
+  // layout.selectPanel('settings'), which is not a panel key; then it dispatched a synthetic
+  // Ctrl+Comma, which the desktop build ignores (shortcuts arrive natively) and the web build treats
+  // as a toggle. The working path is pressing the shell's own button.
+  //
+  // Markup from @deepseek-ai/dsh-client-ui-settings-general 0.2.1-rc.4, lib/client.js:451-462.
+  const clicked = []
+  const settingsButton = {
+    disabled: false,
+    getClientRects: () => [{}],
+    closest: () => null,
+    click() { clicked.push('settings') },
+  }
+  // The dialog appears after the click, as DSH mounts it asynchronously.
+  let dialogOpen = false
+  const documentOverride = {
+    activeElement: undefined,
+    body: { dispatchEvent: () => true },
+    title: '',
+    querySelectorAll: (selector) => {
+      if (selector === 'button[aria-haspopup="dialog"][aria-label="Settings"]') {
+        return dialogOpen ? [] : [settingsButton]
+      }
+      if (selector.includes('data-shortcut-modal')) return dialogOpen ? [{ getClientRects: () => [{}] }] : []
+      return []
+    },
+  }
+  const originalClick = settingsButton.click
+  settingsButton.click = () => { originalClick(); setTimeout(() => { dialogOpen = true }, 20) }
+
   const app = client({
     data: { ...snapshot(), issues: [{ id: 'x', severity: 'warn', title: 'w', detail: 'd', fix: 'f' }] },
+    documentOverride,
   })
-  // The alert is registered from a fetch callback, so let the promise chain settle first.
   app.render()
   await settle()
   await settle()
@@ -619,15 +646,14 @@ test('the sidebar alert opens settings through the shell command, not selectPane
   const alert = app.findAlert()
   assert.ok(alert, 'the sidebar alert should be registered when there are warnings')
   assert.equal(typeof alert.props.open, 'function', 'the alert must expose an open callback')
-  // The callback reports the outcome asynchronously; nothing needs to be asserted about it here
-  // beyond the shortcut being dispatched, which is this test's subject.
-  alert.props.open(() => {})
 
-  assert.ok(app.keyEvents.length >= 1, 'clicking must dispatch the settings shortcut')
-  assert.equal(app.keyEvents[0].key, ',')
-  assert.equal(app.keyEvents[0].code, 'Comma')
-  assert.equal(String(app.keyEvents[0].ctrlKey || app.keyEvents[0].metaKey), 'true',
-    'the shortcut needs a primary modifier or the host will not treat it as the command')
+  let reported
+  alert.props.open((ok) => { reported = ok })
+  await new Promise((resolve) => setTimeout(resolve, 400))
+
+  assert.deepEqual(clicked, ['settings'], 'it must press the shell settings control')
+  assert.equal(app.keyEvents.length, 0, 'and must not synthesise a keyboard shortcut')
+  assert.equal(reported, true, 'the dialog appeared, so the outcome is success')
 })
 
 // --- the sidebar alert must not outlive the problem it reports -------------------------
