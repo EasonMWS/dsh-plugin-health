@@ -1,5 +1,26 @@
 # Changelog
 
+## 3.0.6
+
+### The clean state now says what the tool is for
+
+A user who installs this to guard against a future DSH upgrade opens the panel, sees "✓ no problems
+found", and has no reason to open it again. The panel never said what it was watching for or what it
+could do in the meantime.
+
+The clean state now carries two things: what it is waiting for ("after the next DSH upgrade, if a
+plugin is rejected, this panel will say which ones can be saved"), and three things to do now — check
+whether any plugin works on a given DSH version, check the configuration for problems, and browse the
+public compatibility table.
+
+The first two are CLI commands. The client half of this plugin cannot shell out, so they copy the
+command to the clipboard and confirm it, rather than presenting a button that would do nothing.
+
+### Verified visually
+
+Rendered the clean state in a browser and read it back: the two action buttons appear, the text
+matches the intended copy, no runtime errors.
+
 ## 3.0.5
 
 **3.0.4 was published with the wrong content.** Its publish workflow was cancelled while still running, but npm had already accepted the tarball — so 3.0.4 on the registry is byte-identical to 3.0.3. This release carries the changes that were meant to be in it.

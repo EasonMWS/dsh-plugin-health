@@ -411,6 +411,13 @@ window.__ModuleLoader__.load({
         'severity.error': '会影响使用', 'severity.warn': '建议处理', 'severity.info': '提示',
         collapse: '收起', details: '详情', nextStep: '怎么做：{fix}',
         healthy: '本次体检未发现安装或配置问题', installedChecked: '已检查 {count} 个已安装插件',
+  healthyNext: '下次 DSH 升级后如果有插件被拒，这里会告诉你哪些能救、哪些救不了。',
+  healthyDo: '现在可以先做这些',
+  healthyMatrix: '查任意插件在某个 DSH 版本上能不能用',
+  healthyDoctor: '检查你的配置有没有隐患',
+  healthyCompat: '浏览全部插件的兼容情况',
+  healthyCopied: '命令已复制，粘贴到终端运行',
+  healthyCopyHint: '点一下复制命令',
         errors: '{count} 个错误', warnings: '{count} 个警告', ready: '本次体检无警告', attention: '有问题建议处理',
         reviewTitle: '插件清单与升级预检', reviewTarget: '目标 DSH 版本',
         viewLabel: '显示模式',
@@ -577,7 +584,14 @@ window.__ModuleLoader__.load({
         description: 'Review installed packages, loader state and installation issues in this profile. Scanning is read-only.',
         'severity.error': 'Affects usage', 'severity.warn': 'Needs attention', 'severity.info': 'Information',
         collapse: 'Collapse', details: 'Details', nextStep: 'Next step: {fix}',
-        healthy: 'No installation or configuration issues found by this scan', installedChecked: 'Installed plugins checked: {count}',
+        healthy: 'No installation or configuration issues found by this scan',
+  healthyNext: 'After the next DSH upgrade, if a plugin is rejected, this panel will say which ones can be saved.',
+  healthyDo: 'What you can do now',
+  healthyMatrix: 'Check whether any plugin works on a given DSH version',
+  healthyDoctor: 'Check your configuration for problems',
+  healthyCompat: 'Browse compatibility across the whole catalog',
+  healthyCopied: 'Command copied — paste it into a terminal',
+  healthyCopyHint: 'Click to copy the command', installedChecked: 'Installed plugins checked: {count}',
         errors: 'Errors: {count}', warnings: 'Warnings: {count}', ready: 'No warnings in this scan', attention: 'Issues need attention',
         reviewTitle: 'Plugin inventory and upgrade preview', reviewTarget: 'Target DSH version',
         viewLabel: 'View',
@@ -1626,26 +1640,45 @@ window.__ModuleLoader__.load({
       })
     }
 
-    function EmptyState({ scanned, t }) {
-      return h('div', {
-        style: {
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          padding: '18px 16px',
-          borderRadius: 10,
-          background: 'rgba(52,168,83,.10)',
-          color: COLORS.ok,
-          fontSize: 14,
-          fontWeight: 600,
-          flexWrap: 'wrap',
-        },
-      }, [
-        h('span', { key: 'i', style: { fontSize: 18 } }, '✓'),
-        h('span', { key: 't' }, t('healthy')),
-        scanned !== undefined
-          ? h('span', { key: 'n', style: { fontSize: 12, fontWeight: 400, opacity: 0.65 } }, t('installedChecked', { count: scanned }))
-          : null,
+    function EmptyState({ scanned, t, actions }) {
+      const asLink = { color: 'inherit', textDecoration: 'underline', cursor: 'pointer', border: 0, background: 'none', font: 'inherit', padding: 0 }
+      return h('div', { style: { display: 'grid', gap: 10 } }, [
+        h('div', {
+          key: 'ok',
+          style: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '18px 16px',
+            borderRadius: 10,
+            background: 'rgba(52,168,83,.10)',
+            color: COLORS.ok,
+            fontSize: 14,
+            fontWeight: 600,
+            flexWrap: 'wrap',
+          },
+        }, [
+          h('span', { key: 'i', style: { fontSize: 18 } }, '✓'),
+          h('span', { key: 't' }, t('healthy')),
+          scanned !== undefined
+            ? h('span', { key: 'n', style: { fontSize: 12, fontWeight: 400, opacity: 0.65 } },
+              t('installedChecked', { count: scanned }))
+            : null,
+        ]),
+        // A tool that only speaks when something breaks looks like it does nothing. Say what it is
+        // watching for, and what it can do while the user waits for that moment.
+        h('p', { key: 'next', className: 'dph-muted', style: { margin: 0, fontSize: 13 } }, t('healthyNext')),
+        actions?.copied ? h('p', { key: 'copied', style: { margin: 0, fontSize: 12, color: COLORS.ok } }, t('healthyCopied')) : null,
+        actions !== undefined ? h('div', { key: 'do', style: { display: 'grid', gap: 5, fontSize: 13 } }, [
+          h('div', { key: 'h', className: 'dph-muted' }, t('healthyDo')),
+          h('div', { key: 'm' }, '· ', h('button', {
+            key: 'mx', type: 'button', title: actions.matrixCommand, style: asLink, onClick: actions.matrix,
+          }, t('healthyMatrix'))),
+          h('div', { key: 'd' }, '· ', h('button', {
+            key: 'dc', type: 'button', title: actions.doctorCommand, style: asLink, onClick: actions.doctor,
+          }, t('healthyDoctor'))),
+          h('div', { key: 'c' }, '· ', h('a', { key: 'cp', href: COMPAT_URL, target: '_blank', rel: 'noreferrer', style: asLink }, t('healthyCompat'))),
+        ]) : null,
       ])
     }
 
@@ -1943,6 +1976,8 @@ window.__ModuleLoader__.load({
       const repair = useRepair(reload)
       const rescue = useRescue(reload)
       const [scanning, setScanning] = React.useState(false)
+      const [copied, setCopied] = React.useState(undefined)
+      const rescanRef = React.useRef(undefined)
       const [view, setView] = React.useState(initialView)
       const t = React.useCallback((key, params) => {
         const scoped = `audience.${view}.${key}`
@@ -1956,6 +1991,25 @@ window.__ModuleLoader__.load({
       const issues = data?.issues ?? []
       const rescuable = data?.rescuable ?? []
       const actionable = issues.filter((issue) => issue.severity !== 'info')
+      // What the panel can offer when nothing is wrong. The two commands are CLI-only — this half of
+      // the plugin cannot shell out — so they copy to the clipboard and say so, rather than pretending
+      // to run.
+      const copyCommand = (command) => {
+        try {
+          navigator.clipboard?.writeText(command)
+          setCopied(command)
+          setTimeout(() => setCopied(undefined), 4000)
+        } catch { /* clipboard unavailable; the title attribute still shows the command */ }
+      }
+      const cleanActions = {
+        // A thunk, not the value: rescan is declared further down and may change between renders.
+        rescan: () => rescanRef.current?.(),
+        matrixCommand: 'dsh-plugin-health matrix --plugins <包名> --versions <DSH 版本>',
+        doctorCommand: 'dsh-plugin-health doctor',
+        matrix: () => copyCommand('dsh-plugin-health matrix --plugins <包名> --versions <DSH 版本>'),
+        doctor: () => copyCommand('dsh-plugin-health doctor'),
+        copied,
+      }
       const autoFixable = actionable.filter((issue) => issue.autoFixable === true)
       const summary = data?.summary ?? {}
       const scanned = data?.scanned?.plugins?.total
@@ -1973,6 +2027,7 @@ window.__ModuleLoader__.load({
           setScanning(false)
         }
       }, [reload])
+      rescanRef.current = rescan
 
       /**
        * Undo one recorded exemption. Deliberately not optimistic: the list re-reads from
@@ -2136,7 +2191,7 @@ window.__ModuleLoader__.load({
           : null,
         data ? h(RuntimeReview, { key: 'runtime', live, advanced, t }) : null,
         !loading && data ? (actionable.length === 0
-          ? (failedCount === 0 && error === undefined ? h(EmptyState, { key: 'ok', scanned, t }) : null) : h('div', { key: 'list' },
+          ? (failedCount === 0 && error === undefined ? h(EmptyState, { key: 'ok', scanned, t, actions: cleanActions }) : null) : h('div', { key: 'list' },
           actionable.map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue, technical, t })))) : null,
         !loading && error === undefined && !advanced && issues.length > actionable.length
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
