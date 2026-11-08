@@ -1,5 +1,37 @@
 # Changelog
 
+## 3.0.7
+
+### The upgrade preview is now visible without switching views
+
+The feature already existed and worked: point it at `0.3.0-rc.1` and it names the four installed
+plugins whose declarations would reject that host, this one included. But it lived behind
+`hidden: !advanced`, so the default daily view never showed it.
+
+That mattered. Eight unique visitors went to `docs/upgrade-0.2.1-rc3.md` — a report generated with
+this very feature — while the panel offered it only to people who first switched to a diagnostic view.
+
+Every view now carries a compact preview: one field, pre-filled with the running version, and one
+sentence back. The full version with the package list, patches and findings stays where it was, in
+advanced mode.
+
+The answer is worded to stay inside what was actually checked: "3.0.6: 4 plugins would be affected.
+Nothing was changed." It reports declaration mismatches, not whether the plugins work.
+
+### Also
+
+- The clean state's action list no longer offers "check which plugins a DSH version would break" as a
+  clipboard command. Copying a command is worse than the input field now sitting above it.
+- Both previews had the same field label, which made them ambiguous to assistive technology. The
+  compact one has its own.
+
+### Verified
+
+- Real data: previewing `0.3.0-rc.1` against the local profile returns the four affected plugins,
+  including this one.
+- 375 unit tests, 374 pass. 35/35 over real HTTP. 20 browser checks.
+- Rendered in a browser and read back: the card appears in daily mode, pre-filled, no runtime errors.
+
 ## 3.0.6
 
 ### The clean state now says what the tool is for

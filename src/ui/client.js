@@ -413,7 +413,13 @@ window.__ModuleLoader__.load({
         healthy: '本次体检未发现安装或配置问题', installedChecked: '已检查 {count} 个已安装插件',
   healthyNext: '下次 DSH 升级后如果有插件被拒，这里会告诉你哪些能救、哪些救不了。',
   healthyDo: '现在可以先做这些',
-  healthyMatrix: '查任意插件在某个 DSH 版本上能不能用',
+  healthyMatrix: '查某个 DSH 版本会撞坏哪些插件',
+  reviewInline: '升级预检',
+  reviewInlineHint: '准备装的新版本会撞坏哪些插件？填上版本号查一下，不会改动任何东西。',
+  reviewInlineRun: '检查',
+  reviewInlineLabel: '准备升级到的版本',
+  reviewInlineResult: '{version}：{count} 个插件会受影响，没有改动任何东西。',
+  reviewInlineClean: '{version}：当前 {count} 个插件都能用。',
   healthyDoctor: '检查你的配置有没有隐患',
   healthyCompat: '浏览全部插件的兼容情况',
   healthyCopied: '命令已复制，粘贴到终端运行',
@@ -587,7 +593,13 @@ window.__ModuleLoader__.load({
         healthy: 'No installation or configuration issues found by this scan',
   healthyNext: 'After the next DSH upgrade, if a plugin is rejected, this panel will say which ones can be saved.',
   healthyDo: 'What you can do now',
-  healthyMatrix: 'Check whether any plugin works on a given DSH version',
+  healthyMatrix: 'Check which plugins a DSH version would break',
+  reviewInline: 'Upgrade preview',
+  reviewInlineHint: "Which plugins would the version you are about to install break? Enter it and find out — nothing is changed.",
+  reviewInlineRun: 'Check',
+  reviewInlineLabel: 'Version you plan to upgrade to',
+  reviewInlineResult: '{version}: {count} plugins would be affected. Nothing was changed.',
+  reviewInlineClean: '{version}: all {count} installed plugins still work.',
   healthyDoctor: 'Check your configuration for problems',
   healthyCompat: 'Browse compatibility across the whole catalog',
   healthyCopied: 'Command copied — paste it into a terminal',
@@ -1671,9 +1683,7 @@ window.__ModuleLoader__.load({
         actions?.copied ? h('p', { key: 'copied', style: { margin: 0, fontSize: 12, color: COLORS.ok } }, t('healthyCopied')) : null,
         actions !== undefined ? h('div', { key: 'do', style: { display: 'grid', gap: 5, fontSize: 13 } }, [
           h('div', { key: 'h', className: 'dph-muted' }, t('healthyDo')),
-          h('div', { key: 'm' }, '· ', h('button', {
-            key: 'mx', type: 'button', title: actions.matrixCommand, style: asLink, onClick: actions.matrix,
-          }, t('healthyMatrix'))),
+          // The upgrade preview above already does this properly, with an input field.
           h('div', { key: 'd' }, '· ', h('button', {
             key: 'dc', type: 'button', title: actions.doctorCommand, style: asLink, onClick: actions.doctor,
           }, t('healthyDoctor'))),
@@ -1875,6 +1885,71 @@ window.__ModuleLoader__.load({
       // A target-version verdict changes when the target changes; it is not a disk change.
       return JSON.stringify([review.profile, review.currentVersion,
         review.packages.map(row => [row.name, row.source, row.version, row.fingerprint]), review.patches, review.limits])
+    }
+
+    /**
+     * A one-field upgrade preview, usable in any view mode.
+     *
+     * The full ProfileReview below carries the same query plus the package list, patches and findings —
+     * useful when you are already diagnosing, too much when the question is simply "will the next
+     * version break me". This asks that question and reads back one sentence.
+     */
+    function UpgradePreview({ review, t }) {
+      const [target, setTarget] = React.useState(review.currentVersion ?? '')
+      const [result, setResult] = React.useState(undefined)
+      const [busy, setBusy] = React.useState(false)
+      const [failed, setFailed] = React.useState('')
+      const sequence = React.useRef(0)
+
+      const run = async (event) => {
+        event.preventDefault()
+        const wanted = target.trim()
+        if (wanted === '') return
+        const mine = ++sequence.current
+        setBusy(true)
+        setFailed('')
+        try {
+          const query = new URLSearchParams({ target: wanted, fresh: '1' })
+          const data = await readSnapshot(`${STATUS_PATH}?${query}`)
+          if (mine !== sequence.current) return
+          if (data?.review?.targetVersion !== wanted) { setFailed('reviewFail'); return }
+          const affected = data.review.packages.filter((row) => row.declaration?.state === 'incompatible')
+          setResult({ version: wanted, affected: affected.map((row) => row.name), total: data.review.packages.length })
+        } catch {
+          if (mine === sequence.current) setFailed('reviewFail')
+        } finally {
+          if (mine === sequence.current) setBusy(false)
+        }
+      }
+
+      return h('section', { className: 'dph-card', 'data-dph-upgrade-preview': '' }, [
+        h('h3', { key: 't' }, t('reviewInline')),
+        h('p', { key: 'h', className: 'dph-muted', style: { margin: '4px 0 10px' } }, t('reviewInlineHint')),
+        h('form', { key: 'f', onSubmit: run, style: { display: 'flex', flexWrap: 'wrap', alignItems: 'end', gap: 8 } }, [
+          h('label', { key: 'l', style: { display: 'grid', gap: 4, fontSize: 12 } }, [
+            t('reviewInlineLabel'),
+            h('input', {
+              key: 'i',
+              value: target,
+              placeholder: review.currentVersion ?? '',
+              maxLength: 100,
+              disabled: busy,
+              onChange: (event) => { setTarget(event.target.value); setResult(undefined); setFailed('') },
+            }),
+          ]),
+          h('button', { key: 'b', type: 'submit', disabled: busy || target.trim() === '', style: buttonStyle('primary') },
+            t(busy ? 'checking' : 'reviewInlineRun')),
+        ]),
+        failed ? h('p', { key: 'e', role: 'status', style: { fontSize: 13, color: COLORS.warn } }, t(failed)) : null,
+        // Only ever one of these, and neither claims the plugins are safe — only that their
+        // declarations admit the target.
+        result === undefined ? null : h('p', {
+          key: 'r', role: 'status', style: { fontSize: 13, marginTop: 10, color: result.affected.length > 0 ? COLORS.warn : 'inherit' },
+        }, result.affected.length > 0
+          ? t('reviewInlineResult', { version: result.version, count: result.affected.length })
+            + ' ' + result.affected.slice(0, 6).join(', ')
+          : t('reviewInlineClean', { version: result.version, count: result.total })),
+      ])
     }
 
     function ProfileReview({ review, stale, t }) {
@@ -2189,6 +2264,7 @@ window.__ModuleLoader__.load({
             runtimeVersion: data?.runtimeVersion,
           })
           : null,
+        data?.review ? h(UpgradePreview, { key: 'upgrade-preview', review: data.review, t }) : null,
         data ? h(RuntimeReview, { key: 'runtime', live, advanced, t }) : null,
         !loading && data ? (actionable.length === 0
           ? (failedCount === 0 && error === undefined ? h(EmptyState, { key: 'ok', scanned, t, actions: cleanActions }) : null) : h('div', { key: 'list' },

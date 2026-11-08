@@ -344,10 +344,13 @@ test('the settings preview sends the target and displays the version mismatch se
   app.render()
   await settle()
   findAll(app.render(), node => node.type === 'select')[0].props.onChange({ target: { value: 'advanced' } })
-  const input = findAll(app.render(), node => node.type === 'input')[0]
-  input.props.onChange({ target: { value: '0.2.1-rc.5' } })
-  const form = findAll(app.render(), node => node.type === 'form')[0]
-  await form.props.onSubmit({ preventDefault() {} })
+  // Two previews exist now. The compact UpgradePreview has no package list, so address the form
+  // that belongs to the full ProfileReview: it is the one whose card carries the review title.
+  const inputs = findAll(app.render(), node => node.type === 'input')
+  inputs[inputs.length - 1].props.onChange({ target: { value: '0.2.1-rc.5' } })
+  // Re-read the tree: the change above re-renders, so nodes captured before it carry stale props.
+  const forms = findAll(app.render(), node => node.type === 'form')
+  await forms[forms.length - 1].props.onSubmit({ preventDefault() {} })
   app.render() // Flush the effect that reveals mismatches.
   const entries = buttons(app.render()).find(node => flatten(node).includes('Other startup records'))
   entries.props.onClick()
