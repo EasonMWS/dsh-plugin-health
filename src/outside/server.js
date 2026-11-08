@@ -18,6 +18,8 @@
 import { createServer } from 'node:http'
 
 import { admissionReport } from './admission.js'
+import { listSnapshots, restoreSnapshot, snapshotUsage, takeSnapshot } from './snapshot.js'
+import { OUTSIDE_HTML } from './ui.js'
 import { readState, updateState } from '../state/shared.js'
 import { watchStateWithFallback } from '../state/sync.js'
 
@@ -111,6 +113,18 @@ export async function startOutsideServer({ home, profile, key, runtimeVersion, p
   const server = createServer((req, res) => {
     const url = new URL(req.url ?? '/', `http://${req.headers.host ?? HOST}`)
 
+    // --- the page itself ---
+    if ((url.pathname === '/' || url.pathname === '/index.html') && req.method === 'GET') {
+      res.writeHead(200, {
+        'content-type': 'text/html; charset=utf-8',
+        'cache-control': 'no-store',
+        // No external loads: the page is one document with inline style and script.
+        'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'",
+      })
+      res.end(OUTSIDE_HTML)
+      return
+    }
+
     // --- events: push state changes rather than making the page poll ---
     if (url.pathname === '/events') {
       res.writeHead(200, {
@@ -127,6 +141,7 @@ export async function startOutsideServer({ home, profile, key, runtimeVersion, p
     // --- read: current state plus an admission report, both cheap enough to recompute ---
     if (url.pathname === '/state' && req.method === 'GET') {
       const { state, problem } = readState(home)
+      const sameOrigin = req.headers['sec-fetch-site'] === undefined || req.headers['sec-fetch-site'] === 'same-origin'
       send(res, 200, {
         schemaVersion: 1,
         profile,
@@ -134,6 +149,9 @@ export async function startOutsideServer({ home, profile, key, runtimeVersion, p
         state,
         problem: problem ?? null,
         watchMode: watcher.mode,
+        // The page needs this to write. A cross-origin page can read /state, but the Origin header on
+        // its write will not match, so handing the key out here does not open the write path.
+        ...(sameOrigin ? { key } : {}),
       })
       return
     }
@@ -159,6 +177,36 @@ export async function startOutsideServer({ home, profile, key, runtimeVersion, p
         const result = updateState(home, (current) => ({ ...current, admission: body?.admission ?? null }), { writer: 'outside' })
         if (result.ok !== true) { send(res, 500, { error: result.error }); return }
         send(res, 200, { ok: true, rev: result.state.rev })
+      }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
+      return
+    }
+
+    // --- snapshots: take, list, restore (preview unless apply is set) ---
+    if (url.pathname === '/snapshots' && req.method === 'GET') {
+      send(res, 200, { snapshots: listSnapshots(home), usage: snapshotUsage(home), profile })
+      return
+    }
+
+    if (url.pathname === '/snapshots' && req.method === 'POST') {
+      const allowed = authorizeWrite(req, key)
+      if (allowed.ok !== true) { send(res, allowed.status, { error: allowed.error }); return }
+      readJsonBody(req).then((body) => {
+        const result = takeSnapshot(home, profile, { reason: typeof body?.reason === 'string' ? body.reason : 'manual' })
+        send(res, result.ok === true ? 200 : 500, result)
+      }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
+      return
+    }
+
+    if (url.pathname === '/snapshots/restore' && req.method === 'POST') {
+      const allowed = authorizeWrite(req, key)
+      if (allowed.ok !== true) { send(res, allowed.status, { error: allowed.error }); return }
+      readJsonBody(req).then((body) => {
+        const id = typeof body?.id === 'string' ? body.id : ''
+        if (id === '') { send(res, 400, { error: 'id is required' }); return }
+        // apply must be exactly true; anything else previews. A restore is not something to infer from
+        // a truthy value.
+        const result = restoreSnapshot(home, profile, id, { apply: body?.apply === true })
+        send(res, result.ok === true ? 200 : 500, result)
       }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
       return
     }
