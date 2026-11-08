@@ -52,17 +52,38 @@ const SHELLS = {
  * @param {{platform?: string, exists?: (path: string) => boolean}} [options]
  * @returns {} | {available: false, kind: null, reason: string}}
  */
-export function sandboxSupport({ platform = process.platform, exists = existsSync } = {}) {
+export function sandboxSupport({ platform = process.platform, exists = existsSync, probe } = {}) {
   const find = (paths) => paths.find((path) => exists(path))
+  // An injected exists() describes some other machine; running a probe here would answer a different
+  // question and, on a host where the binary cannot run, would say "unavailable" about a platform that
+  // was never inspected.
+  const allowProbe = probe === undefined ? exists === existsSync : probe
 
   if (platform === 'linux') {
     const binary = find(BWRAP_PATHS)
-    if (binary !== undefined) return { available: true, kind: 'bubblewrap', binary, reason: '' }
-    return {
-      available: false,
-      kind: null,
-      reason: 'bubblewrap is not installed. Install it with your package manager (bubblewrap on Debian, Ubuntu, Fedora and Arch).',
+    if (binary === undefined) {
+      return {
+        available: false,
+        kind: null,
+        reason: 'bubblewrap is not installed. Install it with your package manager (bubblewrap on Debian, Ubuntu, Fedora and Arch).',
+      }
     }
+
+    // Installed is not the same as usable. A container that forbids user namespaces has the binary and
+    // cannot run it, and saying "available" there would produce a command that fails at exec time.
+    // The probe is skipped when a caller supplies its own exists(): that is a description of another
+    // platform, not this one.
+    if (!allowProbe) return { available: true, kind: 'bubblewrap', binary, reason: '' }
+    const usable = bubblewrapUsable(binary)
+    if (!usable.usable) {
+      return {
+        available: false,
+        kind: null,
+        reason: `bubblewrap is installed but cannot run here: ${usable.detail}. Unprivileged containers often forbid user namespaces; the tool cannot sandbox in this environment.`,
+      }
+    }
+
+    return { available: true, kind: 'bubblewrap', binary, reason: '' }
   }
 
   if (platform === 'darwin') {
@@ -137,7 +158,8 @@ export function bubblewrapArgs({
   return out
 }
 
-/** Cache the network-isolation probe: it costs a process spawn and the answer cannot change. */
+/** Cached probe results: each costs a process spawn and the answers cannot change. */
+let usabilityCache
 let networkIsolationCache
 
 /**
@@ -149,6 +171,45 @@ let networkIsolationCache
  * @param {string} bwrap
  * @returns {boolean}
  */
+/**
+ * Can bubblewrap create a user namespace at all here?
+ *
+ * This is the gate. Without it nothing bubblewrap does works, and it fails at exec time with
+ * "setting up uid map: Permission denied" — which looks like a sandbox failure rather than an
+ * unsupported environment. Unprivileged containers commonly forbid user namespaces.
+ *
+ * @param {string} bwrap
+ * @returns {{usable: boolean, detail: string}}
+ */
+export function bubblewrapUsable(bwrap) {
+  if (usabilityCache !== undefined) return usabilityCache
+
+  const attempt = (args) => {
+    try {
+      execFileSync(bwrap, args, { stdio: 'pipe', timeout: 10_000 })
+      return { ok: true, detail: '' }
+    } catch (error) {
+      const stderr = String(error.stderr ?? '').trim()
+      const first = stderr.split('\n').find((line) => line.trim() !== '') ?? ''
+      return { ok: false, detail: first.slice(0, 160) }
+    }
+  }
+
+  // The cheapest command that needs a user namespace and nothing else.
+  const minimal = attempt(['--unshare-user', '--ro-bind', '/', '/', '--', '/bin/true'])
+  const result = minimal.ok
+    ? { usable: true, detail: '' }
+    : {
+        usable: false,
+        detail: minimal.detail === ''
+          ? 'bubblewrap could not create a user namespace in this environment'
+          : minimal.detail,
+      }
+
+  usabilityCache = result
+  return result
+}
+
 export function canUnshareNetwork(bwrap) {
   if (networkIsolationCache !== undefined) return networkIsolationCache
   let ok = false

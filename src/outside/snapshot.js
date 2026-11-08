@@ -182,6 +182,10 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
   const profileDir = join(home, 'profiles', profile)
   const plan = { id: meta.id, at: meta.at, profile, changes: [] }
 
+  // Each entry carries where it goes and where it comes from. Deriving one from the other by comparing
+  // strings is what broke the home-level patch: the comparison was against a bare file name while the
+  // recorded path is home-relative, so it never matched.
+  const entries = []
   for (const name of meta.files ?? []) {
     const source = join(directory, name)
     if (!existsSync(source)) continue
@@ -189,10 +193,11 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
     const current = existsSync(target) ? digestOf(target) : null
     const wanted = digestOf(source)
     const change = current === null ? 'create' : current === wanted ? 'unchanged' : 'overwrite'
+    entries.push({ name, source, target, change })
     plan.changes.push({ file: relative(home, target), change })
   }
 
-  const changing = plan.changes.filter((row) => row.change !== 'unchanged')
+  const changing = entries.filter((entry) => entry.change !== 'unchanged')
   if (changing.length === 0) return { ok: true, plan: { ...plan, applied: false, note: 'already identical' } }
   if (!apply) return { ok: true, plan: { ...plan, applied: false } }
 
@@ -202,16 +207,18 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
   if (safety.ok !== true) return { ok: false, error: `refusing to restore without a safety copy: ${safety.error}` }
 
   const written = []
-  for (const row of changing) {
-    const name = row.file.split(/[\\/]/u).pop()
-    const source = join(directory, meta.files.includes(name) ? name : '')
-    if (!existsSync(source)) continue
-    const target = row.file === join('cordis.patch.yml') ? join(home, 'cordis.patch.yml') : join(profileDir, name)
+  for (const entry of entries) {
+    if (entry.change === 'unchanged') continue
     try {
-      copyFileSync(source, target)
-      written.push(row.file)
+      copyFileSync(entry.source, entry.target)
+      written.push(relative(home, entry.target))
     } catch (error) {
-      return { ok: false, error: `restored ${written.length} file(s), then failed on ${row.file}: ${error instanceof Error ? error.message : String(error)}` }
+      // Say what was written before the failure, so the state on disk is not a mystery.
+      return {
+        ok: false,
+        error: `restored ${written.length} file(s), then failed on ${relative(home, entry.target)}: ${error instanceof Error ? error.message : String(error)}`,
+        written,
+      }
     }
   }
 

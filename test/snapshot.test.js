@@ -191,6 +191,59 @@ test('usage reports what the snapshots cost', () => {
   }
 })
 
+test('restores every file it captured, including the home-level patch', () => {
+  // CI caught this on Linux. The write-back loop decided whether a file was the home-level patch by
+  // comparing `row.file === join('cordis.patch.yml')`, but row.file is home-relative, so the comparison
+  // never matched and that file was silently skipped. The source lookup then resolved to the snapshot
+  // directory itself for a name it did not recognise, and copyFileSync failed with EISDIR.
+  const { dir, profileDir } = makeHome()
+  try {
+    writeFileSync(join(dir, 'cordis.patch.yml'), '- id: home-level-original\n', 'utf8')
+    writeFileSync(join(profileDir, 'cordis.patch.yml'), '- id: profile-original\n', 'utf8')
+    const profilePackage = readFileSync(join(profileDir, 'package.json'), 'utf8')
+
+    const snap = takeSnapshot(dir, 'desktop')
+    assert.equal(snap.ok, true)
+    assert.ok(snap.files.includes('home-cordis.patch.yml'), 'the home patch must be captured')
+
+    writeFileSync(join(dir, 'cordis.patch.yml'), '- id: home-level-changed\n', 'utf8')
+    writeFileSync(join(profileDir, 'cordis.patch.yml'), '- id: profile-changed\n', 'utf8')
+    writeFileSync(join(profileDir, 'package.json'), '{"broken":true}', 'utf8')
+
+    const applied = restoreSnapshot(dir, 'desktop', snap.id, { apply: true })
+    assert.equal(applied.ok, true, applied.error)
+
+    assert.equal(readFileSync(join(dir, 'cordis.patch.yml'), 'utf8'), '- id: home-level-original\n',
+      'the home-level patch was not restored')
+    assert.equal(readFileSync(join(profileDir, 'cordis.patch.yml'), 'utf8'), '- id: profile-original\n',
+      'the profile patch was not restored')
+    assert.equal(readFileSync(join(profileDir, 'package.json'), 'utf8'), profilePackage,
+      'the profile manifest was not restored')
+
+    assert.equal(applied.plan.changes.filter((row) => row.change === 'overwrite').length, 3,
+      'all three changed files should be reported as overwrites')
+    assert.equal(applied.plan.written.length, 3, 'and all three should be written')
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('a restore reports what it wrote', () => {
+  // On failure the caller has to know what already landed rather than guess at the state on disk.
+  const { dir, profileDir } = makeHome()
+  try {
+    const snap = takeSnapshot(dir, 'desktop')
+    writeFileSync(join(profileDir, 'cordis.patch.yml'), '- id: changed\n', 'utf8')
+
+    const result = restoreSnapshot(dir, 'desktop', snap.id, { apply: true })
+    assert.equal(result.ok, true)
+    assert.ok(Array.isArray(result.plan.written), 'the plan must say what was written')
+    assert.ok(result.plan.written.length >= 1)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
 test('a profile that does not exist is refused rather than snapshotted empty', () => {
   const { dir } = makeHome()
   try {
