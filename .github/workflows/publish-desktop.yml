@@ -36,6 +36,18 @@ jobs:
             package-lock.json
             desktop/package-lock.json
 
+      # electron-builder downloads electron, NSIS and 7zip on every run. A 504 from any of those hosts fails
+      # the build for reasons that have nothing to do with this repository, so keep them between runs.
+      - name: cache the build toolchain
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~\AppData\Local\electron\Cache
+            ~\AppData\Local\electron-builder\Cache
+          key: electron-builder-${{ runner.os }}-${{ hashFiles('desktop/package-lock.json') }}
+          restore-keys: |
+            electron-builder-${{ runner.os }}-
+
       # The app's dependencies: the shared core, the parser, semver and yaml all live at the package root.
       - name: install the package dependencies
         run: npm ci
@@ -64,9 +76,26 @@ jobs:
       - name: the package tests must pass first
         run: npm test
 
+      # A cold cache can still meet a 504. Retrying costs a few minutes; failing costs the whole release.
       - name: build the installer
         working-directory: desktop
-        run: npx electron-builder --win --publish never
+        shell: pwsh
+        run: |
+          $attempts = 3
+          for ($attempt = 1; $attempt -le $attempts; $attempt++) {
+            Write-Host "attempt $attempt of $attempts"
+            npx electron-builder --win --publish never
+            if ($LASTEXITCODE -eq 0) {
+              Write-Host "build succeeded on attempt $attempt"
+              exit 0
+            }
+            if ($attempt -lt $attempts) {
+              Write-Host "attempt $attempt failed; waiting before the next one"
+              Start-Sleep -Seconds 20
+            }
+          }
+          Write-Error "the build failed $attempts times"
+          exit 1
 
       - name: record what was built
         shell: pwsh
