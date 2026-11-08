@@ -3,13 +3,16 @@ import assert from 'node:assert/strict'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import { availableIcons, installShortcuts, linuxDesktopEntry, macCommand, windowsShim } from '../src/outside/install.js'
 
 // Installation writes outside the repository, so what matters here is that each platform's launcher
 // is well formed and that a missing Desktop is reported rather than silently skipped.
 
-const ROOT = new URL('..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/u, '$1').replace(/\//gu, '\\')
+// The repository root, from this file's own location. Never from an absolute path: a test that only
+// works on the author's machine is not a test.
+const REPO_ROOT = fileURLToPath(new URL('..', import.meta.url))
 
 test('the windows shim quotes paths and pauses on failure', () => {
   // A shortcut that flashes and closes teaches the user nothing about why it failed.
@@ -36,13 +39,13 @@ test('the linux entry is a valid desktop file', () => {
 })
 
 test('a missing Desktop is reported, not silently skipped', () => {
-  const result = installShortcuts({ root: ROOT, desktop: join(tmpdir(), 'definitely-not-a-desktop-dir-xyz') })
+  const result = installShortcuts({ root: REPO_ROOT, desktop: join(tmpdir(), 'definitely-not-a-desktop-dir-xyz') })
   assert.equal(result.ok, false)
   assert.match(result.error, /no Desktop directory/u)
 })
 
 test('the icon assets that exist are reported', () => {
-  const icons = availableIcons('D:/agent头脑风暴/dsh-plugin-health-notes/dsh-plugin-health')
+  const icons = availableIcons(REPO_ROOT)
   assert.ok(icons.some((path) => path.endsWith('icon.ico')), `expected an .ico among ${JSON.stringify(icons)}`)
   assert.ok(icons.every((path) => existsSync(path)), 'the list must only name files that exist')
 })
@@ -50,7 +53,7 @@ test('the icon assets that exist are reported', () => {
 test('the ico container is well formed', () => {
   // The icon is built by hand; a malformed container shows as a blank shortcut and nothing else, so it
   // is worth reading the header back.
-  const path = 'D:/agent头脑风暴/dsh-plugin-health-notes/dsh-plugin-health/assets/icon.ico'
+  const path = join(REPO_ROOT, 'assets', 'icon.ico')
   const bytes = readFileSync(path)
   assert.equal(bytes.readUInt16LE(0), 0, 'reserved field')
   assert.equal(bytes.readUInt16LE(2), 1, 'type must be 1 (icon)')

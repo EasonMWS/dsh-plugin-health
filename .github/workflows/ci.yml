@@ -23,6 +23,18 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: npm
       - run: npm ci
+      # The sandbox tests execute real bubblewrap. Without it they skip, and a skipped test reports ok —
+      # which is indistinguishable from a passing one in the summary.
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+      - name: the sandbox tests must actually run on Linux
+        if: runner.os == 'Linux'
+        run: |
+          node --test test/sandbox.test.js > sandbox.log 2>&1 || true
+          if grep -q 'has no usable sandbox' sandbox.log; then
+            echo "::error::the sandbox tests skipped; bubblewrap is not working in this image"
+            exit 1
+          fi
       - run: npm test
 
   pack:
