@@ -23,7 +23,7 @@
  * @module outside/sandbox
  */
 
-import { spawn } from 'node:child_process'
+import { execFileSync, spawn } from 'node:child_process'
 import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -94,11 +94,35 @@ export function sandboxSupport({ platform = process.platform, exists = existsSyn
  * Absent system paths are skipped rather than passed through: bubblewrap refuses a missing source, and a
  * distribution that puts /lib64 somewhere else should not stop the tool from working.
  *
- * @param {{home: string, command: string, args?: string[], systemReads?: string[], exists?: (path: string) => boolean}} options
+ * The network flag is a parameter because unsharing the network is not always possible: bringing up a
+ * fresh namespace's loopback device needs CAP_NET_ADMIN, which unprivileged containers (including most
+ * CI images) do not have. In that case bubblewrap exits before running anything, so the choice is
+ * between a sandbox that starts without network isolation and no sandbox at all.
+ *
+ * @param {{
+ *   home: string,
+ *   command: string,
+ *   args?: string[],
+ *   systemReads?: string[],
+ *   exists?: (path: string) => boolean,
+ *   unshareNet?: boolean,
+ * }} options
  * @returns {string[]}
  */
-export function bubblewrapArgs({ home, command, args = [], systemReads = SYSTEM_READS, exists = existsSync }) {
-  const out = ['--unshare-all', '--die-with-parent', '--new-session', '--proc', '/proc', '--dev', '/dev']
+export function bubblewrapArgs({
+  home,
+  command,
+  args = [],
+  systemReads = SYSTEM_READS,
+  exists = existsSync,
+  unshareNet = true,
+}) {
+  // --unshare-all is the strong form. Without CAP_NET_ADMIN the network namespace cannot be set up, so
+  // the individual namespaces are named instead and the network one is left out.
+  const out = unshareNet
+    ? ['--unshare-all', '--die-with-parent', '--new-session', '--proc', '/proc', '--dev', '/dev']
+    : ['--unshare-user', '--unshare-pid', '--unshare-ipc', '--unshare-uts', '--unshare-cgroup',
+       '--die-with-parent', '--new-session', '--proc', '/proc', '--dev', '/dev']
 
   for (const path of systemReads) {
     if (exists(path)) out.push('--ro-bind', path, path)
@@ -111,6 +135,33 @@ export function bubblewrapArgs({ home, command, args = [], systemReads = SYSTEM_
   out.push('--chdir', home)
   out.push('--', command, ...args)
   return out
+}
+
+/** Cache the network-isolation probe: it costs a process spawn and the answer cannot change. */
+let networkIsolationCache
+
+/**
+ * Can this machine unshare the network namespace?
+ *
+ * Asked by running the cheapest possible bubblewrap command. A failure here is not an error to report —
+ * it is the answer to the question, and it decides which form of the sandbox is used.
+ *
+ * @param {string} bwrap
+ * @returns {boolean}
+ */
+export function canUnshareNetwork(bwrap) {
+  if (networkIsolationCache !== undefined) return networkIsolationCache
+  let ok = false
+  try {
+    execFileSync(bwrap, ['--unshare-all', '--ro-bind', '/', '/', '--', '/bin/true'], {
+      stdio: 'pipe', timeout: 10_000,
+    })
+    ok = true
+  } catch {
+    ok = false
+  }
+  networkIsolationCache = ok
+  return ok
 }
 
 /**
@@ -183,15 +234,22 @@ export function buildSandboxedCommand({
   args = [],
   exists = existsSync,
   writeProfile,
+  probeUnshare,
 }) {
   const support = sandboxSupport({ platform, exists })
   if (support.available !== true) return { ok: false, reason: support.reason }
 
   if (support.kind === 'bubblewrap') {
+    const unshareNet = probeUnshare === undefined ? canUnshareNetwork(support.binary) : probeUnshare
     return {
       ok: true,
       command: support.binary,
-      args: bubblewrapArgs({ home, command, args, exists }),
+      args: bubblewrapArgs({ home, command, args, exists, unshareNet }),
+      // Told, not inferred: a caller that reports "sandboxed" should be able to say what that covered.
+      networkIsolated: unshareNet,
+      ...(unshareNet ? {} : {
+        note: 'this environment cannot create a network namespace (no CAP_NET_ADMIN), so the filesystem is sandboxed but the network is not',
+      }),
     }
   }
 

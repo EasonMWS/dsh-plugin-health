@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 import {
-  bubblewrapArgs, buildSandboxedCommand, findShell, launchSandboxed,
+  bubblewrapArgs, buildSandboxedCommand, canUnshareNetwork, findShell, launchSandboxed,
   sandboxExecProfile, sandboxSupport,
 } from '../src/outside/sandbox.js'
 
@@ -17,6 +17,11 @@ import {
 const PLATFORM = process.platform
 const support = sandboxSupport()
 const HAS_SANDBOX = support.available === true
+// Filesystem isolation and network isolation are separate promises: the second needs CAP_NET_ADMIN,
+// which unprivileged containers (including most CI images) do not have.
+const HAS_NETWORK_ISOLATION = HAS_SANDBOX && support.kind === 'bubblewrap'
+  ? canUnshareNetwork(support.binary)
+  : HAS_SANDBOX
 
 function tempDir() {
   return mkdtempSync(join(tmpdir(), 'sandbox-test-'))
@@ -161,6 +166,11 @@ test('on a platform with a sandbox, writes outside the home are refused by the O
       args: [script],
     })
     assert.equal(built.ok, true, built.reason)
+    // If the environment could not isolate the network, say so rather than leaving a silent downgrade
+    // behind: the filesystem protections are still in force.
+    if (built.networkIsolated === false) {
+      console.log('        note: ' + built.note)
+    }
 
     let output
     try {
@@ -180,6 +190,11 @@ test('on a platform with a sandbox, writes outside the home are refused by the O
 test('on a platform with a sandbox, the network is refused', (t) => {
   if (!HAS_SANDBOX) {
     t.skip(`${PLATFORM} has no usable sandbox here: ${support.reason}`)
+    return
+  }
+  if (!HAS_NETWORK_ISOLATION) {
+    // Honest skip: the filesystem sandbox still works here, the network namespace cannot be created.
+    t.skip('this environment cannot create a network namespace (no CAP_NET_ADMIN), so network isolation is unavailable')
     return
   }
 
@@ -212,6 +227,22 @@ test('on a platform with a sandbox, the network is refused', (t) => {
   } finally {
     rmSync(work, { recursive: true, force: true })
   }
+})
+
+test('when the network cannot be isolated the result says so', () => {
+  // The failure this caught: bubblewrap exited with "loopback: Failed RTM_NEWADDR" on a container
+  // without CAP_NET_ADMIN, and the tool reported nothing — so a caller would believe it had a sandbox
+  // that also covered the network.
+  const withNetwork = bubblewrapArgs({ home: '/h', command: 'node', exists: () => true, unshareNet: true })
+  assert.ok(withNetwork.includes('--unshare-all'), 'the strong form unshares everything')
+
+  const withoutNetwork = bubblewrapArgs({ home: '/h', command: 'node', exists: () => true, unshareNet: false })
+  assert.equal(withoutNetwork.includes('--unshare-all'), false)
+  assert.equal(withoutNetwork.includes('--unshare-net'), false, 'no network namespace is requested')
+  // The filesystem protections must still be there.
+  assert.ok(withoutNetwork.includes('--unshare-user'))
+  assert.ok(withoutNetwork.includes('--unshare-pid'))
+  assert.equal(withoutNetwork.filter((arg) => arg === '--bind').length, 1, 'still exactly one writable tree')
 })
 
 test('the sandbox profile file is cleaned up after a launch attempt', (t) => {
