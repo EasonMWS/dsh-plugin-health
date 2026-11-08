@@ -18,7 +18,7 @@ Startup checks execute plugin code with your account permissions and cannot safe
 software. Read [Health's security boundaries](SECURITY.md#malware-containment-is-not-implemented)
 and the [official DSH safety notice](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md).
 
-> Source candidate: `4.0.0-beta.1`. The registry install below follows the published npm release.
+> Source candidate: `4.0.0-beta.2`. The registry install below follows the published npm release.
 
 ```sh
 npm install -g dsh-plugin-health
@@ -575,30 +575,52 @@ This tool covers the three gaps that the existing doctor/market tools do not:
 
 ## Install
 
-```sh
-npm install -g dsh-plugin-health
-# or run the checkout:
-git clone https://github.com/EasonMWS/dsh-plugin-health.git && cd dsh-plugin-health && npm ci
-node bin/dsh-plugin-health.js --help
-```
+Three entry points, for three different situations.
 
-Requires Node.js 20+.
+### A desktop app — the outside tool
 
-### Install inside DSH (bundle mode)
+[**Download the installer**](https://github.com/EasonMWS/dsh-plugin-health/releases/latest) and run it.
+This is the one to use when DSH will not start: it lists plugins, switches them on and off, checks whether a
+plugin will load on a version you are about to install, takes snapshots, restores them, and starts DSH.
 
-The package is also an installable DSH bundle. Installing it into a profile adds a read-only
-`plugin_health` agent tool that reports missing third-party bundles, broken package directories,
-`cordis.patch.yml` residue, proxy/registry configuration, profile drift, and installed plugins
-incompatible with the running DSH version.
+Windows x64, per-user install, no admin rights. The build is not code-signed, so SmartScreen warns once on
+first run — choose "More info" then "Run anyway".
+
+### Inside DSH — the plugin
 
 ```sh
 dsh plugin --profile desktop add dsh-plugin-health
-#                 ^^^^^^^ desktop app uses `desktop`; `dsh web` uses `web`
+#                 ^^^^^^^ the desktop app uses `desktop`; `dsh web` uses `web`
 ```
 
-The bundle declares `engines.dsh` and registers this read-only tool alongside the settings UI.
-Profile changes use the UI's explicit repair and exemption controls; startup can also check for
-Health updates as described above.
+Adds a settings panel with three display modes, a read-only `plugin_health` agent tool, and the rescue flow
+that rehearses a plugin in a throwaway home before touching your profile.
+
+### A command line — for scripts and CI
+
+```sh
+npm install -g dsh-plugin-health@beta
+dsh-plugin-health --help
+health-outside          # the same outside tool, as a local page
+```
+
+Requires Node.js 20+. `@beta` is needed because the stable tag is still 3.0.7.
+
+### What each one can do
+
+| | Desktop app | In DSH | CLI |
+| --- | --- | --- | --- |
+| Diagnose a running DSH | — | yes | yes |
+| Rehearse a plugin before trusting it | — | yes | yes |
+| Check a plugin against a version you are about to install | yes | yes | yes |
+| List and switch installed plugins | yes | — | — |
+| Snapshots and rollback | yes | — | — |
+| Work when DSH will not start | **yes** | — | yes |
+| Sandbox the host | Linux/macOS only | — | Linux/macOS only |
+
+Installing, uninstalling and updating plugins is not in that list on purpose: those run a package manager,
+which executes whatever install scripts a package ships, and on Windows this tool has no sandbox to put that
+in. That stays inside DSH, where the decision belongs.
 
 ## 1. Compatibility matrix
 

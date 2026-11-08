@@ -1,5 +1,57 @@
 # Changelog
 
+## 4.0.0-beta.2
+
+### The outside tool is a manager now
+
+Scope, as agreed: it lists what is installed, switches it on and off, judges plugin markets, snapshots,
+recovers, and starts DSH. Installing, uninstalling and updating stay inside DSH.
+
+That split is measurement, not caution. Installing runs a package manager, which executes whatever
+postinstall scripts the package ships, and on Windows this tool has no sandbox to put that in — verified by
+running the probes. DSH also already owns the profile format; a second writer would be a second source of
+truth, and they would drift.
+
+**Plugins.** Every installed plugin with its real version — read from the manifest on disk, not the range in
+the profile — whether it is switched on (read from the `cordis.patch.yml` overlay, by name and by id), and
+whether its declaration admits the host. Switching one off writes the same overlay the rescue flow writes,
+with two rules: it refuses while DSH is running, and it takes a snapshot first. A write that cannot be
+snapshotted does not happen.
+
+The host's own packages are listed but flagged, with no switch: turning off `@deepseek-ai/dsh-base` turns
+off DSH.
+
+**Markets.** A format-1 index is read with DSH's own `parseMarketIndex` — not a local reimplementation, so a
+change to format 1 is a dependency update here rather than a divergence — and every entry is judged against a
+DSH version: the newest version that admits the target, the newest overall, and what is already installed.
+Entries the host would reject sort first. The install spec is shown as copyable text, never as a button.
+
+Real output against this profile: 0 incompatible for `0.2.2-rc.1`, and for `0.3.0-rc.1` four plugins,
+each with the range that excludes it.
+
+### A downloadable installer
+
+`PluginHealth-4.0.0-beta.2-setup.exe`, 116 MB, NSIS, per-user — no admin rights, no elevation. Desktop and
+Start Menu shortcuts, an uninstaller, and the app's own icon rather than Electron's default.
+
+Unsigned, so Windows SmartScreen will warn once on first run. Signing needs a certificate this project does
+not have.
+
+### Three defects, one shape
+
+Each was a return value assumed rather than read:
+
+- `evaluatePluginCompatibility` returns `undefined` when a plugin is compatible and an issue object when it
+  is not. Treated as `{state, reason}`, every plugin came out "unknown".
+- The list included fourteen `@deepseek-ai/*` packages — the host itself.
+- A Windows path parses as a URL whose scheme is `d:`, so saved-source labels came out percent-encoded,
+  `/agent%E5%A4%B4…`, which says nothing about what is being clicked.
+
+### Verified
+
+502 tests, 498 pass. 21 in-panel browser checks. 9/9 outside-page interactions. 15/15 manager interactions in
+a real browser. 18/18 routes over real HTTP. The packaged app launched and rendered every card.
+
 ## 4.0.0-beta.1
 
 ### Sandboxed start on macOS and Linux

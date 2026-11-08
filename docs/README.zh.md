@@ -15,7 +15,7 @@
 执行插件代码，不能用来安全试跑未知软件。详见 [Health 能力边界](../SECURITY.md#malware-containment-is-not-implemented)
 及 [DSH 官方安全说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md)。
 
-> 源码候选版：`4.0.0-beta.1`。下方的 npm 安装命令使用已发布的版本。索引由官方发布的
+> 源码候选版：`4.0.0-beta.2`。下方的 npm 安装命令使用已发布的版本。索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 ```sh
@@ -491,28 +491,51 @@ DSH 没有官方插件市场索引；发行节奏约 **2.1 天一个版本**且�
 
 ## 安装
 
-```sh
-npm install -g dsh-plugin-health
-# 或首发前本地运行：
-git clone https://github.com/EasonMWS/dsh-plugin-health.git && cd dsh-plugin-health && npm ci
-node bin/dsh-plugin-health.js --help
-```
+三个入口，对应三种情况。
 
-需要 Node.js 20+。
+### 桌面版 —— 外部工具
 
-### 作为 DSH bundle 安装（可选）
+[**下载安装程序**](https://github.com/EasonMWS/dsh-plugin-health/releases/latest)然后运行。
+DSH 起不来的时候用这个：列插件、开关插件、看某个插件在你准备装的版本上能不能加载、存快照、恢复、
+启动 DSH。
 
-这个包同时是一个可安装的 DSH bundle。装进 profile 后会提供一个只读的 `plugin_health` agent
-工具，报告：声明但未安装的第三方 bundle、残缺的包目录、`cordis.patch.yml` 残留、代理/registry
-配置、profile 差异，以及已装插件与当前 DSH 版本的不兼容。
+Windows x64，按用户安装，不需要管理员权限。构建没有代码签名，首次运行 SmartScreen 会警告一次——
+点「更多信息」再点「仍要运行」。
+
+### DSH 里面 —— 插件本体
 
 ```sh
 dsh plugin --profile desktop add dsh-plugin-health
 #                 ^^^^^^^ 桌面版用 `desktop`；`dsh web` 用 `web`
 ```
 
-bundle 声明了 `engines.dsh`，会同时注册这个只读工具和设置界面。
-profile 修改由界面的修复、放行等明确操作触发；启动时还可按上文说明查询 Health 更新。
+装进 profile 后会有一个三档显示模式的设置面板、一个只读的 `plugin_health` agent 工具，以及那套
+「先在临时 home 里试跑、通过之后才动你的 profile」的抢救流程。
+
+### 命令行 —— 给脚本和 CI 用
+
+```sh
+npm install -g dsh-plugin-health@beta
+dsh-plugin-health --help
+health-outside          # 同一个外部工具，以本地页面形式打开
+```
+
+需要 Node.js 20+。要写 `@beta`，因为稳定标签还停在 3.0.7。
+
+### 各自能做什么
+
+| | 桌面版 | DSH 里 | 命令行 |
+| --- | --- | --- | --- |
+| 诊断正在运行的 DSH | — | 有 | 有 |
+| 装之前先试跑 | — | 有 | 有 |
+| 检查插件在准备装的版本上能不能用 | 有 | 有 | 有 |
+| 列出并开关已装插件 | 有 | — | — |
+| 快照和回退 | 有 | — | — |
+| DSH 起不来时还能用 | **有** | — | 有 |
+| 给宿主加沙箱 | 仅 Linux/macOS | — | 仅 Linux/macOS |
+
+「安装、卸载、更新插件」不在这个表里，是有意的：那些操作会跑包管理器，进而执行包自带的安装脚本，
+而 Windows 上本工具没有可用的沙箱。这部分留在 DSH 里，那才是该由它决定的事。
 
 ## 1. 兼容矩阵
 

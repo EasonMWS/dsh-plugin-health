@@ -7,3 +7,7 @@ coverage/
 
 .publish-*
 
+# Build output for the desktop app. The installer is attached to a release, not committed.
+dist-desktop/
+# electron-builder writes these while packaging.
+*.blockmap

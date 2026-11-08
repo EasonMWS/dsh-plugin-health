@@ -1,10 +1,66 @@
 {
   "name": "dsh-plugin-health-desktop",
-  "version": "1.0.0",
+  "version": "4.0.0-beta.2",
   "private": true,
-  "description": "Plugin health - outside tool, as a desktop app",
+  "description": "Plugin health - the outside tool, as a desktop app",
   "main": "main.cjs",
-  "dependencies": {
-    "electron": "^45.2.3"
+  "scripts": {
+    "dist": "electron-builder --win --publish never",
+    "dist:dir": "electron-builder --win --dir"
+  },
+  "build": {
+    "appId": "org.dsh.plugins.health",
+    "productName": "PluginHealth",
+    "electronVersion": "45.2.3",
+    "directories": {
+      "app": "..",
+      "output": "../dist-desktop",
+      "buildResources": "."
+    },
+    "extraMetadata": {
+      "main": "desktop/main.cjs"
+    },
+    "files": [
+      "desktop/main.cjs",
+      "src/**/*",
+      "assets/**/*",
+      "package.json",
+      "!**/*.md",
+      "!test/**",
+      "!docs/**",
+      "!artifacts/**",
+      "!dist-desktop/**",
+      "!desktop/node_modules/**",
+      "!electron-shell/**",
+      "!**/*.map"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "../assets/icon.ico",
+      "artifactName": "PluginHealth-${version}-setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Plugin Health",
+      "installerIcon": "../assets/icon.ico",
+      "uninstallerIcon": "../assets/icon.ico"
+    },
+    "asar": true,
+    "npmRebuild": false
+  },
+  "devDependencies": {
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0"
   }
 }

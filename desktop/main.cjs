@@ -18,11 +18,33 @@
 delete process.env.ELECTRON_RUN_AS_NODE
 
 const { app, BrowserWindow, Menu, Tray, shell, dialog, nativeImage } = require('electron')
+const { existsSync } = require('node:fs')
 const { join } = require('node:path')
 const { pathToFileURL } = require('node:url')
 
-// This directory lives inside the package, so the package root is one level up.
-const ROOT = join(__dirname, '..')
+/**
+ * Find the package root, wherever this file ended up.
+ *
+ * The marker is a file that only exists at the root, so the answer is checked rather than assumed — a wrong
+ * guess surfaces as "cannot find module", which is a bad error to chase from a packaged app.
+ * @returns {string}
+ */
+function resolveRoot() {
+  const candidates = [
+    join(__dirname, '..'), // repository layout: <pkg>/desktop/main.cjs
+    __dirname,             // packaged with the sources at the app root
+    join(process.resourcesPath ?? '', 'app'), // packaged beside the app
+  ]
+  for (const candidate of candidates) {
+    if (candidate === '') continue
+    try {
+      if (existsSync(join(candidate, 'src', 'outside', 'server.js'))) return candidate
+    } catch { /* try the next one */ }
+  }
+  throw new Error(`could not find the app sources next to ${__dirname}`)
+}
+
+const ROOT = resolveRoot()
 const ICON = join(ROOT, 'assets', 'icon-256.png')
 
 /** @type {BrowserWindow | null} */
