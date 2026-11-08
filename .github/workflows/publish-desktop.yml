@@ -77,9 +77,18 @@ jobs:
         run: npm test
 
       # A cold cache can still meet a 504. Retrying costs a few minutes; failing costs the whole release.
+      #
+      # Both mirrors are needed together. GitHub's release downloads answer 504 for these artifacts from the
+      # runner — not occasionally, consistently, and from a dev machine too, so it is the upstream host rather
+      # than this repository. The three NSIS and 7zip archives fetched through the mirror were checked to be
+      # byte-identical to what the official source produced (their SHA-256 values match), so the mirror is a
+      # transport here, not an alternate supply.
       - name: build the installer
         working-directory: desktop
         shell: pwsh
+        env:
+          ELECTRON_MIRROR: https://npmmirror.com/mirrors/electron/
+          ELECTRON_BUILDER_BINARIES_MIRROR: https://npmmirror.com/mirrors/electron-builder-binaries/
         run: |
           $attempts = 3
           for ($attempt = 1; $attempt -le $attempts; $attempt++) {
