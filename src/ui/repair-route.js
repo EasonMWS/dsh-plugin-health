@@ -18,7 +18,7 @@ import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
 import { lstatSync, readFileSync } from 'node:fs'
 import { applyRepairs, planRepairs } from '../repair/apply.js'
 import { inspectDshHome } from '../repair/inspect.js'
-import { invalidateStatus, STATUS_PATH } from './status.js'
+import { EVENTS_PATH, createEventsHandler, invalidateStatus, STATUS_PATH } from './status.js'
 import { checkLoopbackPeer, checkStatusRequest, checkWriteRequest } from './guard.js'
 
 /** Route that performs the one-click repair. */
@@ -230,11 +230,28 @@ export function registerRepairRoute(ctx, { getStatus, resolveProfile }) {
         path: REPAIR_PATH,
         handler: createRepairHandler({ key, resolveProfile }),
       })
+
+      // The event stream lets the panel notice a change made by the outside tool instead of waiting
+      // up to 30 seconds for its next poll. Registered only when the profile home is known; without a
+      // home there is nothing to watch, and the panel falls back to polling.
+      let disposeEvents = () => {}
+      try {
+        const location = resolveProfile()
+        if (typeof location?.home === 'string' && location.home !== '') {
+          disposeEvents = webCtx.webServer.register({
+            kind: 'exact',
+            path: EVENTS_PATH,
+            handler: createEventsHandler(location.home),
+          })
+        }
+      } catch { /* no profile yet: the poll still works */ }
+
       return () => {
         disposeStatus()
         disposeRepair()
+        try { disposeEvents() } catch { /* already gone */ }
       }
-    }, 'dsh-plugin-health: status + repair routes')
+    }, 'dsh-plugin-health: status + repair + events routes')
   })
   return key
 }

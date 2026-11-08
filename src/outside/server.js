@@ -18,6 +18,7 @@
 import { createServer } from 'node:http'
 
 import { admissionReport } from './admission.js'
+import { checkAndLaunch } from './launch.js'
 import { listSnapshots, restoreSnapshot, snapshotUsage, takeSnapshot } from './snapshot.js'
 import { OUTSIDE_HTML } from './ui.js'
 import { readState, updateState } from '../state/shared.js'
@@ -177,6 +178,24 @@ export async function startOutsideServer({ home, profile, key, runtimeVersion, p
         const result = updateState(home, (current) => ({ ...current, admission: body?.admission ?? null }), { writer: 'outside' })
         if (result.ok !== true) { send(res, 500, { error: result.error }); return }
         send(res, 200, { ok: true, rev: result.state.rev })
+      }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
+      return
+    }
+
+    // --- launch: check, record the result, and start the host only when asked ---
+    if (url.pathname === '/launch' && req.method === 'POST') {
+      const allowed = authorizeWrite(req, key)
+      if (allowed.ok !== true) { send(res, allowed.status, { error: allowed.error }); return }
+      readJsonBody(req).then((body) => {
+        // start must be exactly true. A launch is never inferred from a truthy value.
+        const result = checkAndLaunch({
+          home,
+          profile,
+          runtimeVersion: resolveRuntime(),
+          targetVersion: typeof body?.target === 'string' && body.target !== '' ? body.target : undefined,
+          start: body?.start === true,
+        })
+        send(res, 200, result)
       }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
       return
     }

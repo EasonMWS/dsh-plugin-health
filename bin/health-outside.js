@@ -7,6 +7,7 @@
  * panel inside DSH.
  */
 
+import { spawn } from 'node:child_process'
 import { randomBytes } from 'node:crypto'
 import { existsSync, statSync } from 'node:fs'
 import { homedir } from 'node:os'
@@ -76,6 +77,19 @@ if (!existsSync(profileDir)) {
 
 const key = randomBytes(24).toString('hex')
 
+/** Open a URL in the default browser. Best effort: a headless box has none. */
+function openBrowser(url) {
+  const command = process.platform === 'win32' ? 'cmd' : process.platform === 'darwin' ? 'open' : 'xdg-open'
+  const args = process.platform === 'win32' ? ['/c', 'start', '', url] : [url]
+  try {
+    const child = spawn(command, args, { detached: true, stdio: 'ignore' })
+    child.unref()
+    return true
+  } catch {
+    return false
+  }
+}
+
 const server = await startOutsideServer({
   home,
   profile,
@@ -91,6 +105,10 @@ console.log(`  profile : ${profile}`)
 console.log(`  home    : ${home}`)
 console.log(`  同步    : ${server.mode() === 'watch' ? '文件监听（即时）' : '定时检查'}`)
 console.log('')
+if (!argv.includes('--no-open')) {
+  const opened = openBrowser(server.url)
+  if (!opened) console.log('  （无法自动打开浏览器，请手动访问上面的地址）')
+}
 console.log('  按 Ctrl+C 停止。')
 console.log('')
 

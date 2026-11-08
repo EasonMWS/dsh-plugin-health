@@ -202,6 +202,7 @@ export const OUTSIDE_HTML = `<!doctype html>
         <input type="text" id="target" placeholder="留空表示当前版本">
       </label>
       <button id="check">检查</button>
+      <button id="launch" class="ghost" disabled title="先检查一次">启动 DSH</button>
     </div>
     <div id="verdict-slot"></div>
   </section>
@@ -376,6 +377,7 @@ export const OUTSIDE_HTML = `<!doctype html>
       state.lastReport = report
       renderVerdict(report)
       renderFindings(report)
+      paintLaunch(report)
       // Persist the result so the panel inside DSH can recognise it as still valid.
       await fetch('/admission', {
         method: 'POST',
@@ -470,6 +472,44 @@ export const OUTSIDE_HTML = `<!doctype html>
       toast('恢复失败：' + (error?.message ?? error))
     }
   }
+
+  // --- launch ---
+  const paintLaunch = (report) => {
+    const button = $('launch')
+    if (report === null) { button.disabled = true; button.title = '先检查一次'; return }
+    button.disabled = false
+    // A blocking verdict does not remove the button: starting is the user's decision. It changes what
+    // the button says, so the decision is made with the answer in view.
+    button.textContent = report.verdict === 'block' ? '仍然启动' : '启动 DSH'
+    button.title = report.verdict === 'block'
+      ? '检查发现了阻断项，启动后 DSH 可能起不来'
+      : '用当前配置启动 DSH'
+  }
+
+  $('launch').addEventListener('click', async () => {
+    const button = $('launch')
+    const report = state.lastReport
+    if (report === null) { toast('先检查一次'); return }
+    if (report.verdict === 'block' && !confirm('检查发现了阻断项，DSH 可能起不来。仍然启动？')) return
+
+    button.disabled = true
+    button.textContent = '启动中…'
+    try {
+      const response = await fetch('/launch', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-health-key': state.key ?? '' },
+        body: JSON.stringify({ start: true, target: $('target').value.trim() }),
+      })
+      const body = await response.json()
+      if (body.error) { toast('启动失败：' + body.error); return }
+      toast(body.launched === true ? '已启动 DSH' : (body.stopped ?? '没有启动'))
+    } catch (error) {
+      toast('启动失败：' + (error?.message ?? error))
+    } finally {
+      button.disabled = false
+      paintLaunch(state.lastReport)
+    }
+  })
 
   $('snap-take').addEventListener('click', async () => {
     const button = $('snap-take')

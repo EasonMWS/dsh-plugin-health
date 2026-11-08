@@ -4,6 +4,8 @@
  * @module ui/status
  */
 import { readFileSync } from 'node:fs'
+import { readState } from '../state/shared.js'
+import { watchState } from '../state/sync.js'
 import { join } from 'node:path'
 
 import { inspectDshHome } from '../repair/inspect.js'
@@ -13,6 +15,9 @@ import { snapshot as snapshotUpdate } from './update.js'
 import { buildReliabilityReport } from '../reliability/report.js'
 /** Route the browser half reads; absolute so it works from the DSH web origin. */
 export const STATUS_PATH = '/plugins/dsh-plugin-health/status'
+
+/** Server-sent events, so the panel can be told about a change rather than polling for it. */
+export const EVENTS_PATH = '/plugins/dsh-plugin-health/events'
 
 /**
  * Turn an inspection result into the small document the UI consumes.
@@ -147,7 +152,7 @@ export function runningProfile(ctx) {
  * @param {{getStatus: () => object}} options - status provider.
  * @returns {void}
  */
-export function registerStatusRoute(ctx, { getStatus }) {
+export function registerStatusRoute(ctx, { getStatus, getEventsHome }) {
   ctx.inject(['webServer'], (webCtx) => {
     webCtx.effect(() => {
       const dispose = webCtx.webServer.register({
@@ -155,7 +160,14 @@ export function registerStatusRoute(ctx, { getStatus }) {
         path: STATUS_PATH,
         handler: createStatusHandler(getStatus),
       })
-      return () => dispose()
+      // The event route is registered only when a home is available to watch.
+      const byHome = typeof getEventsHome === 'function' ? getEventsHome() : undefined
+      const disposeEvents = byHome === undefined ? () => {} : webCtx.webServer.register({
+        kind: 'exact',
+        path: EVENTS_PATH,
+        handler: createEventsHandler(byHome),
+      })
+      return () => { dispose(); disposeEvents() }
     }, 'dsh-plugin-health: status route')
   })
 }
@@ -171,6 +183,74 @@ function hostnameOf(hostHeader) {  const text = String(hostHeader ?? '').trim().
  * @param {() => object} getStatus - status provider.
  * @returns {(req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => Promise<void>} handler.
  */
+/**
+ * Stream state changes to the panel.
+ *
+ * The outside tool writes the shared state file; this server watches it and forwards what it sees. A
+ * connection that cannot be established is not an error the user needs to see — the panel falls back
+ * to polling — so failures here are silent apart from closing the response.
+ *
+ * @param {string} home
+ * @returns {(req: import('node:http').IncomingMessage, res: import('node:http').ServerResponse) => void}
+ */
+/** The revision the shared state is at right now, or 0 when there is none. */
+function latestRevision(home) {
+  try {
+    return { rev: readState(home).state.rev ?? 0 }
+  } catch {
+    return { rev: 0 }
+  }
+}
+
+export function createEventsHandler(home) {
+  return function eventsHandler(req, res) {
+    const hostname = hostnameOf(req?.headers?.host)
+    if (!['127.0.0.1', 'localhost', '::1'].includes(hostname)) {
+      send(res, 403, { error: 'loopback only' })
+      return
+    }
+
+    res.writeHead(200, {
+      'content-type': 'text/event-stream; charset=utf-8',
+      'cache-control': 'no-store',
+      connection: 'keep-alive',
+      // Proxies in front of a local port are unusual, but tell them anyway.
+      'x-accel-buffering': 'no',
+    })
+
+    const { rev } = latestRevision(home)
+    res.write(`data: ${JSON.stringify({ hello: true, rev })}\n\n`)
+
+    let closed = false
+    let watcher
+    try {
+      watcher = watchState(home, {
+        onChange: (info) => {
+          if (closed) return
+          try { res.write(`data: ${JSON.stringify(info)}\n\n`) } catch { /* the client went away */ }
+        },
+      })
+    } catch { /* no watching available; the panel keeps polling */ }
+
+    // A comment line every 25s keeps intermediaries from dropping an idle connection.
+    const keepAlive = setInterval(() => {
+      if (closed) return
+      try { res.write(': keep-alive\n\n') } catch { /* gone */ }
+    }, 25_000)
+    if (typeof keepAlive?.unref === 'function') keepAlive.unref()
+
+    const stop = () => {
+      if (closed) return
+      closed = true
+      clearInterval(keepAlive)
+      try { watcher?.close() } catch { /* already closed */ }
+      try { res.end() } catch { /* gone */ }
+    }
+    req.on('close', stop)
+    req.on('error', stop)
+  }
+}
+
 export function createStatusHandler(getStatus) {
   return async function statusHandler(req, res) {
     const hostname = hostnameOf(req?.headers?.host)

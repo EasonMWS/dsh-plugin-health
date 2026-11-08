@@ -16,6 +16,9 @@ window.__ModuleLoader__.load({
     const h = React.createElement
 
     const STATUS_PATH = '/plugins/dsh-plugin-health/status'
+    // Server-sent events: the server watches the shared state file and pushes what changes, so a write
+    // from the outside tool arrives without waiting for the next poll.
+    const EVENTS_PATH = '/plugins/dsh-plugin-health/events'
     const REPAIR_PATH = '/plugins/dsh-plugin-health/repair'
     const RESCUE_PATH = '/plugins/dsh-plugin-health/rescue'
     const UPDATE_PATH = '/plugins/dsh-plugin-health/update'
@@ -1067,9 +1070,33 @@ window.__ModuleLoader__.load({
         }
         load()
         const timer = setInterval(load, intervalMs)
+
+        // Live updates. A revision bump this panel did not cause means the other half wrote
+        // something, so re-read rather than guess which field changed. Falls back to the
+        // interval above when the stream is unavailable.
+        let stream
+        let seen = -1
+        try {
+          if (typeof EventSource === 'function') {
+            stream = new EventSource(EVENTS_PATH)
+            stream.onmessage = (event) => {
+              if (!request.current.alive) return
+              try {
+                const info = JSON.parse(event.data)
+                if (typeof info?.rev !== 'number') return
+                if (seen === -1) { seen = info.rev; return }
+                if (info.rev <= seen) return
+                seen = info.rev
+                if (typeof document !== 'undefined' && document.hidden === true) return
+                reload(true)
+              } catch { /* a malformed frame is not worth surfacing */ }
+            }
+          }
+        } catch { /* no EventSource: the interval is the whole mechanism */ }
         return () => {
           request.current.alive = false
           clearInterval(timer)
+          try { stream?.close() } catch { /* already closed */ }
         }
       }, [intervalMs, reload])
       return { ...state, reload }

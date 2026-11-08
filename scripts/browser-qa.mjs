@@ -62,10 +62,20 @@ let allowScriptedRepair = false
 let allowScriptedRescue = false
 const clientSource = readFileSync(join(root, 'src/ui/client.js'), 'utf8')
 const sourceSha256 = createHash('sha256').update(clientSource).digest('hex')
+/** Open event streams, so a test can push a revision change into the panel. */
+const eventStreams = new Set()
+
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, 'http://127.0.0.1')
   const request = { method: req.method, path: url.pathname, query: url.search }
   requests.push(request)
+  if (url.pathname === '/plugins/dsh-plugin-health/events') {
+    res.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-store', connection: 'keep-alive' })
+    res.write('data: ' + JSON.stringify({ hello: true, rev: 0 }) + '\n\n')
+    eventStreams.add(res)
+    req.on('close', () => eventStreams.delete(res))
+    return
+  }
   if (url.pathname === '/plugins/dsh-plugin-health/status') {
     res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' })
     res.end(JSON.stringify(uiSnapshot(url.searchParams.get('target') ?? undefined, { withRescue: allowScriptedRescue })))
@@ -390,6 +400,26 @@ try {
     }
   })
 
+  await check('a revision pushed on the event stream refreshes the panel without a reload', async () => {
+    const before = requests.filter((row) => row.path === '/plugins/dsh-plugin-health/status').length
+    assert.ok(eventStreams.size > 0, 'the panel should have opened an event stream')
+
+    // A revision the panel has not seen: this is what the outside tool writing the shared state looks
+    // like from the panel's side.
+    for (const stream of eventStreams) {
+      stream.write('data: ' + JSON.stringify({ rev: 99, writer: 'outside', at: new Date().toISOString() }) + '\n\n')
+    }
+
+    const deadline = Date.now() + 5_000
+    let after = before
+    while (Date.now() < deadline) {
+      after = requests.filter((row) => row.path === '/plugins/dsh-plugin-health/status').length
+      if (after > before) break
+      await new Promise((r) => setTimeout(r, 50))
+    }
+    assert.ok(after > before, 'no refresh was requested after the stream reported a change')
+  })
+
   await check('React/browser report no runtime errors', async () => { assert.deepEqual(errors, []) })
   writeFileSync(join(out, 'browser-qa.json'), JSON.stringify({ passed: true, checks, errors, warnings,
     sourceSha256, browser: browser.version(), fixture: true, nativeDshDesktop: false, requests }, null, 2) + '\n')
@@ -400,6 +430,8 @@ try {
   throw error
 } finally {
   if (browser) await browser.close()
+  for (const stream of eventStreams) { try { stream.end() } catch { /* gone */ } }
+  eventStreams.clear()
   server.closeAllConnections()
   await new Promise(resolve => server.close(resolve))
 }
