@@ -27,13 +27,26 @@ jobs:
       # which is indistinguishable from a passing one in the summary.
       - if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y bubblewrap
-      - name: the sandbox tests must actually run on Linux
+      # Two separate questions, and only one of them is answerable here.
+      #
+      # bubblewrap must be installed: that is within this workflow's control, and a missing binary means
+      # the install step above broke.
+      #
+      # Whether it can *run* is not: GitHub's ubuntu-latest forbids the user namespaces bubblewrap needs,
+      # so the execution tests skip there by design. That skip is correct, and failing on it would make CI
+      # red for a working implementation.
+      - name: bubblewrap must at least be installed on Linux
         if: runner.os == 'Linux'
         run: |
+          command -v bwrap || { echo "::error::bubblewrap is not installed; the step above did not work"; exit 1; }
           node --test test/sandbox.test.js > sandbox.log 2>&1 || true
-          if grep -q 'has no usable sandbox' sandbox.log; then
-            echo "::error::the sandbox tests skipped; bubblewrap is not working in this image"
+          if grep -q 'bubblewrap is not installed' sandbox.log; then
+            echo "::error::the sandbox module reports bubblewrap as missing"
             exit 1
+          fi
+          # A skip is allowed, but it has to be the environmental one, with a reason.
+          if grep -q 'has no usable sandbox' sandbox.log; then
+            echo "::warning::the sandbox execution tests skipped in this image (user namespaces are restricted here)"
           fi
       - run: npm test
 
