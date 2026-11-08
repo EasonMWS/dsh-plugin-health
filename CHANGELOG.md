@@ -22,6 +22,46 @@ The tests run the real tools on the platforms that have them: a write outside th
 refused by the OS, and a DNS lookup has to fail. On Windows those tests skip with the reason, because
 there is nothing to run.
 
+### Defects only CI could find
+
+Five were found by running the release on Linux and Windows, in both Node versions. Three of them would have
+shipped and none reproduced on the machine this was written on.
+
+**A restore could overwrite the snapshot it was restoring.** Snapshot ids came from the clock to the
+millisecond, and restoring takes a safety copy of the profile before it writes anything back. On a fast
+machine that copy landed in the same millisecond as the snapshot being restored, overwrote it with the broken
+content the user was trying to undo, and the restore reported success while putting the bad files back. That
+is the worst possible failure for a recovery tool. Ids now carry a counter and a suffix, and a restore
+refuses to write if the safety copy somehow landed on the id it is restoring. Reproduced here only with a
+forced clock; on CI it happened naturally.
+
+**Two tests only worked on the author's machine.** They had an absolute path from this laptop baked in —
+they passed here and could never pass anywhere else.
+
+**The sandbox did not start on Linux, for two reasons in sequence.** First, `--unshare-all` includes the
+network namespace, which needs CAP_NET_ADMIN that unprivileged containers do not have. Then the fallback
+needed a user namespace, which GitHub's ubuntu-latest forbids outright. Both times the sandbox failed at exec
+time and the test reported it as "the write was not stopped" — a message that describes the opposite of what
+happened. There is now a usability probe: bubblewrap installed is not bubblewrap usable, and where it cannot
+run the tool says so instead of producing a command that dies.
+
+**Releasing a lock could leave it behind.** The catch around the ownership check assumed every failure meant
+the file was already gone. On Windows antivirus holds brief handles and `unlinkSync` throws EBUSY, so the
+lock stayed behind and one of fifty concurrent writes gave up. A stuck lock blocks everyone; removing one we
+might not own costs at most a duplicated read-modify-write in microseconds. The release now retries, and
+removes the lock anyway if ownership cannot be verified.
+
+**The CI guard demanded a sandbox run where a sandbox cannot run.** It asserted the execution tests must run
+on Linux, but the image forbids the user namespaces bubblewrap needs. Failing there would have made CI red for
+a correct implementation; it now checks what the workflow controls — bubblewrap is installed — and warns with
+the reason when the environment restricts it.
+
+### Verified
+
+464 tests, 460 pass, 4 skipped on Windows. CI green on Ubuntu and Windows, Node 20 and 22 — the first run in
+which the sandbox tests were executed rather than skipped. 21 browser checks on the in-panel UI, 9/9
+interactions on the outside page.
+
 ### Fixes found by exercising the outside tool
 
 - A row carrying the `hidden` attribute still rendered, because its class set `display: flex` and that
@@ -32,12 +72,6 @@ there is nothing to run.
   not treated as running — a host killed rather than quit must not make the tool refuse to start DSH
   forever.
 - The outside page assigned `state.sandbox` and never read it.
-
-### Verified
-
-459 tests, 455 pass, 3 skipped (the sandbox execution tests, on Windows). 21 browser checks on the
-in-panel UI. 9/9 interactions on the outside page. 41 additional probes across the outside server, its
-edge cases, and the page's interactions found the three defects above and nothing else.
 
 ### The tool now has an outside half
 
