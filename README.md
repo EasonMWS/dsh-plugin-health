@@ -18,7 +18,7 @@ Startup checks execute plugin code with your account permissions and cannot safe
 software. Read [Health's security boundaries](SECURITY.md#malware-containment-is-not-implemented)
 and the [official DSH safety notice](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md).
 
-> Source candidate: `3.0.7`. The registry install below follows the published npm release.
+> Source candidate: `4.0.0-beta.1`. The registry install below follows the published npm release.
 
 ```sh
 npm install -g dsh-plugin-health
@@ -395,7 +395,7 @@ Health's repair quarantine is an ordinary backup directory, not antivirus isolat
 startup checks, not malicious behavior or all features. When the author ships a supported version,
 revoke the exemption and upgrade. Revoking permission does not undo plugin effects.
 
-## What 3.x promises
+## What 4.x promises
 
 A major version is a promise about stability, so here is exactly what is frozen and what is not —
 rather than letting you find out by upgrading.
@@ -405,7 +405,7 @@ rather than letting you find out by upgrading.
 `compatibility.json` that cannot be parsed is refused rather than rewritten. Everything below has
 held since 1.0 and still holds.
 
-**Frozen** for 3.x:
+**Frozen** for 4.x:
 
 | Surface | Guarantee |
 | --- | --- |
@@ -414,6 +414,8 @@ held since 1.0 and still holds.
 | Exit codes (`0` success, `1` findings/failure, `2` usage error) | Unchanged |
 | Files this tool writes (`compatibility.json`, `plugin-health-rescue.json`, handoff bundles) | Format documented and forward-compatible: unknown keys are preserved, never dropped |
 | The status route shape (`/plugins/dsh-plugin-health/status`) | Fields may be added; existing fields keep their names and types. Since 2.1.3 the body also carries `key`, the per-launch control key the panel uses to authenticate its own writes — see [Security](#security) for why that is not a weaker boundary than the cookie |
+| The shared state file (`~/.dsh/.plugin-health/state.json`) | The outside tool and the panel both read it. `schemaVersion` only increases, and a reader refuses a version it does not know rather than overwriting it |
+| The outside server routes (`/state`, `/admission`, `/snapshots`, `/intent`, `/host`, `/sandbox`, `/launch`, `/events`) | Fields may be added. Writes keep requiring the key and a matching Origin |
 
 **Not frozen** — may change in a minor release, because they are presentation or internals:
 

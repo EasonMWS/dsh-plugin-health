@@ -19,6 +19,8 @@ import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 
 import { admissionReport } from './admission.js'
+import { clearHost, hostStatus, recordHost } from './hostlock.js'
+import { launchSandboxed, sandboxSupport } from './sandbox.js'
 import { updateState } from '../state/shared.js'
 
 /**
@@ -111,12 +113,37 @@ export function launchHost({ home, profile, onOutput }) {
 }
 
 /**
+ * Start the host inside an OS sandbox.
+ *
+ * Only Linux and macOS can do this, and only when the tool is installed — see sandbox.js for why
+ * Windows cannot. The result says which of those cases applied rather than failing silently, because
+ * "it started" and "it started protected" are different promises.
+ *
+ * @param {{home: string, profile: string, platform?: string}} options
+ * @returns {{ok: true, pid: number} | {ok: false, error: string, unsupported?: boolean}}
+ */
+export function launchHostSandboxed({ home, profile, platform = process.platform }) {
+  const support = sandboxSupport({ platform })
+  if (support.available !== true) {
+    return { ok: false, error: support.reason, unsupported: true }
+  }
+
+  const launcher = resolveLauncher({ home })
+  if (launcher.error !== undefined) return { ok: false, error: launcher.error }
+
+  const args = launcher.kind === 'cli' ? [...launcher.args, '--profile', profile] : launcher.args
+  const result = launchSandboxed({ home, command: launcher.command, args, platform })
+  if (result.ok !== true) return { ok: false, error: result.error }
+  return { ok: true, pid: result.pid }
+}
+
+/**
  * Check the profile, record the result, and start the host only if that is what was asked for.
  *
  * @param {{home: string, profile: string, runtimeVersion?: string, targetVersion?: string, start: boolean}} options
  * @returns {object}
  */
-export function checkAndLaunch({ home, profile, runtimeVersion, targetVersion, start }) {
+export function checkAndLaunch({ home, profile, runtimeVersion, targetVersion, start, sandbox = false, platform = process.platform }) {
   const report = admissionReport({ home, profile, runtimeVersion, targetVersion })
   const recorded = recordAdmission(home, report)
 
@@ -128,8 +155,50 @@ export function checkAndLaunch({ home, profile, runtimeVersion, targetVersion, s
       stopped: 'admission said this profile would not start cleanly; pass start to launch anyway',
     }
   }
-  if (start !== true) return { report, recorded, launched: false, stopped: 'not asked to start' }
+  if (start !== true) {
+    const existing = hostStatus(home, profile)
+    return {
+      report,
+      recorded,
+      launched: false,
+      running: existing.running === true,
+      stopped: 'not asked to start',
+    }
+  }
+
+  // Starting a second copy would give the user two tray icons and two sets of plugins writing the same
+  // profile. Refuse, and say what is already running so the message is actionable.
+  const existing = hostStatus(home, profile)
+  if (existing.running) {
+    return {
+      report,
+      recorded,
+      launched: false,
+      alreadyRunning: true,
+      pid: existing.pid,
+      stopped: `DSH 已经在运行（pid ${existing.pid}，由 ${existing.source} 启动）。`,
+    }
+  }
+
+  // Sandboxed when asked and possible; plainly reported when not possible, rather than quietly starting
+  // without the protection that was requested.
+  if (sandbox) {
+    const guarded = launchHostSandboxed({ home, profile, platform })
+    if (guarded.ok !== true) {
+      return {
+        report,
+        recorded,
+        launched: false,
+        sandboxed: false,
+        error: guarded.error,
+        ...(guarded.unsupported === true ? { sandboxUnsupported: true } : {}),
+      }
+    }
+    recordHost(home, profile, { pid: guarded.pid, source: 'outside-sandboxed' })
+    return { report, recorded, launched: true, sandboxed: true, pid: guarded.pid, kind: 'sandboxed' }
+  }
 
   const launched = launchHost({ home, profile })
-  return { report, recorded, launched: launched.ok === true, ...(launched.ok === true ? { pid: launched.pid, kind: launched.kind } : { error: launched.error }) }
+  if (launched.ok === true) recordHost(home, profile, { pid: launched.pid, source: 'outside' })
+  return { report, recorded, launched: launched.ok === true, sandboxed: false, ...(launched.ok === true ? { pid: launched.pid, kind: launched.kind } : { error: launched.error }) }
 }

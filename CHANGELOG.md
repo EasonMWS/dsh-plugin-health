@@ -1,6 +1,43 @@
 # Changelog
 
-## Unreleased
+## 4.0.0-beta.1
+
+### Sandboxed start on macOS and Linux
+
+A plugin runs in the host process and inherits every right the host has. Measured: it can write outside
+the workspace, read any user file, and spawn a process. Nothing inside the process can stop that.
+
+Node's `--permission` model does stop it, and it was measured working — but only on the Node path.
+Started as a GUI, the desktop host accepts the flag and ignores it: an app with no filesystem rights at
+all still opened its window, which it could not have done if the model were in force. Electron embeds
+Node as a library rather than invoking it, so the flag never reaches the part that enforces it.
+
+So the sandbox comes from the OS. Linux uses bubblewrap (`--unshare-all`, no network, the profile as
+the only writable tree); macOS uses sandbox-exec with a profile that denies by default. Windows has
+neither AppContainer (needs native code and privileges this tool does not have) nor a job object that
+can restrict the filesystem, and Windows Sandbox is not available on Home editions — so on Windows the
+tool says it cannot sandbox rather than offering a checkbox that does nothing.
+
+The tests run the real tools on the platforms that have them: a write outside the profile has to be
+refused by the OS, and a DNS lookup has to fail. On Windows those tests skip with the reason, because
+there is nothing to run.
+
+### Fixes found by exercising the outside tool
+
+- A row carrying the `hidden` attribute still rendered, because its class set `display: flex` and that
+  overrides the attribute's default `display: none`. The sandbox control showed a checkbox for a sandbox
+  this machine cannot provide — the exact claim the surrounding copy avoids making.
+- Starting DSH while it was already running would have started a second copy: two tray icons, two sets
+  of plugins, one profile. There is now a per-profile record with the pid, and a pid that has exited is
+  not treated as running — a host killed rather than quit must not make the tool refuse to start DSH
+  forever.
+- The outside page assigned `state.sandbox` and never read it.
+
+### Verified
+
+459 tests, 455 pass, 3 skipped (the sandbox execution tests, on Windows). 21 browser checks on the
+in-panel UI. 9/9 interactions on the outside page. 41 additional probes across the outside server, its
+edge cases, and the page's interactions found the three defects above and nothing else.
 
 ### The tool now has an outside half
 

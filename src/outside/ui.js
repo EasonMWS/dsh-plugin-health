@@ -149,6 +149,22 @@ export const OUTSIDE_HTML = `<!doctype html>
     border-radius: 8px; padding: 3px 8px;
   }
 
+  /* --- sandbox --- */
+  /* An element with the hidden attribute must stay hidden even when a class sets display. */
+  [hidden] { display: none !important; }
+  .sandbox-row {
+    display: flex; align-items: flex-start; gap: 9px; margin-top: 12px;
+    font-size: 13px; line-height: 1.5;
+  }
+  .sandbox-row input { margin-top: 3px; accent-color: var(--accent); }
+  .sandbox-row .why { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+  .sandbox-row.unavailable { color: var(--muted); }
+  .sandbox-badge {
+    font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+    background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok);
+    margin-left: 6px;
+  }
+
   /* --- snapshots --- */
   .snap-row {
     display: flex; align-items: center; gap: 12px; padding: 11px 0;
@@ -204,6 +220,14 @@ export const OUTSIDE_HTML = `<!doctype html>
       <button id="check">检查</button>
       <button id="launch" class="ghost" disabled title="先检查一次">启动 DSH</button>
     </div>
+    <div class="sandbox-row" id="sandbox-row" hidden>
+      <input type="checkbox" id="sandbox-toggle">
+      <div>
+        <label for="sandbox-toggle">在沙箱里启动</label>
+        <div class="why" id="sandbox-why"></div>
+      </div>
+    </div>
+    <div class="sandbox-row unavailable" id="sandbox-note" hidden></div>
     <div id="verdict-slot"></div>
   </section>
 
@@ -279,6 +303,56 @@ export const OUTSIDE_HTML = `<!doctype html>
   }
 
   const paintRev = () => { $('rev-chip').textContent = 'rev ' + state.rev }
+
+  // --- is DSH already running? ---
+  // Starting a second copy gives two tray icons and two sets of plugins writing one profile. The server
+  // knows; the page should say so rather than let the user find out.
+  const paintHostState = (status) => {
+    const button = $('launch')
+    if (status?.running === true) {
+      button.textContent = 'DSH 正在运行'
+      button.title = 'pid ' + status.pid + '，' + (status.at || '未知时间') + ' 启动'
+      button.disabled = true
+      return
+    }
+    button.textContent = state.lastReport?.verdict === 'block' ? '仍然启动' : '启动 DSH'
+    button.title = state.lastReport?.verdict === 'block'
+      ? '检查发现了阻断项，启动后 DSH 可能起不来'
+      : '用当前配置启动 DSH'
+    button.disabled = state.lastReport === null
+  }
+
+  const loadHostState = async () => {
+    try {
+      const response = await fetch('/host', { cache: 'no-store' })
+      paintHostState(await response.json())
+    } catch { /* the button keeps its previous state */ }
+  }
+
+  // --- sandbox capability ---
+  // Asked once at start. When the platform cannot sandbox, the row explains why instead of offering a
+  // control that would do nothing.
+  const loadSandboxCapability = async () => {
+    try {
+      const response = await fetch('/sandbox', { cache: 'no-store' })
+      const body = await response.json()
+
+      if (body.available === true) {
+        $('sandbox-row').hidden = false
+        $('sandbox-toggle').checked = true
+        $('sandbox-why').textContent = body.kind === 'bubblewrap'
+          ? 'bubblewrap：不能写 profile 以外的地方，不能联网，不能起子进程。'
+          : 'sandbox-exec：不能写 profile 以外的地方，不能联网。'
+        return
+      }
+
+      $('sandbox-note').hidden = false
+      $('sandbox-note').textContent = '这台机器不能用沙箱启动：' + body.reason
+    } catch {
+      $('sandbox-note').hidden = false
+      $('sandbox-note').textContent = '无法确认沙箱是否可用，启动时不会启用。'
+    }
+  }
 
   // --- load the shared state ---
   const loadState = async () => {
@@ -377,7 +451,7 @@ export const OUTSIDE_HTML = `<!doctype html>
       state.lastReport = report
       renderVerdict(report)
       renderFindings(report)
-      paintLaunch(report)
+      paintHostState(undefined)
       // Persist the result so the panel inside DSH can recognise it as still valid.
       await fetch('/admission', {
         method: 'POST',
@@ -474,16 +548,11 @@ export const OUTSIDE_HTML = `<!doctype html>
   }
 
   // --- launch ---
+  // Kept as a name the check flow already calls; it now defers to the host state, which knows whether
+  // something is already running.
   const paintLaunch = (report) => {
-    const button = $('launch')
-    if (report === null) { button.disabled = true; button.title = '先检查一次'; return }
-    button.disabled = false
-    // A blocking verdict does not remove the button: starting is the user's decision. It changes what
-    // the button says, so the decision is made with the answer in view.
-    button.textContent = report.verdict === 'block' ? '仍然启动' : '启动 DSH'
-    button.title = report.verdict === 'block'
-      ? '检查发现了阻断项，启动后 DSH 可能起不来'
-      : '用当前配置启动 DSH'
+    if (report !== null) state.lastReport = report
+    paintHostState(undefined)
   }
 
   $('launch').addEventListener('click', async () => {
@@ -498,11 +567,26 @@ export const OUTSIDE_HTML = `<!doctype html>
       const response = await fetch('/launch', {
         method: 'POST',
         headers: { 'content-type': 'application/json', 'x-health-key': state.key ?? '' },
-        body: JSON.stringify({ start: true, target: $('target').value.trim() }),
+        body: JSON.stringify({
+          start: true,
+          target: $('target').value.trim(),
+          sandbox: $('sandbox-toggle').checked === true,
+        }),
       })
       const body = await response.json()
       if (body.error) { toast('启动失败：' + body.error); return }
-      toast(body.launched === true ? '已启动 DSH' : (body.stopped ?? '没有启动'))
+      if (body.launched === true) {
+        toast(body.sandboxed === true ? '已在沙箱中启动 DSH' : '已启动 DSH（未启用沙箱）')
+        loadHostState()
+      } else {
+        // A sandbox that could not be applied is reported as itself, not as a generic failure.
+        if (body.alreadyRunning === true) {
+          toast(body.stopped ?? 'DSH 已经在运行')
+          loadHostState()
+        } else {
+          toast(body.sandboxUnsupported === true ? '无法沙箱启动：' + body.error : (body.error ?? body.stopped ?? '没有启动'))
+        }
+      }
     } catch (error) {
       toast('启动失败：' + (error?.message ?? error))
     } finally {
@@ -533,7 +617,7 @@ export const OUTSIDE_HTML = `<!doctype html>
   $('check').addEventListener('click', () => runCheck())
   $('target').addEventListener('keydown', (event) => { if (event.key === 'Enter') runCheck() })
 
-  loadState().then(() => { connect(); loadSnapshots() })
+  loadState().then(() => { connect(); loadSnapshots(); loadSandboxCapability(); loadHostState() })
 })()
 </script>
 </body>

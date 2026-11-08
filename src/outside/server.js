@@ -18,7 +18,9 @@
 import { createServer } from 'node:http'
 
 import { admissionReport } from './admission.js'
+import { clearHost, hostStatus } from './hostlock.js'
 import { checkAndLaunch } from './launch.js'
+import { sandboxSupport } from './sandbox.js'
 import { listSnapshots, restoreSnapshot, snapshotUsage, takeSnapshot } from './snapshot.js'
 import { OUTSIDE_HTML } from './ui.js'
 import { readState, updateState } from '../state/shared.js'
@@ -182,6 +184,34 @@ export async function startOutsideServer({ home, profile, key, runtimeVersion, p
       return
     }
 
+    // --- is a host already running against this profile? ---
+    if (url.pathname === '/host' && req.method === 'GET') {
+      send(res, 200, hostStatus(home, profile))
+      return
+    }
+
+    // Clear a record the user knows is stale (the host was killed rather than quit).
+    if (url.pathname === '/host' && req.method === 'DELETE') {
+      const allowed = authorizeWrite(req, key)
+      if (allowed.ok !== true) { send(res, allowed.status, { error: allowed.error }); return }
+      clearHost(home, profile)
+      send(res, 200, { ok: true })
+      return
+    }
+
+    // --- can this machine sandbox at all? ---
+    if (url.pathname === '/sandbox' && req.method === 'GET') {
+      const support = sandboxSupport()
+      send(res, 200, {
+        available: support.available === true,
+        kind: support.kind ?? null,
+        // The reason is shown to the user, so it has to read as an explanation, not an error code.
+        reason: support.reason,
+        platform: process.platform,
+      })
+      return
+    }
+
     // --- launch: check, record the result, and start the host only when asked ---
     if (url.pathname === '/launch' && req.method === 'POST') {
       const allowed = authorizeWrite(req, key)
@@ -194,6 +224,8 @@ export async function startOutsideServer({ home, profile, key, runtimeVersion, p
           runtimeVersion: resolveRuntime(),
           targetVersion: typeof body?.target === 'string' && body.target !== '' ? body.target : undefined,
           start: body?.start === true,
+          // Exactly true; a sandboxed start is never inferred from a truthy value.
+          sandbox: body?.sandbox === true,
         })
         send(res, 200, result)
       }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
