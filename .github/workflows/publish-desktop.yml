@@ -1,0 +1,102 @@
+name: publish-desktop
+
+# The installer could only be produced on the machine it was written on, which means nobody else could
+# release it — including the author on a different computer. This builds it on a GitHub runner instead, and
+# attaches it to the release when a tag is pushed.
+#
+# Not on every push: the artifact is 116 MB, and a package that changes server routes should not rebuild an
+# Electron installer to prove it.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      attach_to_release:
+        description: 'Attach the installer to the release for this tag, if one exists'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    name: build the Windows installer
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+
+      # The app's dependencies: the shared core, the parser, semver and yaml all live at the package root.
+      - name: install the package dependencies
+        run: npm ci
+
+      # The shell's own dependencies: electron and electron-builder.
+      - name: install the shell dependencies
+        working-directory: desktop
+        run: npm ci
+
+      # A tag that does not match the package version would produce an installer named for something else,
+      # and the release would link a file whose version contradicts its name.
+      - name: the tag must match the package version
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}" -replace '^v', ''
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          Write-Host "tag=$tag package=$version"
+          if ($tag -ne $version) {
+            Write-Error "the tag ($tag) does not match the package version ($version)"
+            exit 1
+          }
+
+      # The desktop build reads src/ and assets/ from the package root, so the tests that matter here are the
+      # ones that would catch a broken import before a 116 MB artifact is produced.
+      - name: the package tests must pass first
+        run: npm test
+
+      - name: build the installer
+        working-directory: desktop
+        run: npx electron-builder --win --publish never
+
+      - name: record what was built
+        shell: pwsh
+        run: |
+          Get-ChildItem ../dist-desktop -Filter *.exe | ForEach-Object {
+            Write-Host "$($_.Name)  $([math]::Round($_.Length / 1MB)) MB"
+          }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: dist-desktop/*.exe
+          if-no-files-found: error
+
+      # Attaching is opt-in on a manual run and automatic on a tag, because a release page with a missing
+      # installer is worse than one that was never promised it.
+      - name: attach the installer to the release
+        if: startsWith(github.ref, 'refs/tags/') || inputs.attach_to_release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "${{ github.ref_name }}"
+          # Does the release exist yet? If not, say so rather than failing the build: the installer was still
+          # produced and is on the run page.
+          gh release view $tag --repo "${{ github.repository }}" 2>$null | Out-Null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "no release for $tag yet; the installer is attached to this run instead"
+            exit 0
+          }
+          Get-ChildItem ../dist-desktop -Filter *.exe | ForEach-Object {
+            gh release upload $tag $_.FullName --repo "${{ github.repository }}" --clobber
+          }
