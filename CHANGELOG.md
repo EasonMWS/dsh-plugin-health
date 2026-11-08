@@ -1,5 +1,88 @@
 # Changelog
 
+## Unreleased
+
+### The tool now has an outside half
+
+Everything below shipped after 3.0.7 and is not on npm yet. It is one system in two places, not two
+products.
+
+The panel inside DSH can only speak while DSH is running, which is exactly when it is least needed: a
+plugin that breaks the host takes the panel down with it. The outside half exists for the moments DSH
+is not running — before it starts, and after it will not.
+
+### Shared state, and why it is a file
+
+`~/.dsh/.plugin-health/state.json`, written under a lock, with a monotonic revision. Both halves read
+it and either can write to it, but only one at a time.
+
+Measured before designing it: `fs.watch` fires within ~1ms on Windows and catches the atomic rename the
+writer uses; the host's HTTP server can hold a connection open (SSE delivered in 128ms). So "in sync"
+does not have to mean "within 30 seconds" — a change on one side arrives on the other as a pushed event.
+
+Two failure modes are refused rather than repaired: a malformed file, and a `schemaVersion` this build
+does not understand. Both mean the other process is saying something else, and overwriting it would
+destroy that.
+
+### Checking a profile before it starts
+
+The one thing only an outside tool can do. Before DSH starts, the profile is just files, and files can
+be read without executing them.
+
+It reports which plugins the host you are about to run would reject, what is in each plugin's
+dependency tree, and which packages carry an install script — the one thing that runs during
+`npm install`, before any of this can look. It does not call anything dangerous, and the report carries
+its own blind spots.
+
+Against a real profile: `0.2.2-rc.1` passes with 19 plugins; `0.3.0-rc.1` blocks on four, this plugin
+included.
+
+### Snapshots that can be restored
+
+Configuration files and patch layers, not `node_modules`: copying a dependency tree is slow, large, and
+not what "put it back the way it was" means — reinstalling does that better.
+
+Restoring previews first and always writes a safety copy of what it is about to overwrite, because
+restoring is the operation most likely to be regretted and must itself be undoable. A snapshot from a
+different profile is refused: it describes different files, and rewriting the wrong configuration while
+calling it a recovery is worse than doing nothing.
+
+### A desktop application
+
+An Electron window, a tray icon, and a menu — not a browser tab. The page itself is unchanged, so there
+is still one UI to maintain. The renderer keeps Node access off; everything it needs comes over HTTP
+from the loopback server, which already has the key and Origin rules the panel settled on.
+
+There is a bug behind this that is worth recording, because the cause was not in the app:
+`ELECTRON_RUN_AS_NODE` turns `electron.exe` into plain Node with no GUI API. DSH sets it for the
+processes it spawns, so anything launched from a DSH terminal inherits it, and the app died on its
+first line. It cannot be fixed from inside: Electron reads that variable before loading any script. The
+working launcher is a `.vbs` that runs a `.cmd` hidden — the batch file clears the variable where it
+can, and window style 0 means the console it needs is never visible.
+
+### Fixes found by testing the real thing
+
+Every one of these was an assumption rather than a read, and each produced a silent zero that looked
+like a clean bill of health:
+
+- `inspectDshHome` returns `incompatiblePlugins`, not `installedPlugins`. Every profile reported zero
+  plugins.
+- pnpm links packages into `node_modules` as symlinks, and `Dirent#isDirectory()` is false for those,
+  so the dependency walk skipped the entire tree on the real layout DSH uses.
+- `listInstalledPlugins` returns no version, so the fingerprint hashed every row as `name@` and could
+  not notice an upgrade.
+- The lock wait loop spun without pausing, so two concurrent writers each got refused while the CPU
+  burned through the deadline.
+- The cleaner's verdict used a fade-in, which meant the most important thing on the page was nearly
+  invisible for its first 200ms.
+
+### Verified
+
+437 tests, 436 pass. 21 browser checks including a pushed revision refreshing the panel. 9/9
+interactions on the outside page driven the way a user drives it. Launch verified with
+`ELECTRON_RUN_AS_NODE` still set in the parent environment: four electron processes, window titled
+correctly, no visible console.
+
 ## 3.0.7
 
 ### The upgrade preview is now visible without switching views
