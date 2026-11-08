@@ -6,7 +6,8 @@
   "main": "./src/plugin.js",
   "bin": {
     "dsh-plugin-health": "bin/dsh-plugin-health.js",
-    "dsh-health": "bin/dsh-plugin-health.js"
+    "dsh-health": "bin/dsh-plugin-health.js",
+    "health-outside": "bin/health-outside.js"
   },
   "exports": {
     ".": "./src/plugin.js",
