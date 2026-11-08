@@ -31,8 +31,14 @@ export const SCHEMA_VERSION = 1
 /** A lock older than this is treated as abandoned by a crashed writer. */
 const LOCK_STALE_MS = 30_000
 
-/** Give up waiting rather than hanging a request forever. */
-const LOCK_WAIT_MS = 5_000
+/**
+ * Give up waiting rather than hanging a request forever.
+ *
+ * The lock is held for the length of one read-modify-write, which is microseconds — but on a contended or
+ * scanned filesystem it can be much longer. Five seconds was short enough that a CI run refused one write
+ * out of fifty; ten leaves room without making a genuinely stuck lock hang a request noticeably.
+ */
+const LOCK_WAIT_MS = 10_000
 
 /** Pause between attempts. Without this the wait loop burns its deadline in CPU time. */
 const LOCK_POLL_MS = 5
@@ -137,13 +143,30 @@ export function acquireLock(home, { waitMs = LOCK_WAIT_MS, staleMs = LOCK_STALE_
       let released = false
       return {
         ok: true,
+        /**
+         * Remove the lock.
+         *
+         * Ownership is checked so a lock taken over after this one went stale is not deleted by its
+         * previous holder. But the check can itself fail — Windows antivirus and the search indexer
+         * briefly hold handles, and readFileSync throws EBUSY or EPERM while they do. Treating that as
+         * "already gone" leaves the lock behind and blocks every other writer, which is far worse than
+         * the narrow risk of deleting a lock that was just taken.
+         */
         release() {
           if (released) return
           released = true
-          try {
-            // Only remove our own lock: another writer may have taken it after we went stale.
-            if (readFileSync(path, 'utf8') === mine) unlinkSync(path)
-          } catch { /* already gone */ }
+          for (let attempt = 0; attempt < 5; attempt += 1) {
+            try {
+              if (readFileSync(path, 'utf8') === mine) unlinkSync(path)
+              return
+            } catch (error) {
+              // ENOENT means it is already gone; anything else may be a transient handle.
+              if (error?.code === 'ENOENT') return
+            }
+            sleepSync(2)
+          }
+          // Still stuck. Remove it rather than leave a lock nobody can take.
+          releaseLockUnchecked(path)
         },
       }
     } catch (error) {
@@ -165,6 +188,25 @@ export function acquireLock(home, { waitMs = LOCK_WAIT_MS, staleMs = LOCK_STALE_
     // Yield rather than spin: the other writer needs wall-clock time to finish its read-modify-write.
     sleepSync(Math.min(LOCK_POLL_MS, Math.max(1, deadline - now())))
   }
+}
+
+/**
+ * Remove a lock file, retrying a few times.
+ *
+ * Windows refuses to delete a file another process holds a handle on, so a single attempt is not enough.
+ * @param {string} path
+ */
+function releaseLockUnchecked(path) {
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    try {
+      unlinkSync(path)
+      return true
+    } catch (error) {
+      if (error?.code === 'ENOENT') return true
+    }
+    sleepSync(2)
+  }
+  return false
 }
 
 /**
