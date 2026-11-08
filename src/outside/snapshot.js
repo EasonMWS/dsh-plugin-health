@@ -219,7 +219,16 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
       // guards against, and only the result can tell.
       const after = digestOf(entry.target)
       if (after !== entry.wanted) {
-        unverified.push({ file: relative(home, entry.target), expected: entry.wanted, actual: after })
+        unverified.push({
+          file: relative(home, entry.target),
+          expected: entry.wanted,
+          actual: after,
+          // The types matter: null on one side would explain every file failing at once.
+          wantedKind: entry.wanted === null ? 'null' : typeof entry.wanted,
+          actualKind: after === null ? 'null' : typeof after,
+          sourceExists: existsSync(entry.source),
+          targetExists: existsSync(entry.target),
+        })
       }
     } catch (error) {
       // Say what was written before the failure, so the state on disk is not a mystery.
@@ -235,7 +244,10 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
   if (unverified.length > 0) {
     return {
       ok: false,
-      error: `${unverified.length} file(s) did not match after writing: ${unverified.map((row) => row.file).join(', ')}`,
+      error: `${unverified.length} file(s) did not match after writing: ` +
+        unverified.map((row) =>
+          `${row.file} (wanted ${row.wantedKind} ${String(row.expected)}, got ${row.actualKind} ${String(row.actual)}, source ${row.sourceExists}, target ${row.targetExists})`,
+        ).join('; '),
       plan: { ...plan, applied: true, written, unverified, safetySnapshot: safety.id },
     }
   }
