@@ -191,9 +191,11 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
     if (!existsSync(source)) continue
     const target = name === 'home-cordis.patch.yml' ? join(home, 'cordis.patch.yml') : join(profileDir, name)
     const current = existsSync(target) ? digestOf(target) : null
-    const wanted = digestOf(source)
-    const change = current === null ? 'create' : current === wanted ? 'unchanged' : 'overwrite'
-    entries.push({ name, source, target, change })
+    // The digest recorded when the snapshot was taken. Recomputing it here would make the decision depend
+    // on a read that may land before a just-finished write is visible on some filesystems.
+    const recorded = typeof meta.digests?.[name] === 'string' ? meta.digests[name] : digestOf(source)
+    const change = current === null ? 'create' : current === recorded ? 'unchanged' : 'overwrite'
+    entries.push({ name, source, target, change, wanted: recorded })
     plan.changes.push({ file: relative(home, target), change })
   }
 
@@ -207,11 +209,18 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
   if (safety.ok !== true) return { ok: false, error: `refusing to restore without a safety copy: ${safety.error}` }
 
   const written = []
+  const unverified = []
   for (const entry of entries) {
     if (entry.change === 'unchanged') continue
     try {
       copyFileSync(entry.source, entry.target)
       written.push(relative(home, entry.target))
+      // Read it back. A restore that reports success while the file is unchanged is the failure this
+      // guards against, and only the result can tell.
+      const after = digestOf(entry.target)
+      if (after !== entry.wanted) {
+        unverified.push({ file: relative(home, entry.target), expected: entry.wanted, actual: after })
+      }
     } catch (error) {
       // Say what was written before the failure, so the state on disk is not a mystery.
       return {
@@ -222,7 +231,16 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
     }
   }
 
-  return { ok: true, plan: { ...plan, applied: true, written, safetySnapshot: safety.id } }
+  // A write that did not take effect is a failed restore, not a successful one with a note.
+  if (unverified.length > 0) {
+    return {
+      ok: false,
+      error: `${unverified.length} file(s) did not match after writing: ${unverified.map((row) => row.file).join(', ')}`,
+      plan: { ...plan, applied: true, written, unverified, safetySnapshot: safety.id },
+    }
+  }
+
+  return { ok: true, plan: { ...plan, applied: true, written, verifiedAgainst: 'snapshot-recorded-digest', safetySnapshot: safety.id } }
 }
 
 /**
