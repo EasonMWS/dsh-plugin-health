@@ -4,11 +4,7 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-[English](https://github.com/EasonMWS/dsh-plugin-health/blob/4.0-beta/README.md) · [中文](https://github.com/EasonMWS/dsh-plugin-health/blob/4.0-beta/docs/README.zh.md)
-
-> **这是 `4.0-beta` 分支。** `main` 是用户装的 3.0.7 主线。这个分支上的东西——独立桌面软件、
-> 插件开关、市场兼容——都是实验性的，4.0 正式发布前不合并回 `main`。这个分支也发不到 `latest`：
-> dist-tag 从版本号推导，预发布版本永远映射不到它。
+[English](https://github.com/EasonMWS/dsh-plugin-health/blob/main/README.md) · [中文](https://github.com/EasonMWS/dsh-plugin-health/blob/main/docs/README.zh.md)
 
 **DSH 更新完，插件突然不加载了？这个工具告诉你哪个坏了、哪个能救、哪个救不了——然后帮你修。**
 
@@ -34,6 +30,10 @@ dsh plugin --profile desktop add dsh-plugin-health
 
 **还没打算装？** 先在浏览器里查：
 **<https://easonmws.github.io/dsh-plugin-health/compat/>** —— 已收录的每个插件对每个当前宿主版本，每日重建。
+
+> **这是 `4.0-beta` 分支。** `main` 是用户装的 3.0.7 主线。这个分支上的东西——独立桌面软件、
+> 插件开关、市场兼容——都是实验性的，4.0 正式发布前不合并回 `main`。这个分支也发不到 `latest`：
+> dist-tag 从版本号推导，预发布版本永远映射不到它。
 
 ---
 

@@ -4,12 +4,7 @@
 [![npm](https://img.shields.io/npm/v/dsh-plugin-health.svg)](https://www.npmjs.com/package/dsh-plugin-health)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-[English](https://github.com/EasonMWS/dsh-plugin-health/blob/4.0-beta/README.md) · [中文](https://github.com/EasonMWS/dsh-plugin-health/blob/4.0-beta/docs/README.zh.md)
-
-> **This is the `4.0-beta` branch.** `main` is the 3.0.7 line that users install. The work here — the
-> standalone desktop app, plugin switches, market compatibility — is experimental and does not merge into
-> `main` until 4.0 is actually released. Nothing on this branch can publish to `latest`: the dist-tag comes
-> from the version, and a prerelease never maps to it.
+[English](https://github.com/EasonMWS/dsh-plugin-health/blob/main/README.md) · [中文](https://github.com/EasonMWS/dsh-plugin-health/blob/main/docs/README.zh.md)
 
 **DSH updated and your plugins stopped loading? This tells you which ones broke, which can be fixed,
 and which cannot — then fixes them for you.**
@@ -40,6 +35,11 @@ prefer a shell.
 **Not ready to install?** Check any plugin first, in the browser:
 **<https://easonmws.github.io/dsh-plugin-health/compat/>** — every catalogued plugin against every
 current host version, rebuilt daily.
+
+> **This is the `4.0-beta` branch.** `main` is the 3.0.7 line that users install. The work here — the
+> standalone desktop app, plugin switches, market compatibility — is experimental and does not merge into
+> `main` until 4.0 is actually released. Nothing on this branch can publish to `latest`: the dist-tag comes
+> from the version, and a prerelease never maps to it.
 
 ---
 
