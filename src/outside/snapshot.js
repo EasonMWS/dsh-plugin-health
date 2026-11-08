@@ -37,12 +37,25 @@ export function snapshotRoot(home) {
   return join(home, '.plugin-health', 'snapshots')
 }
 
+/** Monotonic counter so two snapshots in the same millisecond cannot share a directory. */
+let sequence = 0
+
 /**
- * A stable identifier for a snapshot directory.
+ * A unique identifier for a snapshot directory.
+ *
+ * The timestamp alone is not enough: restoreSnapshot takes a safety copy of the profile before it writes,
+ * and on a fast machine that copy can land in the same millisecond as the snapshot being restored. They
+ * would share a directory, the safety copy would overwrite the snapshot with the broken content the user is
+ * trying to undo, and the restore would report success while putting the bad files back.
+ *
  * @param {Date} now
+ * @returns {string}
  */
-function stamp(now) {
-  return now.toISOString().replace(/[:.]/gu, '-')
+function uniqueStamp(now) {
+  sequence += 1
+  const base = now.toISOString().replace(/[:.]/gu, '-')
+  const noise = Math.random().toString(36).slice(2, 8)
+  return `${base}-${String(sequence).padStart(4, '0')}-${noise}`
 }
 
 /**
@@ -57,7 +70,7 @@ export function takeSnapshot(home, profile, { reason = 'manual', now = new Date(
   const profileDir = join(home, 'profiles', profile)
   if (!existsSync(profileDir)) return { ok: false, error: `no profile at ${profileDir}` }
 
-  const id = stamp(now)
+  const id = uniqueStamp(now)
   const directory = join(snapshotRoot(home), id)
   try {
     mkdirSync(directory, { recursive: true })
@@ -204,6 +217,10 @@ export function restoreSnapshot(home, profile, id, { apply = false, now = new Da
   // Keep what is there before overwriting it. Restoring is the operation most likely to be regretted,
   // and it must itself be undoable.
   const safety = takeSnapshot(home, profile, { reason: `before-restore-${meta.id}`, now })
+  // Belt and braces: even a colliding id must not be able to replace the snapshot being restored.
+  if (safety.ok === true && safety.id === meta.id) {
+    return { ok: false, error: 'the safety copy collided with the snapshot being restored; nothing was written' }
+  }
   if (safety.ok !== true) return { ok: false, error: `refusing to restore without a safety copy: ${safety.error}` }
 
   const written = []

@@ -244,6 +244,64 @@ test('a restore reports what it wrote', () => {
   }
 })
 
+test('two snapshots in the same millisecond cannot overwrite each other', () => {
+  // This caused a real, silent data-loss bug. Ids came from the clock, and restoreSnapshot takes a safety
+  // copy of the profile before writing anything back — so on a fast machine the safety copy landed in the
+  // same millisecond as the snapshot being restored, overwrote it with the broken content the user was
+  // trying to undo, and the restore reported success while putting the bad files back.
+  //
+  // Reproduced by forcing the clock; on CI it happened naturally, which is why Ubuntu failed and Windows
+  // did not, and why the failing test differed between Node 20 and Node 22.
+  const { dir, profileDir } = makeHome()
+  try {
+    const instant = new Date('2026-11-08T07:30:00.000Z')
+
+    writeFileSync(join(profileDir, 'package.json'), '{"generation":1}', 'utf8')
+    const first = takeSnapshot(dir, 'desktop', { now: instant, reason: 'first' })
+
+    writeFileSync(join(profileDir, 'package.json'), '{"generation":2}', 'utf8')
+    const second = takeSnapshot(dir, 'desktop', { now: instant, reason: 'second' })
+
+    assert.notEqual(first.id, second.id, 'two snapshots at the same instant must not share an id')
+    assert.equal(listSnapshots(dir).length, 2, 'both snapshots must survive')
+
+    // The one that matters: restoring the first must give the first, not whatever came after it.
+    writeFileSync(join(profileDir, 'package.json'), '{"broken":true}', 'utf8')
+    const applied = restoreSnapshot(dir, 'desktop', first.id, { apply: true })
+    assert.equal(applied.ok, true, applied.error)
+    assert.equal(readFileSync(join(profileDir, 'package.json'), 'utf8'), '{"generation":1}',
+      'the restore produced the wrong snapshot content')
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
+test('a restore never overwrites the snapshot it is restoring', () => {
+  // The safety copy exists so a restore can be undone. If it can replace the source, the operation is
+  // circular: it protects the state it is about to destroy with the state it is about to destroy.
+  const { dir, profileDir } = makeHome()
+  try {
+    writeFileSync(join(profileDir, 'package.json'), '{"good":true}', 'utf8')
+    const snap = takeSnapshot(dir, 'desktop')
+
+    writeFileSync(join(profileDir, 'package.json'), '{"broken":true}', 'utf8')
+    const applied = restoreSnapshot(dir, 'desktop', snap.id, { apply: true })
+    assert.equal(applied.ok, true, applied.error)
+
+    // The source snapshot is unchanged.
+    const source = JSON.parse(readFileSync(join(snapshotRoot(dir), snap.id, 'snapshot.json'), 'utf8'))
+    assert.equal(source.id, snap.id)
+    const content = readFileSync(join(snapshotRoot(dir), snap.id, 'package.json'), 'utf8')
+    assert.equal(content, '{"good":true}', 'the snapshot was overwritten by its own safety copy')
+
+    // And there is a separate safety copy holding what the profile looked like before.
+    assert.ok(typeof applied.plan.safetySnapshot === 'string')
+    assert.notEqual(applied.plan.safetySnapshot, snap.id)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+})
+
 test('a profile that does not exist is refused rather than snapshotted empty', () => {
   const { dir } = makeHome()
   try {
