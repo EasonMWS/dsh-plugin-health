@@ -21,6 +21,9 @@ import { admissionReport } from './admission.js'
 import { clearHost, hostStatus } from './hostlock.js'
 import { checkAndLaunch } from './launch.js'
 import { sandboxSupport } from './sandbox.js'
+import { judgeMarket, loadMarket } from './market.js'
+import { addSource, listSources, removeSource } from './market-sources.js'
+import { listPlugins, setPluginEnabled } from './plugins.js'
 import { listSnapshots, restoreSnapshot, snapshotUsage, takeSnapshot } from './snapshot.js'
 import { OUTSIDE_HTML } from './ui.js'
 import { readState, updateState } from '../state/shared.js'
@@ -229,6 +232,86 @@ export async function startOutsideServer({ home, profile, key, runtimeVersion, p
         })
         send(res, 200, result)
       }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
+      return
+    }
+
+    // --- plugins: the list, and the one write a manager performs ---
+    if (url.pathname === '/plugins' && req.method === 'GET') {
+      const target = url.searchParams.get('target') ?? undefined
+      const result = listPlugins({ home, profile, runtimeVersion: target ?? resolveRuntime() })
+      send(res, result.ok === true ? 200 : 404, result)
+      return
+    }
+
+    if (url.pathname === '/plugins/enabled' && req.method === 'POST') {
+      const allowed = authorizeWrite(req, key)
+      if (allowed.ok !== true) { send(res, allowed.status, { error: allowed.error }); return }
+      readJsonBody(req).then((body) => {
+        const name = typeof body?.name === 'string' ? body.name : ''
+        if (name === '') { send(res, 400, { error: 'name is required', reason: 'bad-request' }); return }
+        // enabled must be exactly true or false; anything else is a malformed request, not a default.
+        if (body?.enabled !== true && body?.enabled !== false) {
+          send(res, 400, { error: 'enabled must be true or false', reason: 'bad-request' })
+          return
+        }
+        const result = setPluginEnabled({
+          home,
+          profile,
+          name,
+          enabled: body.enabled === true,
+          runtimeVersion: resolveRuntime(),
+          takeSnapshot,
+          force: body.force === true,
+        })
+        const status = result.ok !== true
+          ? (result.reason === 'host-running' ? 409 : result.reason === 'not-installed' ? 404 : 500)
+          : 200
+        send(res, status, result)
+      }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
+      return
+    }
+
+    // --- market: read a format-1 index and judge it against a DSH version ---
+    if (url.pathname === '/market' && req.method === 'GET') {
+      const source = url.searchParams.get('source') ?? ''
+      const target = url.searchParams.get('target') ?? undefined
+      if (source === '') { send(res, 400, { error: 'a source is required' }); return }
+      loadMarket(source).then((loaded) => {
+        if (loaded.ok !== true) { send(res, 400, { error: loaded.error }); return }
+        const installed = listPlugins({ home, profile, runtimeVersion: resolveRuntime() })
+        const judged = judgeMarket({
+          market: loaded.market,
+          source: loaded.source,
+          runtimeVersion: resolveRuntime(),
+          targetVersion: target,
+          installed: installed.ok === true ? installed.plugins : [],
+        })
+        send(res, 200, judged)
+      }).catch((error) => send(res, 500, { error: String(error.message ?? error) }))
+      return
+    }
+
+    if (url.pathname === '/market/sources' && req.method === 'GET') {
+      send(res, 200, { sources: listSources(home) })
+      return
+    }
+
+    if (url.pathname === '/market/sources' && req.method === 'POST') {
+      const allowed = authorizeWrite(req, key)
+      if (allowed.ok !== true) { send(res, allowed.status, { error: allowed.error }); return }
+      readJsonBody(req).then((body) => {
+        const result = addSource(home, { url: body?.url, label: body?.label })
+        send(res, result.ok === true ? 200 : 400, result)
+      }).catch((error) => send(res, 400, { error: String(error.message ?? error) }))
+      return
+    }
+
+    if (url.pathname === '/market/sources' && req.method === 'DELETE') {
+      const allowed = authorizeWrite(req, key)
+      if (allowed.ok !== true) { send(res, allowed.status, { error: allowed.error }); return }
+      const url_ = url.searchParams.get('url') ?? ''
+      if (url_ === '') { send(res, 400, { error: 'url is required' }); return }
+      send(res, 200, removeSource(home, url_))
       return
     }
 

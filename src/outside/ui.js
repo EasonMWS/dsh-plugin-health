@@ -165,6 +165,68 @@ export const OUTSIDE_HTML = `<!doctype html>
     margin-left: 6px;
   }
 
+  /* --- plugins and market --- */
+  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .toolbar input[type="search"], .toolbar input[type="text"] { flex: 1 1 200px; }
+  .counts { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
+  .counts b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .plugin {
+    display: flex; align-items: center; gap: 12px; padding: 10px 0;
+    border-top: 1px solid var(--line); animation: rise 220ms var(--ease) both;
+  }
+  .plugin:first-of-type { border-top: 0; }
+  .plugin .id { flex: 1; min-width: 0; }
+  .plugin .name { font-weight: 600; word-break: break-all; }
+  .plugin .meta { color: var(--muted); font-size: 12.5px; margin-top: 1px; }
+  .plugin .meta .warn { color: var(--warn); }
+
+  /* A switch, not a checkbox: in a list of thirty the state has to read at a glance. */
+  .switch { position: relative; flex: 0 0 38px; width: 38px; height: 21px; }
+  .switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .switch .track {
+    display: block; width: 38px; height: 21px; border-radius: 99px; position: relative;
+    background: light-dark(rgba(16,24,40,.2), rgba(255,255,255,.22));
+    transition: background var(--speed) var(--ease); pointer-events: none;
+  }
+  .switch .track::after {
+    content: ""; position: absolute; top: 3px; left: 3px; width: 15px; height: 15px;
+    border-radius: 50%; background: #fff; transition: transform var(--speed) var(--ease);
+    box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  }
+  .switch input:checked + .track { background: var(--ok); }
+  .switch input:checked + .track::after { transform: translateX(17px); }
+  .switch input:disabled { cursor: not-allowed; }
+  .switch input:disabled + .track { opacity: .45; }
+  .switch input:focus-visible + .track { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
+
+  .badge {
+    flex: 0 0 auto; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px;
+    white-space: nowrap;
+  }
+  .badge.ok { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+  .badge.bad { background: color-mix(in srgb, var(--error) 16%, transparent); color: var(--error); }
+  .badge.warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+  .badge.mute { background: var(--tint); color: var(--muted); }
+
+  .market-row { padding: 11px 0; border-top: 1px solid var(--line); animation: rise 220ms var(--ease) both; }
+  .market-row:first-of-type { border-top: 0; }
+  .market-row .head { display: flex; align-items: center; gap: 10px; }
+  .market-row .head .name { font-weight: 600; flex: 1; min-width: 0; word-break: break-all; }
+  .market-row .sub { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+  .market-row .spec {
+    display: inline-block; margin-top: 6px; padding: 3px 8px; border-radius: 7px;
+    background: var(--page); border: 1px solid var(--line);
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 11.5px;
+    cursor: copy;
+  }
+  .market-row .spec:hover { border-color: var(--accent); }
+  .saved-source {
+    font-size: 12px; padding: 3px 9px; border-radius: 99px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--muted);
+  }
+  .saved-source:hover { border-color: var(--accent); color: var(--ink); }
+
   /* --- snapshots --- */
   .snap-row {
     display: flex; align-items: center; gap: 12px; padding: 11px 0;
@@ -238,6 +300,30 @@ export const OUTSIDE_HTML = `<!doctype html>
     <ul class="limits" id="limits"></ul>
   </section>
 
+  <section class="card" id="plugins">
+    <h2>已安装的插件</h2>
+    <p class="hint">关掉一个插件只是让它不加载，文件不动，随时可以打开。改动前会自动存一份快照。</p>
+    <div class="toolbar">
+      <input type="search" id="plugin-filter" placeholder="按名字筛选">
+      <button id="plugins-reload" class="ghost">刷新</button>
+    </div>
+    <div class="counts" id="plugin-counts"></div>
+    <div id="plugin-list"></div>
+  </section>
+
+  <section class="card" id="market">
+    <h2>插件市场</h2>
+    <p class="hint">看市场里的插件在你要用的 DSH 版本上能不能用。安装仍然在 DSH 里做，这里只判断。</p>
+    <div class="toolbar">
+      <input type="text" id="market-source" placeholder="市场索引地址，或本地 JSON 文件路径">
+      <button id="market-load">查看</button>
+      <button id="market-save" class="ghost">记住来源</button>
+    </div>
+    <div class="toolbar" id="market-saved" hidden></div>
+    <div class="counts" id="market-counts"></div>
+    <div id="market-list"></div>
+  </section>
+
   <section class="card">
     <h2>快照</h2>
     <p class="hint">保存当前配置，出问题时能退回来。只存配置文件和补丁层，不含插件本体。</p>
@@ -258,7 +344,7 @@ export const OUTSIDE_HTML = `<!doctype html>
 <script>
 (() => {
   const $ = (id) => document.getElementById(id)
-  const state = { key: null, checking: false, lastReport: null, rev: 0 }
+  const state = { key: null, checking: false, lastReport: null, rev: 0, plugins: null }
 
   // --- toast ---
   let toastTimer
@@ -468,6 +554,265 @@ export const OUTSIDE_HTML = `<!doctype html>
     }
   }
 
+  // --- plugins ---
+  // The list is what a manager acts on. Host packages are counted but not offered: switching one off would
+  // be switching off DSH.
+  const compatibilityBadge = (row) => {
+    if (row.hostPackage === true) return { cls: 'mute', text: '宿主' }
+    if (row.compatibility === 'compatible') return { cls: 'ok', text: '可用' }
+    if (row.compatibility === 'incompatible') return { cls: 'bad', text: '会被拒' }
+    if (row.compatibility === 'exempted') return { cls: 'warn', text: '已豁免' }
+    return { cls: 'mute', text: '未知' }
+  }
+
+  const paintPlugins = (data) => {
+    state.plugins = data
+    const host = $('plugin-list')
+    const filter = $('plugin-filter').value.trim().toLowerCase()
+    host.innerHTML = ''
+
+    const rows = (data.plugins ?? []).filter((row) => {
+      if (filter !== '' && !row.name.toLowerCase().includes(filter)) return false
+      return true
+    })
+
+    const counts = $('plugin-counts')
+    counts.innerHTML = ''
+    const add = (label, value, cls) => {
+      const span = document.createElement('span')
+      span.innerHTML = label + ' <b>' + value + '</b>'
+      if (cls) span.className = cls
+      counts.appendChild(span)
+    }
+    add('可管理', data.counts?.manageable ?? 0)
+    add('已关闭', data.counts?.disabled ?? 0)
+    add('会被拒', (data.plugins ?? []).filter((row) => row.compatibility === 'incompatible').length)
+
+    if (rows.length === 0) {
+      host.innerHTML = '<div class="empty">没有匹配的插件。</div>'
+      return
+    }
+
+    for (const row of rows) {
+      const item = document.createElement('div')
+      item.className = 'plugin'
+
+      const badge = compatibilityBadge(row)
+      const id = document.createElement('div')
+      id.className = 'id'
+      const reason = row.reason ? ' · <span class="warn">' + escapeHtml(row.reason) + '</span>' : ''
+      id.innerHTML = '<div class="name">' + escapeHtml(row.name) + '</div>'
+        + '<div class="meta">' + escapeHtml(row.version ?? '未安装') + reason + '</div>'
+
+      const badgeEl = document.createElement('span')
+      badgeEl.className = 'badge ' + badge.cls
+      badgeEl.textContent = badge.text
+
+      // A host package cannot be switched off from here, so it gets no switch at all rather than a disabled
+      // one that suggests it could be.
+      item.append(id, badgeEl)
+
+      if (row.hostPackage !== true && row.version !== null) {
+        const label = document.createElement('label')
+        label.className = 'switch'
+        label.title = row.enabled ? '点击关闭' : '点击启用'
+        const input = document.createElement('input')
+        input.type = 'checkbox'
+        input.checked = row.enabled === true
+        input.addEventListener('change', () => togglePlugin(row, input))
+        label.append(input, Object.assign(document.createElement('span'), { className: 'track' }))
+        item.appendChild(label)
+      }
+
+      host.appendChild(item)
+    }
+  }
+
+  const togglePlugin = async (row, input) => {
+    input.disabled = true
+    try {
+      const response = await fetch('/plugins/enabled', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-health-key': state.key ?? '' },
+        body: JSON.stringify({ name: row.name, enabled: input.checked }),
+      })
+      const body = await response.json()
+
+      if (body.ok !== true) {
+        // Put the switch back where it was: a control that lies about the state is worse than one that
+        // refuses.
+        input.checked = row.enabled === true
+        toast(body.reason === 'host-running'
+          ? 'DSH 正在运行，先关掉它再改插件状态'
+          : (body.error ?? '操作失败'))
+        return
+      }
+
+      row.enabled = input.checked
+      toast((input.checked ? '已启用 ' : '已关闭 ') + row.name
+        + (typeof body.snapshot === 'string' ? '（已存快照）' : ''))
+      loadSnapshots()
+    } catch (error) {
+      input.checked = row.enabled === true
+      toast('操作失败：' + (error?.message ?? error))
+    } finally {
+      input.disabled = false
+    }
+  }
+
+  const loadPlugins = async () => {
+    try {
+      const response = await fetch('/plugins', { cache: 'no-store' })
+      const data = await response.json()
+      if (data.ok !== true) {
+        $('plugin-list').innerHTML = '<div class="empty">' + escapeHtml(data.error ?? '读不到插件列表') + '</div>'
+        return
+      }
+      paintPlugins(data)
+    } catch (error) {
+      $('plugin-list').innerHTML = '<div class="empty">读不到插件列表：' + escapeHtml(String(error?.message ?? error)) + '</div>'
+    }
+  }
+
+  $('plugins-reload').addEventListener('click', loadPlugins)
+  $('plugin-filter').addEventListener('input', () => { if (state.plugins !== null) paintPlugins(state.plugins) })
+
+  // --- market ---
+  const judgeBadge = (row) => {
+    if (row.verdict === 'compatible') return { cls: 'ok', text: '可用' }
+    if (row.verdict === 'incompatible') return { cls: 'bad', text: '会被拒' }
+    return { cls: 'mute', text: '未知' }
+  }
+
+  const paintMarket = (data) => {
+    const counts = $('market-counts')
+    counts.innerHTML = ''
+    if (data.error) {
+      $('market-list').innerHTML = '<div class="empty">' + escapeHtml(data.error) + '</div>'
+      return
+    }
+    const add = (label, value) => {
+      const span = document.createElement('span')
+      span.innerHTML = label + ' <b>' + value + '</b>'
+      counts.appendChild(span)
+    }
+    add('条目', data.total)
+    add('可用', data.counts?.compatible ?? 0)
+    add('会被拒', data.counts?.incompatible ?? 0)
+    add('已装', data.installedCount ?? 0)
+    if (data.judgedAgainst) add('对照版本', escapeHtml(data.judgedAgainst))
+
+    const host = $('market-list')
+    host.innerHTML = ''
+    if ((data.plugins ?? []).length === 0) {
+      host.innerHTML = '<div class="empty">这个市场里没有插件。</div>'
+      return
+    }
+
+    for (const row of data.plugins) {
+      const item = document.createElement('div')
+      item.className = 'market-row'
+      const badge = judgeBadge(row)
+
+      const head = document.createElement('div')
+      head.className = 'head'
+      head.innerHTML = '<div class="name">' + escapeHtml(row.title) + '</div>'
+      const badgeEl = document.createElement('span')
+      badgeEl.className = 'badge ' + badge.cls
+      badgeEl.textContent = badge.text
+      head.appendChild(badgeEl)
+
+      const sub = document.createElement('div')
+      sub.className = 'sub'
+      const bits = [escapeHtml(row.name)]
+      if (row.latestVersion) bits.push('最新 ' + escapeHtml(row.latestVersion))
+      if (row.usableVersion && row.usableVersion !== row.latestVersion) bits.push('可用 ' + escapeHtml(row.usableVersion))
+      if (row.installed) bits.push('已装 ' + escapeHtml(row.installedVersion ?? '?'))
+      if (row.reason) bits.push('<span class="warn">' + escapeHtml(row.reason) + '</span>')
+      sub.innerHTML = bits.join(' · ')
+
+      item.append(head, sub)
+
+      // The install spec is shown as text to copy, never as a button: installing belongs to DSH.
+      if (row.installSpec) {
+        const spec = document.createElement('div')
+        spec.className = 'spec'
+        spec.textContent = row.installSpec
+        spec.title = '点击复制；在 DSH 里安装'
+        spec.addEventListener('click', () => {
+          try {
+            navigator.clipboard?.writeText(row.installSpec)
+            toast('已复制安装标识')
+          } catch { toast(row.installSpec) }
+        })
+        item.appendChild(spec)
+      }
+
+      host.appendChild(item)
+    }
+  }
+
+  const loadMarket = async () => {
+    const source = $('market-source').value.trim()
+    if (source === '') { toast('先填市场地址'); return }
+    $('market-list').innerHTML = '<div class="skeleton" style="width:60%"></div><div class="skeleton" style="width:40%;margin-top:8px"></div>'
+    try {
+      const target = $('target').value.trim()
+      const query = new URLSearchParams({ source })
+      if (target !== '') query.set('target', target)
+      const response = await fetch('/market?' + query.toString(), { cache: 'no-store' })
+      paintMarket(await response.json())
+    } catch (error) {
+      paintMarket({ error: String(error?.message ?? error) })
+    }
+  }
+
+  const paintSources = (sources) => {
+    const host = $('market-saved')
+    host.innerHTML = ''
+    if ((sources ?? []).length === 0) { host.hidden = true; return }
+    host.hidden = false
+    const label = document.createElement('span')
+    label.className = 'counts'
+    label.textContent = '已记住：'
+    host.appendChild(label)
+    for (const source of sources) {
+      const button = document.createElement('button')
+      button.className = 'saved-source'
+      button.textContent = source.label
+      button.title = source.url
+      button.addEventListener('click', () => { $('market-source').value = source.url; loadMarket() })
+      host.appendChild(button)
+    }
+  }
+
+  const loadSources = async () => {
+    try {
+      const response = await fetch('/market/sources', { cache: 'no-store' })
+      paintSources((await response.json()).sources)
+    } catch { /* the list is a convenience */ }
+  }
+
+  $('market-load').addEventListener('click', loadMarket)
+  $('market-source').addEventListener('keydown', (event) => { if (event.key === 'Enter') loadMarket() })
+  $('market-save').addEventListener('click', async () => {
+    const source = $('market-source').value.trim()
+    if (source === '') { toast('先填市场地址'); return }
+    try {
+      const response = await fetch('/market/sources', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-health-key': state.key ?? '' },
+        body: JSON.stringify({ url: source }),
+      })
+      const body = await response.json()
+      if (body.ok !== true) { toast(body.error ?? '记住失败'); return }
+      paintSources(body.sources)
+      toast('已记住')
+    } catch (error) {
+      toast('记住失败：' + (error?.message ?? error))
+    }
+  })
+
   // --- snapshots ---
   const paintUsage = (usage) => {
     const mb = (usage.bytes / 1048576).toFixed(2)
@@ -617,7 +962,7 @@ export const OUTSIDE_HTML = `<!doctype html>
   $('check').addEventListener('click', () => runCheck())
   $('target').addEventListener('keydown', (event) => { if (event.key === 'Enter') runCheck() })
 
-  loadState().then(() => { connect(); loadSnapshots(); loadSandboxCapability(); loadHostState() })
+  loadState().then(() => { connect(); loadSnapshots(); loadSandboxCapability(); loadHostState(); loadPlugins(); loadSources() })
 })()
 </script>
 </body>
