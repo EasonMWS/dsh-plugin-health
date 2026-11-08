@@ -15,15 +15,18 @@
 执行插件代码，不能用来安全试跑未知软件。详见 [Health 能力边界](../SECURITY.md#malware-containment-is-not-implemented)
 及 [DSH 官方安全说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md)。
 
-> 源码候选版：`4.0.0-beta.2`。下方的 npm 安装命令使用已发布的版本。索引由官方发布的
-> `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
+> 当前版本：`4.0.0-beta.2`。索引由官方发布的 `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
+
+**如果 DSH 根本起不来**，用桌面版：[下载安装程序](https://github.com/EasonMWS/dsh-plugin-health/releases/latest)，
+运行它，在里面把坏掉的插件关掉。不需要终端，也不需要 DSH 能启动。
+
+**如果 DSH 能起来**，把面板装进去，它就在左下角 **设置 → 插件健康**：
 
 ```sh
-npm install -g dsh-plugin-health
+dsh plugin --profile desktop add dsh-plugin-health
 ```
 
-**不用碰命令行也能用**：装好后重启 DSH，点左下角 **设置 → 插件健康**，
-界面上点按钮就行。下面的命令只是给习惯终端的人参考。
+两种都不需要你懂什么叫插件声明。下面的命令是给习惯终端的人准备的。
 
 **还没打算装？** 先在浏览器里查：
 **<https://easonmws.github.io/dsh-plugin-health/compat/>** —— 已收录的每个插件对每个当前宿主版本，每日重建。

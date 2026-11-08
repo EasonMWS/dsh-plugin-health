@@ -18,14 +18,19 @@ Startup checks execute plugin code with your account permissions and cannot safe
 software. Read [Health's security boundaries](SECURITY.md#malware-containment-is-not-implemented)
 and the [official DSH safety notice](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md).
 
-> Source candidate: `4.0.0-beta.2`. The registry install below follows the published npm release.
+> Current version: `4.0.0-beta.2`.
+
+**If DSH will not start at all**, use the desktop app: [download the installer](https://github.com/EasonMWS/dsh-plugin-health/releases/latest),
+run it, and switch the broken plugin off from there. No terminal, and no working DSH required.
+
+**If DSH starts**, install the panel and it will be waiting in **Settings → Plugin health**:
 
 ```sh
-npm install -g dsh-plugin-health
+dsh plugin --profile desktop add dsh-plugin-health
 ```
 
-**No terminal needed.** Install it, restart DSH, then open **Settings → Plugin health** and press the
-buttons. The commands below are for people who prefer a shell.
+Neither one needs you to know what a plugin declaration is. The commands further down are for people who
+prefer a shell.
 
 **Not ready to install?** Check any plugin first, in the browser:
 **<https://easonmws.github.io/dsh-plugin-health/compat/>** — every catalogued plugin against every
