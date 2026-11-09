@@ -1,0 +1,33 @@
+{
+  "_about": "Constructed samples for kinds no real plugin produced on demand on 2026-11-09. Each message is copied from the code that emits it (src/runtime/worker.js, src/runtime/smoke.js) or from the pnpm error code it names. The three real samples sit next to this file.",
+  "samples": [
+    { "kind": "build-scripts-blocked", "source": "pnpm 10+ ignored-builds error",
+      "stages": [{ "name": "install", "ok": false, "exitCode": 1, "timedOut": false, "stdout": "", "stderr": " ERR_PNPM_IGNORED_BUILDS  Ignored build scripts: esbuild@0.25.0.\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts." }] },
+    { "kind": "peer-conflict", "source": "pnpm strict-peer-dependencies",
+      "stages": [{ "name": "install", "ok": false, "exitCode": 1, "timedOut": false, "stdout": "", "stderr": " ERR_PNPM_PEER_DEP_ISSUES  Unmet peer dependencies\n└─┬ some-plugin 1.0.0\n  └── ✕ unmet peer @deepseek-ai/dsh-tools@\"0.2.1-rc.5\": found 0.2.2-rc.1" }] },
+    { "kind": "network", "source": "pnpm fetch failure behind a dead proxy",
+      "stages": [{ "name": "install", "ok": false, "exitCode": 1, "timedOut": false, "stdout": "", "stderr": " ERR_PNPM_META_FETCH_FAIL  GET https://registry.npmjs.org/some-plugin: request to https://registry.npmjs.org/some-plugin failed, reason: connect ECONNREFUSED 127.0.0.1:7944" }] },
+    { "kind": "install-timeout", "source": "runBoundedProcess timeout on the install stage",
+      "stages": [{ "name": "install", "ok": false, "exitCode": null, "timedOut": true, "stdout": "Progress: resolved 412, reused 0, downloaded 97", "stderr": "" }] },
+    { "kind": "boot-import-error", "source": "ESM import failure surfaced by runProfile",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 1, "timedOut": false, "stdout": "", "stderr": "", "details": { "ok": false, "stage": "boot", "error": "Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@deepseek-ai/dsh-legacy-api' imported from <run>/home/profiles/health-smoke/node_modules/some-plugin/lib/index.js" } }] },
+    { "kind": "not-mounted", "source": "worker.js verifyActivation, single plugin",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 1, "timedOut": false, "details": { "ok": false, "stage": "boot", "error": "AssertionError [ERR_ASSERTION]: some-plugin never entered the profile: it is not among the 41 loaded entries" } }] },
+    { "kind": "not-activated", "source": "worker.js verifyActivation, entry present but disabled",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 1, "timedOut": false, "details": { "ok": false, "stage": "boot", "error": "AssertionError [ERR_ASSERTION]: some-plugin was present but did not activate: some-plugin=disabled" } }] },
+    { "kind": "tool-missing", "source": "worker.js verifyTools",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 1, "timedOut": false, "details": { "ok": false, "stage": "assertions", "error": "AssertionError [ERR_ASSERTION]: tool did not register: web_search" } }] },
+    { "kind": "call-failed", "source": "worker.js verifyTools",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 1, "timedOut": false, "details": { "ok": false, "stage": "assertions", "error": "AssertionError [ERR_ASSERTION]: tool returned an error: web_search: {\"isError\":true,\"value\":\"no API key\"}" } }] },
+    { "kind": "shutdown-hang", "source": "worker.js finally block",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 1, "timedOut": false, "details": { "ok": false, "stage": "shutdown", "error": "shutdown failed: Error: dispose timed out" } }] },
+    { "kind": "shutdown-hang", "source": "runtime stage killed by the timeout",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": null, "timedOut": true, "stdout": "", "stderr": "" }] },
+    { "kind": "orphan-process", "source": "runBoundedProcess on a parent that left children behind",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 0, "timedOut": false, "orphaned": true, "stdout": "", "stderr": "" }] },
+    { "kind": "host-contract-changed", "source": "worker.js checkHostContract",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 1, "timedOut": false, "details": { "ok": false, "stage": "boot", "error": "Error: host-contract-changed: none of the 38 official @deepseek-ai/ entries report fiber state 2 (saw: 3). The host's state enum may have changed, which makes this tool's activation check meaningless. This says nothing about the plugin under test." } }] },
+    { "kind": "unknown", "source": "an error nothing recognises",
+      "stages": [{ "name": "install", "ok": true }, { "name": "runtime", "ok": false, "exitCode": 1, "timedOut": false, "details": { "ok": false, "stage": "boot", "error": "Error: the moon is in the wrong phase\n    at somewhere (<file>)" } }] }
+  ]
+}

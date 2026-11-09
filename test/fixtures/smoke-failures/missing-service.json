@@ -1,0 +1,40 @@
+{
+  "_sample": "real: dsh 0.2.2-rc.1, dsh-prime-memory@0.26.16 with --bypass-gate --boot-only, 2026-11-09",
+  "hostVersion": "0.2.2-rc.1",
+  "plugin": "dsh-prime-memory@0.26.16",
+  "ok": false,
+  "stages": [
+    {
+      "name": "allow-version",
+      "ok": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "dsh: allowed dsh-prime-memory@0.26.16 for DSH 0.2.2-rc.1\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n"
+    },
+    {
+      "name": "install",
+      "ok": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 0, reused 1, downloaded 0, added 0\nDownloading dsh-prime-memory@0.26.16: 0.00 B/7.19 MB\nDownloading dsh-prime-memory@0.26.16: 7.19 MB/7.19 MB, done\nPackages are hard linked from the content-addressable store to the virtual store.\n  Content-addressable store is at: D:\\.pnpm-store\\v11\n  Virtual store is at:             node_modules/.pnpm\nPackages: +11\n+++++++++++\nProgress: resolved 11, reused 6, downloaded 5, added 11, done\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-prime-memory 0.26.16\n\nDone in 2.1s using pnpm v12.5.1\n",
+      "stderr": ""
+    },
+    {
+      "name": "runtime",
+      "ok": false,
+      "exitCode": 1,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "",
+      "stderr": "dsh: warning: 1 entry did not activate\ndsh-memory (dsh-prime-memory): pending (waiting for services: connection, webServer)\n",
+      "details": {
+        "ok": false,
+        "stage": "boot",
+        "error": "AssertionError [ERR_ASSERTION]: profile entries did not activate:\ndsh-memory (dsh-prime-memory): fiber state 0, waiting for connection, webServer\n\n1 !== 0\n\n    at verifyActivation (<file>)\n    at main (<file>)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+      }
+    }
+  ]
+}
