@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T11:39:56.075Z",
+  "generatedAt": "2026-11-09T12:05:40.864Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "huaweicloud-devkit@1.1.13",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q9yAkH",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q9yAkH/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2P1pXq",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2P1pXq/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T11:39:56.452Z",
-      "durationMs": 1525,
+      "startedAt": "2026-11-09T12:05:41.127Z",
+      "durationMs": 1155,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
       "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ huaweicloud-devkit 1.1.13\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.13\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q9yAkH/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'huaweicloud-devkit@1.1.13'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q9yAkH/home/profiles/health-smoke/.plugin-manager/logs/operation-BPYcB6/pnpm.log\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2P1pXq/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'huaweicloud-devkit@1.1.13'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2P1pXq/home/profiles/health-smoke/.plugin-manager/logs/operation-AKLj7t/pnpm.log\n",
       "truncated": false
     }
   ],

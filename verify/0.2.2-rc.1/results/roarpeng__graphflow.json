@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T11:38:52.337Z",
+  "generatedAt": "2026-11-09T12:04:25.254Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@roarpeng/graphflow@3.9.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bBIEro",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bBIEro/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KUzDK2",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KUzDK2/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T11:38:52.738Z",
-      "durationMs": 3834,
+      "startedAt": "2026-11-09T12:04:25.741Z",
+      "durationMs": 3616,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @roarpeng/graphflow 3.9.2\n\nPackages: +106\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 106, reused 1, downloaded 30, added 1\nProgress: resolved 106, reused 1, downloaded 105, added 105\nProgress: resolved 106, reused 1, downloaded 105, added 106, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: tree-sitter-c-sharp@0.23.1, tree-sitter-c@0.23.6, tree-sitter-cpp@0.23.4, tree-sitter-go@0.23.4, tree-sitter-python@0.23.6, tree-sitter-rust@0.24.0, tree-sitter@0.22.4\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bBIEro/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@roarpeng/graphflow@3.9.2'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bBIEro/home/profiles/health-smoke/.plugin-manager/logs/operation-4zHE9z/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @roarpeng/graphflow 3.9.2\n\nPackages: +106\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 106, reused 0, downloaded 0, added 0\nProgress: resolved 106, reused 1, downloaded 105, added 106, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: tree-sitter-c-sharp@0.23.1, tree-sitter-c@0.23.6, tree-sitter-cpp@0.23.4, tree-sitter-go@0.23.4, tree-sitter-python@0.23.6, tree-sitter-rust@0.24.0, tree-sitter@0.22.4\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KUzDK2/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@roarpeng/graphflow@3.9.2'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KUzDK2/home/profiles/health-smoke/.plugin-manager/logs/operation-NLJgTT/pnpm.log\n",
       "truncated": false
     }
   ],

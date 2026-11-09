@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T11:39:02.454Z",
+  "generatedAt": "2026-11-09T12:05:07.656Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "dsh-push-host@0.7.38",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VyD2zA",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VyD2zA/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zNUFqx",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zNUFqx/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T11:39:02.793Z",
-      "durationMs": 1476,
+      "startedAt": "2026-11-09T12:05:08.145Z",
+      "durationMs": 1775,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-push-host 0.7.38\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 838ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VyD2zA/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-push-host 0.7.38\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 855ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zNUFqx/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T11:39:04.270Z",
-      "durationMs": 1263,
+      "startedAt": "2026-11-09T12:05:09.922Z",
+      "durationMs": 4724,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-push-host] relay disabled (set host + hostToken, or DSH_PUSH_HOST_TOKEN): push/answer off\n[dsh-push-host] 远程访问未开启（设置 → 常规 → 远程访问 里可打开）\n",
+      "stdout": "[dsh-push-host] relay disabled (set host + hostToken, or DSH_PUSH_HOST_TOKEN): push/answer off\n[dsh-push-host] 远程访问未开启（设置 → 常规 → 远程访问 里可打开）\ndsh web: http://127.0.0.1:44329/?token=819jW1GiO-zHVhNKnwZSdvXqRlAWQZgOPrUhe8QZV4U\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -324,8 +324,8 @@
             {
               "id": "tool-bash",
               "name": "@deepseek-ai/dsh-tool-bash",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "tool-pwsh",
@@ -336,8 +336,8 @@
             {
               "id": "tool-jobs",
               "name": "@deepseek-ai/dsh-tool-jobs",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "fs-observation-policy",
@@ -348,20 +348,20 @@
             {
               "id": "tool-fs",
               "name": "@deepseek-ai/dsh-tool-fs",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "tool-fs-search",
               "name": "@deepseek-ai/dsh-tool-fs-search",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "agent-instructions",
               "name": "@deepseek-ai/dsh-agent-instructions",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "skill",
@@ -372,14 +372,14 @@
             {
               "id": "skill-filesystem",
               "name": "@deepseek-ai/dsh-skill-filesystem",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "tool-skill",
               "name": "@deepseek-ai/dsh-tool-skill",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "commands",
@@ -408,14 +408,14 @@
             {
               "id": "command-goal",
               "name": "@deepseek-ai/dsh-command-goal",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "plan-mode",
               "name": "@deepseek-ai/dsh-plan-mode",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "token-meter",
@@ -426,14 +426,14 @@
             {
               "id": "compaction-basic",
               "name": "@deepseek-ai/dsh-compaction-basic",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "command-compact",
               "name": "@deepseek-ai/dsh-command-compact",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "subagent",
@@ -456,20 +456,20 @@
             {
               "id": "tool-subagent-control",
               "name": "@deepseek-ai/dsh-tool-subagent-control",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "tool-subagent",
               "name": "@deepseek-ai/dsh-tool-subagent",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "tool-subagent-fork",
               "name": "@deepseek-ai/dsh-tool-subagent",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "ptc-runtime",
@@ -480,14 +480,14 @@
             {
               "id": "workflow-ptc",
               "name": "@deepseek-ai/dsh-workflow-ptc",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "tool-workflow",
               "name": "@deepseek-ai/dsh-tool-workflow",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "timeout-policy",
@@ -516,8 +516,8 @@
             {
               "id": "tool-result-pruner",
               "name": "@deepseek-ai/dsh-compaction-tool-result-pruner",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "image-offload",
@@ -528,14 +528,14 @@
             {
               "id": "tool-todo",
               "name": "@deepseek-ai/dsh-tool-todo",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "tool-goal",
               "name": "@deepseek-ai/dsh-tool-goal",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "repeat-tool-reminder",
@@ -570,8 +570,8 @@
             {
               "id": "tool-web",
               "name": "@deepseek-ai/dsh-tool-web",
-              "state": 2,
-              "disabled": false
+              "state": null,
+              "disabled": true
             },
             {
               "id": "mcp-resources",
@@ -632,40 +632,622 @@
               "name": "dsh-push-host",
               "state": 2,
               "disabled": false
+            },
+            {
+              "id": "desktop-product-telemetry",
+              "name": "@deepseek-ai/dsh-host-product-telemetry-otel",
+              "state": null,
+              "disabled": true
+            },
+            {
+              "id": "product-analytics",
+              "name": "@deepseek-ai/dsh-client-product-analytics",
+              "state": null,
+              "disabled": true
+            },
+            {
+              "id": "subagent-model-selection-settings",
+              "name": "@deepseek-ai/dsh-tool-subagent/model-selection-settings",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "message-feedback",
+              "name": "@deepseek-ai/dsh-message-feedback",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "session-log-download",
+              "name": "@deepseek-ai/dsh-session-log-export",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "open-in-app",
+              "name": "@deepseek-ai/dsh-host-open-in-app",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-file-actions",
+              "name": "@deepseek-ai/dsh-client-ui-file-actions",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-context-menu",
+              "name": "@deepseek-ai/dsh-client-ui-context-menu",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-open-in-app",
+              "name": "@deepseek-ai/dsh-client-ui-open-in-app",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "workspace",
+              "name": "@deepseek-ai/dsh-workspace",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "session-reference",
+              "name": "@deepseek-ai/dsh-session-reference",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "file-reference-local",
+              "name": "@deepseek-ai/dsh-file-reference-local",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "session-stats",
+              "name": "@deepseek-ai/dsh-session-stats",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "session-turn-outline",
+              "name": "@deepseek-ai/dsh-session-turn-outline",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "directory-picker",
+              "name": "@deepseek-ai/dsh-host-directory-picker-auto",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "plugin-inventory",
+              "name": "@deepseek-ai/dsh-host-plugin-inventory",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "session-controller",
+              "name": "@deepseek-ai/dsh-api-session-controller",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "job-controller",
+              "name": "@deepseek-ai/dsh-api-job-controller",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "terminal-controller",
+              "name": "@deepseek-ai/dsh-api-terminal-controller",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "workspace-files",
+              "name": "@deepseek-ai/dsh-api-workspace-files",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "schedule",
+              "name": "@deepseek-ai/dsh-schedule",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-account",
+              "name": "@deepseek-ai/dsh-client-ui-settings-account",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "account-controller",
+              "name": "@deepseek-ai/dsh-api-account-controller",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "settings-controller",
+              "name": "@deepseek-ai/dsh-api-settings-controller",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "workspace-controller",
+              "name": "@deepseek-ai/dsh-api-workspace-controller",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "cordis-host-runner",
+              "name": "@deepseek-ai/dsh-cordis-host-runner",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "cordis-inspect-providers",
+              "name": "@deepseek-ai/dsh-tool-cordis/host",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "web-startup",
+              "name": "@deepseek-ai/dsh-web-app/startup",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "webserver",
+              "name": "@deepseek-ai/dsh-host-webserver",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "web-runtime",
+              "name": "@deepseek-ai/dsh-web-app",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "harness-dev-context",
+              "name": "@deepseek-ai/dsh-harness-dev-context",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "client-hmr",
+              "name": "@deepseek-ai/dsh-client-hmr",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "modules",
+              "name": "@deepseek-ai/dsh-client-modules",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "connection",
+              "name": "@deepseek-ai/dsh-client-connection",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "file-upload",
+              "name": "@deepseek-ai/dsh-client-file-upload",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "api-remotes",
+              "name": "@deepseek-ai/dsh-api-remotes",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "cordis-client-runner",
+              "name": "@deepseek-ai/dsh-cordis-client-runner",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-theme",
+              "name": "@deepseek-ai/dsh-client-ui-theme",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "locale",
+              "name": "@deepseek-ai/dsh-client-locale",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "shortcuts",
+              "name": "@deepseek-ai/dsh-client-shortcuts",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-shortcuts",
+              "name": "@deepseek-ai/dsh-client-ui-shortcuts",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-layout",
+              "name": "@deepseek-ai/dsh-client-ui-layout",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-renderer",
+              "name": "@deepseek-ai/dsh-client-ui-renderer",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-session",
+              "name": "@deepseek-ai/dsh-client-ui-session",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "resources",
+              "name": "@deepseek-ai/dsh-client-resources",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-sidebar",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-sidebar-right",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-right",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "office-to-pdf",
+              "name": "@deepseek-ai/dsh-office-to-pdf",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-sidebar-documentpreview",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-sidebar-browser",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-browser",
+              "state": null,
+              "disabled": true
+            },
+            {
+              "id": "ui-sidebar-terminal",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-sidebar-files",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-files",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings",
+              "name": "@deepseek-ai/dsh-client-ui-settings",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-general",
+              "name": "@deepseek-ai/dsh-client-ui-settings-general",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-models",
+              "name": "@deepseek-ai/dsh-client-ui-settings-models",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-plugin-manager",
+              "name": "@deepseek-ai/dsh-client-ui-plugin-manager",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-plugin-inventory",
+              "name": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-conversation",
+              "name": "@deepseek-ai/dsh-client-ui-conversation",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-approval",
+              "name": "@deepseek-ai/dsh-client-ui-approval",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "message-quotes",
+              "name": "@deepseek-ai/dsh-message-quotes",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-chat",
+              "name": "@deepseek-ai/dsh-client-ui-chat",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-brand-official",
+              "name": "@deepseek-ai/dsh-client-ui-brand-official",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-attachment",
+              "name": "@deepseek-ai/dsh-client-ui-attachment",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-file-drag",
+              "name": "@deepseek-ai/dsh-client-ui-file-drag",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-tool",
+              "name": "@deepseek-ai/dsh-client-ui-tool",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-cordis",
+              "name": "@deepseek-ai/dsh-client-ui-cordis",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "deliverable-file-references",
+              "name": "@deepseek-ai/dsh-deliverable-file-references",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-deliverables",
+              "name": "@deepseek-ai/dsh-client-ui-deliverables",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "workspace-changes",
+              "name": "@deepseek-ai/dsh-workspace-changes",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-workspace",
+              "name": "@deepseek-ai/dsh-client-ui-workspace",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-workflow-run",
+              "name": "@deepseek-ai/dsh-client-ui-workflow-run",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-input-trigger",
+              "name": "@deepseek-ai/dsh-client-ui-input-trigger",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-commands",
+              "name": "@deepseek-ai/dsh-client-ui-commands",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-skill",
+              "name": "@deepseek-ai/dsh-client-ui-skill",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-subagent",
+              "name": "@deepseek-ai/dsh-client-ui-subagent",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-reference",
+              "name": "@deepseek-ai/dsh-client-ui-reference",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-secret-mask",
+              "name": "@deepseek-ai/dsh-client-ui-secret-mask",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-jobs",
+              "name": "@deepseek-ai/dsh-client-ui-jobs",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-schedule",
+              "name": "@deepseek-ai/dsh-client-ui-schedule",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-goal",
+              "name": "@deepseek-ai/dsh-client-ui-goal",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-message-feedback",
+              "name": "@deepseek-ai/dsh-client-ui-message-feedback",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-model-selection",
+              "name": "@deepseek-ai/dsh-client-ui-model-selection",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-permission",
+              "name": "@deepseek-ai/dsh-client-ui-permission-presets",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-agent-preset",
+              "name": "@deepseek-ai/dsh-client-ui-agent-preset",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "entry-customization",
+              "name": "@deepseek-ai/dsh-client-ui-entry-customization",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-session-log",
+              "name": "@deepseek-ai/dsh-client-ui-settings-session-log",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-plugins",
+              "name": "@deepseek-ai/dsh-client-ui-settings-plugins",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-shell",
+              "name": "@deepseek-ai/dsh-client-ui-settings-shell",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-agent-loop",
+              "name": "@deepseek-ai/dsh-client-ui-settings-agent-loop",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-subagent",
+              "name": "@deepseek-ai/dsh-client-ui-settings-subagent",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-settings-web-search",
+              "name": "@deepseek-ai/dsh-client-ui-settings-web-search",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-plan",
+              "name": "@deepseek-ai/dsh-client-ui-plan",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-user-questions",
+              "name": "@deepseek-ai/dsh-client-ui-user-questions",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-trajectory",
+              "name": "@deepseek-ai/dsh-client-ui-trajectory",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "agent-preset-registry",
+              "name": "@deepseek-ai/dsh-agent-preset-registry",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "preset-standard",
+              "name": "@deepseek-ai/dsh-agent-preset",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "preset-ptc",
+              "name": "@deepseek-ai/dsh-agent-preset",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "preset-minimal",
+              "name": "@deepseek-ai/dsh-agent-preset",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "preset-cordis",
+              "name": "@deepseek-ai/dsh-agent-preset",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "1d044eea",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "85868da6",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2,
+              "disabled": false
             }
           ],
           "tools": [
-            "bash",
-            "create_goal",
-            "edit",
-            "exit_plan_mode",
-            "get_goal",
-            "glob",
-            "grep",
-            "interrupt_agent",
-            "job_kill",
-            "job_list",
-            "job_output",
-            "list_agents",
-            "read",
-            "read_image",
-            "send_message",
-            "skill",
-            "subagent",
-            "subagent_fork",
-            "todo_write",
-            "update_goal",
-            "web_fetch",
-            "web_search",
-            "workflow",
-            "working_directory",
-            "write"
+            "working_directory"
           ],
           "toolsUnavailable": false
         },
         "hostContract": {
-          "checked": 91,
-          "active": 91
+          "checked": 169,
+          "active": 169
         },
         "assertions": {
           "bootOnly": true,
@@ -891,43 +1473,8 @@
               "state": 2
             },
             {
-              "id": "tool-bash",
-              "name": "@deepseek-ai/dsh-tool-bash",
-              "state": 2
-            },
-            {
-              "id": "tool-jobs",
-              "name": "@deepseek-ai/dsh-tool-jobs",
-              "state": 2
-            },
-            {
-              "id": "tool-fs",
-              "name": "@deepseek-ai/dsh-tool-fs",
-              "state": 2
-            },
-            {
-              "id": "tool-fs-search",
-              "name": "@deepseek-ai/dsh-tool-fs-search",
-              "state": 2
-            },
-            {
-              "id": "agent-instructions",
-              "name": "@deepseek-ai/dsh-agent-instructions",
-              "state": 2
-            },
-            {
               "id": "skill",
               "name": "@deepseek-ai/dsh-skill",
-              "state": 2
-            },
-            {
-              "id": "skill-filesystem",
-              "name": "@deepseek-ai/dsh-skill-filesystem",
-              "state": 2
-            },
-            {
-              "id": "tool-skill",
-              "name": "@deepseek-ai/dsh-tool-skill",
               "state": 2
             },
             {
@@ -951,28 +1498,8 @@
               "state": 2
             },
             {
-              "id": "command-goal",
-              "name": "@deepseek-ai/dsh-command-goal",
-              "state": 2
-            },
-            {
-              "id": "plan-mode",
-              "name": "@deepseek-ai/dsh-plan-mode",
-              "state": 2
-            },
-            {
               "id": "token-meter",
               "name": "@deepseek-ai/dsh-token-meter",
-              "state": 2
-            },
-            {
-              "id": "compaction-basic",
-              "name": "@deepseek-ai/dsh-compaction-basic",
-              "state": 2
-            },
-            {
-              "id": "command-compact",
-              "name": "@deepseek-ai/dsh-command-compact",
               "state": 2
             },
             {
@@ -991,33 +1518,8 @@
               "state": 2
             },
             {
-              "id": "tool-subagent-control",
-              "name": "@deepseek-ai/dsh-tool-subagent-control",
-              "state": 2
-            },
-            {
-              "id": "tool-subagent",
-              "name": "@deepseek-ai/dsh-tool-subagent",
-              "state": 2
-            },
-            {
-              "id": "tool-subagent-fork",
-              "name": "@deepseek-ai/dsh-tool-subagent",
-              "state": 2
-            },
-            {
               "id": "ptc-runtime",
               "name": "@deepseek-ai/dsh-ptc-runtime-node",
-              "state": 2
-            },
-            {
-              "id": "workflow-ptc",
-              "name": "@deepseek-ai/dsh-workflow-ptc",
-              "state": 2
-            },
-            {
-              "id": "tool-workflow",
-              "name": "@deepseek-ai/dsh-tool-workflow",
               "state": 2
             },
             {
@@ -1041,23 +1543,8 @@
               "state": 2
             },
             {
-              "id": "tool-result-pruner",
-              "name": "@deepseek-ai/dsh-compaction-tool-result-pruner",
-              "state": 2
-            },
-            {
               "id": "image-offload",
               "name": "@deepseek-ai/dsh-compaction-image-offload",
-              "state": 2
-            },
-            {
-              "id": "tool-todo",
-              "name": "@deepseek-ai/dsh-tool-todo",
-              "state": 2
-            },
-            {
-              "id": "tool-goal",
-              "name": "@deepseek-ai/dsh-tool-goal",
               "state": 2
             },
             {
@@ -1083,11 +1570,6 @@
             {
               "id": "web-fetch-http",
               "name": "@deepseek-ai/dsh-web-fetch-http",
-              "state": 2
-            },
-            {
-              "id": "tool-web",
-              "name": "@deepseek-ai/dsh-tool-web",
               "state": 2
             },
             {
@@ -1134,6 +1616,496 @@
               "id": "push-host",
               "name": "dsh-push-host",
               "state": 2
+            },
+            {
+              "id": "subagent-model-selection-settings",
+              "name": "@deepseek-ai/dsh-tool-subagent/model-selection-settings",
+              "state": 2
+            },
+            {
+              "id": "message-feedback",
+              "name": "@deepseek-ai/dsh-message-feedback",
+              "state": 2
+            },
+            {
+              "id": "session-log-download",
+              "name": "@deepseek-ai/dsh-session-log-export",
+              "state": 2
+            },
+            {
+              "id": "open-in-app",
+              "name": "@deepseek-ai/dsh-host-open-in-app",
+              "state": 2
+            },
+            {
+              "id": "ui-file-actions",
+              "name": "@deepseek-ai/dsh-client-ui-file-actions",
+              "state": 2
+            },
+            {
+              "id": "ui-context-menu",
+              "name": "@deepseek-ai/dsh-client-ui-context-menu",
+              "state": 2
+            },
+            {
+              "id": "ui-open-in-app",
+              "name": "@deepseek-ai/dsh-client-ui-open-in-app",
+              "state": 2
+            },
+            {
+              "id": "workspace",
+              "name": "@deepseek-ai/dsh-workspace",
+              "state": 2
+            },
+            {
+              "id": "session-reference",
+              "name": "@deepseek-ai/dsh-session-reference",
+              "state": 2
+            },
+            {
+              "id": "file-reference-local",
+              "name": "@deepseek-ai/dsh-file-reference-local",
+              "state": 2
+            },
+            {
+              "id": "session-stats",
+              "name": "@deepseek-ai/dsh-session-stats",
+              "state": 2
+            },
+            {
+              "id": "session-turn-outline",
+              "name": "@deepseek-ai/dsh-session-turn-outline",
+              "state": 2
+            },
+            {
+              "id": "directory-picker",
+              "name": "@deepseek-ai/dsh-host-directory-picker-auto",
+              "state": 2
+            },
+            {
+              "id": "plugin-inventory",
+              "name": "@deepseek-ai/dsh-host-plugin-inventory",
+              "state": 2
+            },
+            {
+              "id": "session-controller",
+              "name": "@deepseek-ai/dsh-api-session-controller",
+              "state": 2
+            },
+            {
+              "id": "job-controller",
+              "name": "@deepseek-ai/dsh-api-job-controller",
+              "state": 2
+            },
+            {
+              "id": "terminal-controller",
+              "name": "@deepseek-ai/dsh-api-terminal-controller",
+              "state": 2
+            },
+            {
+              "id": "workspace-files",
+              "name": "@deepseek-ai/dsh-api-workspace-files",
+              "state": 2
+            },
+            {
+              "id": "schedule",
+              "name": "@deepseek-ai/dsh-schedule",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-account",
+              "name": "@deepseek-ai/dsh-client-ui-settings-account",
+              "state": 2
+            },
+            {
+              "id": "account-controller",
+              "name": "@deepseek-ai/dsh-api-account-controller",
+              "state": 2
+            },
+            {
+              "id": "settings-controller",
+              "name": "@deepseek-ai/dsh-api-settings-controller",
+              "state": 2
+            },
+            {
+              "id": "workspace-controller",
+              "name": "@deepseek-ai/dsh-api-workspace-controller",
+              "state": 2
+            },
+            {
+              "id": "cordis-host-runner",
+              "name": "@deepseek-ai/dsh-cordis-host-runner",
+              "state": 2
+            },
+            {
+              "id": "cordis-inspect-providers",
+              "name": "@deepseek-ai/dsh-tool-cordis/host",
+              "state": 2
+            },
+            {
+              "id": "web-startup",
+              "name": "@deepseek-ai/dsh-web-app/startup",
+              "state": 2
+            },
+            {
+              "id": "webserver",
+              "name": "@deepseek-ai/dsh-host-webserver",
+              "state": 2
+            },
+            {
+              "id": "web-runtime",
+              "name": "@deepseek-ai/dsh-web-app",
+              "state": 2
+            },
+            {
+              "id": "harness-dev-context",
+              "name": "@deepseek-ai/dsh-harness-dev-context",
+              "state": 2
+            },
+            {
+              "id": "client-hmr",
+              "name": "@deepseek-ai/dsh-client-hmr",
+              "state": 2
+            },
+            {
+              "id": "modules",
+              "name": "@deepseek-ai/dsh-client-modules",
+              "state": 2
+            },
+            {
+              "id": "connection",
+              "name": "@deepseek-ai/dsh-client-connection",
+              "state": 2
+            },
+            {
+              "id": "file-upload",
+              "name": "@deepseek-ai/dsh-client-file-upload",
+              "state": 2
+            },
+            {
+              "id": "api-remotes",
+              "name": "@deepseek-ai/dsh-api-remotes",
+              "state": 2
+            },
+            {
+              "id": "cordis-client-runner",
+              "name": "@deepseek-ai/dsh-cordis-client-runner",
+              "state": 2
+            },
+            {
+              "id": "ui-theme",
+              "name": "@deepseek-ai/dsh-client-ui-theme",
+              "state": 2
+            },
+            {
+              "id": "locale",
+              "name": "@deepseek-ai/dsh-client-locale",
+              "state": 2
+            },
+            {
+              "id": "shortcuts",
+              "name": "@deepseek-ai/dsh-client-shortcuts",
+              "state": 2
+            },
+            {
+              "id": "ui-shortcuts",
+              "name": "@deepseek-ai/dsh-client-ui-shortcuts",
+              "state": 2
+            },
+            {
+              "id": "ui-layout",
+              "name": "@deepseek-ai/dsh-client-ui-layout",
+              "state": 2
+            },
+            {
+              "id": "ui-renderer",
+              "name": "@deepseek-ai/dsh-client-ui-renderer",
+              "state": 2
+            },
+            {
+              "id": "ui-session",
+              "name": "@deepseek-ai/dsh-client-ui-session",
+              "state": 2
+            },
+            {
+              "id": "resources",
+              "name": "@deepseek-ai/dsh-client-resources",
+              "state": 2
+            },
+            {
+              "id": "ui-sidebar",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar",
+              "state": 2
+            },
+            {
+              "id": "ui-sidebar-right",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-right",
+              "state": 2
+            },
+            {
+              "id": "office-to-pdf",
+              "name": "@deepseek-ai/dsh-office-to-pdf",
+              "state": 2
+            },
+            {
+              "id": "ui-sidebar-documentpreview",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+              "state": 2
+            },
+            {
+              "id": "ui-sidebar-terminal",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+              "state": 2
+            },
+            {
+              "id": "ui-sidebar-files",
+              "name": "@deepseek-ai/dsh-client-ui-sidebar-files",
+              "state": 2
+            },
+            {
+              "id": "ui-settings",
+              "name": "@deepseek-ai/dsh-client-ui-settings",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-general",
+              "name": "@deepseek-ai/dsh-client-ui-settings-general",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-models",
+              "name": "@deepseek-ai/dsh-client-ui-settings-models",
+              "state": 2
+            },
+            {
+              "id": "ui-plugin-manager",
+              "name": "@deepseek-ai/dsh-client-ui-plugin-manager",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-plugin-inventory",
+              "name": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+              "state": 2
+            },
+            {
+              "id": "ui-conversation",
+              "name": "@deepseek-ai/dsh-client-ui-conversation",
+              "state": 2
+            },
+            {
+              "id": "ui-approval",
+              "name": "@deepseek-ai/dsh-client-ui-approval",
+              "state": 2
+            },
+            {
+              "id": "message-quotes",
+              "name": "@deepseek-ai/dsh-message-quotes",
+              "state": 2
+            },
+            {
+              "id": "ui-chat",
+              "name": "@deepseek-ai/dsh-client-ui-chat",
+              "state": 2
+            },
+            {
+              "id": "ui-brand-official",
+              "name": "@deepseek-ai/dsh-client-ui-brand-official",
+              "state": 2
+            },
+            {
+              "id": "ui-attachment",
+              "name": "@deepseek-ai/dsh-client-ui-attachment",
+              "state": 2
+            },
+            {
+              "id": "ui-file-drag",
+              "name": "@deepseek-ai/dsh-client-ui-file-drag",
+              "state": 2
+            },
+            {
+              "id": "ui-tool",
+              "name": "@deepseek-ai/dsh-client-ui-tool",
+              "state": 2
+            },
+            {
+              "id": "ui-cordis",
+              "name": "@deepseek-ai/dsh-client-ui-cordis",
+              "state": 2
+            },
+            {
+              "id": "deliverable-file-references",
+              "name": "@deepseek-ai/dsh-deliverable-file-references",
+              "state": 2
+            },
+            {
+              "id": "ui-deliverables",
+              "name": "@deepseek-ai/dsh-client-ui-deliverables",
+              "state": 2
+            },
+            {
+              "id": "workspace-changes",
+              "name": "@deepseek-ai/dsh-workspace-changes",
+              "state": 2
+            },
+            {
+              "id": "ui-workspace",
+              "name": "@deepseek-ai/dsh-client-ui-workspace",
+              "state": 2
+            },
+            {
+              "id": "ui-workflow-run",
+              "name": "@deepseek-ai/dsh-client-ui-workflow-run",
+              "state": 2
+            },
+            {
+              "id": "ui-input-trigger",
+              "name": "@deepseek-ai/dsh-client-ui-input-trigger",
+              "state": 2
+            },
+            {
+              "id": "ui-commands",
+              "name": "@deepseek-ai/dsh-client-ui-commands",
+              "state": 2
+            },
+            {
+              "id": "ui-skill",
+              "name": "@deepseek-ai/dsh-client-ui-skill",
+              "state": 2
+            },
+            {
+              "id": "ui-subagent",
+              "name": "@deepseek-ai/dsh-client-ui-subagent",
+              "state": 2
+            },
+            {
+              "id": "ui-reference",
+              "name": "@deepseek-ai/dsh-client-ui-reference",
+              "state": 2
+            },
+            {
+              "id": "ui-secret-mask",
+              "name": "@deepseek-ai/dsh-client-ui-secret-mask",
+              "state": 2
+            },
+            {
+              "id": "ui-jobs",
+              "name": "@deepseek-ai/dsh-client-ui-jobs",
+              "state": 2
+            },
+            {
+              "id": "ui-schedule",
+              "name": "@deepseek-ai/dsh-client-ui-schedule",
+              "state": 2
+            },
+            {
+              "id": "ui-goal",
+              "name": "@deepseek-ai/dsh-client-ui-goal",
+              "state": 2
+            },
+            {
+              "id": "ui-message-feedback",
+              "name": "@deepseek-ai/dsh-client-ui-message-feedback",
+              "state": 2
+            },
+            {
+              "id": "ui-model-selection",
+              "name": "@deepseek-ai/dsh-client-ui-model-selection",
+              "state": 2
+            },
+            {
+              "id": "ui-permission",
+              "name": "@deepseek-ai/dsh-client-ui-permission-presets",
+              "state": 2
+            },
+            {
+              "id": "ui-agent-preset",
+              "name": "@deepseek-ai/dsh-client-ui-agent-preset",
+              "state": 2
+            },
+            {
+              "id": "entry-customization",
+              "name": "@deepseek-ai/dsh-client-ui-entry-customization",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-session-log",
+              "name": "@deepseek-ai/dsh-client-ui-settings-session-log",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-plugins",
+              "name": "@deepseek-ai/dsh-client-ui-settings-plugins",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-shell",
+              "name": "@deepseek-ai/dsh-client-ui-settings-shell",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-agent-loop",
+              "name": "@deepseek-ai/dsh-client-ui-settings-agent-loop",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-subagent",
+              "name": "@deepseek-ai/dsh-client-ui-settings-subagent",
+              "state": 2
+            },
+            {
+              "id": "ui-settings-web-search",
+              "name": "@deepseek-ai/dsh-client-ui-settings-web-search",
+              "state": 2
+            },
+            {
+              "id": "ui-plan",
+              "name": "@deepseek-ai/dsh-client-ui-plan",
+              "state": 2
+            },
+            {
+              "id": "ui-user-questions",
+              "name": "@deepseek-ai/dsh-client-ui-user-questions",
+              "state": 2
+            },
+            {
+              "id": "ui-trajectory",
+              "name": "@deepseek-ai/dsh-client-ui-trajectory",
+              "state": 2
+            },
+            {
+              "id": "agent-preset-registry",
+              "name": "@deepseek-ai/dsh-agent-preset-registry",
+              "state": 2
+            },
+            {
+              "id": "preset-standard",
+              "name": "@deepseek-ai/dsh-agent-preset",
+              "state": 2
+            },
+            {
+              "id": "preset-ptc",
+              "name": "@deepseek-ai/dsh-agent-preset",
+              "state": 2
+            },
+            {
+              "id": "preset-minimal",
+              "name": "@deepseek-ai/dsh-agent-preset",
+              "state": 2
+            },
+            {
+              "id": "preset-cordis",
+              "name": "@deepseek-ai/dsh-agent-preset",
+              "state": 2
+            },
+            {
+              "id": "1d044eea",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "85868da6",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2
             }
           ]
         }
@@ -1172,6 +2144,9 @@
       "DSH_TELEMETRY_DISABLED"
     ]
   },
+  "hostBundles": [
+    "@deepseek-ai/dsh-web-app"
+  ],
   "level": "V3",
   "declared": true,
   "footprintDelta": {
@@ -1179,6 +2154,18 @@
       {
         "id": "push-host",
         "name": "dsh-push-host",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "1d044eea",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "85868da6",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

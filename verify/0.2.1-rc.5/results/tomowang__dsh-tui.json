@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T11:41:24.166Z",
+  "generatedAt": "2026-11-09T12:07:28.845Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@tomowang/dsh-tui@0.10.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vhIoT3",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vhIoT3/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pQwWMl",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pQwWMl/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T11:41:24.620Z",
-      "durationMs": 180,
+      "startedAt": "2026-11-09T12:07:29.383Z",
+      "durationMs": 383,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,8 +23,8 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T11:41:24.800Z",
-      "durationMs": 1954,
+      "startedAt": "2026-11-09T12:07:29.766Z",
+      "durationMs": 2026,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -36,15 +36,15 @@
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T11:41:26.763Z",
-      "durationMs": 1903,
+      "startedAt": "2026-11-09T12:07:31.802Z",
+      "durationMs": 2438,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh-tui: stdin and stdout must both be TTYs; use `dsh --profile headless` for pipes\n",
-      "stderr": "",
+      "stdout": "",
+      "stderr": "error: unknown option '--port'\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -59,7 +59,7 @@
           "checked": 0,
           "active": 0
         },
-        "error": "AssertionError [ERR_ASSERTION]: profile exited before runtime acceptance\n    at verifyActivation (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:53:10)\n    at main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:242:5)"
+        "error": "AssertionError [ERR_ASSERTION]: profile exited before runtime acceptance\n    at verifyActivation (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:53:10)\n    at main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:254:5)"
       }
     }
   ],
@@ -95,6 +95,9 @@
       "DSH_TELEMETRY_DISABLED"
     ]
   },
+  "hostBundles": [
+    "@deepseek-ai/dsh-web-app"
+  ],
   "failure": {
     "stage": "runtime",
     "kind": "unknown",

@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T11:41:52.821Z",
+  "generatedAt": "2026-11-09T12:08:25.905Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-vscode-mode@0.27.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hi68sR",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hi68sR/home",
+  "plugin": "dsh-vscode-mode@0.28.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WwLmPd",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WwLmPd/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T11:41:53.250Z",
-      "durationMs": 5432,
+      "startedAt": "2026-11-09T12:08:26.395Z",
+      "durationMs": 5701,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 187, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: fstream@1.0.12, glob@7.2.3, inflight@1.0.6, lodash.isequal@4.5.0, rimraf@2.7.1, uuid@8.3.2\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-vscode-mode 0.27.2\n\nPackages: +311\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 314, reused 47, downloaded 23, added 2\nProgress: resolved 314, reused 47, downloaded 190, added 14\nProgress: resolved 314, reused 47, downloaded 256, added 311, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hi68sR/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hi68sR/home/profiles/health-smoke/.plugin-manager/logs/operation-Iod0uP/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 156, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: fstream@1.0.12, glob@7.2.3, inflight@1.0.6, lodash.isequal@4.5.0, rimraf@2.7.1, uuid@8.3.2\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-vscode-mode 0.28.0\n\nPackages: +311\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 314, reused 8, downloaded 0, added 0\nProgress: resolved 314, reused 47, downloaded 106, added 8\nProgress: resolved 314, reused 47, downloaded 256, added 311, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-vscode-mode@0.28.0\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WwLmPd/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WwLmPd/home/profiles/health-smoke/.plugin-manager/logs/operation-rmUjTN/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "dsh-vscode-mode",
-      "version": "0.27.2",
-      "integrity": "sha512-gXOx55VGyCtXQSq+3PbPscdY5Fw8CEJivg/sG3ofp2oNA6yVXx6KP7gtJsx0s6V/s3mBzazoayUxylqg3h2H+w==",
+      "version": "0.28.0",
+      "integrity": "sha512-ZlKfXTQHmCfhYMBTL+yUaBWi/IYz4/ZeEhbPYK0ZcKeb+vbKsMnYucT1djXrgr7vUewThkweV7u87bnO0Un3ig==",
       "resolution": "registry"
     }
   ],

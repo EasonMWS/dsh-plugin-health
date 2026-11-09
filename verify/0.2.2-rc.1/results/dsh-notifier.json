@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T11:39:27.185Z",
+  "generatedAt": "2026-11-09T12:04:34.547Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "dsh-notifier@0.13.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5lWHwA",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5lWHwA/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c3RZvm",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c3RZvm/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T11:39:27.620Z",
-      "durationMs": 136,
+      "startedAt": "2026-11-09T12:04:34.830Z",
+      "durationMs": 105,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,15 +23,15 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T11:39:27.756Z",
-      "durationMs": 1983,
+      "startedAt": "2026-11-09T12:04:34.935Z",
+      "durationMs": 1517,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
       "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-notifier 0.13.1\n\nPackages: +54\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 54, reused 52, downloaded 2, added 54, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "Command failed with exit code 1: pnpm add 'dsh-notifier@0.13.1'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5lWHwA/home/profiles/health-smoke/.plugin-manager/logs/operation-CkCj7s/pnpm.log\n",
+      "stderr": "Command failed with exit code 1: pnpm add 'dsh-notifier@0.13.1'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c3RZvm/home/profiles/health-smoke/.plugin-manager/logs/operation-3XL9Qm/pnpm.log\n",
       "truncated": false
     }
   ],
