@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url'
 import semver from 'semver'
 
 import { environmentForRun } from './env.js'
+import { probePnpmVersion, readSubjects, runtimeEnvironment, toolIdentity } from './evidence.js'
 
 /** Upper bound for any single stage, so a caller cannot ask for a week-long rehearsal. */
 const MAX_TIMEOUT_MS = 10 * 60 * 1000
@@ -187,7 +188,14 @@ export async function runRuntimeSmoke({
   // Default false keeps the documented behaviour of rehearsing your own plugin. Anything running plugins the
   // operator has not read — a batch run, CI over a catalog — should pass true.
   cleanEnv = false,
-}, { runProcess = runBoundedProcess } = {}) {
+}, { runProcess: launch = runBoundedProcess, probePnpm = probePnpmVersion } = {}) {
+  // Every stage records when it started and how long it took. Without durations a timeout cannot be told
+  // apart from a slow registry, and a cached rerun cannot be compared with the first one.
+  const runProcess = async (args, settings) => {
+    const startedAt = new Date()
+    const result = await launch(args, settings)
+    return { startedAt: startedAt.toISOString(), durationMs: Date.now() - startedAt.getTime(), ...result }
+  }
   // A registry-only run must be told the identity: there is no path to read it from, and the spec
   // came from a request rather than from a human.
   if (registryOnly && (typeof pluginName !== 'string' || pluginName === '')) {
@@ -253,11 +261,25 @@ export async function runRuntimeSmoke({
     schemaVersion: 1, generatedAt: new Date().toISOString(),
     hostVersion: manifest.version, plugin: pluginSpec, directory, home, profile,
     ok: false, stages: [],
+    tool: toolIdentity(),
+    runtimeEnv: runtimeEnvironment({ pnpm: await probePnpm({ env }) }),
+    subjects: [],
     // Names only. A report is meant to be shareable, and a value here would be a token in a gist.
     env: envReport,
     ...(combination ? { combination } : {}),
   }
   const save = () => { writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`) }
+  // What was actually installed, read back from the profile pnpm wrote. Missing evidence is recorded as
+  // missing; it never decides the outcome.
+  const recordSubjects = () => {
+    const names = combination?.map(row => row.name) ?? (resolvedName ? [resolvedName] : undefined)
+    try {
+      report.subjects = readSubjects(join(home, 'profiles', profile), names)
+    } catch (error) {
+      report.subjects = [{ name: resolvedName ?? pluginSpec, version: null, integrity: null, resolution: null, evidenceError: error.message }]
+    }
+    save()
+  }
   save()
   try {
     if (bypassGate) {
@@ -277,8 +299,12 @@ export async function runRuntimeSmoke({
       })
       report.stages.push({ name: 'install', ...installed, ...(combination ? { plugin: subject.name } : {}) })
       save()
-      if (!installed.ok) return report
+      if (!installed.ok) {
+        recordSubjects()
+        return report
+      }
     }
+    recordSubjects()
     writeFileSync(configPath, JSON.stringify({
       hostDir, profile, tools, calls, resultPath: workerResult,
       plugin: resolvedName,
@@ -295,6 +321,7 @@ export async function runRuntimeSmoke({
       }
     } else stage.error = 'worker exited without a runtime report'
     stage.ok = runtime.ok && stage.details?.ok === true
+    if (typeof stage.details?.hostCordis === 'string') report.runtimeEnv.cordis = stage.details.hostCordis
     report.ok = stage.ok
     save()
     return report
