@@ -8,8 +8,20 @@
  * - `workspace:^`, `workspace:~`, and `workspace:*` peer ranges mean the running host version.
  * - An exact-version exemption maps `name@version` to exact runtime versions.
  *
- * The hosted `@deepseek-ai/dsh-app-boot` build does not export this helper, so this module keeps a
- * small, tested copy; `test/compat.test.js` fixes the behaviour.
+ * Official builds from 0.2.2-rc.1 onward DO export this as `evaluatePluginCompatibility`. The copy stays
+ * because this tool has to run offline and must not depend on an official package at runtime — not because
+ * there is nothing to copy from.
+ *
+ * A copy that silently diverges makes every verdict wrong, including the whole published page. Two checks
+ * hold it in place:
+ *
+ *   - `test/fixtures/compat-corpus.json` holds 41 cases whose expectations were captured from the official
+ *     implementation, and `test/compat-corpus.test.js` fails if this module disagrees with any of them.
+ *   - `scripts/compat-drift.js` re-runs the same corpus against an installed official build, so the
+ *     `compat-drift` CI job notices when the host's semantics move.
+ *
+ * When changing this file, change the corpus expectations by re-running the official package, never by
+ * editing numbers until the tests pass.
  * @module compat/evaluate
  */
 import semver from 'semver'
