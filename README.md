@@ -490,9 +490,29 @@ plugin declares and compares it against the version you are actually running.
 
 ## It has already caught real regressions
 
-Scanning the top 120 plugins across a host bump found 5 that load on `0.2.1-rc.2` but are rejected
-on `0.2.1-rc.3`. Reports were filed for each, and maintainers acted — **4 of the 5 have shipped
-fixes** (verified 2026-10-26), and the count of affected plugins went **5 → 1**:
+Each time the host moves, the same scan runs across catalogued plugins, and every maintainer whose
+plugin the new host rejects gets a report: which declaration fails, on which host version, and what
+the official evaluator says. A maintainer can confirm it without installing anything.
+
+As of 2026-11-09: **11 reports filed, 10 fixed and released by their maintainers, 1 still without a
+reply.** Most were closed within two days.
+
+| Host | Plugin | Report | Fixed in |
+| --- | --- | --- | --- |
+| `0.2.1-rc.2` | `dsh-plugin-subscriptions` | [V1ki/dsh-plugin-subscriptions#158](https://github.com/V1ki/dsh-plugin-subscriptions/issues/158) | `0.9.10` |
+| `0.2.1-rc.3` | `@anionex/dsh-vision-toolkit` | [Anionex/dsh-vision-toolkit#178](https://github.com/Anionex/dsh-vision-toolkit/issues/178) | `0.1.48` |
+| `0.2.1-rc.3` | `@nanmicoder/dsh-agent-teams` | [NanmiCoder/dsh-agent-teams#277](https://github.com/NanmiCoder/dsh-agent-teams/issues/277) | `0.1.27` |
+| `0.2.1-rc.3` | `@goodandready/dsh-clinebot` | [GooDAnDReaDY/dsh-clinebot#17](https://github.com/GooDAnDReaDY/dsh-clinebot/issues/17) | `0.6.16` |
+| `0.2.1-rc.5` | `dsh-chat-manager` | [WSL043/dsh-chat-manager#35](https://github.com/WSL043/dsh-chat-manager/issues/35) | `1.5.21` |
+| `0.2.1-rc.5` | `dsh-context-compression-improved` | [drscrewdriver/dsh-context-compression-improved#9](https://github.com/drscrewdriver/dsh-context-compression-improved/issues/9) | `0.10.3` |
+| `0.2.1-rc.5` | `dsh-prime-memory` | [drscrewdriver/dsh-prime-memory#26](https://github.com/drscrewdriver/dsh-prime-memory/issues/26) | `0.26.16` |
+| `0.2.1-rc.5` | `dsh-perm-gate` | [drscrewdriver/dsh-perm-gate#5](https://github.com/drscrewdriver/dsh-perm-gate/issues/5) | `5.4.1` |
+| `0.2.1-rc.5` | `dsh-browser-cdp` | [drscrewdriver/dsh-browser-cdp#7](https://github.com/drscrewdriver/dsh-browser-cdp/issues/7) | `1.7.5` |
+| `0.2.1-rc.5` | `dsh-thinking-levels` | [drscrewdriver/dsh-thinking-levels#7](https://github.com/drscrewdriver/dsh-thinking-levels/issues/7) | `4.4.10` |
+| `0.2.1-rc.2` | `@feng0531/dsh-vcs` | [f-e-n-g-0531/dsh-vcs#1](https://github.com/f-e-n-g-0531/dsh-vcs/issues/1) | — no reply yet |
+
+One more, `dsh-workbuddy-connect`, was rejected on `0.2.1-rc.3`, but its repository is unreachable,
+so no report could be filed.
 
 > Confirmed against the published 0.1.47 manifest and the official rc.3 host compatibility
 > evaluator: **19 DSH peers were rejected**, while rc.2 still passed.
@@ -500,17 +520,16 @@ fixes** (verified 2026-10-26), and the count of affected plugins went **5 → 1*
 > lane**.
 >
 > — [Anionex/dsh-vision-toolkit#178](https://github.com/Anionex/dsh-vision-toolkit/issues/178#issuecomment-6388178989)
-> (906★), on a fix prompted by this scan — released as `0.1.48`
 
-| Plugin | Fixed in | Status |
-| --- | --- | --- |
-| `@anionex/dsh-vision-toolkit` | `0.1.48` | ✅ released, verified on rc.2 + rc.3 |
-| `dsh-plugin-subscriptions` | `0.9.11` | ✅ released, verified on rc.2 + rc.3 |
-| `@nanmicoder/dsh-agent-teams` | `0.1.27` | ✅ released, verified on rc.2 + rc.3 |
-| `@goodandready/dsh-clinebot` | `0.6.16` | ✅ released, verified on rc.2 + rc.3 |
-| `dsh-workbuddy-connect` | — | ⚠️ still `0.7.9` (repository unreachable — the one case where no report could even be filed) |
+How to declare the range stays the maintainer's call. Some added the one new version they had tested;
+two switched to a range that covers the rest of the prerelease line
+(`dsh-clinebot` in `0.6.16`, `dsh-plugin-subscriptions` in `0.9.12`), so the next prerelease on that
+line will not reject them again.
 
-Full report: [docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md).
+Upgrade reports: [docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md) ·
+[docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md).
+Listed in [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) and on
+[dsh-plugin.org](https://dsh-plugin.org).
 
 ## A real UI, only when you need it
 

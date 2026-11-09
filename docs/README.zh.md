@@ -420,24 +420,39 @@ dsh: nothing was installed.
 
 ## 它已经抓到过真实问题
 
-在一次宿主小版本升级中扫描 Top 120 插件，发现 **5 个在 `0.2.1-rc.2` 上正常、到 `0.2.1-rc.3` 就被拒**。
-逐个提报后，作者们动了手——**5 个里已有 4 个发布修复**（2026-10-26 复测），受影响数 **5 → 1**：
+宿主每升一个版本，就对已收录的插件跑同一套扫描。新宿主会拒绝哪个插件，就给哪个插件的作者提一份报告：
+哪条声明不通过、在哪个宿主版本上、官方评估器怎么判。作者不用安装任何东西就能复核。
+
+截至 2026-11-09：**共提报 11 份，10 份已由作者修复并发布，1 份尚无回复。** 大部分在两天内关闭。
+
+| 宿主 | 插件 | 报告 | 修复版本 |
+| --- | --- | --- | --- |
+| `0.2.1-rc.2` | `dsh-plugin-subscriptions` | [V1ki/dsh-plugin-subscriptions#158](https://github.com/V1ki/dsh-plugin-subscriptions/issues/158) | `0.9.10` |
+| `0.2.1-rc.3` | `@anionex/dsh-vision-toolkit` | [Anionex/dsh-vision-toolkit#178](https://github.com/Anionex/dsh-vision-toolkit/issues/178) | `0.1.48` |
+| `0.2.1-rc.3` | `@nanmicoder/dsh-agent-teams` | [NanmiCoder/dsh-agent-teams#277](https://github.com/NanmiCoder/dsh-agent-teams/issues/277) | `0.1.27` |
+| `0.2.1-rc.3` | `@goodandready/dsh-clinebot` | [GooDAnDReaDY/dsh-clinebot#17](https://github.com/GooDAnDReaDY/dsh-clinebot/issues/17) | `0.6.16` |
+| `0.2.1-rc.5` | `dsh-chat-manager` | [WSL043/dsh-chat-manager#35](https://github.com/WSL043/dsh-chat-manager/issues/35) | `1.5.21` |
+| `0.2.1-rc.5` | `dsh-context-compression-improved` | [drscrewdriver/dsh-context-compression-improved#9](https://github.com/drscrewdriver/dsh-context-compression-improved/issues/9) | `0.10.3` |
+| `0.2.1-rc.5` | `dsh-prime-memory` | [drscrewdriver/dsh-prime-memory#26](https://github.com/drscrewdriver/dsh-prime-memory/issues/26) | `0.26.16` |
+| `0.2.1-rc.5` | `dsh-perm-gate` | [drscrewdriver/dsh-perm-gate#5](https://github.com/drscrewdriver/dsh-perm-gate/issues/5) | `5.4.1` |
+| `0.2.1-rc.5` | `dsh-browser-cdp` | [drscrewdriver/dsh-browser-cdp#7](https://github.com/drscrewdriver/dsh-browser-cdp/issues/7) | `1.7.5` |
+| `0.2.1-rc.5` | `dsh-thinking-levels` | [drscrewdriver/dsh-thinking-levels#7](https://github.com/drscrewdriver/dsh-thinking-levels/issues/7) | `4.4.10` |
+| `0.2.1-rc.2` | `@feng0531/dsh-vcs` | [f-e-n-g-0531/dsh-vcs#1](https://github.com/f-e-n-g-0531/dsh-vcs/issues/1) | — 尚无回复 |
+
+另有 `dsh-workbuddy-connect` 在 `0.2.1-rc.3` 上被拒，但仓库无法访问，报告提不了。
 
 > 已用发布的 0.1.47 manifest 和官方 rc.3 宿主兼容性评估器复核确认：**19 个 DSH peer 被拒**，
 > 而 rc.2 仍然通过。已在 #179 合入 main 修复……九个 PR CI 全部通过，其中**新增了必需的 rc.3 Profile 检查**。
 >
 > — [Anionex/dsh-vision-toolkit#178](https://github.com/Anionex/dsh-vision-toolkit/issues/178#issuecomment-6388178989)
-> （906★），因本次扫描而修复，已随 `0.1.48` 发布
 
-| 插件 | 修复版本 | 状态 |
-| --- | --- | --- |
-| `@anionex/dsh-vision-toolkit` | `0.1.48` | ✅ 已发布，rc.2 + rc.3 双版本复测通过 |
-| `dsh-plugin-subscriptions` | `0.9.11` | ✅ 已发布，rc.2 + rc.3 双版本复测通过 |
-| `@nanmicoder/dsh-agent-teams` | `0.1.27` | ✅ 已发布，rc.2 + rc.3 双版本复测通过 |
-| `@goodandready/dsh-clinebot` | `0.6.16` | ✅ 已发布，rc.2 + rc.3 双版本复测通过 |
-| `dsh-workbuddy-connect` | — | ⚠️ 仍为 `0.7.9`（仓库不可访问，是唯一连 issue 都提不了的一个） |
+范围怎么声明，由作者自己决定。有的只补上测过的那一个新版本；有两个改成了覆盖整条预发布线的范围
+（`dsh-clinebot` 的 `0.6.16`、`dsh-plugin-subscriptions` 的 `0.9.12`），这条线再出预发布版时不会再被拒。
 
-完整报告：[docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md)。
+升级报告：[docs/upgrade-0.2.1.md](docs/upgrade-0.2.1.md) ·
+[docs/upgrade-0.2.1-rc3.md](docs/upgrade-0.2.1-rc3.md)。
+已收录于 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 和
+[dsh-plugin.org](https://dsh-plugin.org)。
 
 ## 有 UI，但只在你需要时出现
 
