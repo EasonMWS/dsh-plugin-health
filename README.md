@@ -178,7 +178,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: EasonMWS/dsh-plugin-health@v1.2.0
+      - uses: EasonMWS/dsh-plugin-health@v3
         with:
           plugins: .
           versions: latest,next
@@ -213,7 +213,7 @@ with less YAML:
 ```yaml
 jobs:
   matrix:
-    uses: EasonMWS/dsh-plugin-health/.github/workflows/matrix-review.yml@v1.2.0
+    uses: EasonMWS/dsh-plugin-health/.github/workflows/matrix-review.yml@v3
     with:
       plugins: '.'
       versions: 'latest,next,alpha'
