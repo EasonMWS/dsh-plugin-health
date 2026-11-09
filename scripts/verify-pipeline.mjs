@@ -111,6 +111,7 @@ export function merge(host, out, shards) {
   const rows = new Map()
   const footprints = []
   let tool = null
+  let profile = null
   const rejected = []
   for (const shard of shards) {
     const path = join(shard, 'verify.json')
@@ -119,6 +120,10 @@ export function merge(host, out, shards) {
     let document
     try { document = JSON.parse(readFileSync(path, 'utf8')) } catch (error) { rejected.push(`${path}: ${error.message}`); continue }
     if (document?.host?.version !== host) { rejected.push(`${path}: host ${document?.host?.version} is not ${host}`); continue }
+    // Only official bundle names survive: this came from the job that ran plugin code.
+    profile ??= Array.isArray(document.profile?.hostBundles)
+      ? { base: '@deepseek-ai/dsh-base', hostBundles: document.profile.hostBundles.filter((name) => typeof name === 'string' && /^@deepseek-ai\/dsh-[a-z0-9-]+$/u.test(name)) }
+      : null
     tool ??= document.tool && typeof document.tool.version === 'string' ? { name: 'dsh-plugin-health', version: document.tool.version.slice(0, 32) } : null
     for (const raw of Array.isArray(document.plugins) ? document.plugins : []) {
       const row = sanitizeRow(raw)
@@ -151,6 +156,7 @@ export function merge(host, out, shards) {
   }
   const document = {
     schemaVersion: 1, generatedAt: new Date().toISOString(), tool, host: { version: host },
+    ...(profile ? { profile } : {}),
     counts, plugins, conflicts: predictConflicts(footprints), ...(rejected.length ? { rejectedInputs: rejected } : {}),
   }
   writeFileSync(join(out, 'verify.json'), `${JSON.stringify(document, null, 2)}\n`)

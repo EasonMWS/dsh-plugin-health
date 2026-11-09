@@ -76,3 +76,12 @@ test('plan skips GitHub-only rows: there is no package to install', () => {
   const matrix = { plugins: [{ name: 'gh', version: '1.0.0', source: 'github', results: { [HOST]: { compatible: true } } }, { name: 'npm', version: '1.0.0', results: { [HOST]: { compatible: true } } }] }
   assert.deepEqual(plan(matrix, { plugins: [] }, HOST, 10), ['npm@1.0.0'])
 })
+
+test('merge keeps the trial profile composition, and only official bundle names', () => {
+  const root = mkdtempSync(join(tmpdir(), 'dsh-health-merge-profile-'))
+  const dir = join(root, 's1')
+  mkdirSync(join(dir, 'results'), { recursive: true })
+  writeFileSync(join(dir, 'verify.json'), JSON.stringify({ host: { version: HOST }, profile: { hostBundles: ['@deepseek-ai/dsh-web-app', 'evil-pkg', 42] }, plugins: [] }))
+  const document = merge(HOST, join(root, 'out'), [dir])
+  assert.deepEqual(document.profile, { base: '@deepseek-ai/dsh-base', hostBundles: ['@deepseek-ai/dsh-web-app'] })
+})
