@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased (planned 3.1.0)
+## 3.1.0
 
 ### Every result can now be used as evidence
 
