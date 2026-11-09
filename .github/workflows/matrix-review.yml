@@ -22,9 +22,10 @@ on:
         description: dsh-plugin-health version to run
         required: false
         type: string
-        # Was pinned to 0.1.5, a release from before the security advisory: anyone who did not
-        # override it silently got a build with the known issues still in it.
-        default: '1.7.0'
+        # '3' is a semver range: npm resolves it to the latest 3.x at run time, so a security fix or a
+        # new check reaches callers without them editing this file. It was pinned to an exact release
+        # before, which silently handed callers a build from before the security advisory.
+        default: '3'
       comment:
         description: Post or update the matrix comment on the pull request
         required: false

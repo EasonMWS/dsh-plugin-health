@@ -71,7 +71,14 @@ tar -xzf dsh-plugin-health-3.0.8.tgz -C .
 git tag -a v3.0.8 -m "3.0.8"
 git push origin v3.0.8
 gh release create v3.0.8 --repo EasonMWS/dsh-plugin-health --title "3.0.8 — ..." --notes-file ...
+
+# 移动 v3 标签，让它指向这个版本。README、示例和 Action 引用的是 v3，所以每次 3.x 发版都必须
+# 移动它，否则拿着 v3 的人会一直用旧版本。
+git tag -f v3 v3.0.8
+git push -f origin v3
 ```
+
+**`v3` 标签必须跟着每次 3.x 发版移动。** 它是一根会动的指针，不是一次性的发布标签。
 
 ---
 
