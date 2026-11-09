@@ -143,13 +143,14 @@ test('on a platform with a sandbox, writes outside the home are refused by the O
   }
 
   const work = tempDir()
+  // Declared outside the try so the finally block can remove it.
+  const elsewhere = join(process.cwd(), `sandbox-probe-${process.pid}-${Date.now()}.txt`)
   try {
     const home = join(work, 'home')
     mkdirSync(home, { recursive: true })
     // Two targets: next to the profile (under /tmp, where the sandbox mounts its own throwaway tmpfs), and the
     // real working directory, which is outside /tmp and must be refused outright.
     const outside = join(work, 'outside.txt')
-    const elsewhere = join(process.cwd(), `sandbox-probe-${process.pid}-${Date.now()}.txt`)
 
     const script = join(home, 'probe.js')
     writeFileSync(script, `
