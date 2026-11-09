@@ -1,0 +1,17 @@
+{
+  "_sample": "real: dsh 0.2.2-rc.1, nonexistent version, 2026-11-09",
+  "hostVersion": "0.2.2-rc.1",
+  "plugin": "dsh-prime-memory@99.0.0",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "ok": false,
+      "exitCode": 1,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Update available! 12.5.1 → 12.18.0.\nChangelog: https://pnpm.io/v/12.18.0\nTo update, run: Invoke-WebRequest https://get.pnpm.io/install.ps1 -UseBasicParsing | Invoke-Expression\n",
+      "stderr": "dsh: initialized profile health-smoke at <run>\\home\\profiles\\health-smoke\nError: ERR_PNPM_NO_MATCHING_VERSION\n\n  × adding a new package\n  ╰─▶ Failed to resolve dependency tree: No matching version found for dsh-\n      prime-memory@99.0.0 while fetching it from https://registry.npmjs.org/\n  help: The latest release of dsh-prime-memory is \"0.26.37\". Published at\n        11/6/2026\n        \n        Other releases are:\n          * beta: 0.26.36 published at 11/6/2026\n          * dsh-0.1.2: 0.26.37 published at 11/6/2026\n          * dsh-0.1.5: 0.26.37 published at 11/6/2026\n          * dsh-0.1.7: 0.26.37 published at 11/6/2026\n          * dsh-0.2.0: 0.26.37 published at 11/6/2026\n          * dsh-0.2.0-beta: 0.26.37 published at 11/6/2026\n          * dsh-0.2.1-rc.2: 0.26.37 published at 11/6/2026\n          * dsh-0.2.1-rc.3: 0.26.37 published at 11/6/2026\n          * dsh-0.2.1-rc.4: 0.26.37 published at 11/6/2026\n          * dsh-0.2.1-rc.5: 0.26.37 published at 11/6/2026\n        \n        If you need the full list of all 106 published versions run \"pnpm view\n        dsh-prime-memory versions\".\n\nCommand failed with exit code 1: pnpm add \"dsh-prime-memory@99.0.0\"dsh: plugin command failed; diagnostics: <run>\\home\\profiles\\health-smoke\\.plugin-manager\\logs\\operation-YsUBm7\\pnpm.log\n"
+    }
+  ]
+}

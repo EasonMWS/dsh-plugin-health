@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url'
 import semver from 'semver'
 
 import { environmentForRun } from './env.js'
+import { classifyFailure } from './classify.js'
 import { probePnpmVersion, readSubjects, runtimeEnvironment, toolIdentity } from './evidence.js'
 
 /** Upper bound for any single stage, so a caller cannot ask for a week-long rehearsal. */
@@ -280,6 +281,12 @@ export async function runRuntimeSmoke({
     }
     save()
   }
+  // A failed run says why, in a word a page can translate. Appended only when the run failed.
+  const finish = () => {
+    if (!report.ok) report.failure = classifyFailure(report)
+    save()
+    return report
+  }
   save()
   try {
     if (bypassGate) {
@@ -291,7 +298,7 @@ export async function runRuntimeSmoke({
       ], { cwd: directory, env, timeoutMs: installTimeoutMs })
       report.stages.push({ name: 'allow-version', ...granted })
       save()
-      if (!granted.ok) return report
+      if (!granted.ok) return finish()
     }
     for (const subject of combination ?? [{ spec: pluginSpec }]) {
       const installed = await runProcess([resolve(hostDir, bin), 'plugin', '--profile', profile, 'add', subject.spec], {
@@ -301,7 +308,7 @@ export async function runRuntimeSmoke({
       save()
       if (!installed.ok) {
         recordSubjects()
-        return report
+        return finish()
       }
     }
     recordSubjects()
@@ -324,10 +331,10 @@ export async function runRuntimeSmoke({
     if (typeof stage.details?.hostCordis === 'string') report.runtimeEnv.cordis = stage.details.hostCordis
     report.ok = stage.ok
     save()
-    return report
+    return finish()
   } catch (error) {
     report.error = error instanceof Error ? error.message : String(error)
     save()
-    return report
+    return finish()
   }
 }
