@@ -14,7 +14,7 @@ import { inspectDshHome, listInstalledPlugins, resolveDshHome } from './repair/i
 import { formatInspection } from './repair/format.js'
 import { applyRepairs, planRepairs, restoreRepairs } from './repair/apply.js'
 import { runRuntimeSmoke, resolvePluginIdentity } from './runtime/smoke.js'
-import { parseShard, runVerify } from './runtime/verify.js'
+import { DEFAULT_HOST_BUNDLES, parseShard, runVerify } from './runtime/verify.js'
 import {
   auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue,
 } from './rescue/rescue.js'
@@ -220,6 +220,7 @@ export function usage() {
     '  --timeout <ms>         boot timeout per plugin (default: 60000)',
     '  --install-timeout <ms> install timeout per plugin (default: 180000)',
     '  --fail-on <none|any>   exit 1 when any plugin stops short of V3 (default: none)',
+    '  --profile-base <web|bare>  web (default) adds the host dsh-web-app like a real profile; bare is dsh-base only',
     '  --registry <url>       npm registry (default: https://registry.npmjs.org)',
     '',
     'index options:',
@@ -388,6 +389,8 @@ export async function cmdVerify(options, { verify = runVerify } = {}) {
   if (!dshDirectory || plugins.length === 0 || !out) throw new UsageError('verify requires --dsh-dir, --plugins and --out')
   const failOn = lastString(options, 'fail-on') ?? 'none'
   if (!['none', 'any'].includes(failOn)) throw new UsageError('--fail-on for verify must be none or any')
+  const profileBase = lastString(options, 'profile-base') ?? 'web'
+  if (!['web', 'bare'].includes(profileBase)) throw new UsageError('--profile-base must be web or bare')
   let shard
   if (lastString(options, 'shard') !== undefined) {
     try { shard = parseShard(lastString(options, 'shard')) } catch (error) { throw new UsageError(error.message) }
@@ -399,6 +402,7 @@ export async function cmdVerify(options, { verify = runVerify } = {}) {
     concurrency: numberOption(options, 'concurrency', 2),
     timeoutMs: numberOption(options, 'timeout', 60000),
     installTimeoutMs: numberOption(options, 'install-timeout', 180000),
+    hostBundles: profileBase === 'bare' ? [] : [...DEFAULT_HOST_BUNDLES],
   })
   const { counts } = document
   console.log(`verify: dsh ${document.host.version}, ${document.plugins.length} plugin(s): V3 ${counts.V3}, V2 ${counts.V2}, V1 ${counts.V1}, none ${counts.none}`)

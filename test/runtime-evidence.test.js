@@ -138,3 +138,10 @@ test('a host without definitions(), or one that throws, records toolsUnavailable
   assert.deepEqual(describeFootprint(ctx(undefined)), { entries: [], tools: [], toolsUnavailable: true })
   assert.deepEqual(describeFootprint(ctx({ definitions: () => { throw new Error('scope missing') } })), { entries: [], tools: [], toolsUnavailable: true })
 })
+
+test('the booted tree gets --port 0 --no-open only when the web app is in the profile', async () => {
+  const { launchArgs } = await import('../src/runtime/worker.js')
+  assert.deepEqual(launchArgs({ webApp: true }), ['--port', '0', '--no-open'])
+  assert.deepEqual(launchArgs({}), [])
+  assert.deepEqual(launchArgs({ webApp: 'yes' }), [], 'only a real boolean, never a value taken from elsewhere')
+})

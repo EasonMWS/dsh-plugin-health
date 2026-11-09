@@ -7,6 +7,8 @@ import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import semver from 'semver'
 
+import { createRequire } from 'node:module'
+
 import { environmentForRun } from './env.js'
 import { classifyFailure } from './classify.js'
 import { probePnpmVersion, readSubjects, runtimeEnvironment, toolIdentity } from './evidence.js'
@@ -120,6 +122,42 @@ export function runBoundedProcess(args, { cwd, env, timeoutMs, killAfterMs = 100
 }
 
 /**
+ * Add official bundles that ship inside the host to a trial profile's bundle list.
+ *
+ * A profile created by `dsh plugin --profile x add` contains only `dsh-base` and the plugin. A real desktop or
+ * web profile also has `@deepseek-ai/dsh-web-app`, which provides `webServer`, `connection`,
+ * `workspaceRegistry` and more. Without it, 80 of the 250 most-used plugins on 2026-11-09 "did not start"
+ * only because they were waiting for services every user has. The host resolves official bundles from its
+ * own install directory, so nothing is installed here: the names are added to `dsh.profile.bundles`.
+ *
+ * Only `@deepseek-ai/dsh-*` names that the host actually carries are accepted.
+ *
+ * @param {string} profileDirectory
+ * @param {string} hostDir - the installed `@deepseek-ai/dsh`.
+ * @param {readonly string[]} names
+ * @returns {string[]} the names that were added.
+ */
+export function addHostBundles(profileDirectory, hostDir, names = []) {
+  if (names.length === 0) return []
+  const requireHost = createRequire(join(hostDir, 'package.json'))
+  for (const name of names) {
+    if (!/^@deepseek-ai\/dsh-[a-z0-9-]+$/u.test(name)) throw new Error(`host bundles must be official @deepseek-ai/dsh-* packages: ${name}`)
+    try { requireHost.resolve(`${name}/package.json`) } catch {
+      throw new Error(`the host at ${hostDir} does not carry ${name}`)
+    }
+  }
+  const manifestPath = join(profileDirectory, 'package.json')
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
+  manifest.dsh ??= {}
+  manifest.dsh.profile ??= {}
+  const bundles = Array.isArray(manifest.dsh.profile.bundles) ? manifest.dsh.profile.bundles : []
+  const added = names.filter((name) => !bundles.includes(name))
+  manifest.dsh.profile.bundles = [...bundles, ...added]
+  writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
+  return added
+}
+
+/**
  * Resolve `{ name, version }` for a plugin spec.
  *
  * Three shapes reach here: a registry spec (`@scope/pkg@1.2.3`), a local directory to
@@ -189,6 +227,8 @@ export async function runRuntimeSmoke({
   // Default false keeps the documented behaviour of rehearsing your own plugin. Anything running plugins the
   // operator has not read — a batch run, CI over a catalog — should pass true.
   cleanEnv = false,
+  // Official bundles from the host's own install to add to the profile, so the trial looks like a real one.
+  hostBundles = [],
 }, { runProcess: launch = runBoundedProcess, probePnpm = probePnpmVersion } = {}) {
   // Every stage records when it started and how long it took. Without durations a timeout cannot be told
   // apart from a slow registry, and a cached rerun cannot be compared with the first one.
@@ -311,9 +351,11 @@ export async function runRuntimeSmoke({
         return finish()
       }
     }
+    if (hostBundles.length > 0) report.hostBundles = addHostBundles(join(home, 'profiles', profile), hostDir, hostBundles)
     recordSubjects()
     writeFileSync(configPath, JSON.stringify({
       hostDir, profile, tools, calls, resultPath: workerResult,
+      webApp: hostBundles.includes('@deepseek-ai/dsh-web-app'),
       plugin: resolvedName,
       plugins: combination?.map(row => row.name),
     }))
@@ -351,7 +393,7 @@ export async function runRuntimeSmoke({
  *
  * @returns {Promise<{hostVersion: string, directory: string, footprint: object|null, hostContract?: object, error?: string}>}
  */
-export async function runHostBaseline({ dshDirectory, out, timeoutMs = 60_000, installTimeoutMs = 120_000 }, { runProcess = runBoundedProcess } = {}) {
+export async function runHostBaseline({ dshDirectory, out, timeoutMs = 60_000, installTimeoutMs = 120_000, hostBundles = [] }, { runProcess = runBoundedProcess } = {}) {
   const hostDir = resolve(dshDirectory)
   const manifest = JSON.parse(readFileSync(join(hostDir, 'package.json'), 'utf8'))
   if (manifest.name !== '@deepseek-ai/dsh') throw new Error('--dsh-dir must contain @deepseek-ai/dsh/package.json')
@@ -370,7 +412,9 @@ export async function runHostBaseline({ dshDirectory, out, timeoutMs = 60_000, i
     baseline.error = `could not initialize an empty profile: ${(initialized.stderr || initialized.stdout || '').trim().slice(-500)}`
     return baseline
   }
-  writeFileSync(configPath, JSON.stringify({ hostDir, profile, tools: [], calls: [], resultPath }))
+  // The baseline must have the same host bundles as every trial, or their entries would count as the plugin's.
+  if (hostBundles.length > 0) baseline.hostBundles = addHostBundles(join(home, 'profiles', profile), hostDir, hostBundles)
+  writeFileSync(configPath, JSON.stringify({ hostDir, profile, tools: [], calls: [], resultPath, webApp: hostBundles.includes('@deepseek-ai/dsh-web-app') }))
   await runProcess([WORKER, configPath], { cwd: directory, env, timeoutMs })
   try {
     const runtime = JSON.parse(readFileSync(resultPath, 'utf8'))

@@ -218,6 +218,18 @@ export function hostCordisVersion(hostDir) {
   }
 }
 
+/**
+ * Command-line arguments for the booted tree. Only one fixed set is ever passed, never anything from a plugin or a
+ * request: with the web app in the profile, `--port 0` lets the OS choose a free port (the default 3080 collides
+ * when trials run side by side, and the second one's web services never start), and `--no-open` keeps every
+ * trial from opening a browser window. Both are the web app's own documented flags.
+ * @param {{webApp?: boolean}} config
+ * @returns {string[]}
+ */
+export function launchArgs(config) {
+  return config?.webApp === true ? ['--port', '0', '--no-open'] : []
+}
+
 async function main(configPath) {
   const config = JSON.parse(readFileSync(configPath, 'utf8'))
   const report = { ok: false, stage: 'boot', hostCordis: hostCordisVersion(config.hostDir) }
@@ -231,7 +243,7 @@ async function main(configPath) {
     const { runProfile } = await import(pathToFileURL(requireHost.resolve('@deepseek-ai/dsh/profile-boot')).href)
     const { loadLayeredEnv } = await import(pathToFileURL(requireHost.resolve('@deepseek-ai/dsh-app-boot')).href)
     ;({ ctx, shutdown } = await runProfile({
-      environment: loadLayeredEnv('dsh-health-smoke'), profile: config.profile, patchFiles: [], args: [],
+      environment: loadLayeredEnv('dsh-health-smoke'), profile: config.profile, patchFiles: [], args: launchArgs(config),
     }))
     report.footprint = describeFootprint(ctx)
     save()

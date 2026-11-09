@@ -24,6 +24,13 @@ import { runHostBaseline, runRuntimeSmoke } from './smoke.js'
 
 export const LEVELS = Object.freeze(['V1', 'V2', 'V3'])
 
+/**
+ * Official bundles every trial profile gets, from the host's own install. A plain `plugin add` profile lacks
+ * the web app, and plugins that wait for its services (webServer, connection, workspaceRegistry) looked broken
+ * when every real user has them: 80 of the top 250 on 2026-11-09.
+ */
+export const DEFAULT_HOST_BUNDLES = Object.freeze(['@deepseek-ai/dsh-web-app'])
+
 export { slugOf } from '../util/slug.js'
 
 /** Parse `i/n` (1-based). */
@@ -124,6 +131,8 @@ function resolveFailure(message) {
  */
 export async function runVerify({
   dshDirectory, plugins, out, concurrency = 2, shard, cache, timeoutMs = 60_000, installTimeoutMs = 180_000, registry,
+  // What every trial profile contains besides dsh-base: by default what a web or desktop profile has.
+  hostBundles = DEFAULT_HOST_BUNDLES,
 }, {
   resolvePlugin = async (spec) => (await resolvePlugins([spec], registry ? { registry } : {}))[0],
   smoke = runRuntimeSmoke,
@@ -146,11 +155,13 @@ export async function runVerify({
     .filter((spec) => !shard || shardOf(spec.replace(/(?<=.)@[^@/]*$/u, ''), shard.count) === shard.index)
 
   // The baseline is per host and per tool line; cache it like any other result.
-  const baselineKey = cacheKey({ name: '<host-baseline>', version: host, integrity: '', host, toolVersion: tool.version })
+  // A result depends on what else was in the profile, so the composition is part of every cache key.
+  const hostKey = hostBundles.length > 0 ? `${host}+${[...hostBundles].sort().join(',')}` : host
+  const baselineKey = cacheKey({ name: '<host-baseline>', version: host, integrity: '', host: hostKey, toolVersion: tool.version })
   const baselinePath = cache ? join(resolve(cache), `${baselineKey}.json`) : null
   let baseline = baselinePath && existsSync(baselinePath) ? JSON.parse(readFileSync(baselinePath, 'utf8')) : null
   if (!baseline) {
-    baseline = await runBaseline({ dshDirectory, out: runsDirectory, timeoutMs, installTimeoutMs })
+    baseline = await runBaseline({ dshDirectory, out: runsDirectory, timeoutMs, installTimeoutMs, hostBundles })
     if (baselinePath && baseline?.footprint) writeFileSync(baselinePath, JSON.stringify(baseline))
   }
 
@@ -163,7 +174,7 @@ export async function runVerify({
       return { name: spec, version: null, integrity: null, level: null, failure: resolveFailure(message), result: null }
     }
     const integrity = resolved.manifest?.dist?.integrity ?? null
-    const key = cacheKey({ name: resolved.name, version: resolved.version, integrity, host, toolVersion: tool.version })
+    const key = cacheKey({ name: resolved.name, version: resolved.version, integrity, host: hostKey, toolVersion: tool.version })
     const cachePath = cache ? join(resolve(cache), `${key}.json`) : null
     const slug = slugOf(resolved.name)
     const resultFile = `results/${slug}.json`
@@ -182,7 +193,7 @@ export async function runVerify({
     }
     const common = {
       dshDirectory, plugin: `${resolved.name}@${resolved.version}`, pluginName: resolved.name, pluginVersion: resolved.version,
-      registryOnly: true, bootOnly: true, cleanEnv: true, out: runsDirectory, timeoutMs, installTimeoutMs,
+      registryOnly: true, bootOnly: true, cleanEnv: true, out: runsDirectory, timeoutMs, installTimeoutMs, hostBundles,
     }
     const report = await smoke({ ...common, bypassGate: !declared })
     const level = levelOf(report, declared)
@@ -214,6 +225,7 @@ export async function runVerify({
     generatedAt: now().toISOString(),
     tool,
     host: { version: host },
+    profile: { base: '@deepseek-ai/dsh-base', hostBundles: [...hostBundles] },
     ...(shard ? { shard } : {}),
     baseline: baseline?.footprint
       ? { entries: baseline.footprint.entries.length, tools: baseline.footprint.tools.length }

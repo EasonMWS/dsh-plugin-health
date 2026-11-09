@@ -177,3 +177,42 @@ test('verify exit codes: 0 when done, 1 with --fail-on any short of V3, 2 for us
     console.error = error
   }
 })
+
+test('trials and the baseline get the web app by default, and the profile is recorded', async () => {
+  const { directory, host } = hostDirectory()
+  const { deps, calls } = harness({ a: { engines: '>=0.2.0-0 <0.3.0-0', boot: true } })
+  let baselineOptions
+  const document = await runVerify({ dshDirectory: host, plugins: ['a'], out: join(directory, 'o') }, {
+    ...deps,
+    baseline: async (options) => { baselineOptions = options; return { hostVersion: HOST, footprint: BASE } },
+  })
+  assert.deepEqual(calls.smoke[0].hostBundles, ['@deepseek-ai/dsh-web-app'])
+  assert.deepEqual(baselineOptions.hostBundles, ['@deepseek-ai/dsh-web-app'], 'the baseline has the same composition')
+  assert.deepEqual(document.profile.hostBundles, ['@deepseek-ai/dsh-web-app'])
+})
+
+test('a bare run does not reuse results from a web-profile run', async () => {
+  const { directory, host } = hostDirectory()
+  const cache = join(directory, 'cache')
+  const outcomes = { a: { engines: '>=0.2.0-0 <0.3.0-0', boot: true } }
+  await runVerify({ dshDirectory: host, plugins: ['a'], out: join(directory, 'web'), cache }, harness(outcomes).deps)
+  const bare = harness(outcomes)
+  await runVerify({ dshDirectory: host, plugins: ['a'], out: join(directory, 'bare'), cache, hostBundles: [] }, bare.deps)
+  assert.equal(bare.calls.smoke.length, 1, 'different profile, different result')
+})
+
+test('addHostBundles adds only official bundles the host carries, without duplicates', async () => {
+  const { addHostBundles } = await import('../src/runtime/smoke.js')
+  const { directory, host } = hostDirectory()
+  mkdirSync(join(host, 'node_modules', '@deepseek-ai', 'dsh-web-app'), { recursive: true })
+  writeFileSync(join(host, 'node_modules', '@deepseek-ai', 'dsh-web-app', 'package.json'), JSON.stringify({ name: '@deepseek-ai/dsh-web-app', version: HOST }))
+  const profile = join(directory, 'profile')
+  mkdirSync(profile)
+  writeFileSync(join(profile, 'package.json'), JSON.stringify({ dsh: { profile: { bundles: ['@deepseek-ai/dsh-base', 'plugin-x'] } } }))
+  assert.deepEqual(addHostBundles(profile, host, ['@deepseek-ai/dsh-web-app']), ['@deepseek-ai/dsh-web-app'])
+  assert.deepEqual(addHostBundles(profile, host, ['@deepseek-ai/dsh-web-app']), [], 'idempotent')
+  assert.deepEqual(JSON.parse(readFileSync(join(profile, 'package.json'), 'utf8')).dsh.profile.bundles,
+    ['@deepseek-ai/dsh-base', 'plugin-x', '@deepseek-ai/dsh-web-app'])
+  assert.throws(() => addHostBundles(profile, host, ['some-third-party']), /official/u)
+  assert.throws(() => addHostBundles(profile, host, ['@deepseek-ai/dsh-not-shipped']), /does not carry/u)
+})
