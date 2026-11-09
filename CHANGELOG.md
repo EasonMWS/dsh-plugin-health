@@ -1,5 +1,49 @@
 # Changelog
 
+## Unreleased (planned 3.1.0)
+
+### Every result can now be used as evidence
+
+`smoke.json` records what was installed and by what: the tool's own version, Node, platform, pnpm and cordis,
+each installed package's exact version and integrity (read back from the trial profile's lockfile), and how
+long each stage took. A failed run says why, as one of a fixed set of kinds — `gate-rejected`,
+`missing-service`, `peer-conflict`, `not-activated` and twelve more — classified from the stage that failed
+only. `runtime.json` records what the profile occupies: every loader entry and every tool name, before the
+activation assertions, so a failed boot still shows what registered.
+
+### `verify`: many plugins, one level each
+
+`dsh-plugin-health verify` boot-tests a list of plugins, always with a clean environment, and gives each a
+level: `V1` its declaration admits the host, `V2` it installs, `V3` every entry activates. A plugin whose
+declaration rejects the host is also run once with an exemption inside the throwaway home, and recorded as
+`bypass` without raising its level — "the declaration is stale" and "the code is broken" are different
+findings. Footprints are kept relative to an empty profile on the same host, and plugins that add the same
+tool name or entry id are listed as predicted conflicts. Results are cached by package bytes, host and tool
+line, and can be sharded.
+
+### The compatibility page shows what the table could not
+
+- Boot results for the latest host, with the failure in words and a link to the evidence.
+- **Next build:** 90 plugins on 2026-11-09 were accepted by `0.2.2-rc.1` while their own declarations will
+  reject `0.2.2-rc.2`. The page marks them before their users find out.
+- **Fix hints:** each rejected row suggests a range (marked a suggestion), and says when it crosses a host
+  line the plugin was never built against.
+- **No declaration** is shown as ○, not as the tick a declared pass gets — 1,736 plugins.
+- **GitHub-only plugins** (about half the catalogue) are judged from the package.json on their default
+  branch, and marked as such.
+- **History:** a daily snapshot on the `verify-data` branch, so a row can say "rejected since" and "fixed on".
+- Per-plugin anchors and JSON, and a live shields.io badge for authors.
+- 3.17 MB and ~72,000 DOM nodes became 176 KB and ~1,900; a filter went from ~700 ms to ~3 ms.
+
+### Corrections
+
+- **DSH does re-check installed plugins at startup.** The README said a plugin rejected after an upgrade
+  "keeps loading". It is skipped, with one line on stderr and nothing in the UI. Verified in
+  `@deepseek-ai/dsh-app-boot` 0.2.0-rc.2 through 0.2.2-rc.1 and by booting a real profile.
+- `matrix --concurrency` was accepted and ignored; lookups ran one at a time. A full scan went from about
+  twenty minutes to two.
+- The publish workflow interpolated an input into a script; it now goes through the environment.
+
 ## 3.0.8
 
 ### The data this tool produces is now checkable
