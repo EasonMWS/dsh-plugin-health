@@ -7,7 +7,7 @@ import { basename, join } from 'node:path'
 import { DEFAULT_REGISTRY, fetchJson } from './util/http.js'
 import { createMatrix, hostSummary } from './compat/matrix.js'
 import { matrixToMarkdown, writeBadges } from './compat/report.js'
-import { renderCompatPage } from './compat/page.js'
+import { loadVerify, updateHistory, writeCompatSite } from './compat/artifacts.js'
 import { loadCatalogCategories } from './compat/catalog.js'
 import { buildFormat1Index, writeIndex } from './index/build.js'
 import { inspectDshHome, listInstalledPlugins, resolveDshHome } from './repair/inspect.js'
@@ -189,6 +189,9 @@ export function usage() {
     '  --no-badges            skip static SVG badges',
     '  --catalog <file|url>   awesome-dsh-plugin snapshot, for the category column in the HTML page',
     '  --html-title <text>    title for the generated HTML page',
+    '  --verify <verify.json> boot-test results for the latest host, shown on the page with evidence links',
+    '  --verify-base <url>    URL prefix of the verify results, relative to the page (default: ../verify/<host>/)',
+    '  --history <dir>        record a daily snapshot there and show since-when and fixed-on dates',
     '  --json                 also print the matrix JSON to stdout',
     '  --registry <url>       npm registry (default: https://registry.npmjs.org)',
     '  --concurrency <n>      network concurrency (default: 6)',
@@ -260,13 +263,24 @@ async function cmdMatrix(options) {
   mkdirSync(out, { recursive: true })
   writeFileSync(join(out, 'matrix.json'), `${JSON.stringify(matrix, null, 2)}\n`)
   writeFileSync(join(out, 'matrix.md'), matrixToMarkdown(matrix))
-  const htmlPath = join(out, 'index.html')
-  writeFileSync(htmlPath, renderCompatPage(matrix, {
+  // Optional inputs that turn the declaration table into evidence: a verify run for the latest host, and a
+  // history directory that gains one snapshot per run.
+  const verifyPath = lastString(options, 'verify')
+  const loaded = verifyPath !== undefined && existsSync(verifyPath)
+    ? loadVerify(verifyPath, { evidenceBase: lastString(options, 'verify-base') })
+    : {}
+  if (verifyPath !== undefined && !existsSync(verifyPath)) console.warn(`matrix: --verify ${verifyPath} not found; the page shows declarations only`)
+  const historyDir = lastString(options, 'history')
+  const history = historyDir === undefined ? undefined : updateHistory(matrix, historyDir)
+  if (history !== undefined) console.log(`history: ${history.added} new event(s) since ${history.previous ?? 'the first snapshot'}`)
+  writeCompatSite(matrix, out, {
     title: lastString(options, 'html-title') ?? 'DSH plugin compatibility',
     catalog,
     indexUrl: lastString(options, 'index-url'),
     toolVersion: VERSION,
-  }))
+    ...loaded,
+    ...(history ? { history: history.summary } : {}),
+  })
   const badges = booleanOption(options, 'no-badges') ? undefined : writeBadges(matrix, out)
   const summary = hostSummary(matrix)
   console.log(`matrix: ${matrix.plugins.length} plugin(s) × ${matrix.hosts.length} host version(s)`)

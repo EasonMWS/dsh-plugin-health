@@ -175,6 +175,18 @@ jobs:
 
 这是回答「这东西在当前 DSH 上还能用吗」最省事的方式——对你、对随便点进你仓库的人都一样。
 
+**或者用实时徽章，什么都不用提交。** 公开兼容页为目录里每个插件都发布了一个
+[shields.io endpoint](https://shields.io/badges/endpoint-badge)，每天对着最新宿主重建。把 `<slug>` 换成你的包名
+（`@scope/name` 写成 `scope__name`）：
+
+```markdown
+[![dsh](https://img.shields.io/endpoint?url=https://easonmws.github.io/dsh-plugin-health/compat/shields/<slug>.json)](https://easonmws.github.io/dsh-plugin-health/compat/#p-<slug>)
+```
+
+它只说成立的最强结论，不多说：只有这个确切版本在最新宿主上实测启动过才显示 `boots`；只查了声明就是
+`accepted`；你的声明会拒绝下一个预发布版时显示 `next build rejects`；声明过时但代码能启动时显示
+`rejected · boots if exempted`。同样的数据在 `compat/p/<slug>.json`。
+
 完整参数见 [`action.yml`](action.yml) · 例子见 [`examples/dsh-compat.yml`](examples/dsh-compat.yml)。
 
 ## 为什么中间这层重要

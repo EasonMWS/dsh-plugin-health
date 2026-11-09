@@ -207,6 +207,19 @@ without blocking contributors:
 This is the cheapest way to answer "does this still work on the current DSH?" — for you and for
 anyone browsing your repo.
 
+**Or a live badge, with nothing to commit.** The public compatibility page publishes a
+[shields.io endpoint](https://shields.io/badges/endpoint-badge) for every catalogued plugin, rebuilt daily
+against the latest host. Replace `<slug>` with your package name (`@scope/name` becomes `scope__name`):
+
+```markdown
+[![dsh](https://img.shields.io/endpoint?url=https://easonmws.github.io/dsh-plugin-health/compat/shields/<slug>.json)](https://easonmws.github.io/dsh-plugin-health/compat/#p-<slug>)
+```
+
+It says the strongest thing that is true and no more: `boots` only when this exact version was boot-tested
+on the latest host, `accepted` when only the declaration was checked, `next build rejects` when your
+declaration will refuse the next prerelease, `rejected · boots if exempted` when the declaration is stale
+but the code starts. The same data is at `compat/p/<slug>.json`.
+
 Prefer a reusable workflow? [`matrix-review.yml`](.github/workflows/matrix-review.yml) does the same
 with less YAML:
 

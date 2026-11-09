@@ -19,14 +19,12 @@ import { join, resolve } from 'node:path'
 import { evaluatePluginCompatibility } from '../compat/evaluate.js'
 import { mapLimit, resolvePlugins } from '../compat/matrix.js'
 import { toolIdentity } from './evidence.js'
+import { slugOf } from '../util/slug.js'
 import { runHostBaseline, runRuntimeSmoke } from './smoke.js'
 
 export const LEVELS = Object.freeze(['V1', 'V2', 'V3'])
 
-/** `@scope/name` → `scope__name`; anything outside `[a-z0-9._-]` becomes `-`. */
-export function slugOf(name) {
-  return String(name).toLowerCase().replace(/^@/u, '').replace('/', '__').replace(/[^a-z0-9._-]/gu, '-')
-}
+export { slugOf } from '../util/slug.js'
 
 /** Parse `i/n` (1-based). */
 export function parseShard(text) {
