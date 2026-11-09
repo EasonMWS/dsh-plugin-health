@@ -411,9 +411,9 @@ dsh-plugin-health boot restore --profile desktop --apply
 **不适合你**：如果你想“逛市场、发现并安装新插件”——那是插件市场的活，这个包管的是你已经装了什么。
 （不过官方 format-1 索引正是由它生成的，市场可以消费。）
 
-## 为什么需要它：DSH 管住了安装，但没管升级
+## 为什么需要它：升级后，DSH 只在 stderr 上留一行就把插件丢掉了
 
-DSH 会拒绝**新安装**一个声明范围不匹配当前版本的插件，这块做得很扎实：
+DSH 会拒绝**新安装**一个声明范围不匹配当前版本的插件：
 
 ```
 $ dsh plugin --profile test add dsh-session-recall
@@ -421,9 +421,22 @@ dsh: installation rejected: Plugin dsh-session-recall@0.7.9 is incompatible with
 dsh: nothing was installed.
 ```
 
-但它**不会**在宿主升级后重新检查已经装好的插件。一个声明 `engines.dsh: 0.2.1-rc.2` 的插件
-依旧留在 `bundles` 里、依旧在 `0.2.1-rc.3` 上加载，UI 里没有任何提示。这就是本工具要补的缺口：
-读出每个已安装插件自己声明的范围，和你实际在跑的版本做对比。
+它也会在每次启动 profile 时重新检查**已经装好**的插件。声明不再接受当前宿主的 bundle 会被跳过，
+profile 的其余部分照常启动，就像什么都没发生。唯一的痕迹是 stderr 上的一行，桌面版不会显示：
+
+```
+dsh: skipping profile bundle "dsh-browser-cdp": Error: Plugin dsh-browser-cdp@1.7.5 is incompatible
+with dsh 0.2.2-rc.1: requirements {"engines.dsh":"0.1.7-rc.1 || … || 0.2.1-rc.5"}. …
+```
+
+2026-11-09 核实：读了 `@deepseek-ai/dsh-app-boot` 从 `0.2.0-rc.2` 到 `0.2.2-rc.1` 的代码（检查在
+`loadProfileDirectory` 里，来自 patch 层的条目由启动预检禁用），并实际启动了一个装有该插件的 profile：
+有豁免时它注册了自己的工具；去掉豁免后 profile 正常启动，插件悄无声息地不见了。本 README 以前写的是
+插件升级后「依旧加载」——那是错的。
+
+所以，你依赖的插件可能在宿主更新后消失，界面上没有任何地方告诉你是哪个、为什么。这就是本工具要补的
+缺口：读出每个已安装插件自己声明的范围，和你实际在跑的版本对比，告诉你宿主现在丢掉了哪些，并检查
+每一个是否其实还能启动。
 
 ## 它已经抓到过真实问题
 
