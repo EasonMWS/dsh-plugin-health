@@ -98,9 +98,42 @@ export function verifyActivation(ctx, extra = {}) {
   }
 }
 
+/**
+ * Execute one tool call through the host's tool service.
+ *
+ * The shape of `execute` changed between host lines, and both are still in the field:
+ *
+ *   - 0.2.1.x  `execute(exec: ToolExecutionInput): Promise<ToolExecutionResult>` — one call
+ *   - 0.2.2.x  `execute(input: ToolBatchInput): Promise<ToolBatchResult>` — a batch of model calls
+ *
+ * The capability that tells them apart is `executable()`, which arrived with the batch shape; a version
+ * table would need updating on every host release and would be wrong for anything not in it. It is tested
+ * rather than assumed, and the mode is recorded so a report says which contract it exercised.
+ *
+ * @param {object} runtime - the host's `tools` service.
+ * @param {string} callId - correlation id for this call.
+ * @param {{name: string, arguments: object}} call - the assertion from the caller.
+ * @param {'single'|'batch'} mode - which contract to use.
+ * @returns {Promise<object>} the execution result, in either shape.
+ */
+export async function executeToolCall(runtime, callId, call, mode) {
+  if (mode === 'single') {
+    return runtime.execute({ callId, name: call.name, arguments: call.arguments, signal: new AbortController().signal })
+  }
+  // `arguments` is the raw JSON string the model would have produced — the batch API parses it itself.
+  const batch = await runtime.execute({
+    calls: [{ type: 'tool-call', id: callId, name: call.name, arguments: JSON.stringify(call.arguments ?? {}) }],
+    signal: new AbortController().signal,
+  })
+  const settled = batch?.results?.find((row) => row.callId === callId) ?? batch?.results?.[0]
+  assert.ok(settled, `no result for ${call.name}: ${JSON.stringify(batch)}`)
+  return settled.result
+}
+
 /** Registration alone does not prove execution; callers can supply real tool calls too. */
 export async function verifyTools(ctx, tools, calls) {
   const runtime = ctx.get('tools')
+  const mode = typeof runtime?.executable === 'function' ? 'batch' : 'single'
   const registered = []
   for (const name of new Set([...tools, ...calls.map(call => call.name)])) {
     assert.ok(runtime?.get(name), `tool did not register: ${name}`)
@@ -108,15 +141,12 @@ export async function verifyTools(ctx, tools, calls) {
   }
   const executed = []
   for (const [index, call] of calls.entries()) {
-    const result = await runtime.execute({
-      callId: `health-smoke-${index}`, name: call.name, arguments: call.arguments,
-      signal: new AbortController().signal,
-    })
+    const result = await executeToolCall(runtime, `health-smoke-${index}`, call, mode)
     assert.notEqual(result.isError, true, `tool returned an error: ${call.name}: ${JSON.stringify(result)}`)
     if (Object.hasOwn(call, 'expectedValue')) assert.deepEqual(result.value, call.expectedValue, `unexpected value from ${call.name}`)
     executed.push({ name: call.name, ok: true })
   }
-  return { registered, executed }
+  return { registered, executed, toolApi: mode }
 }
 
 /**
