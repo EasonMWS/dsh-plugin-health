@@ -7,6 +7,8 @@ import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import semver from 'semver'
 
+import { environmentForRun } from './env.js'
+
 /** Upper bound for any single stage, so a caller cannot ask for a week-long rehearsal. */
 const MAX_TIMEOUT_MS = 10 * 60 * 1000
 
@@ -182,6 +184,9 @@ export async function runRuntimeSmoke({
   dshDirectory, plugin, tools = [], calls = [], out, bootOnly = false, bypassGate = false,
   pluginName, pluginVersion, registryOnly = false, companions = [],
   timeoutMs = 30_000, installTimeoutMs = 120_000,
+  // Default false keeps the documented behaviour of rehearsing your own plugin. Anything running plugins the
+  // operator has not read — a batch run, CI over a catalog — should pass true.
+  cleanEnv = false,
 }, { runProcess = runBoundedProcess } = {}) {
   // A registry-only run must be told the identity: there is no path to read it from, and the spec
   // came from a request rather than from a human.
@@ -243,11 +248,13 @@ export async function runRuntimeSmoke({
   const reportPath = join(directory, 'smoke.json')
   const workerResult = join(directory, 'runtime.json')
   const configPath = join(directory, 'config.json')
-  const env = { ...process.env, DSH_HOME: home, DSH_TELEMETRY_DISABLED: '1' }
+  const { env, report: envReport } = environmentForRun({ clean: cleanEnv, home })
   const report = {
     schemaVersion: 1, generatedAt: new Date().toISOString(),
     hostVersion: manifest.version, plugin: pluginSpec, directory, home, profile,
     ok: false, stages: [],
+    // Names only. A report is meant to be shareable, and a value here would be a token in a gist.
+    env: envReport,
     ...(combination ? { combination } : {}),
   }
   const save = () => { writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`) }

@@ -575,6 +575,17 @@ dsh-plugin-health smoke \
 POSIX 下，父进程以 0 退出却留下后台子进程时，同样判定失败并停止其进程组。Windows 超时
 使用 `taskkill /T`；目前不能在父进程已经退出后检测其遗留子进程。
 
+**被测插件默认继承你的环境变量。** 这是为「试跑自己的插件」写的：那是你的代码，用你的权限运行。
+但如果这个插件你没读过——批量验证、CI 跑一个目录里的插件——加 `--clean-env`，只有一份固定清单能穿过边界：
+机器基础变量（`PATH`、`HOME`、`TMPDIR`、语言环境、`TZ`、`CI`，以及 Windows 上对应的那些）、
+包管理器需要的（`HTTP_PROXY`、`HTTPS_PROXY`、`NO_PROXY`、`NODE_EXTRA_CA_CERTS`、`npm_config_*`、
+`PNPM_HOME`、XDG 目录），以及 `DSH_HOME`。名字看起来像凭证的一律不传，即使在白名单里也一样；CI 注入的
+`ACTIONS_*`、`GITHUB_*`、`RUNNER_*` 也从不传递。报告里记录 `env: { mode, passed }`——只有变量名，
+没有值。
+
+代理地址里如果带用户名密码，仍然会传过去，否则装不上包。`--clean-env` 是收窄插件能看到的东西，
+不是沙箱。
+
 每次运行都保留独立目录中的 home、`smoke.json`、`runtime.json` 与有长度上限的输出日志，
 Health 将这个新目录选作试跑 profile，但不会限制被测代码访问现有 profile。目录不会自动清理，
 分享前请检查日志。目标宿主需要自己的 Node.js、pnpm
