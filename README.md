@@ -350,7 +350,7 @@ tarball-only entries are skipped and reported.
 
 ## Security
 
-**Running anything below 2.1.3? Upgrade.** Three rounds of review fixed these, and one release fixed
+**Running anything below 2.1.3? Use the latest 3.x.** Three rounds of review fixed these, and one release fixed
 problems the previous one had only half-fixed — so the version matters:
 
 | Version | What it fixed |
@@ -423,7 +423,7 @@ held since 1.0 and still holds.
   `./api` and `./client`);
 - the set of finding ids beyond the documented ones — new checks will introduce new ids.
 
-**Version policy for a host bump.** `engines.dsh` is a range (`>=0.1.0-rc.6 <0.3.0-0`), not an
+**Version policy for a host bump.** `engines.dsh` is a range (`>=0.2.0-rc.0 <0.3.0-0`), not an
 enumeration, so a new DSH nightly does not break this plugin the way it breaks plugins that pin
 exact versions. When DSH 0.3.0 ships, this package needs a release that extends that range — the one
 known expiry point, announced in the changelog before it lands.
@@ -555,10 +555,11 @@ dsh plugin --profile desktop add dsh-plugin-health
 
 ## Why
 
-DSH ships no official plugin market index, publishes a prerelease roughly every two days with
-breaking changes, and its plugin manager has no version picker or upgrade action. Today an author
-can only check a plugin against the one DSH version installed on the machine, and Windows/WSL
-install failures leave partial directories and stale locks behind.
+DSH ships no official plugin market index and publishes a prerelease roughly every two days with
+breaking changes. Its official plugin manager does install, list versions, update and grant version
+exemptions — but it judges a plugin against the host that is running, so an author still has to check
+a plugin against every other version by hand, and nothing verifies that a plugin actually starts.
+Windows/WSL install failures also leave partial directories and stale locks behind.
 
 This tool covers the three gaps that the existing doctor/market tools do not:
 
