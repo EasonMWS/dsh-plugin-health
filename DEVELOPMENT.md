@@ -176,13 +176,17 @@ npm test
 
 ## 目录速查
 
+主线和 4.0 是两个 git worktree，分别在各自的目录里：
+
 ```sh
-# 主线
-cd "D:\agent头脑风暴\dsh-plugin-health-notes\dsh-plugin-health"
+# 主线（3.x）
+cd <主线目录>
 
 # 4.0 实验
-cd "D:\agent头脑风暴\dsh-plugin-health-notes\dsh-plugin-health-4.0"
+cd <4.0 目录>
 
-# 看两个工作树
+# 从任何一处列出两个工作树及其路径
 git worktree list
 ```
+
+具体的绝对路径由 `git worktree list` 给出，不写进文档——写死的路径在别人的机器上一定是错的。
