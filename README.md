@@ -488,10 +488,9 @@ Not this package if you want to *browse and install new plugins from a market* �
 marketplace, while this one manages what you already have. (It does build the official format-1
 index that marketplaces can consume.)
 
-## Why this exists: DSH gates installs, but not upgrades
+## Why this exists: after an upgrade, DSH drops a plugin with one line on stderr
 
-DSH rejects a *new* install whose declared range does not cover the running version — that part is
-solid:
+DSH rejects a *new* install whose declared range does not cover the running version:
 
 ```
 $ dsh plugin --profile test add dsh-session-recall
@@ -499,10 +498,25 @@ dsh: installation rejected: Plugin dsh-session-recall@0.7.9 is incompatible with
 dsh: nothing was installed.
 ```
 
-What it does **not** do is re-check plugins that are already installed after the host moves. A
-plugin declaring `engines.dsh: 0.2.1-rc.2` stays in `bundles` and keeps loading on `0.2.1-rc.3` with
-no warning anywhere in the UI. That is the gap this package fills: it reads what every installed
-plugin declares and compares it against the version you are actually running.
+It also re-checks plugins that are already installed, every time a profile starts. A bundle whose
+declaration no longer admits the host is skipped, and the rest of the profile starts as if nothing happened.
+All it leaves behind is a line on stderr, which the desktop app does not show:
+
+```
+dsh: skipping profile bundle "dsh-browser-cdp": Error: Plugin dsh-browser-cdp@1.7.5 is incompatible
+with dsh 0.2.2-rc.1: requirements {"engines.dsh":"0.1.7-rc.1 || … || 0.2.1-rc.5"}. …
+```
+
+Verified on 2026-11-09 against `@deepseek-ai/dsh-app-boot` from `0.2.0-rc.2` through `0.2.2-rc.1` (the
+check is in `loadProfileDirectory`, and entries from patch layers are disabled by the startup preflight), and
+by booting a profile with that plugin installed: with its exemption it registers its tool; without it the
+profile boots with the plugin silently absent. Earlier versions of this README said the plugin "keeps
+loading" after an upgrade — that was wrong.
+
+So a plugin you rely on can vanish after a host update, with nothing in the UI to say which one or why.
+That is the gap this package fills: it reads what every installed plugin declares, compares it against the
+version you are actually running, tells you which ones the host is now dropping, and checks whether each
+one would still start.
 
 ## It has already caught real regressions
 
