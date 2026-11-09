@@ -260,15 +260,15 @@ export async function createMatrix({
   plugins, hosts, exemptions = {}, cwd, registry = DEFAULT_REGISTRY, concurrency = 6, loadPackument = loadPackumentFromRegistry,
 }) {
   const selection = await resolveHostSelection(hosts, { registry, loadPackument })
-  const resolved = []
-  for (const spec of plugins) {
+  // `concurrency` was accepted and ignored: every lookup waited for the previous one. Results stay in input order.
+  const resolved = await mapLimit(plugins, concurrency, async (spec) => {
     try {
       const [plugin] = await resolvePlugins([spec], { cwd, registry, loadPackument })
-      resolved.push(plugin)
+      return plugin
     } catch (error) {
-      resolved.push({ spec, name: spec, source: 'unknown', error: error instanceof Error ? error.message : String(error) })
+      return { spec, name: spec, source: 'unknown', error: error instanceof Error ? error.message : String(error) }
     }
-  }
+  })
   const matrix = evaluateMatrix(resolved, selection.hosts, { exemptions })
   // Only present when the caller asked for `current`. Absent means "this matrix was not built from a
   // selection", which the page must not mistake for "the selection had no roles".

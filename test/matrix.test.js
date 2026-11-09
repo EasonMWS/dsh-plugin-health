@@ -87,3 +87,18 @@ test('resolvePlugins reads a local plugin directory', async () => {
     rmSync(directory, { recursive: true, force: true })
   }
 })
+
+test('createMatrix actually uses its concurrency', async () => {
+  let inFlight = 0
+  let peak = 0
+  const slow = async (registry, name) => {
+    inFlight += 1
+    peak = Math.max(peak, inFlight)
+    await new Promise((resolveDelay) => setTimeout(resolveDelay, 5))
+    inFlight -= 1
+    return name === '@deepseek-ai/dsh' ? PACKUMENTS[name] : { 'dist-tags': { latest: '1.0.0' }, versions: { '1.0.0': { name, version: '1.0.0' } } }
+  }
+  const matrix = await createMatrix({ plugins: Array.from({ length: 12 }, (_, index) => `p${index}`), hosts: ['0.2.1-rc.2'], loadPackument: slow, concurrency: 4 })
+  assert.equal(peak, 4)
+  assert.deepEqual(matrix.plugins.map((row) => row.name), Array.from({ length: 12 }, (_, index) => `p${index}`))
+})

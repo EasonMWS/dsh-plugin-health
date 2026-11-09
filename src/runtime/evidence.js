@@ -36,7 +36,10 @@ export function toolIdentity() {
 export function probePnpmVersion({ env = process.env, timeoutMs = 5000 } = {}) {
   return new Promise((resolveVersion) => {
     try {
-      execFile('pnpm', ['--version'], { env, timeout: timeoutMs, shell: process.platform === 'win32', windowsHide: true },
+      // On Windows the whole constant command goes to the shell as one string: passing an argument array
+      // with `shell: true` is deprecated (DEP0190) because the arguments are concatenated unescaped.
+      const [command, args] = process.platform === 'win32' ? ['pnpm --version', []] : ['pnpm', ['--version']]
+      execFile(command, args, { env, timeout: timeoutMs, shell: process.platform === 'win32', windowsHide: true },
         (error, stdout) => {
           const version = String(stdout ?? '').trim()
           resolveVersion(!error && /^\d+\.\d+\.\d+/u.test(version) ? version : null)
