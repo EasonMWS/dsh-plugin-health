@@ -23,6 +23,27 @@ passes only what a host and a package manager need, refuses anything whose name 
 records the names it passed — never the values. The default is unchanged, and that is deliberate: the existing
 behaviour is documented, and changing it silently would be worse than the exposure.
 
+### The tool execution contract changed between host lines
+
+Fixing the runtime job's host list surfaced two things it had been hiding.
+
+The acceptance fixture declared `engines.dsh: >=0.2.1-rc.2 <0.2.2-0` — it never claimed to support 0.2.2 at
+all, so the host correctly rejected the "healthy" fixture and the failure looked like a tool defect.
+
+More seriously: `smoke`'s tool assertions were calling an API that no longer exists in that shape.
+
+```
+0.2.1.x  execute(exec: ToolExecutionInput): Promise<ToolExecutionResult>    one call
+0.2.2.x  execute(input: ToolBatchInput): Promise<ToolBatchResult>          a batch
+```
+
+Both host lines are in the field, so both are supported. The choice is made by capability (`executable()`,
+which arrived with the batch contract) rather than a version table, because a table needs editing on every
+host release and is wrong for anything not on it. The mode is recorded as `toolApi` in the report.
+
+This is why the old job, pinned to two 0.2.1 releases, never saw it: `smoke` had not worked on the host
+people run since 0.2.2 came out.
+
 ### A new check on the compatibility judgement
 
 `src/compat/evaluate.js` is a local copy of the host's judgement, and the note on top claimed the official
