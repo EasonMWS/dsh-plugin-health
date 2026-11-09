@@ -263,3 +263,14 @@ test('the sandbox profile file is cleaned up after a launch attempt', (t) => {
     rmSync(work, { recursive: true, force: true })
   }
 })
+
+test('a fresh /tmp is mounted before the home, so a home under /tmp is not hidden by it', () => {
+  // bwrap applies mounts in order. With the tmpfs second, every trial home created under tmpdir() vanished
+  // inside the sandbox ("Can't chdir to /tmp/…/home"); CI caught it once the runner's TMPDIR became /tmp.
+  const args = bubblewrapArgs({ home: '/tmp/trial/home', command: '/bin/true', args: [], exists: () => true, unshareNet: true })
+  const tmpfs = args.findIndex((arg, index) => arg === '--tmpfs' && args[index + 1] === '/tmp')
+  const bind = args.findIndex((arg, index) => arg === '--bind' && args[index + 1] === '/tmp/trial/home')
+  assert.ok(tmpfs >= 0 && bind >= 0, 'both mounts are present')
+  assert.ok(tmpfs < bind, `--tmpfs /tmp must precede --bind <home>; saw tmpfs at ${tmpfs}, bind at ${bind}`)
+  assert.ok(bind < args.indexOf('--chdir'), 'and the chdir comes after the home exists')
+})

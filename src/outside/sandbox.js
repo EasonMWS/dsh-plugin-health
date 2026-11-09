@@ -151,8 +151,11 @@ export function bubblewrapArgs({
 
   // Read-only scratch system location, and the only writable tree: the DSH home.
   if (exists('/run')) out.push('--ro-bind', '/run', '/run')
-  out.push('--bind', home, home)
+  // bwrap applies mounts in order. A fresh /tmp has to come before the home: a home that lives under /tmp —
+  // which is where every temporary trial home is created — was otherwise hidden by the empty tmpfs mounted
+  // on top of it, and the sandbox failed with "Can't chdir to /tmp/…/home".
   out.push('--tmpfs', '/tmp')
+  out.push('--bind', home, home)
   out.push('--chdir', home)
   out.push('--', command, ...args)
   return out
