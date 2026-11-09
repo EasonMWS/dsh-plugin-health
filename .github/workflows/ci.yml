@@ -3,6 +3,10 @@ name: ci
 on:
   push:
   pull_request:
+  # The official host moves; the compatibility mirror has to be re-checked even when nothing here changed.
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -77,6 +81,56 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm pack --dry-run
+
+  # src/compat/evaluate.js is a copy of the host's judgement. A copy that silently diverges makes every
+  # verdict wrong, including the published page, and nothing else would notice.
+  compat-drift:
+    name: compat drift against official app-boot
+    # Weekly, on demand, and on a pull request that touches the mirror or its corpus. Not on every push: the
+    # official package only changes when the host does.
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      # Working out whether this pull request is one of the relevant ones. The base ref arrives through the
+      # environment rather than being pasted into the script.
+      - name: is this a change that could drift?
+        id: relevant
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "$EVENT_NAME" != "pull_request" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BASE_REF"
+          if git diff --name-only "origin/$BASE_REF...HEAD" | grep -qE '^(src/compat/evaluate\.js|test/fixtures/compat-corpus\.json)$'; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "neither the mirror nor its corpus changed"
+          fi
+      - if: steps.relevant.outputs.run == 'true'
+        run: npm ci
+      - name: install the official builds
+        if: steps.relevant.outputs.run == 'true'
+        run: |
+          npm install --prefix "$RUNNER_TEMP/app-boot-next" --no-audit --no-fund --no-progress "@deepseek-ai/dsh-app-boot@next"
+          npm install --prefix "$RUNNER_TEMP/app-boot-latest" --no-audit --no-fund --no-progress "@deepseek-ai/dsh-app-boot@latest" || true
+      - name: compare the mirror against the official implementation
+        if: steps.relevant.outputs.run == 'true'
+        run: |
+          # next must agree. latest is informational: releases before 0.2.2-rc.1 predate the export, and the
+          # script reports that rather than failing.
+          node scripts/compat-drift.js "$RUNNER_TEMP/app-boot-next"
+          node scripts/compat-drift.js "$RUNNER_TEMP/app-boot-latest" || true
 
   runtime:
     name: runtime acceptance (dsh ${{ matrix.host }})

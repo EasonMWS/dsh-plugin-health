@@ -1,0 +1,676 @@
+{
+  "capturedFrom": {
+    "package": "@deepseek-ai/dsh-app-boot",
+    "version": "0.2.2-rc.1",
+    "note": "Expectations are the official implementation output, recorded so the local mirror can be checked against them offline."
+  },
+  "cases": [
+    {
+      "label": "engines: caret within the line",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.2.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "engines: full supported range",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": ">=0.2.0-rc.0 <0.3.0-0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "engines: 0.x caret, the most common rejection",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.1.0-rc.6"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "^0.1.0-rc.6"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines: exact old version",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "0.1.7"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "0.1.7"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines: star",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "*"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "engines: empty string never matches",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": ""
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": ""
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines: whitespace never matches",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "   "
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "   "
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines: caret on the rc itself",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.2.2-rc.1"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "engines: next minor line",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.3.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "^0.3.0"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines: upper bound is exclusive",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": ">=0.2.0-rc.0 <0.3.0-0"
+        }
+      },
+      "runtimeVersion": "0.3.0-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": ">=0.2.0-rc.0 <0.3.0-0"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines: workspace is not a range",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "workspace:^"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "workspace:^"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines: prerelease participates",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": ">=0.2.2-rc.1"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "engines: range below the prerelease",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "<0.2.2-rc.1"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "<0.2.2-rc.1"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines present: peers are ignored even when they would fail",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.2.0"
+        },
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "^0.1.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "engines present and failing: peers do not rescue it",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.1.0"
+        },
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "^0.2.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "^0.1.0"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "peer: dsh in range",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": ">=0.2.0-rc.0 <0.3.0-0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "peer: dsh out of range",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "^0.1.0-rc.6"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "@deepseek-ai/dsh": "^0.1.0-rc.6"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "peer: dsh-* package in range",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh-app-boot": "^0.2.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "peer: dsh-* package out of range",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh-tools": "^0.1.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "@deepseek-ai/dsh-tools": "^0.1.0"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "peer: non-dsh peer is ignored",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "react": "^18.0.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "peer: non-dsh peer ignored while a dsh one fails",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "react": "^18.0.0",
+          "@deepseek-ai/dsh": "^0.1.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "@deepseek-ai/dsh": "^0.1.0"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "peer: several dsh peers all in range",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "^0.2.0",
+          "@deepseek-ai/dsh-tools": "^0.2.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "peer: one of several fails",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "^0.2.0",
+          "@deepseek-ai/dsh-tools": "^0.1.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "@deepseek-ai/dsh-tools": "^0.1.0"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "peer: workspace caret means the host",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "workspace:^"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "peer: workspace tilde means the host",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "workspace:~"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "peer: workspace star means the host",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "workspace:*"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "peer: empty range never matches",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": ""
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "@deepseek-ai/dsh": ""
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "peer: star matches",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": "*"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "no declaration: the host does not gate it",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0"
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "no declaration: empty peers",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {}
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "no declaration: engines without dsh",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "node": ">=20"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "older host: plugin needs the newest",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": ">=0.2.2-rc.1"
+        }
+      },
+      "runtimeVersion": "0.2.1-rc.5",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": ">=0.2.2-rc.1"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "older host: plugin supports the line",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": ">=0.2.0-rc.0 <0.3.0-0"
+        }
+      },
+      "runtimeVersion": "0.2.1-rc.5",
+      "expect": {
+        "compatible": true
+      }
+    },
+    {
+      "label": "newer host: upper bound excludes it",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.2.0"
+        }
+      },
+      "runtimeVersion": "0.3.0-rc.1",
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "^0.2.0"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "exemption hit",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.1.0-rc.6"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "exemptions": {
+        "p@1.0.0": [
+          "0.2.2-rc.1"
+        ]
+      },
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "^0.1.0-rc.6"
+        },
+        "exempted": true
+      }
+    },
+    {
+      "label": "exemption for another version",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.1.0-rc.6"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "exemptions": {
+        "p@1.0.0": [
+          "0.2.1-rc.5"
+        ]
+      },
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "^0.1.0-rc.6"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "exemption for another package",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.1.0-rc.6"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "exemptions": {
+        "q@1.0.0": [
+          "0.2.2-rc.1"
+        ]
+      },
+      "expect": {
+        "compatible": false,
+        "requirements": {
+          "engines.dsh": "^0.1.0-rc.6"
+        },
+        "exempted": false
+      }
+    },
+    {
+      "label": "engines.dsh is not a string",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "engines": {
+          "dsh": 2
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "throws": "Plugin manifest engines.dsh must be a string"
+      }
+    },
+    {
+      "label": "peer range is not a string",
+      "manifest": {
+        "name": "p",
+        "version": "1.0.0",
+        "peerDependencies": {
+          "@deepseek-ai/dsh": 2
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "throws": "Plugin manifest peerDependencies[\"@deepseek-ai/dsh\"] must be a string"
+      }
+    },
+    {
+      "label": "requirements unmet but name missing",
+      "manifest": {
+        "version": "1.0.0",
+        "engines": {
+          "dsh": "^0.1.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "throws": "Plugin manifest name must be a non-empty string when dsh requirements are unmet"
+      }
+    },
+    {
+      "label": "requirements unmet but version missing",
+      "manifest": {
+        "name": "p",
+        "engines": {
+          "dsh": "^0.1.0"
+        }
+      },
+      "runtimeVersion": "0.2.2-rc.1",
+      "expect": {
+        "throws": "Plugin manifest version must be a non-empty string when dsh requirements are unmet"
+      }
+    }
+  ]
+}
