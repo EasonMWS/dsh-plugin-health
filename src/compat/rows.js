@@ -26,6 +26,21 @@ export function dayOf(iso) {
 }
 
 /**
+ * Suggested ranges grouped by value. A plugin with 18 DSH peers usually needs the same range on all of them,
+ * and listing it 18 times buries the one line a reader needs.
+ * @returns {Array<{range: string, fields: string[]}>}
+ */
+function groupByRange(suggested = {}) {
+  const groups = new Map()
+  for (const [field, range] of Object.entries(suggested)) {
+    const list = groups.get(range) ?? []
+    list.push(field)
+    groups.set(range, list)
+  }
+  return [...groups].map(([range, fields]) => ({ range, fields }))
+}
+
+/**
  * Per-host state code.
  *   ok   declared, and the declaration admits the host
  *   none no declaration at all: the gate does not check it, which is not the same as passing
@@ -85,7 +100,7 @@ export function buildRows(matrix, meta = {}) {
         bad: plugin.summary?.incompatible ?? 0,
         err: plugin.summary?.errors ?? 0,
         q: (plugin.summary?.incompatible ?? 0) > 0 ? requirements : [],
-        h: hint ? { reason: hint.reason, crosses: hint.crossesLine === true, sug: Object.entries(hint.suggested ?? {}) } : null,
+        h: hint ? { reason: hint.reason, crosses: hint.crossesLine === true, sug: Object.entries(hint.suggested ?? {}), g: groupByRange(hint.suggested) } : null,
         f: forecast?.atRisk ? forecast.rejects : null,
         l: sameVersion ? (run.level ?? null) : null,
         k: sameVersion ? (run.failure?.kind ?? null) : null,

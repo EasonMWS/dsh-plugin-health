@@ -88,6 +88,7 @@ const STRINGS = {
     evidence: 'evidence',
     suggested: 'Suggested range',
     suggestionNote: 'a suggestion; the author decides',
+    allPeers: 'on {n} DSH peers',
     crossesLine: 'declared for an older host line: check it boots there first',
     caretZero: 'on 0.x, ^ only admits the same minor',
     rangeExcludes: 'the declared range ends before this host',
@@ -192,6 +193,7 @@ const STRINGS = {
     evidence: '证据',
     suggested: '建议范围',
     suggestionNote: '仅为建议，由作者决定',
+    allPeers: '用于 {n} 个 DSH peer',
     crossesLine: '原本为旧版本线声明：先确认能在新线上启动',
     caretZero: '0.x 上的 ^ 只允许同一个 minor',
     rangeExcludes: '声明的范围在这个宿主之前就结束了',
@@ -278,7 +280,10 @@ function rowHtml(row, latestIndex) {
   if (row.bad > 0) notes.push(`<span class="badge"><span data-i18n="rejectedBy">${en.rejectedBy}</span> ${row.bad}</span>`)
   if (row.f) notes.push(`<span class="warn">${esc(en.forecast)} ${esc(row.f.join(', '))}</span>`)
   if (row.h) {
-    notes.push(`<span class="hint">${esc(en.suggested)}: ${esc(row.h.sug.map(([field, range]) => `${field} ${range}`).join('; '))}</span>`)
+    const groups = row.h.g ?? row.h.sug.map(([field, range]) => ({ range, fields: [field] }))
+    notes.push(`<span class="hint">${esc(en.suggested)}: ${esc(groups.map((group) => (group.fields.length === 1
+      ? `${group.fields[0]} ${group.range}`
+      : `${group.range} (${en.allPeers.replace('{n}', String(group.fields.length))})`)).join('; '))}</span>`)
   }
   if (row.q.length > 0) notes.push(`<details><summary data-i18n="declared">${en.declared}</summary><pre>${esc(row.q.join('\n'))}</pre></details>`)
   return `<tr id="p-${esc(row.slug)}" data-name="${esc(row.n.toLowerCase())}" data-bad="${row.bad > 0 ? '1' : '0'}" data-cat="${esc(row.c)}" data-released="${esc(row.r)}">
@@ -412,7 +417,7 @@ export function renderCompatPage(matrix, meta = {}) {
   thead th.date { width: 100px; }
   thead th.c { width: 96px; text-align: center; text-transform: none; letter-spacing: 0; font-size: 11px; }
   thead th.notes { width: 230px; }
-  tbody th { text-align: left; padding: 9px 6px; font-weight: 400; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+  tbody th { text-align: left; padding: 9px 6px; font-weight: 400; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; vertical-align: top; }
   tbody td { padding: 9px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
   tbody tr:target, tbody tr.hl { background: var(--hl); }
   .name { font-family: ui-monospace,SFMono-Regular,Menlo,monospace; font-size: 13px; text-decoration: none; }
@@ -623,9 +628,14 @@ ${rowMarkup}
     if (row.h) {
       var hint = el('span', 'hint');
       hint.appendChild(document.createTextNode(t('suggested') + ': '));
-      for (var h = 0; h < row.h.sug.length; h++) {
-        hint.appendChild(el('code', null, row.h.sug[h][0] + ' ' + row.h.sug[h][1]));
-        if (h < row.h.sug.length - 1) hint.appendChild(document.createTextNode('; '));
+      var groups = row.h.g || row.h.sug.map(function (pair) { return { range: pair[1], fields: [pair[0]] }; });
+      for (var h = 0; h < groups.length; h++) {
+        var group = groups[h];
+        var code = el('code', null, group.fields.length === 1 ? group.fields[0] + ' ' + group.range : group.range);
+        if (group.fields.length > 1) code.title = group.fields.join('\\n');
+        hint.appendChild(code);
+        if (group.fields.length > 1) hint.appendChild(document.createTextNode(' (' + t('allPeers').replace('{n}', group.fields.length) + ')'));
+        if (h < groups.length - 1) hint.appendChild(document.createTextNode('; '));
       }
       notes.appendChild(hint);
       line(notes, 'sub', (row.h.reason === 'caret-zero' ? t('caretZero') : t('rangeExcludes')) + ' \\u00b7 ' + t('suggestionNote'));
