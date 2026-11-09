@@ -164,6 +164,42 @@ export function describeActivation(ctx) {
 }
 
 /**
+ * What the booted profile occupies: every loader entry, and every tool name the tool service can see.
+ *
+ * Recorded whether or not tool assertions run, and before the activation assertions, so a failed boot still
+ * shows what did register. Two plugins that both register `web_search` only collide when installed together;
+ * this is the data that lets a batch run predict that without installing every pair.
+ *
+ * Tool names come from the public `definitions()` of the tools service (present in
+ * `@deepseek-ai/dsh-tools@0.2.2-rc.1`). A host without it, or one that throws, records `toolsUnavailable`
+ * instead of failing the run: the footprint is evidence, not an assertion.
+ *
+ * @param {object} ctx - host context from `runProfile`.
+ * @returns {{entries: Array<{id: string|null, name: string|null, state: number|null, disabled: boolean}>, tools: string[], toolsUnavailable: boolean}}
+ */
+export function describeFootprint(ctx) {
+  const entries = []
+  for (const entry of ctx.get('loader')?.entries?.() ?? []) {
+    entries.push({
+      id: entry.options?.id ?? null,
+      name: entry.options?.name ?? null,
+      state: entry.fiber?.state ?? null,
+      disabled: entry.disabled === true,
+    })
+  }
+  let tools = []
+  let toolsUnavailable = false
+  try {
+    const definitions = ctx.get('tools')?.definitions?.()
+    if (definitions === undefined) toolsUnavailable = true
+    else tools = [...new Set([...definitions].map((definition) => definition?.name).filter((name) => typeof name === 'string'))].sort()
+  } catch {
+    toolsUnavailable = true
+  }
+  return { entries, tools, toolsUnavailable }
+}
+
+/**
  * The version of `@deepseek-ai/cordis` the host itself carries.
  *
  * Recorded so a result can be reproduced: the activation rule depends on that package's state enum, and the
@@ -197,6 +233,8 @@ async function main(configPath) {
     ;({ ctx, shutdown } = await runProfile({
       environment: loadLayeredEnv('dsh-health-smoke'), profile: config.profile, patchFiles: [], args: [],
     }))
+    report.footprint = describeFootprint(ctx)
+    save()
     // Check the control group first. If the host's state enum moved, the assertions below would report
     // "did not activate" for a plugin that is fine, which sends the reader after the wrong thing.
     report.hostContract = checkHostContract(ctx)

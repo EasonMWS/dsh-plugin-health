@@ -112,3 +112,29 @@ test('readSubjects names a subject that is absent from the lockfile instead of d
 test('toolIdentity reads this package', () => {
   assert.deepEqual(toolIdentity(), { name: OWN.name, version: OWN.version })
 })
+
+test('footprint records entries and tool names from the public definitions()', async () => {
+  const { describeFootprint } = await import('../src/runtime/worker.js')
+  const entries = [
+    { options: { id: 'a1', name: '@deepseek-ai/dsh-base' }, fiber: { state: 2 } },
+    { options: { id: 'p1', name: 'plugin-x' }, fiber: { state: 0 }, disabled: true },
+  ]
+  const ctx = (tools) => ({ get: (name) => (name === 'loader' ? { entries: () => entries } : tools) })
+  const withTools = describeFootprint(ctx({ definitions: () => [{ name: 'web_search' }, { name: 'bash' }, { name: 'web_search' }] }))
+  assert.deepEqual(withTools, {
+    entries: [
+      { id: 'a1', name: '@deepseek-ai/dsh-base', state: 2, disabled: false },
+      { id: 'p1', name: 'plugin-x', state: 0, disabled: true },
+    ],
+    tools: ['bash', 'web_search'],
+    toolsUnavailable: false,
+  })
+})
+
+test('a host without definitions(), or one that throws, records toolsUnavailable instead of failing', async () => {
+  const { describeFootprint } = await import('../src/runtime/worker.js')
+  const ctx = (tools) => ({ get: (name) => (name === 'loader' ? { entries: () => [] } : tools) })
+  assert.deepEqual(describeFootprint(ctx({ get: () => null })), { entries: [], tools: [], toolsUnavailable: true })
+  assert.deepEqual(describeFootprint(ctx(undefined)), { entries: [], tools: [], toolsUnavailable: true })
+  assert.deepEqual(describeFootprint(ctx({ definitions: () => { throw new Error('scope missing') } })), { entries: [], tools: [], toolsUnavailable: true })
+})
