@@ -1,5 +1,56 @@
 # Changelog
 
+## 3.0.8
+
+### The data this tool produces is now checkable
+
+Three things were wrong in ways that made the numbers untrustworthy, and none of them were in the checks
+themselves.
+
+**The compatibility page counted a host nobody runs.** It asked for `latest,next,alpha` by name, and on
+2026-11-08 `alpha` pointed at `0.2.2-alpha.3` — five days *older* than `latest`. 135 plugins were reported
+as rejected because of it. The page now chooses its hosts (`--versions current`): the latest release, a
+dist-tag only when it points ahead of latest, and the previous release line. The headline counts rejection on
+the latest host; "rejected by at least one" is still shown, as secondary information. Each column is labelled
+with its role, and the tags that were left out are named.
+
+**The runtime acceptance job tested two releases nobody ran.** It was pinned to `0.2.1-rc.2` and
+`0.2.1-rc.3` while the current host was `0.2.2-rc.1`. Hosts now come from the registry at run time, plus one
+fixed older release as a regression baseline.
+
+**The plugin under test inherited your whole environment**, including any token in it. `smoke --clean-env`
+passes only what a host and a package manager need, refuses anything whose name looks like a credential, and
+records the names it passed — never the values. The default is unchanged, and that is deliberate: the existing
+behaviour is documented, and changing it silently would be worse than the exposure.
+
+### A new check on the compatibility judgement
+
+`src/compat/evaluate.js` is a local copy of the host's judgement, and the note on top claimed the official
+build does not export it. That stopped being true: `@deepseek-ai/dsh-app-boot@0.2.2-rc.1` exports
+`evaluatePluginCompatibility`.
+
+A copy that diverges quietly makes every verdict wrong. `test/fixtures/compat-corpus.json` now holds 41 cases
+whose **expectations were captured by running the official implementation**, and `scripts/compat-drift.js`
+re-runs them against an installed official build in CI — weekly, on demand, and on pull requests that touch
+the mirror or the corpus. Run against `@next` today: 41 of 41 agree.
+
+### One host contract is now checked instead of assumed
+
+The activation check relies on the literal `FIBER_ACTIVE = 2`, which cordis declares as a `const enum` and
+erases at compile time, so it cannot be imported. Nothing noticed if it changed. If none of the official
+`@deepseek-ai/` entries report that state, the run now fails with `host-contract-changed:` — naming the host
+contract rather than the plugin under test. The host's cordis version is recorded in `runtime.json`.
+
+### Documentation corrected
+
+Six statements had stopped being true, all checked against the thing they describe before being changed: the
+declared host range in both READMEs, a unit-test count, the upgrade advice, a claim that the official plugin
+manager has no version picker (it exports `listVersions`, `updateBundle`, `listVersionExemptions` and
+`setVersionExemption`), and absolute paths in `DEVELOPMENT.md`.
+
+One item was deferred rather than guessed: whether the official host re-checks `engines.dsh` at profile boot
+could not be verified from the published package, so that section is unchanged.
+
 ## 3.0.7
 
 ### The upgrade preview is now visible without switching views

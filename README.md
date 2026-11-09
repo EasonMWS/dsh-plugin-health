@@ -18,7 +18,7 @@ Startup checks execute plugin code with your account permissions and cannot safe
 software. Read [Health's security boundaries](SECURITY.md#malware-containment-is-not-implemented)
 and the [official DSH safety notice](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md).
 
-> Source candidate: `3.0.7`. The registry install below follows the published npm release.
+> Source candidate: `3.0.8`. The registry install below follows the published npm release.
 
 ```sh
 npm install -g dsh-plugin-health
