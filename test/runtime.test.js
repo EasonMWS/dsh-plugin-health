@@ -152,7 +152,7 @@ test('tool probes name missing registrations, dispatch calls and check returned 
     execute: async call => { seen.push(call); return { isError: false, value: { answer: 42 } } },
   }) }
   const result = await verifyTools(ctx, [], [{ name: 'fixture_tool', arguments: { input: 7 }, expectedValue: { answer: 42 } }])
-  assert.deepEqual(result, { registered: ['fixture_tool'], executed: [{ name: 'fixture_tool', ok: true }] })
+  assert.deepEqual(result, { registered: ['fixture_tool'], executed: [{ name: 'fixture_tool', ok: true }], toolApi: 'single' })
   assert.deepEqual(seen[0].arguments, { input: 7 })
   assert.ok(seen[0].signal instanceof AbortSignal)
   await assert.rejects(verifyTools(ctx, [], [{ name: 'fixture_tool', arguments: {}, expectedValue: 7 }]), /unexpected value/)
