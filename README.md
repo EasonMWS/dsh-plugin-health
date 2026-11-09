@@ -709,6 +709,37 @@ packages you trust. Unknown software needs a separately configured environment t
 credentials, networking and processes; Health does not create or verify that environment. Startup
 checks cannot certify all plugin behavior, safety or UI compatibility.
 
+### Verify many plugins at once
+
+`verify` runs the boot-only smoke for a list of plugins, always with `--clean-env`, and gives each a level:
+
+| Level | Meaning |
+| --- | --- |
+| `V1` | its declaration admits this host (the same evaluation the install gate runs) |
+| `V2` | the official CLI installed it into a clean profile |
+| `V3` | after boot, every entry of the plugin is active |
+
+```sh
+dsh-plugin-health verify --dsh-dir <installed @deepseek-ai/dsh> \
+  --plugins plugins.txt --out verify-out [--cache .verify-cache] [--shard 3/10] [--concurrency 2]
+```
+
+A plugin whose declaration rejects the host is still run once with the exact-version exemption inside the
+throwaway home, and the result is recorded under `bypass`. It never raises the level: "the declaration is
+stale but the code boots" and "the code is broken" are different findings, and the page shows both.
+
+Each plugin's footprint (entries and tool names) is recorded relative to an empty profile on the same host,
+so it lists only what the plugin added. Two plugins that add the same tool name or entry id are listed in
+`conflicts` as **predicted** — they were not installed together.
+
+Output: `verify.json` (levels, failure kinds, predicted conflicts) and `results/<slug>.json` (the full
+smoke report with package integrity, tool and runtime versions, and stage timings). `--cache` reuses a
+result for the same package bytes, host and tool line. Exit code is `0` when the run completes;
+`--fail-on any` returns `1` if any plugin stops short of `V3`.
+
+`V3` means the plugin started. It is not a review of what the code does, and it does not cover features that
+need an API key, the desktop app, or a working UI.
+
 ### Example run (2026-10-17, 7 plugins × 4 hosts)
 
 ```

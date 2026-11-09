@@ -14,6 +14,7 @@ import { inspectDshHome, listInstalledPlugins, resolveDshHome } from './repair/i
 import { formatInspection } from './repair/format.js'
 import { applyRepairs, planRepairs, restoreRepairs } from './repair/apply.js'
 import { runRuntimeSmoke, resolvePluginIdentity } from './runtime/smoke.js'
+import { parseShard, runVerify } from './runtime/verify.js'
 import {
   auditRescues, declarationConflict, rehearse, rescuePlugin, undoRescue,
 } from './rescue/rescue.js'
@@ -140,6 +141,7 @@ export function usage() {
     'Usage:',
     '  dsh-plugin-health matrix --plugins <file|specs> [options]',
     '  dsh-plugin-health smoke --dsh-dir <dir> --plugin <spec|tarball> --tool <name> [--with <spec>] [options]',
+    '  dsh-plugin-health verify --dsh-dir <dir> --plugins <file|specs> --out <dir> [options]',
     '  dsh-plugin-health index --catalog <file|url> --index-url <url> [options]',
     '  dsh-plugin-health doctor [--home <dir>] [--profile <name>] [--runtime <version>] [--json]',
     '  dsh-plugin-health review [--home <dir>] [--profile <name>] [--runtime <version>]',
@@ -203,6 +205,19 @@ export function usage() {
     '  --install-timeout <ms> installation timeout (default: 120000)',
     '  --out <dir>            parent for retained run directories (default: OS temporary directory)',
     '  --json                 print report as JSON',
+    '',
+    'verify options (boot-only smoke for many plugins, always with a clean environment; not a security review):',
+    '  levels: V1 declaration admits the host, V2 installs, V3 every entry activates',
+    '  --dsh-dir <dir>        installed @deepseek-ai/dsh package directory',
+    '  --plugins <file|a,b>   npm specs, name or name@version (repeatable)',
+    '  --out <dir>            writes verify.json and results/<slug>.json',
+    '  --concurrency <n>      plugins run at once (default: 2)',
+    '  --shard <i/n>          only the i-th of n stable shards, by plugin name',
+    '  --cache <dir>          reuse results for the same package bytes, host and tool line',
+    '  --timeout <ms>         boot timeout per plugin (default: 60000)',
+    '  --install-timeout <ms> install timeout per plugin (default: 180000)',
+    '  --fail-on <none|any>   exit 1 when any plugin stops short of V3 (default: none)',
+    '  --registry <url>       npm registry (default: https://registry.npmjs.org)',
     '',
     'index options:',
     '  --catalog <file|url>   awesome-dsh-plugin snapshot (default: awesome-dsh-plugin.com)',
@@ -346,6 +361,33 @@ async function cmdSmoke(options) {
     console.log(`output: ${join(report.directory, 'smoke.json')}`)
   }
   return report.ok ? 0 : 1
+}
+
+export async function cmdVerify(options, { verify = runVerify } = {}) {
+  const plugins = collectPluginSpecs(options)
+  const dshDirectory = lastString(options, 'dsh-dir')
+  const out = lastString(options, 'out')
+  if (!dshDirectory || plugins.length === 0 || !out) throw new UsageError('verify requires --dsh-dir, --plugins and --out')
+  const failOn = lastString(options, 'fail-on') ?? 'none'
+  if (!['none', 'any'].includes(failOn)) throw new UsageError('--fail-on for verify must be none or any')
+  let shard
+  if (lastString(options, 'shard') !== undefined) {
+    try { shard = parseShard(lastString(options, 'shard')) } catch (error) { throw new UsageError(error.message) }
+  }
+  const document = await verify({
+    dshDirectory, plugins, out, shard,
+    cache: lastString(options, 'cache'),
+    registry: lastString(options, 'registry'),
+    concurrency: numberOption(options, 'concurrency', 2),
+    timeoutMs: numberOption(options, 'timeout', 60000),
+    installTimeoutMs: numberOption(options, 'install-timeout', 180000),
+  })
+  const { counts } = document
+  console.log(`verify: dsh ${document.host.version}, ${document.plugins.length} plugin(s): V3 ${counts.V3}, V2 ${counts.V2}, V1 ${counts.V1}, none ${counts.none}`)
+  for (const [kind, count] of Object.entries(counts.failures)) console.log(`  ${kind}: ${count}`)
+  if (document.conflicts.length > 0) console.log(`  predicted conflicts: ${document.conflicts.length}`)
+  console.log(`output: ${join(out, 'verify.json')}`)
+  return failOn === 'any' && document.plugins.some((row) => row.level !== 'V3') ? 1 : 0
 }
 
 function printFindings(result) {
@@ -803,6 +845,7 @@ export async function main(argv) {
     switch (command) {
       case 'matrix': return await cmdMatrix(options)
       case 'smoke': return await cmdSmoke(options)
+      case 'verify': return await cmdVerify(options)
       case 'index': return await cmdIndex(options)
       case 'doctor': return await cmdDoctor(options)
       case 'review': return cmdReview(options)

@@ -338,3 +338,48 @@ export async function runRuntimeSmoke({
     return finish()
   }
 }
+
+/**
+ * Boot a profile with no third-party plugin, to learn what the host itself occupies.
+ *
+ * A plugin's footprint only means something relative to this: the host registers dozens of entries and tools
+ * on its own, and a plugin "registering web_search" is noise if the host already did. `plugin list` is the
+ * cheapest official command that initializes a profile without installing anything into it.
+ *
+ * The verdict is the footprint, not `ok`: an empty profile has nothing under test, so the worker's own
+ * completion state is recorded but not required.
+ *
+ * @returns {Promise<{hostVersion: string, directory: string, footprint: object|null, hostContract?: object, error?: string}>}
+ */
+export async function runHostBaseline({ dshDirectory, out, timeoutMs = 60_000, installTimeoutMs = 120_000 }, { runProcess = runBoundedProcess } = {}) {
+  const hostDir = resolve(dshDirectory)
+  const manifest = JSON.parse(readFileSync(join(hostDir, 'package.json'), 'utf8'))
+  if (manifest.name !== '@deepseek-ai/dsh') throw new Error('--dsh-dir must contain @deepseek-ai/dsh/package.json')
+  const bin = typeof manifest.bin === 'string' ? manifest.bin : manifest.bin?.dsh
+  const parent = out === undefined ? tmpdir() : resolve(out)
+  mkdirSync(parent, { recursive: true })
+  const directory = mkdtempSync(join(parent, 'dsh-health-baseline-'))
+  const home = join(directory, 'home')
+  const profile = 'health-smoke'
+  const configPath = join(directory, 'config.json')
+  const resultPath = join(directory, 'runtime.json')
+  const { env } = environmentForRun({ clean: true, home })
+  const baseline = { hostVersion: manifest.version, directory, footprint: null }
+  const initialized = await runProcess([resolve(hostDir, bin), 'plugin', '--profile', profile, 'list'], { cwd: directory, env, timeoutMs: installTimeoutMs })
+  if (!initialized.ok) {
+    baseline.error = `could not initialize an empty profile: ${(initialized.stderr || initialized.stdout || '').trim().slice(-500)}`
+    return baseline
+  }
+  writeFileSync(configPath, JSON.stringify({ hostDir, profile, tools: [], calls: [], resultPath }))
+  await runProcess([WORKER, configPath], { cwd: directory, env, timeoutMs })
+  try {
+    const runtime = JSON.parse(readFileSync(resultPath, 'utf8'))
+    baseline.footprint = runtime.footprint ?? null
+    if (runtime.hostContract) baseline.hostContract = runtime.hostContract
+    if (!baseline.footprint) baseline.error = runtime.error ?? 'the empty profile did not boot far enough to record a footprint'
+  } catch (error) {
+    baseline.error = `no baseline runtime report: ${error.message}`
+  }
+  writeFileSync(join(directory, 'baseline.json'), `${JSON.stringify(baseline, null, 2)}\n`)
+  return baseline
+}
