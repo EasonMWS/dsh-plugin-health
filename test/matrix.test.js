@@ -87,3 +87,46 @@ test('resolvePlugins reads a local plugin directory', async () => {
     rmSync(directory, { recursive: true, force: true })
   }
 })
+
+test('B6: every row says where its claim comes from, with the ranges, including rows that pass', async () => {
+  const { declarationOf } = await import('../src/compat/matrix.js')
+  assert.deepEqual(declarationOf({ engines: { dsh: '>=0.2.0-0' }, peerDependencies: { '@deepseek-ai/dsh-tools': '^0.1.0' } }),
+    { declared: 'engines', declaredRanges: { 'engines.dsh': '>=0.2.0-0' } }, 'engines decides alone, like the host')
+  assert.deepEqual(declarationOf({ peerDependencies: { '@deepseek-ai/dsh-tools': '^0.1.0', react: '^18' } }),
+    { declared: 'peers', declaredRanges: { '@deepseek-ai/dsh-tools': '^0.1.0' } })
+  assert.deepEqual(declarationOf({ peerDependencies: { react: '^18' } }), { declared: 'none', declaredRanges: {} })
+  const matrix = evaluateMatrix([
+    { name: 'plugin-good', version: '1.0.0', manifest: PACKUMENTS['plugin-good'].versions['1.0.0'] },
+    { name: 'plugin-bad', version: '2.0.0', manifest: PACKUMENTS['plugin-bad'].versions['2.0.0'] },
+    { name: 'plugin-quiet', version: '1.0.0', manifest: { name: 'plugin-quiet', version: '1.0.0' } },
+  ], HOSTS)
+  assert.deepEqual(matrix.plugins.map((row) => row.declared), ['engines', 'peers', 'none'])
+  assert.equal(matrix.plugins[2].results[HOSTS[0]].compatible, true, 'undeclared passes the gate — the page must not call it verified')
+  assert.equal(matrix.tool.name, 'dsh-plugin-health')
+})
+
+test('B6: fixHint explains ^0.x and suggests a range that admits the host, marked as a suggestion', async () => {
+  const { fixHintFor } = await import('../src/compat/matrix.js')
+  const caret = fixHintFor({ '@deepseek-ai/dsh-settings': '^0.1.0-rc.6' }, '0.2.2-rc.1')
+  assert.equal(caret.reason, 'caret-zero')
+  assert.equal(caret.suggestion, true)
+  assert.deepEqual(caret.suggested, { '@deepseek-ai/dsh-settings': '>=0.1.0-rc.6 <0.3.0-0' })
+  const enumerated = fixHintFor({ 'engines.dsh': '0.2.1-rc.4 || 0.2.1-rc.5' }, '0.2.2-rc.1')
+  assert.equal(enumerated.reason, 'range-excludes-host')
+  assert.deepEqual(enumerated.suggested, { 'engines.dsh': '>=0.2.1-rc.4 <0.3.0-0' })
+  assert.equal(fixHintFor({ 'engines.dsh': '>=0.3.0' }, '0.2.2-rc.1'), undefined, 'no hint when the floor is above the host: that is not a stale range')
+  assert.equal(fixHintFor({ '@deepseek-ai/dsh': 'workspace:^' }, '0.2.2-rc.1'), undefined)
+  // A matrix row carries it only where the host is rejected.
+  const matrix = evaluateMatrix([{ name: 'plugin-bad', version: '2.0.0', manifest: PACKUMENTS['plugin-bad'].versions['2.0.0'] }], ['0.2.1-rc.2'])
+  assert.equal(matrix.plugins[0].results['0.2.1-rc.2'].fixHint.reason, 'caret-zero')
+  const passing = evaluateMatrix([{ name: 'plugin-good', version: '1.0.0', manifest: PACKUMENTS['plugin-good'].versions['1.0.0'] }], ['0.2.1-rc.2'])
+  assert.equal(Object.hasOwn(passing.plugins[0].results['0.2.1-rc.2'], 'fixHint'), false)
+})
+
+test('B6: a hint that crosses a host line says so, because the plugin never ran on that line', async () => {
+  const { fixHintFor } = await import('../src/compat/matrix.js')
+  assert.equal(fixHintFor({ 'engines.dsh': '0.2.1-rc.5' }, '0.2.2-rc.1').crossesLine, false)
+  const old = fixHintFor({ '@deepseek-ai/dsh-llm': '^0.1.2-rc.1' }, '0.2.2-rc.1')
+  assert.equal(old.crossesLine, true)
+  assert.match(old.note, /check that it boots on 0\.2/u)
+})

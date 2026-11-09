@@ -6,6 +6,7 @@
 import semver from 'semver'
 import { loadPackumentFromRegistry, mapLimit, DEFAULT_REGISTRY } from '../util/http.js'
 import { evaluatePluginCompatibility } from './evaluate.js'
+import { toolIdentity } from '../util/tool.js'
 
 /**
  * Choose the hosts worth showing on a compatibility page, from the registry's own dist-tags.
@@ -210,6 +211,74 @@ export function repositoryUrl(manifest) {
 }
 
 /**
+ * Where a plugin's compatibility claim comes from, and what it says.
+ *
+ * `none` is not "verified": a manifest with neither `engines.dsh` nor a DSH peer is simply not checked by
+ * the host gate. A page that shows it as a green tick next to plugins that declared and passed overstates it.
+ *
+ * @param {object|undefined} manifest
+ * @returns {{declared: 'engines'|'peers'|'none', declaredRanges: Record<string, string>}}
+ */
+export function declarationOf(manifest) {
+  const engines = manifest?.engines
+  if (engines && typeof engines === 'object' && Object.hasOwn(engines, 'dsh')) {
+    return { declared: 'engines', declaredRanges: { 'engines.dsh': String(engines.dsh) } }
+  }
+  const peers = manifest?.peerDependencies && typeof manifest.peerDependencies === 'object' ? manifest.peerDependencies : {}
+  const ranges = Object.fromEntries(Object.entries(peers)
+    .filter(([name]) => name === '@deepseek-ai/dsh' || name.startsWith('@deepseek-ai/dsh-'))
+    .map(([name, range]) => [name, String(range)]))
+  return Object.keys(ranges).length > 0 ? { declared: 'peers', declaredRanges: ranges } : { declared: 'none', declaredRanges: {} }
+}
+
+/** The upper bound that admits every build of the host's current line: `<0.3.0-0` on 0.2.x, `<2.0.0-0` on 1.x. */
+function lineCeiling(host) {
+  const parsed = semver.parse(host)
+  return parsed.major === 0 ? `<0.${parsed.minor + 1}.0-0` : `<${parsed.major + 1}.0.0-0`
+}
+
+/**
+ * A suggested declaration for an unmet requirement, marked as a suggestion.
+ *
+ * The most common rejection in the published data is a `^0.1.0-rc.6` peer: on 0.x, `^` only admits the same
+ * minor, which surprises authors who read it as "this or newer". The other common shape is an enumeration of
+ * exact prereleases, which every new host build rejects. Both get the same fix: keep the author's lower bound,
+ * admit the rest of the host's current line. Whether to admit untested builds is the author's call — some
+ * deliberately list only what they tested — so this is a hint, never a verdict.
+ *
+ * @param {Record<string, string>} requirements - unmet requirement map from the evaluator.
+ * @param {string} host - host version the requirement was checked against.
+ * @returns {{reason: 'caret-zero'|'range-excludes-host', note: string, suggested: Record<string, string>, suggestion: true}|undefined}
+ */
+export function fixHintFor(requirements, host) {
+  const suggested = {}
+  let caret = false
+  let crossesLine = false
+  const line = semver.parse(host)
+  for (const [field, range] of Object.entries(requirements ?? {})) {
+    if (typeof range !== 'string' || range.startsWith('workspace:')) continue
+    let floor
+    try { floor = semver.minVersion(range, { includePrerelease: true }) } catch { floor = null }
+    if (!floor || semver.gt(floor, host, { includePrerelease: true })) continue
+    if (/^\s*\^0\./u.test(range)) caret = true
+    if (floor.major !== line.major || floor.minor !== line.minor) crossesLine = true
+    const proposal = `>=${floor.version} ${lineCeiling(host)}`
+    if (semver.satisfies(host, proposal, { includePrerelease: true })) suggested[field] = proposal
+  }
+  if (Object.keys(suggested).length === 0) return undefined
+  const note = caret
+    ? 'On 0.x, ^ only admits the same minor: ^0.1.0 rejects 0.2.x.'
+    : 'The declared range ends before this host; every new host build will be rejected the same way.'
+  // Widening across a host line (0.1 -> 0.2) admits a host whose API the plugin was never built against.
+  // The hint still says how, but it must not read as "this will work".
+  return {
+    reason: caret ? 'caret-zero' : 'range-excludes-host',
+    note: crossesLine ? `${note} The plugin was declared for an older host line; check that it boots on ${line.major}.${line.minor} before widening.` : note,
+    suggested, suggestion: true, crossesLine,
+  }
+}
+
+/**
  * Evaluate resolved plugins against resolved hosts.
  * @param {Array<{name: string, version: string, manifest: object, source?: string}>} plugins - resolved plugins.
  * @param {readonly string[]} hosts - host semantic versions.
@@ -226,9 +295,11 @@ export function evaluateMatrix(plugins, hosts, { exemptions = {}, generatedAt = 
       }
       try {
         const issue = evaluatePluginCompatibility(plugin.manifest, { exemptions, runtimeVersion: host })
-        results[host] = issue === undefined
-          ? { compatible: true }
-          : { compatible: false, requirements: issue.requirements, exempted: issue.exempted }
+        if (issue === undefined) results[host] = { compatible: true }
+        else {
+          const fixHint = fixHintFor(issue.requirements, host)
+          results[host] = { compatible: false, requirements: issue.requirements, exempted: issue.exempted, ...(fixHint ? { fixHint } : {}) }
+        }
       } catch (error) {
         results[host] = { compatible: null, error: error instanceof Error ? error.message : String(error) }
       }
@@ -242,13 +313,14 @@ export function evaluateMatrix(plugins, hosts, { exemptions = {}, generatedAt = 
       version: plugin.version ?? 'unknown',
       source: plugin.source ?? 'npm',
       repository: plugin.manifest === undefined ? undefined : repositoryUrl(plugin.manifest),
+      ...(plugin.manifest === undefined ? {} : declarationOf(plugin.manifest)),
       ...(typeof plugin.publishedAt === 'string' ? { publishedAt: plugin.publishedAt } : {}),
       ...(typeof plugin.error === 'string' ? { error: plugin.error } : {}),
       results,
       summary: { compatible, incompatible, errors },
     }
   })
-  return { schemaVersion: 1, generatedAt, hosts: [...hosts], plugins: rows }
+  return { schemaVersion: 1, generatedAt, tool: toolIdentity(), hosts: [...hosts], plugins: rows }
 }
 
 /**

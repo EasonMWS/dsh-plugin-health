@@ -251,14 +251,15 @@ async function cmdMatrix(options) {
   const exemptions = exemptionsPath === undefined ? {} : JSON.parse(readFileSync(exemptionsPath, 'utf8'))
   const out = lastString(options, 'out') ?? 'dsh-health-out/matrix'
   const matrix = await createMatrix({ plugins, hosts, exemptions, registry, concurrency })
+  // A standalone page is the only form of this data a person can be linked to; the JSON only ever
+  // reached a CI artifact. Categories are not in the registry, so they come from the community
+  // catalog when the caller supplies one, and the JSON says which catalog and when.
+  const catalogPath = lastString(options, 'catalog')
+  const catalog = catalogPath === undefined ? undefined : await loadCatalogCategories(catalogPath)
+  if (catalog !== undefined) matrix.catalog = { url: catalogPath, fetchedAt: new Date().toISOString(), count: catalog.size }
   mkdirSync(out, { recursive: true })
   writeFileSync(join(out, 'matrix.json'), `${JSON.stringify(matrix, null, 2)}\n`)
   writeFileSync(join(out, 'matrix.md'), matrixToMarkdown(matrix))
-  // A standalone page is the only form of this data a person can be linked to; the JSON above only
-  // ever reached a CI artifact. Categories are not in the registry, so they come from the community
-  // catalog when the caller supplies one.
-  const catalogPath = lastString(options, 'catalog')
-  const catalog = catalogPath === undefined ? undefined : await loadCatalogCategories(catalogPath)
   const htmlPath = join(out, 'index.html')
   writeFileSync(htmlPath, renderCompatPage(matrix, {
     title: lastString(options, 'html-title') ?? 'DSH plugin compatibility',
