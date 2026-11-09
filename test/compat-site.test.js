@@ -163,3 +163,12 @@ test('history: a second day produces events, and a rerun on the same day does no
   const rows = buildRows(day2, { history: again.summary })
   assert.deepEqual(rows.find((row) => row.n === 'b').t, { since: '2026-11-09', state: 'bad', fixed: null })
 })
+
+test('C3: a GitHub-only row is marked on the page and in its document', () => {
+  const doc = matrix([{ ...plugin('gh-only'), source: 'github' }])
+  const html = renderCompatPage(doc)
+  assert.match(html, /data-i18n="githubOnly">GitHub only: judged from the default branch/u)
+  const out = tmp()
+  writeCompatSite(doc, out, {})
+  assert.equal(JSON.parse(readFileSync(join(out, 'p', 'gh-only.json'), 'utf8')).source.kind, 'github')
+})

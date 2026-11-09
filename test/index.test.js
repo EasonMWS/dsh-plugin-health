@@ -196,3 +196,13 @@ test('writeIndex writes the index, report and a Pages landing page', async () =>
     rmSync(out, { recursive: true, force: true })
   }
 })
+
+test('C4: a boot test moves the health score, an absent one does not', () => {
+  const base = { downloads: 1000, stars: 20, compatible: true }
+  const untested = healthScore(base)
+  assert.equal(healthScore({ ...base, level: null }), untested, 'no test is not a finding')
+  assert.equal(healthScore({ ...base, level: 'V3' }), untested + 8)
+  assert.equal(healthScore({ ...base, level: 'V2' }), untested - 8)
+  assert.equal(healthScore({ ...base, level: 'V1' }), untested - 8)
+  assert.ok(healthScore({ ...base, level: 'V3' }) - untested < 10, 'a boot result counts for less than the declaration')
+})

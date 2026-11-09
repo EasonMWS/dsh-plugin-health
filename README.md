@@ -355,8 +355,11 @@ dsh-plugin-health index \
 Details: descriptions are bilingual (`en` required, `zh` kept); categories come from the catalog plus
 labels (`npm`, `compatible`, `incompatible`, `unchecked`, `capability risk`) and sort keys
 (`downloads`, `stars`, health score). The health score is deterministic — popularity (log downloads
-55, log stars 25) adjusted for compatibility and capability risk, 0–100. **It is not a security
-rating.** Download counts and stars come from public npm and GitHub data.
+55, log stars 25), then +10 / −20 for whether the declaration admits the host, −10 for a capability
+red line, and, when `--verify` supplies a boot test of the exact listed version on the same host, +8 for
+`V3` (its entries activated) or −8 for `V1`/`V2` (admitted, but it did not install or start). A plugin that
+was never boot-tested neither gains nor loses. Clamped to 0–100. **It is not a security rating.**
+Download counts and stars come from public npm and GitHub data.
 
 Scope: npm-published catalog entries only (2,607 of 5,704 in the October 2026 snapshot); GitHub- and
 tarball-only entries are skipped and reported.

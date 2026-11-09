@@ -77,6 +77,7 @@ export function buildRows(matrix, meta = {}) {
         n: plugin.name,
         slug: slugOf(plugin.name),
         v: plugin.version ?? '',
+        ...(plugin.source === 'github' ? { src: 'github' } : {}),
         c: category,
         r: dayOf(plugin.publishedAt),
         d: declared,
@@ -111,6 +112,9 @@ export function pluginDocument(row, plugin, matrix) {
     name: row.n,
     version: row.v,
     page: `${COMPAT_URL}#p-${row.slug}`,
+    source: plugin.source === 'github'
+      ? { kind: 'github', note: 'judged from package.json on the default branch; not a published package' }
+      : { kind: plugin.source ?? 'npm' },
     declared: plugin.declared ?? null,
     declaredRanges: plugin.declaredRanges ?? null,
     hosts: Object.fromEntries((matrix.hosts ?? []).map((host) => [host, {

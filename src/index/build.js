@@ -93,17 +93,26 @@ function normalizeHomepage(manifest) {
 }
 
 /**
- * Deterministic 0-100 health score: popularity with a capability-risk penalty and a compatibility bonus.
- * @param {{downloads?: number, stars?: number, compatible?: boolean, risk?: boolean}} facts - observed facts.
+ * Deterministic 0-100 health score: popularity with a capability-risk penalty, a compatibility bonus, and the
+ * boot test on the latest host when one exists.
+ *
+ * The boot test moves the score less than the declaration does: a declaration decides whether the host will
+ * load the plugin at all, while a boot result is one run in a clean profile. A plugin that was never boot-tested
+ * neither gains nor loses — absence of a test is not a finding. None of this is a security rating.
+ *
+ * @param {{downloads?: number, stars?: number, compatible?: boolean, risk?: boolean, level?: 'V1'|'V2'|'V3'|null}} facts
  * @returns {number} integer score.
  */
-export function healthScore({ downloads = 0, stars = 0, compatible, risk = false }) {
+export function healthScore({ downloads = 0, stars = 0, compatible, risk = false, level = null }) {
   const downloadScore = Math.min(1, Math.log10(Math.max(0, Number(downloads) || 0) + 1) / 7)
   const starScore = Math.min(1, Math.log10(Math.max(0, Number(stars) || 0) + 1) / 5)
   let score = Math.round(downloadScore * 55 + starScore * 25)
   if (risk) score -= 10
   if (compatible === false) score -= 20
   if (compatible === true) score += 10
+  // V3: its entries activated. V1/V2: it was admitted by its declaration and still did not install or start.
+  if (level === 'V3') score += 8
+  else if (level === 'V1' || level === 'V2') score -= 8
   return Math.max(0, Math.min(100, score))
 }
 
@@ -146,7 +155,7 @@ export function selectedVersions(packument, maxVersions = 3) {
  * @param {{registry: string, maxVersions: number, loadPackument: Function, compatibleOf: Function, categories: object}} options
  * @returns {Promise<object|null>} plugin entry, or null when no publishable version exists.
  */
-export async function buildPluginEntry(entry, { registry, maxVersions, loadPackument, compatibleOf, categories }) {
+export async function buildPluginEntry(entry, { registry, maxVersions, loadPackument, compatibleOf, categories, levelOf = () => null }) {
   const packument = await loadPackument(registry, entry.npm)
   const versions = selectedVersions(packument, maxVersions)
   if (versions.length === 0) return null
@@ -176,7 +185,7 @@ export async function buildPluginEntry(entry, { registry, maxVersions, loadPacku
       sortKeys: {
         downloads,
         stars,
-        health: healthScore({ downloads, stars, compatible, risk }),
+        health: healthScore({ downloads, stars, compatible, risk, level: levelOf(entry.npm, latest?.version) }),
       },
     },
     versions,
@@ -201,8 +210,16 @@ export async function buildPluginEntry(entry, { registry, maxVersions, loadPacku
  */
 export async function buildFormat1Index({
   catalog, hostVersion, indexUrl, limit = 200, sort = 'downloads', maxVersions = 3,
-  registry = 'https://registry.npmjs.org', concurrency = 8, matrix, loadPackument,
+  registry = 'https://registry.npmjs.org', concurrency = 8, matrix, loadPackument, verify,
 }) {
+  // Boot levels for the latest host, from a verify.json. Only a result for the exact version counts.
+  const verified = new Map((Array.isArray(verify?.plugins) && verify?.host?.version === hostVersion ? verify.plugins : [])
+    .filter((row) => typeof row?.name === 'string')
+    .map((row) => [row.name, row]))
+  const levelOf = (name, version) => {
+    const row = verified.get(name)
+    return row && row.version === version && ['V1', 'V2', 'V3'].includes(row.level) ? row.level : null
+  }
   const loaded = classifyCatalog(await loadCatalog(catalog))
   const compatibleOf = compatibilityLookup(matrix, hostVersion)
   const categories = Object.fromEntries(Object.entries(loaded.categories)
@@ -219,7 +236,7 @@ export async function buildFormat1Index({
   const looked = await mapLimit(chosen, concurrency, async (entry) => {
     try {
       return await buildPluginEntry(entry, {
-        registry, maxVersions, loadPackument: loadPackument ?? defaultLoadPackument, compatibleOf, categories,
+        registry, maxVersions, loadPackument: loadPackument ?? defaultLoadPackument, compatibleOf, categories, levelOf,
       })
     } catch (error) {
       warnings.push(`${entry.npm}: ${error instanceof Error ? error.message : String(error)}`)

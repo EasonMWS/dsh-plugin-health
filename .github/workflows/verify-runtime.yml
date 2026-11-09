@@ -1,0 +1,225 @@
+name: verify-runtime
+
+# Boot-test the most-used plugins on the current hosts and publish the evidence to the `verify-data` branch,
+# which the compatibility page reads.
+#
+# Four jobs, and the split is the point:
+#   detect, plan  read-only, run no plugin code
+#   run           EXECUTES THIRD-PARTY PLUGIN CODE: read-only token, no secrets, no write anywhere
+#   publish       has write access, runs no plugin code, and treats everything `run` produced as untrusted
+#
+# Nothing here is a security review. A V3 result means the plugin's entries activated in a clean profile.
+
+on:
+  schedule:
+    - cron: '17 * * * *'          # hourly: only does work when the host moved
+    - cron: '41 3 * * 1'          # Monday: full re-run even if nothing moved
+  workflow_dispatch:
+    inputs:
+      top:
+        description: How many accepted plugins to test (rejected ones add a quarter of this)
+        required: false
+        default: '200'
+      force:
+        description: Run even if the host has not changed
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-runtime
+  cancel-in-progress: false
+
+jobs:
+  detect:
+    name: did the host move
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      changed: ${{ steps.detect.outputs.changed }}
+      hosts: ${{ steps.detect.outputs.hosts }}
+      latest: ${{ steps.detect.outputs.latest }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Read the last recorded run
+        run: |
+          if git fetch --depth 1 origin verify-data 2>/dev/null; then
+            git show FETCH_HEAD:state.json > "$RUNNER_TEMP/state.json" 2>/dev/null || echo '{}' > "$RUNNER_TEMP/state.json"
+          else
+            echo '{}' > "$RUNNER_TEMP/state.json"
+          fi
+      - name: Compare
+        id: detect
+        env:
+          EVENT: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+          FORCE_INPUT: ${{ inputs.force }}
+        run: |
+          flag=""
+          if [ "$EVENT" = "workflow_dispatch" ] && [ "$FORCE_INPUT" = "true" ]; then flag="--force"; fi
+          if [ "$SCHEDULE" = "41 3 * * 1" ]; then flag="--force"; fi
+          result=$(node scripts/verify-pipeline.mjs detect "$RUNNER_TEMP/state.json" $flag)
+          echo "$result"
+          echo "changed=$(echo "$result" | node -pe 'JSON.parse(require("fs").readFileSync(0)).changed')" >> "$GITHUB_OUTPUT"
+          echo "hosts=$(echo "$result" | node -pe 'JSON.stringify(JSON.parse(require("fs").readFileSync(0)).hosts)')" >> "$GITHUB_OUTPUT"
+          echo "latest=$(echo "$result" | node -pe 'JSON.parse(require("fs").readFileSync(0)).latest')" >> "$GITHUB_OUTPUT"
+
+  plan:
+    name: choose plugins
+    needs: detect
+    if: needs.detect.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Fetch the published matrix and catalog
+        env:
+          PAGES: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: |
+          curl -fsSL "$PAGES/compat/matrix.json" -o "$RUNNER_TEMP/matrix.json"
+          curl -fsSL https://awesome-dsh-plugin.com/plugins.json -o "$RUNNER_TEMP/catalog.json"
+      - name: Plan
+        env:
+          LATEST: ${{ needs.detect.outputs.latest }}
+          TOP: ${{ inputs.top || '200' }}
+        run: node scripts/verify-pipeline.mjs plan "$RUNNER_TEMP/matrix.json" "$RUNNER_TEMP/catalog.json" "$LATEST" "$TOP" plugins.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verify-plan
+          path: plugins.txt
+          retention-days: 7
+
+  run:
+    name: boot-test ${{ matrix.host }} shard ${{ matrix.shard }}/10
+    needs: [detect, plan]
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    # This job runs plugin code nobody here has read. It gets a read-only token and no secrets, and it writes
+    # nothing except its own artifact.
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        host: ${{ fromJSON(needs.detect.outputs.hosts) }}
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+      - run: npm ci --omit=dev
+      - uses: actions/download-artifact@v4
+        with:
+          name: verify-plan
+      - name: Install the host
+        env:
+          HOST: ${{ matrix.host }}
+        run: npm install --prefix "$RUNNER_TEMP/dsh-host" --no-audit --no-fund "@deepseek-ai/dsh@$HOST"
+      - name: Read the tool line for the cache key
+        id: tool
+        run: echo "line=$(node -p 'require("./package.json").version.split(".").slice(0,2).join(".")')" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/verify-cache
+          key: verify-${{ matrix.host }}-${{ steps.tool.outputs.line }}-${{ matrix.shard }}-${{ hashFiles('plugins.txt') }}
+          restore-keys: |
+            verify-${{ matrix.host }}-${{ steps.tool.outputs.line }}-${{ matrix.shard }}-
+      - name: Verify
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          node bin/dsh-plugin-health.js verify \
+            --dsh-dir "$RUNNER_TEMP/dsh-host/node_modules/@deepseek-ai/dsh" \
+            --plugins plugins.txt \
+            --out out \
+            --shard "$SHARD/10" \
+            --cache "$RUNNER_TEMP/verify-cache" \
+            --concurrency 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verify-${{ matrix.host }}-${{ matrix.shard }}
+          path: |
+            out/verify.json
+            out/results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  publish:
+    name: publish evidence
+    needs: [detect, run]
+    if: always() && needs.detect.outputs.changed == 'true' && needs.run.result != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Write access, and no plugin code. Everything downloaded below came from the job above and is validated
+    # by scripts/verify-pipeline.mjs merge before it is committed.
+    permissions:
+      contents: write
+      actions: write
+    concurrency:
+      group: verify-data
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: verify-*
+          path: shards
+      - name: Check out the data branch
+        run: |
+          if git fetch --depth 1 origin verify-data; then
+            git worktree add data FETCH_HEAD
+            git -C data checkout -B verify-data
+          else
+            git worktree add --orphan -b verify-data data
+          fi
+      - name: Merge and validate
+        env:
+          HOSTS: ${{ needs.detect.outputs.hosts }}
+        run: |
+          for host in $(echo "$HOSTS" | node -pe 'JSON.parse(require("fs").readFileSync(0)).join("\n")'); do
+            dirs=$(ls -d shards/verify-"$host"-* 2>/dev/null || true)
+            if [ -z "$dirs" ]; then echo "no shard output for $host"; continue; fi
+            rm -rf "data/verify/$host"
+            node scripts/verify-pipeline.mjs merge "$host" "data/verify/$host" $dirs
+          done
+          echo "{\"hosts\": $HOSTS, \"updatedAt\": \"$(date -u +%FT%TZ)\"}" > data/state.json
+      - name: Commit
+        run: |
+          cd data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
+          git commit -m "verify: $(date -u +%F) $(cat state.json | head -c 200)"
+          git push origin verify-data
+      - name: Rebuild the page with the new evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: gh workflow run publish-index.yml --ref "$DEFAULT_BRANCH"

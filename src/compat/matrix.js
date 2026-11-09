@@ -4,7 +4,7 @@
  * @module compat/matrix
  */
 import semver from 'semver'
-import { loadPackumentFromRegistry, mapLimit, DEFAULT_REGISTRY } from '../util/http.js'
+import { fetchJson, loadPackumentFromRegistry, mapLimit, DEFAULT_REGISTRY } from '../util/http.js'
 import { evaluatePluginCompatibility } from './evaluate.js'
 import { toolIdentity } from '../util/tool.js'
 
@@ -163,11 +163,28 @@ export function parsePluginSpec(spec) {
  * @param {{cwd?: string, registry?: string, loadPackument?: (registry: string, name: string) => Promise<any>}} [options]
  * @returns {Promise<Array<{spec: string, name: string, version: string, manifest: object, source: 'npm'|'local', directory?: string}>>}
  */
-export async function resolvePlugins(specs, { cwd = process.cwd(), registry = DEFAULT_REGISTRY, loadPackument = loadPackumentFromRegistry } = {}) {
+export async function resolvePlugins(specs, {
+  cwd = process.cwd(), registry = DEFAULT_REGISTRY, loadPackument = loadPackumentFromRegistry, loadGithubManifest = loadGithubManifestFromRaw,
+} = {}) {
   const { existsSync, readFileSync, statSync } = await import('node:fs')
   const { isAbsolute, join, resolve } = await import('node:path')
   const resolved = []
   for (const spec of specs) {
+    // A plugin that only exists as a GitHub repository. Its package.json on the default branch is the only
+    // declaration there is; it is read, never executed, and the row says where the verdict came from.
+    const github = /^github:([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/u.exec(spec)
+    if (github) {
+      const [, owner, repo] = github
+      const manifest = await loadGithubManifest(owner, repo)
+      if (typeof manifest?.name !== 'string' || typeof manifest?.version !== 'string') {
+        throw new Error(`github:${owner}/${repo} has no package.json with a name and version on its default branch`)
+      }
+      resolved.push({
+        spec, name: manifest.name, version: manifest.version, manifest, source: 'github',
+        repositoryUrl: `https://github.com/${owner}/${repo}`,
+      })
+      continue
+    }
     const local = isAbsolute(spec) || spec.startsWith('.') || spec.startsWith('file:')
       ? spec
       : (existsSync(join(cwd, spec)) ? join(cwd, spec) : undefined)
@@ -195,6 +212,17 @@ export async function resolvePlugins(specs, { cwd = process.cwd(), registry = DE
     resolved.push({ spec, name: manifest.name ?? name, version: manifest.version ?? version, manifest, source: 'npm', publishedAt })
   }
   return resolved
+}
+
+/**
+ * Read `package.json` from a repository's default branch. `HEAD` resolves to the default branch on
+ * raw.githubusercontent.com, so no API call (and no token) is needed to learn which branch that is.
+ * @param {string} owner
+ * @param {string} repo
+ * @returns {Promise<object>}
+ */
+export async function loadGithubManifestFromRaw(owner, repo) {
+  return fetchJson(`https://raw.githubusercontent.com/${owner}/${repo}/HEAD/package.json`, { retries: 1 })
 }
 
 /**
@@ -312,7 +340,7 @@ export function evaluateMatrix(plugins, hosts, { exemptions = {}, generatedAt = 
       name: plugin.name,
       version: plugin.version ?? 'unknown',
       source: plugin.source ?? 'npm',
-      repository: plugin.manifest === undefined ? undefined : repositoryUrl(plugin.manifest),
+      repository: plugin.manifest === undefined ? undefined : (repositoryUrl(plugin.manifest) ?? plugin.repositoryUrl),
       ...(plugin.manifest === undefined ? {} : declarationOf(plugin.manifest)),
       ...(typeof plugin.publishedAt === 'string' ? { publishedAt: plugin.publishedAt } : {}),
       ...(typeof plugin.error === 'string' ? { error: plugin.error } : {}),
@@ -329,18 +357,22 @@ export function evaluateMatrix(plugins, hosts, { exemptions = {}, generatedAt = 
  * @returns {Promise<object>} matrix document.
  */
 export async function createMatrix({
-  plugins, hosts, exemptions = {}, cwd, registry = DEFAULT_REGISTRY, concurrency = 6, loadPackument = loadPackumentFromRegistry,
+  plugins, hosts, exemptions = {}, cwd, registry = DEFAULT_REGISTRY, concurrency = 6, loadPackument = loadPackumentFromRegistry, loadGithubManifest,
 }) {
   const selection = await resolveHostSelection(hosts, { registry, loadPackument })
-  const resolved = []
-  for (const spec of plugins) {
+  // `concurrency` was accepted and ignored for as long as this function existed: every lookup waited for the
+  // previous one, which is most of why a full-catalogue scan took twenty minutes. Results stay in input order.
+  const resolved = await mapLimit(plugins, concurrency, async (spec) => {
     try {
-      const [plugin] = await resolvePlugins([spec], { cwd, registry, loadPackument })
-      resolved.push(plugin)
+      const [plugin] = await resolvePlugins([spec], { cwd, registry, loadPackument, ...(loadGithubManifest ? { loadGithubManifest } : {}) })
+      return plugin
     } catch (error) {
-      resolved.push({ spec, name: spec, source: 'unknown', error: error instanceof Error ? error.message : String(error) })
+      // A catalogued repository with no readable package.json is not a plugin this tool can judge, and the page
+      // says such entries are not counted. Thousands of "unknown" rows would bury the real findings.
+      if (String(spec).startsWith('github:')) return null
+      return { spec, name: spec, source: 'unknown', error: error instanceof Error ? error.message : String(error) }
     }
-  }
+  }).then((rows) => rows.filter((row) => row !== null))
   const matrix = evaluateMatrix(resolved, selection.hosts, { exemptions })
   // Only present when the caller asked for `current`. Absent means "this matrix was not built from a
   // selection", which the page must not mistake for "the selection had no roles".

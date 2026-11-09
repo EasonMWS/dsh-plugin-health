@@ -130,3 +130,37 @@ test('B6: a hint that crosses a host line says so, because the plugin never ran 
   assert.equal(old.crossesLine, true)
   assert.match(old.note, /check that it boots on 0\.2/u)
 })
+
+test('C3: a GitHub-only plugin is judged from its default-branch package.json and says so', async () => {
+  const seen = []
+  const loadGithubManifest = async (owner, repo) => {
+    seen.push(`${owner}/${repo}`)
+    if (repo === 'missing') throw new Error('HTTP 404')
+    return { name: `gh-${repo}`, version: '0.3.0', engines: { dsh: '^0.1.0' } }
+  }
+  const [plugin] = await resolvePlugins(['github:someone/thing'], { loadGithubManifest })
+  assert.equal(plugin.source, 'github')
+  assert.equal(plugin.name, 'gh-thing')
+  assert.equal(plugin.repositoryUrl, 'https://github.com/someone/thing')
+  const matrix = await createMatrix({ plugins: ['github:someone/thing', 'github:someone/missing', 'plugin-good'], hosts: ['0.2.1-rc.2'], loadPackument, loadGithubManifest })
+  assert.deepEqual(matrix.plugins.map((row) => row.source), ['github', 'npm'], 'order is kept, and a repository with no package.json is not counted')
+  assert.equal(matrix.plugins[0].repository, 'https://github.com/someone/thing')
+  assert.equal(matrix.plugins[0].results['0.2.1-rc.2'].compatible, false)
+  const npmFailure = await createMatrix({ plugins: ['no-such-plugin'], hosts: ['0.2.1-rc.2'], loadPackument })
+  assert.equal(npmFailure.plugins[0].source, 'unknown', 'an npm lookup that fails is still shown: that plugin was catalogued as published')
+  await assert.rejects(resolvePlugins(['github:a/b'], { loadGithubManifest: async () => ({ private: true }) }), /no package\.json with a name and version/u)
+})
+
+test('createMatrix actually uses its concurrency', async () => {
+  let inFlight = 0
+  let peak = 0
+  const slow = async (registry, name) => {
+    inFlight += 1
+    peak = Math.max(peak, inFlight)
+    await new Promise((resolveDelay) => setTimeout(resolveDelay, 5))
+    inFlight -= 1
+    return name === '@deepseek-ai/dsh' ? PACKUMENTS[name] : { 'dist-tags': { latest: '1.0.0' }, versions: { '1.0.0': { name, version: '1.0.0' } } }
+  }
+  await createMatrix({ plugins: Array.from({ length: 12 }, (_, index) => `p${index}`), hosts: ['0.2.1-rc.2'], loadPackument: slow, concurrency: 4 })
+  assert.equal(peak, 4)
+})

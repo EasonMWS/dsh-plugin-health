@@ -227,6 +227,7 @@ export function usage() {
     '  --index-url <url>      final public URL of index.json (required for validation)',
     '  --host <version>       host label for compatibility labels (default: npm latest)',
     '  --matrix <file>        matrix JSON from the matrix command, adds compatible/incompatible labels',
+    '  --verify <verify.json> boot-test levels for the same host; V3 raises the health score, V1/V2 lower it',
     '  --limit <n>            plugin count (default: 200)',
     '  --sort <downloads|stars>  catalog order before the limit (default: downloads)',
     '  --max-versions <n>     versions listed per plugin (default: 3)',
@@ -320,7 +321,9 @@ async function cmdIndex(options) {
   const concurrency = numberOption(options, 'concurrency', 8)
   const matrixPath = lastString(options, 'matrix')
   const matrix = matrixPath === undefined ? undefined : JSON.parse(readFileSync(matrixPath, 'utf8'))
-  const build = await buildFormat1Index({ catalog, hostVersion, indexUrl, limit, sort, maxVersions, registry, concurrency, matrix })
+  const verifyPath = lastString(options, 'verify')
+  const verify = verifyPath !== undefined && existsSync(verifyPath) ? JSON.parse(readFileSync(verifyPath, 'utf8')) : undefined
+  const build = await buildFormat1Index({ catalog, hostVersion, indexUrl, limit, sort, maxVersions, registry, concurrency, matrix, verify })
   const files = writeIndex(build, out)
   console.log(`index: ${build.stats.included} plugins, ${build.stats.versions} versions, ${build.stats.bytes} bytes (host ${build.stats.hostVersion})`)
   console.log(`  catalog: ${build.stats.catalogEntries} entries, npm: ${build.stats.npmEntries}, git/tarball-only skipped: ${build.stats.gitOnlySkipped}`)
