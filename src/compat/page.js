@@ -66,6 +66,12 @@ const STRINGS = {
     checked: 'plugins checked',
     healthy: 'load on every host',
     rejected: 'rejected by at least one',
+    rejectedOnLatest: 'rejected on the latest host',
+    acceptedOnLatest: 'accepted on the latest host',
+    roleLatest: 'latest',
+    rolePrevious: 'previous line',
+    rolePreview: 'preview',
+    ignoredTags: 'Older prerelease tags are left out: ',
     filterName: 'Filter by plugin name…',
     allCategories: 'All categories',
     onlyRejected: 'Only rejected',
@@ -107,6 +113,12 @@ const STRINGS = {
     checked: '个插件已检查',
     healthy: '所有宿主都接受',
     rejected: '至少被一个宿主拒绝',
+    rejectedOnLatest: '在最新版上被拒',
+    acceptedOnLatest: '最新版接受',
+    roleLatest: '最新',
+    rolePrevious: '上一版本线',
+    rolePreview: '预览',
+    ignoredTags: '已忽略更旧的预发布 tag：',
     filterName: '按插件名筛选…',
     allCategories: '全部分类',
     onlyRejected: '只看被拒的',
@@ -190,7 +202,15 @@ export function renderCompatPage(matrix, meta = {}) {
     </tr>`
   }).join('\n')
 
-  const headerCells = hosts.map((host) => `<th scope="col" class="c">${esc(host)}</th>`).join('')
+  // The role under each version is what stops a reader treating an outdated prerelease column as
+  // "another current host". It is absent for matrices that were not built from a selection.
+  const roles = matrix.hostRoles ?? {}
+  const roleLabel = (role) => (role === 'latest' ? en.roleLatest : role === 'previous' ? en.rolePrevious : en.rolePreview)
+  const headerCells = hosts.map((host) => {
+    const role = roles[host]
+    const label = role === undefined ? '' : `<span class="role">${esc(roleLabel(role))}</span>`
+    return `<th scope="col" class="c">${esc(host)}${label}</th>`
+  }).join('')
   const hostSummary = hosts.map((host) => ({
     host,
     ok: plugins.filter((plugin) => plugin.results?.[host]?.compatible === true).length,
@@ -210,11 +230,23 @@ export function renderCompatPage(matrix, meta = {}) {
   const healthy = plugins.filter((plugin) => (plugin.summary?.incompatible ?? 0) === 0
     && (plugin.summary?.errors ?? 0) === 0).length
   const rejected = plugins.filter((plugin) => (plugin.summary?.incompatible ?? 0) > 0).length
+  // The headline is rejection on the host a current user runs. "Rejected by at least one" stays visible but
+  // secondary: it is true, it is just not the question the reader came with.
+  const latestHost = hosts.find((host) => matrix.hostRoles?.[host] === 'latest') ?? hosts[0]
+  const rejectedOnLatest = latestHost === undefined
+    ? 0
+    : plugins.filter((plugin) => plugin.results?.[latestHost]?.compatible === false).length
+  const acceptedOnLatest = total - rejectedOnLatest
   const pct = (n) => (total === 0 ? 0 : Math.round((n / total) * 100))
 
   const title = meta.title ?? en.heading
   const stampDate = generated.slice(0, 16).replace('T', ' ')
   const sourceText = en.source.replace('{n}', String(total))
+  const dropped = Array.isArray(matrix.hostsDropped) ? matrix.hostsDropped : []
+  const droppedList = dropped
+    .map((row) => `${row.spec}${row.version === null || row.version === undefined ? '' : ` (${row.version})`}`)
+    .join(', ')
+  const droppedText = dropped.length === 0 ? '' : `${en.ignoredTags}${droppedList}`
 
   // Serialised into the page so the toggle has both dictionaries without a second request. `</` is
   // escaped so a string can never close the script element early.
@@ -255,6 +287,10 @@ export function renderCompatPage(matrix, meta = {}) {
   .tally .n { font-size: 1.65rem; font-weight: 650; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .tally .k { font-size: 12px; opacity: .6; }
   .tally .ok .n { color: var(--ok); }
+.tally .any .n, .tally .all .n { font-size: 1.15rem; opacity: .55; }
+.tally .any .k, .tally .all .k { opacity: .45; }
+th .role { display: block; font-size: 10.5px; font-weight: 400; opacity: .55; letter-spacing: .02em; }
+.ignored { font-size: 12.5px; opacity: .6; margin: 0 0 10px; }
   .tally .bad .n { color: var(--bad); }
 
   .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin: 0 0 2px; padding: 12px 0 10px; position: sticky; top: 0; background: Canvas; z-index: 2; }
@@ -319,13 +355,16 @@ export function renderCompatPage(matrix, meta = {}) {
 
   <h1 data-i18n="heading">${esc(en.heading)}</h1>
   <p class="lede" data-i18n="lede">${esc(en.lede)}</p>
+  ${droppedText === '' ? '' : `<p class="ignored" data-i18n="ignoredTags" data-list="${esc(droppedList)}">${esc(droppedText)}</p>`}
   <p class="stamp"><span data-i18n="updated">${en.updated}</span> ${esc(stampDate)} UTC ·
     <span data-i18n="tallyStamp" data-total="${total}" data-hosts="${hosts.length}">${total} ${en.pluginsWord} × ${hosts.length} host versions</span></p>
 
   <div class="tally">
     <div class="cell"><span class="n">${total}</span><span class="k" data-i18n="checked">${esc(en.checked)}</span></div>
-    <div class="cell ok"><span class="n">${healthy}</span><span class="k" data-i18n="healthy" data-pct="${pct(healthy)}">${esc(en.healthy)} (${pct(healthy)}%)</span></div>
-    <div class="cell bad"><span class="n">${rejected}</span><span class="k" data-i18n="rejected" data-pct="${pct(rejected)}">${esc(en.rejected)} (${pct(rejected)}%)</span></div>
+    <div class="cell ok"><span class="n">${acceptedOnLatest}</span><span class="k" data-i18n="acceptedOnLatest" data-pct="${pct(acceptedOnLatest)}" data-host="${esc(latestHost ?? '')}">${esc(en.acceptedOnLatest)} — ${esc(latestHost ?? '')} (${pct(acceptedOnLatest)}%)</span></div>
+    <div class="cell bad"><span class="n">${rejectedOnLatest}</span><span class="k" data-i18n="rejectedOnLatest" data-pct="${pct(rejectedOnLatest)}" data-host="${esc(latestHost ?? '')}">${esc(en.rejectedOnLatest)} — ${esc(latestHost ?? '')} (${pct(rejectedOnLatest)}%)</span></div>
+    <div class="cell all"><span class="n">${healthy}</span><span class="k" data-i18n="healthy" data-pct="${pct(healthy)}">${esc(en.healthy)} (${pct(healthy)}%)</span></div>
+    <div class="cell any"><span class="n">${rejected}</span><span class="k" data-i18n="rejected" data-pct="${pct(rejected)}">${esc(en.rejected)} (${pct(rejected)}%)</span></div>
   </div>
 
   <div class="controls">
@@ -404,6 +443,10 @@ ${rows}
           : el.getAttribute('data-total') + ' ' + text + ' × ' + hosts + ' host versions';
       } else if (key === 'healthy' || key === 'rejected') {
         text = text + ' (' + el.getAttribute('data-pct') + '%)';
+      } else if (key === 'acceptedOnLatest' || key === 'rejectedOnLatest') {
+        text = text + ' — ' + el.getAttribute('data-host') + ' (' + el.getAttribute('data-pct') + '%)';
+      } else if (key === 'ignoredTags') {
+        text = text + el.getAttribute('data-list');
       } else if (key === 'hostLine') {
         text = el.getAttribute('data-n') + ' ' + text + ' (' + el.getAttribute('data-ok') + ' ' + t('accepted') + ')';
       } else if (key === 'source') {

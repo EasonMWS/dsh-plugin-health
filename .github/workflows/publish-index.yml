@@ -73,12 +73,17 @@ jobs:
       # Every row of the compatibility table comes from here. This is the slow step: one registry
       # lookup per plugin, so a full catalog pass takes roughly 20 minutes. Writing to a
       # subdirectory keeps it from overwriting the index landing page, which is also index.html.
+      #
+      # `current` asks the matrix to choose the hosts itself: latest, any dist-tag that points ahead of
+      # latest, and the previous minor line. Naming `next,alpha` by hand went wrong on 2026-11-08, when
+      # `alpha` pointed at a release five days older than `latest` and 135 plugins were counted as
+      # rejected by a host nobody runs.
       - name: Compatibility matrix
         run: |
           mkdir -p site/compat
           node bin/dsh-plugin-health.js matrix \
             --plugins dsh-health-out/scan-plugins.txt \
-            --versions "${{ steps.host.outputs.version }},next,alpha" \
+            --versions current \
             --out site/compat \
             --concurrency 16 \
             --no-badges \

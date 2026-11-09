@@ -8,24 +8,138 @@ import { loadPackumentFromRegistry, mapLimit, DEFAULT_REGISTRY } from '../util/h
 import { evaluatePluginCompatibility } from './evaluate.js'
 
 /**
+ * Choose the hosts worth showing on a compatibility page, from the registry's own dist-tags.
+ *
+ * The problem this solves was real: the page asked for `latest,next,alpha`, and on 2026-11-08 `alpha`
+ * pointed at `0.2.2-alpha.3` — a release from five days *before* the latest, `0.2.2-rc.1`. The page then had
+ * two columns, one of them an outdated prerelease, and 135 plugins were counted as rejected because of it.
+ * A plugin requiring `>=0.2.2-rc.1` is correctly rejected by `alpha.3` and correctly accepted by `rc.1`, so
+ * the headline number said the opposite of what a current user experiences.
+ *
+ * So: latest always, a dist-tag only when it points ahead of latest, and the previous minor line because a
+ * desktop install can ship a host older than npm's latest.
+ *
+ * @param {object} packument - the `@deepseek-ai/dsh` registry document.
+ * @returns {{hosts: string[], roles: Record<string, string>, dropped: Array<{spec: string, version: string|null, reason: string}>}}
+ */
+export function selectCurrentHosts(packument) {
+  const distTags = packument?.['dist-tags'] ?? {}
+  const latest = distTags.latest
+  if (typeof latest !== 'string' || semver.valid(latest) === null) {
+    throw new Error('the registry did not report a valid latest DSH version')
+  }
+  const latestParsed = semver.parse(latest)
+
+  const hosts = [latest]
+  const roles = { [latest]: 'latest' }
+  const dropped = []
+
+  for (const [tag, version] of Object.entries(distTags)) {
+    if (tag === 'latest') continue
+    if (typeof version !== 'string' || semver.valid(version) === null) {
+      dropped.push({ spec: tag, version: typeof version === 'string' ? version : null, reason: 'not a semantic version' })
+      continue
+    }
+    if (semver.eq(version, latest)) {
+      // `next` and `latest` point at the same release most of the time. A duplicate column is not an error,
+      // it is just nothing new, and the caller is told so rather than silently given a shorter list.
+      dropped.push({ spec: tag, version, reason: `points at the same version as latest (${latest})` })
+      continue
+    }
+    if (!semver.gt(version, latest)) {
+      dropped.push({ spec: tag, version, reason: `older than latest (${latest})` })
+      continue
+    }
+    if (!hosts.includes(version)) {
+      hosts.push(version)
+      roles[version] = tag
+    }
+  }
+
+  // The highest version on the release line below latest. Prereleases count: 0.2.1-rc.5 is the newest of
+  // the 0.2.1 line even though it never shipped stable.
+  //
+  // "Line" means the major.minor.patch triple, not major.minor. The remediation notes describe this as
+  // "major.minor" but also expect 0.2.1-rc.5 for a latest of 0.2.2-rc.1 — and in semver 0.2.1 and 0.2.2
+  // share major.minor, differing only in patch. The two cannot both be true. The expectation is the one
+  // that matches the stated purpose ("a desktop client can ship a host older than npm's latest"), so the
+  // triple is what this compares.
+  const lineOf = (version) => {
+    const parsed = semver.parse(version)
+    return [parsed.major, parsed.minor, parsed.patch]
+  }
+  const latestLine = lineOf(latest)
+  const onEarlierLine = (version) => {
+    const line = lineOf(version)
+    for (let index = 0; index < 3; index += 1) {
+      if (line[index] !== latestLine[index]) return line[index] < latestLine[index]
+    }
+    return false
+  }
+
+  const previous = Object.keys(packument?.versions ?? {})
+    .filter((version) => semver.valid(version) !== null && onEarlierLine(version))
+    .sort(semver.rcompare)[0]
+
+  if (previous !== undefined && !hosts.includes(previous)) {
+    hosts.push(previous)
+    roles[previous] = 'previous'
+  }
+
+  return { hosts, roles, dropped }
+}
+
+/**
+ * Resolve host specs to versions, keeping the roles and the discards.
+ *
+ * `current` is the only spec with special meaning beyond a dist-tag: it expands to `selectCurrentHosts`.
+ * Every other spec keeps its old meaning, so existing invocations behave exactly as before.
+ *
+ * @param {readonly string[]} specs - versions, dist-tags, or `current`.
+ * @param {{registry?: string, loadPackument?: (registry: string, name: string) => Promise<any>}} [options]
+ * @returns {Promise<{hosts: string[], roles?: Record<string, string>, dropped?: Array<object>}>}
+ */
+export async function resolveHostSelection(specs, { registry = DEFAULT_REGISTRY, loadPackument = loadPackumentFromRegistry } = {}) {
+  if (!Array.isArray(specs) || specs.length === 0) throw new Error('at least one host version or dist-tag is required')
+  const packument = await loadPackument(registry, '@deepseek-ai/dsh')
+  const distTags = packument['dist-tags'] ?? {}
+  const hosts = []
+  let roles
+  let dropped
+
+  for (const spec of specs) {
+    if (spec === 'current') {
+      const selection = selectCurrentHosts(packument)
+      roles = { ...(roles ?? {}), ...selection.roles }
+      dropped = [...(dropped ?? []), ...selection.dropped]
+      for (const host of selection.hosts) {
+        if (!hosts.includes(host)) hosts.push(host)
+      }
+      continue
+    }
+    const resolved = Object.hasOwn(distTags, spec) ? distTags[spec] : spec
+    if (typeof resolved !== 'string' || semver.valid(resolved) === null) {
+      throw new Error(`unknown DSH host version or dist-tag: ${spec}`)
+    }
+    if (!hosts.includes(resolved)) hosts.push(resolved)
+  }
+
+  return {
+    hosts,
+    ...(roles === undefined ? {} : { roles }),
+    ...(dropped === undefined ? {} : { dropped }),
+  }
+}
+
+/**
  * Resolve host version specs (exact versions or npm dist-tags such as `latest`, `next`, `alpha`).
  * @param {readonly string[]} specs - versions or dist-tags.
  * @param {{registry?: string, loadPackument?: (registry: string, name: string) => Promise<any>}} [options]
  * @returns {Promise<string[]>} unique host semantic versions in input order.
  */
-export async function resolveHostVersions(specs, { registry = DEFAULT_REGISTRY, loadPackument = loadPackumentFromRegistry } = {}) {
-  if (!Array.isArray(specs) || specs.length === 0) throw new Error('at least one host version or dist-tag is required')
-  const packument = await loadPackument(registry, '@deepseek-ai/dsh')
-  const distTags = packument['dist-tags'] ?? {}
-  const versions = []
-  for (const spec of specs) {
-    const resolved = Object.hasOwn(distTags, spec) ? distTags[spec] : spec
-    if (typeof resolved !== 'string' || semver.valid(resolved) === null) {
-      throw new Error(`unknown DSH host version or dist-tag: ${spec}`)
-    }
-    if (!versions.includes(resolved)) versions.push(resolved)
-  }
-  return versions
+export async function resolveHostVersions(specs, options = {}) {
+  const { hosts } = await resolveHostSelection(specs, options)
+  return hosts
 }
 
 /**
@@ -145,7 +259,7 @@ export function evaluateMatrix(plugins, hosts, { exemptions = {}, generatedAt = 
 export async function createMatrix({
   plugins, hosts, exemptions = {}, cwd, registry = DEFAULT_REGISTRY, concurrency = 6, loadPackument = loadPackumentFromRegistry,
 }) {
-  const hostVersions = await resolveHostVersions(hosts, { registry, loadPackument })
+  const selection = await resolveHostSelection(hosts, { registry, loadPackument })
   const resolved = []
   for (const spec of plugins) {
     try {
@@ -155,7 +269,12 @@ export async function createMatrix({
       resolved.push({ spec, name: spec, source: 'unknown', error: error instanceof Error ? error.message : String(error) })
     }
   }
-  return evaluateMatrix(resolved, hostVersions, { exemptions })
+  const matrix = evaluateMatrix(resolved, selection.hosts, { exemptions })
+  // Only present when the caller asked for `current`. Absent means "this matrix was not built from a
+  // selection", which the page must not mistake for "the selection had no roles".
+  if (selection.roles !== undefined) matrix.hostRoles = selection.roles
+  if (selection.dropped !== undefined) matrix.hostsDropped = selection.dropped
+  return matrix
 }
 
 /**
