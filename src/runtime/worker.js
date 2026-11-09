@@ -5,14 +5,56 @@ import { createRequire } from 'node:module'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-/** Cordis const-enum ACTIVE is 2 in the supported rc.2/rc.3 host lines. */
+/**
+ * The value cordis uses to mean "this fiber is running".
+ *
+ * `@deepseek-ai/cordis@4.1.0` declares `FiberState` as a `const enum` in `lib/types/fiber.d.ts` with
+ * `ACTIVE = 2`. A `const enum` is erased at compile time, so there is nothing to import from the host at
+ * runtime — this number has to be a constant here. `checkHostContract` below is what notices if it changes.
+ */
+export const FIBER_ACTIVE = 2
+
+/**
+ * Check that the host still agrees with `FIBER_ACTIVE`, before blaming the plugin under test.
+ *
+ * If the host changes its state enum, every entry reports a value this module does not recognise, and the
+ * activation assertions would fail with "did not activate" — which points the reader at their plugin instead
+ * of at this tool. The official entries are the control group: they are always present and always running,
+ * so if none of them match, the constant is what is wrong.
+ *
+ * @param {object} ctx - host context from `runProfile`.
+ * @param {{fiberActive?: number}} [options]
+ * @throws {Error} whose message starts with `host-contract-changed:` when no official entry is active.
+ */
+export function checkHostContract(ctx, { fiberActive = FIBER_ACTIVE } = {}) {
+  const loader = ctx.get('loader')
+  const official = [...(loader?.entries?.() ?? [])]
+    .filter((entry) => entry.disabled !== true)
+    .filter((entry) => typeof entry.options?.name === 'string' && entry.options.name.startsWith('@deepseek-ai/'))
+  // A profile with no official entries is not something this check can reason about. Staying silent keeps
+  // it from turning an unusual layout into a false alarm.
+  if (official.length === 0) return { checked: 0, active: 0 }
+
+  const active = official.filter((entry) => entry.fiber?.state === fiberActive).length
+  if (active === 0) {
+    const seen = [...new Set(official.map((entry) => entry.fiber?.state ?? 'no fiber'))].join(', ')
+    throw new Error(
+      `host-contract-changed: none of the ${official.length} official @deepseek-ai/ entries report fiber state `
+      + `${fiberActive} (saw: ${seen}). The host's state enum may have changed, which makes this tool's `
+      + 'activation check meaningless. This says nothing about the plugin under test.',
+    )
+  }
+  return { checked: official.length, active }
+}
+
+/** Cordis marks a running fiber with this enum value. */
 export function verifyActivation(ctx, extra = {}) {
   const loader = ctx.get('loader')
   assert.ok(loader, 'profile exited before runtime acceptance')
   const entries = [...loader.entries()]
   const inactive = []
   for (const entry of entries) {
-    if (entry.disabled || entry.fiber?.state === 2) continue
+    if (entry.disabled || entry.fiber?.state === FIBER_ACTIVE) continue
     const fiber = entry.fiber
     const missing = fiber === undefined ? [] : Object.keys(fiber.inject ?? {}).filter(name => fiber.ctx.get(name) === undefined)
     inactive.push(`${entry.options.id ?? '?'} (${entry.options.name}): ${fiber === undefined ? 'not loaded' : `fiber state ${fiber.state}`}${missing.length ? `, waiting for ${missing.join(', ')}` : ''}`)
@@ -28,7 +70,7 @@ export function verifyActivation(ctx, extra = {}) {
       const named = entries.filter(entry => typeof entry.options?.name === 'string' &&
         (entry.options.name === name || entry.options.name.startsWith(`${name}/`)))
       assert.ok(named.length, `${name} never entered the profile`)
-      assert.ok(named.every(entry => !entry.disabled && entry.fiber?.state === 2), `${name} did not activate`)
+      assert.ok(named.every(entry => !entry.disabled && entry.fiber?.state === FIBER_ACTIVE), `${name} did not activate`)
     }
   } else if (typeof extra.plugin === 'string' && extra.plugin !== '') {
     // Exact matches only, on the package name and on the entry id.
@@ -45,7 +87,7 @@ export function verifyActivation(ctx, extra = {}) {
     )
     // Every entry carrying that name has to be active. One disabled duplicate is enough to mean the
     // plugin under test did not load.
-    const inactiveMatches = named.filter((entry) => entry.disabled || entry.fiber?.state !== 2)
+    const inactiveMatches = named.filter((entry) => entry.disabled || entry.fiber?.state !== FIBER_ACTIVE)
     assert.equal(
       inactiveMatches.length,
       0,
@@ -91,9 +133,28 @@ export function describeActivation(ctx) {
   return { bootOnly: true, activeEntries: entries }
 }
 
+/**
+ * The version of `@deepseek-ai/cordis` the host itself carries.
+ *
+ * Recorded so a result can be reproduced: the activation rule depends on that package's state enum, and the
+ * host directory is the only place the exact installed version is knowable.
+ *
+ * @param {string} hostDir - directory containing the installed `@deepseek-ai/dsh`.
+ * @returns {string|null} version, or null when it cannot be resolved.
+ */
+export function hostCordisVersion(hostDir) {
+  try {
+    const requireHost = createRequire(join(hostDir, 'package.json'))
+    const manifest = JSON.parse(readFileSync(requireHost.resolve('@deepseek-ai/cordis/package.json'), 'utf8'))
+    return typeof manifest.version === 'string' ? manifest.version : null
+  } catch {
+    return null
+  }
+}
+
 async function main(configPath) {
   const config = JSON.parse(readFileSync(configPath, 'utf8'))
-  const report = { ok: false, stage: 'boot' }
+  const report = { ok: false, stage: 'boot', hostCordis: hostCordisVersion(config.hostDir) }
   const save = () => { writeFileSync(config.resultPath, `${JSON.stringify(report, null, 2)}\n`) }
   let ctx
   let shutdown
@@ -106,6 +167,9 @@ async function main(configPath) {
     ;({ ctx, shutdown } = await runProfile({
       environment: loadLayeredEnv('dsh-health-smoke'), profile: config.profile, patchFiles: [], args: [],
     }))
+    // Check the control group first. If the host's state enum moved, the assertions below would report
+    // "did not activate" for a plugin that is fine, which sends the reader after the wrong thing.
+    report.hostContract = checkHostContract(ctx)
     // Some hosts only warn about pending entries; do not turn that into a green smoke result.
     verifyActivation(ctx, { plugin: config.plugin, plugins: config.plugins })
     report.stage = 'assertions'

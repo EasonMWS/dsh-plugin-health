@@ -25,6 +25,22 @@ jobs:
       - run: npm ci
       - run: npm test
 
+  # The runtime job has to follow the host, not a version written here months ago. This job resolves
+  # `latest` and `next` from the registry and hands the list to the matrix below, which also keeps the two
+  # tags from being written twice when they point at the same release.
+  hosts:
+    name: resolve runtime host versions
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.resolve.outputs.list }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - id: resolve
+        run: echo "list=$(node scripts/resolve-runtime-hosts.mjs)" >> "$GITHUB_OUTPUT"
+
   pack:
     name: package dry-run
     runs-on: ubuntu-latest
@@ -39,12 +55,13 @@ jobs:
 
   runtime:
     name: runtime acceptance (dsh ${{ matrix.host }})
+    needs: hosts
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        host: [0.2.1-rc.2, 0.2.1-rc.3]
+        host: ${{ fromJSON(needs.hosts.outputs.list) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
