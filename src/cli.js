@@ -27,7 +27,7 @@ import { buildReliabilityReport, compareReliabilityReports, readBoundedText } fr
 const VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version
 const BOOLEAN_OPTIONS = new Set([
   'json', 'help', 'version', 'apply', 'yes', 'force', 'badges', 'no-badges',
-  'boot-only', 'bypass-gate', 'undo', 'status', 'no-rehearse',
+  'boot-only', 'bypass-gate', 'undo', 'status', 'no-rehearse', 'clean-env',
 ])
 
 /**
@@ -327,6 +327,7 @@ async function cmdSmoke(options) {
     calls: callsPath === undefined ? [] : JSON.parse(readFileSync(callsPath, 'utf8')),
     out: lastString(options, 'out'),
     bootOnly,
+    cleanEnv: booleanOption(options, 'clean-env'),
     companions,
     bypassGate: booleanOption(options, 'bypass-gate'),
     timeoutMs: numberOption(options, 'timeout', 30000),

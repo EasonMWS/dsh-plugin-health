@@ -698,6 +698,18 @@ On POSIX, a process that exits zero but leaves background descendants also fails
 its remaining process group is stopped. Windows uses `taskkill /T` for timeouts; detecting children
 after their parent has already exited is not supported there.
 
+**The plugin under test inherits your environment by default.** That is the documented behaviour when
+you rehearse your own plugin: it is your code, running with your permissions. When the plugin is one you have
+not read — a batch run, a CI job over a catalog — pass `--clean-env` and only a fixed list crosses the
+boundary: the machine basics (`PATH`, `HOME`, `TMPDIR`, locale, `TZ`, `CI`, the Windows equivalents),
+the package-manager plumbing (`HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`, `NODE_EXTRA_CA_CERTS`,
+`npm_config_*`, `PNPM_HOME`, the XDG directories), and `DSH_HOME`. Anything whose name looks like a
+credential is refused even if it would otherwise be allowed, and CI-injected `ACTIONS_*`, `GITHUB_*` and
+`RUNNER_*` variables never pass. The report records `env: { mode, passed }` — names only, never values.
+
+A proxy URL that carries a username and password is still passed, because the install cannot reach the
+registry without it. `--clean-env` narrows what the plugin can see; it is not a sandbox.
+
 Every run retains its home, `smoke.json`, `runtime.json` and bounded stdout/stderr in a new run
 directory. Health selects that new directory as the trial's profile; it does not prevent the tested
 code from accessing existing profiles. There is no automatic cleanup; inspect logs before sharing
