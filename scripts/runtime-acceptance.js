@@ -39,11 +39,14 @@ for (const [kind, source] of Object.entries(sources)) {
   const fixture = join(directory, kind)
   mkdirSync(fixture)
   const name = `dsh-health-fixture-${kind}`
+  // The range has to admit every host this job now tests. It was `>=0.2.1-rc.2 <0.2.2-0`, which excluded
+  // 0.2.2-rc.1 — so once the runtime job started testing the current release, the host correctly rejected the
+  // "healthy" fixture and the failure looked like a tool defect. It was a stale fixture.
   writeFileSync(join(fixture, 'package.json'), JSON.stringify({
     name, version: '1.0.0', type: 'module', main: './index.js',
     dsh: { bundle: { patch: './cordis.patch.yml' } },
-    engines: { dsh: '>=0.2.1-rc.2 <0.2.2-0' },
-    peerDependencies: { '@deepseek-ai/dsh-tools': '>=0.2.1-rc.2 <0.2.2-0' },
+    engines: { dsh: '>=0.2.1-rc.2 <0.3.0-0' },
+    peerDependencies: { '@deepseek-ai/dsh-tools': '>=0.2.1-rc.2 <0.3.0-0' },
     peerDependenciesMeta: { '@deepseek-ai/dsh-tools': { optional: true } },
   }))
   writeFileSync(join(fixture, 'index.js'), source)
