@@ -14,8 +14,10 @@ export {
   hostSummary,
   parsePluginSpec,
   repositoryUrl,
+  resolveHostSelection,
   resolveHostVersions,
   resolvePlugins,
+  selectCurrentHosts,
 } from './compat/matrix.js'
 export { badgeSvg, matrixToMarkdown, safeFileName, writeBadges } from './compat/report.js'
 export { compatibilityLookup, loadCatalog, npmEntries } from './index/catalog.js'
