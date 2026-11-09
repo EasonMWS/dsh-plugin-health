@@ -1,5 +1,25 @@
 # Changelog
 
+## 4.0.0-beta.3
+
+### Every 3.x fix up to 3.1.0's runtime work, and a sandbox that works with homes under /tmp
+
+**Synced from 3.x:** host versions are chosen, not named, and counted against the one people run (A2); the
+runtime job tests the hosts people run and notices when the host's state enum moves (A3); `--clean-env` keeps
+tokens out of the plugin under test (A4); the compatibility copy is checked against the official evaluator
+(A6); the tool-execution contract is handled in both shapes (0.2.1 single call, 0.2.2 batch). From 3.1.0: smoke
+reports record installed versions with integrity, tool and runtime versions and stage timings; failures are
+classified into a fixed set of kinds; runtime.json records every entry and tool name the profile occupies.
+`matrix --concurrency` now actually runs lookups concurrently.
+
+**Corrected:** DSH does re-check installed plugins at startup. An incompatible bundle is skipped with one line
+on stderr and nothing in the UI. Earlier text said it "keeps loading" — that was wrong.
+
+**Fixed: the Linux sandbox hid any home under /tmp.** bubblewrap applies mounts in order, and the fresh tmpfs on
+/tmp was mounted after the home was bound, so every trial home created under the temporary directory vanished
+inside the sandbox ("Can't chdir to /tmp/…/home"). The tmpfs now comes first. The sandbox test now judges what
+reaches the host, for a target under /tmp and for one outside both /tmp and the home.
+
 ## 4.0.0-beta.2
 
 ### The outside tool is a manager now

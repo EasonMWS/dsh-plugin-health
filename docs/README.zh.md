@@ -15,7 +15,7 @@
 执行插件代码，不能用来安全试跑未知软件。详见 [Health 能力边界](../SECURITY.md#malware-containment-is-not-implemented)
 及 [DSH 官方安全说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md)。
 
-> 当前版本：`4.0.0-beta.2`。索引由官方发布的 `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
+> 当前版本：`4.0.0-beta.3`。索引由官方发布的 `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 **如果 DSH 根本起不来**，用桌面版：[下载安装程序](https://github.com/EasonMWS/dsh-plugin-health/releases/latest)，
 运行它，在里面把坏掉的插件关掉。不需要终端，也不需要 DSH 能启动。

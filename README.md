@@ -18,7 +18,7 @@ Startup checks execute plugin code with your account permissions and cannot safe
 software. Read [Health's security boundaries](SECURITY.md#malware-containment-is-not-implemented)
 and the [official DSH safety notice](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md).
 
-> Current version: `4.0.0-beta.2`.
+> Current version: `4.0.0-beta.3`.
 
 **If DSH will not start at all**, use the desktop app: [download the installer](https://github.com/EasonMWS/dsh-plugin-health/releases/latest),
 run it, and switch the broken plugin off from there. No terminal, and no working DSH required.
