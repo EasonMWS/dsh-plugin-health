@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -146,17 +146,21 @@ test('on a platform with a sandbox, writes outside the home are refused by the O
   try {
     const home = join(work, 'home')
     mkdirSync(home, { recursive: true })
+    // Two targets: next to the profile (under /tmp, where the sandbox mounts its own throwaway tmpfs), and the
+    // real working directory, which is outside /tmp and must be refused outright.
     const outside = join(work, 'outside.txt')
+    const elsewhere = join(process.cwd(), `sandbox-probe-${process.pid}-${Date.now()}.txt`)
 
-    // A script that tries the exact thing a plugin would: write next to the profile.
     const script = join(home, 'probe.js')
     writeFileSync(script, `
       const fs = require('node:fs')
-      try {
-        fs.writeFileSync(${JSON.stringify(outside)}, 'x')
-        console.log('OUTSIDE_WRITTEN')
-      } catch (error) {
-        console.log('OUTSIDE_REFUSED')
+      for (const [label, target] of [['OUTSIDE', ${JSON.stringify(outside)}], ['ELSEWHERE', ${JSON.stringify(elsewhere)}]]) {
+        try {
+          fs.writeFileSync(target, 'x')
+          console.log(label + '_WRITTEN')
+        } catch (error) {
+          console.log(label + '_REFUSED')
+        }
       }
     `, 'utf8')
 
@@ -181,9 +185,16 @@ test('on a platform with a sandbox, writes outside the home are refused by the O
       built.cleanup?.()
     }
 
-    assert.match(output, /OUTSIDE_REFUSED/u, `the write was not stopped; output was: ${output.slice(0, 200)}`)
+    // What matters is the host. When the work directory is under /tmp, the sandbox's own empty tmpfs on /tmp
+    // accepts the write and throws it away — the script sees success, the real file never appears. Either
+    // outcome is containment; a file on the host is not.
+    assert.match(output, /OUTSIDE_(?:REFUSED|WRITTEN)/u, `the probe did not run; output was: ${output.slice(0, 200)}`)
+    assert.equal(existsSync(outside), false, `the write reached the host: ${outside} exists; output was: ${output.slice(0, 200)}`)
+    assert.match(output, /ELSEWHERE_REFUSED/u, `a write outside /tmp and the home was not refused; output was: ${output.slice(0, 200)}`)
+    assert.equal(existsSync(elsewhere), false, `the write reached the host: ${elsewhere} exists`)
   } finally {
     rmSync(work, { recursive: true, force: true })
+    rmSync(elsewhere, { force: true })
   }
 })
 
