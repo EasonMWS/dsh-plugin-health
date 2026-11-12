@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:10.186Z",
+  "generatedAt": "2026-11-12T03:51:52.540Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "dsh-codex-workflow@1.1.15",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zEe42w",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zEe42w/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-UlVDnx",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-UlVDnx/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:04:10.452Z",
-      "durationMs": 95,
+      "startedAt": "2026-11-12T03:51:53.010Z",
+      "durationMs": 175,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,28 +23,28 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:10.547Z",
-      "durationMs": 1423,
+      "startedAt": "2026-11-12T03:51:53.186Z",
+      "durationMs": 2361,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-codex-workflow 1.1.15\n\nPackages: +11\n+++++++++++\nProgress: resolved 11, reused 3, downloaded 8, added 11, done\nDone in 887ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-codex-workflow 1.1.15\n\nPackages: +11\n+++++++++++\nProgress: resolved 11, reused 3, downloaded 8, added 11, done\nDone in 1.3s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:11.972Z",
-      "durationMs": 3486,
+      "startedAt": "2026-11-12T03:51:55.551Z",
+      "durationMs": 3903,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44127/?token=h1aREy00eleFn5QfPn748-P1334aWr-HPojaPcguA-w\n",
-      "stderr": "(node:3725) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:46803/?token=ruk502QayuIJhS3vSemQF3z_CnUUMHcO1F050hRI8r4\n",
+      "stderr": "(node:4041) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -52,12 +52,6 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
-            {
-              "id": "51405898",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1247,7 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "81a8de3a",
+              "id": "f65a12ad",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "dadcc7cc",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1274,11 +1274,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "51405898",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2125,7 +2120,12 @@
               "state": 2
             },
             {
-              "id": "81a8de3a",
+              "id": "f65a12ad",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "dadcc7cc",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2136,7 +2136,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2174,19 +2174,19 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "51405898",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
         "id": "dsh-codex-workflow",
         "name": "dsh-codex-workflow",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "81a8de3a",
+        "id": "f65a12ad",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "dadcc7cc",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

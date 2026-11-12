@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:06:37.215Z",
+  "generatedAt": "2026-11-12T03:56:00.323Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@limuyang2/dsh-agent-team@0.1.4",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bxKrug",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bxKrug/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-whdlNq",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-whdlNq/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:06:37.698Z",
-      "durationMs": 161,
+      "startedAt": "2026-11-12T03:56:00.693Z",
+      "durationMs": 143,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,28 +23,28 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:06:37.859Z",
-      "durationMs": 2698,
+      "startedAt": "2026-11-12T03:56:00.862Z",
+      "durationMs": 2879,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @limuyang2/dsh-agent-team 0.1.4\n\nPackages: +56\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 56, reused 0, downloaded 55, added 54\nProgress: resolved 56, reused 0, downloaded 56, added 56, done\nDone in 1.8s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @limuyang2/dsh-agent-team 0.1.4\n\nPackages: +56\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 56, reused 0, downloaded 54, added 18\nProgress: resolved 56, reused 0, downloaded 56, added 56, done\nDone in 2.1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:06:40.592Z",
-      "durationMs": 4219,
+      "startedAt": "2026-11-12T03:56:03.776Z",
+      "durationMs": 3688,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45057/?token=8NUeX1hqby67R00bGm7c3VVjbvsuC3LD1y4D9v_Ehzk\n",
-      "stderr": "dsh: warning: 1 entry did not activate\nagent-team (@limuyang2/dsh-agent-team): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@deepseek-ai/dsh-host-apiproxy' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bxKrug/home/profiles/health-smoke/node_modules/@limuyang2/dsh-agent-team/lib/index.js\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)\n    at packageResolve (node:internal/modules/esm/resolve:772:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:989:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1942:77\n    at adapted (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1889:15)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1914:19\n    at ModuleLoader.wrapped [as resolve] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1944:71)\n",
+      "stdout": "dsh web: http://127.0.0.1:46355/?token=YJ2jzx9WixXIBcHuPbu12aJ0LPmp9UttmasoOJHPC4E\n",
+      "stderr": "dsh: warning: 1 entry did not activate\nagent-team (@limuyang2/dsh-agent-team): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@deepseek-ai/dsh-host-apiproxy' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-whdlNq/home/profiles/health-smoke/node_modules/@limuyang2/dsh-agent-team/lib/index.js\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)\n    at packageResolve (node:internal/modules/esm/resolve:772:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:989:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1942:77\n    at adapted (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1889:15)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1914:19\n    at ModuleLoader.wrapped [as resolve] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1944:71)\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "e7fdf772",
+              "id": "19d74d4e",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "70fb70aa",
+              "id": "bd96dd58",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1236,7 +1236,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -1272,7 +1272,7 @@
   "failure": {
     "stage": "runtime",
     "kind": "boot-import-error",
-    "detail": "agent-team (@limuyang2/dsh-agent-team): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@deepseek-ai/dsh-host-apiproxy' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bxKrug/home/profiles/health-smoke/node_modules/@limuyang2/dsh-age"
+    "detail": "agent-team (@limuyang2/dsh-agent-team): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@deepseek-ai/dsh-host-apiproxy' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-whdlNq/home/profiles/health-smoke/node_modules/@limuyang2/dsh-age"
   },
   "level": null,
   "declared": false,
@@ -1285,13 +1285,13 @@
         "disabled": false
       },
       {
-        "id": "e7fdf772",
+        "id": "19d74d4e",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "70fb70aa",
+        "id": "bd96dd58",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -1307,7 +1307,7 @@
     "failure": {
       "stage": "runtime",
       "kind": "boot-import-error",
-      "detail": "agent-team (@limuyang2/dsh-agent-team): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@deepseek-ai/dsh-host-apiproxy' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bxKrug/home/profiles/health-smoke/node_modules/@limuyang2/dsh-age"
+      "detail": "agent-team (@limuyang2/dsh-agent-team): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@deepseek-ai/dsh-host-apiproxy' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-whdlNq/home/profiles/health-smoke/node_modules/@limuyang2/dsh-age"
     }
   }
 }

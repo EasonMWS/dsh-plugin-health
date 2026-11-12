@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:05:08.738Z",
+  "generatedAt": "2026-11-12T03:51:54.311Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "pi2dsh@0.27.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pRGgbg",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pRGgbg/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-45MeTG",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-45MeTG/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:05:09.237Z",
-      "durationMs": 151,
+      "startedAt": "2026-11-12T03:51:54.773Z",
+      "durationMs": 137,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:05:09.388Z",
-      "durationMs": 2982,
+      "startedAt": "2026-11-12T03:51:54.911Z",
+      "durationMs": 2349,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ pi2dsh 0.27.1\n\nPackages: +108\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 106, reused 20, downloaded 54, added 7\nProgress: resolved 106, reused 20, downloaded 86, added 108, done\nDone in 2s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ pi2dsh 0.27.1\n\nPackages: +108\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 106, reused 20, downloaded 86, added 108\nProgress: resolved 106, reused 20, downloaded 86, added 108, done\nDone in 1.6s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:05:12.415Z",
-      "durationMs": 4390,
+      "startedAt": "2026-11-12T03:51:57.293Z",
+      "durationMs": 3631,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[pi2dsh] loaded pi2dsh-builtins: 0 tools, 1 commands, 0 skill roots\n[pi2dsh engine] no Pi packages installed in this profile yet — add one with: dsh plugin --profile <p> add <pi-package>\ndsh web: http://127.0.0.1:41925/?token=1o4Shk8IXeNVXxDKlBG4n8C5zST77iKY9JUDsqS2xms\n",
+      "stdout": "[pi2dsh] loaded pi2dsh-builtins: 0 tools, 1 commands, 0 skill roots\n[pi2dsh engine] no Pi packages installed in this profile yet — add one with: dsh plugin --profile <p> add <pi-package>\ndsh web: http://127.0.0.1:46877/?token=E4-crR3D5iq_sgse5xy0GjtsqpTjyGZBfwmfgTFsPoA\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "4efa294c",
+              "id": "60ef414d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "55328cff",
+              "id": "52d70215",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2111,12 +2111,12 @@
               "state": 2
             },
             {
-              "id": "4efa294c",
+              "id": "60ef414d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "55328cff",
+              "id": "52d70215",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2127,7 +2127,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2171,13 +2171,13 @@
         "disabled": false
       },
       {
-        "id": "4efa294c",
+        "id": "60ef414d",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "55328cff",
+        "id": "52d70215",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

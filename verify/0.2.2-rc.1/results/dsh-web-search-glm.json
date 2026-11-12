@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:05:00.795Z",
+  "generatedAt": "2026-11-12T03:52:29.757Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "dsh-web-search-glm@0.1.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-A4u4qj",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-A4u4qj/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LmtdHD",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LmtdHD/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:05:01.090Z",
-      "durationMs": 109,
+      "startedAt": "2026-11-12T03:52:30.235Z",
+      "durationMs": 131,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,28 +23,28 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:05:01.199Z",
-      "durationMs": 1306,
+      "startedAt": "2026-11-12T03:52:30.367Z",
+      "durationMs": 1623,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-web-search-glm 0.1.0\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nDone in 710ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-web-search-glm 0.1.0\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nDone in 902ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:05:02.507Z",
-      "durationMs": 2989,
+      "startedAt": "2026-11-12T03:52:31.993Z",
+      "durationMs": 3999,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38299/?token=V5Dlf7Jyqf8ve_8BQ_lhzNNM_3ZG5jrlTsiFD8TkIwQ\n",
-      "stderr": "dsh: warning: 1 entry did not activate\nweb-search-glm (dsh-web-search-glm): failed to import: file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-A4u4qj/home/profiles/health-smoke/node_modules/dsh-web-search-glm/lib/index.js:3\nimport { installSettingsSection, settingsNamespace } from \"@deepseek-ai/dsh-settings\";\n         ^^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: The requested module '@deepseek-ai/dsh-settings' does not provide an export named 'installSettingsSection'\n    at ModuleJob._instantiate (node:internal/modules/esm/module_job:226:21)\n    at async ModuleJob.run (node:internal/modules/esm/module_job:335:5)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:342:41\n    at async Entry._init (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:583:22)\n    at async Entry.init (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:571:4)\n    at async Entry.update (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:519:10)\n    at async EntryGroup.create (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:66:3)\n    at async file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:92:20\n    at async Promise.all (index 97)\n",
+      "stdout": "dsh web: http://127.0.0.1:39725/?token=pAlAKm9ba2I2Ijbom-2V_yas-kjrjcLOAAdAMz4XqIM\n",
+      "stderr": "dsh: warning: 1 entry did not activate\nweb-search-glm (dsh-web-search-glm): failed to import: file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LmtdHD/home/profiles/health-smoke/node_modules/dsh-web-search-glm/lib/index.js:3\nimport { installSettingsSection, settingsNamespace } from \"@deepseek-ai/dsh-settings\";\n         ^^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: The requested module '@deepseek-ai/dsh-settings' does not provide an export named 'installSettingsSection'\n    at ModuleJob._instantiate (node:internal/modules/esm/module_job:226:21)\n    at async ModuleJob.run (node:internal/modules/esm/module_job:335:5)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:342:41\n    at async Entry._init (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:583:22)\n    at async Entry.init (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:571:4)\n    at async Entry.update (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:519:10)\n    at async EntryGroup.create (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:66:3)\n    at async file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:92:20\n    at async Promise.all (index 97)\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "47fbece5",
+              "id": "17fe8143",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "5705937c",
+              "id": "6c0cf667",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1268,7 +1268,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -1317,13 +1317,13 @@
         "disabled": false
       },
       {
-        "id": "47fbece5",
+        "id": "17fe8143",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "5705937c",
+        "id": "6c0cf667",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

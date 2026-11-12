@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:06:49.939Z",
+  "generatedAt": "2026-11-12T03:56:11.667Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@linxin666/dsh-web-all@0.4.16",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-chZjG6",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-chZjG6/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HSERad",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HSERad/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:06:50.459Z",
-      "durationMs": 145,
+      "startedAt": "2026-11-12T03:56:12.019Z",
+      "durationMs": 176,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,21 +23,21 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:06:50.621Z",
-      "durationMs": 2748,
+      "startedAt": "2026-11-12T03:56:12.195Z",
+      "durationMs": 2767,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-web-all 0.4.16\n\nPackages: +50\n++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 60, reused 10, downloaded 31, added 19\nProgress: resolved 60, reused 10, downloaded 40, added 50, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3, cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-chZjG6/home/profiles/health-smoke/.plugin-manager/logs/operation-e9D3uB/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-web-all 0.4.16\n\nPackages: +50\n++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 60, reused 10, downloaded 26, added 19\nProgress: resolved 60, reused 10, downloaded 40, added 50, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3, cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HSERad/home/profiles/health-smoke/.plugin-manager/logs/operation-tDN9an/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:05:45.151Z",
+  "generatedAt": "2026-11-12T03:52:37.980Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-vscode-mode@0.28.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EFCtsa",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EFCtsa/home",
+  "plugin": "dsh-vscode-mode@0.29.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WiQu0N",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WiQu0N/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:05:45.654Z",
-      "durationMs": 5898,
+      "startedAt": "2026-11-12T03:52:38.509Z",
+      "durationMs": 5831,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 183, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: fstream@1.0.12, glob@7.2.3, inflight@1.0.6, lodash.isequal@4.5.0, rimraf@2.7.1, uuid@8.3.2\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-vscode-mode 0.28.0\n\nPackages: +311\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 314, reused 2, downloaded 0, added 0\nProgress: resolved 314, reused 47, downloaded 102, added 6\nProgress: resolved 314, reused 47, downloaded 256, added 311, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-vscode-mode@0.28.0\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EFCtsa/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'dsh-vscode-mode@0.28.0'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EFCtsa/home/profiles/health-smoke/.plugin-manager/logs/operation-EJlBy8/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 143, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: fstream@1.0.12, glob@7.2.3, inflight@1.0.6, lodash.isequal@4.5.0, rimraf@2.7.1, uuid@8.3.2\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-vscode-mode 0.29.1\n\nPackages: +311\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 314, reused 2, downloaded 0, added 0\nProgress: resolved 314, reused 47, downloaded 77, added 6\nProgress: resolved 314, reused 47, downloaded 256, added 311, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-vscode-mode@0.29.1\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WiQu0N/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'dsh-vscode-mode@0.29.1'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WiQu0N/home/profiles/health-smoke/.plugin-manager/logs/operation-IhwtsP/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "dsh-vscode-mode",
-      "version": "0.28.0",
-      "integrity": "sha512-ZlKfXTQHmCfhYMBTL+yUaBWi/IYz4/ZeEhbPYK0ZcKeb+vbKsMnYucT1djXrgr7vUewThkweV7u87bnO0Un3ig==",
+      "version": "0.29.1",
+      "integrity": "sha512-r8E2tkiP9TVuoOSfBPc4PCU4kiC0bRdgOCycD22CHamowLOvSFfSsTjjpQGiWBn7gBXm9ZOvZIc0arBBJfkXqA==",
       "resolution": "registry"
     }
   ],

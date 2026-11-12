@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:09.993Z",
+  "generatedAt": "2026-11-12T03:56:27.940Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-onebot-hub@0.12.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kdqEyT",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kdqEyT/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qr5h1j",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qr5h1j/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:10.474Z",
-      "durationMs": 2006,
+      "startedAt": "2026-11-12T03:56:28.433Z",
+      "durationMs": 1906,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-onebot-hub 0.12.6\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 1, downloaded 4, added 5, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kdqEyT/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-onebot-hub 0.12.6\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 1, downloaded 4, added 5, done\nDone in 997ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qr5h1j/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:07:12.482Z",
-      "durationMs": 3811,
+      "startedAt": "2026-11-12T03:56:30.342Z",
+      "durationMs": 3840,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-onebot-hub] 浏览器自诊断通道已装：/onebot-hub/client-report\n[dsh-onebot-hub] 设置页模型清单通道已装：/onebot-hub/llm-models\n[dsh-onebot-hub] [persona] 补上自带预设 蓝色大肥鱼\n[dsh-onebot-hub] 表情包库就绪：0 张（容量 200）\n[dsh-onebot-hub] 设置页人设通道已装：/onebot-hub/persona\n[dsh-onebot-hub] 设置页扫码通道已装：/onebot-hub/official/qr\n[dsh-onebot-hub] 聊天命令未启用：chatCommands.superUsers 是空的（没人能用，也就不会吞任何消息）\n[dsh-onebot-hub] 未配置 upstreamUrl / upstreamListen，hub 仅作为下游实现端运行（可被其它枢纽接驳）\n[dsh-onebot-hub] 枢纽已启动：下游目标 0/0 条（无），上游 (未配置)，预设 relay\n[dsh-onebot-hub] 定时任务：宿主没有 schedule 服务（这个版本不带宽限排期）\n[dsh-onebot-hub] 媒体落地已接上宿主 attachments（图片/文件会登记成 durable ref）\n[dsh-onebot-hub] 已注册内置精简预设 \"onebot-hub-slim\"（11 个常用原生工具都在，只收起 subagent/workflow 等大型件）\n[dsh-onebot-hub] agent 通道就绪：模型 deepseek-official/deepseek-flash，模式 assist，Agent 预设 standard（内置精简预设 onebot-hub-slim：会话默认进它；onebot_tools 可整档切到默认预设）\n[dsh-onebot-hub] 看图已接入：模式 describe，识图模型 系统默认（要在会话里换发 /vmodel）\ndsh web: http://127.0.0.1:42733/?token=i1CJDcJOs-SiMZBHJkpbXkU6wSe5AKJN26nnKE9CsCM\n",
+      "stdout": "[dsh-onebot-hub] 浏览器自诊断通道已装：/onebot-hub/client-report\n[dsh-onebot-hub] 设置页模型清单通道已装：/onebot-hub/llm-models\n[dsh-onebot-hub] [persona] 补上自带预设 蓝色大肥鱼\n[dsh-onebot-hub] 表情包库就绪：0 张（容量 200）\n[dsh-onebot-hub] 设置页人设通道已装：/onebot-hub/persona\n[dsh-onebot-hub] 设置页扫码通道已装：/onebot-hub/official/qr\n[dsh-onebot-hub] 聊天命令未启用：chatCommands.superUsers 是空的（没人能用，也就不会吞任何消息）\n[dsh-onebot-hub] 未配置 upstreamUrl / upstreamListen，hub 仅作为下游实现端运行（可被其它枢纽接驳）\n[dsh-onebot-hub] 枢纽已启动：下游目标 0/0 条（无），上游 (未配置)，预设 relay\n[dsh-onebot-hub] 定时任务：宿主没有 schedule 服务（这个版本不带宽限排期）\n[dsh-onebot-hub] 媒体落地已接上宿主 attachments（图片/文件会登记成 durable ref）\n[dsh-onebot-hub] 已注册内置精简预设 \"onebot-hub-slim\"（11 个常用原生工具都在，只收起 subagent/workflow 等大型件）\n[dsh-onebot-hub] agent 通道就绪：模型 deepseek-official/deepseek-flash，模式 assist，Agent 预设 standard（内置精简预设 onebot-hub-slim：会话默认进它；onebot_tools 可整档切到默认预设）\n[dsh-onebot-hub] 看图已接入：模式 describe，识图模型 系统默认（要在会话里换发 /vmodel）\ndsh web: http://127.0.0.1:42283/?token=REk9VkxStGYhF3J9ALD5TEw6TFQZNJ3xOV8E1dl07fQ\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "2fc2e882",
+              "id": "a2b41ffd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "a8d8ca33",
+              "id": "9ecc3547",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "2fc2e882",
+              "id": "a2b41ffd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "a8d8ca33",
+              "id": "9ecc3547",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "2fc2e882",
+        "id": "a2b41ffd",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "a8d8ca33",
+        "id": "9ecc3547",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

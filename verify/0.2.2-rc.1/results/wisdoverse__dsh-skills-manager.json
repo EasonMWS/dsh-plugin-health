@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:22.837Z",
+  "generatedAt": "2026-11-12T03:51:00.928Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@wisdoverse/dsh-skills-manager@1.0.8",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xHnPZQ",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xHnPZQ/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-6dJUGn",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-6dJUGn/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:04:23.289Z",
-      "durationMs": 209,
+      "startedAt": "2026-11-12T03:51:01.237Z",
+      "durationMs": 113,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:23.498Z",
-      "durationMs": 1865,
+      "startedAt": "2026-11-12T03:51:01.350Z",
+      "durationMs": 1403,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @wisdoverse/dsh-skills-manager 1.0.8\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 986ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @wisdoverse/dsh-skills-manager 1.0.8\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 830ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:25.365Z",
-      "durationMs": 4651,
+      "startedAt": "2026-11-12T03:51:02.755Z",
+      "durationMs": 2951,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36601/?token=_OZawyE9_w7zwg7d2v967zZryJh1pATAdtpzIBrLLYE\n",
+      "stdout": "dsh web: http://127.0.0.1:36683/?token=7mo2P9sYdBTlDzAq2RPk6OO5AE6ucpC91ikkGGPDmKc\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "1b5e6966",
+              "id": "11243b64",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "dca15524",
+              "id": "03639e47",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2112,12 +2112,12 @@
               "state": 2
             },
             {
-              "id": "1b5e6966",
+              "id": "11243b64",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "dca15524",
+              "id": "03639e47",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2128,7 +2128,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2172,13 +2172,13 @@
         "disabled": false
       },
       {
-        "id": "1b5e6966",
+        "id": "11243b64",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "dca15524",
+        "id": "03639e47",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

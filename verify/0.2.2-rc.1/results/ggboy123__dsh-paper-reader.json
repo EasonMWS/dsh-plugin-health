@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:00.275Z",
+  "generatedAt": "2026-11-12T03:51:06.013Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@ggboy123/dsh-paper-reader@1.8.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-O0qQAZ",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-O0qQAZ/home",
+  "plugin": "@ggboy123/dsh-paper-reader@1.12.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KN4r7Y",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KN4r7Y/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:00.829Z",
-      "durationMs": 2984,
+      "startedAt": "2026-11-12T03:51:06.520Z",
+      "durationMs": 2860,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @ggboy123/dsh-paper-reader 1.8.3\n\nPackages: +6\n++++++\nProgress: resolved 16, reused 0, downloaded 6, added 6, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @ggboy123/dsh-paper-reader@1.8.3\nDone in 1.8s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-O0qQAZ/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @ggboy123/dsh-paper-reader 1.12.0\n\nPackages: +6\n++++++\nProgress: resolved 16, reused 0, downloaded 5, added 5\nProgress: resolved 16, reused 0, downloaded 6, added 6, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @ggboy123/dsh-paper-reader@1.12.0\nDone in 1.9s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KN4r7Y/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:03.823Z",
-      "durationMs": 4868,
+      "startedAt": "2026-11-12T03:51:09.394Z",
+      "durationMs": 4985,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-paper-reader] registered tools: list_papers, transcribe_pdf, search_paper, study_progress, study_update\n[dsh-paper-reader] routes registered under /paper-reader\ndsh web: http://127.0.0.1:45537/?token=bIIrIK-gFh2ONLp1cpq6lW9cWkGfHUOU5UqtCDzzVyw\n",
+      "stdout": "[dsh-paper-reader] registered tools: list_papers, transcribe_pdf, search_paper, study_progress, study_update\n[dsh-paper-reader] routes registered under /paper-reader\ndsh web: http://127.0.0.1:41729/?token=8zGujU882QfvFnMn5rt4xk0pKWRCFNjK2mrFrSoxH2M\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1234,13 +1234,13 @@
               "disabled": false
             },
             {
-              "id": "6af905c6",
+              "id": "188aea56",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "b806794c",
+              "id": "b4f84f4a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2114,12 +2114,12 @@
               "state": 2
             },
             {
-              "id": "6af905c6",
+              "id": "188aea56",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "b806794c",
+              "id": "b4f84f4a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2130,7 +2130,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2142,8 +2142,8 @@
   "subjects": [
     {
       "name": "@ggboy123/dsh-paper-reader",
-      "version": "1.8.3",
-      "integrity": "sha512-7Nn1TWwam+/j9Z/xy2seVxJCgojenMXna2pNAG2Ep9hxJ3XJrGjaHaIbXFqpbovwKYB1N/NyUn14ZtUcmPaeKg==",
+      "version": "1.12.0",
+      "integrity": "sha512-XH3m27IMyq7R4ytFQtPbE2GwyyYJEzxvGz6VdDY93iNUDGZj9Ixh/Z5IeZdnKKopj5uWK4tmV+POVQDQEVx54w==",
       "resolution": "registry"
     }
   ],
@@ -2180,13 +2180,13 @@
         "disabled": false
       },
       {
-        "id": "6af905c6",
+        "id": "188aea56",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b806794c",
+        "id": "b4f84f4a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

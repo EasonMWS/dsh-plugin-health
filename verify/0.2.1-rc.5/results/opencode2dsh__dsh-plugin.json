@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:05.235Z",
+  "generatedAt": "2026-11-12T03:56:25.816Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@opencode2dsh/dsh-plugin@0.3.14",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5SdCvm",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5SdCvm/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DOVUju",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DOVUju/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:05.586Z",
-      "durationMs": 3515,
+      "startedAt": "2026-11-12T03:56:26.111Z",
+      "durationMs": 4052,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: node-domexception@1.0.0\n\ndependencies:\n+ @opencode2dsh/dsh-plugin 0.3.14\n\nPackages: +99\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 98, reused 9, downloaded 0, added 0\nProgress: resolved 98, reused 9, downloaded 89, added 99, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@1.52.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5SdCvm/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5SdCvm/home/profiles/health-smoke/.plugin-manager/logs/operation-QDXx9V/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 91, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: node-domexception@1.0.0\n\ndependencies:\n+ @opencode2dsh/dsh-plugin 0.3.14\n\nPackages: +99\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 98, reused 9, downloaded 64, added 8\nProgress: resolved 98, reused 9, downloaded 89, added 99, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@1.52.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DOVUju/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DOVUju/home/profiles/health-smoke/.plugin-manager/logs/operation-fjLFa5/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

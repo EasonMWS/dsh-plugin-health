@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:43.945Z",
+  "generatedAt": "2026-11-12T03:58:42.275Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-search-index@0.7.17",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LRkFSg",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LRkFSg/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-R5W0YE",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-R5W0YE/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:44.326Z",
-      "durationMs": 2109,
+      "startedAt": "2026-11-12T03:58:42.718Z",
+      "durationMs": 2528,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
       "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: prebuild-install@7.1.3\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-search-index 0.7.17\n\nPackages: +41\n+++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 41, reused 2, downloaded 39, added 41, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: better-sqlite3@12.11.1\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LRkFSg/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LRkFSg/home/profiles/health-smoke/.plugin-manager/logs/operation-egzIZ0/pnpm.log\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-R5W0YE/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-R5W0YE/home/profiles/health-smoke/.plugin-manager/logs/operation-BO3j2o/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

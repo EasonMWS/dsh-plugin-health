@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-12T03:54:55.356Z",
+  "hostVersion": "0.2.2-rc.2",
+  "plugin": "dsh-web-annotator@0.2.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "allow-version",
+      "startedAt": "2026-11-12T03:54:55.904Z",
+      "durationMs": 226,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "dsh: allowed dsh-web-annotator@0.2.2 for DSH 0.2.2-rc.2\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-12T03:54:56.130Z",
+      "durationMs": 2109,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-web-annotator 0.2.2\n\nPackages: +7\n+++++++\nProgress: resolved 7, reused 0, downloaded 7, added 7, done\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "",
+      "truncated": false
+    },
+    {
+      "name": "runtime",
+      "startedAt": "2026-11-12T03:54:58.245Z",
+      "durationMs": 4255,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "",
+      "stderr": "",
+      "truncated": false,
+      "details": {
+        "ok": false,
+        "stage": "boot",
+        "hostCordis": "4.1.0",
+        "error": "Error: dsh: startup failed: 1 required plugin did not activate\n\nFailed plugins (1):\n  modules (required)\n    Package: @deepseek-ai/dsh-client-modules\n    AggregateError: client-modules: 2 client packages failed to compose:\n      other failures:\n        - client-modules: package @deepseek-ai/dsh-client-ui-layout resolves from multiple active Loader sources: \"file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/node_modules/dsh-web-annotator/lib/host/layout-provider/lib/index.js\" from file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/, \"@deepseek-ai/dsh-client-ui-layout\" from file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/; remove one entry\n        - client-modules: package @deepseek-ai/dsh-client-ui-chat resolves from multiple active Loader sources: \"file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/node_modules/dsh-web-annotator/lib/host/chat-provider/lib/index.js\" from file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/, \"@deepseek-ai/dsh-client-ui-chat\" from file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/; remove one entry\n        at new ClientModuleRegistry (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:619:34)\n        at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n        at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n        at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/#modules\n        at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/#include\n    Error: client-modules: package @deepseek-ai/dsh-client-ui-layout resolves from multiple active Loader sources: \"file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/node_modules/dsh-web-annotator/lib/host/layout-provider/lib/index.js\" from file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/, \"@deepseek-ai/dsh-client-ui-layout\" from file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/; remove one entry\n        at ClientModuleRegistry.reconcilePackage (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:951:10)\n        at ClientModuleRegistry.processOne (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:927:13)\n        at ClientModuleRegistry.flush (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:989:14)\n        at new ClientModuleRegistry (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:618:8)\n        at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n        at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n        at composeError (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:205:18)\n        at Fiber._execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:431:10)\n        at Fiber._reload (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:677:52)\n    Error: client-modules: package @deepseek-ai/dsh-client-ui-chat resolves from multiple active Loader sources: \"file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/node_modules/dsh-web-annotator/lib/host/chat-provider/lib/index.js\" from file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/, \"@deepseek-ai/dsh-client-ui-chat\" from file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nd4qno/home/profiles/health-smoke/; remove one entry\n        at ClientModuleRegistry.reconcilePackage (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:951:10)\n        at ClientModuleRegistry.processOne (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:927:13)\n        at ClientModuleRegistry.flush (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:989:14)\n        at new ClientModuleRegistry (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-client-modules/lib/index.js:618:8)\n        at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n        at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n        at composeError (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:205:18)\n        at Fiber._execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:431:10)\n        at Fiber._reload (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:677:52)\n\nPlugins waiting for services (1):\n  Plugin      Missing services\n  client-hmr  clientModules\n    at auditStartupEntries (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:5239:31)\n    at async boot (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:5305:3)\n    at async runProfile (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh/lib/profile-boot-QhDEDXsF.js:313:15)\n    at async main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:245:27)"
+      }
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.1.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": "4.1.0"
+  },
+  "subjects": [
+    {
+      "name": "dsh-web-annotator",
+      "version": "0.2.2",
+      "integrity": "sha512-0aFyQyvYd6LchR4bCWREK7Vwp1JqGqp55RSaa3jv7f37HQTPhxr3BT/sMT3IYPuzesDHjNPQx6fhdc6GrE4Thw==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "hostBundles": [
+    "@deepseek-ai/dsh-web-app"
+  ],
+  "failure": {
+    "stage": "runtime",
+    "kind": "missing-service",
+    "detail": "Plugins waiting for services (1):"
+  },
+  "level": null,
+  "declared": false,
+  "footprintDelta": null,
+  "bypassed": true,
+  "bypass": {
+    "level": "V2",
+    "failure": {
+      "stage": "runtime",
+      "kind": "missing-service",
+      "detail": "Plugins waiting for services (1):"
+    }
+  }
+}

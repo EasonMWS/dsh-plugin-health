@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:59.369Z",
+  "generatedAt": "2026-11-12T03:51:46.357Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "dsh-plugin-writing-guard@2.0.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QsRpYH",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QsRpYH/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PUtnpL",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PUtnpL/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:04:59.893Z",
-      "durationMs": 143,
+      "startedAt": "2026-11-12T03:51:46.758Z",
+      "durationMs": 137,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,21 +23,21 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:05:00.036Z",
-      "durationMs": 1654,
+      "startedAt": "2026-11-12T03:51:46.895Z",
+      "durationMs": 1536,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
       "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-plugin-writing-guard 2.0.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-plugin-writing-guard@2.0.1\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "Command failed with exit code 1: pnpm add 'dsh-plugin-writing-guard@2.0.1'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QsRpYH/home/profiles/health-smoke/.plugin-manager/logs/operation-BK7sqm/pnpm.log\n",
+      "stderr": "Command failed with exit code 1: pnpm add 'dsh-plugin-writing-guard@2.0.1'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PUtnpL/home/profiles/health-smoke/.plugin-manager/logs/operation-lXCHlO/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

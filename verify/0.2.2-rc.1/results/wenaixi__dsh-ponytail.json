@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:05.615Z",
+  "generatedAt": "2026-11-12T03:51:30.200Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@wenaixi/dsh-ponytail@5.6.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OzfHmz",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OzfHmz/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ODttZY",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ODttZY/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:04:05.906Z",
-      "durationMs": 99,
+      "startedAt": "2026-11-12T03:51:30.573Z",
+      "durationMs": 132,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:06.005Z",
-      "durationMs": 1251,
+      "startedAt": "2026-11-12T03:51:30.705Z",
+      "durationMs": 1678,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @wenaixi/dsh-ponytail 5.6.2\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 653ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @wenaixi/dsh-ponytail 5.6.2\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 964ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:07.262Z",
-      "durationMs": 3073,
+      "startedAt": "2026-11-12T03:51:32.384Z",
+      "durationMs": 3588,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:40923/?token=tNG0ImlwpNrP0s7j0lW_FG-9-csxoENYsiLAs9uD5Tk\n",
+      "stdout": "dsh web: http://127.0.0.1:43567/?token=Pe1doFTDI4Kj5KUybOz8qbAXdBAMWXDrzaq_deyVcOg\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "4644fb48",
+              "id": "686149a2",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ee1b2691",
+              "id": "e65ef526",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2111,12 +2111,12 @@
               "state": 2
             },
             {
-              "id": "4644fb48",
+              "id": "686149a2",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ee1b2691",
+              "id": "e65ef526",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2127,7 +2127,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2171,13 +2171,13 @@
         "disabled": false
       },
       {
-        "id": "4644fb48",
+        "id": "686149a2",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ee1b2691",
+        "id": "e65ef526",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

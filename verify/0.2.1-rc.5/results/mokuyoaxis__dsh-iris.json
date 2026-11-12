@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:06:53.706Z",
+  "generatedAt": "2026-11-12T03:56:15.217Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@mokuyoaxis/dsh-iris@0.2.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KyLLeS",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KyLLeS/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-39R1Zp",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-39R1Zp/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:06:54.081Z",
-      "durationMs": 121,
+      "startedAt": "2026-11-12T03:56:15.548Z",
+      "durationMs": 105,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,8 +23,8 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:06:54.202Z",
-      "durationMs": 1853,
+      "startedAt": "2026-11-12T03:56:15.653Z",
+      "durationMs": 1737,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -36,14 +36,14 @@
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:06:56.064Z",
-      "durationMs": 2827,
+      "startedAt": "2026-11-12T03:56:17.401Z",
+      "durationMs": 3130,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[iris] tools registered: iris_import_image, iris_draw_image, iris_edit_image, iris_generate_video, iris_generate_music, iris_speak_text, iris_transcribe_audio, iris_task_status, iris_look_at_image, iris_relook_attachment, iris_crop, iris_pixel_diff, iris_locate, iris_html_screenshot, iris_long_ocr, iris_video_frames, iris_media_summarize\n[iris] 随包 Skill 已注册：iris-use · iris-compose-media · iris-verify-ui\n[iris] 媒体+工作台+操作路由已挂载：/iris/media · /iris/api · /iris/api/actions · /iris/render\ndsh web: http://127.0.0.1:37019/?token=fVG3WuuUKdpjpIOiQNOGBR100Tj1xrkP7NYrsF5QqnU\n",
+      "stdout": "[iris] tools registered: iris_import_image, iris_draw_image, iris_edit_image, iris_generate_video, iris_generate_music, iris_speak_text, iris_transcribe_audio, iris_task_status, iris_look_at_image, iris_relook_attachment, iris_crop, iris_pixel_diff, iris_locate, iris_html_screenshot, iris_long_ocr, iris_video_frames, iris_media_summarize\n[iris] 随包 Skill 已注册：iris-use · iris-compose-media · iris-verify-ui\n[iris] 媒体+工作台+操作路由已挂载：/iris/media · /iris/api · /iris/api/actions · /iris/render\ndsh web: http://127.0.0.1:39791/?token=08otggnNQugZIIDC8hWbvSEQcPCWhd3BuUSQ6mynLyQ\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "134ee81b",
+              "id": "fac685dd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c404ebf0",
+              "id": "03b8fe50",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "134ee81b",
+              "id": "fac685dd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c404ebf0",
+              "id": "03b8fe50",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "134ee81b",
+        "id": "fac685dd",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c404ebf0",
+        "id": "03b8fe50",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

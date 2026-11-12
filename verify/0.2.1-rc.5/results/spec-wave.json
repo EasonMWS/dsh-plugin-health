@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:56.878Z",
+  "generatedAt": "2026-11-12T03:57:12.668Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "spec-wave@3.5.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XvNnjV",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XvNnjV/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IGGB5a",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IGGB5a/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:07:57.371Z",
-      "durationMs": 226,
+      "startedAt": "2026-11-12T03:57:13.149Z",
+      "durationMs": 185,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,28 +23,28 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:57.597Z",
-      "durationMs": 1871,
+      "startedAt": "2026-11-12T03:57:13.334Z",
+      "durationMs": 1788,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ spec-wave 3.5.0\n\nPackages: +3\n+++\nProgress: resolved 3, reused 2, downloaded 1, added 3, done\nDone in 978ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ spec-wave 3.5.0\n\nPackages: +3\n+++\nProgress: resolved 3, reused 2, downloaded 1, added 3, done\nDone in 909ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:07:59.470Z",
-      "durationMs": 3717,
+      "startedAt": "2026-11-12T03:57:15.123Z",
+      "durationMs": 3718,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38653/?token=v2qN7nWEpt0jx8IPxjwUvRIOhMu82xvWJKHMRY0kvcg\n",
-      "stderr": "dsh: warning: 1 entry did not activate\ncoding-kit (dsh-coding-kit): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'dsh-coding-kit' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XvNnjV/home/profiles/health-smoke/\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)\n    at packageResolve (node:internal/modules/esm/resolve:772:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:989:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1942:77\n    at adapted (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1889:15)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1914:19\n    at ModuleLoader.wrapped [as resolve] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1944:71)\n",
+      "stdout": "dsh web: http://127.0.0.1:45249/?token=vi4XBdcMxLfEAJPmOa1EsoKw8SlncHB9J6MI8qf9bfY\n",
+      "stderr": "dsh: warning: 1 entry did not activate\ncoding-kit (dsh-coding-kit): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'dsh-coding-kit' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IGGB5a/home/profiles/health-smoke/\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)\n    at packageResolve (node:internal/modules/esm/resolve:772:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:989:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1942:77\n    at adapted (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1889:15)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1914:19\n    at ModuleLoader.wrapped [as resolve] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1944:71)\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "d5fc4844",
+              "id": "e2ee18f2",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "3a1d0b6d",
+              "id": "9f368b88",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1236,7 +1236,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -1272,7 +1272,7 @@
   "failure": {
     "stage": "runtime",
     "kind": "boot-import-error",
-    "detail": "coding-kit (dsh-coding-kit): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'dsh-coding-kit' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XvNnjV/home/profiles/health-smoke/"
+    "detail": "coding-kit (dsh-coding-kit): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'dsh-coding-kit' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IGGB5a/home/profiles/health-smoke/"
   },
   "level": null,
   "declared": false,
@@ -1285,13 +1285,13 @@
         "disabled": false
       },
       {
-        "id": "d5fc4844",
+        "id": "e2ee18f2",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "3a1d0b6d",
+        "id": "9f368b88",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -1307,7 +1307,7 @@
     "failure": {
       "stage": "runtime",
       "kind": "boot-import-error",
-      "detail": "coding-kit (dsh-coding-kit): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'dsh-coding-kit' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XvNnjV/home/profiles/health-smoke/"
+      "detail": "coding-kit (dsh-coding-kit): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'dsh-coding-kit' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IGGB5a/home/profiles/health-smoke/"
     }
   }
 }

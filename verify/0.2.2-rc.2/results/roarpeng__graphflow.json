@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-12T03:53:44.942Z",
+  "hostVersion": "0.2.2-rc.2",
+  "plugin": "@roarpeng/graphflow@3.9.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pmfAiI",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pmfAiI/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-12T03:53:45.235Z",
+      "durationMs": 3538,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @roarpeng/graphflow 3.9.2\n\nPackages: +106\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 106, reused 1, downloaded 0, added 0\nProgress: resolved 106, reused 1, downloaded 105, added 104\nProgress: resolved 106, reused 1, downloaded 105, added 106, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: tree-sitter-c-sharp@0.23.1, tree-sitter-c@0.23.6, tree-sitter-cpp@0.23.4, tree-sitter-go@0.23.4, tree-sitter-python@0.23.6, tree-sitter-rust@0.24.0, tree-sitter@0.22.4\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pmfAiI/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@roarpeng/graphflow@3.9.2'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pmfAiI/home/profiles/health-smoke/.plugin-manager/logs/operation-6eqMHe/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.1.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "@roarpeng/graphflow",
+      "version": "3.9.2",
+      "integrity": "sha512-rGtUlwpJtVxc5X0kx75jGe8J7jdbvhemBZZG0/sKcbPizcPYvC6o5rc63+zCu++LbG+i47t21mgzw6mE8oSpGg==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: tree-sitter-c-sharp@0.23.1, tree-sitter-c@0.23.6, tree-sitter-cpp@0.23.4, tree-sitter-go@0.23.4, tree-sitter-python@0.23.6, tree-sitter-rust@0.24.0, tree-sitter@0.22.4"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}

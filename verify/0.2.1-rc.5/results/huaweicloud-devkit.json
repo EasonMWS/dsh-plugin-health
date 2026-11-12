@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:09:33.133Z",
+  "generatedAt": "2026-11-12T03:59:25.752Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "huaweicloud-devkit@1.1.13",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YMItV5",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YMItV5/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3jrMqx",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3jrMqx/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:09:33.626Z",
-      "durationMs": 1877,
+      "startedAt": "2026-11-12T03:59:26.228Z",
+      "durationMs": 1759,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
       "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ huaweicloud-devkit 1.1.13\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.13\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YMItV5/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YMItV5/home/profiles/health-smoke/.plugin-manager/logs/operation-wDXCx5/pnpm.log\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3jrMqx/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3jrMqx/home/profiles/health-smoke/.plugin-manager/logs/operation-4qiTid/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

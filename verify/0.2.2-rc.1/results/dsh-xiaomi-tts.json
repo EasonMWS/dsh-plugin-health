@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:05:51.751Z",
+  "generatedAt": "2026-11-12T03:52:42.186Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-xiaomi-tts@5.2.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xwNMw8",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xwNMw8/home",
+  "plugin": "dsh-xiaomi-tts@5.2.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VLLGMp",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VLLGMp/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:05:52.200Z",
-      "durationMs": 2564,
+      "startedAt": "2026-11-12T03:52:42.897Z",
+      "durationMs": 2950,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-xiaomi-tts 5.2.1\n\nPackages: +10\n++++++++++\nProgress: resolved 10, reused 2, downloaded 7, added 9\nProgress: resolved 10, reused 2, downloaded 8, added 10, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-xiaomi-tts@5.2.1\nDone in 1.7s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xwNMw8/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-xiaomi-tts 5.2.2\n\nPackages: +10\n++++++++++\nProgress: resolved 10, reused 2, downloaded 8, added 10, done\nDone in 1.6s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VLLGMp/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:05:54.769Z",
-      "durationMs": 4367,
+      "startedAt": "2026-11-12T03:52:45.850Z",
+      "durationMs": 4239,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46055/?token=0oAcnVnkBEaF9BwSkkGxep67lmfbKns6veirrJnfWt8\n",
+      "stdout": "dsh web: http://127.0.0.1:37499/?token=R6auTWOtw4IAwng8hf1PK68CbaUFycJxDSXHpyohgSc\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1246,13 +1246,13 @@
               "disabled": false
             },
             {
-              "id": "46c11e6c",
+              "id": "52ab1300",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "cc36314a",
+              "id": "ed35e963",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2121,12 +2121,12 @@
               "state": 2
             },
             {
-              "id": "46c11e6c",
+              "id": "52ab1300",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "cc36314a",
+              "id": "ed35e963",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2137,7 +2137,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2149,8 +2149,8 @@
   "subjects": [
     {
       "name": "dsh-xiaomi-tts",
-      "version": "5.2.1",
-      "integrity": "sha512-I9Z5l/WScOf1b7aXpaHp/GcjeTIeh0lfEi61nhy1NXxoHQs2TVGapapWA7t8PLR0AI/Z8LpR8fE6tHsuS9kHOA==",
+      "version": "5.2.2",
+      "integrity": "sha512-MNxO5NVSAZ+BS/JYyzc0HMeCThsPHbLRFJFQFfvl5WBl18PvH09nKp53yqpbD3TikUN2XmCjGh3sf0iJZF1lvA==",
       "resolution": "registry"
     }
   ],
@@ -2199,13 +2199,13 @@
         "disabled": false
       },
       {
-        "id": "46c11e6c",
+        "id": "52ab1300",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "cc36314a",
+        "id": "ed35e963",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

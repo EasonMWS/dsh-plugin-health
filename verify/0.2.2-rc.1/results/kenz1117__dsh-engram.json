@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:16.498Z",
+  "generatedAt": "2026-11-12T03:51:14.532Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@kenz1117/dsh-engram@0.13.9",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rLn3A9",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rLn3A9/home",
+  "plugin": "@kenz1117/dsh-engram@0.13.10",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-poff00",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-poff00/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:16.971Z",
-      "durationMs": 5786,
+      "startedAt": "2026-11-12T03:51:15.017Z",
+      "durationMs": 6147,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @kenz1117/dsh-engram 0.13.9\n\nPackages: +44\n++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 70, reused 0, downloaded 33, added 4\nProgress: resolved 70, reused 0, downloaded 42, added 41\nProgress: resolved 70, reused 0, downloaded 43, added 42\nProgress: resolved 70, reused 0, downloaded 44, added 44, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rLn3A9/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@kenz1117/dsh-engram@0.13.9'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rLn3A9/home/profiles/health-smoke/.plugin-manager/logs/operation-iRC2Y4/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @kenz1117/dsh-engram 0.13.10\n\nPackages: +44\n++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 70, reused 0, downloaded 0, added 0\nProgress: resolved 70, reused 0, downloaded 42, added 41\nProgress: resolved 70, reused 0, downloaded 43, added 42\nProgress: resolved 70, reused 0, downloaded 44, added 44, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-poff00/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@kenz1117/dsh-engram@0.13.10'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-poff00/home/profiles/health-smoke/.plugin-manager/logs/operation-3ineGg/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "@kenz1117/dsh-engram",
-      "version": "0.13.9",
-      "integrity": "sha512-eW2HRBZ5d3pQnJx57fKpUwO3qZfrUZIWYlRmtDxy39X+AoVClvHwW9usbQ3pLm9aC5jyKeeEWlTEkXaQXEogoQ==",
+      "version": "0.13.10",
+      "integrity": "sha512-HJeNCvx6pxcyl+F4XgaQ8EhbvjxXrNTx4s7YsdvOBfShphSOXs7+DLw+dULu6JvmpDUyq2fOVFt2uJi5RyWeAA==",
       "resolution": "registry"
     }
   ],

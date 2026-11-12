@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:40.524Z",
+  "generatedAt": "2026-11-12T03:51:38.548Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@wxg-prc-cpg/browser-skill-dsh-plugin@0.4.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-cZ8ViM",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-cZ8ViM/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-U3nB2v",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-U3nB2v/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:41.028Z",
-      "durationMs": 1923,
+      "startedAt": "2026-11-12T03:51:39.060Z",
+      "durationMs": 1871,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @wxg-prc-cpg/browser-skill-dsh-plugin 0.4.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-cZ8ViM/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @wxg-prc-cpg/browser-skill-dsh-plugin 0.4.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 892ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-U3nB2v/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:42.954Z",
-      "durationMs": 4812,
+      "startedAt": "2026-11-12T03:51:40.934Z",
+      "durationMs": 4484,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42355/?token=-kWbw0tCaoGk0c2PJi3QNwTSorJ2T2hvSrv6fxMP-z4\n",
+      "stdout": "dsh web: http://127.0.0.1:45119/?token=qA_qSp0HEXmeQw2eS6rPUZGNf_XZ2eApevlhpsNGdhU\n",
       "stderr": "[@wxg-prc-cpg/browser-skill-dsh-plugin] bsk probe failed (spawn bsk ENOENT); browser tools will report install guidance until the bsk CLI is available\n",
       "truncated": false,
       "details": {
@@ -39,12 +39,6 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
-            {
-              "id": "62681165",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1234,7 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "184ad3e2",
+              "id": "4d8f2af8",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "7c211fee",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1252,11 +1252,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "62681165",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2103,7 +2098,12 @@
               "state": 2
             },
             {
-              "id": "184ad3e2",
+              "id": "4d8f2af8",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "7c211fee",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2152,19 +2152,19 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "62681165",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
         "id": "browserskill",
         "name": "@wxg-prc-cpg/browser-skill-dsh-plugin",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "184ad3e2",
+        "id": "4d8f2af8",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "7c211fee",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

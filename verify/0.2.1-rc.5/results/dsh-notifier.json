@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:08:20.136Z",
+  "generatedAt": "2026-11-12T03:58:15.297Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-notifier@0.13.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WvnRP7",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WvnRP7/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TyAKOB",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TyAKOB/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:08:20.662Z",
-      "durationMs": 191,
+      "startedAt": "2026-11-12T03:58:15.839Z",
+      "durationMs": 181,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,21 +23,21 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:08:20.853Z",
-      "durationMs": 2320,
+      "startedAt": "2026-11-12T03:58:16.021Z",
+      "durationMs": 2190,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
       "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-notifier 0.13.1\n\nPackages: +54\n++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 54, reused 52, downloaded 2, added 54, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WvnRP7/home/profiles/health-smoke/.plugin-manager/logs/operation-YwnNmN/pnpm.log\n",
+      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TyAKOB/home/profiles/health-smoke/.plugin-manager/logs/operation-buIsB0/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

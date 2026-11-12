@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:32.063Z",
+  "generatedAt": "2026-11-12T03:51:35.439Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@taosee258/dsh-client-ui-skin-qingxiao@0.4.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nNg3Lt",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nNg3Lt/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CHUiL3",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CHUiL3/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:04:32.527Z",
-      "durationMs": 192,
+      "startedAt": "2026-11-12T03:51:35.895Z",
+      "durationMs": 154,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:32.720Z",
-      "durationMs": 2656,
+      "startedAt": "2026-11-12T03:51:36.049Z",
+      "durationMs": 2412,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @taosee258/dsh-client-ui-skin-qingxiao 0.4.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.3s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @taosee258/dsh-client-ui-skin-qingxiao 0.4.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.2s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:35.377Z",
-      "durationMs": 4557,
+      "startedAt": "2026-11-12T03:51:38.463Z",
+      "durationMs": 4539,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:40681/?token=9EBYEM8OtXElyM83SWyDWhmgpyboO8JLwF8DG7rArx8\n",
+      "stdout": "dsh web: http://127.0.0.1:43141/?token=75kRbvMMMlvaKEpczUVqigAZbTJ89clJa-MGF4PH-JI\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "3ae49485",
+              "id": "50e98f01",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "dd814bdf",
+              "id": "6529fb99",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2111,12 +2111,12 @@
               "state": 2
             },
             {
-              "id": "3ae49485",
+              "id": "50e98f01",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "dd814bdf",
+              "id": "6529fb99",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2127,7 +2127,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2171,13 +2171,13 @@
         "disabled": false
       },
       {
-        "id": "3ae49485",
+        "id": "50e98f01",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "dd814bdf",
+        "id": "6529fb99",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:08.920Z",
+  "generatedAt": "2026-11-12T03:51:13.563Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@goodandready/dsh-subscriptions@0.7.82",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kQsoev",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kQsoev/home",
+  "plugin": "@goodandready/dsh-subscriptions@0.7.83",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vWqyoZ",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vWqyoZ/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:09.427Z",
-      "durationMs": 2228,
+      "startedAt": "2026-11-12T03:51:14.021Z",
+      "durationMs": 1937,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @goodandready/dsh-subscriptions 0.7.82\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 1, downloaded 4, added 5, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @goodandready/dsh-subscriptions@0.7.82\nDone in 1.2s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kQsoev/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @goodandready/dsh-subscriptions 0.7.83\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 1, downloaded 4, added 5, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vWqyoZ/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:11.659Z",
-      "durationMs": 5268,
+      "startedAt": "2026-11-12T03:51:15.962Z",
+      "durationMs": 5371,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44445/?token=JDZ5qWfSbOdg4SkFVpvlMZmZFtE-K99bOSX14jFul80\n",
+      "stdout": "dsh web: http://127.0.0.1:35797/?token=xugtOJAMAawOAYQy6mnikcHTlaZj3naZI0-qyCW1HOk\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "3814ef68",
+              "id": "b3891b2f",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "f126b354",
+              "id": "e620378e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2098,12 @@
               "state": 2
             },
             {
-              "id": "3814ef68",
+              "id": "b3891b2f",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "f126b354",
+              "id": "e620378e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2126,8 +2126,8 @@
   "subjects": [
     {
       "name": "@goodandready/dsh-subscriptions",
-      "version": "0.7.82",
-      "integrity": "sha512-OKs3PbEdeTbIHq7CzHPYPu6fcuh+qzSWpHSS7gY1lBo4b8voAIrsITLMOwi+PCuV5Et9kw3iEvfsYjDM4fr67Q==",
+      "version": "0.7.83",
+      "integrity": "sha512-q5462oTj4k3q5HqsP6bc55iVkHveAwbvf43Nfh6f1bHhDC0v5EZKvPtNAtnJYwXaJCvmzmy91zzIFcK1wTfdmg==",
       "resolution": "registry"
     }
   ],
@@ -2158,13 +2158,13 @@
         "disabled": false
       },
       {
-        "id": "3814ef68",
+        "id": "b3891b2f",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "f126b354",
+        "id": "e620378e",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

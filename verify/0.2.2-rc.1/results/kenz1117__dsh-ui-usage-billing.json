@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:09.226Z",
+  "generatedAt": "2026-11-12T03:50:58.446Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@kenz1117/dsh-ui-usage-billing@1.8.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lapoqq",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lapoqq/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gks0gc",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gks0gc/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:09.717Z",
-      "durationMs": 2053,
+      "startedAt": "2026-11-12T03:50:58.887Z",
+      "durationMs": 1901,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @kenz1117/dsh-ui-usage-billing 1.8.3\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lapoqq/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @kenz1117/dsh-ui-usage-billing 1.8.3\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gks0gc/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:11.774Z",
-      "durationMs": 5274,
+      "startedAt": "2026-11-12T03:51:00.802Z",
+      "durationMs": 4637,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[usage-billing] swallowed: reconcile-ref-missing\ndsh web: http://127.0.0.1:34041/?token=Pi95j-Pq0pCk7rSXmYuIFGwa5gbfqu-ADcKv3JO0YAE\n[usage-billing] swallowed: ledger-main-unreadable\n",
-      "stderr": "[usage-billing] the host llm service is not registered; plugin-registered adapter channels (e.g. commandcode) stay in the unknown bucket and are billed at 0 (issue #91). Channel grouping falls back to llm-pi-ai routes only.\n[usage-billing] reprice fold after pricing refresh failed; next aggregate retries: Error: cannot get required service \"settings\" in inactive context\n    at Object.resolveRoutes (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lapoqq/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:10595:51)\n    at routesOf (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lapoqq/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:5332:46)\n    at aggregateOnce (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lapoqq/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:5446:23)\n",
+      "stdout": "[usage-billing] swallowed: reconcile-ref-missing\ndsh web: http://127.0.0.1:34063/?token=fqOUi2OjO6oB8bGPOXCYEPVw0c6hR5-rp4keSi5BQzE\n[usage-billing] swallowed: ledger-main-unreadable\n",
+      "stderr": "[usage-billing] the host llm service is not registered; plugin-registered adapter channels (e.g. commandcode) stay in the unknown bucket and are billed at 0 (issue #91). Channel grouping falls back to llm-pi-ai routes only.\n[usage-billing] reprice fold after pricing refresh failed; next aggregate retries: Error: cannot get required service \"settings\" in inactive context\n    at Object.resolveRoutes (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gks0gc/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:10595:51)\n    at routesOf (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gks0gc/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:5332:46)\n    at aggregateOnce (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gks0gc/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:5446:23)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "dfea17b6",
+              "id": "8b4223f1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "0f288c99",
+              "id": "dd9167f8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2098,12 @@
               "state": 2
             },
             {
-              "id": "dfea17b6",
+              "id": "8b4223f1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "0f288c99",
+              "id": "dd9167f8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2158,13 +2158,13 @@
         "disabled": false
       },
       {
-        "id": "dfea17b6",
+        "id": "8b4223f1",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "0f288c99",
+        "id": "dd9167f8",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

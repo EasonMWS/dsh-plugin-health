@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:06:49.189Z",
+  "generatedAt": "2026-11-12T03:56:24.641Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-motor-ai@1.2.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nUY3V7",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nUY3V7/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MqrWh6",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MqrWh6/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:06:49.507Z",
-      "durationMs": 96,
+      "startedAt": "2026-11-12T03:56:25.132Z",
+      "durationMs": 213,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:06:49.603Z",
-      "durationMs": 1579,
+      "startedAt": "2026-11-12T03:56:25.345Z",
+      "durationMs": 1905,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-motor-ai 1.2.7\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 989ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-motor-ai 1.2.7\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:06:51.184Z",
-      "durationMs": 2111,
+      "startedAt": "2026-11-12T03:56:27.251Z",
+      "durationMs": 3344,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-motor-ai] 加载完整版，层级: l2\n[dsh-motor-ai] L1 已启用: true\n[dsh-motor-ai] L2 已启用: true\n[dsh-motor-ai] 激活状态: 未激活（L0 免费可用，L1/L2 需激活）\n[dsh-motor-ai] 注册激活命令: dsh_motor_ai_activate\n[dsh-motor-ai] 注册 motor_fault_assist\n[dsh-motor-ai L1] 注册 motor_l1_estimate ([object Object])\n[dsh-motor-ai L1] 注册 motor_l1_pipeline\n[dsh-motor-ai L1] 注册 motor_rmxprt_solve\n[dsh-motor-ai L2] 注册 motor_l2_validate\n[dsh-motor-ai L2] 注册 motor_motorcad_verify\n[dsh-motor-ai] 已注册 17 个工具: [\n  'dsh_motor_ai_activate',\n  'motor_param_matrix',\n  'motor_l0_estimate',\n  'motor_design_validate',\n  'motor_l0_pipeline',\n  'submit_resolved_case',\n  'motor_env_check',\n  'motor_env_bootstrap',\n  'motor_report_issue',\n  'motor_fault_assist',\n  'motor_submit_experience',\n  'motor_upload_doc',\n  'motor_l1_estimate',\n  'motor_l1_pipeline',\n  'motor_rmxprt_solve',\n  'motor_l2_validate',\n  'motor_motorcad_verify'\n]\ndsh web: http://127.0.0.1:36497/?token=LMZxLWwAeO7_J9gg0OEv48T-nPkrIi5Xr_OmC4O77mA\n",
+      "stdout": "[dsh-motor-ai] 加载完整版，层级: l2\n[dsh-motor-ai] L1 已启用: true\n[dsh-motor-ai] L2 已启用: true\n[dsh-motor-ai] 激活状态: 未激活（L0 免费可用，L1/L2 需激活）\n[dsh-motor-ai] 注册激活命令: dsh_motor_ai_activate\n[dsh-motor-ai] 注册 motor_fault_assist\n[dsh-motor-ai L1] 注册 motor_l1_estimate ([object Object])\n[dsh-motor-ai L1] 注册 motor_l1_pipeline\n[dsh-motor-ai L1] 注册 motor_rmxprt_solve\n[dsh-motor-ai L2] 注册 motor_l2_validate\n[dsh-motor-ai L2] 注册 motor_motorcad_verify\n[dsh-motor-ai] 已注册 17 个工具: [\n  'dsh_motor_ai_activate',\n  'motor_param_matrix',\n  'motor_l0_estimate',\n  'motor_design_validate',\n  'motor_l0_pipeline',\n  'submit_resolved_case',\n  'motor_env_check',\n  'motor_env_bootstrap',\n  'motor_report_issue',\n  'motor_fault_assist',\n  'motor_submit_experience',\n  'motor_upload_doc',\n  'motor_l1_estimate',\n  'motor_l1_pipeline',\n  'motor_rmxprt_solve',\n  'motor_l2_validate',\n  'motor_motorcad_verify'\n]\ndsh web: http://127.0.0.1:33865/?token=m_XH8kD_-RxRBP1TW3eZZ8_6OQgMKafW0sqUZ0fvg2c\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "bd4031f9",
+              "id": "54489d09",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "b18dee2c",
+              "id": "3653895d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "bd4031f9",
+              "id": "54489d09",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "b18dee2c",
+              "id": "3653895d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "bd4031f9",
+        "id": "54489d09",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b18dee2c",
+        "id": "3653895d",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

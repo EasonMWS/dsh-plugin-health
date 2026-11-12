@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-12T03:54:32.780Z",
+  "hostVersion": "0.2.2-rc.2",
+  "plugin": "@tomowang/dsh-tui@0.10.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Z7owW5",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Z7owW5/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "allow-version",
+      "startedAt": "2026-11-12T03:54:33.155Z",
+      "durationMs": 139,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "dsh: allowed @tomowang/dsh-tui@0.10.2 for DSH 0.2.2-rc.2\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-12T03:54:33.294Z",
+      "durationMs": 1653,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tomowang/dsh-tui 0.10.2\n\nPackages: +11\n+++++++++++\nProgress: resolved 11, reused 3, downloaded 8, added 11, done\nDone in 926ms using pnpm v11.7.0\n",
+      "stderr": "",
+      "truncated": false
+    },
+    {
+      "name": "runtime",
+      "startedAt": "2026-11-12T03:54:34.963Z",
+      "durationMs": 2932,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "",
+      "stderr": "error: unknown option '--port'\n",
+      "truncated": false,
+      "details": {
+        "ok": false,
+        "stage": "boot",
+        "hostCordis": "4.1.0",
+        "footprint": {
+          "entries": [],
+          "tools": [],
+          "toolsUnavailable": true
+        },
+        "hostContract": {
+          "checked": 0,
+          "active": 0
+        },
+        "error": "AssertionError [ERR_ASSERTION]: profile exited before runtime acceptance\n    at verifyActivation (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:53:10)\n    at main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:254:5)"
+      }
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.1.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": "4.1.0"
+  },
+  "subjects": [
+    {
+      "name": "@tomowang/dsh-tui",
+      "version": "0.10.2",
+      "integrity": "sha512-4kBdWzTqVmDozjecHZAbZWED2f9EUuGxAW22oehytANlxltpPZNsHKMoxHB54ypCononZRgGcT6I0Z4+c1y9hw==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "hostBundles": [
+    "@deepseek-ai/dsh-web-app"
+  ],
+  "failure": {
+    "stage": "runtime",
+    "kind": "unknown",
+    "detail": "AssertionError [ERR_ASSERTION]: profile exited before runtime acceptance"
+  },
+  "level": null,
+  "declared": false,
+  "footprintDelta": {
+    "entries": [],
+    "tools": [],
+    "toolsUnavailable": true,
+    "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V2",
+    "failure": {
+      "stage": "runtime",
+      "kind": "unknown",
+      "detail": "AssertionError [ERR_ASSERTION]: profile exited before runtime acceptance"
+    }
+  }
+}

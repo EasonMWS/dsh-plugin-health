@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:20.328Z",
+  "generatedAt": "2026-11-12T03:51:13.520Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@tomowang/dsh-tui@0.10.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nolIhM",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nolIhM/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-h7IXLP",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-h7IXLP/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:04:20.779Z",
-      "durationMs": 140,
+      "startedAt": "2026-11-12T03:51:13.900Z",
+      "durationMs": 129,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,21 +23,21 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:20.919Z",
-      "durationMs": 2444,
+      "startedAt": "2026-11-12T03:51:14.029Z",
+      "durationMs": 2433,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tomowang/dsh-tui 0.10.2\n\nPackages: +11\n+++++++++++\nProgress: resolved 11, reused 3, downloaded 8, added 11, done\nDone in 1.5s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tomowang/dsh-tui 0.10.2\n\nPackages: +11\n+++++++++++\nProgress: resolved 11, reused 3, downloaded 8, added 11, done\nDone in 1.7s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:23.374Z",
-      "durationMs": 3013,
+      "startedAt": "2026-11-12T03:51:16.470Z",
+      "durationMs": 2475,
       "ok": false,
       "exitCode": 1,
       "signal": null,
@@ -65,7 +65,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

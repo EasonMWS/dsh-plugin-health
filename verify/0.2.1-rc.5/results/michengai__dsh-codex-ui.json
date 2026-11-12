@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:14.831Z",
+  "generatedAt": "2026-11-12T03:57:12.461Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@michengai/dsh-codex-ui@2.0.20",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AcP8RZ",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AcP8RZ/home",
+  "plugin": "@michengai/dsh-codex-ui@2.0.22",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FoXb0l",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FoXb0l/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:15.350Z",
-      "durationMs": 2296,
+      "startedAt": "2026-11-12T03:57:12.912Z",
+      "durationMs": 2190,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-codex-ui 2.0.20\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @michengai/dsh-codex-ui@2.0.20\nDone in 1.2s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AcP8RZ/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-codex-ui 2.0.22\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @michengai/dsh-codex-ui@2.0.22\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FoXb0l/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:07:17.649Z",
-      "durationMs": 3968,
+      "startedAt": "2026-11-12T03:57:15.105Z",
+      "durationMs": 4341,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36781/?token=uxxfMnECbSwkLvpXFdqr3lsAKBopHZda2liM5IJwj60\n",
+      "stdout": "dsh web: http://127.0.0.1:43481/?token=pkzC99ItqMX4sCNlo7ukZG0jmf8RECPhp3_KsvuFn3s\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1234,13 +1234,13 @@
               "disabled": false
             },
             {
-              "id": "bfccebf0",
+              "id": "574284e5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ac1667e1",
+              "id": "7d491108",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2107,12 +2107,12 @@
               "state": 2
             },
             {
-              "id": "bfccebf0",
+              "id": "574284e5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ac1667e1",
+              "id": "7d491108",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2123,7 +2123,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2135,8 +2135,8 @@
   "subjects": [
     {
       "name": "@michengai/dsh-codex-ui",
-      "version": "2.0.20",
-      "integrity": "sha512-d7QzXqC5c3qQu9+uSWQ2gg8koxmcNlv8jmNhDfkLeCpLp+YJVwARuVPsJ3RPrWwqwWWJg5OlNczIFHw3xiXcnQ==",
+      "version": "2.0.22",
+      "integrity": "sha512-AX590eBlIq3p2Q5joYupIQDw7FWKY+08klRk/nozK68Iq0MbyBxnw259ONxjCVOwbMo7eBqJ4dUwfKRojJnnbQ==",
       "resolution": "registry"
     }
   ],
@@ -2203,13 +2203,13 @@
         "disabled": false
       },
       {
-        "id": "bfccebf0",
+        "id": "574284e5",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ac1667e1",
+        "id": "7d491108",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

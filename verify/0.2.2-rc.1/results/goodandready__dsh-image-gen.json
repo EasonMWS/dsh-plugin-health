@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:00.941Z",
+  "generatedAt": "2026-11-12T03:51:02.094Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@goodandready/dsh-image-gen@0.12.26",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mLGW9m",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mLGW9m/home",
+  "plugin": "@goodandready/dsh-image-gen@0.12.31",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fw60OP",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fw60OP/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:01.443Z",
-      "durationMs": 2524,
+      "startedAt": "2026-11-12T03:51:02.575Z",
+      "durationMs": 2761,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @goodandready/dsh-image-gen 0.12.26\n\nPackages: +8\n++++++++\nProgress: resolved 34, reused 0, downloaded 8, added 8, done\nDone in 1.3s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mLGW9m/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @goodandready/dsh-image-gen 0.12.31\n\nPackages: +8\n++++++++\nProgress: resolved 34, reused 0, downloaded 8, added 8, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @goodandready/dsh-image-gen@0.12.31\nDone in 1.5s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fw60OP/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:04.031Z",
-      "durationMs": 5370,
+      "startedAt": "2026-11-12T03:51:05.389Z",
+      "durationMs": 4858,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46465/?token=etan88Ff2Osv-kE6Ep7dlQOJUGJdh_ulikkcfWmc9sA\n",
+      "stdout": "dsh web: http://127.0.0.1:36553/?token=DD01b5PKeMTeRjRLWjUn7JXjaQWGY4qYF3ggIcBXOiY\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "6aac39d8",
+              "id": "4d6a0cbb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "f8dad4cb",
+              "id": "6d63ae85",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2101,12 +2101,12 @@
               "state": 2
             },
             {
-              "id": "6aac39d8",
+              "id": "4d6a0cbb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "f8dad4cb",
+              "id": "6d63ae85",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2117,7 +2117,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2129,8 +2129,8 @@
   "subjects": [
     {
       "name": "@goodandready/dsh-image-gen",
-      "version": "0.12.26",
-      "integrity": "sha512-8q6l88FjwQJRYOua6Ad0gBdJKmRod/aXGyo8YkMNcZY47MY4Vhwgk5woCvqxyQQ35T566Ef0eBwNF/1n1Zg9Hg==",
+      "version": "0.12.31",
+      "integrity": "sha512-bAKgEC4ASF4YNnkxAgFcjTQ7Dex9XxCdjXUue73BPtho9zJ+RKceIFMhZBOOMgaUzcHoY2ggSLSIgOUaiwBHkg==",
       "resolution": "registry"
     }
   ],
@@ -2161,13 +2161,13 @@
         "disabled": false
       },
       {
-        "id": "6aac39d8",
+        "id": "4d6a0cbb",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "f8dad4cb",
+        "id": "6d63ae85",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

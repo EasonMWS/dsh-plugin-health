@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:51.663Z",
+  "generatedAt": "2026-11-12T03:51:31.708Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-xdpool@2.6.4",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GIBEQR",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GIBEQR/home",
+  "plugin": "dsh-xdpool@2.6.5",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1iHFvo",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1iHFvo/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:52.128Z",
-      "durationMs": 1745,
+      "startedAt": "2026-11-12T03:51:32.064Z",
+      "durationMs": 1501,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-xdpool 2.6.4\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-xdpool@2.6.4\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-xdpool@2.6.4\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GIBEQR/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'dsh-xdpool@2.6.4'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GIBEQR/home/profiles/health-smoke/.plugin-manager/logs/operation-MCd5Xn/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-xdpool 2.6.5\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-xdpool@2.6.5\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1iHFvo/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'dsh-xdpool@2.6.5'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1iHFvo/home/profiles/health-smoke/.plugin-manager/logs/operation-91Z8MJ/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "dsh-xdpool",
-      "version": "2.6.4",
-      "integrity": "sha512-YAAU3YOqF0oXuJANxYwTd3kpU/T5kIQz2EbB9Llr2lGVWDIcZmyTk4jHQG6gliPGFnxkuGq8taYvnlmdyahBxw==",
+      "version": "2.6.5",
+      "integrity": "sha512-S28KakehsLzzzvmSsJfFLizUO+R7/K/lGRjzX4RLI+eCLze6CcWsbBk6fCqzqWuN/ShKlZrSgVlxbFtBdzBIjg==",
       "resolution": "registry"
     }
   ],
@@ -57,7 +57,7 @@
   "failure": {
     "stage": "install",
     "kind": "build-scripts-blocked",
-    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-xdpool@2.6.4"
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-xdpool@2.6.5"
   },
   "level": "V1",
   "declared": true,

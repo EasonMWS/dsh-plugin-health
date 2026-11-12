@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:08:13.455Z",
+  "generatedAt": "2026-11-12T03:58:08.270Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-ide-git@0.31.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nfu61k",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nfu61k/home",
+  "plugin": "dsh-ide-git@0.32.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2u75VH",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2u75VH/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:08:13.957Z",
-      "durationMs": 199,
+      "startedAt": "2026-11-12T03:58:08.865Z",
+      "durationMs": 171,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-ide-git@0.31.0 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-ide-git@0.32.0 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:08:14.156Z",
-      "durationMs": 2031,
+      "startedAt": "2026-11-12T03:58:09.036Z",
+      "durationMs": 1697,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-ide-git 0.31.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-ide-git@0.31.0\nDone in 1.1s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-ide-git 0.32.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 900ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:08:16.188Z",
-      "durationMs": 3853,
+      "startedAt": "2026-11-12T03:58:10.735Z",
+      "durationMs": 4462,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42487/?token=1av5YwUzEbBndQt3l7wIcr9NJX96szS_kup9rJWzjNE\n",
+      "stdout": "dsh web: http://127.0.0.1:33545/?token=lv70lRyrx6Qg7wyszwI-1pjzhsSkFC8Cx0GQJ2t09N8\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "3ea55908",
+              "id": "55309a19",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "cd7ef5b1",
+              "id": "42982bfc",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "3ea55908",
+              "id": "55309a19",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "cd7ef5b1",
+              "id": "42982bfc",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-ide-git",
-      "version": "0.31.0",
-      "integrity": "sha512-+u6wXuwChVYykO+mcFtGFx9GHD1Jnm9JTCBHYeODzIk85DDJEhF+nZt3NOCETOi+KfvUJl1y2ixT47Bv3jrHsA==",
+      "version": "0.32.0",
+      "integrity": "sha512-7Ax0psff056179aI2SHuu60uy4pKBV1KXujjgoCJ3xeKsx4vujtU0bX8EuIXEh/3Ktf8d59yKMJn6zKJ3WqwGA==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "3ea55908",
+        "id": "55309a19",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "cd7ef5b1",
+        "id": "42982bfc",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

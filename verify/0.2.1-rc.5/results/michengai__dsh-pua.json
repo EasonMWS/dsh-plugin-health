@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:14.589Z",
+  "generatedAt": "2026-11-12T03:57:59.767Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@michengai/dsh-pua@1.0.10",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-w4g7fT",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-w4g7fT/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NLm7id",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NLm7id/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:14.975Z",
-      "durationMs": 1676,
+      "startedAt": "2026-11-12T03:58:00.232Z",
+      "durationMs": 2044,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-pua 1.0.10\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @michengai/dsh-pua@1.0.10\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-w4g7fT/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-pua 1.0.10\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 1.1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NLm7id/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:07:16.656Z",
-      "durationMs": 2893,
+      "startedAt": "2026-11-12T03:58:02.287Z",
+      "durationMs": 3881,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35287/?token=DJiXCX2v0FV6yrynJRekG38i_NCPsXzF1xOGVictGYQ\n",
+      "stdout": "dsh web: http://127.0.0.1:38359/?token=xTb3SNWgBGoy4XlYbfLKkOeAeHr_Cz03v-4jag8RkFY\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1204,13 +1204,13 @@
               "disabled": false
             },
             {
-              "id": "d976286b",
+              "id": "5b87905c",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "0993741c",
+              "id": "77416f60",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2057,12 +2057,12 @@
               "state": 2
             },
             {
-              "id": "d976286b",
+              "id": "5b87905c",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "0993741c",
+              "id": "77416f60",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2073,7 +2073,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2123,13 +2123,13 @@
         "disabled": false
       },
       {
-        "id": "d976286b",
+        "id": "5b87905c",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "0993741c",
+        "id": "77416f60",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

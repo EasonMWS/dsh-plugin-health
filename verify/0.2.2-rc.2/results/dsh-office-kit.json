@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-12T03:55:03.062Z",
+  "hostVersion": "0.2.2-rc.2",
+  "plugin": "dsh-office-kit@0.4.8",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ILrwfp",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ILrwfp/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-12T03:55:03.454Z",
+      "durationMs": 1509,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-office-kit 0.4.8\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-office-kit@0.4.8\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ILrwfp/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'dsh-office-kit@0.4.8'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ILrwfp/home/profiles/health-smoke/.plugin-manager/logs/operation-ctpEa7/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.1.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "dsh-office-kit",
+      "version": "0.4.8",
+      "integrity": "sha512-+QdS2XnCCRX2PN3wwDZFSQHcmbGXitAg1nEFY5TtZkp0zJd/SUW+1GfkdChejrvWmGuV8MiPR63yqxFSiSSf0A==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-office-kit@0.4.8"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}

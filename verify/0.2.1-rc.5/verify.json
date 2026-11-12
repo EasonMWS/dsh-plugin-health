@@ -1,21 +1,27 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:10:31.029Z",
+  "generatedAt": "2026-11-12T04:00:15.299Z",
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "host": {
     "version": "0.2.1-rc.5"
   },
+  "profile": {
+    "base": "@deepseek-ai/dsh-base",
+    "hostBundles": [
+      "@deepseek-ai/dsh-web-app"
+    ]
+  },
   "counts": {
-    "V1": 10,
+    "V1": 11,
     "V2": 3,
-    "V3": 184,
-    "none": 53,
+    "V3": 181,
+    "none": 55,
     "failures": {
-      "build-scripts-blocked": 10,
-      "gate-rejected": 53,
+      "build-scripts-blocked": 11,
+      "gate-rejected": 55,
       "not-activated": 2,
       "shutdown-hang": 1
     }
@@ -62,15 +68,6 @@
       "result": "results/anionex__dsh-vision-toolkit.json"
     },
     {
-      "name": "@anweat/dsh-browser",
-      "version": "0.2.2",
-      "integrity": "sha512-pYCLYnRKBovAVVw6M6Vn0jZkQqzL/5EjR6MrCpvJIL01qArk8waXT3eB08pbEhRK/a08RhZLALD6rjRZlHU70Q==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/anweat__dsh-browser.json"
-    },
-    {
       "name": "@anysearch/anysearch-dsh",
       "version": "0.1.8",
       "integrity": "sha512-N00VwXW5j2+IJKtURJIv5eaLJBqr+b/1oLL+B8pX2CfaHjIGPXop0l5fKXpr/iR9cS8cf9yjFOSeVaUa+rEO9A==",
@@ -78,6 +75,23 @@
       "declared": true,
       "failure": null,
       "result": "results/anysearch__anysearch-dsh.json"
+    },
+    {
+      "name": "@avernet-plugin/deepseek-harness-channel-bcn",
+      "version": "0.2.4",
+      "integrity": "sha512-kdcfeuB8cGlK9IVWJgl3+AD0mUM5L9BjehLKKU6J2Q9go1HEp4s5coTwkzYsFcf5qvY/0kCsGUdk3KcMHMktrA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/avernet-plugin__deepseek-harness-channel-bcn.json"
     },
     {
       "name": "@awiki/dsh-plugin",
@@ -106,9 +120,26 @@
       "result": "results/changfenhuang__dsh-genui.json"
     },
     {
+      "name": "@chenacc/dsh-agentbridge",
+      "version": "0.4.3",
+      "integrity": "sha512-SwCfbsR03a69RjHJihEZhd6uHcaEbp/sOrgtNS7pGsX9f5NqT0KvLKP2Ymz7g6cB/KtvQcv+uYMd1mHTwoYkjQ==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/chenacc__dsh-agentbridge.json"
+    },
+    {
       "name": "@deepblend/dsh-blender-bundle",
-      "version": "0.23.0",
-      "integrity": "sha512-i1JpQ+SrmTSLce4fP+x10ZrakkiO6Yr/AA7ebuEZE6556rg4u5QDHIuSrx5oLSZcHFPiU9aG3IiHueIjuhRPBg==",
+      "version": "0.24.0",
+      "integrity": "sha512-HR8cQzsnuxdm65R5TBeDHTEy92f/PvkJiIUUUtMFYkf5W1lJwViCUPW2BsI+aYMkOQ+bg5Y4a/xb/pTEc+kTyQ==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -154,8 +185,8 @@
     },
     {
       "name": "@dickpy/dsh-imagegen",
-      "version": "1.16.0",
-      "integrity": "sha512-4wSPVU0Cm5V3B1siUUfhq6HUSa5IhKIK8spfX3+iM5nAqgytOUAo9th3jHtg00gYLe21zmvlrr/4KIIVKbEUAA==",
+      "version": "1.17.0",
+      "integrity": "sha512-euZENVa/lriWq0JYuQjw/42kDGsIhLv+6ek4t90aZEeWTkRRdZVDwrf5uq6HOSpQ+Pys9GtBDA1KG+4lBmLGaQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -163,8 +194,8 @@
     },
     {
       "name": "@dmh2002/dsh-connect-qoder",
-      "version": "1.23.0",
-      "integrity": "sha512-r91Ox7GlWcZtiHQwVTsjyRU9MS2AXgqPlzSpd9fTzVkgmiXiP3JJbFqsk3OI2zaY+wfVaMvxN4hPVIBYp/QT2Q==",
+      "version": "1.24.0",
+      "integrity": "sha512-ygNlLXzOBjXtuA4CgiU2idqd1RyBaLyocEXbamrXLQpfg5LieJ8JKnS0skhjO1AG+MLWoXi51VYet9EeNo22fA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -198,23 +229,6 @@
       "result": "results/dsh-electron__dsh-theme-studio.json"
     },
     {
-      "name": "@exagone313/dsh-podman",
-      "version": "1.9.0",
-      "integrity": "sha512-VPfcNFypzJWgQK+5+3edAnxMOx8McHh37PoCiPr9NEnrx2WQ2KFQ69/OzKj2akwhQXw6eYLhJthdjvdl9dfr1Q==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V1"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/exagone313__dsh-podman.json"
-    },
-    {
       "name": "@feng0531/dsh-code-review",
       "version": "0.92.3",
       "integrity": "sha512-9kwL4Fv84ppWwqWTAXIL4dmZotPmHWyWmKgcEaVg0lXPcQfGjJS1oqsFHMx/95ycEjOh1Mkc3QUnv1Rqro2SfA==",
@@ -225,8 +239,8 @@
     },
     {
       "name": "@furongjun1999/dsh-memory",
-      "version": "0.9.23",
-      "integrity": "sha512-Ymb4HlXx7i8lvaSVfy1l57JH09JyuYrjy8addNPDo2l9NRXJRFzi36aOwh1iKAcY5gQPLP2sWVuVk7wXX/Nt2Q==",
+      "version": "0.10.1",
+      "integrity": "sha512-9uPp9f+w8vpnBqcQVnk/rijuHlBvJbwpisxrM0P3/dD4W+qd10zcpC1Cuij3QvDspB9Sg0JRvvbMwrhC4jBBxQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -234,21 +248,21 @@
     },
     {
       "name": "@ggboy123/dsh-paper-reader",
-      "version": "1.8.3",
-      "integrity": "sha512-7Nn1TWwam+/j9Z/xy2seVxJCgojenMXna2pNAG2Ep9hxJ3XJrGjaHaIbXFqpbovwKYB1N/NyUn14ZtUcmPaeKg==",
+      "version": "1.12.0",
+      "integrity": "sha512-XH3m27IMyq7R4ytFQtPbE2GwyyYJEzxvGz6VdDY93iNUDGZj9Ixh/Z5IeZdnKKopj5uWK4tmV+POVQDQEVx54w==",
       "level": "V3",
       "declared": true,
       "failure": null,
       "result": "results/ggboy123__dsh-paper-reader.json"
     },
     {
-      "name": "@godv61/dsh-task-engine",
-      "version": "0.40.1",
-      "integrity": "sha512-HVdG+XRkLMDVKgNEr2kyGK56Pk2YRXYl50IgGpjtfuQ3bYPBKOITDk7MmaY036Z5BLZOzKQBtHQGM+sfr0A5fg==",
+      "name": "@goodandready/dsh-clinebot",
+      "version": "0.6.34",
+      "integrity": "sha512-OFAkQHefZ91SDy6d5K7szD5b+Kho04w+JPssev7EJwmU9AWQdDUldFIQEc3BjUXmxmvkubGXhZcdu8T36B8kQw==",
       "level": "V3",
       "declared": true,
       "failure": null,
-      "result": "results/godv61__dsh-task-engine.json"
+      "result": "results/goodandready__dsh-clinebot.json"
     },
     {
       "name": "@goodandready/dsh-cron",
@@ -261,26 +275,17 @@
     },
     {
       "name": "@goodandready/dsh-image-gen",
-      "version": "0.12.26",
-      "integrity": "sha512-8q6l88FjwQJRYOua6Ad0gBdJKmRod/aXGyo8YkMNcZY47MY4Vhwgk5woCvqxyQQ35T566Ef0eBwNF/1n1Zg9Hg==",
+      "version": "0.12.31",
+      "integrity": "sha512-bAKgEC4ASF4YNnkxAgFcjTQ7Dex9XxCdjXUue73BPtho9zJ+RKceIFMhZBOOMgaUzcHoY2ggSLSIgOUaiwBHkg==",
       "level": "V3",
       "declared": true,
       "failure": null,
       "result": "results/goodandready__dsh-image-gen.json"
     },
     {
-      "name": "@goodandready/dsh-key-rotation",
-      "version": "0.8.92",
-      "integrity": "sha512-2sdp3vTAYrnMDzKYtGXeeoJqx8K7so95qsr9ATXHiTDnd8D5QagywOoljsW8zo2ZC2EWG+WGce2LnqRXcbr7yg==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/goodandready__dsh-key-rotation.json"
-    },
-    {
       "name": "@goodandready/dsh-russian-lang",
-      "version": "0.4.24",
-      "integrity": "sha512-iNiNpfmUh3WGK6rQBiVUvt8EjNMBa0QcPkIhkK0ruLVRgJcrjrE/lyoWHLv7/dwVFa6epcz/jFyRS8/Ilj9nFw==",
+      "version": "0.4.26",
+      "integrity": "sha512-NIeOIu0UJwMHojM7Z09b/x0XXipna/Bo9zuoJUyBY8dYrQP1T8SIPjiD4TUwVmitBFH0Kw3ePtLMthI2K96Gpw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -288,8 +293,8 @@
     },
     {
       "name": "@goodandready/dsh-subscriptions",
-      "version": "0.7.82",
-      "integrity": "sha512-OKs3PbEdeTbIHq7CzHPYPu6fcuh+qzSWpHSS7gY1lBo4b8voAIrsITLMOwi+PCuV5Et9kw3iEvfsYjDM4fr67Q==",
+      "version": "0.7.83",
+      "integrity": "sha512-q5462oTj4k3q5HqsP6bc55iVkHveAwbvf43Nfh6f1bHhDC0v5EZKvPtNAtnJYwXaJCvmzmy91zzIFcK1wTfdmg==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -314,8 +319,8 @@
     },
     {
       "name": "@kenz1117/dsh-engram",
-      "version": "0.13.9",
-      "integrity": "sha512-eW2HRBZ5d3pQnJx57fKpUwO3qZfrUZIWYlRmtDxy39X+AoVClvHwW9usbQ3pLm9aC5jyKeeEWlTEkXaQXEogoQ==",
+      "version": "0.13.10",
+      "integrity": "sha512-HJeNCvx6pxcyl+F4XgaQ8EhbvjxXrNTx4s7YsdvOBfShphSOXs7+DLw+dULu6JvmpDUyq2fOVFt2uJi5RyWeAA==",
       "level": "V1",
       "declared": true,
       "failure": {
@@ -472,23 +477,6 @@
       "result": "results/linxin666__dsh-web-all.json"
     },
     {
-      "name": "@liuhange/dsh-gov-data-inspector",
-      "version": "3.8.2",
-      "integrity": "sha512-Vzo2ZkGCWzv0Weiu2GqmDNwExqvadsvf4xIBH0HzpVdxHVquHHWyti3B2QgxjR6QV2xYjVMz92Hcz1kocGoQow==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V2"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/liuhange__dsh-gov-data-inspector.json"
-    },
-    {
       "name": "@liustack/modlens",
       "version": "3.27.3",
       "integrity": "sha512-HYPcVURYXDWzaEIgJyLERs/9qJ1J6hyryMSRZspIccaQhXY3Lp5G/eOnU8Jg51W+IMpea1uFmmhKfA6tGUPz5w==",
@@ -508,8 +496,8 @@
     },
     {
       "name": "@mars-sea/dsh-commandcode-provider",
-      "version": "0.17.4",
-      "integrity": "sha512-+coNv1DzkTNGB+lrhX3FMPA2Zrswc8d5O6zI5TOhvNJGedVDwgntLZrhoCDzp93dQ3/80kkO4jl+wZ1XR7l39A==",
+      "version": "0.17.6",
+      "integrity": "sha512-SPDzg9E3MfngE06XdDtE+o87ZS0T6lPPUR3AjW6m5LL/FMwIVdC7u1t0WzzzvOM19ufetToQ69VKKPPNrbjKog==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -517,8 +505,8 @@
     },
     {
       "name": "@memef1f1y/dsh-plugin-tts",
-      "version": "0.6.7",
-      "integrity": "sha512-EPXoLE1ZhnOJ5mxYSrcAURFFoQI7FXbGKSG1fOMwHUshokhFEg+M720Dc0kpGUdSOeFYejUBrKwf6hdYeqyW8g==",
+      "version": "0.7.2",
+      "integrity": "sha512-qzLK26T1FsajNhvQtGlU316EF2jo6WNUk2OD1r+GQCf7PSyG/1pthvHpYkmTpiKGKOuVNztDc6N+3DLKJuObdA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -539,8 +527,8 @@
     },
     {
       "name": "@michengai/dsh-archive-manager",
-      "version": "1.3.0",
-      "integrity": "sha512-FT7E/ef+H0cHb+KLZtUkw2yXznD0qb/dxgjJ3dKh0FoSsNNuEmrbLpcEN6Wx7eJKcy10gjUjlBom1cAoZzpdJA==",
+      "version": "1.3.1",
+      "integrity": "sha512-TyVuW7/oyK3dL5mWqTc8UUJf/3ae+yVtMHyUYOS8A5vLWAqhkdRkQGw3J4iCccnBIXypw6YHVR/SxefLX6GDuA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -557,8 +545,8 @@
     },
     {
       "name": "@michengai/dsh-btw",
-      "version": "1.3.7",
-      "integrity": "sha512-PhawMb0HUOWceSnh9UtkGFl45M3Pq5Hs5f8ngT+Kdhlf4ffzBCPDeur5PtfX3lrMDFqpaddIJoxuDPOmmvpElQ==",
+      "version": "1.3.8",
+      "integrity": "sha512-a/WLhImABhFgsYnZTbDho8c/ie5KVikBh7aeyFxcWH0GVBgyU3Ugvb6ma07g1Zvrrpj5eP8AUxYvbBJs7A/sAQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -566,8 +554,8 @@
     },
     {
       "name": "@michengai/dsh-code-review",
-      "version": "1.0.9",
-      "integrity": "sha512-EjqqstATgWXHPU4xIwsEvEa9bc2NgV9YOo22wA4g/LsGQNjL3NyY63Olronv0HEKbNTUsttp9d4Zg0alvHC/BQ==",
+      "version": "1.0.10",
+      "integrity": "sha512-gXVTw97ws7AxBBHYNjfKK4K3W+M6evfE+Lib2uOJyvD5OL4/Toxv4nG471pD87yTjcknfjj0DnBels94NEj+0A==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -584,8 +572,8 @@
     },
     {
       "name": "@michengai/dsh-codex-ui",
-      "version": "2.0.20",
-      "integrity": "sha512-d7QzXqC5c3qQu9+uSWQ2gg8koxmcNlv8jmNhDfkLeCpLp+YJVwARuVPsJ3RPrWwqwWWJg5OlNczIFHw3xiXcnQ==",
+      "version": "2.0.22",
+      "integrity": "sha512-AX590eBlIq3p2Q5joYupIQDw7FWKY+08klRk/nozK68Iq0MbyBxnw259ONxjCVOwbMo7eBqJ4dUwfKRojJnnbQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -593,8 +581,8 @@
     },
     {
       "name": "@michengai/dsh-im-connect",
-      "version": "1.0.34",
-      "integrity": "sha512-vEZQ8aHwyMKdSVjIZulA0jX0uQdI7sYpFBuBsSpDVBPFDA+poo9/H3hwGuc/SygRQGtc2jPk1gC6ad2VHtFtuw==",
+      "version": "1.0.35",
+      "integrity": "sha512-7lurQT2Uqk5ULvv+yi1WojQobiyimLI9okXmR2PkWiVDE4tj9cEs/OQmLX1A9CI9chbBc+ZLCGNDkplhmvkBnQ==",
       "level": "V1",
       "declared": true,
       "failure": {
@@ -624,8 +612,8 @@
     },
     {
       "name": "@michengai/dsh-skills-manager",
-      "version": "1.4.0",
-      "integrity": "sha512-J3lDXoXiFIaHQk22LdI4sNyGOawVJrPrsdIMVhKkfq878UlhOGjEamh9m6MOirSB4JbwmgVwvnb1QoQbYo2mFw==",
+      "version": "1.4.1",
+      "integrity": "sha512-/iJ/RltYJ6cXVmn0qO1Ur0iLr3iVhCJ3DV+ec2i/jyxUXmh3EW4+MzMEcdB48LcOvgEd6SoYFDGgblTgPQi05A==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -633,8 +621,8 @@
     },
     {
       "name": "@modusensus/dsh-mneme",
-      "version": "0.12.0",
-      "integrity": "sha512-NAd4pC7m0nE12rBMXqmQqIwvtHwRkWa4Bar7pKIidZNg0SghjNhD/+CtFGXiPWnpNuORjYpcI+c5uhRu5MVzHg==",
+      "version": "0.13.0",
+      "integrity": "sha512-lLQp3zCfOzxdqCNwHyPRJ4qhiPAr1acZiOiczw5VAQU7RWGqnmDZN7NY48mvks7RssZTDWilckKjQsS0qB5XlQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -668,8 +656,8 @@
     },
     {
       "name": "@morehao/dsh-github-trending",
-      "version": "0.9.15",
-      "integrity": "sha512-E3NP5Jzcjb/eLxEklF446XE6Qc89wgvHWKXd4ESCHwW7IpHD1+3zXJTSXDpaKQ5OhGmCdglnIXNDNFuDoaAvjw==",
+      "version": "0.9.17",
+      "integrity": "sha512-35loq1+RRwo5qgECZPOkR8Z6fdW2Wf9obH/L08gnB2lAG5Ki6uLW+3y7c4SkIVvRoer/6s3D5PR0OchManJAww==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -712,8 +700,8 @@
     },
     {
       "name": "@ninkch/dsh-infinite-canvas",
-      "version": "0.20.1",
-      "integrity": "sha512-bpXzkNbKRr01JIbfmPmgWSrucDFfV5y3MklFwohrwsrQWkdWDJN6CET/dr9HDNf4DhtFQeQCHCmg09a6SqSUsg==",
+      "version": "0.20.5",
+      "integrity": "sha512-oMjyh47qCmxzYU5NMQkVT4Ltb9gR9B0y4thCZWD/JPyDqX03xLmb5WOQOqgDJr47UBQ1iqUo/gk/tnZ23gX3oQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -730,8 +718,8 @@
     },
     {
       "name": "@noob-stupid/dsh-plugin-console",
-      "version": "0.5.109",
-      "integrity": "sha512-kSj1xfjpC9ShuC8UcNPT7b69JrF3KS39anIfSlQiNB3yaS2X1Ag4AXQ/yE7IYUpqw7iR3JaCA+DfeBC9z6uDOg==",
+      "version": "0.5.110",
+      "integrity": "sha512-i5g/pwvzbF1Lsz7W8fkg7JiE4RJWSs8Ou9W9LN6IRMnu6CONg1ibuiJbNJwQc5O4Z4WJjGBO5uxr8BZ9E5X1Fw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -752,8 +740,8 @@
     },
     {
       "name": "@openviking/dsh-memory-plugin",
-      "version": "0.5.33",
-      "integrity": "sha512-7MkzkByFY/+biXOY9w0MeVSyE6T+Tubqp2YiBqXZCf0HW8RxQNdgkOkusc/+YtO0F9c78JUrjUvZSGqTquVpnA==",
+      "version": "0.5.34",
+      "integrity": "sha512-CRLArI71N7MFa13WkkC6O8+yc8B46H8jQDj47Y9392Q+btqcQiF58900REkwgx6h2twKqi+9pfN1f7NGV0kf6A==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -816,15 +804,6 @@
       "result": "results/smalltailqwq__dsh-client-ui-skin-maid-atelier.json"
     },
     {
-      "name": "@takboo/dsh-coopanion",
-      "version": "0.4.20",
-      "integrity": "sha512-zc18vc0Eo0qEEfIhDG3GPoclvM1nNo8hX+wnKP7qeMZ4+0lB9IaHqU1e6lAp4T8YLjffdjB8lU8pomXGObO33A==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/takboo__dsh-coopanion.json"
-    },
-    {
       "name": "@taosee258/dsh-client-ui-skin-qingxiao",
       "version": "0.4.1",
       "integrity": "sha512-rrD5WvIXdfMrgezHvw2nLFoL9APSs0m7vWBfHe5RYD7gtrEPDw0luim8nJekHyDhnKc1idJf8c4/wSiYRMCxKA==",
@@ -885,23 +864,6 @@
       "result": "results/tomowang__dsh-tui.json"
     },
     {
-      "name": "@tr1v3r/dsh-ltm",
-      "version": "0.3.4",
-      "integrity": "sha512-w90zXPN4BPxWB4t4EX8ZVYFVLk86AyJUUHu7OLynasCbHCIqOe9PCAyakV0maolwgH9yGFtwwTuiWKFfyOk28Q==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/tr1v3r__dsh-ltm.json"
-    },
-    {
       "name": "@tt-a1i/archify-dsh",
       "version": "1.1.0",
       "integrity": "sha512-UgC/xWfN9lh+ns0unXd5/+o5k9NdWGjar2stGtp4nPGdDw7eP1oiLqcLJusQhaaQKCqRyBvAn+HdKSsyR0zPWw==",
@@ -921,8 +883,8 @@
     },
     {
       "name": "@vectorize-io/hindsight-coding-agents",
-      "version": "0.8.6",
-      "integrity": "sha512-3T67fiyZZ56ir6nnHdrESIpuOaepAa4HM3DyXDEnnjVABWyffmpRmc1LHwbCP8BO1QrOFhH+WoAGJnmw0ypcAA==",
+      "version": "0.8.7",
+      "integrity": "sha512-GuGJdqvcPQpUuu9jWOjJa5OtaI/eAx20DgsiLKKEhfuSCDZXDBWH8Aa7lyj03dAVLMt40K7IciUBtD81QhdTBg==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -948,8 +910,8 @@
     },
     {
       "name": "@wenbin_wb/dsh-bridge",
-      "version": "2.17.8",
-      "integrity": "sha512-2u0pVpN3sxtOlJg5DViYBCN6Vln7/kPNK1XhJbTdkQng/LHhxPWvKmsaGyNjxN7VCRH7QyOGLJr3SThoVNIH+w==",
+      "version": "2.17.9",
+      "integrity": "sha512-GDuskxYdimlTsCOD5N8VuE3gG5T9Dorl34v6IL1nUnG2SHolKksLaHlmRS7WZ7aN11GF/Zkrb/vzGgNCNNQzhw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1010,8 +972,8 @@
     },
     {
       "name": "@zaofan/dsh-qqbot",
-      "version": "1.12.12",
-      "integrity": "sha512-y2lpSzLPOAZCVyBW72RKAZrWWs1VMd+g0zNxqmS/IOR45v+GYZw5cUN5qORI8VKzvgN350barj3XM+OcgZMyHA==",
+      "version": "1.12.19",
+      "integrity": "sha512-O7blnGJxMzzDoyPdE+TBves6PFtNjEUZhRC/5Hntpz3RAzNFsE5Cs9Eafd2LS6qNiYoH50ha6M2CyDTLUVhhbA==",
       "level": "V1",
       "declared": true,
       "failure": {
@@ -1058,8 +1020,8 @@
     },
     {
       "name": "cc-safety-net",
-      "version": "2.7.7",
-      "integrity": "sha512-4+5uk7lwR9GyHTvmBWU4e+SpzSxKd530LcrgG5cGz+ux9cIighybifCFteMJ5WRMXVzKkGGS65qj0IHC+a3pqw==",
+      "version": "2.7.10",
+      "integrity": "sha512-x7idPxgaEflZAI2Rcqgyj4kD6ruxX16hHDTOYflwx+xOmtkq5C9l40LoBZVZuFeMegMrz5u5HUrGmnGXOx+oFw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1102,8 +1064,8 @@
     },
     {
       "name": "dsh-agy-link",
-      "version": "0.6.12",
-      "integrity": "sha512-Q3ZnuSpFtWJquZNeaS13cJV8FcsGfT94U5P0qBRC7Yq2jXrYni+FACWpOk0RI6mcx3XrnuxuBoqGuADfo7qezw==",
+      "version": "0.6.18",
+      "integrity": "sha512-E/uWEj7tk56vHAKLQYIBm25eNiG7jHdMWk4jLlyx9ABLRoDdSpCG1ImI1UhhFlmM0RtOupB/JlMvwdH38gBwFw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1117,6 +1079,49 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-aiignore.json"
+    },
+    {
+      "name": "dsh-amphoreus",
+      "version": "0.5.2",
+      "integrity": "sha512-MDjQufZSf34piUrCmKpLZAvQQ/VWqdkOHYq/DKO9PiJwEAh0DIcPa9Y6006R70aDkvJnGdRVaNcwKKgUTkd+bg==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-amphoreus.json"
+    },
+    {
+      "name": "dsh-archive-manager",
+      "version": "1.1.1",
+      "integrity": "sha512-jox5HYMvQW5yMpXqD3r9CdpXlKPbqRgLryr13SJ9pi/c2HX7fzYI7e/4Dr+K/dZRJlKOXhDcSdQFawl+dgpstQ==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-archive-manager.json"
+    },
+    {
+      "name": "dsh-auto-handoff",
+      "version": "0.2.0",
+      "integrity": "sha512-0JzYb/J/xv1DOlMvQhtPx/kWeV7+roqrZBkYU64ujN+L8VOyW/MuCahnRXI+JVU5uTutlMoRSPeAL83WLqkxRw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-auto-handoff.json"
     },
     {
       "name": "dsh-auto-memory",
@@ -1164,8 +1169,8 @@
     },
     {
       "name": "dsh-bili-watch",
-      "version": "0.4.8",
-      "integrity": "sha512-mrQScXnI0A75ja+/EU67T0gTCOHajfGaSk3Q1aR274rrn6rKcEYDsyeFxOjHVcORN8RCdKZAtb2+EHTCnDxEdg==",
+      "version": "0.4.9",
+      "integrity": "sha512-OvCiVcPZ+aE638AHX71QwDq65ZN3N1uFMq7hxsUvnEGLGdJ/DB1dobRh+KuZjBbIEwayFt8WLOOyrgCMEpF7sw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1217,8 +1222,8 @@
     },
     {
       "name": "dsh-browser-cdp",
-      "version": "1.7.11",
-      "integrity": "sha512-hqFm+kq3sNveh+VxC//0pFvBHFcf+GR9VW32GP1BPHMyBKVZu+Xn1/FeMnQeCbDLkl+q03Oup01MYtsbX/I8rg==",
+      "version": "1.9.9",
+      "integrity": "sha512-62hshlTrEE/YVdnFHokfAvQ1WPE2Tg6taMrTHmaetimC/iu6gJCLaKIGq232C0VJMsuECrIZAqA2xjtQiJh47Q==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1235,8 +1240,8 @@
     },
     {
       "name": "dsh-chat-import",
-      "version": "0.26.4",
-      "integrity": "sha512-+fAzz8otvWxMY2E20eck3mGSABssgDgqMvlAXmaxwql0W63uaqeAADPQyGtMwA8YHsJJffNMUrj82g3hQ94MwQ==",
+      "version": "0.26.5",
+      "integrity": "sha512-mL5SMpQet1ROZHkl+RMAtAJycKh3/7dIDJmbI3zvzD11mY9X3UhE6Sx996tMnGIYbpVJxZP3wiYlO4KVU3DrDQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1270,8 +1275,8 @@
     },
     {
       "name": "dsh-claude-style",
-      "version": "0.20.1",
-      "integrity": "sha512-JYspu5uFv4M4WPMcIgJZBEKx/LUmcqFTNV2HRr9Bzl9mLdtFH33d1mJNZJtDhqAQHUrWv9kjK2081HZQZgk8Yg==",
+      "version": "0.20.3",
+      "integrity": "sha512-VYz6K94bsnwK14rImMRNYdUdOOVEgevpszxrBc4x4L2jZnc18vsNVBvAGmuy6tjOjRYRRp4EPYX//tplxzxKqg==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -1287,8 +1292,8 @@
     },
     {
       "name": "dsh-client-auto-continue",
-      "version": "0.17.4",
-      "integrity": "sha512-mTXrffxx7uaJgqug2z/hYV11n3vH5SMkTsXZua5FpXck0vu8kMJdXYsTgr+FjmwwDBDBxrBBGZlhe/VE//ijMw==",
+      "version": "0.18.0",
+      "integrity": "sha512-62iHz7SETtbZfHeR2mZllvbGc7527RoeEMQ3XcWsz//K7UdmD32RGOJXIDh7bwHuzIIbHDug0pxkVnAcfjYH8g==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1296,8 +1301,8 @@
     },
     {
       "name": "dsh-client-ui-quote",
-      "version": "0.14.3",
-      "integrity": "sha512-O3jREk+bhcZswGQEh7EzOr1T3EyC0cxSM98MTOk7ic2DeG3VJ4lxWk6GkyMAjSCvUCtqLDwRI2zQ00hjeosK0g==",
+      "version": "0.14.4",
+      "integrity": "sha512-8mxx+oSjMuKYtB00vujAI5OoqQzqh8poDFWPpW3WSbCBJ91zhhPou9AlvZicRT5Yigy60ZsKIfO0rB6RRtqJog==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1322,8 +1327,8 @@
     },
     {
       "name": "dsh-codex-subscription",
-      "version": "3.2.7",
-      "integrity": "sha512-NuWnDkXnQu6xr6XQhXnf4ylFflEKNqFjDX3Qy25d/tNtbRHl06FnDPLcLyPpJUbKMnTCDo2X84+VK/PyTy7vlw==",
+      "version": "3.2.10",
+      "integrity": "sha512-VGM/3e3ihFpinRQeE2V5+IazB5HavwmU6hDcc9RlceVK+ZQUrIWr3XGrs+oDhU/+c+YQbwurvytzLdPed4x01g==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1347,9 +1352,18 @@
       "result": "results/dsh-codex-workflow.json"
     },
     {
+      "name": "dsh-composer-plus",
+      "version": "1.27.1",
+      "integrity": "sha512-gGeYJ/ZduH1js9iWBm1M4w1eKIFUDy9tGHT6k922IrhsgNFK+nMAr2f6uO94indrvP7Wf/yzxwwO841oojGHDA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-composer-plus.json"
+    },
+    {
       "name": "dsh-computer-use-win",
-      "version": "0.5.5",
-      "integrity": "sha512-2BknBEy5p27440dZKjeBz74FNe2IHLYDB83n6lVpA1FF9iNZjv4Q+YMj0jLUrO9vRCUETSDjjDJeR6Nfy+1mJw==",
+      "version": "0.5.7",
+      "integrity": "sha512-ASpBz1sefrX3ZwBDIgdMrJcclpVXsjmanGKSrIbbD2R+sHoxL9lKVwvDFsZaGiI/SIjhiCN6Lmfl6rVHZIyDug==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1357,8 +1371,8 @@
     },
     {
       "name": "dsh-config-manager",
-      "version": "0.6.0",
-      "integrity": "sha512-q7QIKmThY/xTrFz+1qR5dN4NR6Ngh5JHip/plnrBR4Yxd7DzEZ+TNz1oN3zjGo+ZC7VpksLuKhPtbcnQY0EJ0Q==",
+      "version": "0.8.0",
+      "integrity": "sha512-zwInFsP9ZuxishrcxEhEpc69vkg+EwvWT56ha7ZyvVeO0qBLJRlBjqv46YbryeeoARNejOifcFGAjkMAl7QXNQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1366,8 +1380,8 @@
     },
     {
       "name": "dsh-connect-trae",
-      "version": "4.17.0",
-      "integrity": "sha512-y9EiYKRIED2Ix+Bk7R0VzAFQTFUdqwbU2K08NdBPYcnKQenh3FsQvLD2HcZhjVeDCTaYxY/WeH3Z/Hl2gz9z6Q==",
+      "version": "4.18.1",
+      "integrity": "sha512-G8xOQWRoqBbuchW4Y//HPf20JQcyIOClpOh8vMmzaBfM4hOQoLn2rRHVkpahbpAuHhtXn9IHC1Gs5lwa8s6IRg==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1375,8 +1389,8 @@
     },
     {
       "name": "dsh-connect-workbuddy",
-      "version": "5.21.2",
-      "integrity": "sha512-Yu2W+/WUCzPhP2fUi45B+L98GP7xTYQqSc0/XM7lQedaids5Kmj2LBqyJ3zI7SsrN4gtt84ZOnFqdlbKVU5NZg==",
+      "version": "5.21.4",
+      "integrity": "sha512-P6S93l1qyjnm2lSyLAgTrH/t4lizkpukphhbh3UPNFBgVGIY3TXrEJqHoJfqqY7/eHgzIM0UXYSYGFz7oQ1wDQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1384,8 +1398,8 @@
     },
     {
       "name": "dsh-console-plugin",
-      "version": "0.5.71",
-      "integrity": "sha512-kVcseevwxiNOykyTbrgcu2XV5fnqdUYJReGtOdZNVIZlLrn4zk6sQ8EIZjrgJEKbiTbuN1uxpqE7QMNiSL3eRA==",
+      "version": "0.5.73",
+      "integrity": "sha512-v1gIFljkNXBvNiLLGVZ3nR71nKN9IZ59c1Y2A75TyX2+5LP20WIJ1ND0NNGLgsIM35HMAC2pS75cjDg7XFZbeg==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1393,8 +1407,8 @@
     },
     {
       "name": "dsh-context",
-      "version": "0.83.0",
-      "integrity": "sha512-A08NdB7OksVu1ywxkfok6OK9Eo1LmpBq/03LgX45Wr7Z9jDD8BE/NfFjEu2vViALwiWjXle8ZZIr7liH9MsVqA==",
+      "version": "0.83.1",
+      "integrity": "sha512-pOXRc1WwxTTJeKPIXXaBo0iKLyrZHzp7FIGCRpxQgsTpMlVvAOoJDYQtOOIJ3N/D7+P02DnsgOcIVT0j3WWuoQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1411,8 +1425,8 @@
     },
     {
       "name": "dsh-cost-meter",
-      "version": "1.9.62",
-      "integrity": "sha512-C39gJDt7bRdnD2tlHEunjJcgRFgvbBCz0+eaS0lpeIYxcxIuO73X5xAR9jtajW7SFYFYRFkfpVQpGFrz4blcOA==",
+      "version": "1.9.64",
+      "integrity": "sha512-jaGamzmN5M45oG3R++kieN3VOo6gyHfcHnkdCLik1Ho3NdLzU5wIO4LMkAnpbIPjBEis1XO92hi36GXlB9T+nA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1447,8 +1461,8 @@
     },
     {
       "name": "dsh-ego-browser",
-      "version": "0.9.12",
-      "integrity": "sha512-zk3FQb7H0VZhmsCZDVnQDjNWBwpTJ5gVwQfhuhWSZofzfGeC13wO1mUN3ur0hhFBZgzICi/y0FK3wWsiQXQ6PQ==",
+      "version": "0.9.14",
+      "integrity": "sha512-W3nOI4ydDw2/BmpAh5uvPzLvBHvo9QFvVjX0jar0iLECriZwabWPZuoXiyn5X8ExpeTBog53r91KbnO1r/MsJw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1456,8 +1470,8 @@
     },
     {
       "name": "dsh-email",
-      "version": "0.24.0",
-      "integrity": "sha512-lg3sjDjcDj8k6V4778yJf3zi7vbi9pyvogYFlXBXSBUP+AVBFg0Whb/5pZkIRNwIZ24aqIkU7LPCIuH3ZAfztg==",
+      "version": "0.25.0",
+      "integrity": "sha512-A1OH0Ojt35rHLeSWwjkxkcjlXpwTTy7gLTCTZYB7QPVz3NuQkSKhAdkrOGo7nY89tKCG/1AKQByWxF4rMMuZvw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1465,8 +1479,8 @@
     },
     {
       "name": "dsh-fast-mode",
-      "version": "1.7.34",
-      "integrity": "sha512-vbkFjgYaKHsyCqLlQumMvmmS13cD+fznfYKpW6WXpu3jE2AqgZQZbVtxw1bKYiLAblIUaWhMsKAE0iTF11g+8w==",
+      "version": "1.7.35",
+      "integrity": "sha512-tNFfwXkrWnnc4Tv3A/YQ4In1P+vzGAuY97Yn/DYct2dJ+atuY032umSgV52s77/ezV8YM3tEGXLxf/1BVlqrlQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1527,8 +1541,8 @@
     },
     {
       "name": "dsh-fish-soul",
-      "version": "0.15.30",
-      "integrity": "sha512-l5rN5tn6tdhHozhce9fMf4h51ytvVRvQTIJB+3+8ES2OsXoeGc0WtdzlxKXs/xUzpCcszvZ3jMbsbSpW9q2LTg==",
+      "version": "0.15.34",
+      "integrity": "sha512-wBW1J+eql425q0e5ppnsfrJ/LryUdgrlBOQh9XPaFGZjQVIjggeXDbRVozYnZvsMOOGMha+vQfD7FuwFhjNOdQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1536,8 +1550,8 @@
     },
     {
       "name": "dsh-free-search",
-      "version": "0.9.40",
-      "integrity": "sha512-jq8HRFA6cWSEuiNKMsduR72adWcWV09Q0BnC2ORnGoS5dZZVjq/3bKXouhxUygTk/d4EBYd5BpPcy1V4Fqom9g==",
+      "version": "0.9.42",
+      "integrity": "sha512-LuPCH72YBshHangEmv9Oze5WN6CVC4/T1+AuVoVzViHhgdam5eBBqhADguvNHGqX4VSPGCNM44Ef+bAPAcJdPA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1554,8 +1568,8 @@
     },
     {
       "name": "dsh-gitbash-shell",
-      "version": "0.52.0",
-      "integrity": "sha512-ZvluzVI7S8GRZaGcBfMqec+qFu9pmqJz63KGeZVewyhEqa76PmXfekg/LjwYogwBkUlksJMC3ew3IzaZDpYhuA==",
+      "version": "0.54.0",
+      "integrity": "sha512-On+8vuivjhOjeYXvNR+WP7KQW0UXBh1bqcm46svn9GmvyZqfo073oQEjS9Xy+k2p98MNyjLP1P9yRq/0uGo7bg==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -1570,23 +1584,6 @@
       "result": "results/dsh-gitbash-shell.json"
     },
     {
-      "name": "dsh-handoff-compaction",
-      "version": "0.2.0-rc.9",
-      "integrity": "sha512-iZI1c/6QN3dhlUJddrXV8DA/nLJl78FGD9gRtMkd526DfKZTn3C9TbIKdrsICnnoYn6G+oUHsiGcItvvph3YAg==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-handoff-compaction.json"
-    },
-    {
       "name": "dsh-hyperframes",
       "version": "0.11.5",
       "integrity": "sha512-7ykZfkfWv8Oad8Aafb+YBZWm9t/cs0HHm5th7hgtgGAgDjWkA7RPp7n1UaGh/2JT8ZK4En5yDYBIAGB2ArPhUw==",
@@ -1597,8 +1594,8 @@
     },
     {
       "name": "dsh-ide-git",
-      "version": "0.31.0",
-      "integrity": "sha512-+u6wXuwChVYykO+mcFtGFx9GHD1Jnm9JTCBHYeODzIk85DDJEhF+nZt3NOCETOi+KfvUJl1y2ixT47Bv3jrHsA==",
+      "version": "0.32.0",
+      "integrity": "sha512-7Ax0psff056179aI2SHuu60uy4pKBV1KXujjgoCJ3xeKsx4vujtU0bX8EuIXEh/3Ktf8d59yKMJn6zKJ3WqwGA==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -1623,8 +1620,8 @@
     },
     {
       "name": "dsh-inner-browser-use",
-      "version": "0.47.72",
-      "integrity": "sha512-z5NMjjW1UA+rYK2Hyo50gMonShDhNsUobAmccTnhLb0h6Wsmc33tUZO4iYXowSpaC1iSBwcpHZNW8vNy2pLS0w==",
+      "version": "0.47.82",
+      "integrity": "sha512-7HrrJKjlRNFDehMiAyZTMJdt1zdpHmJqegywIfKB4ueoFGmCy9QAHPvcl8gTDd3ILsVuQZ9ZRha2M+l7YmHC+Q==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1658,17 +1655,26 @@
     },
     {
       "name": "dsh-lite-memory",
-      "version": "0.18.83",
-      "integrity": "sha512-mfS4XKOv14aGWi8vxbCBkP6ELE8xyTC4SFkc6+2sdgtWjCbPiGv4CvraJR3AGClvwlgscZ49xvXUtXP63O2N9Q==",
+      "version": "0.18.86",
+      "integrity": "sha512-f/wRERGKtOsYNPVktqWWpo5RSZst/gxOP3DP05vEUbxzl1I5kMkZDSZMotvSJ+B1eQwPAYPezisSGldVJWxExg==",
       "level": "V3",
       "declared": true,
       "failure": null,
       "result": "results/dsh-lite-memory.json"
     },
     {
+      "name": "dsh-local-link",
+      "version": "1.2.5",
+      "integrity": "sha512-MTby+A11Raph/Mien/y6595S0kXugH9wC3QCNRGsGX+q819ekAUBbYLG0nDOZTNlMBcl8np3Xm0yUieNJ23zww==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-local-link.json"
+    },
+    {
       "name": "dsh-m",
-      "version": "0.12.11",
-      "integrity": "sha512-fwHG8b3huL8/qZCjv7VG8p+3N8qn+J90LHZo1vm+lqetnZbwF7BbuY98CoLdVM9dZtp9zgS+iG+r7cjX9Pm+Mw==",
+      "version": "0.12.14",
+      "integrity": "sha512-noLD6hqqDkU9GWhtD8AW00Ppr2QcNA1THJCP+NJjPxnuFsgxVp4gEU0/ptHk2SGaS6DhCHWfCYQIB2ZwMHWQhg==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1685,8 +1691,8 @@
     },
     {
       "name": "dsh-mcp-connector",
-      "version": "0.2.97",
-      "integrity": "sha512-m+QBhfBP8kqWSpM4mjm2cbxaHPu+qA00TSuqYm1W1l1QfsprmU2ZYG6ckYGdiOUWyJ4sPMJIO8twhhg9cAbfbQ==",
+      "version": "0.2.101",
+      "integrity": "sha512-8DDTzY7jOnAgAQOh56F0LLykYzIitGvluxPDQYY9xIFLGcSnWoIhL9miWK7OLWm84aQf+qHhl0CC/nWc9UvhSQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1721,8 +1727,8 @@
     },
     {
       "name": "dsh-mnemon",
-      "version": "0.5.43",
-      "integrity": "sha512-uSb1vOs6nS52ADzUFrZCGyEfv/jymBbfGYSE8WG47WxldU2lrMnhKsgtEgz1rz1Wd857MwcRhYO/VdWKIoMfSg==",
+      "version": "0.5.44",
+      "integrity": "sha512-J4W+x8jMk7NMCkdpm8CcfjUjQdb/AzdQ/q0EjpphfDDVVYEMVdhMao281/ArLixo5Xqomw431SZ/EEfmoP85eA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1730,8 +1736,8 @@
     },
     {
       "name": "dsh-mobile",
-      "version": "0.8.5",
-      "integrity": "sha512-NFJTEBDSXTqDj6SYXgjBgZ0YmZE2kPotUK1D2zk6FjlC7brDrTCtJBYFCO5HD4MFkmTELOxGZ5cH+daS7Ft78g==",
+      "version": "0.8.6",
+      "integrity": "sha512-XlvtRocZBZceAyV9+rL0ZIg0c7Cb/Bl3kGxI0jXiwZhd0L6OYV5VaX5OH5N1CAY459QR5f5YaJQ/RsBww1iFTA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1739,8 +1745,8 @@
     },
     {
       "name": "dsh-mobile-plugin",
-      "version": "0.5.33",
-      "integrity": "sha512-P9uHAf0oE/lDtLSNyzRgLyC+7SCK8/X3h2jWgqYc9p+oX0mAx3n/PDRkjyC9dMGLk+mrCH8tRNTgd4CYdEtKcw==",
+      "version": "0.5.38",
+      "integrity": "sha512-HVhaQSIHzy5Ce18gw35fXReUpqUi0bGkKgmN5+SNXGJQOG/9F515pVjXsNoJqq6sgzOyqToe080uVCTId1qAuA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1774,8 +1780,8 @@
     },
     {
       "name": "dsh-music-panel",
-      "version": "0.9.19",
-      "integrity": "sha512-waO71tj1B1+ZScFALV+NrD7wcicbrAS68Zi9k3LQLTPHH5+CZZudDrD/DvoQ3bjiq68H+RLAvL+mi/lmEmVO9w==",
+      "version": "0.26.0",
+      "integrity": "sha512-bZtbFqnkue4iV+t/cTPuMf/U+7IfuSsgJWZmby1VrBJF5R46PV8LgaQ0d7FURQ+imP2nzWGEW4/Ylyu9+DfZTQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1789,6 +1795,23 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-my-guardian.json"
+    },
+    {
+      "name": "dsh-nexttavern",
+      "version": "0.2.9-rc.4",
+      "integrity": "sha512-cid347M3bhytQ5MGTURBBCpVC+3CpEYaJ/qXllxMlui8IvKVFgr2ofup9Z22D9Swloozgo+4O+eLEfvEAWj2pA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-nexttavern.json"
     },
     {
       "name": "dsh-notifier",
@@ -1818,21 +1841,25 @@
     },
     {
       "name": "dsh-novel-forge",
-      "version": "1.6.1",
-      "integrity": "sha512-zGzVYI1Ya1qrHIDRawscJKY2dzEL7sjOOoMfaayY/MtDId5MG0lZGS/Pw1lcAglvG+o6J2sO+sqmJJHmQEzw5Q==",
+      "version": "1.7.0",
+      "integrity": "sha512-LBLpKhbR6e4v5zsm0rkR6ptr/QA2txt40oHDKyTuwW1U7yeULUAbk4iFgUwnqoABjGItfdjfyVoSEPyWVdp7oQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
       "result": "results/dsh-novel-forge.json"
     },
     {
-      "name": "dsh-observational-memory",
-      "version": "0.4.3",
-      "integrity": "sha512-hp6iWNjVrTFIeoKX4bpz5eCA4FDAOjv/Zx/Trql++ISwS6eHQgvpHg5tUA3fb8b37bqhveXQ2fbplY6KlIC3rA==",
-      "level": "V3",
+      "name": "dsh-office-kit",
+      "version": "0.4.8",
+      "integrity": "sha512-+QdS2XnCCRX2PN3wwDZFSQHcmbGXitAg1nEFY5TtZkp0zJd/SUW+1GfkdChejrvWmGuV8MiPR63yqxFSiSSf0A==",
+      "level": "V1",
       "declared": true,
-      "failure": null,
-      "result": "results/dsh-observational-memory.json"
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-office-kit@0.4.8"
+      },
+      "result": "results/dsh-office-kit.json"
     },
     {
       "name": "dsh-office-tools",
@@ -1854,29 +1881,12 @@
     },
     {
       "name": "dsh-onebot-qq",
-      "version": "0.9.19",
-      "integrity": "sha512-SUkhQzJ4Mx4aTNx748fTQ3QXK8UGMwidZchB+Kc4XrpfMv3pvKIPBOv/CqE1CORUyIcoM8rNJnqGFciP73r76g==",
+      "version": "0.10.0",
+      "integrity": "sha512-cOUIGe4/6Pce5n7aDhaKVwGiNRVFLu8QcEVcQquDfEwptoVYDoNTKwAOmuyj0BE/p2GvU6b8pNz3mAlUqc0Hxg==",
       "level": "V3",
       "declared": true,
       "failure": null,
       "result": "results/dsh-onebot-qq.json"
-    },
-    {
-      "name": "dsh-opencode-free",
-      "version": "0.5.0",
-      "integrity": "sha512-LM1wqjezKMPqkJJEFglAaPet7kTQMH47uYCxep7Evk7IQCgjP7BWnh1IhcrsI65Qkgi9nDltheclH4gLYuUYtg==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-opencode-free.json"
     },
     {
       "name": "dsh-openrouter-live",
@@ -1896,18 +1906,9 @@
       "result": "results/dsh-openrouter-live.json"
     },
     {
-      "name": "dsh-openwrite",
-      "version": "0.2.38",
-      "integrity": "sha512-oV12TCVkqAQoMdT1u65KL5VG9dKjGlpste0FgPvUkn4v04kqPFTAX3nXj+HuOLGgpJBG7jCN2Pqqb+1zU1VMRg==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/dsh-openwrite.json"
-    },
-    {
       "name": "dsh-ops",
-      "version": "0.5.2",
-      "integrity": "sha512-r05cj6UaB80+0hH12bm5IvV58y5MQdn46Jtqb3pYw+KVwMGC2CrFFEldUHO+khorbWA3PiZDenRHUX2crWJVtw==",
+      "version": "0.5.4",
+      "integrity": "sha512-JHRpQ9trB9ivhZ68tx8MhPyx/n0WDfmLZDm1gg4h77yAogihyXCzCn0PvFw2xqJwOuoOIvPURQuGgL8OLA+MgA==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -1968,12 +1969,38 @@
     },
     {
       "name": "dsh-pet-live2d",
-      "version": "3.5.0",
-      "integrity": "sha512-g/cPTMjQBv2OEztpfaUQ53+JtSBueba4IBVA8KksGYH7NBWlLVLjjW29/hxUFay2Sp3Uf5cRz2xRii4VEUB17g==",
+      "version": "3.6.0",
+      "integrity": "sha512-piJjcYLKun+UxFZKqcatOUOMm80wY7maSmeTnxEb0cYVSU7f/xJ70mHrLApg/MWiKKtrnPUyHmaoUvWgm/eeQA==",
       "level": "V3",
       "declared": true,
       "failure": null,
       "result": "results/dsh-pet-live2d.json"
+    },
+    {
+      "name": "dsh-pet-plugin",
+      "version": "1.27.1",
+      "integrity": "sha512-lWHE8vWE40epaykrl7/Urj2Tmqq45eWMiiPTvR0dcQwUGHZ+GIO67chMZUlCALxs/kKoStIcNzRsOzi7bCHCpQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-pet-plugin.json"
+    },
+    {
+      "name": "dsh-plugin-academic-writing",
+      "version": "0.3.2",
+      "integrity": "sha512-bTdc/ZAOzvklSMBjVUK0cm+0Kp/xgQqJXV7/stADl6ZrH+B+IWy+AigK3/30P4O8P9zaJN/0rib/VSxqoMNSaQ==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-plugin-academic-writing.json"
     },
     {
       "name": "dsh-plugin-genui",
@@ -2011,8 +2038,8 @@
     },
     {
       "name": "dsh-plugin-health",
-      "version": "3.0.8",
-      "integrity": "sha512-tgMfYZj/xcCowAJuF+0m05h1hq0Zs4ZvciXm5xHmLzo2H0GzjoQXCZgX/N+0I1jSWdYjhQe+tUTHFTzB30PwHw==",
+      "version": "3.1.0",
+      "integrity": "sha512-jgNcNfl0+L4qE4BhGL5qcI2i7lSJq9q+sTVhDvsa978XIHka7VXUehUg3vMPcqbyBpOzvYO6Dpwtf+OcFTV7tA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2029,8 +2056,8 @@
     },
     {
       "name": "dsh-plugin-memory",
-      "version": "0.17.9",
-      "integrity": "sha512-/RmOWNWROUisc+FghcLP6wBXTPrIA6LHcikbj4a85TC/66P1t2Fy0gttRRsazKRDlkLrOJmzqsqQFyUR+XxxBg==",
+      "version": "0.18.4",
+      "integrity": "sha512-K360jFSiETln4szETem1IzoulZLJwOHBrNg5BMQ1Y7CWvkCKMOeyZr+8lwYNsHsl5TXVncvAZCNVqDfP2QAnvw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2047,8 +2074,8 @@
     },
     {
       "name": "dsh-plugin-subscriptions",
-      "version": "0.9.12",
-      "integrity": "sha512-OHW6LsNjmfQ7gFZ734Lbz9iVtrPeWAaQz2sAzSezNDgyNGpEBzvLufGhzwffh1VgWz2TW8AMJ/JpgBec5Lscrg==",
+      "version": "0.9.13",
+      "integrity": "sha512-SdPos6AGSOxQHE7yWiUOB67TTtlSLDK3dpFNkVXGl/fEZM8ia2pSVUSI9QwUPuNnt/IAnc4vlc8MVz15aqTqVw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2056,8 +2083,8 @@
     },
     {
       "name": "dsh-plugin-toolkit",
-      "version": "0.20.15",
-      "integrity": "sha512-nt1SiqewEJZMYC71B8lMVFuv5mSaGTEExmhchLzxwkvBmhOybhMO3+NCvx89Lt3xj7uY23JGLdjfUUj7GlQ0NQ==",
+      "version": "0.20.23",
+      "integrity": "sha512-eZX/bJNyr/N49cMAQXYvyqbJ11h1hTIhOyorZT+wcPvX0BhJ2MZLaLGA1Wg39w/gp2/pESyXom+vxxhxam/8cQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2136,8 +2163,8 @@
     },
     {
       "name": "dsh-profile-stats",
-      "version": "2.4.16",
-      "integrity": "sha512-MlzWSLWMRrtxEGmIjHcMqM0dzlP4/VjNsA6HdjISAxKEtItR2yskaxt1rkIFvJ1ocZ6pf3KABcbYglvZOr84Kw==",
+      "version": "2.4.19",
+      "integrity": "sha512-H37hDEdcCfMxKQGrfc4hb28cNXUwscHKE+0qxd/TT46JfmFPq4YQMIwBycphqbNYUwoyu36FIomWoRT9K4RqQg==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2154,21 +2181,12 @@
     },
     {
       "name": "dsh-prompt-history",
-      "version": "1.11.2",
-      "integrity": "sha512-oLVexdO7RmjMPMlBq2UkPmE0UC7TCwYaWB2h9lLlr2zGyqEI9/QzTZupY6188ejP4O5/Y4vZeKrC3FLLzvoC2A==",
+      "version": "1.13.0",
+      "integrity": "sha512-qY3jzflVf8oiBDuWcBw6kIzOkhL4eZzHCBhP9tutpQHPmIjBAuiJFkIHDYNySaRAXLnOfd2shFO4GCw2VItxFQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
       "result": "results/dsh-prompt-history.json"
-    },
-    {
-      "name": "dsh-push-host",
-      "version": "0.7.38",
-      "integrity": "sha512-5VhA3JQEa7NPK1pVcQ38b/yRkFkDUnC98WkNFKgyoIRhpESFZYeB0wwwwLokasyLipJEzTwdoaawDftf/UHTJg==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/dsh-push-host.json"
     },
     {
       "name": "dsh-qq-onebot",
@@ -2179,7 +2197,7 @@
       "failure": {
         "stage": "runtime",
         "kind": "shutdown-hang",
-        "detail": "dsh web: http://127.0.0.1:33485/?token=i9rpIhYahzq2G5StKZEdE9AFba-Vs6t9gdxdoxhshS0"
+        "detail": "dsh web: http://127.0.0.1:45429/?token=ZL_eq4ahCMXaQ6OsfvfmAYGXrpUVvzeoZZQkSAQfAhs"
       },
       "result": "results/dsh-qq-onebot.json"
     },
@@ -2202,8 +2220,8 @@
     },
     {
       "name": "dsh-remote",
-      "version": "0.8.80",
-      "integrity": "sha512-HH8A9DBOv+rN6+2igK8zHboxszs3GA+DoqF9Ix0Y/PIIeTRzTxbOTtIKZaVMZeWKqY+X3Dqlyzzs7KO3wrgaXA==",
+      "version": "0.8.91",
+      "integrity": "sha512-AyzZpWYblQ2G3RPgi5BFEzXyPKoS52exT8kCATdzCIllaYNyDx37kMpl1QNV3RtyHL6/Ce6YZ8XvuKsLhJ3JLA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2237,8 +2255,8 @@
     },
     {
       "name": "dsh-roost",
-      "version": "1.0.8",
-      "integrity": "sha512-kwaIJefZfC4S3aTYU1hkexgB+LGgwZpI/9wMYuXTZZmjtl7drG8+r5J40msSMxK0J0p6UTVOLhh7iO6RKJhHxA==",
+      "version": "1.1.0",
+      "integrity": "sha512-bWoH0sVHR0Xt9o41EEo5V9jQx6lnDvoCzPlfDrsNcwdRJTwPDJLW3JtydVqQQN2WLh6OELmssKyovCLUQ5/+gQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2259,8 +2277,8 @@
     },
     {
       "name": "dsh-see-now",
-      "version": "0.2.1",
-      "integrity": "sha512-/dIS2DqAafz4MJdf0Zh7+p1V9aIaz3S3kUBUVsb1Ah4GA1apGdwKfDNqf7R9J1QaiDGP4dtSMmFVsAPBHMuC6w==",
+      "version": "0.2.2",
+      "integrity": "sha512-cjJrhH0ifIQxTPeJks72/MfIAyd1R0UrXVj6xKJpE38s4YLE4IvNBvtkXCFa8wojvsQCj5UTxX3DNcj+cpOHcg==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2340,8 +2358,8 @@
     },
     {
       "name": "dsh-task-ledger",
-      "version": "0.1.10",
-      "integrity": "sha512-Z0FFqGNHtJ8wJk7xxW4r0pfi0U0GLIkUnSNfjLVl4UeDnlop2q9XKAAwB3go8UTM+luPMM15wb4nQmwYOdIibg==",
+      "version": "0.2.1",
+      "integrity": "sha512-/cPdVXt4snmM1hNJigPA0POJslluP8Teg+biYAxx6fgzdEQmwqJ/4dSjmL+PL0qEiHWZMONObuuQiTFWvQTx8Q==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2358,8 +2376,8 @@
     },
     {
       "name": "dsh-tg-bridge",
-      "version": "1.49.0",
-      "integrity": "sha512-5175Zb+CySIDX29m7R39ENPiNaeRBbkHnYyXSV2r3PRBBIAV7PZjfL6WjepiBlIAZqhj8RUPn6l6LC28Bp7GdA==",
+      "version": "1.50.0",
+      "integrity": "sha512-P0RMizAahvY4+YEbZn6Q3ckJZ8vtICFJDG7MFU7FP7qBr+lSwn9b9VGcI+lg8vqRDk/E1qxajzzPb5hBr7SGHQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2367,8 +2385,8 @@
     },
     {
       "name": "dsh-thinking-levels",
-      "version": "4.4.13",
-      "integrity": "sha512-jx0wCkeAgJHICYdV2wi+si3J/HdNxHMfr/lQ6EiLm1+9pMg/6OqtZ5l+byh9dpX5jpTFDa58pI2twDL4/UL54Q==",
+      "version": "4.4.14",
+      "integrity": "sha512-GxWSbbcOS1xd9JK0LKj2vcdJtSTw+zYR/uFgZve1wYcfMBcd+agonSg1jybaw17ZeQyxVmthEYHlCSPFU4QmYg==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2412,8 +2430,8 @@
     },
     {
       "name": "dsh-video-storyboard",
-      "version": "0.7.1",
-      "integrity": "sha512-ku2FRCPIR7CH5blDC8dlmnQeWBGPzX8cSpYga/oAqw268Fizt17BvnlJjKFLIYEupIwH18yKtvE86An0AcDkEw==",
+      "version": "0.7.4",
+      "integrity": "sha512-u+yt13nBTSNU++pPoh7cQAdDQFwtUeO0o0w2V5OS8ew+B6E717p0PPd7fsDQbiGeopoc7jctiq/zbdGiQoKGIA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2421,8 +2439,8 @@
     },
     {
       "name": "dsh-vision-router",
-      "version": "3.1.5",
-      "integrity": "sha512-TRPKYXKJTpdvc2j6DLA2pMyFZcD+zrPI4dlcq1l3pi0zYeKci1wPEfuarmchIgYT1ZTAzZjYQ2lFAEahlmBfAw==",
+      "version": "3.2.0",
+      "integrity": "sha512-W1XzZIRb1ht7ONnQGcvwAgV20BkrAgkVj45SRs8X2u8qTCEc69v0OviXw+bOzip0CaEzvP8DxyErK2L34FiktQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2439,8 +2457,8 @@
     },
     {
       "name": "dsh-vscode-mode",
-      "version": "0.28.0",
-      "integrity": "sha512-ZlKfXTQHmCfhYMBTL+yUaBWi/IYz4/ZeEhbPYK0ZcKeb+vbKsMnYucT1djXrgr7vUewThkweV7u87bnO0Un3ig==",
+      "version": "0.29.1",
+      "integrity": "sha512-r8E2tkiP9TVuoOSfBPc4PCU4kiC0bRdgOCycD22CHamowLOvSFfSsTjjpQGiWBn7gBXm9ZOvZIc0arBBJfkXqA==",
       "level": "V1",
       "declared": true,
       "failure": {
@@ -2449,6 +2467,23 @@
         "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6"
       },
       "result": "results/dsh-vscode-mode.json"
+    },
+    {
+      "name": "dsh-web-annotator",
+      "version": "0.2.2",
+      "integrity": "sha512-0aFyQyvYd6LchR4bCWREK7Vwp1JqGqp55RSaa3jv7f37HQTPhxr3BT/sMT3IYPuzesDHjNPQx6fhdc6GrE4Thw==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-web-annotator.json"
     },
     {
       "name": "dsh-web-mobile",
@@ -2483,15 +2518,6 @@
         "detail": "the declared range does not admit this host"
       },
       "result": "results/dsh-web-search-glm.json"
-    },
-    {
-      "name": "dsh-web-search-pro",
-      "version": "0.2.3",
-      "integrity": "sha512-9/De9aixazA12I5SgsKq6fhrgW4TVO3FfmS7fUGDP6FNRBr52mK2ZcVsPpbAmZv07LGMJi7LCZNxMpFGekC7aw==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/dsh-web-search-pro.json"
     },
     {
       "name": "dsh-wechat",
@@ -2539,8 +2565,8 @@
     },
     {
       "name": "dsh-windows-mcp",
-      "version": "0.2.4",
-      "integrity": "sha512-OYpducgqTfrMLDKkBXFbVMrC6a9pIIg67S/CtJryXvi4fse6YiDJEtH2Q+8rJc5geUL+jEf2xKkB0QtK0qSgzg==",
+      "version": "0.2.7",
+      "integrity": "sha512-XM+K+/n6f76wR3+wkiJBumpfbNsFuikdUbvq1XJ8xW7dy1X5FDD+xiIil7peLxd1Fead4609abKFq4WTmsEJDA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2557,8 +2583,8 @@
     },
     {
       "name": "dsh-ws-recency",
-      "version": "0.26.0",
-      "integrity": "sha512-Jjov4VAy0OIXOXORhF/ZnKMbvNcWm/YyCp8XOhtC85mfugAe1ogeYPwTJC8qVXMTBu0Ytbeys40nPkBivF7Bog==",
+      "version": "0.26.2",
+      "integrity": "sha512-SyrYl+KYEDIHwNteNnidabHtCYIa3VUSVue/rZqB+JgctGrGGAwgpyfKirnopjAQpCcfaC5ZZgXGYxQf/X1kaA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2566,21 +2592,21 @@
     },
     {
       "name": "dsh-xdpool",
-      "version": "2.6.4",
-      "integrity": "sha512-YAAU3YOqF0oXuJANxYwTd3kpU/T5kIQz2EbB9Llr2lGVWDIcZmyTk4jHQG6gliPGFnxkuGq8taYvnlmdyahBxw==",
+      "version": "2.6.5",
+      "integrity": "sha512-S28KakehsLzzzvmSsJfFLizUO+R7/K/lGRjzX4RLI+eCLze6CcWsbBk6fCqzqWuN/ShKlZrSgVlxbFtBdzBIjg==",
       "level": "V1",
       "declared": true,
       "failure": {
         "stage": "install",
         "kind": "build-scripts-blocked",
-        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-xdpool@2.6.4"
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-xdpool@2.6.5"
       },
       "result": "results/dsh-xdpool.json"
     },
     {
       "name": "dsh-xiaomi-tts",
-      "version": "5.2.1",
-      "integrity": "sha512-I9Z5l/WScOf1b7aXpaHp/GcjeTIeh0lfEi61nhy1NXxoHQs2TVGapapWA7t8PLR0AI/Z8LpR8fE6tHsuS9kHOA==",
+      "version": "5.2.2",
+      "integrity": "sha512-MNxO5NVSAZ+BS/JYyzc0HMeCThsPHbLRFJFQFfvl5WBl18PvH09nKp53yqpbD3TikUN2XmCjGh3sf0iJZF1lvA==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -2613,8 +2639,8 @@
     },
     {
       "name": "dshmarket",
-      "version": "1.73.16",
-      "integrity": "sha512-pfQuF7p4JWXPDEZ0mqByc7xrv7371N222J/NomsJT958wBSfdaMQR/EZT2JBvMOXbJ91fVUbCoKxMd6yuH+K2g==",
+      "version": "1.73.17",
+      "integrity": "sha512-yISchdb/p4pDMTvsEyPtX60oTlv3FlyiSzcSI07dShf9WBuM12yyj5WSVTSJb3ZA7cgniyArAJEwBIi3eZVrww==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2635,8 +2661,8 @@
     },
     {
       "name": "lunheng-article-pipeline",
-      "version": "19.27.16",
-      "integrity": "sha512-AMvqirXfcenNDcV3INBh/orCAjEDpGijv+xHNQ1JrQjiq4TSvpPGjrC69htp7d+p+H8Bs1E+gvnxo0JkIrAApg==",
+      "version": "19.27.17",
+      "integrity": "sha512-/BWhezImBKSasL1Ix5IR433uUpyBf9o9J4ix++KxxUMmTfieWP7+RXLxwCN/RNQp5pn+o7zjSirexDYYmri2AQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2644,8 +2670,8 @@
     },
     {
       "name": "memory-eternal",
-      "version": "0.30.2",
-      "integrity": "sha512-67np0zptjeZlPere8a0Vv3MaoJK7lSW+E693uJK4j50xTLiErRI7X30Wq/o17s/1qd0vgpTDBmxhk5TRjZYeAw==",
+      "version": "0.31.4",
+      "integrity": "sha512-Ztf3p5GZ68gq+6BIT2y/kHmTINWe2E2TWUYpekGEo0J1itfqnAtrbotMF5TP+MVOJcTjaPQR73W4BOMcRl/3RQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2714,8 +2740,8 @@
     },
     {
       "name": "sage-mem",
-      "version": "2.5.1",
-      "integrity": "sha512-PzmH6Cba07L7JCMNB0l87TX3f5WjRJ+DQNJV5mujiEHQBY7PTsBohm6hzp+6eA0G9X2wFZkjZI19s/2x6nwf9g==",
+      "version": "2.7.0",
+      "integrity": "sha512-pGSqGEDbzzRwNMrmusMia9r4HDWEfYQGyIJr+jYwyhMQPsXmAteCdK+l/zwKh0dEwUKv3SeYmfsfHyqJgC0mjw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2740,8 +2766,8 @@
     },
     {
       "name": "stratagate-dsh",
-      "version": "0.3.45",
-      "integrity": "sha512-XSK5Q/29eivJLf0prnjvqx+91ckVxriKtRcW1YqBIq5dlkQB59sdyTpzGp3cUmeXW29YQqrGMMdFKq23y/DzQQ==",
+      "version": "0.3.46",
+      "integrity": "sha512-abujmHaNJJuAKJ7SZdJ6QCMpPix3UVsdL6zdLc/KzKYQffI5MaZTiOVXMjarZd5jSbAfp7YhapLcui9oEu27mw==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2751,20 +2777,20 @@
   "conflicts": [
     {
       "kind": "entry-id",
-      "name": "browser",
+      "name": "dsh-memory",
       "plugins": [
-        "@anweat/dsh-browser@0.2.2",
-        "dsh-builtin-browser@0.5.8"
+        "@restregular/dsh-memory@0.30.1",
+        "dsh-plugin-memory@0.18.4",
+        "dsh-prime-memory@0.26.37"
       ],
       "predicted": true
     },
     {
       "kind": "entry-id",
-      "name": "dsh-memory",
+      "name": "dsh-pet",
       "plugins": [
-        "@restregular/dsh-memory@0.30.1",
-        "dsh-plugin-memory@0.17.9",
-        "dsh-prime-memory@0.26.37"
+        "dsh-pet-plugin@1.27.1",
+        "dsh-pet@0.4.7"
       ],
       "predicted": true
     },

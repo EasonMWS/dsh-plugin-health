@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:03:38.858Z",
+  "generatedAt": "2026-11-12T03:51:01.021Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@a9i5k4/dsh-auto-memory@3.3.17",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-p40ZAU",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-p40ZAU/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WhOeKs",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WhOeKs/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:03:39.111Z",
-      "durationMs": 4565,
+      "startedAt": "2026-11-12T03:51:01.494Z",
+      "durationMs": 5881,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: boolean@3.2.0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @a9i5k4/dsh-auto-memory 3.3.17\n\nPackages: +55\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 79, reused 0, downloaded 50, added 49\nProgress: resolved 79, reused 0, downloaded 55, added 53\nProgress: resolved 79, reused 0, downloaded 55, added 54\nProgress: resolved 79, reused 0, downloaded 55, added 55, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.21.0, protobufjs@7.6.6, sharp@0.34.5\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-p40ZAU/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@a9i5k4/dsh-auto-memory@3.3.17'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-p40ZAU/home/profiles/health-smoke/.plugin-manager/logs/operation-OOz6IY/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: boolean@3.2.0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @a9i5k4/dsh-auto-memory 3.3.17\n\nPackages: +55\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 79, reused 0, downloaded 0, added 0\nProgress: resolved 79, reused 0, downloaded 52, added 51\nProgress: resolved 79, reused 0, downloaded 54, added 53\nProgress: resolved 79, reused 0, downloaded 55, added 55, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.21.0, protobufjs@7.6.6, sharp@0.34.5\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WhOeKs/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@a9i5k4/dsh-auto-memory@3.3.17'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WhOeKs/home/profiles/health-smoke/.plugin-manager/logs/operation-AkXnen/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

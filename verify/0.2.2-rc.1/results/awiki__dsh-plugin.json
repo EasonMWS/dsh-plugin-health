@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:00.966Z",
+  "generatedAt": "2026-11-12T03:51:02.116Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@awiki/dsh-plugin@0.3.21",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-m5iCoS",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-m5iCoS/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HLz0rO",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HLz0rO/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:04:01.452Z",
-      "durationMs": 163,
+      "startedAt": "2026-11-12T03:51:02.578Z",
+      "durationMs": 173,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,28 +23,28 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:01.615Z",
-      "durationMs": 3466,
+      "startedAt": "2026-11-12T03:51:02.751Z",
+      "durationMs": 3471,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @awiki/dsh-plugin 0.3.21\n\nPackages: +9\n+++++++++\nProgress: resolved 13, reused 0, downloaded 6, added 6\nProgress: resolved 13, reused 0, downloaded 9, added 9, done\nDone in 2.5s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @awiki/dsh-plugin 0.3.21\n\nPackages: +9\n+++++++++\nProgress: resolved 13, reused 0, downloaded 0, added 0\nProgress: resolved 13, reused 0, downloaded 9, added 9, done\nDone in 2.5s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:05.095Z",
-      "durationMs": 5197,
+      "startedAt": "2026-11-12T03:51:06.234Z",
+      "durationMs": 4758,
       "ok": false,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44295/?token=4QiA_tNyXdAXWc3qm5l7otBrQMHvy233sWZdoNLw06I\n",
-      "stderr": "dsh: warning: 2 entries did not activate\ntypert-loader (@deepseek-ai/dsh-typert-loader): AggregateError: typert-loader: 1 typert contributor(s) failed to register:\n  - typert-loader: @awiki/dsh-plugin invocation \"@awiki/dsh-plugin#awiki/activateRecovery\" parameter codec has no create() factory\n    at Object.apply [as callback] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:367:33)\n    at async Fiber._reload (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:677:41)\n    at async Promise.allSettled (index 1)\n    at async Proxy.await (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:233:4)\n    at async boot (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:5283:3)\n    at async runProfile (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh/lib/profile-boot-e2mS45fC.js:303:15)\n    at async main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:245:27)\nError: typert-loader: @awiki/dsh-plugin invocation \"@awiki/dsh-plugin#awiki/activateRecovery\" parameter codec has no create() factory\n    at requireSchemaProjection (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:220:48)\n    at requireStrictCodec (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:234:2)\n    at requireInvocation (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:192:3)\n    at validateTypertManifest (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:117:89)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:296:95\nawiki-provider (@awiki/dsh-plugin/provider): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@agent-network-protocol/dsh-anp-identity' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-m5iCoS/home/profiles/health-smoke/node_modules/@awiki/dsh-plugin/lib/provider.js\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)\n    at packageResolve (node:internal/modules/esm/resolve:772:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:989:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:2728:77\n    at adapted (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:2675:15)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:2700:19\n    at ModuleLoader.wrapped [as resolve] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:2730:71)\n",
+      "stdout": "dsh web: http://127.0.0.1:34125/?token=Ua4jgwtnSMauldO2gLltjlI9CqwiGZzwf3D3NE-u8MI\n",
+      "stderr": "dsh: warning: 2 entries did not activate\ntypert-loader (@deepseek-ai/dsh-typert-loader): AggregateError: typert-loader: 1 typert contributor(s) failed to register:\n  - typert-loader: @awiki/dsh-plugin invocation \"@awiki/dsh-plugin#awiki/activateRecovery\" parameter codec has no create() factory\n    at Object.apply [as callback] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:367:33)\n    at async Fiber._reload (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:677:41)\n    at async Promise.allSettled (index 1)\n    at async Proxy.await (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:233:4)\n    at async boot (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:5283:3)\n    at async runProfile (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh/lib/profile-boot-e2mS45fC.js:303:15)\n    at async main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:245:27)\nError: typert-loader: @awiki/dsh-plugin invocation \"@awiki/dsh-plugin#awiki/activateRecovery\" parameter codec has no create() factory\n    at requireSchemaProjection (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:220:48)\n    at requireStrictCodec (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:234:2)\n    at requireInvocation (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:192:3)\n    at validateTypertManifest (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:117:89)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-typert-loader/lib/index.js:296:95\nawiki-provider (@awiki/dsh-plugin/provider): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@agent-network-protocol/dsh-anp-identity' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HLz0rO/home/profiles/health-smoke/node_modules/@awiki/dsh-plugin/lib/provider.js\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)\n    at packageResolve (node:internal/modules/esm/resolve:772:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:989:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:2728:77\n    at adapted (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:2675:15)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:2700:19\n    at ModuleLoader.wrapped [as resolve] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:2730:71)\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1253,13 +1253,13 @@
               "disabled": false
             },
             {
-              "id": "dfe1f681",
+              "id": "989cfe93",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e3814cc8",
+              "id": "893a16a5",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1285,7 +1285,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -1321,7 +1321,7 @@
   "failure": {
     "stage": "runtime",
     "kind": "boot-import-error",
-    "detail": "awiki-provider (@awiki/dsh-plugin/provider): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@agent-network-protocol/dsh-anp-identity' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-m5iCoS/home/profiles/health-smoke/node_modules/@aw"
+    "detail": "awiki-provider (@awiki/dsh-plugin/provider): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@agent-network-protocol/dsh-anp-identity' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HLz0rO/home/profiles/health-smoke/node_modules/@aw"
   },
   "level": null,
   "declared": false,
@@ -1346,13 +1346,13 @@
         "disabled": false
       },
       {
-        "id": "dfe1f681",
+        "id": "989cfe93",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e3814cc8",
+        "id": "893a16a5",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -1379,7 +1379,7 @@
     "failure": {
       "stage": "runtime",
       "kind": "boot-import-error",
-      "detail": "awiki-provider (@awiki/dsh-plugin/provider): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@agent-network-protocol/dsh-anp-identity' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-m5iCoS/home/profiles/health-smoke/node_modules/@aw"
+      "detail": "awiki-provider (@awiki/dsh-plugin/provider): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@agent-network-protocol/dsh-anp-identity' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HLz0rO/home/profiles/health-smoke/node_modules/@aw"
     }
   }
 }

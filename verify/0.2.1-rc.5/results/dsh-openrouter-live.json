@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:08:02.674Z",
+  "generatedAt": "2026-11-12T03:57:46.711Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-openrouter-live@0.2.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bVqQnI",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bVqQnI/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7gLNBH",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7gLNBH/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:08:03.135Z",
-      "durationMs": 165,
+      "startedAt": "2026-11-12T03:57:47.304Z",
+      "durationMs": 183,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:08:03.301Z",
-      "durationMs": 1890,
+      "startedAt": "2026-11-12T03:57:47.487Z",
+      "durationMs": 1749,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-openrouter-live 0.2.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 953ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-openrouter-live 0.2.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 931ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:08:05.192Z",
-      "durationMs": 4273,
+      "startedAt": "2026-11-12T03:57:49.238Z",
+      "durationMs": 4847,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41889/?token=OvXrqgdcfh71xOegyssH3rH7rEN1ClLnSxVuRBdu8RE\n",
+      "stdout": "dsh web: http://127.0.0.1:38669/?token=JRAE2TUxbfk_MDAFApWjz86SzOxe2rB_L4GdCv4K9Eg\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -52,6 +52,12 @@
         "hostCordis": "4.0.5",
         "footprint": {
           "entries": [
+            {
+              "id": "41241816",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1211,13 +1217,7 @@
               "disabled": false
             },
             {
-              "id": "e7762f9d",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "6f072d3e",
+              "id": "dc953ecb",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1233,6 +1233,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "41241816",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2059,12 +2064,7 @@
               "state": 2
             },
             {
-              "id": "e7762f9d",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "6f072d3e",
+              "id": "dc953ecb",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2113,19 +2113,19 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "41241816",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "openrouter-live",
         "name": "dsh-openrouter-live",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e7762f9d",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "6f072d3e",
+        "id": "dc953ecb",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

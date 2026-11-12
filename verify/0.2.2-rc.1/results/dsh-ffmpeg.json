@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:25.732Z",
+  "generatedAt": "2026-11-12T03:52:10.616Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "dsh-ffmpeg@0.7.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4AQKOx",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4AQKOx/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oyRRNN",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oyRRNN/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:25.988Z",
-      "durationMs": 1204,
+      "startedAt": "2026-11-12T03:52:11.084Z",
+      "durationMs": 2399,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ffmpeg 0.7.7\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nDone in 688ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4AQKOx/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ffmpeg 0.7.7\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oyRRNN/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:27.194Z",
-      "durationMs": 2715,
+      "startedAt": "2026-11-12T03:52:13.485Z",
+      "durationMs": 4543,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44331/?token=kMt8ejmHXmBR1LHk_Ei1pHgepX0MIzkQTGt7ySFLp5Q\n",
+      "stdout": "dsh web: http://127.0.0.1:33417/?token=1G7ynpfDjVfOlsdhMD7ZE407IUqmcMpMA0e264BUjDI\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "71c47b3b",
+              "id": "c8d1f2c8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "bfc9b3c6",
+              "id": "a67953a4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2109,12 +2109,12 @@
               "state": 2
             },
             {
-              "id": "71c47b3b",
+              "id": "c8d1f2c8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "bfc9b3c6",
+              "id": "a67953a4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2125,7 +2125,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2169,13 +2169,13 @@
         "disabled": false
       },
       {
-        "id": "71c47b3b",
+        "id": "c8d1f2c8",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "bfc9b3c6",
+        "id": "a67953a4",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

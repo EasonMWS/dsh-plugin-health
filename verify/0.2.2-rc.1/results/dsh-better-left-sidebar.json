@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:25.115Z",
+  "generatedAt": "2026-11-12T03:51:22.081Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "dsh-better-left-sidebar@0.2.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wx9sYj",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wx9sYj/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aDbKRu",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aDbKRu/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:04:25.699Z",
-      "durationMs": 158,
+      "startedAt": "2026-11-12T03:51:22.557Z",
+      "durationMs": 177,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:25.857Z",
-      "durationMs": 1739,
+      "startedAt": "2026-11-12T03:51:22.734Z",
+      "durationMs": 1866,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-better-left-sidebar 0.2.2\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 1, downloaded 4, added 5, done\nDone in 898ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-better-left-sidebar 0.2.2\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 1, downloaded 4, added 5, done\nDone in 996ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:27.601Z",
-      "durationMs": 4684,
+      "startedAt": "2026-11-12T03:51:24.604Z",
+      "durationMs": 4635,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-better-left-sidebar] 0.2.2 loaded\ndsh web: http://127.0.0.1:40247/?token=5xGR_9Fgy6R3XPv-acE9ARu5wKdoUJTxpr9scP8jKkc\n[dsh-better-left-sidebar] unloaded\n",
+      "stdout": "[dsh-better-left-sidebar] 0.2.2 loaded\ndsh web: http://127.0.0.1:39365/?token=U52ISOfVQ3JUwSWR68v9TNqc8BwL_sSHwgxcH673NNw\n[dsh-better-left-sidebar] unloaded\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "c7255987",
+              "id": "01e1eaec",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "6339f280",
+              "id": "6c844e9d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2111,12 +2111,12 @@
               "state": 2
             },
             {
-              "id": "c7255987",
+              "id": "01e1eaec",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "6339f280",
+              "id": "6c844e9d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2127,7 +2127,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2171,13 +2171,13 @@
         "disabled": false
       },
       {
-        "id": "c7255987",
+        "id": "01e1eaec",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "6339f280",
+        "id": "6c844e9d",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

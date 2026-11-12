@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:03:58.891Z",
+  "generatedAt": "2026-11-12T03:50:44.728Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@dhicoc/dsh-reverse-skill@1.0.5",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-grbIx8",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-grbIx8/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fvNoCI",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fvNoCI/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:03:59.384Z",
-      "durationMs": 166,
+      "startedAt": "2026-11-12T03:50:45.009Z",
+      "durationMs": 94,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:03:59.550Z",
-      "durationMs": 1784,
+      "startedAt": "2026-11-12T03:50:45.104Z",
+      "durationMs": 1290,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[WARN] deprecated @dhicoc/dsh-reverse-skill@1.0.5: Incompatible with DSH 0.2.0-rc.2 and no longer maintained on npm. Install from GitHub instead: dsh plugin add github:dhicoc/dsh-reverse-skill\nProgress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dhicoc/dsh-reverse-skill 1.0.5\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 949ms using pnpm v11.7.0\n",
+      "stdout": "[WARN] deprecated @dhicoc/dsh-reverse-skill@1.0.5: Incompatible with DSH 0.2.0-rc.2 and no longer maintained on npm. Install from GitHub instead: dsh plugin add github:dhicoc/dsh-reverse-skill\nProgress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dhicoc/dsh-reverse-skill 1.0.5\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 720ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:01.345Z",
-      "durationMs": 4764,
+      "startedAt": "2026-11-12T03:50:46.401Z",
+      "durationMs": 2910,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34097/?token=w3boyMLAQOJa13UsOPYWtdG5rV2N9uL3zLFo3YvseZI\n",
+      "stdout": "dsh web: http://127.0.0.1:45237/?token=jPCxSwgUJdETOauVl2FSYM_PQkb0CnkCGHndgeqyTkM\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -52,6 +52,12 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
+            {
+              "id": "53620361",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1241,14 +1247,8 @@
               "disabled": false
             },
             {
-              "id": "4c9bc383",
+              "id": "d04f6f59",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "022fcc2f",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1265,6 +1265,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "53620361",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2111,13 +2116,8 @@
               "state": 2
             },
             {
-              "id": "4c9bc383",
+              "id": "d04f6f59",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "022fcc2f",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2127,7 +2127,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2165,20 +2165,20 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "53620361",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "reverse-skill",
         "name": "@dhicoc/dsh-reverse-skill",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "4c9bc383",
+        "id": "d04f6f59",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "022fcc2f",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

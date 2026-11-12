@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:48.029Z",
+  "generatedAt": "2026-11-12T03:52:10.089Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "dsh-talk-map@0.1.67",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c7DFdQ",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c7DFdQ/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OSZvTr",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OSZvTr/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:48.306Z",
-      "durationMs": 1335,
+      "startedAt": "2026-11-12T03:52:10.561Z",
+      "durationMs": 1615,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-talk-map 0.1.67\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 723ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c7DFdQ/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-talk-map 0.1.67\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 841ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OSZvTr/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:49.645Z",
-      "durationMs": 3235,
+      "startedAt": "2026-11-12T03:52:12.178Z",
+      "durationMs": 3987,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35135/?token=zEF3o5Yz_qhi2-A9iiDpjh3g7__n6sV7M3kaR4jHlW0\n",
+      "stdout": "dsh web: http://127.0.0.1:34289/?token=UwloLD1uXImrEfUB66tn-QJE163vT6-QsttZPfx46kU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "38aa227b",
+              "id": "3725d6f7",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "26a030e6",
+              "id": "b84f1b98",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2098,12 @@
               "state": 2
             },
             {
-              "id": "38aa227b",
+              "id": "3725d6f7",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "26a030e6",
+              "id": "b84f1b98",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2158,13 +2158,13 @@
         "disabled": false
       },
       {
-        "id": "38aa227b",
+        "id": "3725d6f7",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "26a030e6",
+        "id": "b84f1b98",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

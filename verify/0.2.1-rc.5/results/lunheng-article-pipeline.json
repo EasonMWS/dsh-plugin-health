@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:09:35.614Z",
+  "generatedAt": "2026-11-12T03:59:28.102Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "lunheng-article-pipeline@19.27.16",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8KqoeU",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8KqoeU/home",
+  "plugin": "lunheng-article-pipeline@19.27.17",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V6hTD4",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V6hTD4/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:09:36.079Z",
-      "durationMs": 1751,
+      "startedAt": "2026-11-12T03:59:28.546Z",
+      "durationMs": 1672,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ lunheng-article-pipeline 19.27.16\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 866ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8KqoeU/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ lunheng-article-pipeline 19.27.17\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 840ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V6hTD4/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:09:37.833Z",
-      "durationMs": 3387,
+      "startedAt": "2026-11-12T03:59:30.220Z",
+      "durationMs": 3947,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35363/?token=7H_i3YIe2TxU8zJdOX2nr0W8m03hbEPMRmMeWfn2Cx8\n",
+      "stdout": "dsh web: http://127.0.0.1:46119/?token=5eiTEEUBoLXVLGeb7RMkAC0GDbWC_dB60CekcZtp68M\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1216,13 +1216,13 @@
               "disabled": false
             },
             {
-              "id": "c74f63d3",
+              "id": "733f73f1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "7707a7e9",
+              "id": "ca9bc609",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2064,12 +2064,12 @@
               "state": 2
             },
             {
-              "id": "c74f63d3",
+              "id": "733f73f1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "7707a7e9",
+              "id": "ca9bc609",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2080,7 +2080,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2092,8 +2092,8 @@
   "subjects": [
     {
       "name": "lunheng-article-pipeline",
-      "version": "19.27.16",
-      "integrity": "sha512-AMvqirXfcenNDcV3INBh/orCAjEDpGijv+xHNQ1JrQjiq4TSvpPGjrC69htp7d+p+H8Bs1E+gvnxo0JkIrAApg==",
+      "version": "19.27.17",
+      "integrity": "sha512-/BWhezImBKSasL1Ix5IR433uUpyBf9o9J4ix++KxxUMmTfieWP7+RXLxwCN/RNQp5pn+o7zjSirexDYYmri2AQ==",
       "resolution": "registry"
     }
   ],
@@ -2142,13 +2142,13 @@
         "disabled": true
       },
       {
-        "id": "c74f63d3",
+        "id": "733f73f1",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "7707a7e9",
+        "id": "ca9bc609",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

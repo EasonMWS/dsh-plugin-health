@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:47.958Z",
+  "generatedAt": "2026-11-12T03:51:32.216Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-codex-subscription@3.2.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PYovXy",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PYovXy/home",
+  "plugin": "dsh-codex-subscription@3.2.10",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fU8kjm",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fU8kjm/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:48.470Z",
-      "durationMs": 2123,
+      "startedAt": "2026-11-12T03:51:32.703Z",
+      "durationMs": 2364,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-codex-subscription 3.2.7\n\nPackages: +7\n+++++++\nProgress: resolved 7, reused 2, downloaded 5, added 7, done\nDone in 1.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PYovXy/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-codex-subscription 3.2.10\n\nPackages: +7\n+++++++\nProgress: resolved 7, reused 2, downloaded 5, added 7, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fU8kjm/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:50.600Z",
-      "durationMs": 4908,
+      "startedAt": "2026-11-12T03:51:35.072Z",
+      "durationMs": 4056,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44671/?token=A9xgWF816aUFjc71R-E4FU49lXdKdxO14XLpBO0o0n4\n",
+      "stdout": "dsh web: http://127.0.0.1:40769/?token=m_LnOocqGrQW8halIrQX_oVN0moCiAFwUO8McLgAOOU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "51159d96",
+              "id": "ac856aef",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "995b9147",
+              "id": "b7a08f9e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1242,6 +1242,7 @@
           ],
           "tools": [
             "codex_image_generate",
+            "codex_subscription_preferences",
             "working_directory"
           ],
           "toolsUnavailable": false
@@ -2099,12 +2100,12 @@
               "state": 2
             },
             {
-              "id": "51159d96",
+              "id": "ac856aef",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "995b9147",
+              "id": "b7a08f9e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2115,7 +2116,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2127,8 +2128,8 @@
   "subjects": [
     {
       "name": "dsh-codex-subscription",
-      "version": "3.2.7",
-      "integrity": "sha512-NuWnDkXnQu6xr6XQhXnf4ylFflEKNqFjDX3Qy25d/tNtbRHl06FnDPLcLyPpJUbKMnTCDo2X84+VK/PyTy7vlw==",
+      "version": "3.2.10",
+      "integrity": "sha512-VGM/3e3ihFpinRQeE2V5+IazB5HavwmU6hDcc9RlceVK+ZQUrIWr3XGrs+oDhU/+c+YQbwurvytzLdPed4x01g==",
       "resolution": "registry"
     }
   ],
@@ -2159,20 +2160,21 @@
         "disabled": false
       },
       {
-        "id": "51159d96",
+        "id": "ac856aef",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "995b9147",
+        "id": "b7a08f9e",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }
     ],
     "tools": [
-      "codex_image_generate"
+      "codex_image_generate",
+      "codex_subscription_preferences"
     ],
     "toolsUnavailable": false,
     "baseline": "host"

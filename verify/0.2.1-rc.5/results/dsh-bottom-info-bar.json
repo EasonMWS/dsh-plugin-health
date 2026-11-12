@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:35.489Z",
+  "generatedAt": "2026-11-12T03:57:32.638Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-bottom-info-bar@1.21.15",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Eu5Iw2",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Eu5Iw2/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hQOjQh",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hQOjQh/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:36.103Z",
-      "durationMs": 1783,
+      "startedAt": "2026-11-12T03:57:33.130Z",
+      "durationMs": 1859,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bottom-info-bar 1.21.15\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-bottom-info-bar@1.21.15\nDone in 921ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Eu5Iw2/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bottom-info-bar 1.21.15\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 955ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hQOjQh/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:07:37.888Z",
-      "durationMs": 4669,
+      "startedAt": "2026-11-12T03:57:34.990Z",
+      "durationMs": 4403,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37091/?token=PuPkoNU2MJ1Ts811zJ_c93yLCvAmQtqTzLtYapcx3To\n",
-      "stderr": "(node:3609) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[dsh-bottom-info-bar] 远程价目已合并（启动）：25 条有效条目\n[dsh-bottom-info-bar] 远程价目同步到账本失败: Ledger unavailable: Ledger is closed.\n",
+      "stdout": "dsh web: http://127.0.0.1:34497/?token=tVO9C-FOTsmcGNC3iQ5GgSgwCQOeG-NqP1A43qc67UE\n",
+      "stderr": "(node:3645) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[dsh-bottom-info-bar] 远程价目已合并（启动）：25 条有效条目\n[dsh-bottom-info-bar] 远程价目同步到账本失败: Ledger is closed.\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "a34cc0a7",
+              "id": "1127136a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "4526e691",
+              "id": "ebabf304",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "a34cc0a7",
+              "id": "1127136a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "4526e691",
+              "id": "ebabf304",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "a34cc0a7",
+        "id": "1127136a",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "4526e691",
+        "id": "ebabf304",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

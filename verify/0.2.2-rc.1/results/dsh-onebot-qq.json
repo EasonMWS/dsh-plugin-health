@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:05:19.085Z",
+  "generatedAt": "2026-11-12T03:52:09.645Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-onebot-qq@0.9.19",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LbyNwO",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LbyNwO/home",
+  "plugin": "dsh-onebot-qq@0.10.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OjutY2",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OjutY2/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:05:19.566Z",
-      "durationMs": 2612,
+      "startedAt": "2026-11-12T03:52:10.152Z",
+      "durationMs": 2459,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-onebot-qq 0.9.19\n\nPackages: +20\n++++++++++++++++++++\nProgress: resolved 30, reused 4, downloaded 16, added 20, done\nDone in 1.6s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LbyNwO/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-onebot-qq 0.10.0\n\nPackages: +22\n++++++++++++++++++++++\nProgress: resolved 32, reused 3, downloaded 19, added 22, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OjutY2/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:05:22.188Z",
-      "durationMs": 4714,
+      "startedAt": "2026-11-12T03:52:12.622Z",
+      "durationMs": 4678,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-onebot] starting (mode=reverse, media=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LbyNwO/home/media/onebot, admins=0)\ndsh web: http://127.0.0.1:45329/?token=j6BbqJ0LNwUR3MnyJ3yElGQ6RLwh1N_PkLxq1DeooFM\n",
-      "stderr": "[dsh-onebot] 未配置 workspacePath：QQ 会话默认目录将使用宿主进程工作目录 /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LbyNwO，建议在配置中设置 workspacePath，避免会话工作区落在宿主启动目录\n[dsh-onebot] dsh-onebot 启动失败: reverse mode requires a non-empty accessToken\n",
+      "stdout": "[dsh-onebot] starting (mode=forward, media=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OjutY2/home/media/onebot, admins=0)\n[dsh-onebot] mounted (mode=forward, media=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OjutY2/home/media/onebot, admins=0)\ndsh web: http://127.0.0.1:34027/?token=3lJvZvG-YNX6pP_TC-u253jAyq_DROpQjNKjHqD9_Nk\n",
+      "stderr": "[dsh-onebot] 未配置 workspacePath：QQ 会话默认目录将使用宿主进程工作目录 /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OjutY2，建议在配置中设置 workspacePath，避免会话工作区落在宿主启动目录\n[dsh-onebot] forward WS error: connect ECONNREFUSED 127.0.0.1:3001\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1234,13 +1234,13 @@
               "disabled": false
             },
             {
-              "id": "1e2813ac",
+              "id": "88935ec4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "5547e51b",
+              "id": "a4986d7c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2109,12 +2109,12 @@
               "state": 2
             },
             {
-              "id": "1e2813ac",
+              "id": "88935ec4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "5547e51b",
+              "id": "a4986d7c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2125,7 +2125,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2137,8 +2137,8 @@
   "subjects": [
     {
       "name": "dsh-onebot-qq",
-      "version": "0.9.19",
-      "integrity": "sha512-SUkhQzJ4Mx4aTNx748fTQ3QXK8UGMwidZchB+Kc4XrpfMv3pvKIPBOv/CqE1CORUyIcoM8rNJnqGFciP73r76g==",
+      "version": "0.10.0",
+      "integrity": "sha512-cOUIGe4/6Pce5n7aDhaKVwGiNRVFLu8QcEVcQquDfEwptoVYDoNTKwAOmuyj0BE/p2GvU6b8pNz3mAlUqc0Hxg==",
       "resolution": "registry"
     }
   ],
@@ -2175,13 +2175,13 @@
         "disabled": false
       },
       {
-        "id": "1e2813ac",
+        "id": "88935ec4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "5547e51b",
+        "id": "a4986d7c",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

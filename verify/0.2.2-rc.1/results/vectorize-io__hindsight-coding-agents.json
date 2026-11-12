@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:31.335Z",
+  "generatedAt": "2026-11-12T03:51:14.375Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@vectorize-io/hindsight-coding-agents@0.8.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IiZlEo",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IiZlEo/home",
+  "plugin": "@vectorize-io/hindsight-coding-agents@0.8.7",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VJ4HJF",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VJ4HJF/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:31.775Z",
-      "durationMs": 1933,
+      "startedAt": "2026-11-12T03:51:14.745Z",
+      "durationMs": 1620,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @vectorize-io/hindsight-coding-agents 0.8.6\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IiZlEo/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @vectorize-io/hindsight-coding-agents 0.8.7\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 886ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VJ4HJF/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:33.710Z",
-      "durationMs": 4129,
+      "startedAt": "2026-11-12T03:51:16.367Z",
+      "durationMs": 3738,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:39567/?token=5t8qAdi0Us_oVDh1jpFXSv3nUpibdcTle7gAa3bdDMo\n",
+      "stdout": "dsh web: http://127.0.0.1:35175/?token=lxqOzHbsk5JpeQM_M726RFW4Ac9tIdWjEzLWcBGYEsw\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "890805e5",
+              "id": "5a7aa9b5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "67422b69",
+              "id": "525d496c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1244,10 +1244,10 @@
             "hindsight_capture_initiative",
             "hindsight_diagnose",
             "hindsight_ingest_document",
-            "hindsight_list_knowledge_pages",
-            "hindsight_read_knowledge_page",
+            "hindsight_list_pages",
+            "hindsight_read_page",
             "hindsight_reflect",
-            "hindsight_search_knowledge_pages",
+            "hindsight_search_pages",
             "hindsight_sync_status",
             "working_directory"
           ],
@@ -2106,12 +2106,12 @@
               "state": 2
             },
             {
-              "id": "890805e5",
+              "id": "5a7aa9b5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "67422b69",
+              "id": "525d496c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2122,7 +2122,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2134,8 +2134,8 @@
   "subjects": [
     {
       "name": "@vectorize-io/hindsight-coding-agents",
-      "version": "0.8.6",
-      "integrity": "sha512-3T67fiyZZ56ir6nnHdrESIpuOaepAa4HM3DyXDEnnjVABWyffmpRmc1LHwbCP8BO1QrOFhH+WoAGJnmw0ypcAA==",
+      "version": "0.8.7",
+      "integrity": "sha512-GuGJdqvcPQpUuu9jWOjJa5OtaI/eAx20DgsiLKKEhfuSCDZXDBWH8Aa7lyj03dAVLMt40K7IciUBtD81QhdTBg==",
       "resolution": "registry"
     }
   ],
@@ -2166,13 +2166,13 @@
         "disabled": false
       },
       {
-        "id": "890805e5",
+        "id": "5a7aa9b5",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "67422b69",
+        "id": "525d496c",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2182,10 +2182,10 @@
       "hindsight_capture_initiative",
       "hindsight_diagnose",
       "hindsight_ingest_document",
-      "hindsight_list_knowledge_pages",
-      "hindsight_read_knowledge_page",
+      "hindsight_list_pages",
+      "hindsight_read_page",
       "hindsight_reflect",
-      "hindsight_search_knowledge_pages",
+      "hindsight_search_pages",
       "hindsight_sync_status"
     ],
     "toolsUnavailable": false,

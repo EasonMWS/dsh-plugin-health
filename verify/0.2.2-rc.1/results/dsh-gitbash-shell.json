@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:46.165Z",
+  "generatedAt": "2026-11-12T03:51:44.067Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-gitbash-shell@0.52.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WyxCjq",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WyxCjq/home",
+  "plugin": "dsh-gitbash-shell@0.54.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QXW4f9",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QXW4f9/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:46.679Z",
-      "durationMs": 2035,
+      "startedAt": "2026-11-12T03:51:44.627Z",
+      "durationMs": 2130,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-gitbash-shell 0.52.0\n\nPackages: +1\n+\nProgress: resolved 2, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-gitbash-shell@0.52.0\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WyxCjq/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-gitbash-shell 0.54.0\n\nPackages: +1\n+\nProgress: resolved 2, reused 0, downloaded 1, added 1, done\nDone in 1.3s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QXW4f9/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:04:48.717Z",
-      "durationMs": 4885,
+      "startedAt": "2026-11-12T03:51:46.759Z",
+      "durationMs": 4797,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[gitbash-shell] bash resolution (boot): Git Bash could NOT be resolved — the shell is unavailable by design, not broken: this plugin never falls back to PowerShell, cmd or a WSL/MSYS2/Cygwin bash.\n[gitbash-shell]   bashPath is empty, so the automatic chain ran (setting > default install paths > PATH > registry PATH).\n[gitbash-shell]   probed [default] C:/Program Files/Git/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /home/runner/setup-pnpm/node_modules/.bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /opt/hostedtoolcache/node/22.23.4/x64/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /snap/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /home/runner/.local/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /opt/pipx_bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /home/runner/.cargo/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /home/runner/.config/composer/vendor/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /usr/local/.ghcup/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /home/runner/.dotnet/tools/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /usr/local/sbin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /usr/local/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /usr/sbin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /usr/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /sbin/bash.exe -> bad-shape (not a <git-root>/bin/bash.exe shape)\n[gitbash-shell]   probed [path] /bin/bash.exe -> bad-shape (not a <git-root>/bin/bash.exe shape)\n[gitbash-shell]   probed [path] /usr/games/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /usr/local/games/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path] /snap/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /opt/hostedtoolcache/node/22.23.4/x64/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /opt/hostedtoolcache/node/22.23.4/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /snap/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] //bin/bash.exe -> bad-shape (not a <git-root>/bin/bash.exe shape)\n[gitbash-shell]   probed [path-git] /home/runner/.local/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /home/runner/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /home/runner/.cargo/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /home/runner/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /home/runner/.config/composer/vendor/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /home/runner/.config/composer/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /usr/local/.ghcup/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /usr/local/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /usr/local/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /usr/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] /usr/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] //bin/bash.exe -> bad-shape (not a <git-root>/bin/bash.exe shape)\n[gitbash-shell]   probed [path-git] //bin/bash.exe -> bad-shape (not a <git-root>/bin/bash.exe shape)\n[gitbash-shell]   probed [path-git] //bin/bash.exe -> bad-shape (not a <git-root>/bin/bash.exe shape)\n[gitbash-shell]   probed [path-git] /snap/bin/bash.exe -> missing (file does not exist)\n[gitbash-shell]   probed [path-git] //bin/bash.exe -> bad-shape (not a <git-root>/bin/bash.exe shape)\n[gitbash-shell]   fix: set the \"Git Bash path\" field in this plugin's settings, or install Git for Windows: https://git-scm.com/download/win\n[gitbash-shell]   note: only Git for Windows' own bash is accepted; WSL (/Windows/System32/bash.exe), the WindowsApps alias, MSYS2 and Cygwin are refused on purpose.\n[gitbash-shell] inspect-registry compatibility shim active (multiple cordis-mode sessions supported)\n[gitbash-shell] registered 0 preset(s) declaratively () — variantPresets is off: the official presets carry Git Bash through the inline tool patch (see the CHANGELOG) [host rows: time-context + tool-schedule + plugin-market + minimal compaction]\n[gitbash-shell] MSYS path map route active at /dsh-gitbash-shell/api/pathmap (read by the browser half)\n[gitbash-shell] global PTC SDK: no global PTC rows are owned by this switch; nothing changed\ndsh web: http://127.0.0.1:36563/?token=ByGBx011zwH4A--A4MEodS8ylAOdJULz2SdvFERWhEk\n",
+      "stdout": "dsh web: http://127.0.0.1:43929/?token=uEt728y6jOk1urAkceyljSnsnareqhcgnsFiKpZNIDI\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "6451b727",
+              "id": "db7e64cb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "3c65df19",
+              "id": "cd405fd4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2098,12 @@
               "state": 2
             },
             {
-              "id": "6451b727",
+              "id": "db7e64cb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "3c65df19",
+              "id": "cd405fd4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2126,8 +2126,8 @@
   "subjects": [
     {
       "name": "dsh-gitbash-shell",
-      "version": "0.52.0",
-      "integrity": "sha512-ZvluzVI7S8GRZaGcBfMqec+qFu9pmqJz63KGeZVewyhEqa76PmXfekg/LjwYogwBkUlksJMC3ew3IzaZDpYhuA==",
+      "version": "0.54.0",
+      "integrity": "sha512-On+8vuivjhOjeYXvNR+WP7KQW0UXBh1bqcm46svn9GmvyZqfo073oQEjS9Xy+k2p98MNyjLP1P9yRq/0uGo7bg==",
       "resolution": "registry"
     }
   ],
@@ -2158,13 +2158,13 @@
         "disabled": false
       },
       {
-        "id": "6451b727",
+        "id": "db7e64cb",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "3c65df19",
+        "id": "cd405fd4",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

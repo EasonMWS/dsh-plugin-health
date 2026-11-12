@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:05:00.351Z",
+  "generatedAt": "2026-11-12T03:51:47.799Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-mobile-plugin@0.5.33",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Uq0TyJ",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Uq0TyJ/home",
+  "plugin": "dsh-mobile-plugin@0.5.38",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8973RI",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8973RI/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:05:00.871Z",
-      "durationMs": 2652,
+      "startedAt": "2026-11-12T03:51:48.319Z",
+      "durationMs": 2541,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-mobile-plugin 0.5.33\n\nPackages: +32\n++++++++++++++++++++++++++++++++\nProgress: resolved 36, reused 29, downloaded 3, added 32, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-mobile-plugin@0.5.33\nDone in 1.5s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Uq0TyJ/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-mobile-plugin 0.5.38\n\nPackages: +32\n++++++++++++++++++++++++++++++++\nProgress: resolved 36, reused 29, downloaded 3, added 32, done\nDone in 1.5s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8973RI/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:05:03.545Z",
-      "durationMs": 5513,
+      "startedAt": "2026-11-12T03:51:50.870Z",
+      "durationMs": 4465,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:39233/?token=WVzIStmgQQ-uKUenx0UZqWxWC_MuA1Kr0aN5zBbmmWE\n",
+      "stdout": "dsh web: http://127.0.0.1:44049/?token=guWWJfZjoGpKLhGdmx6BSTJNcsI1vr7lmu1xnuLzE50\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,53 +1228,19 @@
               "disabled": false
             },
             {
-              "id": "9fd2bd3d",
+              "id": "1770b645",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "89528fb1",
+              "id": "0a6a9e87",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
           ],
           "tools": [
-            "pet_pack_list",
-            "pet_pack_write",
-            "phone_add_calendar_event",
-            "phone_app_after_task",
-            "phone_apps",
-            "phone_collect",
-            "phone_extract",
-            "phone_find",
-            "phone_gesture",
-            "phone_key",
-            "phone_open_app",
-            "phone_open_link",
-            "phone_query",
-            "phone_route_hint",
-            "phone_screen",
-            "phone_screenshot",
-            "phone_scroll",
-            "phone_scroll_to",
-            "phone_set_alarm",
-            "phone_set_timer",
-            "phone_share_text",
-            "phone_show_alarms",
-            "phone_steps",
-            "phone_tap",
-            "phone_target",
-            "phone_type",
-            "phone_wait",
-            "phone_wheel",
-            "supervisor_create_session",
-            "supervisor_interrupt_session",
-            "supervisor_list_sessions",
-            "supervisor_read_session",
-            "supervisor_send_message",
-            "supervisor_session_status",
             "working_directory"
           ],
           "toolsUnavailable": false
@@ -2132,12 +2098,12 @@
               "state": 2
             },
             {
-              "id": "9fd2bd3d",
+              "id": "1770b645",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "89528fb1",
+              "id": "0a6a9e87",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2148,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2160,8 +2126,8 @@
   "subjects": [
     {
       "name": "dsh-mobile-plugin",
-      "version": "0.5.33",
-      "integrity": "sha512-P9uHAf0oE/lDtLSNyzRgLyC+7SCK8/X3h2jWgqYc9p+oX0mAx3n/PDRkjyC9dMGLk+mrCH8tRNTgd4CYdEtKcw==",
+      "version": "0.5.38",
+      "integrity": "sha512-HVhaQSIHzy5Ce18gw35fXReUpqUi0bGkKgmN5+SNXGJQOG/9F515pVjXsNoJqq6sgzOyqToe080uVCTId1qAuA==",
       "resolution": "registry"
     }
   ],
@@ -2192,54 +2158,19 @@
         "disabled": false
       },
       {
-        "id": "9fd2bd3d",
+        "id": "1770b645",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "89528fb1",
+        "id": "0a6a9e87",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }
     ],
-    "tools": [
-      "pet_pack_list",
-      "pet_pack_write",
-      "phone_add_calendar_event",
-      "phone_app_after_task",
-      "phone_apps",
-      "phone_collect",
-      "phone_extract",
-      "phone_find",
-      "phone_gesture",
-      "phone_key",
-      "phone_open_app",
-      "phone_open_link",
-      "phone_query",
-      "phone_route_hint",
-      "phone_screen",
-      "phone_screenshot",
-      "phone_scroll",
-      "phone_scroll_to",
-      "phone_set_alarm",
-      "phone_set_timer",
-      "phone_share_text",
-      "phone_show_alarms",
-      "phone_steps",
-      "phone_tap",
-      "phone_target",
-      "phone_type",
-      "phone_wait",
-      "phone_wheel",
-      "supervisor_create_session",
-      "supervisor_interrupt_session",
-      "supervisor_list_sessions",
-      "supervisor_read_session",
-      "supervisor_send_message",
-      "supervisor_session_status"
-    ],
+    "tools": [],
     "toolsUnavailable": false,
     "baseline": "host"
   }

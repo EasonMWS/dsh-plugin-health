@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:53.237Z",
+  "generatedAt": "2026-11-12T03:57:38.104Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-douyin-browser-local@1.4.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FU7AKd",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FU7AKd/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VoWGUY",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VoWGUY/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:53.760Z",
-      "durationMs": 3543,
+      "startedAt": "2026-11-12T03:57:38.595Z",
+      "durationMs": 3468,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 4, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-douyin-browser-local 1.4.6\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 0, downloaded 5, added 5, done\nDone in 2.5s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FU7AKd/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 4, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-douyin-browser-local 1.4.6\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 0, downloaded 5, added 5, done\nDone in 2.4s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VoWGUY/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:07:57.306Z",
-      "durationMs": 4553,
+      "startedAt": "2026-11-12T03:57:42.066Z",
+      "durationMs": 4521,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38071/?token=al-sVhYCc0LBjAojfJwOc1A6ydgJQ6dIQ0al9ZIopBw\n",
-      "stderr": "(node:4396) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:44121/?token=YicvOQxD1Qsyxi2zp8xNmMGn9vECAFo3AGdIrxpDi7U\n",
+      "stderr": "(node:4144) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "8418eb1a",
+              "id": "d2c15e1d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "924d58e8",
+              "id": "5d0c6a5c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "8418eb1a",
+              "id": "d2c15e1d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "924d58e8",
+              "id": "5d0c6a5c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "8418eb1a",
+        "id": "d2c15e1d",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "924d58e8",
+        "id": "5d0c6a5c",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

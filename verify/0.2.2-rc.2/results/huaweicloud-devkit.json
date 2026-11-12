@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-12T03:56:59.060Z",
+  "hostVersion": "0.2.2-rc.2",
+  "plugin": "huaweicloud-devkit@1.1.13",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OzAzmb",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OzAzmb/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-12T03:56:59.508Z",
+      "durationMs": 1885,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ huaweicloud-devkit 1.1.13\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.13\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OzAzmb/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'huaweicloud-devkit@1.1.13'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OzAzmb/home/profiles/health-smoke/.plugin-manager/logs/operation-FXQzrc/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.1.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "huaweicloud-devkit",
+      "version": "1.1.13",
+      "integrity": "sha512-SeZy2igZBXUaWPApW0ieKRfSdyCkOrz2XTq9ZUsZuAOe2UlPJMV6ZT7m7vNzz6jg8UT2O+FlCYWpNJpkDq7fQg==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.13"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}

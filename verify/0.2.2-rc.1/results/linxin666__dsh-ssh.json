@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:04:10.342Z",
+  "generatedAt": "2026-11-12T03:51:05.644Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@linxin666/dsh-ssh@0.4.16",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-p5K0Hs",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-p5K0Hs/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vZzYpF",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vZzYpF/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:04:10.838Z",
-      "durationMs": 2491,
+      "startedAt": "2026-11-12T03:51:06.086Z",
+      "durationMs": 2532,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
       "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-ssh 0.4.16\n\nPackages: +15\n+++++++++++++++\nProgress: resolved 15, reused 0, downloaded 15, added 15, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-p5K0Hs/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@linxin666/dsh-ssh@0.4.16'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-p5K0Hs/home/profiles/health-smoke/.plugin-manager/logs/operation-2ecpSF/pnpm.log\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vZzYpF/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@linxin666/dsh-ssh@0.4.16'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vZzYpF/home/profiles/health-smoke/.plugin-manager/logs/operation-BYSfv5/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

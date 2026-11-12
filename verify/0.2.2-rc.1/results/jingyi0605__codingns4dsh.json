@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:03:49.220Z",
+  "generatedAt": "2026-11-12T03:51:07.135Z",
   "hostVersion": "0.2.2-rc.1",
   "plugin": "@jingyi0605/codingns4dsh@0.2.0-rc.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lf3zuY",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lf3zuY/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Fj6cj8",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Fj6cj8/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:03:49.480Z",
-      "durationMs": 94,
+      "startedAt": "2026-11-12T03:51:07.521Z",
+      "durationMs": 117,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,28 +23,28 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:03:49.574Z",
-      "durationMs": 2260,
+      "startedAt": "2026-11-12T03:51:07.638Z",
+      "durationMs": 2622,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @jingyi0605/codingns4dsh 0.2.0-rc.3\n\nPackages: +83\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 5, downloaded 78, added 83\nProgress: resolved 88, reused 5, downloaded 78, added 83, done\nDone in 1.6s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @jingyi0605/codingns4dsh 0.2.0-rc.3\n\nPackages: +83\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 5, downloaded 77, added 82\nProgress: resolved 88, reused 5, downloaded 78, added 83, done\nDone in 1.9s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:03:51.899Z",
-      "durationMs": 3349,
+      "startedAt": "2026-11-12T03:51:10.300Z",
+      "durationMs": 3483,
       "ok": false,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37981/?token=4q1tlRTsbW3KgkZH495cEn2xRIYgmGnH7h1DT7QP2O8\n",
-      "stderr": "dsh: warning: 2 entries did not activate\n@jingyi0605/codingns4dsh (@jingyi0605/codingns4dsh): CodingNsDshError: 无法读取当前 DSH 版本；为避免 API 不兼容，已拒绝启用 codingns4dsh\n    at detectRuntimeDshVersion (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lf3zuY/home/profiles/health-smoke/node_modules/@jingyi0605/codingns4dsh/data/build/dist/host/dsh-runtime-version.js:30:15)\n    at new apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lf3zuY/home/profiles/health-smoke/node_modules/@jingyi0605/codingns4dsh/data/build/dist/host/index.js:23:24)\n    at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lf3zuY/home/profiles/health-smoke/#@jingyi0605/codingns4dsh\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lf3zuY/home/profiles/health-smoke/#include\ndirectory-picker (@deepseek-ai/dsh-host-directory-picker-auto): Error: service \"directoryPicker\" has been registered at <BrowseDirectoryPicker>\n    at Fiber.<anonymous> (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1400:31)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n    at Proxy.provide (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1385:25)\n    at new Service (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1854:20)\n    at new DirectoryPicker (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-host-directory-picker/lib/index.js:40:3)\n    at new BrowseDirectoryPicker (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-host-directory-picker-browse/lib/index.js:155:3)\n    at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lf3zuY/home/profiles/health-smoke/#5ef037b8\n",
+      "stdout": "",
+      "stderr": "dsh: warning: 2 entries did not activate\n@jingyi0605/codingns4dsh (@jingyi0605/codingns4dsh): CodingNsDshError: 无法读取当前 DSH 版本；为避免 API 不兼容，已拒绝启用 codingns4dsh\n    at detectRuntimeDshVersion (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Fj6cj8/home/profiles/health-smoke/node_modules/@jingyi0605/codingns4dsh/data/build/dist/host/dsh-runtime-version.js:30:15)\n    at new apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Fj6cj8/home/profiles/health-smoke/node_modules/@jingyi0605/codingns4dsh/data/build/dist/host/index.js:23:24)\n    at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Fj6cj8/home/profiles/health-smoke/#@jingyi0605/codingns4dsh\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Fj6cj8/home/profiles/health-smoke/#include\ndirectory-picker (@deepseek-ai/dsh-host-directory-picker-auto): Error: service \"directoryPicker\" has been registered at <BrowseDirectoryPicker>\n    at Fiber.<anonymous> (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1400:31)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n    at Proxy.provide (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1385:25)\n    at new Service (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1854:20)\n    at new DirectoryPicker (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-host-directory-picker/lib/index.js:40:3)\n    at new BrowseDirectoryPicker (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-host-directory-picker-browse/lib/index.js:155:3)\n    at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Fj6cj8/home/profiles/health-smoke/#8ffec172\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1263,7 +1263,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

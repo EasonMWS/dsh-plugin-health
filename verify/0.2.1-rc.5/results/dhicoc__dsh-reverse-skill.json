@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:06:31.581Z",
+  "generatedAt": "2026-11-12T03:56:00.569Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@dhicoc/dsh-reverse-skill@1.0.5",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-SPvTr9",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-SPvTr9/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ksJVFH",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ksJVFH/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:06:32.069Z",
-      "durationMs": 153,
+      "startedAt": "2026-11-12T03:56:01.060Z",
+      "durationMs": 202,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:06:32.222Z",
-      "durationMs": 1961,
+      "startedAt": "2026-11-12T03:56:01.263Z",
+      "durationMs": 1956,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[WARN] deprecated @dhicoc/dsh-reverse-skill@1.0.5: Incompatible with DSH 0.2.0-rc.2 and no longer maintained on npm. Install from GitHub instead: dsh plugin add github:dhicoc/dsh-reverse-skill\nProgress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dhicoc/dsh-reverse-skill 1.0.5\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.1s using pnpm v11.7.0\n",
+      "stdout": "[WARN] deprecated @dhicoc/dsh-reverse-skill@1.0.5: Incompatible with DSH 0.2.0-rc.2 and no longer maintained on npm. Install from GitHub instead: dsh plugin add github:dhicoc/dsh-reverse-skill\nProgress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dhicoc/dsh-reverse-skill 1.0.5\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 990ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:06:34.195Z",
-      "durationMs": 3712,
+      "startedAt": "2026-11-12T03:56:03.230Z",
+      "durationMs": 4387,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37105/?token=_QKg_nJC3keCxn90voQ26xVuRRQPRGTT1FU826qimH0\n",
+      "stdout": "dsh web: http://127.0.0.1:38997/?token=v79ENWS-q-tEQ5xyRy_BVGmjCKfs7mLDVn3G3YSIqks\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "05fb6ec1",
+              "id": "f0c6f999",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "fd7d8531",
+              "id": "8bf66468",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "05fb6ec1",
+              "id": "f0c6f999",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "fd7d8531",
+              "id": "8bf66468",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "05fb6ec1",
+        "id": "f0c6f999",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "fd7d8531",
+        "id": "8bf66468",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

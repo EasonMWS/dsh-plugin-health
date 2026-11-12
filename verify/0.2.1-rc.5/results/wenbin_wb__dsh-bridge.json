@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:07:10.524Z",
+  "generatedAt": "2026-11-12T03:57:08.277Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@wenbin_wb/dsh-bridge@2.17.8",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IOp6Do",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IOp6Do/home",
+  "plugin": "@wenbin_wb/dsh-bridge@2.17.9",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EFf6ID",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EFf6ID/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:07:10.904Z",
-      "durationMs": 1828,
+      "startedAt": "2026-11-12T03:57:08.787Z",
+      "durationMs": 2400,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @wenbin_wb/dsh-bridge 2.17.8\n\nPackages: +33\n+++++++++++++++++++++++++++++++++\nProgress: resolved 33, reused 1, downloaded 32, added 33, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IOp6Do/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @wenbin_wb/dsh-bridge 2.17.9\n\nPackages: +33\n+++++++++++++++++++++++++++++++++\nProgress: resolved 33, reused 1, downloaded 32, added 33, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EFf6ID/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:07:12.740Z",
-      "durationMs": 3830,
+      "startedAt": "2026-11-12T03:57:11.208Z",
+      "durationMs": 4677,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44607/?token=X7DVwVszBYzEfXcJP-24lGTSoi3x6VzlKw_R7JkVvWk\n",
+      "stdout": "dsh web: http://127.0.0.1:33445/?token=uAdNIf8l7v4bETtqkM3pAEs5YvNRRrZj-0sVC3a7iqs\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "ec68a96b",
+              "id": "73c60bfe",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "fa536aa4",
+              "id": "af8cb491",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "ec68a96b",
+              "id": "73c60bfe",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "fa536aa4",
+              "id": "af8cb491",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "@wenbin_wb/dsh-bridge",
-      "version": "2.17.8",
-      "integrity": "sha512-2u0pVpN3sxtOlJg5DViYBCN6Vln7/kPNK1XhJbTdkQng/LHhxPWvKmsaGyNjxN7VCRH7QyOGLJr3SThoVNIH+w==",
+      "version": "2.17.9",
+      "integrity": "sha512-GDuskxYdimlTsCOD5N8VuE3gG5T9Dorl34v6IL1nUnG2SHolKksLaHlmRS7WZ7aN11GF/Zkrb/vzGgNCNNQzhw==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "ec68a96b",
+        "id": "73c60bfe",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "fa536aa4",
+        "id": "af8cb491",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

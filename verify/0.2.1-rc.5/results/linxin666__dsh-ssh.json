@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:06:56.303Z",
+  "generatedAt": "2026-11-12T03:56:58.092Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@linxin666/dsh-ssh@0.4.16",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lpC4jO",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lpC4jO/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-I6FQVI",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-I6FQVI/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:06:56.670Z",
-      "durationMs": 131,
+      "startedAt": "2026-11-12T03:56:58.567Z",
+      "durationMs": 168,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,21 +23,21 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:06:56.801Z",
-      "durationMs": 2030,
+      "startedAt": "2026-11-12T03:56:58.736Z",
+      "durationMs": 2278,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
       "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-ssh 0.4.16\n\nPackages: +15\n+++++++++++++++\nProgress: resolved 15, reused 0, downloaded 15, added 15, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lpC4jO/home/profiles/health-smoke/.plugin-manager/logs/operation-9Dt9Xg/pnpm.log\n",
+      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-I6FQVI/home/profiles/health-smoke/.plugin-manager/logs/operation-7DdcvK/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

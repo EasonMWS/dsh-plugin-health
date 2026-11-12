@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-09T12:06:11.178Z",
+  "generatedAt": "2026-11-12T03:55:29.259Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@linxin666/dsh-pet@0.4.16",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-tJBayT",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-tJBayT/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dEnZS0",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dEnZS0/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-09T12:06:11.653Z",
-      "durationMs": 194,
+      "startedAt": "2026-11-12T03:55:29.713Z",
+      "durationMs": 163,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,8 +23,8 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-09T12:06:11.847Z",
-      "durationMs": 2724,
+      "startedAt": "2026-11-12T03:55:29.876Z",
+      "durationMs": 2449,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -36,14 +36,14 @@
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-09T12:06:14.574Z",
-      "durationMs": 3606,
+      "startedAt": "2026-11-12T03:55:32.330Z",
+      "durationMs": 3961,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35317/?token=NUl4uVFhsNzdjeC_JB_tuhIu2athI_NDNmnK-mc2eyE\n",
+      "stdout": "dsh web: http://127.0.0.1:38707/?token=VgMVUJ6RSoANBkCWGrAKWUx2-TOFfGrT2R5ih4O4Zdk\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "395c952a",
+              "id": "19974be9",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c1a0aa1b",
+              "id": "9fa9411c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "395c952a",
+              "id": "19974be9",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c1a0aa1b",
+              "id": "9fa9411c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.0.8"
+    "version": "3.1.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "395c952a",
+        "id": "19974be9",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c1a0aa1b",
+        "id": "9fa9411c",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

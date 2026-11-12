@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-12T03:53:42.688Z",
+  "hostVersion": "0.2.2-rc.2",
+  "plugin": "@linxin666/dsh-web-all@0.4.16",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-206hDs",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-206hDs/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-12T03:53:43.092Z",
+      "durationMs": 2241,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-web-all 0.4.16\n\nPackages: +50\n++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 60, reused 10, downloaded 38, added 42\nProgress: resolved 60, reused 10, downloaded 40, added 50, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3, cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-206hDs/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@linxin666/dsh-web-all@0.4.16'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-206hDs/home/profiles/health-smoke/.plugin-manager/logs/operation-yL1Xn6/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.1.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "@linxin666/dsh-web-all",
+      "version": "0.4.16",
+      "integrity": "sha512-vCS2pJYntDiIjUpK0Cy9exuFiQxFM+tT9jTxiQEJ/6+tlcsFp8rnK7AWYLjUgbhY25GLzhd4XR8L2cy2QE4E9g==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3, cpu-features@0.0.10, ssh2@1.17.0"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}
