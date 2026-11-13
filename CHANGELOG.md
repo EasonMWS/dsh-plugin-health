@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### The `proxy-env` warning is gone
+
+Ported from main (3.1.1). `doctor` warned whenever a proxy was set without `NODE_USE_ENV_PROXY`, but
+every host from `@deepseek-ai/dsh` 0.1.7-rc.2 through 0.2.2-rc.1 installs its own undici dispatcher at
+boot and only gives that flag to child processes, so the tuple it flagged is the healthy state. Its
+advice — set the flag — could stop the app from starting, because Node parses it before any JavaScript
+runs and a scheme-less proxy value exits with `ERR_INVALID_URL`. See
+[#7](https://github.com/EasonMWS/dsh-plugin-health/issues/7).
+
 ## 4.0.0-beta.3
 
 ### Every 3.x fix up to 3.1.0's runtime work, and a sandbox that works with homes under /tmp
