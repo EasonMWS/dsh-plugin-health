@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:51:06.149Z",
+  "generatedAt": "2026-11-13T09:37:03.552Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@michengai/dsh-skills-manager@1.4.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bRw7QS",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bRw7QS/home",
+  "plugin": "@michengai/dsh-skills-manager@1.4.3",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PL4npi",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PL4npi/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:51:06.507Z",
-      "durationMs": 1613,
+      "startedAt": "2026-11-13T09:37:04.008Z",
+      "durationMs": 2168,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-skills-manager 1.4.1\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 869ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bRw7QS/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-skills-manager 1.4.3\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PL4npi/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:51:08.124Z",
-      "durationMs": 3708,
+      "startedAt": "2026-11-13T09:37:06.179Z",
+      "durationMs": 5687,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33969/?token=DiD7Pu-uwO6AKo23IzIUHyIuZAwyvgSdmfcKkbBaHCA\n",
+      "stdout": "dsh web: http://127.0.0.1:38749/?token=0L8zvpgNa4ITkN3CbtKeOg710fpN-56pnjlljcsvRgc\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "a4a2201e",
+              "id": "b9313191",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "758a5269",
+              "id": "c85e6046",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2099,12 +2099,12 @@
               "state": 2
             },
             {
-              "id": "a4a2201e",
+              "id": "b9313191",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "758a5269",
+              "id": "c85e6046",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2127,8 +2127,8 @@
   "subjects": [
     {
       "name": "@michengai/dsh-skills-manager",
-      "version": "1.4.1",
-      "integrity": "sha512-/iJ/RltYJ6cXVmn0qO1Ur0iLr3iVhCJ3DV+ec2i/jyxUXmh3EW4+MzMEcdB48LcOvgEd6SoYFDGgblTgPQi05A==",
+      "version": "1.4.3",
+      "integrity": "sha512-nQIQyuHU3MLTcwaZHTgAHacwyWixpLrx+r2KIaO2vpQYwzyJDM5OMC24ZN4Gt/61ZiZW+7crKybIyN5ZBmnFaw==",
       "resolution": "registry"
     }
   ],
@@ -2159,13 +2159,13 @@
         "disabled": false
       },
       {
-        "id": "a4a2201e",
+        "id": "b9313191",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "758a5269",
+        "id": "c85e6046",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

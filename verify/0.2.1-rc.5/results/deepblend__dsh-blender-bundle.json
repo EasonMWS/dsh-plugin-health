@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:56:00.695Z",
+  "generatedAt": "2026-11-13T09:40:50.915Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@deepblend/dsh-blender-bundle@0.24.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mv57gE",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mv57gE/home",
+  "plugin": "@deepblend/dsh-blender-bundle@0.25.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8vLAei",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8vLAei/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-12T03:56:01.193Z",
-      "durationMs": 176,
+      "startedAt": "2026-11-13T09:40:51.530Z",
+      "durationMs": 169,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @deepblend/dsh-blender-bundle@0.24.0 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @deepblend/dsh-blender-bundle@0.25.0 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:56:01.370Z",
-      "durationMs": 3587,
+      "startedAt": "2026-11-13T09:40:51.699Z",
+      "durationMs": 2860,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 33, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @deepblend/dsh-blender-bundle 0.24.0\n\nPackages: +19\n+++++++++++++++++++\nProgress: resolved 45, reused 0, downloaded 19, added 19, done\nAdded 7 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @deepblend/dsh-blender-bundle@0.24.0\n  @deepblend/dsh-blender-contracts@0.24.0\n  @deepblend/dsh-blender-host@0.24.0\n  @deepblend/dsh-blender-preset@0.24.0\n  @deepblend/dsh-blender-provider-local@0.24.0\n  @deepblend/dsh-blender-tool@0.24.0\n  @deepblend/dsh-blender-ui@0.24.0\nDone in 2.4s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @deepblend/dsh-blender-bundle 0.25.0\n\nPackages: +19\n+++++++++++++++++++\nProgress: resolved 45, reused 0, downloaded 19, added 19, done\nDone in 1.6s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:56:04.989Z",
-      "durationMs": 4327,
+      "startedAt": "2026-11-13T09:40:54.606Z",
+      "durationMs": 3786,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33351/?token=3MEnLR_FrKndT1-kyJzuZ5U_T4VWM-LJPIolryLh3vc\n",
+      "stdout": "dsh web: http://127.0.0.1:41691/?token=ZDKm4bvUFhUo57b4hHKh3ausrszCxIj722dvJJv1zm8\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1229,13 +1229,13 @@
               "disabled": false
             },
             {
-              "id": "a0adda72",
+              "id": "6bf3dd01",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "de438cd5",
+              "id": "50696a11",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2092,12 +2092,12 @@
               "state": 2
             },
             {
-              "id": "a0adda72",
+              "id": "6bf3dd01",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "de438cd5",
+              "id": "50696a11",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2120,8 +2120,8 @@
   "subjects": [
     {
       "name": "@deepblend/dsh-blender-bundle",
-      "version": "0.24.0",
-      "integrity": "sha512-HR8cQzsnuxdm65R5TBeDHTEy92f/PvkJiIUUUtMFYkf5W1lJwViCUPW2BsI+aYMkOQ+bg5Y4a/xb/pTEc+kTyQ==",
+      "version": "0.25.0",
+      "integrity": "sha512-slV+y8Ny4EdYl/yEZVB1yjVza0I2XPDSvqj+C7B4cu9M8nTrzJgCi3CRGWMvNYywL10/B/SQBFhW34nWOYn1ZQ==",
       "resolution": "registry"
     }
   ],
@@ -2170,13 +2170,13 @@
         "disabled": false
       },
       {
-        "id": "a0adda72",
+        "id": "6bf3dd01",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "de438cd5",
+        "id": "50696a11",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-13T09:39:03.130Z",
+  "hostVersion": "0.2.2-rc.3",
+  "plugin": "@kenz1117/dsh-engram@0.13.10",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1OjrXm",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1OjrXm/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-13T09:39:03.721Z",
+      "durationMs": 6437,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @kenz1117/dsh-engram 0.13.10\n\nPackages: +44\n++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 70, reused 0, downloaded 3, added 0\nProgress: resolved 70, reused 0, downloaded 42, added 41\nProgress: resolved 70, reused 0, downloaded 43, added 42\nProgress: resolved 70, reused 0, downloaded 44, added 42\nProgress: resolved 70, reused 0, downloaded 44, added 44, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1OjrXm/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@kenz1117/dsh-engram@0.13.10'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1OjrXm/home/profiles/health-smoke/.plugin-manager/logs/operation-Fo9Zk5/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.1.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "@kenz1117/dsh-engram",
+      "version": "0.13.10",
+      "integrity": "sha512-HJeNCvx6pxcyl+F4XgaQ8EhbvjxXrNTx4s7YsdvOBfShphSOXs7+DLw+dULu6JvmpDUyq2fOVFt2uJi5RyWeAA==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}

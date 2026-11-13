@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:51:24.811Z",
+  "generatedAt": "2026-11-13T09:37:20.075Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-remote@0.8.91",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fhaqZ0",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fhaqZ0/home",
+  "plugin": "dsh-remote@0.8.93",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3Jiuta",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3Jiuta/home",
   "profile": "health-smoke",
-  "ok": true,
+  "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:51:25.197Z",
-      "durationMs": 1405,
+      "startedAt": "2026-11-13T09:37:20.554Z",
+      "durationMs": 2197,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-remote 0.8.91\n\nPackages: +6\n++++++\nProgress: resolved 6, reused 3, downloaded 3, added 6, done\nDone in 751ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fhaqZ0/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-remote 0.8.93\n\nPackages: +7\n+++++++\nProgress: resolved 7, reused 1, downloaded 6, added 7, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-remote@0.8.93\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3Jiuta/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:51:26.604Z",
-      "durationMs": 5073,
-      "ok": true,
-      "exitCode": 0,
+      "startedAt": "2026-11-13T09:37:22.756Z",
+      "durationMs": 4188,
+      "ok": false,
+      "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36893/?token=RPIBsOtkqw-soeRA1X4wFsWBYEinMX4GkgbxXer33Zw\n",
-      "stderr": "",
+      "stdout": "dsh web: http://127.0.0.1:33997/?token=as27_gT8d18lEUQ0qKdoMrousOX1B3Yh5WcOHb9Vlok\n",
+      "stderr": "dsh: fatal load failure: Error: cannot get required service \"loader\" in inactive context\n    at checkAndApply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3Jiuta/home/profiles/health-smoke/node_modules/dsh-remote/lib/index.js:4410:69)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "e0c7a8f2",
+              "id": "66c8ff65",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e4578599",
+              "id": "664eef6d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2119,12 +2119,12 @@
               "state": 2
             },
             {
-              "id": "e0c7a8f2",
+              "id": "66c8ff65",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "e4578599",
+              "id": "664eef6d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2147,8 +2147,8 @@
   "subjects": [
     {
       "name": "dsh-remote",
-      "version": "0.8.91",
-      "integrity": "sha512-AyzZpWYblQ2G3RPgi5BFEzXyPKoS52exT8kCATdzCIllaYNyDx37kMpl1QNV3RtyHL6/Ce6YZ8XvuKsLhJ3JLA==",
+      "version": "0.8.93",
+      "integrity": "sha512-8XmAvJV/d+qaD0iEZllUW9VQJ02Ngga5m4FpxhNN3DL+cIG2hkPrl7Um8FJWeU42ltVh06GXtL8vyglGtqdvag==",
       "resolution": "registry"
     }
   ],
@@ -2168,7 +2168,12 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
+  "failure": {
+    "stage": "runtime",
+    "kind": "unknown",
+    "detail": "dsh: fatal load failure: Error: cannot get required service \"loader\" in inactive context"
+  },
+  "level": "V2",
   "declared": true,
   "footprintDelta": {
     "entries": [
@@ -2179,13 +2184,13 @@
         "disabled": false
       },
       {
-        "id": "e0c7a8f2",
+        "id": "66c8ff65",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e4578599",
+        "id": "664eef6d",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-13T09:39:44.139Z",
+  "hostVersion": "0.2.2-rc.3",
+  "plugin": "dsh-plugin-writing-guard@2.0.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Z9pkL8",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Z9pkL8/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "allow-version",
+      "startedAt": "2026-11-13T09:39:44.511Z",
+      "durationMs": 135,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "dsh: allowed dsh-plugin-writing-guard@2.0.1 for DSH 0.2.2-rc.3\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-13T09:39:44.646Z",
+      "durationMs": 1537,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-plugin-writing-guard 2.0.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-plugin-writing-guard@2.0.1\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "Command failed with exit code 1: pnpm add 'dsh-plugin-writing-guard@2.0.1'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Z9pkL8/home/profiles/health-smoke/.plugin-manager/logs/operation-D0Be27/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.1.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "dsh-plugin-writing-guard",
+      "version": "2.0.1",
+      "integrity": "sha512-k71MEGo3i+0HnQPz8kPE21xA5a9lqJCCSmAUee7NaK/IwRHb+F47SjFsH39YR6qMLjtFjNLgqKh/iOFP1Q/w4w==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-plugin-writing-guard@2.0.1"
+  },
+  "level": null,
+  "declared": false,
+  "footprintDelta": null,
+  "bypassed": true,
+  "bypass": {
+    "level": "V1",
+    "failure": {
+      "stage": "install",
+      "kind": "build-scripts-blocked",
+      "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-plugin-writing-guard@2.0.1"
+    }
+  }
+}

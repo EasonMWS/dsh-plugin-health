@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:51:35.777Z",
+  "generatedAt": "2026-11-13T09:37:22.665Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-mcp-connector@0.2.101",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ztoeOG",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ztoeOG/home",
+  "plugin": "dsh-mcp-connector@0.2.102",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-b5yzX1",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-b5yzX1/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:51:36.141Z",
-      "durationMs": 2025,
+      "startedAt": "2026-11-13T09:37:23.302Z",
+      "durationMs": 1942,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-mcp-connector 0.2.101\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 1, downloaded 8, added 9, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-mcp-connector@0.2.101\nDone in 1.2s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ztoeOG/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-mcp-connector 0.2.102\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 0, downloaded 9, added 9, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-mcp-connector@0.2.102\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-b5yzX1/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:51:38.356Z",
-      "durationMs": 3511,
+      "startedAt": "2026-11-13T09:37:25.249Z",
+      "durationMs": 4344,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38767/?token=YhwJ_pXodR1bmKAUJDLtELl_iiyxGMi3yB5RRpVIJW8\n",
+      "stdout": "dsh web: http://127.0.0.1:39137/?token=Rkc7wI_brp7RM3WsEgz11aiVxcWWN7QQ4zlWaN4YPlM\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "0e50532e",
+              "id": "d4e5c651",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "1d8b5115",
+              "id": "4bcd2324",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2123,12 +2123,12 @@
               "state": 2
             },
             {
-              "id": "0e50532e",
+              "id": "d4e5c651",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "1d8b5115",
+              "id": "4bcd2324",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2151,8 +2151,8 @@
   "subjects": [
     {
       "name": "dsh-mcp-connector",
-      "version": "0.2.101",
-      "integrity": "sha512-8DDTzY7jOnAgAQOh56F0LLykYzIitGvluxPDQYY9xIFLGcSnWoIhL9miWK7OLWm84aQf+qHhl0CC/nWc9UvhSQ==",
+      "version": "0.2.102",
+      "integrity": "sha512-eEgG9y9/DkMkyi39OL9IPzk88Bqj6ZjhIfXWVRujU+vVqEjD9ILfJlemEJjg/uQye5k7wRVECWTKci0l5wdKOw==",
       "resolution": "registry"
     }
   ],
@@ -2183,13 +2183,13 @@
         "disabled": false
       },
       {
-        "id": "0e50532e",
+        "id": "d4e5c651",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "1d8b5115",
+        "id": "4bcd2324",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

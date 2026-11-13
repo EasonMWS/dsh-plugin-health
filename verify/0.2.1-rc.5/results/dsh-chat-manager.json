@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:55:58.118Z",
+  "generatedAt": "2026-11-13T09:40:57.874Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-chat-manager@2.0.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FVCCBv",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FVCCBv/home",
+  "plugin": "dsh-chat-manager@2.0.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gUirl5",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gUirl5/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-12T03:55:58.646Z",
-      "durationMs": 188,
+      "startedAt": "2026-11-13T09:40:58.369Z",
+      "durationMs": 164,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-chat-manager@2.0.1 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-chat-manager@2.0.2 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:55:58.834Z",
-      "durationMs": 1717,
+      "startedAt": "2026-11-13T09:40:58.533Z",
+      "durationMs": 1721,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-chat-manager 2.0.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 833ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-chat-manager 2.0.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 815ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:56:00.555Z",
-      "durationMs": 3635,
+      "startedAt": "2026-11-13T09:41:00.260Z",
+      "durationMs": 4347,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33441/?token=Y5FwZKxFnLzJvc9n97eYXfEXBWH8275aRn4pGYqQyCY\n",
+      "stdout": "dsh web: http://127.0.0.1:39813/?token=kGNW2BObzxoJ0P2vsQFhFmCBjJ-cVnO75IDkGVu9ZKE\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "b5491e11",
+              "id": "3a5e6a74",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "2f33daec",
+              "id": "379e8906",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "b5491e11",
+              "id": "3a5e6a74",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "2f33daec",
+              "id": "379e8906",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-chat-manager",
-      "version": "2.0.1",
-      "integrity": "sha512-9yzW5e/VhdWiaXrIDo3x/HRbkwZnApo2k6P5H5avH0+HAFr+S1xOLTC3twYD6yd+uRFMF4n8Mti+dd05zK480w==",
+      "version": "2.0.2",
+      "integrity": "sha512-tHM9PkjgtiLaBhG4eB0b+Mn8OCNKqCDxK8H6Vx8YuO0mhP4wKvf+gWH6Q4nDEb4UpETsdWtTVM940cVapvCSDA==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "b5491e11",
+        "id": "3a5e6a74",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "2f33daec",
+        "id": "379e8906",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

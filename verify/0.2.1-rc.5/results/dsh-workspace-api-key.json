@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:58:56.644Z",
+  "generatedAt": "2026-11-13T09:42:29.939Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-workspace-api-key@0.2.16",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-RUoH4K",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-RUoH4K/home",
+  "plugin": "dsh-workspace-api-key@0.2.17",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1Os8hT",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1Os8hT/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:58:57.111Z",
-      "durationMs": 1851,
+      "startedAt": "2026-11-13T09:42:30.350Z",
+      "durationMs": 1419,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-workspace-api-key 0.2.16\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 927ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-RUoH4K/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-workspace-api-key 0.2.17\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-workspace-api-key@0.2.17\nDone in 700ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1Os8hT/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:58:58.963Z",
-      "durationMs": 3070,
+      "startedAt": "2026-11-13T09:42:31.772Z",
+      "durationMs": 3505,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[workspace-api-key] active: routes=/wsk-api overrides=0 state=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-RUoH4K/home/storages/dsh-workspace-api-key.json\ndsh web: http://127.0.0.1:37205/?token=cGToD1OxWFBuEcWJ0BSp0sIjj3MKB-lqQsxSip-8tDw\n",
+      "stdout": "[workspace-api-key] active: routes=/wsk-api overrides=0 state=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1Os8hT/home/storages/dsh-workspace-api-key.json\ndsh web: http://127.0.0.1:36367/?token=uF_qFlhdAEW_Cez9-dqqv1DSPGXM8tdOC7DizXBSUSI\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "730d7eda",
+              "id": "f44c61da",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "2be5c66f",
+              "id": "ef1c6968",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "730d7eda",
+              "id": "f44c61da",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "2be5c66f",
+              "id": "ef1c6968",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-workspace-api-key",
-      "version": "0.2.16",
-      "integrity": "sha512-6f+vt+4YRwxS1zOm/KFwyfpAollCr0QTs+VfHjqQKJHOVKEOMltUeQvCfsGIpQSqm3JK8Q8d5Un5EubRcz+0+Q==",
+      "version": "0.2.17",
+      "integrity": "sha512-VH6+SNxienS1TpsKzxy6RU97oVZyvMCjDq2IwxwdT6VKaZci7B1Sk2Kr5ifBT9b7aqnj3r07ba/teYNotBsJbQ==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "730d7eda",
+        "id": "f44c61da",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "2be5c66f",
+        "id": "ef1c6968",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:51:21.292Z",
+  "generatedAt": "2026-11-13T09:36:57.365Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@linxin666/dsh-client-ui-skill-explorer@0.4.16",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-9SuI2V",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-9SuI2V/home",
+  "plugin": "@linxin666/dsh-client-ui-skill-explorer@0.4.17",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nAbjvQ",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nAbjvQ/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-12T03:51:21.741Z",
-      "durationMs": 1874,
+      "name": "allow-version",
+      "startedAt": "2026-11-13T09:36:58.030Z",
+      "durationMs": 177,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-client-ui-skill-explorer 0.4.16\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 881ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-9SuI2V/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed @linxin666/dsh-client-ui-skill-explorer@0.4.17 for DSH 0.2.2-rc.1\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-13T09:36:58.207Z",
+      "durationMs": 1885,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-client-ui-skill-explorer 0.4.17\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @linxin666/dsh-client-ui-skill-explorer@0.4.17\nDone in 948ms using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:51:23.617Z",
-      "durationMs": 4516,
+      "startedAt": "2026-11-13T09:37:00.095Z",
+      "durationMs": 4793,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41303/?token=grCiMgFi517FNNeYlsTpEJifivi99exhbEUPiTpMybM\n",
+      "stdout": "dsh web: http://127.0.0.1:39937/?token=XRNDGUUmW7YT4ObCov70xaqAY3G5Mk3PxsSvVA9gNOE\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "b5f4eeea",
+              "id": "a36689ca",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "7764f711",
+              "id": "dc26cf20",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2111,12 @@
               "state": 2
             },
             {
-              "id": "b5f4eeea",
+              "id": "a36689ca",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "7764f711",
+              "id": "dc26cf20",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2126,8 +2139,8 @@
   "subjects": [
     {
       "name": "@linxin666/dsh-client-ui-skill-explorer",
-      "version": "0.4.16",
-      "integrity": "sha512-srMvyHB5k2WVacoQd4sA8Ym/EDw4xkBFTYoWLnLSd4QQJLVEMJgN6QXZsQOajRMz1Mta2J8QJWZZ4hGAYQ80dA==",
+      "version": "0.4.17",
+      "integrity": "sha512-RAfQPXTiBC+Q6qeyZ90OLpXLYgw6YLy6EeksLPpD0+31/+J1kRu73JoUpaFKlSyXFEbAPI6L9QY3A7AzzI3PqA==",
       "resolution": "registry"
     }
   ],
@@ -2147,8 +2160,8 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
@@ -2158,13 +2171,13 @@
         "disabled": false
       },
       {
-        "id": "b5f4eeea",
+        "id": "a36689ca",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "7764f711",
+        "id": "dc26cf20",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2173,5 +2186,10 @@
     "tools": [],
     "toolsUnavailable": false,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }

@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:56:07.691Z",
+  "generatedAt": "2026-11-13T09:40:50.961Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@furongjun1999/dsh-memory@0.10.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D5bCq7",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D5bCq7/home",
+  "plugin": "@furongjun1999/dsh-memory@0.10.3",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XkFIOh",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XkFIOh/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:56:08.176Z",
-      "durationMs": 3041,
+      "startedAt": "2026-11-13T09:40:51.586Z",
+      "durationMs": 2456,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @furongjun1999/dsh-memory 0.10.1\n\nPackages: +4\n++++\nProgress: resolved 4, reused 0, downloaded 4, added 4, done\nDone in 1.6s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D5bCq7/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @furongjun1999/dsh-memory 0.10.3\n\nPackages: +4\n++++\nProgress: resolved 4, reused 0, downloaded 4, added 4, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @furongjun1999/dsh-memory@0.10.3\nDone in 1.6s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XkFIOh/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:56:11.221Z",
-      "durationMs": 5808,
+      "startedAt": "2026-11-13T09:40:54.057Z",
+      "durationMs": 5304,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37741/?token=TEdVFD47qh9Yh9Mn1gXPouO9M2ce6ocqa1pMdpi2sGY\n",
-      "stderr": "[lingshu-bridge] [mdcg-mcp] 路径：记忆真源 root=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D5bCq7/home/.dsh-memory/data/mdcg · 身份/凭据根 aux=/home/runner/.mdcg（aux 可用 MDCG_AUX_ROOT 覆盖）\n[mdcg-mcp] 写入策略：来源=package_default path=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D5bCq7/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/data/policy.json（forbidden=13 required=6）\n[mdcg-mcp] 自报: source=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D5bCq7/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/md_cg render_version=2\n[mdcg-mcp] 自报文件: /tmp/md_cg_servers/3085.json\n[lingshu-bridge] [mdcg-mcp] 代校验：延迟导入 542 项 / 目标模块 53 个 / 已解析 199 项 / 可选缺失 26 项 · 代 267ad8ae8da3\n[lingshu-bridge] 灵枢进程退出 code=0 signal=null（存活 3s）\n",
+      "stdout": "dsh web: http://127.0.0.1:38845/?token=MtQhHIBDgsYohEeVEedF2yuFecOz_hHV8tu33CO4tsU\n",
+      "stderr": "[lingshu-bridge] [mdcg-mcp] 路径：记忆真源 root=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XkFIOh/home/.dsh-memory/data/mdcg · 身份/凭据根 aux=/home/runner/.mdcg（aux 可用 MDCG_AUX_ROOT 覆盖）\n[mdcg-mcp] 写入策略：来源=package_default path=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XkFIOh/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/data/policy.json（forbidden=13 required=6）\n[mdcg-mcp] 自报: source=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XkFIOh/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/md_cg render_version=2\n[mdcg-mcp] 自报文件: /tmp/md_cg_servers/2941.json\n[lingshu-bridge] [mdcg-mcp] 代校验：延迟导入 551 项 / 目标模块 53 个 / 已解析 204 项 / 可选缺失 26 项 · 代 17a429c9f73a\n[lingshu-bridge] 灵枢进程退出 code=0 signal=null（存活 3s）\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "552c1e7b",
+              "id": "214ac577",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "8ab354a2",
+              "id": "f3e5c619",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "552c1e7b",
+              "id": "214ac577",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "8ab354a2",
+              "id": "f3e5c619",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "@furongjun1999/dsh-memory",
-      "version": "0.10.1",
-      "integrity": "sha512-9uPp9f+w8vpnBqcQVnk/rijuHlBvJbwpisxrM0P3/dD4W+qd10zcpC1Cuij3QvDspB9Sg0JRvvbMwrhC4jBBxQ==",
+      "version": "0.10.3",
+      "integrity": "sha512-axAFXDjlQLjdcq606GtmROQSdtc+idgaEhYTjTPrNgigWmikbR2KszLZt/mjKeskzuT4f8+SzyaVpAF3Bym9xg==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "552c1e7b",
+        "id": "214ac577",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "8ab354a2",
+        "id": "f3e5c619",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

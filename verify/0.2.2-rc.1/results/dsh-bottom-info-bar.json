@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:51:38.658Z",
+  "generatedAt": "2026-11-13T09:36:42.743Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-bottom-info-bar@1.21.15",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-C7UbRW",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-C7UbRW/home",
+  "plugin": "dsh-bottom-info-bar@1.24.3",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-06g9Jp",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-06g9Jp/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:51:39.121Z",
-      "durationMs": 2102,
+      "startedAt": "2026-11-13T09:36:43.029Z",
+      "durationMs": 1430,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bottom-info-bar 1.21.15\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-C7UbRW/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bottom-info-bar 1.24.3\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-bottom-info-bar@1.24.3\nDone in 833ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-06g9Jp/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:51:41.226Z",
-      "durationMs": 4509,
+      "startedAt": "2026-11-13T09:36:44.472Z",
+      "durationMs": 3084,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37673/?token=S9rwEcF5xbxoNjncuEJjt2lMpLETzTKrnOZcceDzRAI\n",
-      "stderr": "(node:3705) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[dsh-bottom-info-bar] 远程价目已合并（启动）：25 条有效条目\n[dsh-bottom-info-bar] 远程价目同步到账本失败: Ledger unavailable: Ledger is closed.\n",
+      "stdout": "dsh web: http://127.0.0.1:41103/?token=nein1Eu47gsHKylYBHVbbdsQWdqk0t8mPnIKWI21Omc\n",
+      "stderr": "(node:2745) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[dsh-bottom-info-bar] 远程价目已合并（启动）：25 条有效条目\n[dsh-bottom-info-bar] 远程价目同步到账本失败: Ledger unavailable: Ledger is closed.\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "72088d94",
+              "id": "f6553bce",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e3102435",
+              "id": "d5b8dddd",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2098,12 @@
               "state": 2
             },
             {
-              "id": "72088d94",
+              "id": "f6553bce",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "e3102435",
+              "id": "d5b8dddd",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2126,8 +2126,8 @@
   "subjects": [
     {
       "name": "dsh-bottom-info-bar",
-      "version": "1.21.15",
-      "integrity": "sha512-ty2Mg8+6nt7pQj/Vr6J634T83BLOpdzFGXGmQsSC98GCIXbeu29h9aA3z2iHjA/hvt52so+c7cK+Ld90QBLbBQ==",
+      "version": "1.24.3",
+      "integrity": "sha512-bSLhOz5m1Occ/jct0wI599nISSzxjzVepf2DD2YW/YGV6SbaWBzMgXa98Xl0riPv0OI326GZW+CPb0ZS4DDz6Q==",
       "resolution": "registry"
     }
   ],
@@ -2158,13 +2158,13 @@
         "disabled": false
       },
       {
-        "id": "72088d94",
+        "id": "f6553bce",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e3102435",
+        "id": "d5b8dddd",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

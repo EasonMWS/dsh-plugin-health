@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:51:42.955Z",
+  "generatedAt": "2026-11-13T09:37:27.917Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "meow-memory@0.32.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-E0NhWn",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-E0NhWn/home",
+  "plugin": "meow-memory@0.32.7",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nOZuMN",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nOZuMN/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:51:43.241Z",
-      "durationMs": 1174,
+      "startedAt": "2026-11-13T09:37:28.417Z",
+      "durationMs": 1900,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ meow-memory 0.32.6\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 590ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-E0NhWn/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ meow-memory 0.32.7\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 856ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nOZuMN/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:51:44.416Z",
-      "durationMs": 21098,
+      "startedAt": "2026-11-13T09:37:30.320Z",
+      "durationMs": 7192,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34801/?token=x-I85Bxd4gkQQYOdHvmevQHawcUOTPO44wWn13R9P-Y\n",
-      "stderr": "(node:4352) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:39905/?token=xlw0ISZoGGozuNz2kmHRdhG2EDxH2YHArjvRUx7iI-g\n",
+      "stderr": "(node:3496) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "7a652c90",
+              "id": "8dac27e1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ba47fd86",
+              "id": "ed862249",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2106,12 +2106,12 @@
               "state": 2
             },
             {
-              "id": "7a652c90",
+              "id": "8dac27e1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ba47fd86",
+              "id": "ed862249",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2134,8 +2134,8 @@
   "subjects": [
     {
       "name": "meow-memory",
-      "version": "0.32.6",
-      "integrity": "sha512-R531WfkAme2tXKuPB6j70G9Vp0lyvopq5vLOdSRkFPdr3Ad8bTq18UHhW6ijctPi2taAz5D0qnU5dHW5fBvaqw==",
+      "version": "0.32.7",
+      "integrity": "sha512-ZiJNSKYcim12lEL6OBJqqzvPLSeCXAbwBPpqVdtJIjtueGs03C38xcxEW+JQFv9wCFl8msBdxOuSafkAoWJqpg==",
       "resolution": "registry"
     }
   ],
@@ -2166,13 +2166,13 @@
         "disabled": false
       },
       {
-        "id": "7a652c90",
+        "id": "8dac27e1",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ba47fd86",
+        "id": "ed862249",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
