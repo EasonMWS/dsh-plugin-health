@@ -253,11 +253,6 @@ window.__ModuleLoader__.load({
         what: '日志占用了几十 MB，通常是反复安装失败留下的。',
         fix: '在 DSH 停止时归档或删除旧日志。',
       },
-      'proxy-env': {
-        title: '代理设置可能不生效',
-        what: '你设置了代理，但 DSH 的插件下载走 Node fetch，默认不读代理环境变量。',
-        fix: '启动 DSH 前设置 NODE_USE_ENV_PROXY=1，或改用 npm 镜像。',
-      },
       'registry-mirror': {
         title: '正在使用自定义 npm 源',
         what: '插件安装走这个源，有些插件版本可能还没同步过来。',
@@ -371,11 +366,7 @@ window.__ModuleLoader__.load({
         what: 'The logs occupy tens of MB, often after repeated installation failures.',
         fix: 'Archive or delete old logs while DSH is stopped.',
       },
-      'proxy-env': {
-        title: 'Proxy settings may not take effect',
-        what: 'A proxy is configured, but DSH downloads plugins through Node fetch, which does not read proxy environment variables by default.',
-        fix: 'Set NODE_USE_ENV_PROXY=1 before starting DSH, or configure an npm mirror.',
-      },
+      // 'proxy-env' was removed together with the finding it explained. See src/repair/inspect.js.
       'registry-mirror': {
         title: 'A custom npm registry is in use',
         what: 'Plugins are installed from this registry. Some versions may not have reached it yet.',

@@ -1,5 +1,49 @@
 # Changelog
 
+## 3.1.1
+
+Removes a warning that was wrong on every host this tool supports, and whose advice could stop the
+desktop app from starting. Reported as [#7](https://github.com/EasonMWS/dsh-plugin-health/issues/7).
+
+### The `proxy-env` finding is gone
+
+`doctor` warned whenever a proxy was configured without `NODE_USE_ENV_PROXY`, on the belief that DSH's
+own requests went through plain global fetch. It does not:
+
+- `@deepseek-ai/dsh-http-proxy` is called during profile boot, and `installProxyFromEnvironment` is
+  reached from **every** `@deepseek-ai/dsh` from 0.1.7-rc.2 through 0.2.2-rc.1 — checked by installing
+  each version and grepping for the call.
+- At boot it resolves the policy, writes it into its own environment, and installs an undici global
+  dispatcher, so the host's requests are proxied.
+- It deliberately does **not** set `NODE_USE_ENV_PROXY` on itself. That name appears only in
+  `proxyEnvironmentForChild`, the overlay built for spawned processes.
+
+So "proxy configured, flag absent" is the healthy state of every supported install, not a fault.
+
+### The advice was worse than the false alarm
+
+The finding told people to set `NODE_USE_ENV_PROXY=1` in the environment that starts DSH. Node reads
+that flag in its prelude, **before any JavaScript runs**, so a scheme-less value such as
+`127.0.0.1:6074` — the spelling the Windows proxy dialog and `npm config set proxy` both produce, and
+one `dsh-http-proxy` tolerates — makes the process exit with `ERR_INVALID_URL` before the window
+exists.
+
+Reproduced on Node 24.19.0:
+
+```
+http_proxy=127.0.0.1:6074                      → starts normally
+http_proxy=127.0.0.1:6074 NODE_USE_ENV_PROXY=1 → exit 1, TypeError: Invalid URL, no output
+```
+
+The check is removed rather than narrowed to hosts below `0.2.2`: there is no host in range without the
+dispatcher, so a version gate would have left the false positive in place across the whole supported range.
+
+Removed with it: the matching entries in the Settings copy (both languages) and in both README checklists.
+Three regression tests pin the healthy tuple, the surviving environment findings, and the absence of the
+flag in any user-facing copy. The middle one exists because the first would otherwise have passed
+vacuously — an earlier attempt at the fixture passed a profile *path* where a *name* was expected, so the
+scan returned before it reached the environment code.
+
 ## 3.1.0
 
 ### Every result can now be used as evidence

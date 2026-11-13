@@ -15,7 +15,7 @@
 执行插件代码，不能用来安全试跑未知软件。详见 [Health 能力边界](../SECURITY.md#malware-containment-is-not-implemented)
 及 [DSH 官方安全说明](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md)。
 
-> 源码候选版：`3.1.0`。下方的 npm 安装命令使用已发布的版本。索引由官方发布的
+> 源码候选版：`3.1.1`。下方的 npm 安装命令使用已发布的版本。索引由官方发布的
 > `@deepseek-ai/dsh-plugin-market-index` 校验器验证。
 
 ```sh
@@ -710,9 +710,8 @@ dsh-plugin-health repair --home C:\Users\me\.dsh --profile desktop --apply --yes
 
 检查项：profile 声明但未安装的第三方 bundle（DSH 安装自带的 `@deepseek-ai/*` 视为已提供）、
 不可读/残缺的包目录、缺失的 profile 依赖、损坏或空的 `cordis.patch.yml` 条目、
-`.bak-*` / `.lock` / `.lock.takeover-*` 残留、过大的插件管理器日志、配了代理但没设
-`NODE_USE_ENV_PROXY=1`、WSL 与 Windows 长路径、按 `--runtime` 检查已装插件是否兼容、以及
-desktop/web 等 profile 之间的插件集差异。
+`.bak-*` / `.lock` / `.lock.takeover-*` 残留、过大的插件管理器日志、WSL 与 Windows 长路径、
+按 `--runtime` 检查已装插件是否兼容、以及 desktop/web 等 profile 之间的插件集差异。
 
 修复必须显式 `--apply`，默认 dry-run，且**只隔离不删除**：
 

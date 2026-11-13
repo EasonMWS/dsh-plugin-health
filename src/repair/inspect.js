@@ -267,12 +267,24 @@ function inspectLogs(profileDir, findings) {
 }
 
 function inspectEnvironment(home, profileDir, findings) {
-  const proxy = ['HTTPS_PROXY', 'HTTP_PROXY', 'ALL_PROXY'].find((name) => process.env[name] !== undefined && process.env[name] !== '')
-  if (proxy !== undefined && process.env.NODE_USE_ENV_PROXY === undefined) {
-    findings.push(finding('proxy-env', 'warn', `Proxy is configured (${proxy}) but Node fetch may ignore it`,
-      'DSH market/install requests use global fetch; Node only honours proxy environment variables with NODE_USE_ENV_PROXY=1 (Node 20+).',
-      { fix: { kind: 'manual', description: 'Set NODE_USE_ENV_PROXY=1 in the environment that starts DSH, or configure the npm registry mirror.' } }))
-  }
+  // There was a `proxy-env` warning here, added on the belief that DSH's own requests went through plain
+  // global fetch and therefore ignored the proxy unless NODE_USE_ENV_PROXY was set. That was wrong on every
+  // host this tool supports, and the advice it gave could stop the desktop app from starting.
+  //
+  // What actually happens: `installProxyFromEnvironment` runs during profile boot and is reached from
+  // @deepseek-ai/dsh 0.1.7-rc.2, 0.2.0-rc.2, 0.2.1-rc.5, 0.2.2-alpha.3 and 0.2.2-rc.1 alike — checked by
+  // installing each and grepping. It resolves the policy, writes it into its own environment, and installs an
+  // undici global dispatcher, so the host's requests are proxied. It deliberately does not set
+  // NODE_USE_ENV_PROXY on itself: that name appears only in `proxyEnvironmentForChild`, the overlay built for
+  // spawned processes. So "proxy configured, flag absent" is the normal healthy state, not a fault.
+  //
+  // The remedy was the dangerous part. Node reads NODE_USE_ENV_PROXY in its prelude, before any JavaScript
+  // runs, so a scheme-less value such as `127.0.0.1:6074` — which the Windows proxy dialog and
+  // `npm config set proxy` both produce, and which dsh-http-proxy tolerates — makes the process exit with
+  // ERR_INVALID_URL before the window exists. Reproduced on Node 24.19.0: with the flag the child exits 1
+  // printing nothing, without it the same value starts normally.
+  //
+  // Do not re-add a version-gated variant. There is no supported host in which the dispatcher is missing.
   if (platform() === 'linux') {
     try {
       const version = readFileSync('/proc/version', 'utf8')

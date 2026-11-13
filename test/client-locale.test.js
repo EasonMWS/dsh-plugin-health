@@ -176,7 +176,7 @@ test('English repair plan and results stay localized without changing the confir
 })
 
 test('healthy, failed and manual-only checks use English copy', async () => {
-  const healthy = client({ data: { ...snapshot, issues: [{ id: 'proxy-env', severity: 'info' }], summary: {} } })
+  const healthy = client({ data: { ...snapshot, issues: [{ id: 'registry-mirror', severity: 'info' }], summary: {} } })
   healthy.render()
   await settle()
   const healthyText = text(healthy.render())

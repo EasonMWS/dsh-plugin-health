@@ -18,7 +18,7 @@ Startup checks execute plugin code with your account permissions and cannot safe
 software. Read [Health's security boundaries](SECURITY.md#malware-containment-is-not-implemented)
 and the [official DSH safety notice](https://github.com/deepseek-ai/deepseek-harness/blob/master/SAFETY.md).
 
-> Source candidate: `3.1.0`. The registry install below follows the published npm release.
+> Source candidate: `3.1.1`. The registry install below follows the published npm release.
 
 ```sh
 npm install -g dsh-plugin-health
@@ -794,9 +794,8 @@ dsh-plugin-health repair --home C:\Users\me\.dsh --profile desktop --apply --yes
 Checks: declared third-party bundles that are not installed (bundles shipped by the DSH
 installation are treated as provided), unreadable/partial package directories, missing profile
 dependencies, broken or empty `cordis.patch.yml` entries, `.bak-*` / `.lock` / `.lock.takeover-*`
-residue, large plugin-manager logs, proxy configured without `NODE_USE_ENV_PROXY=1`, WSL and long
-Windows paths, installed-plugin incompatibility against `--runtime`, and plugin-set drift between
-profiles.
+residue, large plugin-manager logs, WSL and long Windows paths, installed-plugin incompatibility
+against `--runtime`, and plugin-set drift between profiles.
 
 Repairs are opt-in (`--apply`), default to a dry run, and never delete:
 
