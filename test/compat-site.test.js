@@ -4,7 +4,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
-import { INLINE_ROWS, renderCompatPage } from '../src/compat/page.js'
+import { INLINE_ROWS, STRINGS, renderCompatPage } from '../src/compat/page.js'
 import { buildRows, shieldsDocument } from '../src/compat/rows.js'
 import { loadVerify, updateHistory, writeCompatSite } from '../src/compat/artifacts.js'
 
@@ -54,6 +54,23 @@ test('the headline counts the latest host and adds the next-build forecast', () 
   ]))
   assert.match(html, /<div class="cell bad"><span class="n">1<\/span>/u)
   assert.match(html, /<div class="cell risk"><span class="n">1<\/span><span class="k" data-i18n="atRiskTally"/u)
+})
+
+test('the compatibility tally counts table entries, including unknown results', () => {
+  const unknown = {
+    ...plugin('unreadable'),
+    results: { [HOST]: { compatible: null, error: 'lookup failed' } },
+    summary: { compatible: 0, incompatible: 0, errors: 1 },
+  }
+  const html = renderCompatPage(matrix([plugin('declared'), plugin('quiet', { declared: 'none' }), unknown]))
+  const markup = html.slice(0, html.indexOf('<script id="'))
+  assert.match(markup, /<span class="n">3<\/span><span class="k" data-i18n="checked">compatibility table entries<\/span>/u)
+  assert.match(markup, /entries with no recorded rejection on the latest host/u)
+  assert.match(markup, /The table entry count includes rows with unknown results/u)
+  assert.doesNotMatch(markup, /3 plugins (?:here|checked)|The plugin list is the awesome-dsh-plugin community catalog/u)
+  assert.equal(STRINGS.zh.checked, '兼容表收录条目')
+  assert.match(STRINGS.zh.source, /兼容表收录条目含结果未知的行/u)
+  assert.doesNotMatch(STRINGS.zh.source, /这里是 \{n\} 个/u)
 })
 
 test('the legend explains the levels and says it is not a security review', () => {

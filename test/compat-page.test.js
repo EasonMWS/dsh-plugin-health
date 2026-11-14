@@ -99,7 +99,7 @@ test('an empty matrix still renders a valid page', () => {
 test('the summary counts rejections per host version', () => {
   const html = renderCompatPage(matrix())
   // One of the two plugins is rejected on this host, and the summary has to say which way round.
-  assert.match(html, /0\.2\.1-rc\.5<\/strong>[^\n]*data-ok="1">1 of these plugins are rejected \(1 accepted\)/u)
+  assert.match(html, /0\.2\.1-rc\.5<\/strong>[^\n]*data-ok="1">Rejected: 1 · Accepted: 1/u)
 })
 
 test('categories come from the catalog and reach both the row and the filter', () => {
@@ -156,10 +156,10 @@ test('a plugin that errors on a host is not counted as healthy', () => {
 test('the page says where the data comes from, so a reader cannot mistake its scope', () => {
   const html = renderCompatPage(matrix())
   assert.match(html, /awesome-dsh-plugin/u)
-  assert.match(html, /published on npm/u)
-  assert.match(html, /cannot be checked and is not counted/u)
+  assert.match(html, /published npm manifests/u)
+  assert.match(html, /omits GitHub repositories whose manifest could not be read/u)
   // The key claim: nothing is installed and no plugin code runs.
-  assert.match(html, /no plugin code is executed/u)
+  assert.match(html, /Declaration checks read manifests only/u)
 })
 
 test('host labels keep their real casing in the per-host summary', () => {

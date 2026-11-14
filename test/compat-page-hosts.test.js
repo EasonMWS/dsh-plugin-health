@@ -68,8 +68,7 @@ test('the headline counts rejection on the latest host, not on any host', () => 
   const bad = cells.find((cell) => cell.cls === 'bad')
   assert.equal(bad.n, 1, 'only plugin-broken is rejected on 0.2.2-rc.1')
 
-  const ok = cells.find((cell) => cell.cls === 'ok')
-  assert.equal(ok.n, 2, 'the other two are accepted on the latest host')
+  assert.match(html, /<span class="n">2<\/span><span class="k" data-i18n="acceptedOnLatest"[^>]*>entries with no recorded rejection on the latest host/u)
 
   // "Rejected by at least one" is still on the page, but it is not the headline.
   const any = cells.find((cell) => cell.cls === 'any')
