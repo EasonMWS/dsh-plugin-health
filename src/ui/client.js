@@ -59,25 +59,22 @@ window.__ModuleLoader__.load({
       .dph-panel h2 { font-size: 22px; letter-spacing: -.03em; line-height: 1.4; }
       .dph-panel h3 { font-size: 14px; font-weight: 650; }
       .dph-panel p + p { margin-top: 8px; }
-      .dph-panel .dph-head { display: flex; align-items: start; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
-      .dph-panel .dph-head-copy { flex: 1 1 250px; }
+      .dph-panel .dph-head { display: flex; align-items: center; justify-content: space-between;
+        flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
       .dph-panel .dph-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-      .dph-panel .dph-actions-sep { width: 1px; height: 22px; background: var(--dph-line); margin: 0 2px; }
-      /* The description of the current mode sits under the toolbar, not inside it, so the buttons
-         stay on one row and the sentence still has room to wrap. */
-      .dph-panel .dph-mode-copy { margin: 4px 0 12px; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; font-size: 12px; }
-      .dph-panel .dph-mode-copy strong { font-size: 13px; }
-      .dph-panel .dph-mode-copy .dph-chips { margin-top: 0; }
-      /* The mode control belongs to the toolbar, not to the page body: a full-width tinted card
-         pushed everything down and read as a section of its own. */
-      .dph-panel .dph-mode { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-      .dph-panel .dph-mode label { display: flex; gap: 6px; align-items: center; font-size: 12px; }
-      .dph-panel .dph-mode select { padding: 6px 8px; font: inherit; font-size: 13px; }
-      .dph-panel .dph-mode-copy { flex: 1 1 100%; font-size: 12px; }
-      .dph-panel .dph-mode-copy strong { font-weight: 600; }
-      .dph-panel .dph-mode-copy p { margin: 2px 0 0; }
+      .dph-panel .dph-mode { display: inline-flex; flex-wrap: wrap; gap: 2px; max-width: 100%;
+        padding: 2px; border: 1px solid var(--dph-line); border-radius: 9px; background: var(--dph-tint); }
+      .dph-panel .dph-mode button { padding: 5px 8px; border-radius: 6px; cursor: pointer;
+        border: 1px solid transparent; background: transparent; color: inherit; }
+      .dph-panel .dph-mode button[aria-pressed="true"] { border-color: var(--dph-accent);
+        background: color-mix(in srgb,var(--dph-accent) 12%,transparent); font-weight: 700; }
+      .dph-panel .dph-scan { position: relative; }
+      .dph-panel .dph-scan-tip { position: absolute; z-index: 2; inset: 100% auto auto 0;
+        width: min(270px, calc(100vw - 48px)); padding: 8px 10px; border: 1px solid var(--dph-line);
+        border-radius: 8px; background: Canvas; color: CanvasText; visibility: hidden; }
+      .dph-panel .dph-scan:hover .dph-scan-tip, .dph-panel .dph-scan:has(:focus-visible) .dph-scan-tip {
+        visibility: visible; }
       .dph-panel .dph-muted { opacity: .74; font-size: 12px; }
-      .dph-panel .dph-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
       .dph-panel .dph-chip { border: 1px solid var(--dph-line); border-radius: 99px; padding: 2px 8px; font-size: 11px; }
       .dph-panel .dph-card { border: 1px solid var(--dph-line); border-radius: 14px; padding: 16px; margin: 16px 0; }
       .dph-panel .dph-card > p, .dph-panel .dph-card > form { margin-top: 10px; }
@@ -102,11 +99,10 @@ window.__ModuleLoader__.load({
       .dph-panel .dph-row-head strong { flex: 1 1 180px; min-width: 0; font-weight: 550; }
       .dph-panel .dph-failed { border-left: 3px solid var(--dph-error); padding: 10px 12px; margin-top: 10px; background: var(--dph-tint); }
       .dph-panel .dph-metrics { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
-      .dph-panel .dph-metric { flex: 1 1 140px; padding: 10px 12px; border: 1px solid var(--dph-line); border-radius: 10px; }
-      /* The counter answers "how many"; the label says what of; the hint says what it means. Three
-         lines is the price of not shipping a number nobody can interpret. */
-      .dph-panel .dph-metric-label { display: block; font-size: 12px; font-weight: 600; margin-top: 2px; }
-      .dph-panel .dph-metric-hint { display: block; font-size: 11px; opacity: .68; margin-top: 3px; line-height: 1.35; }
+      .dph-panel .dph-metric { flex: 1 1 90px; padding: 10px 12px; border: 1px solid var(--dph-line); border-radius: 10px; }
+      .dph-panel .dph-metric[data-attention] { border-color: var(--dph-error);
+        background: color-mix(in srgb,var(--dph-error) 8%,transparent); }
+      .dph-panel .dph-metric-label { display: block; font-size: 12px; font-weight: 600; }
       .dph-panel .dph-search { display: grid; gap: 4px; margin: 4px 0 10px; font-size: 12px; }
       .dph-panel .dph-search input { padding: 7px 9px; font: inherit; font-size: 13px; border: 1px solid var(--dph-line);
         border-radius: 8px; background: transparent; color: inherit; }
@@ -119,8 +115,6 @@ window.__ModuleLoader__.load({
       @keyframes dph-enter { from { opacity: .5; transform: translateY(4px); } to { opacity: 1; transform: none; } }
       @media (max-width: 520px) {
         .dph-panel { padding: 16px 0; }
-        .dph-panel .dph-mode { padding: 12px; }
-        .dph-panel .dph-mode label { flex: 1 1 100%; }
         .dph-panel .dph-card { padding: 12px; }
         .dph-panel .dph-trigger { flex-wrap: wrap; gap: 8px; }
         .dph-panel button, .dph-panel a { white-space: normal !important; }
@@ -393,44 +387,25 @@ window.__ModuleLoader__.load({
       zh: {
         nav: '插件健康',
         technicalDetails: '查看详细信息', operationFailed: '这次操作没有完成，请查看详细信息后重试。',
+        scanReadOnly: '扫描为只读。',
         securityScope: '检查安装和启动状态。Health 无法查杀病毒或阻止恶意程序扩散。',
         trialTitle: '试运行前，请确认插件来源可信',
         trialRisk: '这一步会下载、安装并运行插件代码。临时目录不限制它访问当前账号有权限访问的文件、网络或启动其他程序。Health 无法阻止它的恶意行为。来源不明或怀疑有恶意的插件，请取消。',
         trialConfirm: '我信任此插件，开始试运行', trialCancel: '取消试运行',
         reportsUnavailable: '这次没有完成反馈查询，请稍后重试。',
-        description: '查看当前配置的插件、加载状态和安装问题。扫描为只读。',
         'severity.error': '会影响使用', 'severity.warn': '建议处理', 'severity.info': '提示',
         collapse: '收起', details: '详情', nextStep: '怎么做：{fix}',
-        healthy: '本次体检未发现安装或配置问题', installedChecked: '已检查 {count} 个已安装插件',
-  healthyNext: '下次 DSH 升级后如果有插件被拒，这里会告诉你哪些能救、哪些救不了。',
-  healthyDo: '现在可以先做这些',
-  healthyMatrix: '查某个 DSH 版本会撞坏哪些插件',
-  reviewInline: '升级预检',
-  reviewInlineHint: '准备装的新版本会撞坏哪些插件？填上版本号查一下，不会改动任何东西。',
-  reviewInlineRun: '检查',
-  reviewInlineLabel: '准备升级到的版本',
-  reviewInlineResult: '{version}：{count} 个插件会受影响，没有改动任何东西。',
-  reviewInlineClean: '{version}：当前 {count} 个插件都能用。',
-  healthyDoctor: '检查你的配置有没有隐患',
-  healthyCompat: '浏览全部插件的兼容情况',
-  healthyCopied: '命令已复制，粘贴到终端运行',
-  healthyCopyHint: '点一下复制命令',
-        errors: '{count} 个错误', warnings: '{count} 个警告', ready: '本次体检无警告', attention: '有问题建议处理',
+        installedChecked: '安装扫描：{count} 个包',
+        reviewInline: '升级预检',
+        reviewInlineRun: '检查',
+        reviewInlineLabel: '目标 DSH 版本（只读）',
+        healthyDoctor: '复制配置检查命令',
+        healthyCopied: '命令已复制，粘贴到终端运行',
+        errors: '{count} 个错误', warnings: '{count} 个警告', ready: '本次检查未发现问题', attention: '有问题建议处理',
         reviewTitle: '插件清单与升级预检', reviewTarget: '目标 DSH 版本',
         viewLabel: '显示模式',
         'view.daily': '日常检查', 'view.advanced': '进阶诊断', 'view.developer': '开发验证',
-        'viewHint.daily': '查看使用问题和修复入口。',
-        'viewHint.advanced': '查看加载变化、配置覆盖和升级预检。',
-        'viewHint.developer': '在进阶诊断的基础上导出运行证据，并使用命令行验证。',
-        'viewTask.daily': '先确认能否正常使用，再处理需要关注的问题。',
-        'viewTask.advanced': '追踪加载变化，检查配置，再决定是否升级。',
-        'viewTask.developer': '保留现场证据，为可信插件复现启动问题。',
-        modeScope: '切换模式只调整信息展示，检查范围保持一致。',
-        chipIssues: '问题与修复', chipRuntime: '加载变化', chipPreview: '升级预检', chipEvidence: '验证与导出',
-        liveActive: '运行中', liveFailed: '激活失败', liveWaiting: '未运行',
-  liveActiveHint: 'DSH 已经加载，可以正常使用',
-  liveFailedHint: '加载时报错，通常有具体原因',
-  liveWaitingHint: '待启动、加载中、已禁用或尚未出现',
+        liveActive: '运行中', liveFailed: '激活失败', liveWaiting: '其他状态',
         liveCadence: '页面打开时每 30 秒读取宿主状态，短暂变化可能无法捕获。',
         staleStatus: '刷新未成功，下面保留上次结果。请重新扫描后再操作。',
         infoFindings: '其他检查提示', exportHelp: '导出文件含插件名称和配置标识，分享前请检查内容。',
@@ -441,15 +416,14 @@ window.__ModuleLoader__.load({
         liveFailureHelp: '先检查插件更新和注册冲突，处理后重新扫描。',
         developerPreflight: '1. 检查版本声明', developerCombination: '2. 验证可信插件组合',
         developerTrust: '组合验证会安装并执行插件，使用当前系统账号的权限。请只指定可信插件。',
-        liveSummary: '运行中 {active} 项，激活失败 {failed} 项',
-        liveSample: '本次观察：{time}', liveChanges: '最近观察到的变化', liveNoChanges: '本次启动期间暂未观察到变化。',
-        liveOther: '查看其他加载条目',
-  liveSearch: '搜索',
-  liveSearchHint: '按名称或 id 筛选',
-  liveNoMatch: '没有匹配的条目。',
-  liveOfficial: '宿主自带',
-  liveUserInstalled: '你安装的',
-  liveCount: '{count} 项',
+        liveSample: '状态更新时间：{time}', liveChanges: '最近观察到的变化', liveNoChanges: '本次启动期间暂未观察到变化。',
+        liveOther: '其余加载条目',
+        liveSearch: '搜索',
+        liveSearchHint: '按名称或 id 筛选',
+        liveNoMatch: '没有匹配的条目。',
+        liveOfficial: 'DSH / Cordis 包条目',
+        liveUserInstalled: '其他包条目',
+        liveCount: '{count} 条',
         liveTransition: '{name}（{id}）：{before} → {after}',
         liveDuplicate: '工具 {tool} 已被注册，宿主拒绝了这次注册。',
         liveDeveloper: '开发验证', liveExport: '下载运行证据',
@@ -457,15 +431,15 @@ window.__ModuleLoader__.load({
         'review.pending': '等待中', 'review.loading': '加载中', 'review.failed': '激活失败',
         'review.unloading': '卸载中', 'review.absent': '未出现',
         reviewRun: '预检', reviewFail: '预检失败。请输入完整版本号，例如 0.2.1-rc.5。',
-        reviewResult: 'DSH {version} · {count} 个版本声明不匹配',
+        reviewResult: 'DSH {version} · 已判定声明：{judged} 个包 · 声明不匹配且未放行：{count} 个包',
         reviewNoTarget: '请输入目标版本，开始检查版本声明。',
-        reviewSnapshot: '下载当前配置快照', reviewActivation: '宿主加载状态',
+        reviewSnapshot: '下载当前配置快照', reviewActivation: '启动状态（加载条目）',
         reviewNoActivation: '当前宿主未提供可读取的加载状态。',
         reviewLimits: '这里只检查版本声明和可识别的配置层。动态工具、共享文件及启动参数尚未验证。',
-        reviewSources: '查看检测范围', reviewPackages: '磁盘上的包',
+        reviewSources: '查看检测范围', reviewPackages: '当前环境的包清单',
         'review.compatible': '声明兼容', 'review.incompatible': '声明不匹配', 'review.exempted': '已有版本豁免',
         'review.undeclared': '没有兼容声明', 'review.unknown': '无法判断', 'review.not-checked': '未检查',
-        'review.active': '已启动', 'review.disabled': '已禁用', 'review.not-active': '未激活',
+        'review.active': '运行中', 'review.disabled': '已禁用', 'review.not-active': '其他状态',
         reviewCore: '配置中有宿主包副本：{name}@{version}。实际加载来源待验证。',
         reviewDuplicate: '重复插入 {id}（{layer}）',
         reviewSharedWrite: '{packages} 声明写入同一路径 {path}。实际并发行为待验证。',
@@ -481,10 +455,9 @@ window.__ModuleLoader__.load({
         'limit.exemptions-unreadable': '无法读取版本豁免',
         'limit.unreadable-profile-file': '无法读取 {detail}',
         'limit.invalid-resource-declaration': '有文件访问声明不符合格式',
-        checked: '共检查 {count} 个插件', checkedWithVersion: '共检查 {count} 个插件，DSH {version}',
         scanning: '正在扫描…', rescan: '重新扫描', checking: '正在检查…', checkFailed: '检查失败',
         checkUpdate: '检查更新', checkingUpdate: '正在查询…',
-        browseAll: '浏览全部插件健康状况',
+        browseAll: '社区兼容表',
         updateNow: '立即更新',
         updating: '正在更新…',
         updateDone: '已更新到 {version}，重启 DSH 生效',
@@ -573,44 +546,25 @@ window.__ModuleLoader__.load({
       en: {
         nav: 'Plugin health',
         technicalDetails: 'View diagnostic details', operationFailed: 'This operation did not complete. Review the details before trying again.',
+        scanReadOnly: 'Scanning is read-only.',
         securityScope: 'Checks installation and startup. Health cannot remove malware or stop it spreading.',
         trialTitle: 'Confirm you trust the plugin before running it',
         trialRisk: 'This downloads, installs and executes plugin code. The temporary directory does not restrict access to files, networks or other programs available to your account. Health cannot block malicious behavior. Cancel if the source is unknown or the plugin seems malicious.',
         trialConfirm: 'I trust this plugin; run the check', trialCancel: 'Cancel startup check',
         reportsUnavailable: 'This search did not complete. Please try again later.',
-        description: 'Review installed packages, loader state and installation issues in this profile. Scanning is read-only.',
         'severity.error': 'Affects usage', 'severity.warn': 'Needs attention', 'severity.info': 'Information',
         collapse: 'Collapse', details: 'Details', nextStep: 'Next step: {fix}',
-        healthy: 'No installation or configuration issues found by this scan',
-  healthyNext: 'After the next DSH upgrade, if a plugin is rejected, this panel will say which ones can be saved.',
-  healthyDo: 'What you can do now',
-  healthyMatrix: 'Check which plugins a DSH version would break',
-  reviewInline: 'Upgrade preview',
-  reviewInlineHint: "Which plugins would the version you are about to install break? Enter it and find out — nothing is changed.",
-  reviewInlineRun: 'Check',
-  reviewInlineLabel: 'Version you plan to upgrade to',
-  reviewInlineResult: '{version}: {count} plugins would be affected. Nothing was changed.',
-  reviewInlineClean: '{version}: all {count} installed plugins still work.',
-  healthyDoctor: 'Check your configuration for problems',
-  healthyCompat: 'Browse compatibility across the whole catalog',
-  healthyCopied: 'Command copied — paste it into a terminal',
-  healthyCopyHint: 'Click to copy the command', installedChecked: 'Installed plugins checked: {count}',
-        errors: 'Errors: {count}', warnings: 'Warnings: {count}', ready: 'No warnings in this scan', attention: 'Issues need attention',
+        installedChecked: 'Installation scan: {count} packages',
+        reviewInline: 'Upgrade preview',
+        reviewInlineRun: 'Check',
+        reviewInlineLabel: 'Target DSH version (read-only)',
+        healthyDoctor: 'Copy configuration check command',
+        healthyCopied: 'Command copied — paste it into a terminal',
+        errors: 'Errors: {count}', warnings: 'Warnings: {count}', ready: 'No issues found in this scan', attention: 'Issues need attention',
         reviewTitle: 'Plugin inventory and upgrade preview', reviewTarget: 'Target DSH version',
         viewLabel: 'View',
-        'view.daily': 'Daily check', 'view.advanced': 'Advanced diagnostics', 'view.developer': 'Developer verification',
-        'viewHint.daily': 'See issues that affect use and how to recover.',
-        'viewHint.advanced': 'See runtime changes, configuration overrides and upgrade previews.',
-        'viewHint.developer': 'Export runtime evidence and use the CLI alongside advanced diagnostics.',
-        'viewTask.daily': 'Check whether things are working, then address the issues that need attention.',
-        'viewTask.advanced': 'Follow loader changes and inspect configuration before upgrading.',
-        'viewTask.developer': 'Keep evidence and reproduce startup issues for trusted plugins.',
-        modeScope: 'Changing the view adjusts the display. The scan coverage stays the same.',
-        chipIssues: 'Issues & recovery', chipRuntime: 'Loader changes', chipPreview: 'Upgrade preview', chipEvidence: 'Verify & export',
-        liveActive: 'Active', liveFailed: 'Failed', liveWaiting: 'Not running',
-  liveActiveHint: 'DSH loaded it and it is usable',
-  liveFailedHint: 'Threw while loading, usually with a reason',
-  liveWaitingHint: 'Waiting, loading, disabled, or never appeared',
+        'view.daily': 'Daily', 'view.advanced': 'Advanced', 'view.developer': 'Developer',
+        liveActive: 'Running', liveFailed: 'Activation failed', liveWaiting: 'Other states',
         liveCadence: 'Reads host state every 30 seconds while this page is open. Brief changes may be missed.',
         staleStatus: 'Refresh failed. The last results remain below. Rescan before taking action.',
         infoFindings: 'Other scan findings', exportHelp: 'Exports contain plugin names and configuration identifiers. Review them before sharing.',
@@ -621,31 +575,30 @@ window.__ModuleLoader__.load({
         liveFailureHelp: 'Check for plugin updates and registration conflicts, then rescan.',
         developerPreflight: '1. Check version declarations', developerCombination: '2. Verify a trusted combination',
         developerTrust: 'Combination checks install and execute plugins with your OS account permissions. Only specify trusted plugins.',
-        liveSummary: 'Active: {active} · Failed to activate: {failed}',
-        liveSample: 'Observed at {time}', liveChanges: 'Recently observed changes', liveNoChanges: 'No changes observed in this host session yet.',
+        liveSample: 'Status updated at {time}', liveChanges: 'Recently observed changes', liveNoChanges: 'No changes observed in this host session yet.',
         liveOther: 'Other loader entries',
-  liveSearch: 'Search',
-  liveSearchHint: 'Filter by name or id',
-  liveNoMatch: 'Nothing matches.',
-  liveOfficial: 'Shipped with the host',
-  liveUserInstalled: 'Installed by you',
-  liveCount: '{count} entries',
+        liveSearch: 'Search',
+        liveSearchHint: 'Filter by name or id',
+        liveNoMatch: 'Nothing matches.',
+        liveOfficial: 'DSH / Cordis package entries',
+        liveUserInstalled: 'Other package entries',
+        liveCount: '{count} entries',
         liveTransition: '{name} ({id}): {before} → {after}',
         liveDuplicate: 'The host rejected the registration because tool {tool} is already registered.',
         liveDeveloper: 'Developer verification', liveExport: 'Download runtime evidence',
         liveDeveloperHelp: 'Use the CLI for preflight JSON or to verify startup for a combination of trusted plugins.',
-        'review.pending': 'Waiting', 'review.loading': 'Loading', 'review.failed': 'Failed to activate',
+        'review.pending': 'Waiting', 'review.loading': 'Loading', 'review.failed': 'Activation failed',
         'review.unloading': 'Unloading', 'review.absent': 'Absent',
         reviewRun: 'Check target', reviewFail: 'The preview failed. Enter an exact version such as 0.2.1-rc.5.',
-        reviewResult: 'DSH {version} · {count} declaration mismatches',
+        reviewResult: 'DSH {version} · Packages with assessed declarations: {judged} · Package mismatches without exemptions: {count}',
         reviewNoTarget: 'Enter a target version to check compatibility declarations.',
-        reviewSnapshot: 'Download current snapshot', reviewActivation: 'Live loader state',
+        reviewSnapshot: 'Download current snapshot', reviewActivation: 'Startup status (loader entries)',
         reviewNoActivation: 'Live loader state is unavailable on this host.',
         reviewLimits: 'This checks version declarations and recognized configuration layers. Dynamic tools, shared files and launch arguments are unverified.',
-        reviewSources: 'View scan coverage', reviewPackages: 'Packages on disk',
+        reviewSources: 'View scan coverage', reviewPackages: 'Packages in this setup',
         'review.compatible': 'Declared compatible', 'review.incompatible': 'Version mismatch', 'review.exempted': 'Version exemption',
         'review.undeclared': 'No compatibility declaration', 'review.unknown': 'Unknown', 'review.not-checked': 'Unchecked',
-        'review.active': 'Active', 'review.disabled': 'Disabled', 'review.not-active': 'Inactive',
+        'review.active': 'Running', 'review.disabled': 'Disabled', 'review.not-active': 'Other states',
         reviewCore: 'Host package copy in profile: {name}@{version}. Effective resolution is unverified.',
         reviewDuplicate: 'Repeated insert ID {id} ({layer})',
         reviewSharedWrite: '{packages} declare writes to {path}. Concurrent behavior is unverified.',
@@ -661,10 +614,9 @@ window.__ModuleLoader__.load({
         'limit.exemptions-unreadable': 'Could not read version exemptions',
         'limit.unreadable-profile-file': 'Could not read {detail}',
         'limit.invalid-resource-declaration': 'Some file access declarations were invalid',
-        checked: 'Plugins checked: {count}', checkedWithVersion: 'Plugins checked: {count}, DSH {version}',
         scanning: 'Scanning…', rescan: 'Rescan', checking: 'Checking…', checkFailed: 'Check failed',
         checkUpdate: 'Check for updates', checkingUpdate: 'Checking…',
-        browseAll: 'Browse all plugin health',
+        browseAll: 'Community compatibility',
         updateNow: 'Update now',
         updating: 'Updating…',
         updateDone: 'Updated to {version} — restart DSH to load it',
@@ -756,16 +708,9 @@ window.__ModuleLoader__.load({
     const AUDIENCE_COPY = {
       zh: {
         daily: {
-          description: '查看哪些插件有问题，以及接下来可以怎么处理。',
-          'viewTask.daily': '看懂问题，按提示处理。',
-          'viewHint.daily': '适合日常使用，只展开你需要的信息。',
-          modeScope: '三种模式检查的内容相同，说明的详细程度不同。',
-          reviewActivation: '插件启动情况', reviewNoActivation: '暂时无法读取插件是否启动，请稍后重新检查。',
-          liveSummary: '已启动 {active} 项，未能启动 {failed} 项',
+          reviewNoActivation: '暂时无法读取插件是否启动，请稍后重新检查。',
           liveDuplicate: '功能名称「{tool}」被重复使用，DSH 因此没有启动这个插件。',
           liveFailureHelp: '先看看这个插件有没有新版，处理后点「重新扫描」。',
-          liveCadence: '页面打开时每 30 秒更新一次，可能看不到一闪而过的问题。',
-          liveSample: '状态更新时间：{time}',
           versionProfile: 'DSH {version} · 当前环境：{profile}',
           repairSafety: '处理前会列出要改动的内容。损坏文件会移到备份位置，方便找回。',
           restoreFrom: '备份保存在：{path}', quarantined: '已移到备份位置：{path}',
@@ -828,18 +773,12 @@ window.__ModuleLoader__.load({
           'finding.profile-manifest-invalid.what': 'DSH 读不懂当前环境的设置文件。',
         },
         advanced: {
-          description: '追踪插件启动变化，排查设置冲突，了解升级影响。',
-          'viewTask.advanced': '看看问题出现在哪里，升级会影响哪些插件。',
-          'viewHint.advanced': '适合经常安装或调整插件的用户。',
-          reviewActivation: '插件启动状态', liveSummary: '已启动 {active} 项，启动失败 {failed} 项',
-          liveOther: '查看其余启动记录', liveChanges: '最近的启动状态变化',
+          liveChanges: '最近的启动状态变化',
           liveDuplicate: '名称为 {tool} 的功能重复，DSH 拒绝了后一次注册。',
           liveFailureHelp: '检查插件更新及重复功能，调整后重新扫描。',
-          liveCadence: '每 30 秒读取一次 DSH 的启动记录，可能漏掉两次读取之间的变化。',
           reviewTitle: '升级前检查', reviewTarget: '准备升级到的 DSH 版本', reviewRun: '检查升级影响',
-          reviewResult: 'DSH {version} · {count} 个插件标注的支持版本不包含它',
           reviewNoTarget: '输入准备使用的 DSH 版本，查看哪些插件可能受影响。',
-          reviewPackages: '已安装的插件和配套包', reviewSnapshot: '下载当前检查记录',
+          reviewSnapshot: '下载当前检查记录',
           reviewLimits: '根据插件标注的支持版本和设置文件判断，尚未试用插件功能。',
           'review.exempted': '已允许跳过版本检查', 'review.undeclared': '没有标注支持版本',
           'review.incompatible': '未标注支持此版本', 'review.compatible': '标注支持此版本',
@@ -852,16 +791,9 @@ window.__ModuleLoader__.load({
       },
       en: {
         daily: {
-          description: 'See which plugins have problems and what you can do next.',
-          'viewTask.daily': 'Understand the problem and follow the next step.',
-          'viewHint.daily': 'For everyday use. Open more information when you need it.',
-          modeScope: 'All views run the same checks, with different levels of detail.',
-          reviewActivation: 'Plugin startup', reviewNoActivation: 'Plugin startup information is unavailable. Please check again shortly.',
-          liveSummary: 'Started: {active} · Could not start: {failed}',
+          reviewNoActivation: 'Plugin startup information is unavailable. Please check again shortly.',
           liveDuplicate: 'The feature name {tool} is used more than once, so DSH did not start this plugin.',
           liveFailureHelp: 'Check whether this plugin has an update, then select Rescan.',
-          liveCadence: 'Updates every 30 seconds while this page is open. Brief problems may be missed.',
-          liveSample: 'Status updated at {time}',
           versionProfile: 'DSH {version} · Current setup: {profile}',
           repairSafety: 'Review the changes first. Broken files move to a backup location so they can be recovered.',
           restoreFrom: 'Backup location: {path}', quarantined: 'Moved to backup: {path}',
@@ -924,18 +856,12 @@ window.__ModuleLoader__.load({
           'finding.profile-manifest-invalid.what': 'DSH cannot read the settings for this setup.',
         },
         advanced: {
-          description: 'Follow plugin startup changes, investigate setting conflicts and check upgrade impact.',
-          'viewTask.advanced': 'Find where a problem starts and which plugins an upgrade may affect.',
-          'viewHint.advanced': 'For people who regularly install or adjust plugins.',
-          reviewActivation: 'Plugin startup status', liveSummary: 'Started: {active} · Startup failed: {failed}',
-          liveOther: 'Other startup records', liveChanges: 'Recent startup changes',
+          liveChanges: 'Recent startup changes',
           liveDuplicate: 'The feature name {tool} is duplicated. DSH rejected the later registration.',
           liveFailureHelp: 'Check plugin updates and duplicate features, then rescan after making changes.',
-          liveCadence: 'Reads DSH startup records every 30 seconds. Changes between reads may be missed.',
           reviewTitle: 'Before you upgrade', reviewTarget: 'DSH version you plan to use', reviewRun: 'Check upgrade impact',
-          reviewResult: 'DSH {version} · {count} plugins do not list support for this version',
           reviewNoTarget: 'Enter the DSH version you plan to use to check which plugins may be affected.',
-          reviewPackages: 'Installed plugins and supporting packages', reviewSnapshot: 'Download current check record',
+          reviewSnapshot: 'Download current check record',
           reviewLimits: 'Checks the support versions and settings listed by plugins. Plugin features have not been tried.',
           'review.exempted': 'Allowed to skip the version check', 'review.undeclared': 'No supported versions listed',
           'review.incompatible': 'Support not listed for this version', 'review.compatible': 'Lists support for this version',
@@ -1643,48 +1569,8 @@ window.__ModuleLoader__.load({
       })
     }
 
-    function EmptyState({ scanned, t, actions }) {
-      const asLink = { color: 'inherit', textDecoration: 'underline', cursor: 'pointer', border: 0, background: 'none', font: 'inherit', padding: 0 }
-      return h('div', { style: { display: 'grid', gap: 10 } }, [
-        h('div', {
-          key: 'ok',
-          style: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            padding: '18px 16px',
-            borderRadius: 10,
-            background: 'rgba(52,168,83,.10)',
-            color: COLORS.ok,
-            fontSize: 14,
-            fontWeight: 600,
-            flexWrap: 'wrap',
-          },
-        }, [
-          h('span', { key: 'i', style: { fontSize: 18 } }, '✓'),
-          h('span', { key: 't' }, t('healthy')),
-          scanned !== undefined
-            ? h('span', { key: 'n', style: { fontSize: 12, fontWeight: 400, opacity: 0.65 } },
-              t('installedChecked', { count: scanned }))
-            : null,
-        ]),
-        // A tool that only speaks when something breaks looks like it does nothing. Say what it is
-        // watching for, and what it can do while the user waits for that moment.
-        h('p', { key: 'next', className: 'dph-muted', style: { margin: 0, fontSize: 13 } }, t('healthyNext')),
-        actions?.copied ? h('p', { key: 'copied', style: { margin: 0, fontSize: 12, color: COLORS.ok } }, t('healthyCopied')) : null,
-        actions !== undefined ? h('div', { key: 'do', style: { display: 'grid', gap: 5, fontSize: 13 } }, [
-          h('div', { key: 'h', className: 'dph-muted' }, t('healthyDo')),
-          // The upgrade preview above already does this properly, with an input field.
-          h('div', { key: 'd' }, '· ', h('button', {
-            key: 'dc', type: 'button', title: actions.doctorCommand, style: asLink, onClick: actions.doctor,
-          }, t('healthyDoctor'))),
-          h('div', { key: 'c' }, '· ', h('a', { key: 'cp', href: COMPAT_URL, target: '_blank', rel: 'noreferrer', style: asLink }, t('healthyCompat'))),
-        ]) : null,
-      ])
-    }
-
     /** One-line verdict a first-time user can act on without reading the list. */
-    function Verdict({ errorCount, warnCount, scanned, runtimeVersion, t }) {
+    function Verdict({ errorCount, warnCount, scanned, t }) {
       const parts = []
       if (errorCount > 0) parts.push(h('span', { key: 'e', style: { color: COLORS.error } }, t('errors', { count: errorCount })))
       if (warnCount > 0) parts.push(h('span', { key: 'w', style: { color: COLORS.warn } }, t('warnings', { count: warnCount })))
@@ -1699,19 +1585,19 @@ window.__ModuleLoader__.load({
           borderRadius: 8,
           marginBottom: 14,
           fontSize: 13,
+          borderInlineStart: '3px solid ' + (clean ? COLORS.ok : errorCount > 0 ? COLORS.error : COLORS.warn),
           background: clean ? 'rgba(52,168,83,.08)' : 'rgba(178,106,0,.08)',
         },
       }, [
         h('span', { key: 'd', style: { width: 8, height: 8, borderRadius: '50%', background: clean ? COLORS.ok : COLORS.warn, flex: '0 0 auto' } }),
         h('span', { key: 't', style: { fontWeight: 600 } }, clean ? t('ready') : t('attention')),
-        h('span', { key: 's', style: { opacity: 0.7 } }, clean
-          ? t(runtimeVersion ? 'checkedWithVersion' : 'checked', { count: scanned ?? '?', version: runtimeVersion })
-          : parts),
+        ...parts,
+        scanned !== undefined ? h('span', { key: 's' }, t('installedChecked', { count: scanned })) : null,
       ])
     }
 
     /** The one border-and-padding treatment every secondary control in this panel uses. */
-    function PanelButton({ onClick, disabled, href, label }) {
+    function PanelButton({ onClick, disabled, href, label, title }) {
       const style = {
         border: '1px solid rgba(128,128,128,.35)',
         borderRadius: 8,
@@ -1731,26 +1617,21 @@ window.__ModuleLoader__.load({
         // system browser, which a window.open call is not always allowed to do.
         return h('a', { href, target: '_blank', rel: 'noreferrer noopener', style }, label)
       }
-      return h('button', { type: 'button', onClick, disabled: disabled === true, style }, label)
+      return h('button', { type: 'button', onClick, disabled: disabled === true, 'aria-label': label, title, style }, label)
     }
 
-    function ScanButton({ onClick, busy, t }) {
-      return h('button', {
-        type: 'button',
-        onClick,
-        disabled: busy === true,
-        style: {
-          border: '1px solid rgba(128,128,128,.35)',
-          borderRadius: 8,
-          padding: '7px 14px',
-          cursor: busy === true ? 'default' : 'pointer',
-          background: 'transparent',
-          color: 'inherit',
-          font: 'inherit',
-          fontSize: 13,
-          opacity: busy === true ? 0.55 : 1,
-        },
-      }, busy === true ? t('scanning') : t('rescan'))
+    function ScanButton({ onClick, busy, sampledAt, t }) {
+      const label = t(busy ? 'scanning' : 'rescan')
+      const messages = [t('scanReadOnly'), t('liveCadence')]
+      if (sampledAt) messages.push(t('liveSample', { time: new Date(sampledAt).toLocaleTimeString(t('dateLocale')) }))
+      const description = messages.join(' ')
+      return h('span', { className: 'dph-scan' }, [
+        h('button', {
+          type: 'button', onClick, disabled: busy, 'aria-label': label,
+          'aria-description': description, style: buttonStyle('secondary'), key: 'button',
+        }, label),
+        h('span', { key: 'tip', className: 'dph-scan-tip', 'aria-hidden': true }, description),
+      ])
     }
 
     function downloadJson(filename, data) {
@@ -1770,20 +1651,13 @@ window.__ModuleLoader__.load({
       return 'daily'
     }
 
-    /**
-     * Every loader entry that is not currently active, grouped by who put it there and searchable.
-     *
-     * With 212 entries a flat list is unreadable, and the question a reader actually has is
-     * "is the thing I installed healthy" — which is a different question from "is the host itself
-     * healthy". The split is by package scope: the host ships under @deepseek-ai/.
-     */
+    /** Search non-failed loader entries, grouped by package prefix. */
     function EntryList({ rows, t, stateName }) {
       const [query, setQuery] = React.useState('')
       const needle = query.trim().toLowerCase()
       const matches = needle === ''
         ? rows
         : rows.filter(row => `${row.name} ${row.id}`.toLowerCase().includes(needle))
-      // The host's own packages are noise for most readers; theirs are the ones they can act on.
       const groups = [
         { key: 'user', label: t('liveUserInstalled'), rows: matches.filter(row => !isHostPackage(row.name)) },
         { key: 'host', label: t('liveOfficial'), rows: matches.filter(row => isHostPackage(row.name)) },
@@ -1821,7 +1695,7 @@ window.__ModuleLoader__.load({
       })
     }
 
-    /** The host ships its own packages under this scope; anything else came from the user. */
+    /** Identify DSH and Cordis package entries by prefix. */
     function isHostPackage(name) {
       return typeof name === 'string' && (name.startsWith('@deepseek-ai/') || name.startsWith('cordis'))
     }
@@ -1838,16 +1712,14 @@ window.__ModuleLoader__.load({
       const stateName = (state) => t(`review.${state ?? 'absent'}`)
       return h('section', { className: 'dph-card' }, [
         h('h3', { key: 'title' }, t('reviewActivation')),
-        h('p', { key: 'summary', role: 'status', style: { color: failed.length ? COLORS.error : 'inherit' } },
-          t('liveSummary', { active, failed: failed.length })),
-        // Shown in every mode. A number answers "is anything broken" faster than a sentence, but only
-        // if the reader knows what is being counted — so each one carries a line saying so.
-        h('div', { key: 'metrics', className: 'dph-metrics' },
+        h('div', { key: 'metrics', className: 'dph-metrics', role: 'status' },
           [[active, 'liveActive'], [failed.length, 'liveFailed'], [others.length - active, 'liveWaiting']].map(([count, label]) =>
-            h('div', { key: label, className: 'dph-metric' }, [
-              h('strong', { key: 'count' }, count),
+            h('div', {
+              key: label, className: 'dph-metric',
+              'data-attention': label === 'liveFailed' && count > 0 ? '' : undefined,
+            }, [
               h('span', { key: 'label', className: 'dph-metric-label' }, t(label)),
-              h('span', { key: 'hint', className: 'dph-metric-hint' }, t(`${label}Hint`)),
+              h('strong', { key: 'count' }, count),
             ]))),
         failed.map(row => h('div', { key: row.id, className: 'dph-failed' }, [
           h('strong', { key: 'name' }, row.name),
@@ -1867,9 +1739,15 @@ window.__ModuleLoader__.load({
             ],
           }) : null,
         ]),
-        h('p', { key: 'cadence', className: 'dph-muted' }, t('liveCadence')),
-        live.sampledAt ? h('p', { key: 'time', className: 'dph-muted' }, t('liveSample', { time: formatTime(live.sampledAt) })) : null,
       ])
+    }
+
+    // Assessments need a readable, applicable declaration. Count exemptions as assessed and
+    // keep them out of the actionable mismatch count, as in the package list.
+    function declarationCounts(packages) {
+      const mismatches = packages.filter(row => row.declaration?.state === 'incompatible')
+      const judged = packages.filter(row => ['compatible', 'incompatible', 'exempted'].includes(row.declaration?.state)).length
+      return { mismatches, judged }
     }
 
     function reportRevision(review) {
@@ -1904,8 +1782,8 @@ window.__ModuleLoader__.load({
           const data = await readSnapshot(`${STATUS_PATH}?${query}`)
           if (mine !== sequence.current) return
           if (data?.review?.targetVersion !== wanted) { setFailed('reviewFail'); return }
-          const affected = data.review.packages.filter((row) => row.declaration?.state === 'incompatible')
-          setResult({ version: wanted, affected: affected.map((row) => row.name), total: data.review.packages.length })
+          const { mismatches, judged } = declarationCounts(data.review.packages)
+          setResult({ version: wanted, affected: mismatches.map(row => row.name), judged })
         } catch {
           if (mine === sequence.current) setFailed('reviewFail')
         } finally {
@@ -1915,7 +1793,6 @@ window.__ModuleLoader__.load({
 
       return h('section', { className: 'dph-card', 'data-dph-upgrade-preview': '' }, [
         h('h3', { key: 't' }, t('reviewInline')),
-        h('p', { key: 'h', className: 'dph-muted', style: { margin: '4px 0 10px' } }, t('reviewInlineHint')),
         h('form', { key: 'f', onSubmit: run, style: { display: 'flex', flexWrap: 'wrap', alignItems: 'end', gap: 8 } }, [
           h('label', { key: 'l', style: { display: 'grid', gap: 4, fontSize: 12 } }, [
             t('reviewInlineLabel'),
@@ -1932,14 +1809,12 @@ window.__ModuleLoader__.load({
             t(busy ? 'checking' : 'reviewInlineRun')),
         ]),
         failed ? h('p', { key: 'e', role: 'status', style: { fontSize: 13, color: COLORS.warn } }, t(failed)) : null,
-        // Only ever one of these, and neither claims the plugins are safe — only that their
-        // declarations admit the target.
         result === undefined ? null : h('p', {
           key: 'r', role: 'status', style: { fontSize: 13, marginTop: 10, color: result.affected.length > 0 ? COLORS.warn : 'inherit' },
-        }, result.affected.length > 0
-          ? t('reviewInlineResult', { version: result.version, count: result.affected.length })
-            + ' ' + result.affected.slice(0, 6).join(', ')
-          : t('reviewInlineClean', { version: result.version, count: result.total })),
+        }, [
+          t('reviewResult', { version: result.version, judged: result.judged, count: result.affected.length }),
+          result.affected.length > 0 ? ' ' + result.affected.slice(0, 6).join(', ') : null,
+        ]),
       ])
     }
 
@@ -1978,7 +1853,7 @@ window.__ModuleLoader__.load({
         }
       }
       const result = preview ?? review
-      const mismatches = result.packages.filter(row => row.declaration.state === 'incompatible')
+      const { mismatches, judged } = declarationCounts(result.packages)
       const packages = [...mismatches, ...result.packages.filter(row => row.declaration.state !== 'incompatible')]
       // A fresh preview can be newer than the panel's cached scan. Only a later observation
       // can invalidate it; otherwise that old panel would flag a newly checked config as stale.
@@ -2002,7 +1877,7 @@ window.__ModuleLoader__.load({
         ]),
         h('p', { key: 'result', role: 'status', style: { fontSize: 13 } },
           failed ? t(failed) : result.targetVersion
-            ? t('reviewResult', { version: result.targetVersion, count: mismatches.length })
+            ? t('reviewResult', { version: result.targetVersion, judged, count: mismatches.length })
             : t('reviewNoTarget')),
         preview && (stale || (newerScan && sourceKey !== previewKey)) ? h('p', { key: 'stale', role: 'status', style: { color: COLORS.warn } }, t('previewStale')) : null,
         h(Disclosure, { key: 'packages', title: `${t('reviewPackages')} (${packages.length})`,
@@ -2043,7 +1918,6 @@ window.__ModuleLoader__.load({
       const rescue = useRescue(reload)
       const [scanning, setScanning] = React.useState(false)
       const [copied, setCopied] = React.useState(undefined)
-      const rescanRef = React.useRef(undefined)
       const [view, setView] = React.useState(initialView)
       const t = React.useCallback((key, params) => {
         const scoped = `audience.${view}.${key}`
@@ -2057,24 +1931,14 @@ window.__ModuleLoader__.load({
       const issues = data?.issues ?? []
       const rescuable = data?.rescuable ?? []
       const actionable = issues.filter((issue) => issue.severity !== 'info')
-      // What the panel can offer when nothing is wrong. The two commands are CLI-only — this half of
-      // the plugin cannot shell out — so they copy to the clipboard and say so, rather than pretending
-      // to run.
-      const copyCommand = (command) => {
+      const doctorCommand = 'dsh-plugin-health doctor'
+      const copyDoctor = async () => {
         try {
-          navigator.clipboard?.writeText(command)
-          setCopied(command)
-          setTimeout(() => setCopied(undefined), 4000)
-        } catch { /* clipboard unavailable; the title attribute still shows the command */ }
-      }
-      const cleanActions = {
-        // A thunk, not the value: rescan is declared further down and may change between renders.
-        rescan: () => rescanRef.current?.(),
-        matrixCommand: 'dsh-plugin-health matrix --plugins <包名> --versions <DSH 版本>',
-        doctorCommand: 'dsh-plugin-health doctor',
-        matrix: () => copyCommand('dsh-plugin-health matrix --plugins <包名> --versions <DSH 版本>'),
-        doctor: () => copyCommand('dsh-plugin-health doctor'),
-        copied,
+          await navigator.clipboard.writeText(doctorCommand)
+          setCopied(true)
+        } catch {
+          setCopied(false)
+        }
       }
       const autoFixable = actionable.filter((issue) => issue.autoFixable === true)
       const summary = data?.summary ?? {}
@@ -2093,7 +1957,6 @@ window.__ModuleLoader__.load({
           setScanning(false)
         }
       }, [reload])
-      rescanRef.current = rescan
 
       /**
        * Undo one recorded exemption. Deliberately not optimistic: the list re-reads from
@@ -2111,52 +1974,29 @@ window.__ModuleLoader__.load({
       return h('div', { className: 'dph-panel', 'data-view': view }, [
         h('style', { key: 'styles' }, PANEL_CSS),
         h('div', { key: 'head', className: 'dph-head' }, [
-          h('div', { key: 'l', className: 'dph-head-copy' }, [
-            h('h2', { key: 't' }, t('nav')),
-            h('div', { key: 's', className: 'dph-muted', style: { marginTop: 6 } },
-              t('description')),
-          ]),
-          h('div', { key: 'r', className: 'dph-actions' }, [
-            h(ScanButton, { key: 'scan', onClick: rescan, busy: scanning || loading, t }),
+          h('h2', { key: 'title' }, t('nav')),
+          h('div', { key: 'actions', className: 'dph-actions' }, [
+            h(ScanButton, { key: 'scan', onClick: rescan, busy: scanning || loading, sampledAt: live?.sampledAt, t }),
             h(PanelButton, {
               key: 'upd',
               onClick: update.check,
               disabled: ['checking', 'installing'].includes(update.phase),
               label: update.phase === 'checking' ? t('checkingUpdate') : t('checkUpdate'),
             }),
-            // The compatibility table is the most useful thing this project publishes when nothing
-            // is wrong locally, so it gets a first-class control rather than a line buried in prose.
             h(PanelButton, { key: 'all', href: COMPAT_URL, label: t('browseAll') }),
-            // The view control lives with the actions: it selects what the page shows. A separate
-            // tinted card above the content made it look like a section of its own and pushed the
-            // panel down for something that is a display preference.
-            h('span', { key: 'sep', className: 'dph-actions-sep', 'aria-hidden': true }),
-            h('div', { key: 'view', className: 'dph-mode' }, [
-              h('label', { key: 'label' }, [t('viewLabel'),
-                h('select', {
-                  key: 'select',
-                  value: view,
-                  'aria-label': t('viewLabel'),
-                  onChange: (event) => {
-                    const next = event.target.value
-                    if (!VIEWS.includes(next)) return
-                    setView(next)
-                    try { window.localStorage.setItem(VIEW_KEY, next) } catch { /* Session-only fallback. */ }
+            h('div', { key: 'view', className: 'dph-mode', role: 'group', 'aria-label': t('viewLabel') },
+              VIEWS.map(mode => {
+                const label = t('view.' + mode)
+                return h('button', {
+                  key: mode, type: 'button', 'aria-label': label, 'aria-pressed': view === mode,
+                  onClick: () => {
+                    setView(mode)
+                    try { window.localStorage.setItem(VIEW_KEY, mode) } catch { /* Session-only fallback. */ }
                   },
-                }, VIEWS.map(mode => h('option', { key: mode, value: mode }, t('view.' + mode)))),
-              ]),
-            ]),
+                }, label)
+              })),
           ]),
         ]),
-        h('div', { key: 'viewcopy', className: 'dph-mode-copy dph-enter', role: 'status' }, [
-          h('strong', { key: 'task' }, t('viewTask.' + view)),
-          h('span', { key: 'hint', className: 'dph-muted' }, ' ' + t('viewHint.' + view)),
-          h('span', { key: 'chips', className: 'dph-chips' },
-            ['chipIssues', ...(advanced ? ['chipRuntime', 'chipPreview'] : []), ...(view === 'developer' ? ['chipEvidence'] : [])]
-              .map(key => h('span', { key, className: 'dph-chip' }, t(key)))),
-          h('span', { key: 'scope', className: 'dph-muted' }, ' ' + t('modeScope')),
-        ]),
-        h('p', { key: 'security-scope', className: 'dph-muted', style: { marginBottom: 14 } }, t('securityScope')),
         // Only speak up when there is something to do. A permanent "up to date" line trains people
         // to ignore the strip, which is where a real update notice has to appear.
         update.phase === 'failed'
@@ -2252,14 +2092,18 @@ window.__ModuleLoader__.load({
             errorCount: (summary.error ?? 0) + failedCount,
             warnCount: summary.warn ?? 0,
             scanned,
-            runtimeVersion: data?.runtimeVersion,
           })
           : null,
         data?.review ? h(UpgradePreview, { key: 'upgrade-preview', review: data.review, t }) : null,
         data ? h(RuntimeReview, { key: 'runtime', live, advanced, t }) : null,
-        !loading && data ? (actionable.length === 0
-          ? (failedCount === 0 && error === undefined ? h(EmptyState, { key: 'ok', scanned, t, actions: cleanActions }) : null) : h('div', { key: 'list' },
-          actionable.map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue, technical, t })))) : null,
+        !loading && data && actionable.length > 0 ? h('div', { key: 'list' },
+          actionable.map((issue, index) => h(Finding, { key: `${issue.id}-${index}`, issue, technical, t }))) : null,
+        !loading && data && actionable.length === 0 && failedCount === 0 && error === undefined
+          ? h('div', { key: 'clean-actions', className: 'dph-actions' }, [
+            h(PanelButton, { key: 'doctor', onClick: copyDoctor, label: t('healthyDoctor'), title: doctorCommand }),
+            copied !== undefined ? h('span', { key: 'copied', role: 'status' },
+              copied ? t('healthyCopied') : h('code', null, doctorCommand)) : null,
+          ]) : null,
         !loading && error === undefined && !advanced && issues.length > actionable.length
           ? h('div', { key: 'info', style: { marginTop: 6, fontSize: 12, opacity: 0.55 } },
             t('omitted', { count: issues.length - actionable.length }))
@@ -2367,13 +2211,12 @@ window.__ModuleLoader__.load({
           }, t('liveExport'))) : null,
           h('p', { key: 'privacy', className: 'dph-muted' }, t('exportHelp')),
         ]) : null,
-        data
-          ? h('div', { key: 'meta', style: { marginTop: 20, fontSize: 12, opacity: 0.5, lineHeight: 1.7 } }, [
-            h('div', { key: 'c' }, `${t('lastChecked', { time: new Date(data.generatedAt).toLocaleString(t('dateLocale')) })}${scanned !== undefined ? ` · ${t('checked', { count: scanned })}` : ''}`),
-            h('div', { key: 'v' }, t('versionProfile', { version: data.runtimeVersion ?? t('unknown'), profile: data.profile ?? t('unknown') })),
-            advanced ? h('div', { key: 'h', style: { opacity: 0.8 } }, `${data.home}`) : null,
-          ])
-          : null,
+        h('footer', { key: 'meta', className: 'dph-muted', style: { marginTop: 20 } }, [
+          h('p', { key: 'security' }, t('securityScope')),
+          data ? h('div', { key: 'last' }, t('lastChecked', { time: new Date(data.generatedAt).toLocaleString(t('dateLocale')) })) : null,
+          data ? h('div', { key: 'version' }, t('versionProfile', { version: data.runtimeVersion ?? t('unknown'), profile: data.profile ?? t('unknown') })) : null,
+          data && advanced ? h('div', { key: 'home' }, data.home) : null,
+        ]),
       ])
     }
 

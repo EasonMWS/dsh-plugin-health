@@ -193,7 +193,7 @@ const card = (app, plugin = PLUGIN) => {
   assert.ok(found, `missing rescue card: ${plugin.name}@${plugin.version}`)
   return found
 }
-const switchView = (app, value) => findAll(app.render(), node => node.type === 'select')[0].props.onChange({ target: { value } })
+const switchView = (app, value) => click(app.render(), { daily: 'Daily', advanced: 'Advanced', developer: 'Developer' }[value])
 const trialRequests = app => app.requests.filter(request => request.url.endsWith('/rehearse'))
 async function runTrial(app, { plugin = PLUGIN, review = 'Review startup check', confirm = 'I trust this plugin; run the check' } = {}) {
   const before = trialRequests(app).length
@@ -343,7 +343,7 @@ test('the settings preview sends the target and displays the version mismatch se
   })
   app.render()
   await settle()
-  findAll(app.render(), node => node.type === 'select')[0].props.onChange({ target: { value: 'advanced' } })
+  switchView(app, 'advanced')
   // Two previews exist now. The compact UpgradePreview has no package list, so address the form
   // that belongs to the full ProfileReview: it is the one whose card carries the review title.
   const inputs = findAll(app.render(), node => node.type === 'input')
@@ -352,12 +352,12 @@ test('the settings preview sends the target and displays the version mismatch se
   const forms = findAll(app.render(), node => node.type === 'form')
   await forms[forms.length - 1].props.onSubmit({ preventDefault() {} })
   app.render() // Flush the effect that reveals mismatches.
-  const entries = buttons(app.render()).find(node => flatten(node).includes('Other startup records'))
+  const entries = buttons(app.render()).find(node => flatten(node).includes('Other loader entries'))
   entries.props.onClick()
   const view = flatten(app.render())
-  assert.match(view, /DSH 0.2.1-rc.5 · 1 plugins do not list support for this version/u)
+  assert.match(view, /DSH 0\.2\.1-rc\.5 · Packages with assessed declarations: 1 · Package mismatches without exemptions: 1/u)
   assert.match(view, /legacy-plugin@1.0.0\s+Support not listed for this version/u)
-  assert.match(view, /legacy-plugin\s+Active\s+legacy/u)
+  assert.match(view, /legacy-plugin\s+Running\s+legacy/u)
 })
 
 test('the view keeps daily recovery visible, remembers the selected level and shows live failures', async () => {
@@ -375,19 +375,18 @@ test('the view keeps daily recovery visible, remembers the selected level and sh
   app.render()
   await settle()
   const daily = app.render()
-  const select = tree => findAll(tree, node => node.type === 'select')[0]
-  assert.equal(select(daily).props.value, 'daily')
-  assert.match(flatten(daily), /Could not start: 1.*feature name archive is used more than once/u)
+  assert.equal(daily.props['data-view'], 'daily')
+  assert.match(flatten(daily), /Activation failed 1.*feature name archive is used more than once/u)
   assert.doesNotMatch(flatten(daily), /Recent startup changes|Check upgrade impact|Download runtime evidence/u)
   assert.equal(app.findAlert()?.props.count, 1)
-  select(daily).props.onChange({ target: { value: 'advanced' } })
+  switchView(app, 'advanced')
   buttons(app.render()).find(node => flatten(node).includes('Recent startup changes')).props.onClick()
   const advanced = app.render()
-  assert.match(flatten(advanced), /Recent startup changes.*Active → Failed to activate.*Check upgrade impact/u)
+  assert.match(flatten(advanced), /Recent startup changes.*Running → Activation failed.*Check upgrade impact/u)
   assert.doesNotMatch(flatten(advanced), /Download runtime evidence/u)
-  select(advanced).props.onChange({ target: { value: 'developer' } })
+  switchView(app, 'developer')
   assert.match(flatten(app.render()), /dsh-plugin-health review --json.*Download runtime evidence/u)
-  assert.equal(select(client({ data, storage }).render()).props.value, 'developer')
+  assert.equal(client({ data, storage }).render().props['data-view'], 'developer')
 })
 
 test('the rescue panel renders the plugin and one check button', async () => {
@@ -398,8 +397,8 @@ test('the rescue panel renders the plugin and one check button', async () => {
   assert.match(flatten(view), /legacy-plugin/u)
   assert.match(flatten(view), /Plugin version does not match/u, 'the section heading is the compatibility one')
   assert.deepEqual(
-    buttons(view).map(node => flatten(node).trim()),
-    ['Rescan', 'Check for updates', 'Plugin is incompatible with this DSH version Needs attention Details', 'Review startup check'],
+    buttons(card(app)).map(node => flatten(node).trim()),
+    ['Review startup check'],
   )
 })
 
@@ -414,7 +413,7 @@ test('a rehearsal that boots offers the exemption, not a dead end', async () => 
   await settle()
   const view = app.render()
   assert.match(flatten(view), /Passed the standalone startup check.*started in this trial.*other features and any malicious behavior have not been checked/u)
-  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check for updates', 'Plugin is incompatible with this DSH version Needs attention Details', 'Allow startup next time'])
+  assert.deepEqual(buttons(card(app)).map(node => flatten(node).trim()), ['Allow startup next time'])
 })
 
 test('exempting asks for confirmation before writing anything', async () => {
@@ -451,7 +450,7 @@ test('cancelling the confirmation writes nothing and returns to the verdict', as
   await click(app.render(), 'Cancel'); await settle()
   const view = app.render()
   assert.doesNotMatch(flatten(view), /Confirm this version may start/u)
-  assert.deepEqual(buttons(view).map(node => flatten(node).trim()), ['Rescan', 'Check for updates', 'Plugin is incompatible with this DSH version Needs attention Details', 'Allow startup next time'])
+  assert.deepEqual(buttons(card(app)).map(node => flatten(node).trim()), ['Allow startup next time'])
   assert.equal(app.requests.filter(request => request.url.endsWith('/apply')).length, 0)
 })
 
@@ -689,7 +688,7 @@ test('the header offers the compatibility page as a real link, opened in a new t
   app.render()
   await settle()
   const view = app.render()
-  const anchor = links(view).find((node) => /Browse all plugin health/u.test(flatten(node)))
+  const anchor = links(view).find((node) => /Community compatibility/u.test(flatten(node)))
   assert.ok(anchor, 'the panel must offer a way to the published table')
   assert.match(anchor.props.href, /dsh-plugin-health\/compat\/$/u)
   assert.equal(anchor.props.target, '_blank', 'it belongs in the system browser, not in the settings pane')
@@ -774,7 +773,7 @@ test('the new controls are translated', async () => {
   await settle()
   const text = flatten(app.render())
   assert.match(text, /检查更新/u)
-  assert.match(text, /浏览全部插件健康状况/u)
+  assert.match(text, /社区兼容表/u)
 })
 
 test('a write refused for a stale key refreshes the key and retries once', async () => {

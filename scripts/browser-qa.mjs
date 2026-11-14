@@ -117,7 +117,7 @@ try {
     assert.equal(await page.getByText('插件文件损坏', { exact: true }).isVisible(), true)
     assert.match(await panel.innerText(), /search_notes/)
     assert.equal(await page.getByRole('button', { name: '下载运行证据', exact: true }).count(), 0)
-    assert.match(await panel.innerText(), /插件启动情况/)
+    assert.match(await panel.innerText(), /启动状态（加载条目）/)
     assert.match(await panel.innerText(), /功能名称「search_notes」被重复使用/)
     // The counters are visible in daily mode by design. The technical wording is not.
     assert.match(await panel.innerText(), /运行中/)
@@ -168,39 +168,63 @@ try {
     await diagnostic.click(); await detail.click()
   })
   await screenshot(page, 'settings-daily.zh.png')
-  const select = page.locator('.dph-mode select')
+  const modeButtons = page.getByRole('group', { name: '显示模式' })
+  const modeButton = mode => modeButtons.getByRole('button', {
+    name: { daily: '日常检查', advanced: '进阶诊断', developer: '开发验证' }[mode], exact: true,
+  })
+  const selectMode = mode => modeButton(mode).click()
+  await check('mode buttons work with Enter and Space and announce their selection', async () => {
+    assert.equal(await modeButton('daily').getAttribute('aria-pressed'), 'true')
+    await modeButton('advanced').focus()
+    await page.keyboard.press('Enter')
+    assert.equal(await panel.getAttribute('data-view'), 'advanced')
+    assert.equal(await modeButton('advanced').getAttribute('aria-pressed'), 'true')
+    assert.equal(await modeButton('daily').getAttribute('aria-pressed'), 'false')
+    await modeButton('daily').focus()
+    await page.keyboard.press('Space')
+    assert.equal(await panel.getAttribute('data-view'), 'daily')
+  })
+  await check('refresh timing is exposed on keyboard focus', async () => {
+    const tip = panel.locator('.dph-scan-tip')
+    assert.equal(await tip.isVisible(), false)
+    const rescan = page.getByRole('button', { name: '重新扫描', exact: true })
+    await rescan.focus()
+    assert.equal(await tip.isVisible(), true)
+    assert.match(await tip.innerText(), /每 30 秒.*状态更新时间/)
+    await modeButton('daily').focus()
+    assert.equal(await tip.isVisible(), false)
+  })
   await check('all three modes visibly state the malware-protection limit', async () => {
     for (const mode of ['daily', 'advanced', 'developer']) {
-      await select.selectOption(mode)
-      assert.equal(await page.getByText('检查安装和启动状态。Health 无法查杀病毒或阻止恶意程序扩散。', { exact: true }).isVisible(), true)
+      await selectMode(mode)
+      assert.equal(await panel.locator('footer').getByText('检查安装和启动状态。Health 无法查杀病毒或阻止恶意程序扩散。', { exact: true }).isVisible(), true)
     }
   })
-  await select.selectOption('advanced')
+  await selectMode('advanced')
   await check('advanced mode reveals version preflight and preserves a typed target across modes', async () => {
     assert.equal(await panel.getAttribute('data-view'), 'advanced')
-    assert.match(await panel.innerText(), /插件启动状态/)
-    assert.match(await panel.innerText(), /适合经常安装或调整插件的用户/)
+    assert.match(await panel.innerText(), /启动状态（加载条目）/)
     const input = page.getByLabel('准备升级到的 DSH 版本')
     await input.fill('0.2.1-rc.5')
-    await select.selectOption('daily'); await select.selectOption('advanced')
+    await selectMode('daily'); await selectMode('advanced')
     assert.equal(await input.inputValue(), '0.2.1-rc.5')
     await page.getByRole('button', { name: '检查升级影响', exact: true }).click()
-    await page.getByText('DSH 0.2.1-rc.5 · 1 个插件标注的支持版本不包含它', { exact: true }).waitFor()
+    await page.getByText(/^DSH 0\.2\.1-rc\.5 · 已判定声明：\d+ 个包 · 声明不匹配且未放行：1 个包$/).waitFor()
     assert.ok(requests.some(row => row.query.includes('target=0.2.1-rc.5')))
   })
   await check('completed preflight and expanded inventory survive switching through daily mode', async () => {
-    const inventory = page.getByRole('button', { name: /已安装的插件和配套包/ })
+    const inventory = page.getByRole('button', { name: /当前环境的包清单/ })
     await page.waitForFunction(() => Array.from(document.querySelectorAll('button[aria-expanded]'))
-      .some(node => node.textContent.includes('已安装的插件和配套包') && node.getAttribute('aria-expanded') === 'true'))
-    await select.selectOption('daily'); await select.selectOption('advanced')
-    assert.equal(await page.getByText('DSH 0.2.1-rc.5 · 1 个插件标注的支持版本不包含它', { exact: true }).isVisible(), true)
+      .some(node => node.textContent.includes('当前环境的包清单') && node.getAttribute('aria-expanded') === 'true'))
+    await selectMode('daily'); await selectMode('advanced')
+    assert.equal(await page.getByText(/^DSH 0\.2\.1-rc\.5 · 已判定声明：\d+ 个包 · 声明不匹配且未放行：1 个包$/).isVisible(), true)
     assert.equal(await inventory.getAttribute('aria-expanded'), 'true')
   })
   await screenshot(page, 'settings-advanced.zh.png')
-  await select.selectOption('developer')
+  await selectMode('developer')
   await check('developer mode exposes commands and evidence download', async () => {
     assert.equal(await panel.getAttribute('data-view'), 'developer')
-    assert.match(await panel.innerText(), /宿主加载状态/)
+    assert.match(await panel.innerText(), /启动状态（加载条目）/)
     assert.match(await panel.innerText(), /dsh-plugin-health smoke/)
     const downloaded = page.waitForEvent('download')
     await page.getByRole('button', { name: '下载运行证据', exact: true }).click()
@@ -218,7 +242,7 @@ try {
   await check('all modes fit a 360px viewport including expanded details', async () => {
     await page.setViewportSize({ width: 360, height: 800 })
     for (const mode of ['daily', 'advanced', 'developer']) {
-      await select.selectOption(mode)
+      await selectMode(mode)
       while (await page.locator('button[aria-expanded="false"]:visible').count()) {
         await page.locator('button[aria-expanded="false"]:visible').first().click()
       }
@@ -246,13 +270,13 @@ try {
     assert.equal(await page.evaluate(() => matchMedia('(prefers-color-scheme: dark)').matches), true)
   })
   await check('the startup counters say what they count', async () => {
-    const hints = await page.locator('.dph-metric-hint').allTextContents()
-    assert.equal(hints.length, 3)
-    for (const hint of hints) assert.ok(hint.trim().length > 4, 'each counter needs a readable explanation')
+    const metrics = page.locator('.dph-metric')
+    assert.deepEqual(await metrics.locator('.dph-metric-label').allTextContents(), ['运行中', '激活失败', '其他状态'])
+    assert.equal(await metrics.filter({ hasText: '激活失败' }).locator('strong').innerText(), '1')
   })
 
   await check('the loader list searches and groups', async () => {
-    await page.locator('.dph-mode select').selectOption('advanced')
+    await selectMode('advanced')
     await page.waitForTimeout(600)
 
     const trigger = page.locator('.dph-trigger').filter({ hasText: /启动记录|加载条目/u }).first()
@@ -283,7 +307,7 @@ try {
     await page.waitForTimeout(300)
 
     // Return to daily so the checks after this one see the mode they expect.
-    await page.locator('.dph-mode select').selectOption('daily')
+    await selectMode('daily')
     await page.waitForTimeout(400)
   })
 
@@ -292,7 +316,7 @@ try {
   })
   await check('repair submits the reviewed planToken only after confirmation and suppresses duplicate clicks', async () => {
     allowScriptedRepair = true
-    await select.selectOption('daily')
+    await selectMode('daily')
     await page.getByRole('button', { name: '清理 1 项损坏文件', exact: true }).evaluate(node => { node.click(); node.click() })
     const confirm = page.getByRole('button', { name: '确认修复', exact: true })
     await confirm.waitFor()
