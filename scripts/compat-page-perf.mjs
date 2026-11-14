@@ -54,7 +54,7 @@ try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
   const html = readFileSync(join(directory, 'index.html'))
   await page.goto(url, { waitUntil: 'networkidle' })
-  await page.waitForFunction(() => document.getElementById('count').textContent.length > 0)
+  await page.locator('#partial').waitFor({ state: 'hidden' })
   const total = await page.evaluate(() => JSON.parse(document.getElementById('i18n').textContent).data.total)
   const nodes = await page.evaluate(() => document.getElementsByTagName('*').length)
   const filterMs = await page.evaluate(async () => {
