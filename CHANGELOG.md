@@ -1,5 +1,28 @@
 # Changelog
 
+## 3.2.0
+
+### Settings opens with a verdict
+
+The header used to explain each mode before showing the result. Three view buttons now sit with
+the scan and update actions. The verdict appears once. Refresh timing and the last startup observation
+are available on **Rescan**, and the malware-protection limit is in the footer.
+
+### Counts name what they measure
+
+- **Installation scan** counts packages discovered in the current setup. **Startup status** counts
+  loader entries and uses the same state labels in all views.
+- Both upgrade previews report packages with assessable version declarations and mismatches
+  without exemptions. Startup tests have their own results.
+- The public compatibility table labels its total as table entries. That total includes unknown
+  results. The filtered count identifies how many of the loaded entries match.
+
+### Verification
+
+The bilingual render tests cover removed copy, the view controls, distinct count scopes and mixed
+declaration states. The Edge fixture checks keyboard switching, selection persistence, refresh
+timing and the 360px layout. The README screenshots were refreshed from the settings component.
+
 ## 3.1.1
 
 Removes a warning that was wrong on every host this tool supports, and whose advice could stop the

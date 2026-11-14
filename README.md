@@ -63,7 +63,7 @@ Open **Settings → Plugin health**. You get one line per problem, and one butto
 
 You can revoke Health's exemption record. Revocation does not undo effects of plugin execution.
 
-![The settings section: a mode selector, the capability boundary, live startup status, and a rejected plugin](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.png)
+![Plugin health with view buttons, a warning, installation scan count and startup counters](https://raw.githubusercontent.com/EasonMWS/dsh-plugin-health/main/docs/images/settings-finding.png)
 
 Once the rehearsal passes, you get the exemption and a Revoke button beside it:
 
@@ -299,20 +299,19 @@ Before installing anything:
 
 **<https://easonmws.github.io/dsh-plugin-health/compat/>**
 
-Every plugin in the community catalog, checked against the current host versions, with the counts at
-the top so you can see the state of the ecosystem at a glance:
+The compatibility table uses entries from the community catalog and compares their declarations
+against current host versions.
 
 | | |
 | --- | --- |
-| **How many** | Total checked, how many load on every host, how many a host rejects |
+| **How many** | All compatibility table entries, including unknown results, with counts by host and a next-build forecast |
 | **Category** | The catalog's own category, filterable |
 | **Released** | Publish date of the version shown — tells you whether the author is still active |
 | **Filter** | By name, by category, or only the rejected ones |
 | **Language** | English / 中文, remembered between visits |
 
-A tick means the plugin's declared range admits that host, so the installer will not reject it. It
-does **not** mean the plugin works, and it is not a security review. The page says which plugins it
-covers and which it cannot: GitHub-only and tarball-only entries are not on npm and are not checked.
+A tick means the plugin's declared range admits that host. Startup tests have separate results and
+evidence links. Entries marked **GitHub only** use a readable manifest from the default branch.
 
 The same data is downloadable as
 [`matrix.json`](https://easonmws.github.io/dsh-plugin-health/compat/matrix.json), and you can build
@@ -572,18 +571,17 @@ dsh plugin --profile desktop add dsh-plugin-health
 #                 ^^^^^^^ desktop app uses `desktop`; `dsh web` uses `web`
 ```
 
-- **It checks every plugin you actually have installed**, not a sample and not just the bundle list:
-  bundles, `package.json` dependencies, `cordis.patch.yml` inserts (including nested ones), and
-  anything plugin-shaped in `node_modules`. The header tells you how many were inspected.
+- **Installation scan** counts packages found in the current setup through bundles, dependencies,
+  patch entries and plugin-like directories. Missing or damaged packages can be part of that count.
+  **Startup status** counts loader entries. One package can contribute multiple entries.
 - Every finding is written in plain language with a concrete next step — a first-time user can act
   without reading CLI docs.
-- One line at the top says whether you can relax (`可以放心用`) or should act (`有问题建议处理`),
-  with three controls beside it: `重新扫描` to re-run the check, `检查更新` to ask the registry
-  whether this plugin itself is current, and `浏览全部插件健康状况` to open the
-  [public compatibility table](https://easonmws.github.io/dsh-plugin-health/compat/).
+- The first status line says **No issues found in this scan** or **Issues need attention**.
+  Choose **Rescan** to run the check again, **Check for updates** to check Health itself, or
+  **Community compatibility** to see public table entries. [Public compatibility table](https://easonmws.github.io/dsh-plugin-health/compat/)
 - **It checks for its own updates when DSH opens** and only speaks up when there is something newer,
   with the exact upgrade command. No "you are up to date" banner on every visit.
-- **If nothing is wrong, nothing is shown.** The plugin adds no badge, no banner, no sidebar entry.
+- The sidebar shows an entry when issues or an available Health update need attention.
 - **When something is wrong**, a compact `插件有 N 个问题` entry appears above the account menu and
   jumps straight to the section.
 - The host half only serves a loopback-only read-only snapshot; the plugin never modifies your
@@ -806,16 +804,15 @@ Repairs are opt-in (`--apply`), default to a dry run, and never delete:
 
 ## Review your profile before making changes
 
-Open **Settings → Plugin health** and choose a view. **Daily check** suits occasional users who want
-problem summaries and recovery controls. **Advanced diagnostics** suits frequent users managing
-several plugins, adding loader entries, recent transitions, configuration findings and target-version
-preview. **Developer verification** suits plugin authors, adding runtime evidence export and CLI examples.
+Open **Settings → Plugin health** and use the buttons next to the title. **Daily** shows findings and
+recovery controls, **Advanced** adds loader entries and configuration findings, and **Developer**
+adds runtime evidence export and CLI examples. The upgrade preview reports how many packages had
+assessable version declarations and how many had mismatches without exemptions.
 
-These are display preferences, not different protection levels. Permissions and scan coverage are
-the same in all three views. Preview inputs, results and
-expanded sections remain when switching views in the open panel. Disclosures support Enter and Space,
-respect reduced-motion preferences and wrap on narrow screens. The panel reads host state every 30
-seconds. A failed refresh preserves the last results with a stale notice, and a later configuration
+Tab to a view button and use Enter or Space to select it. Preview inputs, results and expanded sections
+are preserved when switching views. Hover over or focus **Rescan** for refresh timing and the last
+observed startup state timestamp. The footer describes the security limits. A failed refresh preserves
+the last results with a stale notice, and a later configuration
 change prompts a new preview. Review exported plugin names, configuration identifiers and paths before sharing.
 Read requests time out after 15 seconds and allow retry. Repair confirmation uses a one-use preview
 valid for five minutes. New or changed targets require another preview; failed repairs show their reason

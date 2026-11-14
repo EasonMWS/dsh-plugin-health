@@ -78,7 +78,7 @@ test('both READMEs document the same feature set', () => {
   // description of an older product.
   const features = [
     [/DSH_PLUGIN_HEALTH_NO_UPDATE/u, 'the update-check opt-out'],
-    [/Browse all plugin health|浏览全部插件健康状况/u, 'the link to the public table'],
+    [/Community compatibility|社区兼容表/u, 'the link to the public table'],
     [/Check for updates|检查更新/u, 'the on-demand update check'],
   ]
   for (const [pattern, label] of features) {
