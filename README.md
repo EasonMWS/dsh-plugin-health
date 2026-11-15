@@ -487,6 +487,24 @@ Not this package if you want to *browse and install new plugins from a market* �
 marketplace, while this one manages what you already have. (It does build the official format-1
 index that marketplaces can consume.)
 
+### Where this one stops
+
+A startup trial only exercises what the profile reaches while booting. A command that lazy-loads later, or
+an event handler that fires minutes in, is not covered — the plugin can start cleanly and still be broken by
+the same upgrade.
+
+For that side, [`dsh-seam`](https://github.com/YMoose/dsh-seam) checks a **plugin’s own source** against the
+installed `@deepseek-ai/*` type definitions and points at the line that broke. It covers the whole call
+surface instead of the boot path; this package covers whether the package installs and starts at all. The
+failure modes do not overlap, so neither replaces the other.
+
+| | `dsh-seam` | this package |
+| --- | --- | --- |
+| reads | your source → upstream `.d.ts` | the installed package → a real host |
+| catches a nullability change you relied on | yes, with `file:line` | only if boot reaches it |
+| catches `engines.dsh` too narrow, missing dependency, blocked build script | no | yes, at install time |
+| coverage | the whole call surface | the boot path |
+
 ## Why this exists: after an upgrade, DSH drops a plugin with one line on stderr
 
 DSH rejects a *new* install whose declared range does not cover the running version:
