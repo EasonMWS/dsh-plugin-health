@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:38:54.825Z",
+  "generatedAt": "2026-11-16T12:06:00.433Z",
   "hostVersion": "0.2.2-rc.3",
-  "plugin": "dsh-browser-cdp@1.9.9",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VBPBsa",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VBPBsa/home",
+  "plugin": "dsh-browser-cdp@1.10.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-87Efx1",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-87Efx1/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:38:55.189Z",
-      "durationMs": 1230,
+      "startedAt": "2026-11-16T12:06:00.795Z",
+      "durationMs": 1535,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-browser-cdp 1.9.9\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nDone in 624ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VBPBsa/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-browser-cdp 1.10.0\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nDone in 814ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-87Efx1/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:38:56.422Z",
-      "durationMs": 3569,
+      "startedAt": "2026-11-16T12:06:02.332Z",
+      "durationMs": 4183,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41373/?token=0qpbyCWJpVZOgA4TPoE6QjeRc_Fg6JlIhVYENIgTtmo\n",
+      "stdout": "dsh web: http://127.0.0.1:42227/?token=ukyMUVC4crU8WQ42CuJeHZU2Ode5BiX8_FRP1myLRc8\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -642,6 +642,12 @@
             {
               "id": "dsh-browser-cdp",
               "name": "dsh-browser-cdp",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "dsh-browser-cdp-skill",
+              "name": "dsh-browser-cdp/skill",
               "state": 2,
               "disabled": false
             },
@@ -1264,20 +1270,20 @@
               "disabled": false
             },
             {
-              "id": "acea2ac8",
+              "id": "9e947784",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "6b86effd",
+              "id": "3f7fcb9a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
           ],
           "tools": [
-            "bcdp_status",
+            "bcdp_help",
             "team_task_create",
             "team_task_get",
             "team_task_list",
@@ -1666,6 +1672,11 @@
             {
               "id": "dsh-browser-cdp",
               "name": "dsh-browser-cdp",
+              "state": 2
+            },
+            {
+              "id": "dsh-browser-cdp-skill",
+              "name": "dsh-browser-cdp/skill",
               "state": 2
             },
             {
@@ -2164,12 +2175,12 @@
               "state": 2
             },
             {
-              "id": "acea2ac8",
+              "id": "9e947784",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "6b86effd",
+              "id": "3f7fcb9a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2180,7 +2191,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2192,8 +2203,8 @@
   "subjects": [
     {
       "name": "dsh-browser-cdp",
-      "version": "1.9.9",
-      "integrity": "sha512-62hshlTrEE/YVdnFHokfAvQ1WPE2Tg6taMrTHmaetimC/iu6gJCLaKIGq232C0VJMsuECrIZAqA2xjtQiJh47Q==",
+      "version": "1.10.0",
+      "integrity": "sha512-kDZ56V3VIcWU/uCO0bo1ouNqWLEb2WHBcBarHGVLvWS6+GFT4yxfDD3SR0GzSrq3BpRcWHWGe4KYN+qsVWxFlg==",
       "resolution": "registry"
     }
   ],
@@ -2224,20 +2235,26 @@
         "disabled": false
       },
       {
-        "id": "acea2ac8",
+        "id": "dsh-browser-cdp-skill",
+        "name": "dsh-browser-cdp/skill",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "9e947784",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "6b86effd",
+        "id": "3f7fcb9a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }
     ],
     "tools": [
-      "bcdp_status"
+      "bcdp_help"
     ],
     "toolsUnavailable": false,
     "baseline": "host"

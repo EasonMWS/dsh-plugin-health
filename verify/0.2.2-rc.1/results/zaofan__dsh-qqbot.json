@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:37:04.537Z",
+  "generatedAt": "2026-11-16T12:02:44.540Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@zaofan/dsh-qqbot@1.12.22",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-e82n8M",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-e82n8M/home",
+  "plugin": "@zaofan/dsh-qqbot@1.13.6",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0NFYNM",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0NFYNM/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:37:05.033Z",
-      "durationMs": 7465,
+      "startedAt": "2026-11-16T12:02:44.970Z",
+      "durationMs": 6557,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 102, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.12.22\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 3, downloaded 33, added 3\nProgress: resolved 147, reused 3, downloaded 116, added 118\nProgress: resolved 147, reused 3, downloaded 117, added 119\nProgress: resolved 147, reused 3, downloaded 118, added 119\nProgress: resolved 147, reused 3, downloaded 118, added 121, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-e82n8M/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@zaofan/dsh-qqbot@1.12.22'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-e82n8M/home/profiles/health-smoke/.plugin-manager/logs/operation-Q7LhFZ/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.6\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 0, downloaded 0, added 0\nProgress: resolved 147, reused 8, downloaded 110, added 11\nProgress: resolved 147, reused 8, downloaded 112, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 120\nProgress: resolved 147, reused 8, downloaded 113, added 121, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0NFYNM/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@zaofan/dsh-qqbot@1.13.6'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0NFYNM/home/profiles/health-smoke/.plugin-manager/logs/operation-jVCXAL/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "@zaofan/dsh-qqbot",
-      "version": "1.12.22",
-      "integrity": "sha512-/ixWQ1w5WZxZNz+MkNMU1t8YY6k3I877thcJh0ef9yYXeQb4DfLMqV1qtZUPcpHCu4ppHQq5p5eB/CYTfT/CWw==",
+      "version": "1.13.6",
+      "integrity": "sha512-2vInqU5hlVJLOy85HMlCAp0mimJjyi4esTuBs5i208Qfou6onwK1uNynApUSh0e4I8iCpcuJiVTIrQgk6e7H4g==",
       "resolution": "registry"
     }
   ],

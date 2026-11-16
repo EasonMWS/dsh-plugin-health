@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:51:22.446Z",
+  "generatedAt": "2026-11-16T12:02:49.360Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-email@0.25.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-94yEWY",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-94yEWY/home",
+  "plugin": "dsh-email@0.26.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-SiPrnw",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-SiPrnw/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-12T03:51:22.896Z",
-      "durationMs": 2724,
+      "name": "allow-version",
+      "startedAt": "2026-11-16T12:02:49.670Z",
+      "durationMs": 99,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-email 0.25.0\n\nPackages: +67\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 67, reused 3, downloaded 39, added 4\nProgress: resolved 67, reused 3, downloaded 64, added 67, done\nDone in 1.8s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-94yEWY/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed dsh-email@0.26.1 for DSH 0.2.2-rc.1\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-16T12:02:49.769Z",
+      "durationMs": 1820,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-email 0.26.1\n\nPackages: +67\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 67, reused 10, downloaded 57, added 67, done\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:51:25.651Z",
-      "durationMs": 5329,
+      "startedAt": "2026-11-16T12:02:51.607Z",
+      "durationMs": 3949,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41009/?token=nW9nKcybY-WJN6U182upZ06MzPTyyKW2k1EYjsjWAQ4\n",
+      "stdout": "dsh web: http://127.0.0.1:42819/?token=fgqeeTw7RTjOKCk48qL2p1EkeLrwyP1XvOg5RcZBk9o\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "043bb0e5",
+              "id": "2e489dc5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "a9d06b79",
+              "id": "e5373b82",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2114,12 +2127,12 @@
               "state": 2
             },
             {
-              "id": "043bb0e5",
+              "id": "2e489dc5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "a9d06b79",
+              "id": "e5373b82",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2130,7 +2143,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2142,8 +2155,8 @@
   "subjects": [
     {
       "name": "dsh-email",
-      "version": "0.25.0",
-      "integrity": "sha512-A1OH0Ojt35rHLeSWwjkxkcjlXpwTTy7gLTCTZYB7QPVz3NuQkSKhAdkrOGo7nY89tKCG/1AKQByWxF4rMMuZvw==",
+      "version": "0.26.1",
+      "integrity": "sha512-dOuqk0Am79DIUJLThU/QmvwK+/4TPdcO+YzPA3pttgnKN0fLXcTSgOq6PGW/6p0rnoGUr9nSDt6G+kOC1Bhacw==",
       "resolution": "registry"
     }
   ],
@@ -2163,8 +2176,8 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
@@ -2174,13 +2187,13 @@
         "disabled": false
       },
       {
-        "id": "043bb0e5",
+        "id": "2e489dc5",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "a9d06b79",
+        "id": "e5373b82",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2206,5 +2219,10 @@
     ],
     "toolsUnavailable": false,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }

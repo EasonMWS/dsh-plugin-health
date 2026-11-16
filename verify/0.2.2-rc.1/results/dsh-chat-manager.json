@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:36:57.376Z",
+  "generatedAt": "2026-11-16T12:03:06.796Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-chat-manager@2.0.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jNjYZN",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jNjYZN/home",
+  "plugin": "dsh-chat-manager@2.0.3",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vGTXLx",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vGTXLx/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-13T09:36:57.813Z",
-      "durationMs": 1927,
+      "name": "allow-version",
+      "startedAt": "2026-11-16T12:03:07.283Z",
+      "durationMs": 189,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-chat-manager 2.0.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jNjYZN/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed dsh-chat-manager@2.0.3 for DSH 0.2.2-rc.1\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-16T12:03:07.472Z",
+      "durationMs": 1901,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-chat-manager 2.0.3\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 977ms using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:36:59.758Z",
-      "durationMs": 4095,
+      "startedAt": "2026-11-16T12:03:09.376Z",
+      "durationMs": 4495,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38903/?token=M_-umtHFawKounSnqiiwv9RBx8NPhu2ECJyh3-fO900\n",
+      "stdout": "dsh web: http://127.0.0.1:43691/?token=5HETCJeR0H9n5_ysSUjyjax8n0rVH39JidSXdGeLD6M\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "42bc9af3",
+              "id": "f27f9cf0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e29e9baa",
+              "id": "9b75b41f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2111,12 @@
               "state": 2
             },
             {
-              "id": "42bc9af3",
+              "id": "f27f9cf0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "e29e9baa",
+              "id": "9b75b41f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2127,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2126,8 +2139,8 @@
   "subjects": [
     {
       "name": "dsh-chat-manager",
-      "version": "2.0.2",
-      "integrity": "sha512-tHM9PkjgtiLaBhG4eB0b+Mn8OCNKqCDxK8H6Vx8YuO0mhP4wKvf+gWH6Q4nDEb4UpETsdWtTVM940cVapvCSDA==",
+      "version": "2.0.3",
+      "integrity": "sha512-4JZ8YLOZYg0xLQIezTVt3NrCyDsbptqkpz8atTNJwUKX5uObSYwCkr0kZe+wgVORFVN9ExnVK3KbN9BxnXuGoQ==",
       "resolution": "registry"
     }
   ],
@@ -2147,8 +2160,8 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
@@ -2158,13 +2171,13 @@
         "disabled": false
       },
       {
-        "id": "42bc9af3",
+        "id": "f27f9cf0",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e29e9baa",
+        "id": "9b75b41f",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2173,5 +2186,10 @@
     "tools": [],
     "toolsUnavailable": false,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }

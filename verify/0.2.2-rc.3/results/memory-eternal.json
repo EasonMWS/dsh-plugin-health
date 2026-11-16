@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:40:11.330Z",
+  "generatedAt": "2026-11-16T12:06:20.256Z",
   "hostVersion": "0.2.2-rc.3",
-  "plugin": "memory-eternal@0.31.4",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fjmL4o",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fjmL4o/home",
+  "plugin": "memory-eternal@0.45.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AWeDmx",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AWeDmx/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:40:11.750Z",
-      "durationMs": 1859,
+      "startedAt": "2026-11-16T12:06:20.595Z",
+      "durationMs": 1658,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ memory-eternal 0.31.4\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fjmL4o/home/profiles/health-smoke\n",
+      "stdout": "[WARN] deprecated memory-eternal@0.45.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.\nProgress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ memory-eternal 0.45.0\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nDone in 791ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AWeDmx/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:40:13.611Z",
-      "durationMs": 4836,
+      "startedAt": "2026-11-16T12:06:22.255Z",
+      "durationMs": 3238,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37671/?token=HR1BAaiIzko-HMe9ns8Xh6gg5qRoMQiDybKdIgNDIo4\n",
-      "stderr": "(node:4800) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[memory-eternal] watchdog delegated to 外部实例 port=7999（端口上服务 v0.31.4，本机 v0.31.4）\n",
+      "stdout": "dsh web: http://127.0.0.1:39673/?token=Vx3mekNvKcg8xYRi38Lf5pFP44MYQgJiecYY3PYEyys\n",
+      "stderr": "(node:4230) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[memory-eternal] watchdog spawned pid=4256 bin=/opt/hostedtoolcache/node/22.23.4/x64/bin/node port=7999\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "4ead6f21",
+              "id": "2f90b1de",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "9da0dc78",
+              "id": "3fa3645c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2165,12 +2165,12 @@
               "state": 2
             },
             {
-              "id": "4ead6f21",
+              "id": "2f90b1de",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "9da0dc78",
+              "id": "3fa3645c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2181,7 +2181,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2193,8 +2193,8 @@
   "subjects": [
     {
       "name": "memory-eternal",
-      "version": "0.31.4",
-      "integrity": "sha512-Ztf3p5GZ68gq+6BIT2y/kHmTINWe2E2TWUYpekGEo0J1itfqnAtrbotMF5TP+MVOJcTjaPQR73W4BOMcRl/3RQ==",
+      "version": "0.45.0",
+      "integrity": "sha512-9lFW1rDRtmQOKcYsI4AreLbgfVAouiZLytGOXG9IHHk9hGriWBSx06zlfhhN/IApCvEU8PGcErtwYADiim6Gtw==",
       "resolution": "registry"
     }
   ],
@@ -2225,13 +2225,13 @@
         "disabled": false
       },
       {
-        "id": "4ead6f21",
+        "id": "2f90b1de",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "9da0dc78",
+        "id": "3fa3645c",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

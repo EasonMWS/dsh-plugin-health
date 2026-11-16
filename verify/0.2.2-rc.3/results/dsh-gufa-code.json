@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:40:06.656Z",
+  "generatedAt": "2026-11-16T12:06:04.526Z",
   "hostVersion": "0.2.2-rc.3",
-  "plugin": "dsh-gufa-code@1.3.179",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZRjZYB",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZRjZYB/home",
+  "plugin": "dsh-gufa-code@1.3.201",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4wgK24",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4wgK24/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:40:07.287Z",
-      "durationMs": 4642,
+      "startedAt": "2026-11-16T12:06:04.863Z",
+      "durationMs": 2684,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 88, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: @humanwhocodes/config-array@0.13.0, @humanwhocodes/object-schema@2.0.3, eslint@8.57.1, glob@7.2.3, inflight@1.0.6, rimraf@3.0.2\n\ndependencies:\n+ dsh-gufa-code 1.3.179\n\nPackages: +103\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 104, reused 11, downloaded 91, added 102\nProgress: resolved 104, reused 11, downloaded 92, added 103, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-gufa-code@1.3.179\nDone in 3.4s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZRjZYB/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: @humanwhocodes/config-array@0.13.0, @humanwhocodes/object-schema@2.0.3, eslint@8.57.1, glob@7.2.3, inflight@1.0.6, rimraf@3.0.2\n\ndependencies:\n+ dsh-gufa-code 1.3.201\n\nPackages: +103\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 104, reused 9, downloaded 54, added 8\nProgress: resolved 104, reused 9, downloaded 94, added 103, done\nDone in 2s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4wgK24/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:40:11.969Z",
-      "durationMs": 5856,
+      "startedAt": "2026-11-16T12:06:07.564Z",
+      "durationMs": 3569,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33611/?token=u747m916KirhTjpkLqIKAQsBKaFBa6h44QUHFr26IZo\n",
+      "stdout": "dsh web: http://127.0.0.1:36415/?token=3TcjWIEbfsQk3QLlkgPI7FRXW_0lXLhJP3BOVAmnr8A\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,12 +39,6 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
-            {
-              "id": "91456667",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1270,8 +1264,14 @@
               "disabled": false
             },
             {
-              "id": "3e24431c",
+              "id": "a25b3a3f",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "37e56100",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1292,11 +1292,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "91456667",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2168,8 +2163,13 @@
               "state": 2
             },
             {
-              "id": "3e24431c",
+              "id": "a25b3a3f",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "37e56100",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2179,7 +2179,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2191,8 +2191,8 @@
   "subjects": [
     {
       "name": "dsh-gufa-code",
-      "version": "1.3.179",
-      "integrity": "sha512-9kqhFLgXxPNXa2OLydh3FL4kk9qznIfkoVnklWlu2+oCbgQQZ5VK9lEtsVOFjxxyRk49P4XxtTjpXN1++cipqA==",
+      "version": "1.3.201",
+      "integrity": "sha512-LzzcEx4GrhCOl3/l1rk2o8zPxEoIo6Ji/71qWnPEZWWt4KlBUU0KL6dsfRXyQ+FXRoYadxk8blqEMUbpPIaPEw==",
       "resolution": "registry"
     }
   ],
@@ -2217,20 +2217,20 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "91456667",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
         "id": "dsh-gufa-code",
         "name": "dsh-gufa-code",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "3e24431c",
+        "id": "a25b3a3f",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "37e56100",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

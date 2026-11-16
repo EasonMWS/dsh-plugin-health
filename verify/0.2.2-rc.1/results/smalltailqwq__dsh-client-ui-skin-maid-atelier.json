@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:50:55.677Z",
+  "generatedAt": "2026-11-16T12:02:44.444Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@smalltailqwq/dsh-client-ui-skin-maid-atelier@0.1.10",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-eEmzlr",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-eEmzlr/home",
+  "plugin": "@smalltailqwq/dsh-client-ui-skin-maid-atelier@0.1.11",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0S1JVA",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0S1JVA/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-12T03:50:55.951Z",
-      "durationMs": 1726,
+      "name": "allow-version",
+      "startedAt": "2026-11-16T12:02:44.794Z",
+      "durationMs": 104,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @smalltailqwq/dsh-client-ui-skin-maid-atelier 0.1.10\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 674ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-eEmzlr/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed @smalltailqwq/dsh-client-ui-skin-maid-atelier@0.1.11 for DSH 0.2.2-rc.1\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-16T12:02:44.898Z",
+      "durationMs": 1827,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @smalltailqwq/dsh-client-ui-skin-maid-atelier 0.1.11\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 828ms using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:50:57.679Z",
-      "durationMs": 2922,
+      "startedAt": "2026-11-16T12:02:46.727Z",
+      "durationMs": 3093,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37777/?token=VtRVFdwxD1hObjra_WTBZJQt3RCvwsJZYVSdxBQHt3c\n",
+      "stdout": "dsh web: http://127.0.0.1:39261/?token=NNts7pSJv81sLSr2N3y2Nr4RCbq_eD_2AUBK0as-LFA\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "85df220c",
+              "id": "6e9b5cb2",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "077c56bd",
+              "id": "66a82239",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2111,12 @@
               "state": 2
             },
             {
-              "id": "85df220c",
+              "id": "6e9b5cb2",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "077c56bd",
+              "id": "66a82239",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2127,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2126,8 +2139,8 @@
   "subjects": [
     {
       "name": "@smalltailqwq/dsh-client-ui-skin-maid-atelier",
-      "version": "0.1.10",
-      "integrity": "sha512-eQFyZqzmTJmHveYwIESa8brF2w9rN4Cge+tw88T0SIEMkdN1FSCoQ+HZioK+Y4vr5qyNUaUBmjpmoBfSSufBgA==",
+      "version": "0.1.11",
+      "integrity": "sha512-PT/RrI02XgQAIzRoAghvb4FQMM+AS9ySYJG0bH4NImEtnMXkSSRvWbFSGfUXhfKcpiZVHX/ZDN9nvldxcTTbKg==",
       "resolution": "registry"
     }
   ],
@@ -2147,8 +2160,8 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
@@ -2158,13 +2171,13 @@
         "disabled": false
       },
       {
-        "id": "85df220c",
+        "id": "6e9b5cb2",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "077c56bd",
+        "id": "66a82239",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2173,5 +2186,10 @@
     "tools": [],
     "toolsUnavailable": false,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }

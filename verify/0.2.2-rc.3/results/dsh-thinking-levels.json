@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:39:24.527Z",
+  "generatedAt": "2026-11-16T12:05:51.274Z",
   "hostVersion": "0.2.2-rc.3",
-  "plugin": "dsh-thinking-levels@4.4.14",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uKkIw0",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uKkIw0/home",
+  "plugin": "dsh-thinking-levels@4.4.16",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rCEt1N",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rCEt1N/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:39:24.916Z",
-      "durationMs": 1521,
+      "startedAt": "2026-11-16T12:05:51.681Z",
+      "durationMs": 1603,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-thinking-levels 4.4.14\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 4, downloaded 1, added 5, done\nDone in 755ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uKkIw0/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-thinking-levels 4.4.16\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 4, downloaded 1, added 5, done\nDone in 822ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rCEt1N/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:39:26.440Z",
-      "durationMs": 4419,
+      "startedAt": "2026-11-16T12:05:53.288Z",
+      "durationMs": 4889,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-thinking-levels] settings service face: register=undefined installSection=undefined describe=function\ndsh web: http://127.0.0.1:41521/?token=LQ367dycyndmd8D86ApTo4-eGShLxzh_3YWcx_Kp0WU\n",
+      "stdout": "[dsh-thinking-levels] settings service face: register=undefined installSection=undefined describe=function\ndsh web: http://127.0.0.1:40851/?token=WPszWI8a9Rm0kavL5P4rLFeslo-tvCVgl37rXoYveAY\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "0b68ea85",
+              "id": "b73492bd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e3ebcfcf",
+              "id": "328b9b91",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "0b68ea85",
+              "id": "b73492bd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "e3ebcfcf",
+              "id": "328b9b91",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2179,7 +2179,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2191,8 +2191,8 @@
   "subjects": [
     {
       "name": "dsh-thinking-levels",
-      "version": "4.4.14",
-      "integrity": "sha512-GxWSbbcOS1xd9JK0LKj2vcdJtSTw+zYR/uFgZve1wYcfMBcd+agonSg1jybaw17ZeQyxVmthEYHlCSPFU4QmYg==",
+      "version": "4.4.16",
+      "integrity": "sha512-HpNIs60hEHXwt82L2Sf8UzpvTHe/eGI88vqRGuF5pp6k9J7/5PR4PWOUh/7CLiUKmERLmM6MbGXDPLmygv2ttA==",
       "resolution": "registry"
     }
   ],
@@ -2223,13 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "0b68ea85",
+        "id": "b73492bd",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e3ebcfcf",
+        "id": "328b9b91",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

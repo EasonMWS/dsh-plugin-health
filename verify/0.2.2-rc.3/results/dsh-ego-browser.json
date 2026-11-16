@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:38:39.121Z",
+  "generatedAt": "2026-11-16T12:05:06.344Z",
   "hostVersion": "0.2.2-rc.3",
-  "plugin": "dsh-ego-browser@0.9.14",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iqUYmO",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iqUYmO/home",
+  "plugin": "dsh-ego-browser@0.13.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Evbf35",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Evbf35/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:38:39.634Z",
-      "durationMs": 1455,
+      "startedAt": "2026-11-16T12:05:06.782Z",
+      "durationMs": 1950,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ego-browser 0.9.14\n\nPackages: +6\n++++++\nProgress: resolved 6, reused 3, downloaded 3, added 6, done\nDone in 749ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iqUYmO/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ego-browser 0.13.0\n\nPackages: +6\n++++++\nProgress: resolved 6, reused 3, downloaded 3, added 6, done\nDone in 939ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Evbf35/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:38:41.097Z",
-      "durationMs": 3923,
+      "startedAt": "2026-11-16T12:05:08.735Z",
+      "durationMs": 4929,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:40823/?token=g_ACJWqwRQEwA-bZssgP10z3yTg2HzUxtveicMwvo3M\n",
+      "stdout": "dsh web: http://127.0.0.1:45393/?token=mETEIbN8EqBQuqiT3OMciMZLTtXmK65jukAT8-00dXg\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "caff2d00",
+              "id": "a04cedfa",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "872ee916",
+              "id": "cfb4d6e0",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1297,6 +1297,7 @@
             "ego_navigate",
             "ego_page_info",
             "ego_read_element",
+            "ego_replay",
             "ego_screenshot",
             "ego_script",
             "ego_scroll",
@@ -1307,6 +1308,7 @@
             "ego_status",
             "ego_tabs",
             "ego_upload",
+            "ego_verify",
             "ego_wait",
             "ego_wait_for_human",
             "ego_wait_for_response",
@@ -2198,12 +2200,12 @@
               "state": 2
             },
             {
-              "id": "caff2d00",
+              "id": "a04cedfa",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "872ee916",
+              "id": "cfb4d6e0",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2214,7 +2216,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2226,8 +2228,8 @@
   "subjects": [
     {
       "name": "dsh-ego-browser",
-      "version": "0.9.14",
-      "integrity": "sha512-W3nOI4ydDw2/BmpAh5uvPzLvBHvo9QFvVjX0jar0iLECriZwabWPZuoXiyn5X8ExpeTBog53r91KbnO1r/MsJw==",
+      "version": "0.13.0",
+      "integrity": "sha512-nFvEGODMneMXeH1MEZVpR8maFL8CI2UwX/s71qbeb82yI5ZCbA8YMjzSEo44l4yRoVpjpe8EDoZAA8QTvtdihQ==",
       "resolution": "registry"
     }
   ],
@@ -2258,13 +2260,13 @@
         "disabled": false
       },
       {
-        "id": "caff2d00",
+        "id": "a04cedfa",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "872ee916",
+        "id": "cfb4d6e0",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2291,6 +2293,7 @@
       "ego_navigate",
       "ego_page_info",
       "ego_read_element",
+      "ego_replay",
       "ego_screenshot",
       "ego_script",
       "ego_scroll",
@@ -2301,6 +2304,7 @@
       "ego_status",
       "ego_tabs",
       "ego_upload",
+      "ego_verify",
       "ego_wait",
       "ego_wait_for_human",
       "ego_wait_for_response",

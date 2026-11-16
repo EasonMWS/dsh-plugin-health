@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:39:25.662Z",
+  "generatedAt": "2026-11-16T12:06:05.552Z",
   "hostVersion": "0.2.2-rc.3",
   "plugin": "dsh-find-plugin@0.4.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ITh5IL",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ITh5IL/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-97IQZ5",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-97IQZ5/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-13T09:39:25.996Z",
-      "durationMs": 123,
+      "startedAt": "2026-11-16T12:06:05.948Z",
+      "durationMs": 152,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:39:26.120Z",
-      "durationMs": 1515,
+      "startedAt": "2026-11-16T12:06:06.100Z",
+      "durationMs": 1381,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-find-plugin 0.4.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 826ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-find-plugin 0.4.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 611ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:39:27.637Z",
-      "durationMs": 4137,
+      "startedAt": "2026-11-16T12:06:07.483Z",
+      "durationMs": 4181,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38811/?token=_VgcXzUbaGLRXoERaU9SjkMkjonmzYoN_lnDc5yIb2c\n",
+      "stdout": "dsh web: http://127.0.0.1:34089/?token=z4uSaZ0AMNRF0AOyZmyOGUFVkzq2jr0UO_o0-Sk8aH0\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1277,13 +1277,13 @@
               "disabled": false
             },
             {
-              "id": "ed46e961",
+              "id": "3a9224d4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ff85f393",
+              "id": "bf8202c2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2177,12 +2177,12 @@
               "state": 2
             },
             {
-              "id": "ed46e961",
+              "id": "3a9224d4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ff85f393",
+              "id": "bf8202c2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2193,7 +2193,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2237,13 +2237,13 @@
         "disabled": false
       },
       {
-        "id": "ed46e961",
+        "id": "3a9224d4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ff85f393",
+        "id": "bf8202c2",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

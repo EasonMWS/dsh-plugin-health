@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-16T12:07:23.376Z",
+  "hostVersion": "0.2.1-rc.5",
+  "plugin": "@stardustlc/dsh-suite@0.11.6",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zXphCe",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zXphCe/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "allow-version",
+      "startedAt": "2026-11-16T12:07:23.670Z",
+      "durationMs": 95,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "dsh: allowed @stardustlc/dsh-suite@0.11.6 for DSH 0.2.1-rc.5\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-16T12:07:23.765Z",
+      "durationMs": 3998,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @stardustlc/dsh-suite 0.11.6\n\nPackages: +171\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 171, reused 4, downloaded 0, added 0\nProgress: resolved 171, reused 10, downloaded 161, added 171, done\nDone in 2.3s using pnpm v11.7.0\n",
+      "stderr": "\ndsh: installation rejected: Plugin dsh-calendar@0.14.6 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-calendar@0.14.6 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-cite@0.7.10 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-cite@0.7.10 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-code-security@0.7.12 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-code-security@0.7.12 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-codex-port@0.4.10 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-codex-port@0.4.10 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-dingtalk@0.3.10 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-dingtalk@0.3.10 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin @stardustlc/dsh-docker@0.5.10 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for @stardustlc/dsh-docker@0.5.10 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin @stardustlc/dsh-dream@0.14.1 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for @stardustlc/dsh-dream@0.14.1 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-email@0.26.0 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-email@0.26.0 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-ffmpeg@0.7.8 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-ffmpeg@0.7.8 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-flakefinder@0.4.11 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-flakefinder@0.4.11 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-hyperframes@0.11.6 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-hyperframes@0.11.6 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-minimal-ptc@0.6.10 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-minimal-ptc@0.6.10 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-ppt@0.20.6 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-ppt@0.20.6 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-remotion@0.10.6 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-remotion@0.10.6 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-rss@0.9.13 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-rss@0.9.13 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-slack@0.4.10 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-slack@0.4.10 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-sql@0.5.12 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-sql@0.5.12 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\nPlugin dsh-voice@0.5.7 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for dsh-voice@0.5.7 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\ndsh: restored package.json, pnpm-lock.yaml, and node_modules.\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-calendar@0.14.6 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-cite@0.7.10 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-code-security@0.7.12 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-codex-port@0.4.10 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-dingtalk@0.3.10 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version @stardustlc/dsh-docker@0.5.10 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version @stardustlc/dsh-dream@0.14.1 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-email@0.26.0 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-ffmpeg@0.7.8 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-flakefinder@0.4.11 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-hyperframes@0.11.6 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-minimal-ptc@0.6.10 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-ppt@0.20.6 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-remotion@0.10.6 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-rss@0.9.13 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-slack@0.4.10 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-sql@0.5.12 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version dsh-voice@0.5.7 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zXphCe/home/profiles/health-smoke/.plugin-manager/logs/operation-vdtXO0/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.2.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "@stardustlc/dsh-suite",
+      "version": null,
+      "integrity": null,
+      "resolution": null,
+      "evidenceError": "pnpm-lock.yaml not found"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "gate-rejected",
+    "detail": "dsh: installation rejected: Plugin dsh-calendar@0.14.6 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant th"
+  },
+  "level": null,
+  "declared": false,
+  "footprintDelta": null,
+  "bypassed": true,
+  "bypass": {
+    "level": "V1",
+    "failure": {
+      "stage": "install",
+      "kind": "gate-rejected",
+      "detail": "dsh: installation rejected: Plugin dsh-calendar@0.14.6 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant th"
+    }
+  }
+}

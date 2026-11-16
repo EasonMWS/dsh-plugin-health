@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:38:48.199Z",
+  "generatedAt": "2026-11-16T12:05:11.009Z",
   "hostVersion": "0.2.2-rc.3",
   "plugin": "dsh-isolation-gate@1.13.11",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ssq7Xu",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ssq7Xu/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-E3C1f0",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-E3C1f0/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:38:48.473Z",
-      "durationMs": 1262,
+      "startedAt": "2026-11-16T12:05:11.344Z",
+      "durationMs": 1385,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-isolation-gate 1.13.11\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 628ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ssq7Xu/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-isolation-gate 1.13.11\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 714ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-E3C1f0/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:38:49.736Z",
-      "durationMs": 2542,
+      "startedAt": "2026-11-16T12:05:12.730Z",
+      "durationMs": 3421,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-isolation-gate] host half loaded (v1.13.11)\n[dsh-isolation-gate] 状态文件：/home/runner/.agents/门禁-授权.json\n[dsh-isolation-gate] 名单：/home/runner/.agents/门禁-名单.txt\n[dsh-isolation-gate] 工具执行门已挂载（ctx.tools.guard · fail-closed）\n[dsh-isolation-gate] 已注册 7 个模型工具（gate_*）\n[dsh-isolation-gate] 目录选择器不可用 ⇒ 面板使用\"未入名单目录 + 文本框\"退路\ndsh web: http://127.0.0.1:38365/?token=zZmekHkrcoEp_002uq7NxGqUX5ZmKgRMznj-hIcLwPY\n",
+      "stdout": "[dsh-isolation-gate] host half loaded (v1.13.11)\n[dsh-isolation-gate] 状态文件：/home/runner/.agents/门禁-授权.json\n[dsh-isolation-gate] 名单：/home/runner/.agents/门禁-名单.txt\n[dsh-isolation-gate] 工具执行门已挂载（ctx.tools.guard · fail-closed）\n[dsh-isolation-gate] 已注册 7 个模型工具（gate_*）\n[dsh-isolation-gate] 目录选择器不可用 ⇒ 面板使用\"未入名单目录 + 文本框\"退路\ndsh web: http://127.0.0.1:43431/?token=AXhRwmBW6YtcTaPcKLwCco9Ay4uzso5Xg8Qw59Xmj4E\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,12 +39,6 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
-            {
-              "id": "86353805",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1270,7 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "74ecf418",
+              "id": "66479db6",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "83b9163a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1299,11 +1299,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "86353805",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2175,7 +2170,12 @@
               "state": 2
             },
             {
-              "id": "74ecf418",
+              "id": "66479db6",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "83b9163a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2186,7 +2186,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2224,19 +2224,19 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "86353805",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
         "id": "isolation-gate",
         "name": "dsh-isolation-gate",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "74ecf418",
+        "id": "66479db6",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "83b9163a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

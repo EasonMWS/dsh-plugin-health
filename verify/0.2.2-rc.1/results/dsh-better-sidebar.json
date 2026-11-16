@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:37:09.497Z",
+  "generatedAt": "2026-11-16T12:03:08.665Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-better-sidebar@0.32.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hpx8NY",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hpx8NY/home",
+  "plugin": "dsh-better-sidebar@0.32.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hocBMM",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hocBMM/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-13T09:37:10.036Z",
-      "durationMs": 4324,
+      "name": "allow-version",
+      "startedAt": "2026-11-16T12:03:09.009Z",
+      "durationMs": 112,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-better-sidebar 0.32.0\n\nPackages: +167\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 167, reused 0, downloaded 0, added 0\nProgress: resolved 167, reused 0, downloaded 94, added 4\nProgress: resolved 167, reused 0, downloaded 167, added 167, done\nDone in 3.4s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hpx8NY/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed dsh-better-sidebar@0.32.1 for DSH 0.2.2-rc.1\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-16T12:03:09.122Z",
+      "durationMs": 4316,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-better-sidebar 0.32.1\n\nPackages: +167\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 167, reused 5, downloaded 6, added 4\nProgress: resolved 167, reused 5, downloaded 160, added 58\nProgress: resolved 167, reused 5, downloaded 162, added 167, done\nDone in 2.9s using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:37:14.420Z",
-      "durationMs": 4961,
+      "startedAt": "2026-11-16T12:03:13.470Z",
+      "durationMs": 3046,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35235/?token=q3NJuMd8KaHEh3Mjl0CuRU_PkTsx2RrtxetCcPgOm-I\n",
+      "stdout": "dsh web: http://127.0.0.1:36945/?token=OM6Hez-dRhya23rv4LtLYprXmvoxBWpeNeKs-RJDXTU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "69b1357c",
+              "id": "5091cea4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e8508244",
+              "id": "669391cd",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2111,12 @@
               "state": 2
             },
             {
-              "id": "69b1357c",
+              "id": "5091cea4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "e8508244",
+              "id": "669391cd",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2127,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2126,8 +2139,8 @@
   "subjects": [
     {
       "name": "dsh-better-sidebar",
-      "version": "0.32.0",
-      "integrity": "sha512-DtMJTQ1+uW8zXrSyxAoGcTn9mFGZQlLO5QUwOpmLI7u4Lz5zl9qQeohZFqJoIdbWDsxGmXCnEjbeUiKkfOnzFg==",
+      "version": "0.32.1",
+      "integrity": "sha512-UcIEAkLuZXz0SkNDwMtycCoO59yCasowG6DqhxkG+jAjQfofF0BbXIOctfjqsU8WyaP6XoSvi4LgMFhEfinBsw==",
       "resolution": "registry"
     }
   ],
@@ -2147,8 +2160,8 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
@@ -2158,13 +2171,13 @@
         "disabled": false
       },
       {
-        "id": "69b1357c",
+        "id": "5091cea4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e8508244",
+        "id": "669391cd",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2173,5 +2186,10 @@
     "tools": [],
     "toolsUnavailable": false,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }

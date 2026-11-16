@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:40:25.704Z",
+  "generatedAt": "2026-11-16T12:07:16.335Z",
   "hostVersion": "0.2.2-rc.3",
-  "plugin": "dsh-workspace-api-key@0.2.17",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zfNcx0",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zfNcx0/home",
+  "plugin": "dsh-workspace-api-key@0.3.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7S6I7L",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7S6I7L/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:40:26.167Z",
-      "durationMs": 1701,
+      "startedAt": "2026-11-16T12:07:16.717Z",
+      "durationMs": 1390,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-workspace-api-key 0.2.17\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-workspace-api-key@0.2.17\nDone in 827ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zfNcx0/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-workspace-api-key 0.3.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 769ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7S6I7L/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:40:27.869Z",
-      "durationMs": 5576,
+      "startedAt": "2026-11-16T12:07:18.109Z",
+      "durationMs": 3541,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[workspace-api-key] active: routes=/wsk-api overrides=0 state=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zfNcx0/home/storages/dsh-workspace-api-key.json\ndsh web: http://127.0.0.1:45071/?token=S8ZVmYO3cx_A-3DO3U8Uh1A5DzkJObn8kuc14zlbrcc\n",
+      "stdout": "[workspace-api-key] active: routes=/wsk-api overrides=0 state=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7S6I7L/home/storages/dsh-workspace-api-key.json\ndsh web: http://127.0.0.1:39749/?token=jWbzSLWKFB08Lw3Irqk-3bEthdj5L6MPJG2KjgjjdQk\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "5b5b9d81",
+              "id": "ae1e8b0a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "0618c5ce",
+              "id": "a5a22423",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "5b5b9d81",
+              "id": "ae1e8b0a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "0618c5ce",
+              "id": "a5a22423",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2179,7 +2179,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2191,8 +2191,8 @@
   "subjects": [
     {
       "name": "dsh-workspace-api-key",
-      "version": "0.2.17",
-      "integrity": "sha512-VH6+SNxienS1TpsKzxy6RU97oVZyvMCjDq2IwxwdT6VKaZci7B1Sk2Kr5ifBT9b7aqnj3r07ba/teYNotBsJbQ==",
+      "version": "0.3.1",
+      "integrity": "sha512-0IXIIl/gjvvdvXDg1l25SvIs5NJV8XsS5Lm3LQol0zD0/jV1gqHzMw5P0JLEXcEcuqNFpM5S01HPtfYzUvv+Bw==",
       "resolution": "registry"
     }
   ],
@@ -2223,13 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "5b5b9d81",
+        "id": "ae1e8b0a",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "0618c5ce",
+        "id": "a5a22423",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

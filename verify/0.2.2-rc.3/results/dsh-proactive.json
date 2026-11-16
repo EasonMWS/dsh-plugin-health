@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:40:17.263Z",
+  "generatedAt": "2026-11-16T12:06:21.213Z",
   "hostVersion": "0.2.2-rc.3",
   "plugin": "dsh-proactive@0.3.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-czAUNS",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-czAUNS/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WFg1Vh",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WFg1Vh/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:40:17.734Z",
-      "durationMs": 1886,
+      "startedAt": "2026-11-16T12:06:21.644Z",
+      "durationMs": 1476,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-proactive 0.3.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 939ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-czAUNS/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-proactive 0.3.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 689ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WFg1Vh/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:40:19.622Z",
-      "durationMs": 5108,
+      "startedAt": "2026-11-16T12:06:23.122Z",
+      "durationMs": 4236,
       "ok": false,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38747/?token=uN-1oFNujlMfx3zNd3bZNQ-bTLy-4op9UEAIdIGFxH4\n",
-      "stderr": "dsh: warning: 1 entry did not activate\ndsh-proactive (dsh-proactive): TypeError: ctx.agents.roots is not a function or its return value is not iterable\n    at Object.apply [as callback] (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-czAUNS/home/profiles/health-smoke/node_modules/dsh-proactive/lib/index.js:188:39)\n    at async Fiber._reload (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:677:41)\n",
+      "stdout": "dsh web: http://127.0.0.1:37901/?token=2RfojuSQ60DFoTSv1glzL5gbXDWPfYktlEM2-XHkoaU\n",
+      "stderr": "dsh: warning: 1 entry did not activate\ndsh-proactive (dsh-proactive): TypeError: ctx.agents.roots is not a function or its return value is not iterable\n    at Object.apply [as callback] (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WFg1Vh/home/profiles/health-smoke/node_modules/dsh-proactive/lib/index.js:188:39)\n    at async Fiber._reload (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:677:41)\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "d58bf89a",
+              "id": "e75e3dbb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "3e9a6de8",
+              "id": "84d191ad",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1290,7 +1290,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -1339,13 +1339,13 @@
         "disabled": false
       },
       {
-        "id": "d58bf89a",
+        "id": "e75e3dbb",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "3e9a6de8",
+        "id": "84d191ad",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

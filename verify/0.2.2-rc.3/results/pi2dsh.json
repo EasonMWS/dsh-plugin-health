@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:39:52.351Z",
+  "generatedAt": "2026-11-16T12:06:45.459Z",
   "hostVersion": "0.2.2-rc.3",
   "plugin": "pi2dsh@0.27.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OfLBFY",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OfLBFY/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ofon7U",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ofon7U/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-13T09:39:52.687Z",
-      "durationMs": 121,
+      "startedAt": "2026-11-16T12:06:45.792Z",
+      "durationMs": 122,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:39:52.808Z",
-      "durationMs": 2207,
+      "startedAt": "2026-11-16T12:06:45.914Z",
+      "durationMs": 2132,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ pi2dsh 0.27.1\n\nPackages: +108\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 106, reused 19, downloaded 87, added 108, done\nDone in 1.5s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ pi2dsh 0.27.1\n\nPackages: +108\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 106, reused 19, downloaded 87, added 108, done\nDone in 1.4s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:39:55.040Z",
-      "durationMs": 3947,
+      "startedAt": "2026-11-16T12:06:48.071Z",
+      "durationMs": 3418,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[pi2dsh] loaded pi2dsh-builtins: 0 tools, 1 commands, 0 skill roots\n[pi2dsh engine] no Pi packages installed in this profile yet — add one with: dsh plugin --profile <p> add <pi-package>\ndsh web: http://127.0.0.1:37817/?token=QzDef-uGAbDbY2vHA2M3t9zzaz5966O5tXA_YxLW1C4\n",
+      "stdout": "[pi2dsh] loaded pi2dsh-builtins: 0 tools, 1 commands, 0 skill roots\n[pi2dsh engine] no Pi packages installed in this profile yet — add one with: dsh plugin --profile <p> add <pi-package>\ndsh web: http://127.0.0.1:33847/?token=UcNeNg1xjDngVzf4a-ADvBTsIS6aiJKnbbAY6Ob3l44\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1277,13 +1277,13 @@
               "disabled": false
             },
             {
-              "id": "174d349a",
+              "id": "373ced05",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "fedad286",
+              "id": "a08cbf0b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2176,12 +2176,12 @@
               "state": 2
             },
             {
-              "id": "174d349a",
+              "id": "373ced05",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "fedad286",
+              "id": "a08cbf0b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2192,7 +2192,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2236,13 +2236,13 @@
         "disabled": false
       },
       {
-        "id": "174d349a",
+        "id": "373ced05",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "fedad286",
+        "id": "a08cbf0b",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

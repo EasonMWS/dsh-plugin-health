@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:59:02.081Z",
+  "generatedAt": "2026-11-16T12:09:40.866Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "sage-mem@2.7.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-RpDjMw",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-RpDjMw/home",
+  "plugin": "sage-mem@2.9.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FFCqY0",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FFCqY0/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:59:02.546Z",
-      "durationMs": 1986,
+      "startedAt": "2026-11-16T12:09:41.250Z",
+      "durationMs": 1657,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ sage-mem 2.7.0\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  sage-mem@2.7.0\nDone in 1.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-RpDjMw/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ sage-mem 2.9.0\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 916ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FFCqY0/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:59:04.534Z",
-      "durationMs": 2824,
+      "startedAt": "2026-11-16T12:09:42.908Z",
+      "durationMs": 3568,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46013/?token=wjxvvM-7nwybXjeQijDguvF8aAKHVxz3FZnCwZdbxzE\n",
+      "stdout": "dsh web: http://127.0.0.1:34737/?token=Iey-kawbSAPt3l82gqtsYvHD6UtuUHjbRI4QncSX1ac\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -40,7 +40,7 @@
         "footprint": {
           "entries": [
             {
-              "id": "95562865",
+              "id": "94538741",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1210,7 +1210,7 @@
               "disabled": false
             },
             {
-              "id": "c17e9869",
+              "id": "a6f3d8e8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1227,7 +1227,7 @@
           "bootOnly": true,
           "activeEntries": [
             {
-              "id": "95562865",
+              "id": "94538741",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             },
@@ -2062,7 +2062,7 @@
               "state": 2
             },
             {
-              "id": "c17e9869",
+              "id": "a6f3d8e8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             }
@@ -2073,7 +2073,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2085,8 +2085,8 @@
   "subjects": [
     {
       "name": "sage-mem",
-      "version": "2.7.0",
-      "integrity": "sha512-pGSqGEDbzzRwNMrmusMia9r4HDWEfYQGyIJr+jYwyhMQPsXmAteCdK+l/zwKh0dEwUKv3SeYmfsfHyqJgC0mjw==",
+      "version": "2.9.0",
+      "integrity": "sha512-conH195bzXykHwbwEH1yW59gSnLwKhHdHCBfBY2Hb/2OUBXZPn3sqpiJKpVsz/eG0X7GfWQWmXbCrJfI7HAQEA==",
       "resolution": "registry"
     }
   ],
@@ -2111,7 +2111,7 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "95562865",
+        "id": "94538741",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2129,7 +2129,7 @@
         "disabled": false
       },
       {
-        "id": "c17e9869",
+        "id": "a6f3d8e8",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false

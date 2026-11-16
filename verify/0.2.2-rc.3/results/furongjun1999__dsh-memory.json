@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:38:25.077Z",
+  "generatedAt": "2026-11-16T12:05:15.071Z",
   "hostVersion": "0.2.2-rc.3",
   "plugin": "@furongjun1999/dsh-memory@0.10.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CpwbXv",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CpwbXv/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yejS7m",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yejS7m/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:38:25.391Z",
-      "durationMs": 2332,
+      "startedAt": "2026-11-16T12:05:15.474Z",
+      "durationMs": 2314,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @furongjun1999/dsh-memory 0.10.3\n\nPackages: +4\n++++\nProgress: resolved 4, reused 0, downloaded 4, added 4, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @furongjun1999/dsh-memory@0.10.3\nDone in 1.5s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CpwbXv/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @furongjun1999/dsh-memory 0.10.3\n\nPackages: +4\n++++\nProgress: resolved 4, reused 0, downloaded 4, added 4, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yejS7m/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:38:27.725Z",
-      "durationMs": 4189,
+      "startedAt": "2026-11-16T12:05:17.795Z",
+      "durationMs": 5613,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38021/?token=7TnPfQVERcaZPNgMvYV-JwV14IExHNKhomCXrwEHmVc\n",
-      "stderr": "[lingshu-bridge] [mdcg-mcp] 路径：记忆真源 root=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CpwbXv/home/.dsh-memory/data/mdcg · 身份/凭据根 aux=/home/runner/.mdcg（aux 可用 MDCG_AUX_ROOT 覆盖）\n[mdcg-mcp] 写入策略：来源=package_default path=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CpwbXv/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/data/policy.json（forbidden=13 required=6）\n[mdcg-mcp] 自报: source=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CpwbXv/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/md_cg render_version=2\n[mdcg-mcp] 自报文件: /tmp/md_cg_servers/2853.json\n[lingshu-bridge] [mdcg-mcp] 代校验：延迟导入 551 项 / 目标模块 53 个 / 已解析 204 项 / 可选缺失 26 项 · 代 17a429c9f73a\n[lingshu-bridge] 灵枢进程退出 code=0 signal=null（存活 2s）\n",
+      "stdout": "dsh web: http://127.0.0.1:39739/?token=bC8gnCrscqmSZfyW_bzFM087e2NNdy7OxmcP9YGCFhQ\n",
+      "stderr": "[lingshu-bridge] [mdcg-mcp] 路径：记忆真源 root=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yejS7m/home/.dsh-memory/data/mdcg · 身份/凭据根 aux=/home/runner/.mdcg（aux 可用 MDCG_AUX_ROOT 覆盖）\n[mdcg-mcp] 写入策略：来源=package_default path=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yejS7m/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/data/policy.json（forbidden=13 required=6）\n[mdcg-mcp] 自报: source=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yejS7m/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/md_cg render_version=2\n[mdcg-mcp] 自报文件: /tmp/md_cg_servers/3058.json\n[lingshu-bridge] [mdcg-mcp] 代校验：延迟导入 551 项 / 目标模块 53 个 / 已解析 204 项 / 可选缺失 26 项 · 代 17a429c9f73a\n[lingshu-bridge] 灵枢进程退出 code=0 signal=null（存活 3s）\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -39,6 +39,12 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
+            {
+              "id": "93706176",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1264,13 +1270,7 @@
               "disabled": false
             },
             {
-              "id": "0c9f4513",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "24544b86",
+              "id": "044db512",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1296,6 +1296,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "93706176",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2167,12 +2172,7 @@
               "state": 2
             },
             {
-              "id": "0c9f4513",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "24544b86",
+              "id": "044db512",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2183,7 +2183,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2221,19 +2221,19 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "93706176",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "furongjun1999-dsh-memory",
         "name": "@furongjun1999/dsh-memory",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "0c9f4513",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "24544b86",
+        "id": "044db512",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

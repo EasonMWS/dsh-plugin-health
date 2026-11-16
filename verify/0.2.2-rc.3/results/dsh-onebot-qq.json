@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-13T09:40:14.748Z",
+  "generatedAt": "2026-11-16T12:06:06.932Z",
   "hostVersion": "0.2.2-rc.3",
   "plugin": "dsh-onebot-qq@0.10.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lyh8wj",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lyh8wj/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rkjYTc",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rkjYTc/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-13T09:40:15.301Z",
-      "durationMs": 2560,
+      "startedAt": "2026-11-16T12:06:07.396Z",
+      "durationMs": 1669,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-onebot-qq 0.10.0\n\nPackages: +22\n++++++++++++++++++++++\nProgress: resolved 32, reused 4, downloaded 18, added 22, done\nDone in 1.5s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lyh8wj/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-onebot-qq 0.10.0\n\nPackages: +22\n++++++++++++++++++++++\nProgress: resolved 32, reused 4, downloaded 18, added 22, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rkjYTc/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-13T09:40:17.868Z",
-      "durationMs": 5800,
+      "startedAt": "2026-11-16T12:06:09.072Z",
+      "durationMs": 4863,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-onebot] starting (mode=forward, media=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lyh8wj/home/media/onebot, admins=0)\n[dsh-onebot] mounted (mode=forward, media=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lyh8wj/home/media/onebot, admins=0)\ndsh web: http://127.0.0.1:43113/?token=VIrmJceNimhw3kLf_7i6xwErBJ2Aqf9mD1BOHnkl0yA\n",
-      "stderr": "[dsh-onebot] 未配置 workspacePath：QQ 会话默认目录将使用宿主进程工作目录 /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lyh8wj，建议在配置中设置 workspacePath，避免会话工作区落在宿主启动目录\n[dsh-onebot] forward WS error: connect ECONNREFUSED 127.0.0.1:3001\n",
+      "stdout": "[dsh-onebot] starting (mode=forward, media=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rkjYTc/home/media/onebot, admins=0)\n[dsh-onebot] mounted (mode=forward, media=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rkjYTc/home/media/onebot, admins=0)\ndsh web: http://127.0.0.1:40063/?token=bLBkNOmUBFEKa-TdDuaXg2-wwPViWQylNjEWul2-ZQA\n",
+      "stderr": "[dsh-onebot] 未配置 workspacePath：QQ 会话默认目录将使用宿主进程工作目录 /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rkjYTc，建议在配置中设置 workspacePath，避免会话工作区落在宿主启动目录\n[dsh-onebot] forward WS error: connect ECONNREFUSED 127.0.0.1:3001\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1270,13 +1270,13 @@
               "disabled": false
             },
             {
-              "id": "8dd263de",
+              "id": "bfd4221b",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "06932417",
+              "id": "ddf1505a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2174,12 +2174,12 @@
               "state": 2
             },
             {
-              "id": "8dd263de",
+              "id": "bfd4221b",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "06932417",
+              "id": "ddf1505a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2190,7 +2190,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2240,13 +2240,13 @@
         "disabled": false
       },
       {
-        "id": "8dd263de",
+        "id": "bfd4221b",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "06932417",
+        "id": "ddf1505a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

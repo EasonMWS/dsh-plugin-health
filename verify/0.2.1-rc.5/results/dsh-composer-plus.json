@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-12T03:57:28.397Z",
+  "generatedAt": "2026-11-16T12:09:05.827Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-composer-plus@1.27.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MirOcS",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MirOcS/home",
+  "plugin": "dsh-composer-plus@1.29.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jGDiLi",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jGDiLi/home",
   "profile": "health-smoke",
-  "ok": true,
+  "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-12T03:57:28.921Z",
-      "durationMs": 2117,
+      "startedAt": "2026-11-16T12:09:06.306Z",
+      "durationMs": 2012,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-composer-plus 1.27.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-composer-plus@1.27.1\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MirOcS/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-composer-plus 1.29.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jGDiLi/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-12T03:57:31.040Z",
-      "durationMs": 4005,
-      "ok": true,
-      "exitCode": 0,
+      "startedAt": "2026-11-16T12:09:08.320Z",
+      "durationMs": 3285,
+      "ok": false,
+      "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33819/?token=iXbjqHP4fCxLTtDrr64RKBaLhIdpMqAaP_jdj41C5Fg\n",
-      "stderr": "",
+      "stdout": "dsh web: http://127.0.0.1:43319/?token=k14zwHN65JcvUTgA2G26aAeAkrKL6jLtPo_SpEMK49g\n",
+      "stderr": "dsh: fatal load failure: CordisError: cannot create effect on inactive context\n    at Fiber.assertActive (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1133:9)\n    at Proxy.plugin (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1622:18)\n    at Proxy.inject (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1601:15)\n    at apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jGDiLi/home/profiles/health-smoke/node_modules/dsh-composer-plus/index.js:7927:19) {\n  code: 'INACTIVE_EFFECT'\n}\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "1a0d341e",
+              "id": "1092ecb6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "4d679439",
+              "id": "dc731bb9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "1a0d341e",
+              "id": "1092ecb6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "4d679439",
+              "id": "dc731bb9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.1.0"
+    "version": "3.2.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-composer-plus",
-      "version": "1.27.1",
-      "integrity": "sha512-gGeYJ/ZduH1js9iWBm1M4w1eKIFUDy9tGHT6k922IrhsgNFK+nMAr2f6uO94indrvP7Wf/yzxwwO841oojGHDA==",
+      "version": "1.29.0",
+      "integrity": "sha512-OphtEB2D0ipcwkDNf24bsJ0JnHTw8rLBTnms+cNw1GLhA65t9QpgsrSwtHoCxzhNpXBY/myYwM2TsUBLmTTzhQ==",
       "resolution": "registry"
     }
   ],
@@ -2095,7 +2095,12 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
+  "failure": {
+    "stage": "runtime",
+    "kind": "unknown",
+    "detail": "dsh: fatal load failure: CordisError: cannot create effect on inactive context"
+  },
+  "level": "V2",
   "declared": true,
   "footprintDelta": {
     "entries": [
@@ -2106,13 +2111,13 @@
         "disabled": false
       },
       {
-        "id": "1a0d341e",
+        "id": "1092ecb6",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "4d679439",
+        "id": "dc731bb9",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
