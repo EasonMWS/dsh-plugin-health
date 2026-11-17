@@ -112,6 +112,89 @@ function button(tree, label) {
   return found
 }
 
+// The sidebar alert renders into a slot the host owns. Nothing tested its geometry, which is how a
+// `width:100%` chip shipped into a gap-less flex row: its own label wrapped into a vertical column and
+// the row stretched to that height, pushing the Settings row off the bottom of the sidebar.
+//
+// Reported and diagnosed by liuyuxuan6666 in their fork (commit f8d139a6). The geometry is theirs; these
+// assertions are the part that was missing, so the same shape cannot come back unnoticed.
+
+/** The alert's button node, whatever the alert currently reports. */
+function alertButton(app) {
+  const found = find(app.render('plugin-health-alert'), (node) => node.type === 'button' && node.props?.['data-dph-alert'] !== undefined)
+  assert.ok(found, 'the sidebar alert renders a button')
+  return found
+}
+
+/**
+ * Render once, wait for the status fetch, then hand back an app whose alert slot exists.
+ *
+ * The alert is injected from an effect that runs after the first render and only once the snapshot has
+ * arrived, so a bare render() has nothing registered yet.
+ */
+async function appWithAlert() {
+  const app = client()
+  app.render()
+  await settle()
+  return app
+}
+
+test('the sidebar alert is a fixed-size icon, not a full-width chip', async () => {
+  const alert = alertButton(await appWithAlert())
+
+  assert.equal(alert.props.style.width, 32, 'a 32px icon button, like the other foot actions')
+  assert.equal(alert.props.style.height, 32)
+  assert.equal(alert.props.style.flex, 'none', 'it must not stretch inside the host foot row')
+  assert.notEqual(alert.props.style.width, '100%', 'a percentage width was the bug')
+  assert.equal(alert.props.style.padding, 0, 'an icon button sizes itself instead of padding a label')
+})
+
+test('the alert keeps its sentence and count in title and aria-label, in both languages', async () => {
+  // Moving the text out of the button is only acceptable if it is still announced. Trading a layout
+  // bug for an accessibility bug is not a fix.
+  const app = await appWithAlert()
+  app.setLocale('zh')
+
+  const zh = alertButton(app)
+  assert.match(zh.props.title, /插件有 1 个问题/u)
+  assert.match(zh.props.title, /查看插件健康检查结果/u)
+  assert.equal(zh.props['aria-label'], zh.props.title, 'a screen reader and a tooltip must not disagree')
+  assert.match(zh.props['aria-label'], /·/u, 'the separator must not be a locale-specific comma')
+
+  app.setLocale('en')
+  const en = alertButton(app)
+  assert.match(en.props.title, /Plugin issues: 1/u)
+  assert.match(en.props.title, /View plugin health results/u)
+  assert.equal(en.props['aria-label'], en.props.title)
+  assert.doesNotMatch(en.props['aria-label'], /\p{Script=Han}/u, 'no Chinese punctuation in the English label')
+})
+
+test('the alert shows nothing but its glyph', async () => {
+  const alert = alertButton(await appWithAlert())
+  // `text` already skips aria-hidden nodes, so this is what a sighted user reads.
+  const visible = text(alert).replace(/\s+/gu, ' ').trim()
+  assert.ok(visible.length <= 2, `only the glyph should be visible, saw: ${JSON.stringify(visible)}`)
+  assert.match(visible, /[!\u2191]/u)
+})
+
+test('the alert stylesheet is scoped to the alert', async () => {
+  const app = await appWithAlert()
+  // find()/text() skip <style> nodes on purpose, so read the tree directly.
+  const tree = app.render('plugin-health-alert')
+  const collect = (node, out = []) => {
+    if (!node || typeof node !== 'object') return out
+    if (node.type === 'style') out.push(...(node.children ?? []))
+    else for (const child of node.children ?? []) collect(child, out)
+    return out
+  }
+  const source = collect(tree).join('\n')
+  assert.ok(source.length > 0, 'hover and focus need a stylesheet; inline styles cannot express them')
+  assert.match(source, /\[data-dph-alert\]:hover/u)
+  assert.match(source, /\[data-dph-alert\]:focus-visible/u)
+  // A bare `button {…}` rule would restyle every host control on the page.
+  assert.doesNotMatch(source, /(?:^|\})[^{}]*button\s*\{/u, 'never style bare buttons')
+})
+
 test('English settings body, findings, details and sidebar follow the host language', async () => {
   const app = client()
   assert.equal(app.slots.get('plugin-health').meta.label(), 'Plugin health')
@@ -130,16 +213,18 @@ test('English settings body, findings, details and sidebar follow the host langu
   tree = app.render()
   assert.ok(text(tree).includes(snapshot.issues[0].detail))
   assert.match(text(tree), /Next step: Back up the damaged files/u)
-  const alert = app.render('plugin-health-alert')
-  assert.equal(alert.props.title, 'View plugin health results')
-  assert.match(text(alert), /Plugin issues: 1.*View/u)
+  // The alert is an icon button now: the sentence and the count are announced, not printed.
+  const alert = alertButton(app)
+  assert.match(alert.props.title, /Plugin issues: 1/u)
+  assert.match(alert.props.title, /View plugin health results/u)
+  assert.equal(alert.props['aria-label'], alert.props.title)
 
   app.setLocale('zh')
   assert.equal(app.slots.get('plugin-health').meta.label(), '插件健康')
   tree = app.render()
   assert.match(text(tree), /插件文件损坏.*会影响使用.*收起/u)
   assert.match(text(tree), /怎么做：先备份损坏文件/u)
-  assert.match(text(app.render('plugin-health-alert')), /插件有 1 个问题.*查看/u)
+  assert.match(alertButton(app).props.title, /插件有 1 个问题.*查看插件健康检查结果/u)
   app.setLocale('en')
   assert.match(text(app.render()), /Plugin files are damaged.*Collapse/u)
 })

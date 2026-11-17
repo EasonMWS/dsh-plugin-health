@@ -1,5 +1,30 @@
 # Changelog
 
+## 3.2.1
+
+### The sidebar alert is an icon button, not a full-width chip
+
+Reported and diagnosed by [@liuyuxuan6666](https://github.com/liuyuxuan6666) in their fork
+([f8d139a6](https://github.com/liuyuxuan6666/dsh-plugin-health/commit/f8d139a6)).
+
+`sidebar.footer.action` is one flex row the host renders: no gap, no alignment, no wrapping. The alert
+was a `width:100%` chip inside it, so its own label wrapped into a vertical column and the row stretched
+to that text height — which pushed the Settings row off the bottom of the sidebar. It is now a 32×32 icon
+button with the geometry the other foot actions use; the sentence and the count moved into `title` and
+`aria-label`, where they are still announced.
+
+This is a 3.2.0 regression. Nothing tested that component's geometry — `test/alert-open.test.js` covers
+how the settings panel is opened, which is a different thing — so the shape could change unnoticed. Four
+assertions now pin it: fixed size rather than a percentage, the label present in both languages, only the
+glyph visible, and the stylesheet scoped to `[data-dph-alert]`.
+
+The separator inside `aria-label` and `title` is `·` rather than a comma, so a screen reader and a
+tooltip agree in both languages; the original patch used a full-width comma in one and a middle dot in the
+other.
+
+Also fixed: a stray carriage return inside the word "runtime" further down this file, which had been
+rendering as "untime" since 0.6.0.
+
 ## 3.2.0
 
 ### Settings opens with a verdict
@@ -1425,7 +1450,7 @@ card, and the two rescue sections are separated from the finding list by a rule.
 
 - **A packed tarball is no longer treated as a directory.** Identity resolution used
   existsSync alone, so reading <tarball>/package.json threw before the smoke run could
-  install anything — which is what broke the two untime acceptance CI jobs on 0.6.0.
+  install anything — which is what broke the two runtime acceptance CI jobs on 0.6.0.
   Identity is now resolved only when --bypass-gate is set, directories are checked with
   statSync, and a file produces a readable request for 
 ame@version.

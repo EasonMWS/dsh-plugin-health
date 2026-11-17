@@ -30,6 +30,13 @@ window.__ModuleLoader__.load({
     const SECTION_ID = 'plugin-health'
     const ALERT_SLOT = 'sidebar.footer.action'
     const ALERT_ID = 'plugin-health-alert'
+    // Scoped to the sidebar alert, never the settings panel. Hover and focus are CSS-only, and the
+    // host's foot row gives siblings no gap, so the button carries its own spacing.
+    const ALERT_CSS = `
+      [data-dph-alert]{transition:background-color .14s,color .14s}
+      [data-dph-alert]:hover{background:color-mix(in srgb,currentColor 18%,transparent)}
+      [data-dph-alert]:focus-visible{outline:2px solid var(--dsw-alias-label-action-primary,#0969da);outline-offset:2px}
+    `
     const NS = 'plugin-health'
     const VIEW_KEY = 'dsh-plugin-health:view'
     const VIEWS = ['daily', 'advanced', 'developer']
@@ -2236,36 +2243,44 @@ window.__ModuleLoader__.load({
       React.useEffect(() => { setOpenFailed(false) }, [props.kind, props.count, props.version])
       const tone = props.kind === 'update' ? COLORS.info : COLORS.error
       const background = props.kind === 'update' ? 'rgba(26,115,232,.10)' : 'rgba(217,48,37,.10)'
-      return h('button', {
-        'data-dph-alert': props.kind,
-        onClick: () => props.open((ok) => { if (!ok) setOpenFailed(true) }),
-        title: t(openFailed ? 'alertOpenFailed' : (props.kind === 'update' ? 'alertUpdateTitle' : 'alertTitle')),
-        style: {
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          width: '100%',
-          border: 0,
-          borderRadius: 8,
-          padding: '8px 10px',
-          cursor: 'pointer',
-          background,
-          color: tone,
-          font: 'inherit',
-          fontSize: 13,
-          fontWeight: 600,
-          textAlign: 'left',
-        },
-      }, [
-        h('span', { key: 'i' }, openFailed ? '!' : props.kind === 'update' ? '↑' : '!'),
-        h('span', { key: 't', style: { flex: 1 } },
-          openFailed
-            ? t('alertOpenFailed')
-            : props.kind === 'update'
-              ? t('alertUpdate', { version: props.version ?? '' })
-              : t('alertCount', { count: props.count })),
-        h('span', { key: 'a', style: { fontSize: 12, opacity: 0.7 } },
-          openFailed ? t('alertRetry') : t('view')),
+      // The sidebar foot is ONE flex row rendered by the host: no gap, no alignment, no wrapping.
+      // A `width:100%` chip in it wraps its own label into a vertical column and stretches the row
+      // to that text height, which pushes the Settings row off the bottom of the sidebar. So this is
+      // a 32px icon button with the geometry the other foot actions use, and the sentence plus the
+      // count move into `title` and `aria-label`, where they are still read out.
+      //
+      // The same separator in both: `·` needs no locale, while a full-width comma reads wrong in an
+      // English tooltip and a half-width comma reads thin in Chinese.
+      const fact = openFailed
+        ? t('alertOpenFailed')
+        : props.kind === 'update'
+          ? t('alertUpdate', { version: props.version ?? '' })
+          : t('alertCount', { count: props.count })
+      const hint = openFailed
+        ? t('alertRetry')
+        : props.kind === 'update' ? t('alertUpdateTitle') : t('alertTitle')
+      const spoken = `${fact} · ${hint}`
+      return h(React.Fragment, null, [
+        h('style', { key: 's' }, ALERT_CSS),
+        h('button', {
+          key: 'b',
+          type: 'button',
+          'data-dph-alert': props.kind,
+          'aria-label': spoken,
+          onClick: () => props.open((ok) => { if (!ok) setOpenFailed(true) }),
+          title: spoken,
+          style: {
+            boxSizing: 'border-box', flex: 'none', alignSelf: 'flex-start',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: 32, height: 32, margin: '0 4px 0 0', padding: 0,
+            border: 0, borderRadius: 12, cursor: 'pointer',
+            background, color: tone, font: 'inherit', lineHeight: 1,
+          },
+        }, h('span', {
+          key: 'i',
+          'aria-hidden': 'true',
+          style: { fontSize: 15, fontWeight: 700, lineHeight: 1 },
+        }, props.kind === 'update' && !openFailed ? '↑' : '!')),
       ])
     }
 
