@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-17T22:58:28.042Z",
+  "hostVersion": "0.2.2-rc.4",
+  "plugin": "@zaofan/dsh-qqbot@1.13.16",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qHVaq2",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qHVaq2/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-17T22:58:28.384Z",
+      "durationMs": 6852,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 127, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.16\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 8, downloaded 103, added 7\nProgress: resolved 147, reused 8, downloaded 112, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 120\nProgress: resolved 147, reused 8, downloaded 113, added 121, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @zaofan/dsh-qqbot@1.13.16\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qHVaq2/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@zaofan/dsh-qqbot@1.13.16'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qHVaq2/home/profiles/health-smoke/.plugin-manager/logs/operation-4Bz7CE/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.2.1"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "@zaofan/dsh-qqbot",
+      "version": "1.13.16",
+      "integrity": "sha512-TPZIRRU/w/VQXxjxqRRXKw1sGoXf9vNQDyLJynvCv2pM+7T5x3VSlIR+TahXQNwSQK2Awx1d5A1uVw6iZMQqgg==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}

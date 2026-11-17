@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:03:32.037Z",
+  "generatedAt": "2026-11-17T22:57:08.418Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "sage-mem@2.9.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GSYDJn",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GSYDJn/home",
+  "plugin": "sage-mem@2.11.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fGZCzB",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fGZCzB/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:03:32.387Z",
-      "durationMs": 1430,
+      "startedAt": "2026-11-17T22:57:08.943Z",
+      "durationMs": 1806,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ sage-mem 2.9.0\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 795ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GSYDJn/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ sage-mem 2.11.1\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  sage-mem@2.11.1\nDone in 890ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fGZCzB/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:03:33.818Z",
-      "durationMs": 3004,
+      "startedAt": "2026-11-17T22:57:10.751Z",
+      "durationMs": 4238,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44967/?token=oUzHACRB8-30i9QJ8Fe6NiQgpZ_mzJ5-UvfYF9Vmry0\n",
+      "stdout": "dsh web: http://127.0.0.1:39269/?token=DAs7enlCb9dG8Um0ad17PCTe6i0IRGOLkIPQnO8ygao\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1234,13 +1234,13 @@
               "disabled": false
             },
             {
-              "id": "eb524581",
+              "id": "1d16eb43",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "3173ac1d",
+              "id": "c0028200",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1249,6 +1249,7 @@
           "tools": [
             "read_memory",
             "search_memory",
+            "trim_memory",
             "working_directory"
           ],
           "toolsUnavailable": false
@@ -2111,12 +2112,12 @@
               "state": 2
             },
             {
-              "id": "eb524581",
+              "id": "1d16eb43",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "3173ac1d",
+              "id": "c0028200",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2127,7 +2128,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2139,8 +2140,8 @@
   "subjects": [
     {
       "name": "sage-mem",
-      "version": "2.9.0",
-      "integrity": "sha512-conH195bzXykHwbwEH1yW59gSnLwKhHdHCBfBY2Hb/2OUBXZPn3sqpiJKpVsz/eG0X7GfWQWmXbCrJfI7HAQEA==",
+      "version": "2.11.1",
+      "integrity": "sha512-iwSVeFayf8x9H2rG1d1msTAVQiUrIhY+aIzguFvEAwkT/Px23D8rfXfw0QDyfsVMSgIcv0j7KLP6qgx6rDWOcw==",
       "resolution": "registry"
     }
   ],
@@ -2177,13 +2178,13 @@
         "disabled": false
       },
       {
-        "id": "eb524581",
+        "id": "1d16eb43",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "3173ac1d",
+        "id": "c0028200",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2191,7 +2192,8 @@
     ],
     "tools": [
       "read_memory",
-      "search_memory"
+      "search_memory",
+      "trim_memory"
     ],
     "toolsUnavailable": false,
     "baseline": "host"

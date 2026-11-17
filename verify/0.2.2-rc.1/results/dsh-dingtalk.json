@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:03:17.129Z",
+  "generatedAt": "2026-11-17T22:56:04.452Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-dingtalk@0.3.10",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lloxrh",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Lloxrh/home",
+  "plugin": "dsh-dingtalk@0.3.11",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XnkknP",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XnkknP/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:03:17.620Z",
-      "durationMs": 177,
+      "startedAt": "2026-11-17T22:56:04.774Z",
+      "durationMs": 96,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-dingtalk@0.3.10 for DSH 0.2.2-rc.1\n",
+      "stdout": "dsh: allowed dsh-dingtalk@0.3.11 for DSH 0.2.2-rc.1\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:03:17.797Z",
-      "durationMs": 1848,
+      "startedAt": "2026-11-17T22:56:04.870Z",
+      "durationMs": 1389,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-dingtalk 0.3.10\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 7, downloaded 1, added 8, done\nDone in 950ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-dingtalk 0.3.11\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 7, downloaded 1, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  dsh-dingtalk@0.3.11\nDone in 777ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:03:19.649Z",
-      "durationMs": 4796,
+      "startedAt": "2026-11-17T22:56:06.263Z",
+      "durationMs": 3084,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42077/?token=VG7e1v2F_uvXfAkrwBHJOYHCGutJe1VVKCaXtG8L6iY\n",
+      "stdout": "dsh web: http://127.0.0.1:37251/?token=Ukclc3xmGuKtfMA9mlHLlxwIxPf6q6LjR8HLtJxY-yQ\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "a669aeb9",
+              "id": "c5714ff5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "030dac8c",
+              "id": "30673b4f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2114,12 +2114,12 @@
               "state": 2
             },
             {
-              "id": "a669aeb9",
+              "id": "c5714ff5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "030dac8c",
+              "id": "30673b4f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2130,7 +2130,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2142,8 +2142,8 @@
   "subjects": [
     {
       "name": "dsh-dingtalk",
-      "version": "0.3.10",
-      "integrity": "sha512-2jiUNyCIMk/fR54k0tAlsptorDbmiKVroRxSHtIbXnJhYZYcANoCwwkXLiPfWXNPpt1hwOWwkUiKk5yB5cKo+A==",
+      "version": "0.3.11",
+      "integrity": "sha512-NwF0FjoUPxewpmIh7I6zpKtjOjbSCw6vQPVexZl+uwCogaxFk67n9lxUYMq9P6jU1u0wXiCbdeTv0xZg98SOyA==",
       "resolution": "registry"
     }
   ],
@@ -2174,13 +2174,13 @@
         "disabled": false
       },
       {
-        "id": "a669aeb9",
+        "id": "c5714ff5",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "030dac8c",
+        "id": "30673b4f",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

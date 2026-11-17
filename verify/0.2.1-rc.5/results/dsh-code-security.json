@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:08:58.391Z",
+  "generatedAt": "2026-11-17T23:02:04.390Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-code-security@0.7.12",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qMCkUo",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qMCkUo/home",
+  "plugin": "dsh-code-security@0.7.14",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q70sW1",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q70sW1/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:08:58.902Z",
-      "durationMs": 165,
+      "startedAt": "2026-11-17T23:02:04.681Z",
+      "durationMs": 106,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-code-security@0.7.12 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-code-security@0.7.14 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:08:59.067Z",
-      "durationMs": 2119,
+      "startedAt": "2026-11-17T23:02:04.787Z",
+      "durationMs": 2004,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-code-security 0.7.12\n\nPackages: +29\n+++++++++++++++++++++++++++++\nProgress: resolved 29, reused 4, downloaded 25, added 29, done\nDone in 1.2s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-code-security 0.7.14\n\nPackages: +29\n+++++++++++++++++++++++++++++\nProgress: resolved 29, reused 3, downloaded 26, added 29, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  dsh-code-security@0.7.14\nDone in 1.3s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:09:01.212Z",
-      "durationMs": 4067,
+      "startedAt": "2026-11-17T23:02:06.798Z",
+      "durationMs": 2113,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36325/?token=wjf07vyWWZ3YxRFOD8jtUHNWRHYKT8ehpI1PIO2bOeA\n",
+      "stdout": "dsh web: http://127.0.0.1:41747/?token=Bvkpyc0gCumfouw4NCek185T794uT9wzK3iQG8riWiw\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "84bdd243",
+              "id": "fa076a81",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "5de0851f",
+              "id": "ee0f6230",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "84bdd243",
+              "id": "fa076a81",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "5de0851f",
+              "id": "ee0f6230",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-code-security",
-      "version": "0.7.12",
-      "integrity": "sha512-+5F35gkN57NLnu7/+OCmMb2tRwCRUxyOAs6gniIp4USC0bWm9CgE0GU3Ke4I2G0K3E2w3HvdofXv+S2R6EwkKw==",
+      "version": "0.7.14",
+      "integrity": "sha512-uKUQPPNlVSVh2YYRFtrjY4TO+K1U53cybtVF9OZFsIOmH2DFUWvSmt++fXUSdyMdawsc9LR/tRx/pInmwZ8NTg==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "84bdd243",
+        "id": "fa076a81",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "5de0851f",
+        "id": "ee0f6230",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

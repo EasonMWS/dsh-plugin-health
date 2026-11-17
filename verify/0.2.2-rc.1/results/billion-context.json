@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:02:43.065Z",
+  "generatedAt": "2026-11-17T22:56:48.547Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "billion-context@0.1.215",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nz6S7h",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nz6S7h/home",
+  "plugin": "billion-context@0.1.216",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-BDbV6k",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-BDbV6k/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:02:43.481Z",
-      "durationMs": 5350,
+      "startedAt": "2026-11-17T22:56:48.986Z",
+      "durationMs": 5937,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ billion-context 0.1.215\n\nPackages: +76\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 76, reused 0, downloaded 3, added 0\nProgress: resolved 76, reused 0, downloaded 76, added 76, done\nDone in 3.8s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nz6S7h/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 76, reused 0, downloaded 0, added 0\n\ndependencies:\n+ billion-context 0.1.216\n\nPackages: +76\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 76, reused 0, downloaded 76, added 76, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  billion-context@0.1.216\nDone in 4.1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-BDbV6k/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:02:48.864Z",
-      "durationMs": 4598,
+      "startedAt": "2026-11-17T22:56:54.971Z",
+      "durationMs": 5040,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:43115/?token=0z8lZj9BagLv3k_WT5UWn5dRsdcDhzYteXsnA9prwuQ\n",
+      "stdout": "dsh web: http://127.0.0.1:34263/?token=gITCUJ84cNTCb7TAFLVis4XR_Trb6tElBHWRrAmFmqA\n",
       "stderr": "bili-native: could not resolve modelEndpointPatterns from /home/runner/.config/billion-context/billion-context.json; declared endpoints stay unclaimed until the host restarts with a readable config\n",
       "truncated": false,
       "details": {
@@ -1234,13 +1234,13 @@
               "disabled": false
             },
             {
-              "id": "858727c2",
+              "id": "ad065118",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "6f9db88e",
+              "id": "7334e05a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2115,12 +2115,12 @@
               "state": 2
             },
             {
-              "id": "858727c2",
+              "id": "ad065118",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "6f9db88e",
+              "id": "7334e05a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2131,7 +2131,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2143,8 +2143,8 @@
   "subjects": [
     {
       "name": "billion-context",
-      "version": "0.1.215",
-      "integrity": "sha512-bVfynM1BeCy6sOIjcyuTTJSQQ5VJO7wfn5MmbPf5HvgxqjPIvTfW8iJW2E4o+PewInpF+uiwLo4C2FcvD6dqUQ==",
+      "version": "0.1.216",
+      "integrity": "sha512-98Q5eSqk0LyemCJ45OrYmZvEd0qpzBjLokthZlQ4yA7yvgUlzuM7fp6iq9dPAJ4N4vaplnvZeld0JxM4S7Ti1A==",
       "resolution": "registry"
     }
   ],
@@ -2181,13 +2181,13 @@
         "disabled": false
       },
       {
-        "id": "858727c2",
+        "id": "ad065118",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "6f9db88e",
+        "id": "7334e05a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:08:01.285Z",
+  "generatedAt": "2026-11-17T23:01:14.635Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@zaofan/dsh-qqbot@1.13.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nQR8uY",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nQR8uY/home",
+  "plugin": "@zaofan/dsh-qqbot@1.13.16",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jX1DW4",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jX1DW4/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:08:01.791Z",
-      "durationMs": 6962,
+      "startedAt": "2026-11-17T23:01:15.006Z",
+      "durationMs": 7284,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 139, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.6\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 8, downloaded 56, added 3\nProgress: resolved 147, reused 8, downloaded 111, added 118\nProgress: resolved 147, reused 8, downloaded 112, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 121, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nQR8uY/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nQR8uY/home/profiles/health-smoke/.plugin-manager/logs/operation-5nTjK3/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.16\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 3, downloaded 0, added 0\nProgress: resolved 147, reused 3, downloaded 87, added 7\nProgress: resolved 147, reused 3, downloaded 117, added 119\nProgress: resolved 147, reused 3, downloaded 118, added 119\nProgress: resolved 147, reused 3, downloaded 118, added 120\nProgress: resolved 147, reused 3, downloaded 118, added 121, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @zaofan/dsh-qqbot@1.13.16\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jX1DW4/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jX1DW4/home/profiles/health-smoke/.plugin-manager/logs/operation-puDTC2/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "@zaofan/dsh-qqbot",
-      "version": "1.13.6",
-      "integrity": "sha512-2vInqU5hlVJLOy85HMlCAp0mimJjyi4esTuBs5i208Qfou6onwK1uNynApUSh0e4I8iCpcuJiVTIrQgk6e7H4g==",
+      "version": "1.13.16",
+      "integrity": "sha512-TPZIRRU/w/VQXxjxqRRXKw1sGoXf9vNQDyLJynvCv2pM+7T5x3VSlIR+TahXQNwSQK2Awx1d5A1uVw6iZMQqgg==",
       "resolution": "registry"
     }
   ],

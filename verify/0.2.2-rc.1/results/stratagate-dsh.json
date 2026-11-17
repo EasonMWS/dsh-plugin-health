@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:04:03.494Z",
+  "generatedAt": "2026-11-17T22:57:41.586Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "stratagate-dsh@0.3.49",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-UTf3n4",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-UTf3n4/home",
+  "plugin": "stratagate-dsh@0.3.52",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fdxyxk",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fdxyxk/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:04:03.741Z",
-      "durationMs": 1908,
+      "startedAt": "2026-11-17T22:57:42.062Z",
+      "durationMs": 2900,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ stratagate-dsh 0.3.49\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 1, downloaded 8, added 9, done\nDone in 1.3s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-UTf3n4/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ stratagate-dsh 0.3.52\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 1, downloaded 7, added 8\nProgress: resolved 9, reused 1, downloaded 8, added 9, done\nDone in 1.9s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fdxyxk/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:04:05.651Z",
-      "durationMs": 2683,
+      "startedAt": "2026-11-17T22:57:44.964Z",
+      "durationMs": 3955,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33829/?token=wI7V1d3vg5I3XsyKASWtjC8gKqdaBQRzOCCjrfnAFuw\n",
-      "stderr": "(node:5317) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:37673/?token=mU1o2p-EdUAv2FImwb6j3bIEpNug9WxsoXMxOaByrBI\n",
+      "stderr": "(node:4784) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "8b3f1c30",
+              "id": "be1ef2d0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "b437ff42",
+              "id": "af042397",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2113,12 +2113,12 @@
               "state": 2
             },
             {
-              "id": "8b3f1c30",
+              "id": "be1ef2d0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "b437ff42",
+              "id": "af042397",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2129,7 +2129,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2141,8 +2141,8 @@
   "subjects": [
     {
       "name": "stratagate-dsh",
-      "version": "0.3.49",
-      "integrity": "sha512-nt2f1N292AP2unrVZbiEDIWJ8dOkCHuG3w9+RQi1QYZ7tqM3+rDisA9ygvwzuuxYOz8Zne7bz2VdnizwQvDsBA==",
+      "version": "0.3.52",
+      "integrity": "sha512-XdyH5uFsr/0fSSwhYuNjxWeve/7xGqjiIOZCJfSAmgoohV0FATmi8yUQT6u3Jw3LqYzL86g6XH7MFI3ZNHqoBA==",
       "resolution": "registry"
     }
   ],
@@ -2173,13 +2173,13 @@
         "disabled": false
       },
       {
-        "id": "8b3f1c30",
+        "id": "be1ef2d0",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b437ff42",
+        "id": "af042397",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

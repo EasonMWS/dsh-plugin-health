@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:08:35.839Z",
+  "generatedAt": "2026-11-17T23:02:04.166Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "deepseek-computer-use@0.2.10",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-diGUJg",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-diGUJg/home",
+  "plugin": "deepseek-computer-use@0.2.11",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pifLkW",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pifLkW/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:08:36.175Z",
-      "durationMs": 114,
+      "startedAt": "2026-11-17T23:02:04.484Z",
+      "durationMs": 121,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed deepseek-computer-use@0.2.10 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed deepseek-computer-use@0.2.11 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:08:36.289Z",
-      "durationMs": 1713,
+      "startedAt": "2026-11-17T23:02:04.607Z",
+      "durationMs": 1598,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ deepseek-computer-use 0.2.10\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nDone in 1s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ deepseek-computer-use 0.2.11\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  deepseek-computer-use@0.2.11\nDone in 944ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:08:38.005Z",
-      "durationMs": 2194,
+      "startedAt": "2026-11-17T23:02:06.208Z",
+      "durationMs": 2959,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38011/?token=I_9hrf5tQxzikWDoG8FqR_APio0Ps-6IpFvK9i_VQa4\n",
+      "stdout": "dsh web: http://127.0.0.1:41113/?token=LG1GOXav3SRnFlCgeoXhqJh01GpWMVrY8IIw9fxD-xU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "c98d9da1",
+              "id": "48b2fee9",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "f68a3a05",
+              "id": "aeed601e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "c98d9da1",
+              "id": "48b2fee9",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "f68a3a05",
+              "id": "aeed601e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "deepseek-computer-use",
-      "version": "0.2.10",
-      "integrity": "sha512-+Vtijz4UDRCIJpNI0ZHkfwlT+qHw4+7e6KWUAifu4Utni8fz0n0K7BIU7w1bGQdG5a52Px1o1Z4IUC55Wb1UTw==",
+      "version": "0.2.11",
+      "integrity": "sha512-Ei5UH8zA1lKM2KzloZPaJ00/xXId0BFCKhGq2Iyq3/Aw9nOQxkwHMZLIBzxxrXq96qDtrbhhkEoeZNK82zSHkw==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "c98d9da1",
+        "id": "48b2fee9",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "f68a3a05",
+        "id": "aeed601e",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

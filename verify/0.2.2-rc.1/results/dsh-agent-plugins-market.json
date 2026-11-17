@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:03:07.118Z",
+  "generatedAt": "2026-11-17T22:56:50.768Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-agent-plugins-market@0.15.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-szH2Q5",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-szH2Q5/home",
+  "plugin": "dsh-agent-plugins-market@0.15.3",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-973E0I",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-973E0I/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:03:07.385Z",
-      "durationMs": 90,
+      "startedAt": "2026-11-17T22:56:51.071Z",
+      "durationMs": 100,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-agent-plugins-market@0.15.0 for DSH 0.2.2-rc.1\n",
+      "stdout": "dsh: allowed dsh-agent-plugins-market@0.15.3 for DSH 0.2.2-rc.1\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:03:07.475Z",
-      "durationMs": 2526,
+      "startedAt": "2026-11-17T22:56:51.171Z",
+      "durationMs": 2882,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-agent-plugins-market 0.15.0\n\nPackages: +170\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 170, reused 12, downloaded 0, added 0\nProgress: resolved 170, reused 12, downloaded 158, added 170, done\nDone in 1.9s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 168, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-agent-plugins-market 0.15.3\n\nPackages: +170\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 170, reused 12, downloaded 158, added 170, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-agent-plugins-market@0.15.3\nDone in 2.2s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:03:10.037Z",
-      "durationMs": 3618,
+      "startedAt": "2026-11-17T22:56:54.102Z",
+      "durationMs": 3596,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:43545/?token=Ae0AJyLtMuP86w6wd4t6wLoyBUc4X-raMOxN350yGa8\n",
+      "stdout": "dsh web: http://127.0.0.1:34399/?token=BSY2p8ephw2G20pXntUqmgnlI-UKx0zoW8O5pm5zVGw\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "05d6057b",
+              "id": "c7ed2262",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "590f2c55",
+              "id": "952d7ae6",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2113,12 +2113,12 @@
               "state": 2
             },
             {
-              "id": "05d6057b",
+              "id": "c7ed2262",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "590f2c55",
+              "id": "952d7ae6",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2129,7 +2129,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2141,8 +2141,8 @@
   "subjects": [
     {
       "name": "dsh-agent-plugins-market",
-      "version": "0.15.0",
-      "integrity": "sha512-lw8vKu/v6Dh4b5eB3QpTYvhvhpBu9r2ud2CSCdAIj+EQ4ml7kHa0G5T+R97e5d8p0HQNZppuoMSyrSS3Q0wNuA==",
+      "version": "0.15.3",
+      "integrity": "sha512-bUHFxkPchg9Q9hT+dGRXRl9Pj3jcfXB/miwsbT13PwZfpW8td1lmU11yWcE/MskboHCjrmOXUrBgKt4axMAOxg==",
       "resolution": "registry"
     }
   ],
@@ -2173,13 +2173,13 @@
         "disabled": false
       },
       {
-        "id": "05d6057b",
+        "id": "c7ed2262",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "590f2c55",
+        "id": "952d7ae6",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:08:10.674Z",
+  "generatedAt": "2026-11-17T23:02:09.956Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-slack@0.4.10",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-91Rwrs",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-91Rwrs/home",
+  "plugin": "dsh-slack@0.4.11",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JNBAGX",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JNBAGX/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:08:11.034Z",
-      "durationMs": 119,
+      "startedAt": "2026-11-17T23:02:10.424Z",
+      "durationMs": 163,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-slack@0.4.10 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-slack@0.4.11 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:08:11.153Z",
-      "durationMs": 1118,
+      "startedAt": "2026-11-17T23:02:10.587Z",
+      "durationMs": 1813,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-slack 0.4.10\n\nPackages: +24\n++++++++++++++++++++++++\nProgress: resolved 24, reused 24, downloaded 0, added 24, done\nDone in 561ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-slack 0.4.11\n\nPackages: +24\n++++++++++++++++++++++++\nProgress: resolved 24, reused 24, downloaded 0, added 24, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  dsh-slack@0.4.11\nDone in 907ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:08:12.275Z",
-      "durationMs": 2189,
+      "startedAt": "2026-11-17T23:02:12.405Z",
+      "durationMs": 4091,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44771/?token=YrIvO6pPSTUXDj_7084jcuoRBaUmYmc_HXkJ-ehMank\n",
+      "stdout": "dsh web: http://127.0.0.1:46329/?token=67nzdDqIRsMdMIv9oROpbPekqvkTjVlczhl1EAjHz0Q\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "c5752114",
+              "id": "da044fb9",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ad63e8d1",
+              "id": "ffb43af5",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "c5752114",
+              "id": "da044fb9",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ad63e8d1",
+              "id": "ffb43af5",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-slack",
-      "version": "0.4.10",
-      "integrity": "sha512-asKOHZK9MLSpjqwIwxLfdO2sTzBE2hXXOO5ZqStcJ10dFAccHPi+s5QRrnEl+Qo2UA9Dj3coUiIgJ7xYXPYTHg==",
+      "version": "0.4.11",
+      "integrity": "sha512-prLmelgL/W9rBtmU0PLvfNfGakXRtkxnVs4sF7qpc3CVFSSEoiknzizOMP/UAZrMwIxLCOl0N4eI0qQ1uz1sRA==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "c5752114",
+        "id": "da044fb9",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ad63e8d1",
+        "id": "ffb43af5",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

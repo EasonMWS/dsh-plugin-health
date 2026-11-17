@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:02:22.179Z",
+  "generatedAt": "2026-11-17T22:56:26.837Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@dmh2002/dsh-connect-qoder@1.25.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2UQFA4",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2UQFA4/home",
+  "plugin": "@dmh2002/dsh-connect-qoder@1.26.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0A7nNF",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0A7nNF/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:02:22.584Z",
-      "durationMs": 1785,
+      "startedAt": "2026-11-17T22:56:27.409Z",
+      "durationMs": 2132,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dmh2002/dsh-connect-qoder 1.25.1\n\nPackages: +4\n++++\nProgress: resolved 4, reused 0, downloaded 4, added 4, done\nDone in 968ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2UQFA4/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dmh2002/dsh-connect-qoder 1.26.0\n\nPackages: +4\n++++\nProgress: resolved 4, reused 0, downloaded 4, added 4, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @dmh2002/dsh-connect-qoder@1.26.0\nDone in 1.3s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0A7nNF/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:02:24.393Z",
-      "durationMs": 3290,
+      "startedAt": "2026-11-17T22:56:29.554Z",
+      "durationMs": 3377,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:39401/?token=y0LuxPeh60GpoFkjwjZ_uHl-AlwHySRnBhtrQCSdZ5s\n",
+      "stdout": "dsh web: http://127.0.0.1:42271/?token=nKPryj-gBfdmgOQetR_dLmd8AQN70EIZ6bo83Ldymqg\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,6 +39,12 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
+            {
+              "id": "27683260",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1228,13 +1234,7 @@
               "disabled": false
             },
             {
-              "id": "047d3bd2",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "cae99378",
+              "id": "022e3a5a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1252,6 +1252,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "27683260",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2098,12 +2103,7 @@
               "state": 2
             },
             {
-              "id": "047d3bd2",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "cae99378",
+              "id": "022e3a5a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2126,8 +2126,8 @@
   "subjects": [
     {
       "name": "@dmh2002/dsh-connect-qoder",
-      "version": "1.25.1",
-      "integrity": "sha512-MlAnemW9KQpL+Gt6TMe2u+8G5UwLYT3iBehZ8UViR4Zcz5PXnhqrvyHz/hRKplaYa0wB7tpi+iCM99x4+zIkLA==",
+      "version": "1.26.0",
+      "integrity": "sha512-aM4OoOU+4z9AEMPYphWyd/OBwrNz6M4zfE6NGLBPCeN3ydD+zYwyZ6WcjPwvQLobfcp0lLASp2oWEFQ8OG6zMg==",
       "resolution": "registry"
     }
   ],
@@ -2152,19 +2152,19 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "27683260",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "dsh-connect-qoder",
         "name": "@dmh2002/dsh-connect-qoder",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "047d3bd2",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "cae99378",
+        "id": "022e3a5a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

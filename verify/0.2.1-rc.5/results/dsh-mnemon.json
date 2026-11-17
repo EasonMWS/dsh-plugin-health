@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:07:56.678Z",
+  "generatedAt": "2026-11-17T23:02:02.890Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-mnemon@0.5.46",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4D1MRY",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4D1MRY/home",
+  "plugin": "dsh-mnemon@0.5.47",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-upSeRN",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-upSeRN/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:07:57.033Z",
-      "durationMs": 1753,
+      "startedAt": "2026-11-17T23:02:03.336Z",
+      "durationMs": 2315,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-mnemon 0.5.46\n\nPackages: +26\n++++++++++++++++++++++++++\nProgress: resolved 26, reused 6, downloaded 20, added 26, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4D1MRY/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-mnemon 0.5.47\n\nPackages: +25\n+++++++++++++++++++++++++\nProgress: resolved 25, reused 6, downloaded 19, added 25, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-upSeRN/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:07:58.797Z",
-      "durationMs": 3049,
+      "startedAt": "2026-11-17T23:02:05.665Z",
+      "durationMs": 4134,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:40001/?token=gmgRd7wmwcEL6lJH66ux5lX8Eeh6D5M-IugH68xHhb0\n",
-      "stderr": "dsh-mnemon: could not recover retained legacy settings Error: cannot get required service \"loader\" in inactive context\n    at eval (eval at <anonymous> (eval at <anonymous> (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:233:18)), <anonymous>:4:6)\n    at eval (eval at <anonymous> (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:233:18), <anonymous>:5:12)\n    at Entry.evaluate (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:353:10)\n    at Entry.disabledOf (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:350:52)\n    at get disabled (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:340:13)\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4D1MRY/home/profiles/health-smoke/node_modules/dsh-mnemon/lib/index.js:18954:21\n    at Array.map (<anonymous>)\n    at MemoryPluginManagement.revision (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4D1MRY/home/profiles/health-smoke/node_modules/dsh-mnemon/lib/index.js:18951:19)\n    at MemoryPluginManagement.catalog (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4D1MRY/home/profiles/health-smoke/node_modules/dsh-mnemon/lib/index.js:19022:19)\n",
+      "stdout": "dsh web: http://127.0.0.1:38571/?token=MXiQJBSM0Z6uaaFXwT-Y-IHZH-fkgIFr_znPtRN-AXo\n",
+      "stderr": "dsh-mnemon: could not recover retained legacy settings Error: cannot get required service \"loader\" in inactive context\n    at eval (eval at <anonymous> (eval at <anonymous> (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:233:18)), <anonymous>:4:6)\n    at eval (eval at <anonymous> (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:233:18), <anonymous>:5:12)\n    at Entry.evaluate (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:353:10)\n    at Entry.disabledOf (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:350:52)\n    at get disabled (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis-plugin-loader/lib/index.js:340:13)\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-upSeRN/home/profiles/health-smoke/node_modules/dsh-mnemon/lib/index.js:20013:21\n    at Array.map (<anonymous>)\n    at MemoryPluginManagement.revision (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-upSeRN/home/profiles/health-smoke/node_modules/dsh-mnemon/lib/index.js:20010:19)\n    at MemoryPluginManagement.catalog (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-upSeRN/home/profiles/health-smoke/node_modules/dsh-mnemon/lib/index.js:20081:19)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1258,13 +1258,13 @@
               "disabled": true
             },
             {
-              "id": "88df70bb",
+              "id": "02d08df6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "8bd371c8",
+              "id": "146663b1",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2136,12 +2136,12 @@
               "state": 2
             },
             {
-              "id": "88df70bb",
+              "id": "02d08df6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "8bd371c8",
+              "id": "146663b1",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2152,7 +2152,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2164,8 +2164,8 @@
   "subjects": [
     {
       "name": "dsh-mnemon",
-      "version": "0.5.46",
-      "integrity": "sha512-VWdRQk2PV0zGJ124dfItVUjaRM/UaCJI9U4WJZ98BYw5gxOxAADEJYWLUzLk2kTRirgov0/Kw/6+iU1Q56k4Rw==",
+      "version": "0.5.47",
+      "integrity": "sha512-RavniawWPhT4Y1fh1Y10vm+OQuJaxfN5A54UWsODflrb0xxQWs8rK0/4hHPQNjSoNcoNCPEI1LiurF7kEUZ9iw==",
       "resolution": "registry"
     }
   ],
@@ -2256,13 +2256,13 @@
         "disabled": true
       },
       {
-        "id": "88df70bb",
+        "id": "02d08df6",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "8bd371c8",
+        "id": "146663b1",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

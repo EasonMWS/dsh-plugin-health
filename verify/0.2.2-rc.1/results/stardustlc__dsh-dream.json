@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:02:49.447Z",
+  "generatedAt": "2026-11-17T22:56:34.679Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@stardustlc/dsh-dream@0.15.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-76xAC7",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-76xAC7/home",
+  "plugin": "@stardustlc/dsh-dream@0.15.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LpiInV",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LpiInV/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:02:49.712Z",
-      "durationMs": 101,
+      "startedAt": "2026-11-17T22:56:35.004Z",
+      "durationMs": 112,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @stardustlc/dsh-dream@0.15.0 for DSH 0.2.2-rc.1\n",
+      "stdout": "dsh: allowed @stardustlc/dsh-dream@0.15.2 for DSH 0.2.2-rc.1\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:02:49.813Z",
-      "durationMs": 1966,
+      "startedAt": "2026-11-17T22:56:35.116Z",
+      "durationMs": 1807,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @stardustlc/dsh-dream 0.15.0\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nDone in 1.3s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @stardustlc/dsh-dream 0.15.2\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-dream@0.15.2\n  @stardustlc/dsh-updates@0.2.0\nDone in 1.1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:02:51.782Z",
-      "durationMs": 3492,
+      "startedAt": "2026-11-17T22:56:36.926Z",
+      "durationMs": 3779,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38167/?token=3SuU1h4hoJzKj-Ckwn1jTd5M-B7PmThjADHOpbyE9Ec\n",
+      "stdout": "dsh web: http://127.0.0.1:40205/?token=JijsgPAWJ2ZV6jDq6WBXKBzTKPwUkP7nwclK_suSg0M\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "2c610aa7",
+              "id": "fa6f48b6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "fde29bac",
+              "id": "334e4e53",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2120,12 +2120,12 @@
               "state": 2
             },
             {
-              "id": "2c610aa7",
+              "id": "fa6f48b6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "fde29bac",
+              "id": "334e4e53",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2136,7 +2136,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2148,8 +2148,8 @@
   "subjects": [
     {
       "name": "@stardustlc/dsh-dream",
-      "version": "0.15.0",
-      "integrity": "sha512-9os7aKVgKq1gYKIkdzaX9GpFN5ywWWJSPxy98wdXXdp0XHLKRQP4n+dtpAwEenF+b+KE1xnqzsDzLhHROZFxdg==",
+      "version": "0.15.2",
+      "integrity": "sha512-hMXmEkmvcYDUpOXCGDvJXuHpCBl4BBPSCWMc8cETwSFHXkwTw/CmHMjLHfToXwWjiK6+HRHaRBHtJjzkrOc1qw==",
       "resolution": "registry"
     }
   ],
@@ -2180,13 +2180,13 @@
         "disabled": false
       },
       {
-        "id": "2c610aa7",
+        "id": "fa6f48b6",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "fde29bac",
+        "id": "334e4e53",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

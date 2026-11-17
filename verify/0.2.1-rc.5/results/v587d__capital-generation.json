@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:06:50.428Z",
+  "generatedAt": "2026-11-17T23:00:55.597Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@v587d/capital-generation@2.24.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home",
+  "plugin": "@v587d/capital-generation@2.26.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:06:50.738Z",
-      "durationMs": 108,
+      "startedAt": "2026-11-17T23:00:55.910Z",
+      "durationMs": 103,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @v587d/capital-generation@2.24.0 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @v587d/capital-generation@2.26.0 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:06:50.846Z",
-      "durationMs": 1482,
+      "startedAt": "2026-11-17T23:00:56.013Z",
+      "durationMs": 1664,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @v587d/capital-generation 2.24.0\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 4, downloaded 4, added 8, done\nDone in 915ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @v587d/capital-generation 2.26.0\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 4, downloaded 4, added 8, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @v587d/capital-generation@2.26.0\nDone in 1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:06:52.331Z",
-      "durationMs": 4056,
+      "startedAt": "2026-11-17T23:00:57.680Z",
+      "durationMs": 2941,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:39529/?token=SDJjYLEg098kDLsNpeTbBO96pEiwvlqeRR2OpmXoqis\n",
+      "stdout": "dsh web: http://127.0.0.1:45345/?token=8AJw3qAZse5BgVCKeWCJ7BmzIhLN5e4zdiuF25cdo0o\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -636,31 +636,37 @@
             },
             {
               "id": "capital-config",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home/profiles/health-smoke/node_modules/@v587d/capital-generation/config/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home/profiles/health-smoke/node_modules/@v587d/capital-generation/config/index.js",
               "state": 2,
               "disabled": false
             },
             {
               "id": "capital-charts",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home/profiles/health-smoke/node_modules/@v587d/capital-generation/chart-ui/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home/profiles/health-smoke/node_modules/@v587d/capital-generation/chart-ui/index.js",
               "state": 2,
               "disabled": false
             },
             {
               "id": "capital-watchlist",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home/profiles/health-smoke/node_modules/@v587d/capital-generation/watchlist/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home/profiles/health-smoke/node_modules/@v587d/capital-generation/watchlist/index.js",
               "state": 2,
               "disabled": false
             },
             {
               "id": "capital-automation",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home/profiles/health-smoke/node_modules/@v587d/capital-generation/automation/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home/profiles/health-smoke/node_modules/@v587d/capital-generation/automation/index.js",
               "state": 2,
               "disabled": false
             },
             {
               "id": "capital-runtime",
               "name": "@v587d/capital-generation/runtime",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "python-runtime",
+              "name": "@v587d/capital-generation/python-runtime",
               "state": 2,
               "disabled": false
             },
@@ -1277,13 +1283,13 @@
               "disabled": false
             },
             {
-              "id": "c95b4d81",
+              "id": "4b9a30b4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "fed18b9f",
+              "id": "b4889988",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1296,13 +1302,13 @@
           "checked": 170,
           "active": 170
         },
-        "error": "AssertionError [ERR_ASSERTION]: @v587d/capital-generation never entered the profile: it is not among the 206 loaded entries\n    at verifyActivation (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:84:12)\n    at main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:254:5)"
+        "error": "AssertionError [ERR_ASSERTION]: @v587d/capital-generation never entered the profile: it is not among the 207 loaded entries\n    at verifyActivation (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:84:12)\n    at main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:254:5)"
       }
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -1314,8 +1320,8 @@
   "subjects": [
     {
       "name": "@v587d/capital-generation",
-      "version": "2.24.0",
-      "integrity": "sha512-aou/ggxr0vaHdWuEeJdq9skAHQkNXyfQgTtnjDlJfJOHjkajQSPIbGZwI9k8Zh9jnwGuQinO7FYcj08p6Occmg==",
+      "version": "2.26.0",
+      "integrity": "sha512-aJSQ7dRwGXCCRejV3O2BXaBMy7figlPPPLLqIkDjAt2QO2C3NQmDN83b5JHp/BSCZPRirdWAKsLBSP8w3wA95Q==",
       "resolution": "registry"
     }
   ],
@@ -1338,7 +1344,7 @@
   "failure": {
     "stage": "runtime",
     "kind": "not-mounted",
-    "detail": "AssertionError [ERR_ASSERTION]: @v587d/capital-generation never entered the profile: it is not among the 206 loaded entries"
+    "detail": "AssertionError [ERR_ASSERTION]: @v587d/capital-generation never entered the profile: it is not among the 207 loaded entries"
   },
   "level": null,
   "declared": false,
@@ -1346,31 +1352,37 @@
     "entries": [
       {
         "id": "capital-config",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home/profiles/health-smoke/node_modules/@v587d/capital-generation/config/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home/profiles/health-smoke/node_modules/@v587d/capital-generation/config/index.js",
         "state": 2,
         "disabled": false
       },
       {
         "id": "capital-charts",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home/profiles/health-smoke/node_modules/@v587d/capital-generation/chart-ui/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home/profiles/health-smoke/node_modules/@v587d/capital-generation/chart-ui/index.js",
         "state": 2,
         "disabled": false
       },
       {
         "id": "capital-watchlist",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home/profiles/health-smoke/node_modules/@v587d/capital-generation/watchlist/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home/profiles/health-smoke/node_modules/@v587d/capital-generation/watchlist/index.js",
         "state": 2,
         "disabled": false
       },
       {
         "id": "capital-automation",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-scH3JU/home/profiles/health-smoke/node_modules/@v587d/capital-generation/automation/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-MGXGGw/home/profiles/health-smoke/node_modules/@v587d/capital-generation/automation/index.js",
         "state": 2,
         "disabled": false
       },
       {
         "id": "capital-runtime",
         "name": "@v587d/capital-generation/runtime",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "python-runtime",
+        "name": "@v587d/capital-generation/python-runtime",
         "state": 2,
         "disabled": false
       },
@@ -1417,13 +1429,13 @@
         "disabled": false
       },
       {
-        "id": "c95b4d81",
+        "id": "4b9a30b4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "fed18b9f",
+        "id": "b4889988",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -1439,7 +1451,7 @@
     "failure": {
       "stage": "runtime",
       "kind": "not-mounted",
-      "detail": "AssertionError [ERR_ASSERTION]: @v587d/capital-generation never entered the profile: it is not among the 206 loaded entries"
+      "detail": "AssertionError [ERR_ASSERTION]: @v587d/capital-generation never entered the profile: it is not among the 207 loaded entries"
     }
   }
 }

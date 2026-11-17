@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:02:22.787Z",
+  "generatedAt": "2026-11-17T22:56:31.542Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@bushizhanghan/dsh-publish-gate@0.49.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qXq89P",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qXq89P/home",
+  "plugin": "@bushizhanghan/dsh-publish-gate@0.50.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-UQmYQS",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-UQmYQS/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:02:23.163Z",
-      "durationMs": 1561,
+      "startedAt": "2026-11-17T22:56:32.148Z",
+      "durationMs": 2233,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @bushizhanghan/dsh-publish-gate 0.49.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 818ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qXq89P/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @bushizhanghan/dsh-publish-gate 0.50.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @bushizhanghan/dsh-publish-gate@0.50.0\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-UQmYQS/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:02:24.735Z",
-      "durationMs": 3597,
+      "startedAt": "2026-11-17T22:56:34.393Z",
+      "durationMs": 5197,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:40961/?token=lS0IdmSVG_HqAR2aU9JISJiaJPWQY_NXMOW66Sq9SK0\n",
-      "stderr": "[publish-gate] publish_gate registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_tools registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_client registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_verify registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_patch registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_market registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_next_version registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_doctor registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_commands registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_ci registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_smoke registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_update registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_fix registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_drift registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_release registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_setup registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_status registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_ship registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_link registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n",
+      "stdout": "dsh web: http://127.0.0.1:35887/?token=cRgk3iqrlDjdkofURMDyQWuiHEAnKRMWOBeGjBi9gpk\n",
+      "stderr": "[publish-gate] publish_gate registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_tools registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_client registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_verify registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_patch registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_market registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_next_version registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_doctor registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_commands registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_ci registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_smoke registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_update registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_rules registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_fix registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_drift registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_release registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_setup registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_status registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_ship registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n[publish-gate] publish_gate_link registration skipped: JsonSchemaError: unsupported JSON schema: schema.type must be one of object/array/string/number/integer/boolean/null\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "09eb4619",
+              "id": "9fcf0da3",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e2539e7c",
+              "id": "c8c81947",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2098,12 @@
               "state": 2
             },
             {
-              "id": "09eb4619",
+              "id": "9fcf0da3",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "e2539e7c",
+              "id": "c8c81947",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2114,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2126,8 +2126,8 @@
   "subjects": [
     {
       "name": "@bushizhanghan/dsh-publish-gate",
-      "version": "0.49.0",
-      "integrity": "sha512-0s0mHX6fvw2EcgSvREjY5doMGA1DqxET4pzKY78RQgx2gyZbTHAJ/bc1LGcd4w2s4fvpf7Lrxv3a0bdqedbeCw==",
+      "version": "0.50.0",
+      "integrity": "sha512-u/E2Xjw8FGpCOVCTh5AHoTERNJMcK3w+eYgQiL1x9eAlAtEbcj3d7oQgcG4nsmsvP3YeqUfGtBvfl6twObQpPA==",
       "resolution": "registry"
     }
   ],
@@ -2158,13 +2158,13 @@
         "disabled": false
       },
       {
-        "id": "09eb4619",
+        "id": "9fcf0da3",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e2539e7c",
+        "id": "c8c81947",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

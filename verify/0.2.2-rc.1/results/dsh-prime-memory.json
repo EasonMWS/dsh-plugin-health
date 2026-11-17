@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:03:09.516Z",
+  "generatedAt": "2026-11-17T22:56:47.985Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-prime-memory@0.26.41",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nCkzRc",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nCkzRc/home",
+  "plugin": "dsh-prime-memory@0.26.60",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TY72g0",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TY72g0/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:03:09.879Z",
-      "durationMs": 2208,
+      "startedAt": "2026-11-17T22:56:48.489Z",
+      "durationMs": 2645,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-prime-memory 0.26.41\n\nPackages: +11\n+++++++++++\nProgress: resolved 27, reused 3, downloaded 8, added 11, done\nDone in 1.3s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nCkzRc/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-prime-memory 0.26.60\n\nPackages: +11\n+++++++++++\nProgress: resolved 27, reused 3, downloaded 8, added 11, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-prime-memory@0.26.60\nDone in 1.5s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TY72g0/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:03:12.094Z",
-      "durationMs": 2821,
+      "startedAt": "2026-11-17T22:56:51.150Z",
+      "durationMs": 4414,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45379/?token=FfkpRn1qNHe6_Q8nL105NzyUYrzWbcyjW4ahpc23GZg\n",
-      "stderr": "(node:4112) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:4112) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:42879/?token=vdb3aBNlRO8PE6OGXgAtFEoHNYRxWmcIjCRRBhypiMI\n",
+      "stderr": "(node:3568) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n(node:3568) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "78d74bf6",
+              "id": "46d16596",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "da05b6f2",
+              "id": "cf94dcd4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1242,28 +1242,21 @@
           ],
           "tools": [
             "conversation_search",
-            "memory_add",
             "memory_conflicts",
             "memory_conflicts_rejected",
-            "memory_delete",
             "memory_expand_graph_node",
-            "memory_import",
-            "memory_migrate_relation",
             "memory_read_scene",
             "memory_receipts",
-            "memory_reproject",
             "memory_resolve_conflict",
             "memory_room_admin",
             "memory_room_review",
             "memory_ruminate",
-            "memory_ruminate_cancel",
-            "memory_ruminate_status",
             "memory_search",
             "memory_search_graph",
             "memory_slot_close",
             "memory_slot_list",
             "memory_slot_write",
-            "memory_update",
+            "memory_write",
             "working_directory"
           ],
           "toolsUnavailable": false
@@ -2121,12 +2114,12 @@
               "state": 2
             },
             {
-              "id": "78d74bf6",
+              "id": "46d16596",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "da05b6f2",
+              "id": "cf94dcd4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2137,7 +2130,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2149,8 +2142,8 @@
   "subjects": [
     {
       "name": "dsh-prime-memory",
-      "version": "0.26.41",
-      "integrity": "sha512-+iHx3BMYyJzPQepwccEVxjkAHueCMYpdwVNJfCmYAuqfz+EREKpuVX9yUMfUWWkRV/dQ0/ChEpSWR4ephX9a1w==",
+      "version": "0.26.60",
+      "integrity": "sha512-ZPiAkfEINBtAFUHc14FKqNVx6XHhBx39QRRsddmvGuCMQ8c86vQ/7pa0DiBuaQlyiRp/tuHZxcTAIBc5ZLoQZg==",
       "resolution": "registry"
     }
   ],
@@ -2181,13 +2174,13 @@
         "disabled": false
       },
       {
-        "id": "78d74bf6",
+        "id": "46d16596",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "da05b6f2",
+        "id": "cf94dcd4",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2195,28 +2188,21 @@
     ],
     "tools": [
       "conversation_search",
-      "memory_add",
       "memory_conflicts",
       "memory_conflicts_rejected",
-      "memory_delete",
       "memory_expand_graph_node",
-      "memory_import",
-      "memory_migrate_relation",
       "memory_read_scene",
       "memory_receipts",
-      "memory_reproject",
       "memory_resolve_conflict",
       "memory_room_admin",
       "memory_room_review",
       "memory_ruminate",
-      "memory_ruminate_cancel",
-      "memory_ruminate_status",
       "memory_search",
       "memory_search_graph",
       "memory_slot_close",
       "memory_slot_list",
       "memory_slot_write",
-      "memory_update"
+      "memory_write"
     ],
     "toolsUnavailable": false,
     "baseline": "host"

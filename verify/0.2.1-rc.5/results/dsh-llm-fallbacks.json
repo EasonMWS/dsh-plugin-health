@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:07:52.478Z",
+  "generatedAt": "2026-11-17T23:01:55.955Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-llm-fallbacks@0.8.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IafLvO",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IafLvO/home",
+  "plugin": "dsh-llm-fallbacks@0.8.9",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yTtdhV",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yTtdhV/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:07:52.811Z",
-      "durationMs": 111,
+      "startedAt": "2026-11-17T23:01:56.412Z",
+      "durationMs": 165,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-llm-fallbacks@0.8.7 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-llm-fallbacks@0.8.9 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:07:52.924Z",
-      "durationMs": 1389,
+      "startedAt": "2026-11-17T23:01:56.577Z",
+      "durationMs": 2094,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-llm-fallbacks 0.8.7\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 814ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-llm-fallbacks 0.8.9\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1.1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:07:54.314Z",
-      "durationMs": 2258,
+      "startedAt": "2026-11-17T23:01:58.674Z",
+      "durationMs": 3986,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:40743/?token=ICIvi6WDBeIShaUTkdmlAnenfd7kjtI8u1vkoLOWi2c\n",
+      "stdout": "dsh web: http://127.0.0.1:33757/?token=aMDRfmS5FB6iEFSmA2bTZ4n9FyreYRkEjfFeeC9vciM\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "2ca67181",
+              "id": "2196b371",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "719f2041",
+              "id": "8846d52d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "2ca67181",
+              "id": "2196b371",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "719f2041",
+              "id": "8846d52d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-llm-fallbacks",
-      "version": "0.8.7",
-      "integrity": "sha512-Vd+XanhY+S2yBjKo3LtJnAN5zQ/m+9p2wSE7ZiFizHxl1g+Fu5ZNKHA9n17Hzf1MNm7pdkKH4d+zL3GOHvNwHw==",
+      "version": "0.8.9",
+      "integrity": "sha512-Kutebv0Op46TeF5GccFp3xfA+fKP7bFfvvRZGL7gzdUkDU+r0M7s+mj87Cfo65wy7bqMbXqrAKQpx6HV4sIPtQ==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "2ca67181",
+        "id": "2196b371",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "719f2041",
+        "id": "8846d52d",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

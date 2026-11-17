@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:04:14.621Z",
+  "generatedAt": "2026-11-17T22:57:02.877Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-tg-bridge@1.51.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bHqfhi",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bHqfhi/home",
+  "plugin": "dsh-tg-bridge@1.53.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KXcnKx",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KXcnKx/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:04:15.060Z",
-      "durationMs": 1708,
+      "startedAt": "2026-11-17T22:57:03.314Z",
+      "durationMs": 1843,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-tg-bridge 1.51.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 872ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-bHqfhi/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-tg-bridge 1.53.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 938ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KXcnKx/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:04:16.769Z",
-      "durationMs": 4250,
+      "startedAt": "2026-11-17T22:57:05.159Z",
+      "durationMs": 3885,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44021/?token=r7LooAChAFlrVN8EQlB5aGgbv_tOHvteFmN8kK7xuFI\n",
+      "stdout": "dsh web: http://127.0.0.1:35391/?token=Fl1UohqjrU3TmXq-MPYApYwN7aKeYuVrG_goMw-RfmI\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,6 +39,12 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
+            {
+              "id": "30443505",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1228,14 +1234,8 @@
               "disabled": false
             },
             {
-              "id": "78d54a03",
+              "id": "8b8f7375",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "adb2e9bf",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1252,6 +1252,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "30443505",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2098,13 +2103,8 @@
               "state": 2
             },
             {
-              "id": "78d54a03",
+              "id": "8b8f7375",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "adb2e9bf",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2114,7 +2114,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2126,8 +2126,8 @@
   "subjects": [
     {
       "name": "dsh-tg-bridge",
-      "version": "1.51.2",
-      "integrity": "sha512-nU6rnpvYpjXizi0qZZ0uJkWPCQQgWsmdFIfjixBhN3y1HRlskeWrnE1ImiX9eVnHkEqAHniCdEZ6hSOFpiqTQw==",
+      "version": "1.53.0",
+      "integrity": "sha512-JR/BA3pZtuF7HVhFqewXE2h6O/TtMPTidFI7jgh0PGcsoehMxzfUm+x4SWl9UUGEArKszK3pTPidbEBIzEt+tQ==",
       "resolution": "registry"
     }
   ],
@@ -2152,20 +2152,20 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "30443505",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "tg-bridge",
         "name": "dsh-tg-bridge",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "78d54a03",
+        "id": "8b8f7375",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "adb2e9bf",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

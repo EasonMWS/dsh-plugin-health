@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:03:38.700Z",
+  "generatedAt": "2026-11-17T22:57:18.091Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-ppt@0.20.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-e4kLZg",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-e4kLZg/home",
+  "plugin": "dsh-ppt@0.20.8",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lQIfTu",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-lQIfTu/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:03:38.956Z",
-      "durationMs": 91,
+      "startedAt": "2026-11-17T22:57:18.532Z",
+      "durationMs": 167,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-ppt@0.20.6 for DSH 0.2.2-rc.1\n",
+      "stdout": "dsh: allowed dsh-ppt@0.20.8 for DSH 0.2.2-rc.1\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:03:39.047Z",
-      "durationMs": 1248,
+      "startedAt": "2026-11-17T22:57:18.699Z",
+      "durationMs": 2129,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ppt 0.20.6\n\nPackages: +12\n++++++++++++\nProgress: resolved 12, reused 8, downloaded 4, added 12, done\nDone in 692ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ppt 0.20.8\n\nPackages: +12\n++++++++++++\nProgress: resolved 12, reused 8, downloaded 4, added 12, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  dsh-ppt@0.20.8\nDone in 1.2s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:03:40.297Z",
-      "durationMs": 2861,
+      "startedAt": "2026-11-17T22:57:20.837Z",
+      "durationMs": 5025,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:40135/?token=vTzynOwGgd13XgvRdu5XTgh-r2IaCKoPjnGR9kWQR-s\n",
+      "stdout": "dsh web: http://127.0.0.1:37029/?token=03hjJrkEH9BB3U3Jlw4tpZAM5_wzkhyPnd5Jlq1Amvc\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "ee271e82",
+              "id": "c9d55f5e",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "2cb5150e",
+              "id": "a61f0805",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2119,12 +2119,12 @@
               "state": 2
             },
             {
-              "id": "ee271e82",
+              "id": "c9d55f5e",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "2cb5150e",
+              "id": "a61f0805",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2135,7 +2135,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2147,8 +2147,8 @@
   "subjects": [
     {
       "name": "dsh-ppt",
-      "version": "0.20.6",
-      "integrity": "sha512-lt04znKnCOa1VniHMOtqXm0eGb/7tQWgDe+xV16zQXa9qwnPVPZrhJHMJHtxwQWTXzvAI1aRDYqnbGRPZKL9Rg==",
+      "version": "0.20.8",
+      "integrity": "sha512-c0dLBL4u0bJg6/+Kl3/oRVpOXaDF6826TjAadoT2aA3IFORKUJ5P8/iCvINsQL9j6ZaYpXRXBZJOlWimqs1soA==",
       "resolution": "registry"
     }
   ],
@@ -2179,13 +2179,13 @@
         "disabled": false
       },
       {
-        "id": "ee271e82",
+        "id": "c9d55f5e",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "2cb5150e",
+        "id": "a61f0805",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

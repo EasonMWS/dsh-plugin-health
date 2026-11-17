@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:08:44.639Z",
+  "generatedAt": "2026-11-17T23:02:17.812Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-claude-style@0.21.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-X3kJvg",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-X3kJvg/home",
+  "plugin": "dsh-claude-style@0.21.4",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jNLHR6",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jNLHR6/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:08:45.187Z",
-      "durationMs": 179,
+      "startedAt": "2026-11-17T23:02:18.110Z",
+      "durationMs": 94,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-claude-style@0.21.2 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-claude-style@0.21.4 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:08:45.366Z",
-      "durationMs": 1763,
+      "startedAt": "2026-11-17T23:02:18.204Z",
+      "durationMs": 1222,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-claude-style 0.21.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 743ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-claude-style 0.21.4\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 633ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:08:47.131Z",
-      "durationMs": 2620,
+      "startedAt": "2026-11-17T23:02:19.428Z",
+      "durationMs": 3063,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41079/?token=uuaINOMFsj-o48D6rsuSNnbFwAtyCvZpL1nYxoD9u8w\n",
+      "stdout": "dsh web: http://127.0.0.1:38159/?token=nUdHmlbcUmi2vCmJ8hXyGlzXtjGxsPmU-c0DN-GRMT0\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "3370e972",
+              "id": "813f5bd5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "531422aa",
+              "id": "ab5717a2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "3370e972",
+              "id": "813f5bd5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "531422aa",
+              "id": "ab5717a2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-claude-style",
-      "version": "0.21.2",
-      "integrity": "sha512-w+OtdUO2zxcxAVXphzbw2qhR0ugx4Taz/nLzS0FfRcllugdhye/0bNmYuNeVGmuUwmLC4eH0jtbTe4TBguCbwA==",
+      "version": "0.21.4",
+      "integrity": "sha512-VQmnlH2Z6gbTgsUVvrJlnOoAmvgmjq0sV6NO92gKyhvmTT3gxk7JKpj1DD0jmscdrek6uT2Gq/faC78t3ZGu0w==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "3370e972",
+        "id": "813f5bd5",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "531422aa",
+        "id": "ab5717a2",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

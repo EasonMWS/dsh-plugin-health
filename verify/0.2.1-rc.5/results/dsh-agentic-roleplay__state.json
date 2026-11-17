@@ -1,50 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:06:38.692Z",
+  "generatedAt": "2026-11-17T23:00:35.458Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@dsh-agentic-roleplay/state@0.12.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oxRDUu",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oxRDUu/home",
+  "plugin": "@dsh-agentic-roleplay/state@0.12.7",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4xfLbO",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4xfLbO/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:06:38.961Z",
-      "durationMs": 96,
+      "startedAt": "2026-11-17T23:00:35.907Z",
+      "durationMs": 101,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @dsh-agentic-roleplay/state@0.12.6 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @dsh-agentic-roleplay/state@0.12.7 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:06:39.057Z",
-      "durationMs": 1255,
+      "startedAt": "2026-11-17T23:00:36.008Z",
+      "durationMs": 1432,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dsh-agentic-roleplay/state 0.12.6\n\nPackages: +3\n+++\nProgress: resolved 7, reused 0, downloaded 3, added 3, done\nDone in 714ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dsh-agentic-roleplay/state 0.12.7\n\nPackages: +3\n+++\nProgress: resolved 7, reused 0, downloaded 3, added 3, done\nDone in 738ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:06:40.316Z",
-      "durationMs": 2728,
+      "startedAt": "2026-11-17T23:00:37.445Z",
+      "durationMs": 3209,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45625/?token=YC9t_DB9XLjJhQfeXugKY28k9FeucaN9JmjzSbZhdRo\n",
-      "stderr": "(node:2843) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:37469/?token=-1rb3p487S-sR3aPXn9y9-ZpWzyXOIBwd7QIILhH9bI\n",
+      "stderr": "(node:2813) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -52,12 +52,6 @@
         "hostCordis": "4.0.5",
         "footprint": {
           "entries": [
-            {
-              "id": "94809761",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1217,7 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "f52cda89",
+              "id": "22e1962f",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "0abe30ed",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1233,11 +1233,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "94809761",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2064,7 +2059,12 @@
               "state": 2
             },
             {
-              "id": "f52cda89",
+              "id": "22e1962f",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "0abe30ed",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@dsh-agentic-roleplay/state",
-      "version": "0.12.6",
-      "integrity": "sha512-UNT19Uugs/AL1PuAdB/qFUUn7oGH8dMJ/PnsjHpKzHsyQpHtf2pe4orE2GDd8iQEd8Q8oSvs+4gBYA7p8VHTLA==",
+      "version": "0.12.7",
+      "integrity": "sha512-//2zXrO2FlrBJe8Q+tisAhISVnrIMMGVCQlrFlmq2ErbvaMDtC1Vbn6C3r6gfVBprPCffs1w+adPn8XYAPcwcQ==",
       "resolution": "registry"
     }
   ],
@@ -2113,19 +2113,19 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "94809761",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
         "id": "roleplay-state",
         "name": "@dsh-agentic-roleplay/state",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "f52cda89",
+        "id": "22e1962f",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "0abe30ed",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

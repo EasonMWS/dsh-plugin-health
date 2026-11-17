@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:07:12.380Z",
+  "generatedAt": "2026-11-17T23:01:19.001Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@linxin666/dsh-client-ui-task-board@0.4.18",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zyaOND",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zyaOND/home",
+  "plugin": "@linxin666/dsh-client-ui-task-board@0.4.19",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pflFOs",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pflFOs/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:07:12.667Z",
-      "durationMs": 120,
+      "startedAt": "2026-11-17T23:01:19.468Z",
+      "durationMs": 206,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @linxin666/dsh-client-ui-task-board@0.4.18 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @linxin666/dsh-client-ui-task-board@0.4.19 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:07:12.787Z",
-      "durationMs": 1645,
+      "startedAt": "2026-11-17T23:01:19.679Z",
+      "durationMs": 2038,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-client-ui-task-board 0.4.18\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 3, downloaded 2, added 5, done\nDone in 1s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-client-ui-task-board 0.4.19\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 3, downloaded 2, added 5, done\nDone in 1.1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:07:14.435Z",
-      "durationMs": 3298,
+      "startedAt": "2026-11-17T23:01:21.722Z",
+      "durationMs": 3664,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37925/?token=D7UizXjF-mI3XsLRZiAdMdM_zcqNmT_prXYVPtPR-0U\n",
+      "stdout": "dsh web: http://127.0.0.1:34231/?token=V2qZglG088OYcb4qlJfq8CteQNjTFBpEo5Q8kUYe06c\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "3477077b",
+              "id": "d23b57e3",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "382e1c74",
+              "id": "65a2d97b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "3477077b",
+              "id": "d23b57e3",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "382e1c74",
+              "id": "65a2d97b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@linxin666/dsh-client-ui-task-board",
-      "version": "0.4.18",
-      "integrity": "sha512-hlFB9zoPjN/vh7hISt6OEJfi+jEKqbIovp5zE+viHu7E7MNoP5FclilHdgfokGmra77JtxPfDPHza7bnbamAng==",
+      "version": "0.4.19",
+      "integrity": "sha512-Pmqd+Y31i8v1eVfxSsVxMzUYjZf1sTA1jW0rZuz3iOHcptBwtYVAHe4YUEpbMK19xtr9MKDtBDsug4J4aUrTew==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "3477077b",
+        "id": "d23b57e3",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "382e1c74",
+        "id": "65a2d97b",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

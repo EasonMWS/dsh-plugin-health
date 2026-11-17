@@ -1,0 +1,4137 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-17T23:04:09.082Z",
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.2.1"
+  },
+  "host": {
+    "version": "0.2.2-rc.4"
+  },
+  "profile": {
+    "base": "@deepseek-ai/dsh-base",
+    "hostBundles": [
+      "@deepseek-ai/dsh-web-app"
+    ]
+  },
+  "counts": {
+    "V1": 13,
+    "V2": 10,
+    "V3": 213,
+    "none": 14,
+    "failures": {
+      "build-scripts-blocked": 13,
+      "gate-rejected": 14,
+      "not-activated": 3,
+      "boot-import-error": 1,
+      "unknown": 2,
+      "shutdown-hang": 4
+    }
+  },
+  "plugins": [
+    {
+      "name": "@a9i5k4/dsh-auto-memory",
+      "version": "3.3.17",
+      "integrity": "sha512-wZ3XpXVDhiezw3lFfdq1+8F3SfPb6zKscRJ3XTh2Zt5WockkY9x4vdP0LfLxjVY1aD9P3icKBquZWJBFohE6Kw==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.21.0, protobufjs@7.6.6, sharp@0.34.5"
+      },
+      "result": "results/a9i5k4__dsh-auto-memory.json"
+    },
+    {
+      "name": "@anionex/dsh-vision-toolkit",
+      "version": "0.1.51",
+      "integrity": "sha512-d6TUoVPXgfaB7Hdte3yYe6aldxTAwCUi5k8foAhHl24RxkVH0gKtGhxOY6NIhRnAOEENlUnSp5tsiTU888kbww==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/anionex__dsh-vision-toolkit.json"
+    },
+    {
+      "name": "@anysearch/anysearch-dsh",
+      "version": "0.1.8",
+      "integrity": "sha512-N00VwXW5j2+IJKtURJIv5eaLJBqr+b/1oLL+B8pX2CfaHjIGPXop0l5fKXpr/iR9cS8cf9yjFOSeVaUa+rEO9A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/anysearch__anysearch-dsh.json"
+    },
+    {
+      "name": "@ash-qw/dsh-theme-prts",
+      "version": "4.1.1",
+      "integrity": "sha512-hi7YSpU+yEYKzz4SLe96gWz4StmEPJi5qiwdae5MoimptyJ5ZBJIEUEOAsDETY/gNNLnHWnw7jLW+fpJ+o/w9Q==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/ash-qw__dsh-theme-prts.json"
+    },
+    {
+      "name": "@bushizhanghan/dsh-publish-gate",
+      "version": "0.50.0",
+      "integrity": "sha512-u/E2Xjw8FGpCOVCTh5AHoTERNJMcK3w+eYgQiL1x9eAlAtEbcj3d7oQgcG4nsmsvP3YeqUfGtBvfl6twObQpPA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/bushizhanghan__dsh-publish-gate.json"
+    },
+    {
+      "name": "@cerbur/clutch-dsh-worktree",
+      "version": "0.1.34",
+      "integrity": "sha512-B65YQC45DWcKjLkUUOO7AEdB+5EueHNTI1qrN+MAAmY3uk8/eD3aZdJiWDWJNjnzAjPYJGTx6eGjhJeQcDjqgw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/cerbur__clutch-dsh-worktree.json"
+    },
+    {
+      "name": "@changfenhuang/dsh-genui",
+      "version": "0.16.0",
+      "integrity": "sha512-UyBFwCQ+byFRlEn8RCP9XD9Qm8dPHV2dqBJLsuUbEGvy51KUkcKjDdMoq8/N4rtGJy+qKg2L2iaSEWVbu0qrbg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/changfenhuang__dsh-genui.json"
+    },
+    {
+      "name": "@copylee/dsh-computer-use",
+      "version": "0.8.5",
+      "integrity": "sha512-Id+kC4QoN6ucS8GgVWHyc9J0YdWiDsNsRQozVaDN43+9lPjc3kp2JrgCNa2GvkZAUz1QOzFJStdKyUTktonbQA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/copylee__dsh-computer-use.json"
+    },
+    {
+      "name": "@deepseek-harness-tui/dsh-tui",
+      "version": "0.20.1",
+      "integrity": "sha512-agtlvmZM8xUnpitwOB/fPb/410IDzY58qIn5WSk3qAKqnGy6WxRbIzomB7M+CsfK7jbqvoA15Zhel8rkKYK6LA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/deepseek-harness-tui__dsh-tui.json"
+    },
+    {
+      "name": "@dickpy/dsh-imagegen",
+      "version": "1.18.1",
+      "integrity": "sha512-VRlIJ08CZUHf6DQGClmyRX75JfHb5UslZZyg1tR/gz7TFpCC6xlS+/9+kbOAY2KF7mRCv4grR/Yj2O23v9R71w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dickpy__dsh-imagegen.json"
+    },
+    {
+      "name": "@dmh2002/dsh-connect-qoder",
+      "version": "1.26.0",
+      "integrity": "sha512-aM4OoOU+4z9AEMPYphWyd/OBwrNz6M4zfE6NGLBPCeN3ydD+zYwyZ6WcjPwvQLobfcp0lLASp2oWEFQ8OG6zMg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dmh2002__dsh-connect-qoder.json"
+    },
+    {
+      "name": "@dougen/dsh-deepseek-usage",
+      "version": "0.20.1",
+      "integrity": "sha512-BYW4KJfEkkkIqbj+34mTyKAbloNChIcqldQGRb2c+LGdCL8jNa88zPfN2sPRnhjSZ7/ftc/Q8T4IzYvp7ijvgw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dougen__dsh-deepseek-usage.json"
+    },
+    {
+      "name": "@dsh-agentic-roleplay/core",
+      "version": "0.12.7",
+      "integrity": "sha512-3UgIe9q6CSSUp+SeuMAH8Tp7iW99E+IwFay1aJip70fSQDonjMD0965NtCP7yTeIf0aAQ91/jv17b7ECEos6GA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-agentic-roleplay__core.json"
+    },
+    {
+      "name": "@dsh-agentic-roleplay/state",
+      "version": "0.12.7",
+      "integrity": "sha512-//2zXrO2FlrBJe8Q+tisAhISVnrIMMGVCQlrFlmq2ErbvaMDtC1Vbn6C3r6gfVBprPCffs1w+adPn8XYAPcwcQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-agentic-roleplay__state.json"
+    },
+    {
+      "name": "@feng0531/dsh-code-review",
+      "version": "0.93.1",
+      "integrity": "sha512-7QNCYG9wXD+BXrVfu84awj17FhanIGDgC/q402pGP70k7IyqzVIKPT2zSaOFB/tiCDrufwtnVlX7SW2Yl5d7cQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/feng0531__dsh-code-review.json"
+    },
+    {
+      "name": "@furongjun1999/dsh-memory",
+      "version": "0.10.4",
+      "integrity": "sha512-AX0gFefldzYhP4Q20tVlbB+j2XVwtedOpefDMX5YTAsVcxrK86us1pOIUS/Oov8Jat714g7iZqkVCnEzaxkvLQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/furongjun1999__dsh-memory.json"
+    },
+    {
+      "name": "@ggboy123/dsh-paper-reader",
+      "version": "1.13.1",
+      "integrity": "sha512-lPeZdhExC13YAzMttux6gDb+mWPA/xGS9iumyUl9hx/UCau7CoP+B1jHp1DujbjpV5/L4Rj65Gt3jJ4Kc+kpaw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/ggboy123__dsh-paper-reader.json"
+    },
+    {
+      "name": "@goodandready/dsh-cron",
+      "version": "0.3.49",
+      "integrity": "sha512-zUi2tRRuNokEqWUUMa7UK3SF2yBFR+6AAfiYYPnqBCn6GC0yKGZSF1PDB0Vk8/echCTddVXqDdUOHK1CW7w7rA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/goodandready__dsh-cron.json"
+    },
+    {
+      "name": "@goodandready/dsh-image-gen",
+      "version": "0.12.38",
+      "integrity": "sha512-9U8UcRHAeejX/YwGfiTmUHJp8ITosGNU77+EWMRYY8/IxuQTq83gUk7cQl5hjYBJ2vgOYWmQAUkNju9L+0UKcw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/goodandready__dsh-image-gen.json"
+    },
+    {
+      "name": "@goodandready/dsh-russian-lang",
+      "version": "0.4.30",
+      "integrity": "sha512-Idc+5dZN15htlUuarrB0suQTREcA9CBGuuybZ4708Lbl4LTNlaPwprH//QvmpZ3679UdwjY0n4lErrQYaJUrkQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/goodandready__dsh-russian-lang.json"
+    },
+    {
+      "name": "@goodandready/dsh-subscriptions",
+      "version": "0.9.2",
+      "integrity": "sha512-s3qFdWHCWKrCcLEhLfVqn4ILWcsDCZ0hqB072hPWuz7IE8BRgb8wjxAzUE4LwpIVmoEcW1shsxq++5pktIaWVA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/goodandready__dsh-subscriptions.json"
+    },
+    {
+      "name": "@hui-xu-ai/dsh-wensu",
+      "version": "0.12.56",
+      "integrity": "sha512-KISMezGiWM+ZSyUmwREmqTS5/6xKgBti/T4H7opXBpXtUQFpdNxGU0NBwyZxEmTfAzHJZ16QcOrl9IyRZGmUOg==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/hui-xu-ai__dsh-wensu.json"
+    },
+    {
+      "name": "@jingyi0605/codingns4dsh",
+      "version": "0.2.0-rc.3",
+      "integrity": "sha512-EoaTMmFPC6JecPJE142KVYG/AM0CdOTlbtOgAC+NC5Iu3b7rnS/n4uEgS0YJTI9BJRS9/sNKnK2sXIXPFegYLg==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/jingyi0605__codingns4dsh.json"
+    },
+    {
+      "name": "@kenz1117/dsh-engram",
+      "version": "0.13.12",
+      "integrity": "sha512-7qVllO2Q6Ef6lhiDkmqNqLdJJSzaJk34B8WufhySUcr1VcQcSqUiljs6k7tp6j3OvkEqWFd92XML6vv8wE0WYA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/kenz1117__dsh-engram.json"
+    },
+    {
+      "name": "@kenz1117/dsh-ui-usage-billing",
+      "version": "1.8.7",
+      "integrity": "sha512-hBDjR/CqbmC7Ph722opOWwgSsJxqPhj97Ls6Swuqo7DtkJxlYY+1DKPrQutQFZQZUDHzZ3aPbyzOHOLcPckI2w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/kenz1117__dsh-ui-usage-billing.json"
+    },
+    {
+      "name": "@leon___/dsh-client-liang-intensity-skin",
+      "version": "0.1.21",
+      "integrity": "sha512-DPfOxtQSqVuQ8hBlS74EFIPqyeIdEIEIfkOoOKsKh2d+pSar1ogxcEzT8GTZoje2Xgnwl/SNBRjnEVcmOKQUqQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/leon_____dsh-client-liang-intensity-skin.json"
+    },
+    {
+      "name": "@linxin666/dsh-client-ui-git-graph",
+      "version": "0.4.14",
+      "integrity": "sha512-x75rWmqFwH1WjAKHJ7EyNI9u/N0FVobhzuJ6aBM5paCDet7+kEDyo79RcwH6cZn1LNqG2oqC88fXQ6l1tx7QVA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/linxin666__dsh-client-ui-git-graph.json"
+    },
+    {
+      "name": "@linxin666/dsh-client-ui-skill-explorer",
+      "version": "0.4.19",
+      "integrity": "sha512-LMk5eox2NyGuHiAXOa6i5VItkaIWEWuEzfiIMA9NWTRBSr7Ll5qXWl3WM9FUJV9qH2aOqu8+++Vbu0FeEyPahg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/linxin666__dsh-client-ui-skill-explorer.json"
+    },
+    {
+      "name": "@linxin666/dsh-client-ui-task-board",
+      "version": "0.4.19",
+      "integrity": "sha512-Pmqd+Y31i8v1eVfxSsVxMzUYjZf1sTA1jW0rZuz3iOHcptBwtYVAHe4YUEpbMK19xtr9MKDtBDsug4J4aUrTew==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/linxin666__dsh-client-ui-task-board.json"
+    },
+    {
+      "name": "@linxin666/dsh-pet",
+      "version": "0.4.19",
+      "integrity": "sha512-HeaK9tVuKE9xTlDgfIJOQwetHwtlXZq2cr8MGyafeH8Tdqj4NWnSSgyPwV2/gQ2joERCzDt2cuBn8khscs3n5A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/linxin666__dsh-pet.json"
+    },
+    {
+      "name": "@linxin666/dsh-remote-web-ui",
+      "version": "0.4.19",
+      "integrity": "sha512-7pcSD2nStCTsl3vh+My2ldFbBfwyhCT1gtMzumkhcp4PA0Km+wBkSF2KxV6qTt/s9Wf+fngMNbTmjrP9pn1hcQ==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3"
+      },
+      "result": "results/linxin666__dsh-remote-web-ui.json"
+    },
+    {
+      "name": "@linxin666/dsh-ssh",
+      "version": "0.4.19",
+      "integrity": "sha512-z/7bGcoiP3BymJTwq2+Jy4oKskwe5vmH7ma6/hJK6rNDjGv4jAYBDG42UMMOWfI6Ut44le5uQAPciE0va/4Uyw==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cpu-features@0.0.10, ssh2@1.17.0"
+      },
+      "result": "results/linxin666__dsh-ssh.json"
+    },
+    {
+      "name": "@linxin666/dsh-web-all",
+      "version": "0.4.19",
+      "integrity": "sha512-FN5YAFMr+abiPHXJXEU2IhoNppx08xaRp+NOcVIFWJOTCZySkyHct1BI0rgGt0wsVkPTvKokhV8ofVNRJH6YFg==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3, cpu-features@0.0.10, ssh2@1.17.0"
+      },
+      "result": "results/linxin666__dsh-web-all.json"
+    },
+    {
+      "name": "@liustack/modlens",
+      "version": "3.27.5",
+      "integrity": "sha512-Zh4puM13dpNrlcJb39aKnRaFJd//zG/tgd4yIMdnh5g2JLgRjEqVRPHVI5y90VYyNJ5GwEyQeWv0Q8WVxhHi8A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/liustack__modlens.json"
+    },
+    {
+      "name": "@liustack/modsearch",
+      "version": "5.10.14",
+      "integrity": "sha512-U0Ln/32RFMXkrRLRjX+nQ4LZNUSXgaPpElEWEPaeQ3zxIzKCDJqJ5hBCxe6mkLY4RwAokmCrTV0zuV2j+qnYiQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/liustack__modsearch.json"
+    },
+    {
+      "name": "@mars-sea/dsh-commandcode-provider",
+      "version": "0.18.1",
+      "integrity": "sha512-GurXZgV0vY5j47U3FX9YHfjTso+sRLrouS4U22WIxXQ8t/BK81rijvsIJxi2rFkuyW/i0cdrRoODIP4san7jzw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/mars-sea__dsh-commandcode-provider.json"
+    },
+    {
+      "name": "@memef1f1y/dsh-plugin-tts",
+      "version": "0.7.2",
+      "integrity": "sha512-qzLK26T1FsajNhvQtGlU316EF2jo6WNUk2OD1r+GQCf7PSyG/1pthvHpYkmTpiKGKOuVNztDc6N+3DLKJuObdA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/memef1f1y__dsh-plugin-tts.json"
+    },
+    {
+      "name": "@michengai/dsh-agency-agents",
+      "version": "1.2.34",
+      "integrity": "sha512-RTaoLiSiaovIuXYwDnUkthQKfxsdbhry5aJODtLtJU4NdGISrhA52BAACnE1oWg4Lt6Ul0XAmzM/qmPlhH1yyA==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "not-activated",
+        "detail": "dsh: warning: 1 entry did not activate"
+      },
+      "result": "results/michengai__dsh-agency-agents.json"
+    },
+    {
+      "name": "@michengai/dsh-archive-manager",
+      "version": "1.3.6",
+      "integrity": "sha512-FqXhe/mYLBix+LKmidSvZvSoqOPkaBo5kVkPf7C7+foJBIW4/Rr5PDnUjwd8Kt18zENoilFJ0nj0KTYEsFW4wg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-archive-manager.json"
+    },
+    {
+      "name": "@michengai/dsh-automation",
+      "version": "1.0.28",
+      "integrity": "sha512-OyYqowK11cp+uV2gFvH8WuFwatRf8tdZxStzSYiIaS/CpL2AX/86JFDw3ofu3DV7hTlXy5+ZSN3fq1IhvFDLyw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-automation.json"
+    },
+    {
+      "name": "@michengai/dsh-btw",
+      "version": "1.3.11",
+      "integrity": "sha512-VxyEIXzT4KirFk6sgt1UU0hcsNu0FX7V6qMXtm9E7XHzTHiIk1eIoJJAIt+mZPe+948Xk75gbl1pUg+W9Mp9MA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-btw.json"
+    },
+    {
+      "name": "@michengai/dsh-code-review",
+      "version": "1.0.13",
+      "integrity": "sha512-AaT+E4s0WCel5hMERUORRWhnPMRyKt3sHHY3ugwkBF9JJTmWmJo/CjRrObxuhDJjbdXDviKKtFNZzP2b2DGMyA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-code-review.json"
+    },
+    {
+      "name": "@michengai/dsh-codex-pet",
+      "version": "1.0.19",
+      "integrity": "sha512-2meckrwBLY3X3dMe660LAB4WvOOYh2ZHfxZMtKdRpRcoqDIM0ADMlgNykNheE6V3j8bTW4DKqxGvTjfWhU0LSw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-codex-pet.json"
+    },
+    {
+      "name": "@michengai/dsh-codex-ui",
+      "version": "2.2.7",
+      "integrity": "sha512-I0LP4XaroPWYwMcVwnOKWlS55zWAcB2IIsOmbwlB1QS0YkYj34QhykQ4RpbjSIGdCEfBKRe8JslOzir8vQFCXQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-codex-ui.json"
+    },
+    {
+      "name": "@michengai/dsh-im-connect",
+      "version": "1.0.43",
+      "integrity": "sha512-J5mGLeDVTPUnblRFcn6k7PW/4mAVuxwjvLxVPIlXa3rkRsgwG1/W6m0oOsu1bq+UPKlK5hLmWXQqJE+IoNdsMA==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6"
+      },
+      "result": "results/michengai__dsh-im-connect.json"
+    },
+    {
+      "name": "@michengai/dsh-pua",
+      "version": "1.0.12",
+      "integrity": "sha512-f/b55TLmmv8mY4iaZhhWs2SqroyDZkVbsploEucjFCazQjGqM1MjXaA9o2NfUpyQAL+hpQTut9Uw3OcyG8RhZA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-pua.json"
+    },
+    {
+      "name": "@michengai/dsh-simplify",
+      "version": "1.0.10",
+      "integrity": "sha512-DmMANmJhMgdK/Ei+kzbWe3zp+YMWXxzgiG7Idw9EJgLG4zS8XYTwoupYlDqnyBUuA0ssx0qjfcfSYh+IP8GJUw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-simplify.json"
+    },
+    {
+      "name": "@michengai/dsh-skills-manager",
+      "version": "1.4.11",
+      "integrity": "sha512-N8xVhLHysJrh+n24OxHJ8cWi/7vtsv68r6g6XpYqn/Txk/l1mk8bFvwJUJL8BRSfgnZMTx1Y0xggZrRpInYTQQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/michengai__dsh-skills-manager.json"
+    },
+    {
+      "name": "@modusensus/dsh-mneme",
+      "version": "0.16.0",
+      "integrity": "sha512-Osd39zims53ttQCxBTTDS6def+qsaFLDul28u2CT+HPFJrfOe+TenD9/Ir/rk7hjvvDxHVE3wCN5RSsyIrMVYg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/modusensus__dsh-mneme.json"
+    },
+    {
+      "name": "@momasiku/dsh-pilot",
+      "version": "0.7.2",
+      "integrity": "sha512-SsCyaGOqL+XGtvACp1dEaFPiFryiE5gm8qCy0MXiHxtPawWh7BLy9Eusv8X5yhWwJt9A8qL5nwHHz/Ikcub9LQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/momasiku__dsh-pilot.json"
+    },
+    {
+      "name": "@morehao/dsh-github-trending",
+      "version": "0.9.31",
+      "integrity": "sha512-W9oZ1wWOHhfOnWDGa8dOnDezZhRJ6CPatGXRjsw8pq3BytOtKz062UV7HjQ32BkNFJjQ1KK4n2t+2+3iMmLybQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/morehao__dsh-github-trending.json"
+    },
+    {
+      "name": "@morehao/dsh-skills-console",
+      "version": "0.8.15",
+      "integrity": "sha512-eShh7alMzpro1PgF0a8/zjvxJf2TJRerIqwYIEaNBzos5qzYDPIAy0FfrRIusDz89SKRHdU1w2XIMQWMO+vyvw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/morehao__dsh-skills-console.json"
+    },
+    {
+      "name": "@mstar-harness/dsh",
+      "version": "4.7.1",
+      "integrity": "sha512-6zDHJmWR0jBQDEVHZI+YykcDXp1PxeUWzOJMFF+KZ6Z8xDdclWzY+8ZFYRH3n0MAwbAjH1uAWbGwAeaqBCJSdg==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "boot-import-error",
+        "detail": "mstar (@mstar-harness/dsh): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@mstar-harness/engine' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-29o4mw/home/profiles/health-smoke/node_modules/@mstar-harness/dsh/dist/index.js"
+      },
+      "result": "results/mstar-harness__dsh.json"
+    },
+    {
+      "name": "@nanmicoder/dsh-agent-teams",
+      "version": "0.1.30",
+      "integrity": "sha512-oaFjaIVjSsyU83QuHhsGuVxrNIWxerTL3sP8r1hrey2c7bqimK8PnSPJDPGUHcgjpWDSx/tbRuXuts0E7EONGA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/nanmicoder__dsh-agent-teams.json"
+    },
+    {
+      "name": "@nelsonlongxiang/dsh-open-a2a-net",
+      "version": "0.7.0",
+      "integrity": "sha512-Jmv/nlADKLV07maFfDszvjCfYC3n1fKvxUj25cjdQV9hjeyQb014ac+M0DmuUWAyP2OYIqyRdW+Grx/EKCdn0Q==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/nelsonlongxiang__dsh-open-a2a-net.json"
+    },
+    {
+      "name": "@ninkch/dsh-infinite-canvas",
+      "version": "0.21.0",
+      "integrity": "sha512-AQR/lZbwGoZr96kYVzpeiP7CMo9b8nPMESBzjtYBzluU/wHfIE0DP9nEWd0kih3yGK3GFtQ+cJNwVWcmT1kOng==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/ninkch__dsh-infinite-canvas.json"
+    },
+    {
+      "name": "@noob-stupid/dsh-plugin-console",
+      "version": "0.5.110",
+      "integrity": "sha512-i5g/pwvzbF1Lsz7W8fkg7JiE4RJWSs8Ou9W9LN6IRMnu6CONg1ibuiJbNJwQc5O4Z4WJjGBO5uxr8BZ9E5X1Fw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/noob-stupid__dsh-plugin-console.json"
+    },
+    {
+      "name": "@opencode2dsh/dsh-plugin",
+      "version": "0.3.14",
+      "integrity": "sha512-2a10KZaDunzpYVyhubUiUoaSStZ+zZaojjwA8rrQluUAhSe0bRuyFPgNZeXp/MBxAaRkiH95Ib2DuuhVkbYvhg==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@1.52.0, protobufjs@7.6.6"
+      },
+      "result": "results/opencode2dsh__dsh-plugin.json"
+    },
+    {
+      "name": "@openviking/dsh-memory-plugin",
+      "version": "0.5.38",
+      "integrity": "sha512-WadtHWAUe8smGmCliTLKXynVqMMeQJHjAkXF0n4l+uO9DePEIgRgfwkqSLBArhBxvuG3SB1LRPDQHiPSYwTs7w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/openviking__dsh-memory-plugin.json"
+    },
+    {
+      "name": "@q253595422/dsh-imagegen-video",
+      "version": "1.31.0",
+      "integrity": "sha512-vmkcIkrKPwo/+N6UkOBJy3c8yoDaDr432BJUnglcPonNJxRkEppvTK7nCJa9nyw0d6EH7f7NUGBfgmo5c1im6Q==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/q253595422__dsh-imagegen-video.json"
+    },
+    {
+      "name": "@restregular/dsh-memory",
+      "version": "0.35.1",
+      "integrity": "sha512-RUL59SHo+QYI4k0I8RcqHoUojuiBaW0/ZJKlngkloJmBIXK3h6Hg+93WA0QjuVzn+37gm9xkuy85BHCRSE+Xug==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/restregular__dsh-memory.json"
+    },
+    {
+      "name": "@roarpeng/graphflow",
+      "version": "3.9.2",
+      "integrity": "sha512-rGtUlwpJtVxc5X0kx75jGe8J7jdbvhemBZZG0/sKcbPizcPYvC6o5rc63+zCu++LbG+i47t21mgzw6mE8oSpGg==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: tree-sitter-c-sharp@0.23.1, tree-sitter-c@0.23.6, tree-sitter-cpp@0.23.4, tree-sitter-go@0.23.4, tree-sitter-python@0.23.6, tree-sitter-rust@0.24.0, tree-sitter@0.22.4"
+      },
+      "result": "results/roarpeng__graphflow.json"
+    },
+    {
+      "name": "@smalltailqwq/dsh-client-ui-skin-maid-atelier",
+      "version": "0.1.11",
+      "integrity": "sha512-PT/RrI02XgQAIzRoAghvb4FQMM+AS9ySYJG0bH4NImEtnMXkSSRvWbFSGfUXhfKcpiZVHX/ZDN9nvldxcTTbKg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/smalltailqwq__dsh-client-ui-skin-maid-atelier.json"
+    },
+    {
+      "name": "@stardustlc/dsh-docker",
+      "version": "0.5.11",
+      "integrity": "sha512-NfabxLi+ewX2Cv5e2ZQpWZCk1y/ZaO++WhLmEUHBFUVRftp+td13sYUCmMKC8g4f1DdUnRvK8ShZZoQpabN3HA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/stardustlc__dsh-docker.json"
+    },
+    {
+      "name": "@stardustlc/dsh-dream",
+      "version": "0.15.2",
+      "integrity": "sha512-hMXmEkmvcYDUpOXCGDvJXuHpCBl4BBPSCWMc8cETwSFHXkwTw/CmHMjLHfToXwWjiK6+HRHaRBHtJjzkrOc1qw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/stardustlc__dsh-dream.json"
+    },
+    {
+      "name": "@stardustlc/dsh-suite",
+      "version": "0.11.9",
+      "integrity": "sha512-SehsXTt0jBouclEHMJnRFGm22ghe4Qr+UdQvf6iiK6yggQSGYo+5d2ivBPA7PI3237QuaptX+8BbJyLawMj4Pg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/stardustlc__dsh-suite.json"
+    },
+    {
+      "name": "@stofone/dsh-agent-roster",
+      "version": "1.35.0",
+      "integrity": "sha512-R9r70pcF9nOaBEL8epL0/z1BsRoBd6v8VM8rktgyipg3zuPJls3+fcGXwiuPl4ce4Dzt8VOv+h//iMP6Jx3fyg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/stofone__dsh-agent-roster.json"
+    },
+    {
+      "name": "@suifei/dsh-ai-team",
+      "version": "0.4.122",
+      "integrity": "sha512-EGs9UwtEmv+xsjgP8LEbL1Maz1ErMbKvYz49ofhuwNjCQvlyEaou+cXXrCl51QUrLaaGWFO0mJBDuVMT4jptUw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/suifei__dsh-ai-team.json"
+    },
+    {
+      "name": "@takboo/dsh-coopanion",
+      "version": "0.4.25",
+      "integrity": "sha512-4l1fF9ma2jdHgWZ5BfHD9jeELVqowM4kV0atf076Z27fX/qlbVBaVJct509GjGAa5CJmp6kQ2s7EniQZGij0kQ==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/takboo__dsh-coopanion.json"
+    },
+    {
+      "name": "@tnnevol/dsh-codex-auth",
+      "version": "8.1.1",
+      "integrity": "sha512-z4bADLfPcwQey8N6nUVHxuNbWnCxNC5fZ1CO8+gcBJQhvU3DPQw6b76UO2npLAKqXzzblxI/2VDodaT4+tRdpQ==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/tnnevol__dsh-codex-auth.json"
+    },
+    {
+      "name": "@tnnevol/dsh-failover-search",
+      "version": "8.1.1",
+      "integrity": "sha512-uKjhDeNRthk7CUDH98REFmxpab72i1CebMquZmzhf3QJVRFZgRoRATTsr6saGOQC/CHoR1Jf6GylGISfSeou0A==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/tnnevol__dsh-failover-search.json"
+    },
+    {
+      "name": "@tnnevol/dsh-fnos",
+      "version": "8.1.1",
+      "integrity": "sha512-7s7hVt3Icodm52O3c7sxqeiBDnDV/YTIJviQinaEMulcullZzlynWGuPZgkrSbUqvGLbkwUfG05GVRpIy2Rsaw==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/tnnevol__dsh-fnos.json"
+    },
+    {
+      "name": "@tt-a1i/archify-dsh",
+      "version": "1.1.0",
+      "integrity": "sha512-UgC/xWfN9lh+ns0unXd5/+o5k9NdWGjar2stGtp4nPGdDw7eP1oiLqcLJusQhaaQKCqRyBvAn+HdKSsyR0zPWw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/tt-a1i__archify-dsh.json"
+    },
+    {
+      "name": "@twinsearth/dsh-2xray",
+      "version": "1.0.0",
+      "integrity": "sha512-9kKxB101Vww48LcpNorUXVBhsjOAla1AQj+yX+m+PsFAIBswHsU1uUn+vzfHx4Buxw85YtFVn3iS28muaWLoVg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/twinsearth__dsh-2xray.json"
+    },
+    {
+      "name": "@twinsearth/w2m-dsh-plugin",
+      "version": "3.4.5",
+      "integrity": "sha512-/4LGwb/iNygl3vXGDCmMTcXyFe4mpgZOgFz+zWeAhat/qtnm2LoZmILlEdKbH0KYbTZfnSj+whQ7GtV6fydlfg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/twinsearth__w2m-dsh-plugin.json"
+    },
+    {
+      "name": "@v587d/capital-generation",
+      "version": "2.26.0",
+      "integrity": "sha512-aJSQ7dRwGXCCRejV3O2BXaBMy7figlPPPLLqIkDjAt2QO2C3NQmDN83b5JHp/BSCZPRirdWAKsLBSP8w3wA95Q==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/v587d__capital-generation.json"
+    },
+    {
+      "name": "@vectorize-io/hindsight-coding-agents",
+      "version": "0.8.7",
+      "integrity": "sha512-GuGJdqvcPQpUuu9jWOjJa5OtaI/eAx20DgsiLKKEhfuSCDZXDBWH8Aa7lyj03dAVLMt40K7IciUBtD81QhdTBg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/vectorize-io__hindsight-coding-agents.json"
+    },
+    {
+      "name": "@weibaohui/skills-management",
+      "version": "0.9.3",
+      "integrity": "sha512-xCWO1cT0TNmMgPlNI9nkozs1jYJWuKudTdN2jyMHjANHJU4uR68OJAK15QUPOXQxhAI/1Hw8c8LOanhnH4KKWw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/weibaohui__skills-management.json"
+    },
+    {
+      "name": "@wenbin_wb/dsh-bridge",
+      "version": "2.17.9",
+      "integrity": "sha512-GDuskxYdimlTsCOD5N8VuE3gG5T9Dorl34v6IL1nUnG2SHolKksLaHlmRS7WZ7aN11GF/Zkrb/vzGgNCNNQzhw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/wenbin_wb__dsh-bridge.json"
+    },
+    {
+      "name": "@wxg-prc-cpg/browser-skill-dsh-plugin",
+      "version": "0.5.0",
+      "integrity": "sha512-F9yhfiF6TZLJt/eYqxh52VBjD0t1WseRbWpJRZHl4JGlgfrJgPH9LsHarOvSIP6VSX8bwMCnhB8t/biQQnl5wg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/wxg-prc-cpg__browser-skill-dsh-plugin.json"
+    },
+    {
+      "name": "@wxg-prc-cpg/dsh-weknora",
+      "version": "0.1.0",
+      "integrity": "sha512-L6q32rNrDBU3Q8xE0SGYMlieC8sKswrp5GOslGka4UnH+f4boxLXLLMgkceE+Ub/c+C2tQ2rsaHXky9bO3pXlw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/wxg-prc-cpg__dsh-weknora.json"
+    },
+    {
+      "name": "@xmanrui/dsh-im",
+      "version": "5.10.0",
+      "integrity": "sha512-gWM3D3Rq6z3Plh1nFFfrV1FKKGm1OWpjWGSgUZXjqbmt/xQ+AVT/M6YFV3hpnMjXTKxzDvrPUo01Nl1FarDdkQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/xmanrui__dsh-im.json"
+    },
+    {
+      "name": "@zaofan/dsh-qqbot",
+      "version": "1.13.16",
+      "integrity": "sha512-TPZIRRU/w/VQXxjxqRRXKw1sGoXf9vNQDyLJynvCv2pM+7T5x3VSlIR+TahXQNwSQK2Awx1d5A1uVw6iZMQqgg==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6"
+      },
+      "result": "results/zaofan__dsh-qqbot.json"
+    },
+    {
+      "name": "@zilliz/memsearch-dsh",
+      "version": "0.1.9",
+      "integrity": "sha512-CfM8j0FJap4cBZoxb26FBjThi5tW0kXcS+56YKFNQiIbdWbthTBSeLjysltOgNHenQ2JNhmgy2kHhE+FNku0Xw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/zilliz__memsearch-dsh.json"
+    },
+    {
+      "name": "balance-dsh",
+      "version": "2.2.9",
+      "integrity": "sha512-7nFWeIVJDKJOm/CGRcvcIUXqwTQQeUHU3jj3atn23OJmRF9wlRjMp8jrUYwZxwmIA0zaP3TwnmKGpjLkA22Upw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/balance-dsh.json"
+    },
+    {
+      "name": "billion-context",
+      "version": "0.1.216",
+      "integrity": "sha512-98Q5eSqk0LyemCJ45OrYmZvEd0qpzBjLokthZlQ4yA7yvgUlzuM7fp6iq9dPAJ4N4vaplnvZeld0JxM4S7Ti1A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/billion-context.json"
+    },
+    {
+      "name": "cc-safety-net",
+      "version": "2.7.15",
+      "integrity": "sha512-uJOmGHdvJeDW+KYOk06YqQ7cfEbuRD+KaBs++7ICy9xebmhWO4nh8lpMtihz8r2yd0U7dtkqQMczpLi+6rpsWA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/cc-safety-net.json"
+    },
+    {
+      "name": "deepclear-ui",
+      "version": "1.3.3",
+      "integrity": "sha512-NFHhecFZrzUbzO3sL4bzMXqo5QmglXVKOhBV7MV8woP7ySG6K6DIF5O9A9XMquovMOm16BfOG19fdGFaUk3o2g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/deepclear-ui.json"
+    },
+    {
+      "name": "deepseek-computer-use",
+      "version": "0.2.11",
+      "integrity": "sha512-Ei5UH8zA1lKM2KzloZPaJ00/xXId0BFCKhGq2Iyq3/Aw9nOQxkwHMZLIBzxxrXq96qDtrbhhkEoeZNK82zSHkw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/deepseek-computer-use.json"
+    },
+    {
+      "name": "ds-harness-remote",
+      "version": "0.6.5",
+      "integrity": "sha512-FTKgpQY1NRdG18cuII/XcVHQmmVLx4QEXQh9j1AbQHiL0Bf0yuXdRuJSHGAPnwH880rzZl99/iXzVpS9m6if3g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/ds-harness-remote.json"
+    },
+    {
+      "name": "dsh-550c-boot",
+      "version": "0.5.4",
+      "integrity": "sha512-kzsZF+W3w5hXwnAFB904fVxh15j/a3TRbJRoKqBWqpRXkzHMPctUu1yyYbWU3VY5uAfY2m4qlcbwWB8kfbvNDg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-550c-boot.json"
+    },
+    {
+      "name": "dsh-advisor",
+      "version": "0.7.4",
+      "integrity": "sha512-81WZIlBjEU1+K4rYFbXZHv5Hv70R5uqAGS4ihzDiv3dxXpV291bYKUYFRm0kHSzd2Z2Y6weLcPqL7J6YrbObfg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-advisor.json"
+    },
+    {
+      "name": "dsh-agent-compare",
+      "version": "3.1.1",
+      "integrity": "sha512-rGOlEsHvqOe0IRrnzpWnLaMEuGAlosgyixUELIzHKEz/E7qJnMq4YJS7f1yA/NsCmitEfUzdKGb6QxZopLpfMA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-agent-compare.json"
+    },
+    {
+      "name": "dsh-agent-plugins-market",
+      "version": "0.15.3",
+      "integrity": "sha512-bUHFxkPchg9Q9hT+dGRXRl9Pj3jcfXB/miwsbT13PwZfpW8td1lmU11yWcE/MskboHCjrmOXUrBgKt4axMAOxg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-agent-plugins-market.json"
+    },
+    {
+      "name": "dsh-agy-link",
+      "version": "0.6.32",
+      "integrity": "sha512-UcbFTQLfXo08xOJv2ON7dksIGQAd7GFuwMX0f3ULjgAHxV9e6ZloGvW2OmretXjP8nw7n86LMTduyXsG6a3qTw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-agy-link.json"
+    },
+    {
+      "name": "dsh-aiignore",
+      "version": "0.38.2",
+      "integrity": "sha512-XnbHRXoi3Z3H1meqtEqGGrhmGOWo8nzCUTK7Kgr7uE1Cvp9dKlLZbt0fdn0z8t3mmnSRAtj+VX6fikCGZInOiw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-aiignore.json"
+    },
+    {
+      "name": "dsh-aiyayi",
+      "version": "1.11.0",
+      "integrity": "sha512-Vb+FASIU2QaAQf2mo8cACjEkIusiRC5kPqwyHYOwwzyl6IUylURIhQuduedFHivSqSX6l2qT30GRHubJ6zGyAw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-aiyayi.json"
+    },
+    {
+      "name": "dsh-auto-memory",
+      "version": "1.8.0",
+      "integrity": "sha512-9xRgk4irVlOeW8oyfbnONMNWiO3b8aGyXHLHhR80ZCkj3Sf5WAILGiXirVAKNwgjOqf+y2jo472UHAd1MeTDsg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-auto-memory.json"
+    },
+    {
+      "name": "dsh-baton-host",
+      "version": "0.6.14",
+      "integrity": "sha512-y4WHBOG2GvTOwzzfLvF6ebuDumAUa8OX86DqZBrwVbNQCC5x7Ehv636KK1+qAqArt5C3quEo8Bzte1IvdRxaag==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-baton-host.json"
+    },
+    {
+      "name": "dsh-better-sidebar",
+      "version": "0.32.1",
+      "integrity": "sha512-UcIEAkLuZXz0SkNDwMtycCoO59yCasowG6DqhxkG+jAjQfofF0BbXIOctfjqsU8WyaP6XoSvi4LgMFhEfinBsw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-better-sidebar.json"
+    },
+    {
+      "name": "dsh-bili-scroll",
+      "version": "2.5.2",
+      "integrity": "sha512-DfXODk1PejGJm/HK4QZSqPNR2VFaP5Dee/d411YBvxYUqzyD2U+VB7w04S+C82SzvKmRy2R3JGHteRGHmNWrQw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-bili-scroll.json"
+    },
+    {
+      "name": "dsh-bili-subagent",
+      "version": "1.0.3",
+      "integrity": "sha512-N2qYZOyj4t+njqMfOhYWlP/eiH9M1FTGN9XZkdiEoa47TqGUym1+slGqYm2+9mlCT+m2UgMYATX2hDRPZzQX3Q==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-bili-subagent.json"
+    },
+    {
+      "name": "dsh-bili-watch",
+      "version": "0.4.12",
+      "integrity": "sha512-5bl68Gpq6qZ3UOAaFC1j1wL4MX4FmDwYm3n0QlwtrpvMNmBB8m/I03RUjD82Njmiq/hNSdpBQ+YDogyIc8pyBw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-bili-watch.json"
+    },
+    {
+      "name": "dsh-bloom-theme",
+      "version": "0.27.0",
+      "integrity": "sha512-3OltYZpXKEqewFZVAe7DlM6CWQP3phU/nPptZJbRYd3FkNWcP179Lc8Yd6zvxXK8njcTsDPZCjIeEgsXxN1iHg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-bloom-theme.json"
+    },
+    {
+      "name": "dsh-boot-suite",
+      "version": "2.16.13",
+      "integrity": "sha512-mddweD6bbkEArz7n9vuk8xTCOoE5Orrl8E4QELy0HmVraCwPNJPvXCCmLPBwA1o3n4ddigxUtUIKJjf4DVx1Kg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-boot-suite.json"
+    },
+    {
+      "name": "dsh-bottom-info-bar",
+      "version": "1.26.0",
+      "integrity": "sha512-fDgoq/Gk/D/EP2vOnpXOX9Sx9pFIAaoe+JlzAsJLBLAOFPdR0NhBc0ltabsnSr5FRbRbBvLeqqtQjiyTXUSHFA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-bottom-info-bar.json"
+    },
+    {
+      "name": "dsh-brief-sidebar",
+      "version": "0.9.20",
+      "integrity": "sha512-4gW+XwZ6FbcutsI+SriMYP3WmgTFRlFtD9PmP4k9SsO1Yq/0yvemvKDJ5LWlV74pIVTPL5NBr0Zd5YyhfEbDSg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-brief-sidebar.json"
+    },
+    {
+      "name": "dsh-browser-cdp",
+      "version": "1.11.0",
+      "integrity": "sha512-cD2JhMQLHHe0dvCZ4PQkkeH13TsovxzO/4YSHP4APnd/VduleGvgevDC6tJ8Hn/rN78/NLKvqOnCfkGYpPdfOg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-browser-cdp.json"
+    },
+    {
+      "name": "dsh-builtin-browser",
+      "version": "0.5.8",
+      "integrity": "sha512-7DpkAZaPjlXzHHpwmLLIsyYW0Qseh0DgN4t6udYz4VWWX7SNgpDjZn4FxAMUHPyjPST9RqxgR+9je3xwfYXPFA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-builtin-browser.json"
+    },
+    {
+      "name": "dsh-chat-import",
+      "version": "0.26.7",
+      "integrity": "sha512-5vhovoHxqJqpU8jW89cFGu/ydZRJKIt/glovzdQirBFLzmSrUaNH4W8CK92korZKy7tGVxzHVGrV2rXhx1amCg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-chat-import.json"
+    },
+    {
+      "name": "dsh-chat-link-actions",
+      "version": "0.7.0",
+      "integrity": "sha512-smBNJmyVjZ2SkrqzhsGmPmqwOSQPUJGdPmKpV32oYKlbxg09dRrDNMvjEKFdHGpqx55yXLuCtfWbU02fuV6H+g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-chat-link-actions.json"
+    },
+    {
+      "name": "dsh-chat-manager",
+      "version": "2.0.3",
+      "integrity": "sha512-4JZ8YLOZYg0xLQIezTVt3NrCyDsbptqkpz8atTNJwUKX5uObSYwCkr0kZe+wgVORFVN9ExnVK3KbN9BxnXuGoQ==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-chat-manager.json"
+    },
+    {
+      "name": "dsh-cite",
+      "version": "0.8.1",
+      "integrity": "sha512-Fl5X+JdL2vVAIzQSVFemtwdFkt4yMoMWLscDbFDSK7x/9Vz10+33wX8ha3EhPsgoRZvzjadwyB658IF1dn1raw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-cite.json"
+    },
+    {
+      "name": "dsh-claude-style",
+      "version": "0.21.4",
+      "integrity": "sha512-VQmnlH2Z6gbTgsUVvrJlnOoAmvgmjq0sV6NO92gKyhvmTT3gxk7JKpj1DD0jmscdrek6uT2Gq/faC78t3ZGu0w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-claude-style.json"
+    },
+    {
+      "name": "dsh-client-auto-continue",
+      "version": "0.20.1",
+      "integrity": "sha512-lNin81Li/g6g8DGT1MwbZOhm/keMU2VQkF7gYc9bHjX8i3/7HBjl8B9GNQmGRU7RgzEXGe3Ix4Dw9TsaVgHyqQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-client-auto-continue.json"
+    },
+    {
+      "name": "dsh-client-ui-quote",
+      "version": "0.14.4",
+      "integrity": "sha512-8mxx+oSjMuKYtB00vujAI5OoqQzqh8poDFWPpW3WSbCBJ91zhhPou9AlvZicRT5Yigy60ZsKIfO0rB6RRtqJog==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-client-ui-quote.json"
+    },
+    {
+      "name": "dsh-code-security",
+      "version": "0.7.14",
+      "integrity": "sha512-uKUQPPNlVSVh2YYRFtrjY4TO+K1U53cybtVF9OZFsIOmH2DFUWvSmt++fXUSdyMdawsc9LR/tRx/pInmwZ8NTg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-code-security.json"
+    },
+    {
+      "name": "dsh-codecraft",
+      "version": "0.5.7",
+      "integrity": "sha512-L3kpquLat9pzafdSye9tCP3fCv+o23eg4p/Igt1oHVslVbfEjm+unwLVkWqglVhlqRAy6iUDW+fxo2Qgx4Q9hw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-codecraft.json"
+    },
+    {
+      "name": "dsh-codex-effort-slider",
+      "version": "1.1.8",
+      "integrity": "sha512-/w+aOTOiNh4XOxiSl1LLEfVGRHgZXIp/7Qbu80iRIwLJzi4gA8anYY4gPAE8C6tcxlyyooipg3M+hdcE+YNgIw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-codex-effort-slider.json"
+    },
+    {
+      "name": "dsh-codex-port",
+      "version": "0.4.11",
+      "integrity": "sha512-yhm/DIiEOq7EVlW+/O1pqYw8Xzc+xdyu5zk14oqBNslmSJxR1Oy3y4nTD+DhB2Q9cGjMU29y8uev8PjHgO+U2w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-codex-port.json"
+    },
+    {
+      "name": "dsh-codex-subscription",
+      "version": "3.2.19",
+      "integrity": "sha512-c3W3DGZmSeDL+6EkCTWyoTbwONQEh0m4ovJVx0POUiYrXuu0TenNdxdovkP8Aa6Xa9b2K3safEWQr98ZBg3YDA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-codex-subscription.json"
+    },
+    {
+      "name": "dsh-composer-plus",
+      "version": "1.30.0",
+      "integrity": "sha512-NL1qbL6pRmCI6+9vBvV6rJUldCqCnAGFtRFA7yRzYZgA3UO+Jol5srkvVNr+k7x1kzrHcyDv3sgzE1gxvBcMlA==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "unknown",
+        "detail": "dsh: fatal load failure: CordisError: cannot create effect on inactive context"
+      },
+      "result": "results/dsh-composer-plus.json"
+    },
+    {
+      "name": "dsh-computer-use-win",
+      "version": "0.6.0",
+      "integrity": "sha512-CLm0TweP+RYZfl1kWOHTFALtQW+k3MxFM8TZkhmyRgLHkvHS4X+p5iAnC8rP2wBkSzoh+ZdoQgPw2EwtUVEJoA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-computer-use-win.json"
+    },
+    {
+      "name": "dsh-config-manager",
+      "version": "0.10.0",
+      "integrity": "sha512-UxtbIcHnoOF0nXRw34cW2Fz/Ug8KnlqsOI0VmKWhZqzOxApLml4agjuWCUN386Z5M4HYyDdpj2mPHPlRH9PPMQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-config-manager.json"
+    },
+    {
+      "name": "dsh-connect-trae",
+      "version": "4.18.4",
+      "integrity": "sha512-0ADWcxd8j3IEIyA9EHhMOkblItZcExu6v4u0ky0G5HsaHqK1pYy8KUMoKk3uVUUjadUzPiN0khiRM8m7K8/n9g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-connect-trae.json"
+    },
+    {
+      "name": "dsh-connect-workbuddy",
+      "version": "5.24.13",
+      "integrity": "sha512-Q5p/gje2ceTn4DKZFhIIoBvGgy3C3/6BO6xtB6UMN6Wy+ogr0JqQiNekDdEU5Fkegslxkd2r7aZXUTYoUFSWIw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-connect-workbuddy.json"
+    },
+    {
+      "name": "dsh-context",
+      "version": "0.85.1",
+      "integrity": "sha512-M0Ycbx86SQF19HYRe7zlfsvagtkVGInFUDSZ9je8ti1aSQbxwoECKk0xDd5YcbUCgJLZXMWAgEx61tE0tCkSPA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-context.json"
+    },
+    {
+      "name": "dsh-context-compression-improved",
+      "version": "0.11.3",
+      "integrity": "sha512-VWLv9erjchhzijV/W/3nvyy/dNW+R1O/7scCJ2yaWR5ZBeWls9ddzXEqvT0Fcix0XZkS/zLgoXhE75wCMTMjXw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-context-compression-improved.json"
+    },
+    {
+      "name": "dsh-cost-meter",
+      "version": "1.9.72",
+      "integrity": "sha512-GUcKXOg2Am35yWdhOv082Ud34sd6uxMHNdsuAN9eCV+ERvxc+O+qxtCShpm06E/kiwDr/opXqs1h1ecuoo2ZnQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-cost-meter.json"
+    },
+    {
+      "name": "dsh-design-studio",
+      "version": "0.25.0",
+      "integrity": "sha512-jEooiGwXaWItoRrigZi4urf8wcJTPfKZCKmKUZLHg2c3U96CgggQDH86VgbOTr1hMdgmGD2sE47Viu/5QAZ/Ug==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-design-studio.json"
+    },
+    {
+      "name": "dsh-dingtalk",
+      "version": "0.3.11",
+      "integrity": "sha512-NwF0FjoUPxewpmIh7I6zpKtjOjbSCw6vQPVexZl+uwCogaxFk67n9lxUYMq9P6jU1u0wXiCbdeTv0xZg98SOyA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-dingtalk.json"
+    },
+    {
+      "name": "dsh-douyin-browser-local",
+      "version": "1.4.7",
+      "integrity": "sha512-un9+6UAcXKLkUscwMxj96U8M5IPqUbA6xYQexDYhxcX+9WGypWwMx0cvCVZlR/vIqpavbHuJH5aPKcYqNHf42w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-douyin-browser-local.json"
+    },
+    {
+      "name": "dsh-drawai",
+      "version": "0.4.6",
+      "integrity": "sha512-OeqOE4IrbJPVfRlMHDsSxHUdbSMfAe9MIMO9vTFQt7MFK6Jawv77PdTx0k+mKlTbIa5YOLpXoTg72xP8C/PUWQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-drawai.json"
+    },
+    {
+      "name": "dsh-dream-skin",
+      "version": "11.16.0",
+      "integrity": "sha512-XKkSrI6w+fU8I0mzG2Bog/Zm9WmYcIeP5MDbPp3mUWtRMO27L65Azd6XSDuzstSGIKmTxUSH07OSK2GrPcQNIQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-dream-skin.json"
+    },
+    {
+      "name": "dsh-ego-browser",
+      "version": "0.14.1",
+      "integrity": "sha512-7RKH16EHzUYySzsX3Oqc3vuo8iXPyPz3kck3fbnX5v8QiGHmmDemDRcgdnXvh1HOgpnXGETQSB5THjmzHSBmwQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-ego-browser.json"
+    },
+    {
+      "name": "dsh-email",
+      "version": "0.27.3",
+      "integrity": "sha512-Qk/mkZBDKajjKfpve124bzbCdMWiDhCEHL89dvm0mISwFML7McfmwmGMgDzk25+E7k+v5Y/bsURwrzbi0LB9fQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-email.json"
+    },
+    {
+      "name": "dsh-fast-mode",
+      "version": "1.7.44",
+      "integrity": "sha512-fT+k4AWI4/dLNLUkQCCWMN990euP2nArE14A2+LH/BajH0zNKqxu75OnnUosKAPS9Yi/0SHYXEEKusjFkZXZCw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-fast-mode.json"
+    },
+    {
+      "name": "dsh-feiyu-mood",
+      "version": "0.9.6",
+      "integrity": "sha512-vlmRgtp/+wwCopQ9idi7iyn5geIP+8IBcS1S74Q4aRE2+bY6kkNWvPgLxXWCZ32acjfb6Xhkb4m/cjKsHBYWkw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-feiyu-mood.json"
+    },
+    {
+      "name": "dsh-ffmpeg",
+      "version": "0.7.9",
+      "integrity": "sha512-H1chRA3z3P9Jggyx9qQCeTiSAjlf8U7mYmtg+thzMPhN8tPSnW/QvGCuUPqH+7ZliOJbUaUR2MM0sQjkfBcBzw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-ffmpeg.json"
+    },
+    {
+      "name": "dsh-find-plugin",
+      "version": "0.4.0",
+      "integrity": "sha512-XO0zQb3iHxK7IGGygfiGDxI3t4HUEBNLK4knqYmh8KuT2cbCWzmH+4PViaIgVPsiytC7mXN5p94u5fJc3VNsBw==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-find-plugin.json"
+    },
+    {
+      "name": "dsh-fish-memory",
+      "version": "1.6.3",
+      "integrity": "sha512-mx3UO6obRJhNqYiYuQbxphGx0BDWhhuBWLUdHedcp364x2oYK2ZV7E+ck3qbzQuPLycFDjwfzGfqh4OGUGovgA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-fish-memory.json"
+    },
+    {
+      "name": "dsh-fish-soul",
+      "version": "0.18.7",
+      "integrity": "sha512-PkQLdM3ePtL2um/zc8adrpWSMrtgQEklM4jaLDhOT93H4CCCh5ev5+U+71+3NmJtUYgFlhXh2bv2SPuT4GNsNw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-fish-soul.json"
+    },
+    {
+      "name": "dsh-flakefinder",
+      "version": "0.4.12",
+      "integrity": "sha512-OR2IuvNnloskLw/HY8xTPBkjlkGf6zxh0kzyh6loULBtrVZp4hwPq5dOd30gcd2el31qhtjRmfH2YKNlqyhuOg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-flakefinder.json"
+    },
+    {
+      "name": "dsh-free-search",
+      "version": "0.9.57",
+      "integrity": "sha512-0X2vlWIxmWc5h/JSg8aExye93Q6js5AzdUD3oAqr+hyfZBsK0CRHWgNlKHFQ2ZuF+vUVtaN70A1S3JDQA0vYAA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-free-search.json"
+    },
+    {
+      "name": "dsh-genui",
+      "version": "0.3.3",
+      "integrity": "sha512-DD87XTVTIt5G7wQ/T2+3qxIU+SHCBYfyZRyDANwYlXlnPwhMqJNrQimOtVHn7jAyvjhQW+64n01O6uDGbD0kzg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-genui.json"
+    },
+    {
+      "name": "dsh-gitbash-shell",
+      "version": "0.55.1",
+      "integrity": "sha512-6WAW9d+AdX2qqENz1zHzkdJ2SyZn0hcx62ZiqK4Bs7Cq0h15AWlEEWqLnTDnFRWdYpiwFcANAU8RhkpQNlJdQQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-gitbash-shell.json"
+    },
+    {
+      "name": "dsh-gufa-code",
+      "version": "1.3.201",
+      "integrity": "sha512-LzzcEx4GrhCOl3/l1rk2o8zPxEoIo6Ji/71qWnPEZWWt4KlBUU0KL6dsfRXyQ+FXRoYadxk8blqEMUbpPIaPEw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-gufa-code.json"
+    },
+    {
+      "name": "dsh-guizang-design",
+      "version": "0.1.4",
+      "integrity": "sha512-f0RyjQ+sr3dw0Drhu1YXXUhx4oLp5m0rlQ1cIgtMXBNrUm4dNCO2NVjNLgHnKp+I0g7wObZ1+gv9Hbg74Z25bg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-guizang-design.json"
+    },
+    {
+      "name": "dsh-hyperframes",
+      "version": "0.11.7",
+      "integrity": "sha512-wC3qPpJV6nDgTchfddoA+PpnHBcF3Qg+xHWuaFvx2PfHldYdPSPmSa0VxJ21OONFZuenTexv4ZaJBWdfwqXDdw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-hyperframes.json"
+    },
+    {
+      "name": "dsh-ide-git",
+      "version": "0.34.3",
+      "integrity": "sha512-uEjNicxt7D+LbuDKk0AHnZ0rKB2fmoNVVBUz2HiFtNYTcZ0xVamTINdY4QwQN2JeyX0Ct7qvXn8zrgba7HrR2w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-ide-git.json"
+    },
+    {
+      "name": "dsh-image-gen",
+      "version": "0.11.3",
+      "integrity": "sha512-eVJ6KwO5LbmcwuMU18hmv/yX2rvy0aebvhk6aH7p4QFMbg4y9FEywSPG6c4pltAHPcgznD/4BQFwE788ajHe3A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-image-gen.json"
+    },
+    {
+      "name": "dsh-inner-browser-use",
+      "version": "0.47.101",
+      "integrity": "sha512-zCftepfhj/AOBu69iZaS57u9Zo0DllCyDSL2tNP6TtmzIbOuGiekptK5i8cr0lcC/KlJW4IRWDvGEeI4JA8gNw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-inner-browser-use.json"
+    },
+    {
+      "name": "dsh-input-traffic",
+      "version": "0.7.14",
+      "integrity": "sha512-1QpJzsT5GyX8WucrPHCCtHBbqYWjOWC6zeCelQB0JqqxS34Y+gsSwYpWteFyBuutoTsPYLzIUuOf+LKDQnUUvA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-input-traffic.json"
+    },
+    {
+      "name": "dsh-isolation-gate",
+      "version": "1.13.13",
+      "integrity": "sha512-dKu4NJVN9Shd68vGX4osQCMXz8223vR2xltrXc1ttQZjixxmvVS3273ft9oTSPIl+0TTgf18WV0LKt7mVN8ecA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-isolation-gate.json"
+    },
+    {
+      "name": "dsh-lite-memory",
+      "version": "0.18.86",
+      "integrity": "sha512-f/wRERGKtOsYNPVktqWWpo5RSZst/gxOP3DP05vEUbxzl1I5kMkZDSZMotvSJ+B1eQwPAYPezisSGldVJWxExg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-lite-memory.json"
+    },
+    {
+      "name": "dsh-llm-fallbacks",
+      "version": "0.8.9",
+      "integrity": "sha512-Kutebv0Op46TeF5GccFp3xfA+fKP7bFfvvRZGL7gzdUkDU+r0M7s+mj87Cfo65wy7bqMbXqrAKQpx6HV4sIPtQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-llm-fallbacks.json"
+    },
+    {
+      "name": "dsh-m",
+      "version": "0.12.21",
+      "integrity": "sha512-q9XHqCnr3/Rr7Dibu6WovItZjp+WActFrr9CO0iYSzVGVA+Jj3vNyoGuOsQv17kWCzLJzdLznViRAm6D5FUz7g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-m.json"
+    },
+    {
+      "name": "dsh-mattpocock-skills-deck",
+      "version": "1.9.0-beta.33",
+      "integrity": "sha512-XQjjdyEqhTiFoaUN5KG5bXkYwAFwUdq10K+v1KMczuRUi4ErUbOZVp8gZ4Zp7P6up5N6DXrKa/SBX0oMtUemKg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-mattpocock-skills-deck.json"
+    },
+    {
+      "name": "dsh-mcp-connector",
+      "version": "0.2.111",
+      "integrity": "sha512-wdz+8VHy/EdWHN1pQv83dMEb7eLbKYyBXPLfRwca61e8GqbTj0qqOOjyLk3GUPM3aUqBqeXx/RSvHqN8Nvr1xQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-mcp-connector.json"
+    },
+    {
+      "name": "dsh-mcp-panel",
+      "version": "0.6.32",
+      "integrity": "sha512-tHbccEl/O/70XxcBN0/k30EYWeC2eB1zDtoqPmwrlTBzYKrF6/zfDEJlFlxfpQx7UMDKnYTMfuJsvv4mgw3Q+g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-mcp-panel.json"
+    },
+    {
+      "name": "dsh-mcp-registry",
+      "version": "0.3.19",
+      "integrity": "sha512-3HfMEh8AozlY9auEu8Hyz3Gug9uVElylwoA1EoXepq0cMWA9tjEJ10fCLgNNrxe7wRXP27RAzVqERDs5pkCS/g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-mcp-registry.json"
+    },
+    {
+      "name": "dsh-meme",
+      "version": "0.1.81",
+      "integrity": "sha512-IrDFqxrCsIWLT0LGfBggi7j/Wa27D1v7yrB6o0I/D7qEgMN18rcXV9iKkBiwx2rXGgH9qfZayxxJxe++i+KAeQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-meme.json"
+    },
+    {
+      "name": "dsh-metaphysics",
+      "version": "0.82.0",
+      "integrity": "sha512-kWDBynfd2fv/mBWLRgKqyl2KlaaJk3YPS/3vHBbsa9p3GbmAzaqzYguI1CEqlReidjA7uU3kP/4DZVCObsSnpg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-metaphysics.json"
+    },
+    {
+      "name": "dsh-minimal-ptc",
+      "version": "0.6.11",
+      "integrity": "sha512-kgdUDuuC4OU4UNAYHqnURbYUzhLVO0gqlWDUp21cYKYQJuUbFb8TD8cc0bvX5aVmZFx3snXXVztjPd+BimiduQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-minimal-ptc.json"
+    },
+    {
+      "name": "dsh-mnemon",
+      "version": "0.5.47",
+      "integrity": "sha512-RavniawWPhT4Y1fh1Y10vm+OQuJaxfN5A54UWsODflrb0xxQWs8rK0/4hHPQNjSoNcoNCPEI1LiurF7kEUZ9iw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-mnemon.json"
+    },
+    {
+      "name": "dsh-mobile",
+      "version": "0.8.12",
+      "integrity": "sha512-S7SqC4gEQCjGlseDKISA7Fn1sXK+nz1FkakG+AHSsUiKTyh/f9ZaB4vh002p98tIn7fLVJRF3lYWrcPMIQuskQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-mobile.json"
+    },
+    {
+      "name": "dsh-mobile-plugin",
+      "version": "0.5.66",
+      "integrity": "sha512-+lm1q8Vu5KzN3UMpHsrGu8nk5Aczg/znJcnZtrqlDca9DIFy4jDKQAZNvDi8g63Bh85ZocIlEX58tb/d42KBPQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-mobile-plugin.json"
+    },
+    {
+      "name": "dsh-mobile-use",
+      "version": "1.4.40",
+      "integrity": "sha512-EZnMn+l1HWM+001Q/ppURO1nISH9yLiKmDJ/ncKGjBqjdi8aNUYQ5pFmctSTOuLLoNSm5JlXppM8fCwVGel1og==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-mobile-use.json"
+    },
+    {
+      "name": "dsh-music-panel",
+      "version": "0.36.2",
+      "integrity": "sha512-EMnxrAWu5BH0jpXqu7n+BKNTP+Hr5hPkhJ+OXtcaGE8scoSrRBIFE51PGteQeXY0H2IHTKWtj/rCh9nJMWb4Hw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-music-panel.json"
+    },
+    {
+      "name": "dsh-notify-me",
+      "version": "1.21.3",
+      "integrity": "sha512-B3f3shus/SuHXOF1DhJtQ2vFYThgholq7mmK7C6lDst/lfmHlrvvdTXA7uGdSVpgUV4gietSVVwutG4+pQg30A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-notify-me.json"
+    },
+    {
+      "name": "dsh-office-kit",
+      "version": "0.4.8",
+      "integrity": "sha512-+QdS2XnCCRX2PN3wwDZFSQHcmbGXitAg1nEFY5TtZkp0zJd/SUW+1GfkdChejrvWmGuV8MiPR63yqxFSiSSf0A==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-office-kit@0.4.8"
+      },
+      "result": "results/dsh-office-kit.json"
+    },
+    {
+      "name": "dsh-office-tools",
+      "version": "1.0.8",
+      "integrity": "sha512-82LAagu5UWvIffGqnlyeHjgXx9ZZ5YmGn8kMXBANjDqinWiW7ps5TD1Dt640pvWNrgHJGufGGI6reAnVhKkiTw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-office-tools.json"
+    },
+    {
+      "name": "dsh-onebot-qq",
+      "version": "0.10.0",
+      "integrity": "sha512-cOUIGe4/6Pce5n7aDhaKVwGiNRVFLu8QcEVcQquDfEwptoVYDoNTKwAOmuyj0BE/p2GvU6b8pNz3mAlUqc0Hxg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-onebot-qq.json"
+    },
+    {
+      "name": "dsh-ops",
+      "version": "0.5.5",
+      "integrity": "sha512-IAjBkrKM5lha7IoAQFqOnIL9H16MRqcc84XV70C72Bt96Nvn+llsbXSaQHmPtHedsfJdi4yCWhocPp0gc9yPpQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-ops.json"
+    },
+    {
+      "name": "dsh-pause-resume",
+      "version": "0.9.12",
+      "integrity": "sha512-wsYZPKBcWzAace7p7f/8Yt7n6h2lTvY5ZusGdhdEZ1Lu1hPf55jjccL8M0128Nz15f3Fpo5RMOnQ79z8reLnNQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-pause-resume.json"
+    },
+    {
+      "name": "dsh-perm-gate",
+      "version": "5.5.4",
+      "integrity": "sha512-QLLkfo7uVWbSQ1Q5Ce3U1ZhlE0NZ6obvQ1eR2QJcW9Ze1La9IVV1QRwWNYQ3YxqE01+waqzJ/U6/dM/2PVWqWg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-perm-gate.json"
+    },
+    {
+      "name": "dsh-persona-dafeiyu",
+      "version": "0.8.0",
+      "integrity": "sha512-/ApApIVblw9XZqht5tX5s6xKTqgpD6L2qAe4oPkAu+wJ22aiOOoTd78zFhXsniCCPPAXResp3OqAjuItVJ3tZw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-persona-dafeiyu.json"
+    },
+    {
+      "name": "dsh-pet",
+      "version": "0.4.9",
+      "integrity": "sha512-ytcaepOCPPolB2cP09zJ3IBGCtDoVkUgfhyKXxw3q6igw8oMFYw8IKqU+PqKQegCRjTb0Yrt8yv19Eq7yC59FA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-pet.json"
+    },
+    {
+      "name": "dsh-pet-live2d",
+      "version": "3.6.0",
+      "integrity": "sha512-piJjcYLKun+UxFZKqcatOUOMm80wY7maSmeTnxEb0cYVSU7f/xJ70mHrLApg/MWiKKtrnPUyHmaoUvWgm/eeQA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-pet-live2d.json"
+    },
+    {
+      "name": "dsh-pet-plugin",
+      "version": "1.28.0",
+      "integrity": "sha512-mAugzSrnq6DvnHYsX2rqAfXj/wKKbWKwEWf/W8CuA3uOR7PduOQkScEHcZkE87gQibuAjkbL8nkJVjrlGP9ISg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-pet-plugin.json"
+    },
+    {
+      "name": "dsh-plugin-guide",
+      "version": "0.5.9",
+      "integrity": "sha512-+yQ9VOBcu4F7eLaHwYp5CFFkONlZVPzjt/Y3NRXDlJs8UpJW5WhdwGjhLSbVfJHryca7pyGX1PpVmMtwkGFtzQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-plugin-guide.json"
+    },
+    {
+      "name": "dsh-plugin-health",
+      "version": "3.2.1",
+      "integrity": "sha512-7SI1QNY0a26rFQTkQ+7dZ+Lfp7Uu2QfHLGHknPiC5XkFPg+szuJa9k+Zd/iY5WRexwnBgxIhG2t1tm1ck3qUGA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-plugin-health.json"
+    },
+    {
+      "name": "dsh-plugin-memory",
+      "version": "0.20.0",
+      "integrity": "sha512-hgGYCP1+iGaXcRxqfKBsEMyBhLYP5T00GY9eQ34Re5f5k3aoo2Z/Br5kvgAsjVjyZHKJ76YoaVDbZn00bGrTrw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-plugin-memory.json"
+    },
+    {
+      "name": "dsh-plugin-save-token",
+      "version": "2.4.1",
+      "integrity": "sha512-l4nGT8aVzOcLdDT9su7hSY4shwl9gAkXQU+HQs/yNV30TPW9o5+Z6JJBqAlP+wiUQn82t4YF4LRiHFa92h18MA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-plugin-save-token.json"
+    },
+    {
+      "name": "dsh-plugin-subscriptions",
+      "version": "0.9.13",
+      "integrity": "sha512-SdPos6AGSOxQHE7yWiUOB67TTtlSLDK3dpFNkVXGl/fEZM8ia2pSVUSI9QwUPuNnt/IAnc4vlc8MVz15aqTqVw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-plugin-subscriptions.json"
+    },
+    {
+      "name": "dsh-plugin-tool-management",
+      "version": "0.22.8",
+      "integrity": "sha512-A2H17EZQL31PgiXqWhD4HNKy773+8XIDAlxMSxU70Wf70sBLfSyj+bExz7qfZTIRwXzbqOOijrZZxbu6KwidWg==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "shutdown-hang",
+        "detail": "dsh web: http://127.0.0.1:45349/?token=fhII3kpdgf6YDQlwmgLURVeyYgT6yaU-Q3iw7plmYwg"
+      },
+      "result": "results/dsh-plugin-tool-management.json"
+    },
+    {
+      "name": "dsh-plugin-toolkit",
+      "version": "0.20.39",
+      "integrity": "sha512-1TJTLZafagu+QgAFzdY4XS6BzzcjPLZCE6UQ2S+eeI/zrD0VjLpiZLG5U/jjyd1eoeyvsTSGHC7o5kPxyS82yg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-plugin-toolkit.json"
+    },
+    {
+      "name": "dsh-plugin-wallpaper-engine",
+      "version": "1.4.2",
+      "integrity": "sha512-0IE/jGXiAMMEDM3fXP5p4r+DF3EcCJOPXaiX94lanz5ZBBSY6hjoELqB10u1X3B1zs8B7jyjzZ3aiJF562Pb7g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-plugin-wallpaper-engine.json"
+    },
+    {
+      "name": "dsh-plugin-weixin",
+      "version": "1.5.12",
+      "integrity": "sha512-EHgjEd1+Pk57djR9PuicZGMjIFAPfhvp+PnSF1AYJl0Oq0x17hJerrVxh6n1bbE3zGPlBzolfOXLoccYZMgtDA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-plugin-weixin.json"
+    },
+    {
+      "name": "dsh-pocket",
+      "version": "2.13.1",
+      "integrity": "sha512-d1kiIp5T+Apafc+WipAhZ1Jhsr0dt4PTITAf2qepv/2Bdps9SdxvIA3ihGAQn6V6C+CADXkuQoAqzM4m78lQrA==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "shutdown-hang",
+        "detail": "dsh web: http://127.0.0.1:35371/?token=-2ODP4A7tDPZsl6lDei7DIdZH93QlgxN5NN76KwpCRw"
+      },
+      "result": "results/dsh-pocket.json"
+    },
+    {
+      "name": "dsh-ppt",
+      "version": "0.20.8",
+      "integrity": "sha512-c0dLBL4u0bJg6/+Kl3/oRVpOXaDF6826TjAadoT2aA3IFORKUJ5P8/iCvINsQL9j6ZaYpXRXBZJOlWimqs1soA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-ppt.json"
+    },
+    {
+      "name": "dsh-prime-memory",
+      "version": "0.26.60",
+      "integrity": "sha512-ZPiAkfEINBtAFUHc14FKqNVx6XHhBx39QRRsddmvGuCMQ8c86vQ/7pa0DiBuaQlyiRp/tuHZxcTAIBc5ZLoQZg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-prime-memory.json"
+    },
+    {
+      "name": "dsh-proactive",
+      "version": "0.3.2",
+      "integrity": "sha512-d0CBaPXswbc2UKBzUW+yQy+4+flydqjS/yXAncRhxy0h4ZHTGp+XVtDG9kiF1awT34vqDG5dol3ZEXecFFe1aA==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "not-activated",
+        "detail": "dsh: warning: 1 entry did not activate"
+      },
+      "result": "results/dsh-proactive.json"
+    },
+    {
+      "name": "dsh-profile-stats",
+      "version": "2.4.21",
+      "integrity": "sha512-jmYGIBR1+5dw361Z0w371blYGkRc/ppbCDqb9zim3a0wfqii2o3PNdEAPJIpThV8Xiar6yBboEyu96OOhuECWw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-profile-stats.json"
+    },
+    {
+      "name": "dsh-qq-onebot",
+      "version": "1.4.0",
+      "integrity": "sha512-6rHPpZBJQ1/OKNJCDsZ7+2ImPiX2mMu/YqqmCmi9dCNFnZCLIkxlGmFdMqGd+x/u3APjesNUb0duvQ9B/A8fEQ==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "shutdown-hang",
+        "detail": "dsh web: http://127.0.0.1:41635/?token=Q-B1CPwNnIQufe8fEa4l8JUhtwa5DEiWwpknWbe3K1Y"
+      },
+      "result": "results/dsh-qq-onebot.json"
+    },
+    {
+      "name": "dsh-reference-session-collector",
+      "version": "0.2.9",
+      "integrity": "sha512-qBv3QSY9XfGOeTtMT8PwqZUvyCxMN0Tck8rvKaoyXjYIe3bHdgYysM6PsbterF29GkpqHTiSg8CS7DLY/O2G2w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-reference-session-collector.json"
+    },
+    {
+      "name": "dsh-remote",
+      "version": "1.2.0",
+      "integrity": "sha512-tQm4Psjb6QEukOA/XfYVX7mP8JRHWTmjVER8O3voDXVXL+5YAeVSWwI3eGll1OAQQ/c2kv2SIonAOApllo3g5Q==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-remote.json"
+    },
+    {
+      "name": "dsh-remote-local-plugin",
+      "version": "0.8.22",
+      "integrity": "sha512-5TT+eYZOR2SHBuasA5oNcLMeDZpQhSu/FsobGB1DaXDiq+k0HJDJDokA2ayI+vPKtqCBcI5dpSmCCrpTGoXLwQ==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "not-activated",
+        "detail": "AssertionError [ERR_ASSERTION]: profile entries did not activate:"
+      },
+      "result": "results/dsh-remote-local-plugin.json"
+    },
+    {
+      "name": "dsh-remotion",
+      "version": "0.10.7",
+      "integrity": "sha512-JiLj6htvXeIeN97v3MqTspcN0SC/I7FikWPzXMHoo9soYnxtSuuO4yeQ7EK+VLo3PMEL6uo3pqhx+npyxhyu5w==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-remotion.json"
+    },
+    {
+      "name": "dsh-rewind-plugin",
+      "version": "0.22.2",
+      "integrity": "sha512-yXh48ZtottyQTH7J1DC6PaTA0gRIbL+kYi8czqE5weOdQe9v5GcnIrrbibjrqdI3An0mGJyUNM44yz33xsUo6g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-rewind-plugin.json"
+    },
+    {
+      "name": "dsh-roost",
+      "version": "1.3.9",
+      "integrity": "sha512-Xk4B+WN5/vOyGQ2bToowq7EMVvcSRP9YxD0MJpNcuvL9/NS5I87NDG7UyPJqrf6tjUkx8w13Wfdk7hfLtEMOeA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-roost.json"
+    },
+    {
+      "name": "dsh-rss",
+      "version": "0.9.14",
+      "integrity": "sha512-7GMtuFGnZC4QbvWTL86jH7v76vRRLEt4ayhJk5F1rk/hE4WuwNCU5gADSbzJ7JC7tU6fPLow/hAMd6BvkBkOgg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-rss.json"
+    },
+    {
+      "name": "dsh-search-index",
+      "version": "0.7.19",
+      "integrity": "sha512-W7In3P+jwK8P+N0tpnJBOHkLipN+Cb6etg+4D71orny3wUom4nFwsdVhDCKNlacbZ50VA+rH0aLcWr41LqiJnQ==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: better-sqlite3@12.11.1"
+      },
+      "result": "results/dsh-search-index.json"
+    },
+    {
+      "name": "dsh-see-now",
+      "version": "0.2.4",
+      "integrity": "sha512-r9GYz8TaKvBXCiUI9/ba9kGAtBBqhM0fYWI0TgbnSXUXBAReczFsgUiHAorvWEcZe3FpbGf29eibwSlBw1jb/Q==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-see-now.json"
+    },
+    {
+      "name": "dsh-select-quote",
+      "version": "0.4.9",
+      "integrity": "sha512-pyvwjFZ0iJAb1kyHyUDGb1HL/9Uiwx5KbFPd2JSulZpu2PDgZECM3H232LwYGra6VINTmSv+WgQ3yOe9hTSkNA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-select-quote.json"
+    },
+    {
+      "name": "dsh-session-guard",
+      "version": "4.2.10",
+      "integrity": "sha512-QtdC1ydHf2KsXlBIqAKbow0xzEI6K0PE5nMxVsUtpbfNjVib5mYSfqLpCkqF92JgjgTuzXdAcLrU7xhgAwvQHA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-session-guard.json"
+    },
+    {
+      "name": "dsh-session-manager",
+      "version": "0.7.8",
+      "integrity": "sha512-uS+n6OXnLx0rExRuuAnih5i3r3or4q3k6JVhBEkp35yo4SSEzSxfBhKt0vHIEvhYxNs46DpXy2ppdOYu7c4K6A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-session-manager.json"
+    },
+    {
+      "name": "dsh-session-superagent",
+      "version": "0.10.12",
+      "integrity": "sha512-MTWS5eZHFUvX3kJ5PA37HJwMQ2vk3Z9jfTGIvjLqYDNKYv7G0o3HoDmLXhr1/CGJH9PZoCHgfS5Ov5Eo8zrFhg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-session-superagent.json"
+    },
+    {
+      "name": "dsh-skin-market",
+      "version": "0.1.83",
+      "integrity": "sha512-cdwl8Z1IANYEJgvOooyrWhnud/pLixNs6ywTweW4AncHgrR3YvkA2WscvXJOO3lXK2rV+MEPtjmyfMl9XBqOOw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-skin-market.json"
+    },
+    {
+      "name": "dsh-slack",
+      "version": "0.4.11",
+      "integrity": "sha512-prLmelgL/W9rBtmU0PLvfNfGakXRtkxnVs4sF7qpc3CVFSSEoiknzizOMP/UAZrMwIxLCOl0N4eI0qQ1uz1sRA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-slack.json"
+    },
+    {
+      "name": "dsh-soul-md",
+      "version": "0.12.5",
+      "integrity": "sha512-imPK/ETbXShygIbovFhnBvNMsdrd7peRPo3SmKgaExV1OCq1M0pzDJefw595ao+y9mGmHo6O4mEZhauCLJKLDA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-soul-md.json"
+    },
+    {
+      "name": "dsh-speak-up",
+      "version": "0.3.3",
+      "integrity": "sha512-RpwyiH6ren6w8akgMJEyCoUm9SYwKCiiiTn0mozKRm9Iyn5F4mWHaunnl8mgNrX+dJOtsCApvDHY1EvSRTk3kQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-speak-up.json"
+    },
+    {
+      "name": "dsh-sql",
+      "version": "0.5.13",
+      "integrity": "sha512-x2e8rx85a3j2e3RnK8KshNoKIwrX587d4eoqGbFm7s9/gfNjNx8lKzhFVnPiDe7ztfyoKHzDx4FPC66NOlkvOw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-sql.json"
+    },
+    {
+      "name": "dsh-subusage",
+      "version": "1.0.0",
+      "integrity": "sha512-Dz2NP4QM6qEU7pKZXoOsBrydP2T4R2z/aNTw+7+AE1tW9AzzQmcpd1VX9kSHIQD+gNP/doDt3YlqQ+xpp6CRCA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-subusage.json"
+    },
+    {
+      "name": "dsh-talk-map",
+      "version": "0.1.75",
+      "integrity": "sha512-jJa1gDKA5OPDJ3HQ5MotejO8FaAJhn2HL587JQaPIpB73EKCCoIITe8zamnrZJ02bPuyLEOkMqwUQBtuW6noZQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-talk-map.json"
+    },
+    {
+      "name": "dsh-task-ledger",
+      "version": "0.2.5",
+      "integrity": "sha512-zPqSyBco37QRYB+AAjTWui/GytPTwa6vonWj/d57hIqB5gvF+NnonxMwhSdyz+fAGGYySAqj5WBBqNsOh7abxA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-task-ledger.json"
+    },
+    {
+      "name": "dsh-tg-bridge",
+      "version": "1.53.0",
+      "integrity": "sha512-JR/BA3pZtuF7HVhFqewXE2h6O/TtMPTidFI7jgh0PGcsoehMxzfUm+x4SWl9UUGEArKszK3pTPidbEBIzEt+tQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-tg-bridge.json"
+    },
+    {
+      "name": "dsh-thinking-levels",
+      "version": "4.4.16",
+      "integrity": "sha512-HpNIs60hEHXwt82L2Sf8UzpvTHe/eGI88vqRGuF5pp6k9J7/5PR4PWOUh/7CLiUKmERLmM6MbGXDPLmygv2ttA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-thinking-levels.json"
+    },
+    {
+      "name": "dsh-tidy-display",
+      "version": "0.4.11",
+      "integrity": "sha512-inIpYnH+d2lLzoLnfUiRyEJA5OFLZHGkUrOR672PnqR5XfpZ3l8ie4xYCGd6FrzrzLOHSa2KWOwxyHtlsPSVpw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-tidy-display.json"
+    },
+    {
+      "name": "dsh-trust-check",
+      "version": "0.2.6",
+      "integrity": "sha512-schcUuzkx9W/nHxKhCBg4yErYnQZlkNwI55l2M8Fo9XlCDpiBBHETPISzZFVz66xLyJF0LgC5uyljxYS5OTASg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-trust-check.json"
+    },
+    {
+      "name": "dsh-univer-office",
+      "version": "0.4.0",
+      "integrity": "sha512-VSKiVZvHvlON27KWxamP5EWNty/aGJQNMaLWTJb2R4S2pERloJCm2r3KwuDPMrSChKMX0QQhX8EUcHGx9jmgnA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-univer-office.json"
+    },
+    {
+      "name": "dsh-unlag",
+      "version": "1.17.8",
+      "integrity": "sha512-hsxmi0lx/Pikp2HX7M8XIdexf908Kmo+zsDNTw+v8WC6MNRFA1jbTzuXYnMuShcOQhSRExK+quJzKMUT9wWx1A==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "unknown",
+        "detail": "dsh web: http://127.0.0.1:39307/?token=-ZCP30Pu4q52KfGk3tRXRaRTHEa3sxojla85MjW1HTQ"
+      },
+      "result": "results/dsh-unlag.json"
+    },
+    {
+      "name": "dsh-video-skin",
+      "version": "0.1.6",
+      "integrity": "sha512-bMAHsTIzhCq8sSpKcV+mKZmTRlTPfgswRNtGZYnPHXVv9aIBQSIUh0FF3ZCS9e1YBiT1oDstMm79DMW7uRiApQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-video-skin.json"
+    },
+    {
+      "name": "dsh-video-storyboard",
+      "version": "0.7.6",
+      "integrity": "sha512-GfB3xMgoVrLsSbGLnIu/sRbcGMNUdWyZw9r4hjdw5Ken1DWSyxm6j9y9CsHvw3MQUgDkLviwjzS5vFSvNMC2ug==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-video-storyboard.json"
+    },
+    {
+      "name": "dsh-vision-router",
+      "version": "3.4.0",
+      "integrity": "sha512-89lp7xFrdwe/VzuJCQaoPz+WmXWHl5cg8QonQHtJ5sw7qKAmfs9fvqTuFSAD/Ge+SIeBytNWUvwC9tc7PRVEOg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-vision-router.json"
+    },
+    {
+      "name": "dsh-voice",
+      "version": "0.5.8",
+      "integrity": "sha512-ciBS2OnaxphklGsQ279v7ZvPU35rxQtxBi6sCJ29//Ujiz8wJJRoLE6U7afApG/VEneJA6LUMdh6xHQVn5FWug==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-voice.json"
+    },
+    {
+      "name": "dsh-voice-mode",
+      "version": "0.7.38",
+      "integrity": "sha512-K0P3bWPhnxz7+2aoPHzCnvN+e6w8RAz6WKU4BcF2AD5eGSP+Wf9YaQiXneZDHyjLwXK0WLUUJVeEzWGauj1kww==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-voice-mode.json"
+    },
+    {
+      "name": "dsh-vscode-mode",
+      "version": "0.30.0",
+      "integrity": "sha512-+0barWJ//9MmWdxbHbOU5NajyRaNsja4UTwZqSk+NHu9Do/vQ2XO0Y1xYZehFuwdiP8dpftBMlY5AmClnjngAA==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6"
+      },
+      "result": "results/dsh-vscode-mode.json"
+    },
+    {
+      "name": "dsh-web-mobile",
+      "version": "3.3.5",
+      "integrity": "sha512-dYEZwDTHpwvFDVZh65U1M8IA8UfaSxW1IJT3uV+YoonQUD1gP00e8+TLrslonzzsA8wsko7/jYXzcGzHAH/sNg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-web-mobile.json"
+    },
+    {
+      "name": "dsh-wechat",
+      "version": "0.16.2",
+      "integrity": "sha512-XoNZu6ryYOlXxiNClKbTegQI3PwxOMWttW0WyWIobqDZT95Yb5quLdJH8Uk27A2i7mDkOkihqmF/LTrX7Si3QQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-wechat.json"
+    },
+    {
+      "name": "dsh-whale-musume",
+      "version": "2.5.3",
+      "integrity": "sha512-tnrURD18IjNRKcTi7RvXY58jScQP+XJrrYrbPnbVCfq9xoS15CAfzKaoAs/qGDbkTvLzAF4l8/M42FbuGEGsZQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-whale-musume.json"
+    },
+    {
+      "name": "dsh-whale-widget",
+      "version": "0.4.2",
+      "integrity": "sha512-aGDUfd3b2Abv4PoUn1KtnlasOIkoqgvIOR2+rAIEPDOt1qlHB7emlTq+4zdyoV5ZiicS+tkugPk86GyVUoDggQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-whale-widget.json"
+    },
+    {
+      "name": "dsh-win32",
+      "version": "0.18.0",
+      "integrity": "sha512-nQgfUwc6cyZN0CLep5NaeBku4VXTEs6R9Tww6npF3JoDoE0zHFrjw8RmAfwHgJvHv6L+Z2tkqguw8JCYsys9aA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-win32.json"
+    },
+    {
+      "name": "dsh-windows-mcp",
+      "version": "0.2.11",
+      "integrity": "sha512-jZOGSlo2ry6IMo0/GtJ4+mhrHI6yH8H2NVm41JkT8B/Err6accKARc3zguMPygGCgq/BKZgCu9qYDwGjf85cXg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-windows-mcp.json"
+    },
+    {
+      "name": "dsh-workplan",
+      "version": "3.0.3",
+      "integrity": "sha512-8gWlt1QhFeV2Tay/AbI4Z2m2zq6VZMD4uTR21vgSh5FlL/XEWTvpz9KF0V4LScTMuB4cCP9dUi4bEalcsWAkMw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-workplan.json"
+    },
+    {
+      "name": "dsh-workspace-api-key",
+      "version": "0.3.1",
+      "integrity": "sha512-0IXIIl/gjvvdvXDg1l25SvIs5NJV8XsS5Lm3LQol0zD0/jV1gqHzMw5P0JLEXcEcuqNFpM5S01HPtfYzUvv+Bw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-workspace-api-key.json"
+    },
+    {
+      "name": "dsh-ws-recency",
+      "version": "0.30.0",
+      "integrity": "sha512-JhMpHMzhoMEjsEhkiowtRexvjgT6734hEX/+mq4d/q45W9qQHVtNbFEK6tD1fOovTpXELLilyojVWdKr+Y2iqA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-ws-recency.json"
+    },
+    {
+      "name": "dsh-xdpool",
+      "version": "2.7.5",
+      "integrity": "sha512-niEw1z2SXvwdkRCqRIJ+Eh1AnGSi2Or+ArFnWk8qsCWKc3CK9rSz/Q4DomCFVO8sP/sBHzHrCa3OvLYrNAsbZQ==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: dsh-xdpool@2.7.5"
+      },
+      "result": "results/dsh-xdpool.json"
+    },
+    {
+      "name": "dsh-xiaomi-tts",
+      "version": "5.5.2",
+      "integrity": "sha512-7Z5551xzz8QuZsPY0NZ6P4CX2obqCGSVWJ6axozeW0IHFs68oDu9VESKnFhJ7wL+ROV9IMfjtnEhZt1F1lPuJA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-xiaomi-tts.json"
+    },
+    {
+      "name": "dsh-zotero",
+      "version": "1.2.0",
+      "integrity": "sha512-R4D3YKrn2veFZ7zbw8Uyok4LN+soL/gekLZ7xi7QqcQhN+fZzPs1MfU0GUAhYOh/I7zFKY8E0ISegpPUbkhKYw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-zotero.json"
+    },
+    {
+      "name": "dshmarket",
+      "version": "1.73.20",
+      "integrity": "sha512-rK5vfarRJa4hRoU4TiDkX8Wdr36Miu5WVrM8yQxV4uA+uogyKn1o7/PGSsxxEFFQCx5PARWmvrotRX3HEuVwJw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dshmarket.json"
+    },
+    {
+      "name": "huaweicloud-devkit",
+      "version": "1.1.14",
+      "integrity": "sha512-7cDEo9KtiF/NN3Xtub3RZrb1zXUcUiwiJ0xqRG3WwJvRapaMYL0oKk2syeDK9XZqU0dCYksTJArGgHDqe5tlDw==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.14"
+      },
+      "result": "results/huaweicloud-devkit.json"
+    },
+    {
+      "name": "lunheng-article-pipeline",
+      "version": "19.27.18",
+      "integrity": "sha512-k0XWE89RaBcZj7eh9DNGjO3CVVdg2iZxZJLcK/s37/YqcwD8DZrv4QugtbOeMdasrPchG+l0x6T66Kh8SC6E5Q==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/lunheng-article-pipeline.json"
+    },
+    {
+      "name": "memory-eternal",
+      "version": "0.49.11",
+      "integrity": "sha512-/XFBwARvc5IuFqEC7tTm/IOySb/ZAeJC0iSm8nIIK3nxe5lbwS9UtdPP9Xotu8xjvi8g9rNEbKIQP5jR/qfZwA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/memory-eternal.json"
+    },
+    {
+      "name": "meow-memory",
+      "version": "0.33.0",
+      "integrity": "sha512-WAuVHUmZISiL9BtVzABBrsU/1uYJvB0CPfjKyZ4wqF8IGd0ydu7OLnTwqRvSz2CuYLTn28BT+aR8Z+vLyYuBCw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/meow-memory.json"
+    },
+    {
+      "name": "pi2dsh",
+      "version": "0.27.1",
+      "integrity": "sha512-iwjaQ2XuzhYS1V7wx1BhqfGDRiBBLLF99+B2tGTOzP0hPwyNfvEyAD2UZC/8gKOxMAcw61V6AMB8bS8osqCl/A==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/pi2dsh.json"
+    },
+    {
+      "name": "qfish",
+      "version": "0.3.35",
+      "integrity": "sha512-dWGqTp0v2V//J+4hAuo8KmwILuXGBsDR5JGJ1fp2dlRQnDw8IH0qnaM6ZVEfa872XSAivbE7EsUMLtJ9w0GOSg==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "shutdown-hang",
+        "detail": "[onebot] 访问控制未配置（白名单为空），所有消息都会被忽略；请在配置里填 userIds / groupIds，或显式改成 blocklist"
+      },
+      "result": "results/qfish.json"
+    },
+    {
+      "name": "sage-mem",
+      "version": "2.11.1",
+      "integrity": "sha512-iwSVeFayf8x9H2rG1d1msTAVQiUrIhY+aIzguFvEAwkT/Px23D8rfXfw0QDyfsVMSgIcv0j7KLP6qgx6rDWOcw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/sage-mem.json"
+    },
+    {
+      "name": "stratagate-dsh",
+      "version": "0.3.52",
+      "integrity": "sha512-XdyH5uFsr/0fSSwhYuNjxWeve/7xGqjiIOZCJfSAmgoohV0FATmi8yUQT6u3Jw3LqYzL86g6XH7MFI3ZNHqoBA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/stratagate-dsh.json"
+    },
+    {
+      "name": "superpowers-dsh",
+      "version": "0.5.0",
+      "integrity": "sha512-M/bSEu93jpmYnhM2I996rZ+8eH8uNFzm6c0PwimsnxiYtj3Yjr/iahgfaw2jud9CBGXOc4BBDkRJtt/HRu1eZw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/superpowers-dsh.json"
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "tool-name",
+      "name": "bili_comments",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_config",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_login_poll",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_login_start",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_reply",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_search",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_setup",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_status",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_subtitle",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "bili_whoami",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "cancel_image_generation_task",
+      "plugins": [
+        "@dickpy/dsh-imagegen@1.18.1",
+        "@q253595422/dsh-imagegen-video@1.31.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "cite_batch",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-cite@0.8.1"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "cite_bibtex",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-cite@0.8.1"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "cite_check",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-cite@0.8.1"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "cite_format",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-cite@0.8.1"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "cite_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-cite@0.8.1"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "cite_lookup",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-cite@0.8.1"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "codex_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-codex-port@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "codex_list",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-codex-port@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "codex_port",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-codex-port@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "codex_status",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-codex-port@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dingtalk_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-dingtalk@0.3.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dingtalk_notify",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-dingtalk@0.3.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dingtalk_text",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-dingtalk@0.3.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "docker_exec",
+      "plugins": [
+        "@stardustlc/dsh-docker@0.5.11",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "docker_health",
+      "plugins": [
+        "@stardustlc/dsh-docker@0.5.11",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "docker_images",
+      "plugins": [
+        "@stardustlc/dsh-docker@0.5.11",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "docker_inspect",
+      "plugins": [
+        "@stardustlc/dsh-docker@0.5.11",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "docker_logs",
+      "plugins": [
+        "@stardustlc/dsh-docker@0.5.11",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "docker_manage",
+      "plugins": [
+        "@stardustlc/dsh-docker@0.5.11",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "docker_ps",
+      "plugins": [
+        "@stardustlc/dsh-docker@0.5.11",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_bridge",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_context",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_digest",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_health",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_journal",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_learn",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_recall",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_review",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "dream_save",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "edit_image",
+      "plugins": [
+        "@dickpy/dsh-imagegen@1.18.1",
+        "@goodandready/dsh-image-gen@0.12.38",
+        "@q253595422/dsh-imagegen-video@1.31.0",
+        "dsh-image-gen@0.11.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_attachment",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_draft",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_folder_create",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_folder_delete",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_folder_purge",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_folder_rename",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_folders",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_list",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_mark",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_read",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_reply",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_schedule",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_search",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_send",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "email_watch",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_adjust",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_concat",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_cut",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_encode",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_extract",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_frames",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_gif",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_probe",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_storyboard",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ffmpeg_subtitle",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "flaky_clear",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-flakefinder@0.4.12"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "flaky_detect",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-flakefinder@0.4.12"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "flaky_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-flakefinder@0.4.12"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "flaky_history",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-flakefinder@0.4.12"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "flaky_quarantine",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-flakefinder@0.4.12"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "flaky_report",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-flakefinder@0.4.12"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "generate_image",
+      "plugins": [
+        "@dickpy/dsh-imagegen@1.18.1",
+        "@goodandready/dsh-image-gen@0.12.38",
+        "@q253595422/dsh-imagegen-video@1.31.0",
+        "dsh-image-gen@0.11.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "get_agenda",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "get_character",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "get_faction",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "get_image_generation_task",
+      "plugins": [
+        "@dickpy/dsh-imagegen@1.18.1",
+        "@q253595422/dsh-imagegen-video@1.31.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "get_item",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "get_location",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "hyperframes_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-hyperframes@0.11.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "hyperframes_project",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-hyperframes@0.11.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "hyperframes_render",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-hyperframes@0.11.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_characters",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_factions",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_items",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_locations",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_mcp_resource_templates",
+      "plugins": [
+        "@mstar-harness/dsh@4.7.1",
+        "@openviking/dsh-memory-plugin@0.5.38",
+        "dsh-computer-use-win@0.6.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_mcp_resources",
+      "plugins": [
+        "@mstar-harness/dsh@4.7.1",
+        "@openviking/dsh-memory-plugin@0.5.38",
+        "dsh-computer-use-win@0.6.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_relationships",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_slots",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_threads",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "list_variables",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_delete",
+      "plugins": [
+        "@modusensus/dsh-mneme@0.16.0",
+        "dsh-auto-memory@1.8.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_forget",
+      "plugins": [
+        "@modusensus/dsh-mneme@0.16.0",
+        "@restregular/dsh-memory@0.35.1",
+        "dsh-lite-memory@0.18.86"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_get",
+      "plugins": [
+        "@modusensus/dsh-mneme@0.16.0",
+        "@restregular/dsh-memory@0.35.1"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_list",
+      "plugins": [
+        "@modusensus/dsh-mneme@0.16.0",
+        "@restregular/dsh-memory@0.35.1",
+        "dsh-auto-memory@1.8.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_read",
+      "plugins": [
+        "dsh-auto-memory@1.8.0",
+        "dsh-lite-memory@0.18.86",
+        "dsh-soul-md@0.12.5",
+        "meow-memory@0.33.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_remember",
+      "plugins": [
+        "meow-memory@0.33.0",
+        "stratagate-dsh@0.3.52"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_save",
+      "plugins": [
+        "@modusensus/dsh-mneme@0.16.0",
+        "@restregular/dsh-memory@0.35.1",
+        "dsh-lite-memory@0.18.86"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_search",
+      "plugins": [
+        "@modusensus/dsh-mneme@0.16.0",
+        "@restregular/dsh-memory@0.35.1",
+        "dsh-auto-memory@1.8.0",
+        "dsh-lite-memory@0.18.86",
+        "dsh-prime-memory@0.26.60",
+        "dsh-soul-md@0.12.5",
+        "meow-memory@0.33.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_update",
+      "plugins": [
+        "@modusensus/dsh-mneme@0.16.0",
+        "meow-memory@0.33.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "memory_write",
+      "plugins": [
+        "dsh-auto-memory@1.8.0",
+        "dsh-prime-memory@0.26.60"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ppt_check",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ppt_create",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-office-tools@1.0.8",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ppt_data",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ppt_edit",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ppt_render",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ppt_templates",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ppt_themes",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "ppt_undo",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "read_mcp_resource",
+      "plugins": [
+        "@mstar-harness/dsh@4.7.1",
+        "@openviking/dsh-memory-plugin@0.5.38",
+        "dsh-computer-use-win@0.6.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "read_records",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "recall_memories",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "remember",
+      "plugins": [
+        "dsh-fish-memory@1.6.3",
+        "dsh-fish-soul@0.18.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "remotion_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-remotion@0.10.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "remotion_project",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-remotion@0.10.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "remotion_render",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-remotion@0.10.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_add",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_check",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_fetch",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_list",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_opml_export",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_opml_import",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_remove",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "rss_search",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "search_events",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "search_lore",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_baseline",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_deps",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_diff",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_export",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_fix_verify",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_policy_set",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_policy_show",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_report",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "secure_scan",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "slack_channels",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-slack@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "slack_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-slack@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "slack_inbox",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-slack@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "slack_notify",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-slack@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "slack_reply",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-slack@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "sql_exec",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-sql@0.5.13"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "sql_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-sql@0.5.13"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "sql_list",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-sql@0.5.13"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "sql_query",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-sql@0.5.13"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "sql_schema",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-sql@0.5.13"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "sql_stats",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-sql@0.5.13"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "voice_health",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-voice@0.5.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "voice_list",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-voice@0.5.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "voice_preview",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-voice@0.5.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "voice_stt",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-voice@0.5.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "voice_tts",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-voice@0.5.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "tool-name",
+      "name": "x_search",
+      "plugins": [
+        "@liustack/modsearch@5.10.14",
+        "dsh-plugin-subscriptions@0.9.13"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "bili-scroll",
+      "plugins": [
+        "dsh-bili-scroll@2.5.2",
+        "dsh-bili-subagent@1.0.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "cite",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-cite@0.8.1"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "code-security",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-code-security@0.7.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "codex-port",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-codex-port@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "docker",
+      "plugins": [
+        "@stardustlc/dsh-docker@0.5.11",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "dream",
+      "plugins": [
+        "@stardustlc/dsh-dream@0.15.2",
+        "@stardustlc/dsh-suite@0.11.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "dsh-memory",
+      "plugins": [
+        "@restregular/dsh-memory@0.35.1",
+        "dsh-plugin-memory@0.20.0",
+        "dsh-prime-memory@0.26.60"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "dsh-pet",
+      "plugins": [
+        "dsh-pet-plugin@1.28.0",
+        "dsh-pet@0.4.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "dsh-ppt",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ppt@0.20.8"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "ffmpeg",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-ffmpeg@0.7.9"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "flakefinder",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-flakefinder@0.4.12"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "genui",
+      "plugins": [
+        "@changfenhuang/dsh-genui@0.16.0",
+        "dsh-genui@0.3.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "hyperframes-skills",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-hyperframes@0.11.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "imagegen",
+      "plugins": [
+        "@dickpy/dsh-imagegen@1.18.1",
+        "@q253595422/dsh-imagegen-video@1.31.0"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "preset-ptc-minimal",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-minimal-ptc@0.6.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "ptc-minimal-preset",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-minimal-ptc@0.6.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "remotion-skills",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-remotion@0.10.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "roleplay-state",
+      "plugins": [
+        "@dsh-agentic-roleplay/core@0.12.7",
+        "@dsh-agentic-roleplay/state@0.12.7"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "rss",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-rss@0.9.14"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "slack",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-slack@0.4.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "sql",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-sql@0.5.13"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "tool-dingtalk",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-dingtalk@0.3.11"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "tool-email",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-email@0.27.3"
+      ],
+      "predicted": true
+    },
+    {
+      "kind": "entry-id",
+      "name": "voice",
+      "plugins": [
+        "@stardustlc/dsh-suite@0.11.9",
+        "dsh-voice@0.5.8"
+      ],
+      "predicted": true
+    }
+  ]
+}

@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:08:40.218Z",
+  "generatedAt": "2026-11-17T23:02:53.375Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@stardustlc/dsh-docker@0.5.10",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jgI47V",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jgI47V/home",
+  "plugin": "@stardustlc/dsh-docker@0.5.11",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NxPOVm",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NxPOVm/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-16T12:08:40.591Z",
-      "durationMs": 138,
+      "startedAt": "2026-11-17T23:02:53.889Z",
+      "durationMs": 169,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @stardustlc/dsh-docker@0.5.10 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @stardustlc/dsh-docker@0.5.11 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:08:40.755Z",
-      "durationMs": 1700,
+      "startedAt": "2026-11-17T23:02:54.059Z",
+      "durationMs": 2415,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @stardustlc/dsh-docker 0.5.10\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nDone in 959ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @stardustlc/dsh-docker 0.5.11\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-docker@0.5.11\n  @stardustlc/dsh-updates@0.2.0\nDone in 1.4s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:08:42.461Z",
-      "durationMs": 3080,
+      "startedAt": "2026-11-17T23:02:56.479Z",
+      "durationMs": 4039,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34919/?token=Ysw_QbNkDxyBZjYaenes7I_WK3uqa04ip7ZENfABbH4\n",
+      "stdout": "dsh web: http://127.0.0.1:37109/?token=9bl99ojdcWGf2G_6AOD_M16tNNzRQCvmTMIBg1vQ71M\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "a24a1d32",
+              "id": "f72c9d84",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "b8d1fa36",
+              "id": "839bf666",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "a24a1d32",
+              "id": "f72c9d84",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "b8d1fa36",
+              "id": "839bf666",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2075,7 +2075,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@stardustlc/dsh-docker",
-      "version": "0.5.10",
-      "integrity": "sha512-26OWNzTcWa3/iQDw7zwZaTdeWEvwgYCzb9AFMiwhsy/6ozrt+OGY1sMXQiiBOUDXMAQLzRW7ucsmNMxIBt4HqA==",
+      "version": "0.5.11",
+      "integrity": "sha512-NfabxLi+ewX2Cv5e2ZQpWZCk1y/ZaO++WhLmEUHBFUVRftp+td13sYUCmMKC8g4f1DdUnRvK8ShZZoQpabN3HA==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "a24a1d32",
+        "id": "f72c9d84",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b8d1fa36",
+        "id": "839bf666",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
