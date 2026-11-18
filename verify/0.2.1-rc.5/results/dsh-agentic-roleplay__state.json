@@ -1,50 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T23:00:35.458Z",
+  "generatedAt": "2026-11-18T14:09:11.048Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@dsh-agentic-roleplay/state@0.12.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4xfLbO",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4xfLbO/home",
+  "plugin": "@dsh-agentic-roleplay/state@0.13.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FIL0Nj",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-FIL0Nj/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T23:00:35.907Z",
-      "durationMs": 101,
+      "startedAt": "2026-11-18T14:09:11.547Z",
+      "durationMs": 171,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @dsh-agentic-roleplay/state@0.12.7 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @dsh-agentic-roleplay/state@0.13.1 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T23:00:36.008Z",
-      "durationMs": 1432,
+      "startedAt": "2026-11-18T14:09:11.718Z",
+      "durationMs": 1910,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dsh-agentic-roleplay/state 0.12.7\n\nPackages: +3\n+++\nProgress: resolved 7, reused 0, downloaded 3, added 3, done\nDone in 738ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dsh-agentic-roleplay/state 0.13.1\n\nPackages: +3\n+++\nProgress: resolved 7, reused 0, downloaded 3, added 3, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @dsh-agentic-roleplay/state@0.13.1\nDone in 978ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T23:00:37.445Z",
-      "durationMs": 3209,
+      "startedAt": "2026-11-18T14:09:13.646Z",
+      "durationMs": 4773,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37469/?token=-1rb3p487S-sR3aPXn9y9-ZpWzyXOIBwd7QIILhH9bI\n",
-      "stderr": "(node:2813) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:40233/?token=TF6UnHFCJpQheDXzeoSEdsQhSCT3GtIwMFBgV1PN3fc\n",
+      "stderr": "(node:2951) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "22e1962f",
+              "id": "ce6f7de4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "0abe30ed",
+              "id": "06476bb7",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "22e1962f",
+              "id": "ce6f7de4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "0abe30ed",
+              "id": "06476bb7",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@dsh-agentic-roleplay/state",
-      "version": "0.12.7",
-      "integrity": "sha512-//2zXrO2FlrBJe8Q+tisAhISVnrIMMGVCQlrFlmq2ErbvaMDtC1Vbn6C3r6gfVBprPCffs1w+adPn8XYAPcwcQ==",
+      "version": "0.13.1",
+      "integrity": "sha512-KZdLyaitRMAaiDp32i/C4E/KZgbpsAIDIO7rBpRJVb0x7Rq3KlxTONcuWvctQjP1PlAGWQ1cJ4NXcOMOkFRdgw==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "22e1962f",
+        "id": "ce6f7de4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "0abe30ed",
+        "id": "06476bb7",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T22:56:52.944Z",
+  "generatedAt": "2026-11-18T14:05:54.491Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-ffmpeg@0.7.9",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-44S6PM",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-44S6PM/home",
+  "plugin": "dsh-ffmpeg@0.7.16",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QIEfgT",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QIEfgT/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T22:56:53.395Z",
-      "durationMs": 149,
+      "startedAt": "2026-11-18T14:05:54.896Z",
+      "durationMs": 150,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-ffmpeg@0.7.9 for DSH 0.2.2-rc.1\n",
+      "stdout": "dsh: allowed dsh-ffmpeg@0.7.16 for DSH 0.2.2-rc.1\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T22:56:53.544Z",
-      "durationMs": 1894,
+      "startedAt": "2026-11-18T14:05:55.057Z",
+      "durationMs": 2081,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ffmpeg 0.7.9\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 7, downloaded 1, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  dsh-ffmpeg@0.7.9\nDone in 1s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ffmpeg 0.7.16\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.5\n  dsh-ffmpeg@0.7.16\nDone in 1.3s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T22:56:55.443Z",
-      "durationMs": 4322,
+      "startedAt": "2026-11-18T14:05:57.144Z",
+      "durationMs": 3624,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45449/?token=RlWjs9-CnHhPo3mWXyhtqS4ZHnJTJFim2LCQOdl6AgQ\n",
+      "stdout": "dsh web: http://127.0.0.1:43373/?token=_V0NVglw6d5PyJ7-bC5LDXzlog10pzVRzbCC-TYcM5A\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "2c7e3186",
+              "id": "6f05e640",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "97d13c48",
+              "id": "5cc6eff1",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2122,12 +2122,12 @@
               "state": 2
             },
             {
-              "id": "2c7e3186",
+              "id": "6f05e640",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "97d13c48",
+              "id": "5cc6eff1",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2150,8 +2150,8 @@
   "subjects": [
     {
       "name": "dsh-ffmpeg",
-      "version": "0.7.9",
-      "integrity": "sha512-H1chRA3z3P9Jggyx9qQCeTiSAjlf8U7mYmtg+thzMPhN8tPSnW/QvGCuUPqH+7ZliOJbUaUR2MM0sQjkfBcBzw==",
+      "version": "0.7.16",
+      "integrity": "sha512-yFEC4uA8UHMFsklXzC//CZN3J91OUMZgvoPy4utIkCIjeKF+gVEAUxCCroUNrCX/O3w2QECciknTnmaGqHZI1Q==",
       "resolution": "registry"
     }
   ],
@@ -2182,13 +2182,13 @@
         "disabled": false
       },
       {
-        "id": "2c7e3186",
+        "id": "6f05e640",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "97d13c48",
+        "id": "5cc6eff1",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

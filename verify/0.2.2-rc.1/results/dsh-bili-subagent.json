@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T22:56:46.832Z",
+  "generatedAt": "2026-11-18T14:06:07.457Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-bili-subagent@1.0.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3YFY9L",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3YFY9L/home",
+  "plugin": "dsh-bili-subagent@1.0.4",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ioM6hf",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ioM6hf/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-17T22:56:47.337Z",
-      "durationMs": 2008,
+      "startedAt": "2026-11-18T14:06:07.909Z",
+      "durationMs": 1802,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-bili-subagent 1.0.3\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-bili-subagent@1.0.3\nDone in 1.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3YFY9L/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-bili-subagent 1.0.4\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-bili-subagent@1.0.4\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ioM6hf/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T22:56:49.349Z",
-      "durationMs": 4672,
+      "startedAt": "2026-11-18T14:06:09.713Z",
+      "durationMs": 3905,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42699/?token=xmoTuE8rbv70F9Xg9n7oJ2ugHJ3NLzgCGjXf-XG5D88\n",
+      "stdout": "dsh web: http://127.0.0.1:33273/?token=tz5dXsvM2IxEb9QMSXQs4ozQSGaCMsDsh_dM-nmXFSs\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,6 +39,12 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
+            {
+              "id": "75352718",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1228,14 +1234,8 @@
               "disabled": false
             },
             {
-              "id": "799f76b7",
+              "id": "046286d8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "5bf50174",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1266,6 +1266,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "75352718",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2112,13 +2117,8 @@
               "state": 2
             },
             {
-              "id": "799f76b7",
+              "id": "046286d8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "5bf50174",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2140,8 +2140,8 @@
   "subjects": [
     {
       "name": "dsh-bili-subagent",
-      "version": "1.0.3",
-      "integrity": "sha512-N2qYZOyj4t+njqMfOhYWlP/eiH9M1FTGN9XZkdiEoa47TqGUym1+slGqYm2+9mlCT+m2UgMYATX2hDRPZzQX3Q==",
+      "version": "1.0.4",
+      "integrity": "sha512-0MRYDs4tLjffgf/NJuoR4mk5MWSaw/LgOH70kUe1YluFQjLkFvSeSdVswbW+BzkbeFIb+A/UZEbs9RZcJgcFOA==",
       "resolution": "registry"
     }
   ],
@@ -2166,20 +2166,20 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "75352718",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "bili-scroll",
         "name": "dsh-bili-subagent",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "799f76b7",
+        "id": "046286d8",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "5bf50174",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

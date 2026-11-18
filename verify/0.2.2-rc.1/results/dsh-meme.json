@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:03:24.222Z",
+  "generatedAt": "2026-11-18T14:06:09.116Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-meme@0.1.81",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nIWK7p",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nIWK7p/home",
+  "plugin": "dsh-meme@0.1.85",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-h9gPNJ",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-h9gPNJ/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:03:24.496Z",
-      "durationMs": 1408,
+      "startedAt": "2026-11-18T14:06:09.421Z",
+      "durationMs": 1972,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-meme 0.1.81\n\nPackages: +7\n+++++++\nProgress: resolved 33, reused 6, downloaded 1, added 7, done\nDone in 839ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nIWK7p/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-meme 0.1.85\n\nPackages: +7\n+++++++\nProgress: resolved 33, reused 0, downloaded 7, added 7, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-meme@0.1.85\nDone in 1.1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-h9gPNJ/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:03:25.911Z",
-      "durationMs": 3011,
+      "startedAt": "2026-11-18T14:06:11.407Z",
+      "durationMs": 3278,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-expression] 管理 API: /dsh-memes-api , 管理面板: /memes-panel , 小图 CSS 已注入(160px)\n[dsh-expression] send_meme 已注册(Web通道,/dsh-memes)\ndsh web: http://127.0.0.1:33271/?token=W0OYkJ-jS917ru6JRzWICjkh2TnSZz99pageX3vzk6A\n",
-      "stderr": "(node:4042) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "[dsh-expression] 管理 API: /dsh-memes-api , 管理面板: /memes-panel , 小图 CSS 已注入(160px)\n[dsh-expression] send_meme 已注册(Web通道+OneBot,/dsh-memes)\ndsh web: http://127.0.0.1:36173/?token=P8mNhsfWQqBI_6QrzmoGIhSlw0D9bsN2ryjm_KI8CpE\n",
+      "stderr": "(node:3378) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "8a8f0a83",
+              "id": "c39814c6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "b6681d80",
+              "id": "68ffb33b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2102,12 +2102,12 @@
               "state": 2
             },
             {
-              "id": "8a8f0a83",
+              "id": "c39814c6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "b6681d80",
+              "id": "68ffb33b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2118,7 +2118,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2130,8 +2130,8 @@
   "subjects": [
     {
       "name": "dsh-meme",
-      "version": "0.1.81",
-      "integrity": "sha512-IrDFqxrCsIWLT0LGfBggi7j/Wa27D1v7yrB6o0I/D7qEgMN18rcXV9iKkBiwx2rXGgH9qfZayxxJxe++i+KAeQ==",
+      "version": "0.1.85",
+      "integrity": "sha512-osazNFRwaI06MehbVr3WDBoYDbh1CFQn3zvbC2kZ8c0qqBrkvsw5Ym+L9agOTjNKoA7T7LkkVZvExMz1823NCg==",
       "resolution": "registry"
     }
   ],
@@ -2162,13 +2162,13 @@
         "disabled": false
       },
       {
-        "id": "8a8f0a83",
+        "id": "c39814c6",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b6681d80",
+        "id": "68ffb33b",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

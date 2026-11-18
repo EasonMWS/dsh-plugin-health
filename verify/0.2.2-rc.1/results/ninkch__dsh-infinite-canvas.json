@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:02:55.304Z",
+  "generatedAt": "2026-11-18T14:05:47.623Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "@ninkch/dsh-infinite-canvas@0.21.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jAAUdI",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jAAUdI/home",
+  "plugin": "@ninkch/dsh-infinite-canvas@0.21.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ieooqv",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ieooqv/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:02:55.780Z",
-      "durationMs": 2530,
+      "startedAt": "2026-11-18T14:05:47.942Z",
+      "durationMs": 1859,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @ninkch/dsh-infinite-canvas 0.21.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.4s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jAAUdI/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @ninkch/dsh-infinite-canvas 0.21.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @ninkch/dsh-infinite-canvas@0.21.2\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ieooqv/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:02:58.313Z",
-      "durationMs": 4588,
+      "startedAt": "2026-11-18T14:05:49.803Z",
+      "durationMs": 3303,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45171/?token=-5ZVOTlVe2vzfNfWVCEreMdcB-zRunx_BX66i74s7pg\n",
-      "stderr": "(node:3125) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:34603/?token=bt5HnMNj5VWYlpTuSnWTPq_eT-_cWcH99L5ZrGAvE3c\n",
+      "stderr": "(node:2788) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1234,13 +1234,13 @@
               "disabled": false
             },
             {
-              "id": "381e0174",
+              "id": "351c98dc",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "f4f1892e",
+              "id": "82d5c4d2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1274,6 +1274,12 @@
             "canvas_production_advance",
             "canvas_production_set_price",
             "canvas_production_status",
+            "canvas_provider_delete",
+            "canvas_provider_get",
+            "canvas_provider_guide",
+            "canvas_provider_list",
+            "canvas_provider_save",
+            "canvas_provider_validate",
             "canvas_read_memory",
             "canvas_relayout",
             "canvas_run_node",
@@ -2144,12 +2150,12 @@
               "state": 2
             },
             {
-              "id": "381e0174",
+              "id": "351c98dc",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "f4f1892e",
+              "id": "82d5c4d2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2160,10 +2166,10 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.2.1"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2172,8 +2178,8 @@
   "subjects": [
     {
       "name": "@ninkch/dsh-infinite-canvas",
-      "version": "0.21.0",
-      "integrity": "sha512-AQR/lZbwGoZr96kYVzpeiP7CMo9b8nPMESBzjtYBzluU/wHfIE0DP9nEWd0kih3yGK3GFtQ+cJNwVWcmT1kOng==",
+      "version": "0.21.2",
+      "integrity": "sha512-kszE7DGl0CG6yWjybLoRD4Unzie6WsdAvmGR6h6Cdx7NdWRDskA3kmsqyMKl7JfucDyk7jlrVmsME94HlNnGWQ==",
       "resolution": "registry"
     }
   ],
@@ -2210,13 +2216,13 @@
         "disabled": false
       },
       {
-        "id": "381e0174",
+        "id": "351c98dc",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "f4f1892e",
+        "id": "82d5c4d2",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2250,6 +2256,12 @@
       "canvas_production_advance",
       "canvas_production_set_price",
       "canvas_production_status",
+      "canvas_provider_delete",
+      "canvas_provider_get",
+      "canvas_provider_guide",
+      "canvas_provider_list",
+      "canvas_provider_save",
+      "canvas_provider_validate",
       "canvas_read_memory",
       "canvas_relayout",
       "canvas_run_node",

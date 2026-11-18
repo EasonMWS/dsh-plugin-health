@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T23:02:10.317Z",
+  "generatedAt": "2026-11-18T14:11:29.156Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-connect-workbuddy@5.24.13",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kre1zl",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kre1zl/home",
+  "plugin": "dsh-connect-workbuddy@5.24.15",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fGFai5",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fGFai5/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-17T23:02:10.619Z",
-      "durationMs": 1367,
+      "startedAt": "2026-11-18T14:11:29.672Z",
+      "durationMs": 1995,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-connect-workbuddy 5.24.13\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-connect-workbuddy@5.24.13\nDone in 681ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kre1zl/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-connect-workbuddy 5.24.15\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-connect-workbuddy@5.24.15\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fGFai5/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T23:02:11.988Z",
-      "durationMs": 2254,
+      "startedAt": "2026-11-18T14:11:31.673Z",
+      "durationMs": 3999,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44153/?token=MTqYgwHrVobvn-CNGyxLsoaQRaNXWozZuv6IRpw0DNw\n",
+      "stdout": "dsh web: http://127.0.0.1:37357/?token=xlTkkchxQEink7ADrfRzazVE0J2a7ZGFxR1bn_Sd4Bk\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "af6750a8",
+              "id": "be8c4284",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ab8a0436",
+              "id": "35ad49a1",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "af6750a8",
+              "id": "be8c4284",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ab8a0436",
+              "id": "35ad49a1",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-connect-workbuddy",
-      "version": "5.24.13",
-      "integrity": "sha512-Q5p/gje2ceTn4DKZFhIIoBvGgy3C3/6BO6xtB6UMN6Wy+ogr0JqQiNekDdEU5Fkegslxkd2r7aZXUTYoUFSWIw==",
+      "version": "5.24.15",
+      "integrity": "sha512-YOGgj8idiNdgvmGER9BpIQRQaWJ/CLVhGasrD/eqpPtMVAbwTtF7SO8ZNBSSben0z4uzu8G01MWocPvEaMi0qw==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "af6750a8",
+        "id": "be8c4284",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ab8a0436",
+        "id": "35ad49a1",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

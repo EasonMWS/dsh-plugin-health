@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T22:57:41.586Z",
+  "generatedAt": "2026-11-18T14:06:39.505Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "stratagate-dsh@0.3.52",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fdxyxk",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fdxyxk/home",
+  "plugin": "stratagate-dsh@0.3.54",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Xy6Xm7",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Xy6Xm7/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-17T22:57:42.062Z",
-      "durationMs": 2900,
+      "startedAt": "2026-11-18T14:06:39.976Z",
+      "durationMs": 4903,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ stratagate-dsh 0.3.52\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 1, downloaded 7, added 8\nProgress: resolved 9, reused 1, downloaded 8, added 9, done\nDone in 1.9s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fdxyxk/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ stratagate-dsh 0.3.54\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 1, downloaded 7, added 8\nProgress: resolved 9, reused 1, downloaded 8, added 8\nProgress: resolved 9, reused 1, downloaded 8, added 9, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  stratagate-dsh@0.3.54\nDone in 3.9s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Xy6Xm7/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T22:57:44.964Z",
-      "durationMs": 3955,
+      "startedAt": "2026-11-18T14:06:44.883Z",
+      "durationMs": 3627,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37673/?token=mU1o2p-EdUAv2FImwb6j3bIEpNug9WxsoXMxOaByrBI\n",
-      "stderr": "(node:4784) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:46577/?token=g1Y5rQcVxj-BARloHn6GvTazp_QCZ4gnkXF1BfIwNmw\n",
+      "stderr": "(node:3911) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "be1ef2d0",
+              "id": "daf8da4c",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "af042397",
+              "id": "3321a6be",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1254,6 +1254,7 @@
             "memory_record_use",
             "memory_remember",
             "memory_search_events",
+            "memory_search_experiences",
             "memory_search_raw",
             "stratagate_diagnostics",
             "working_directory"
@@ -2113,12 +2114,12 @@
               "state": 2
             },
             {
-              "id": "be1ef2d0",
+              "id": "daf8da4c",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "af042397",
+              "id": "3321a6be",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2141,8 +2142,8 @@
   "subjects": [
     {
       "name": "stratagate-dsh",
-      "version": "0.3.52",
-      "integrity": "sha512-XdyH5uFsr/0fSSwhYuNjxWeve/7xGqjiIOZCJfSAmgoohV0FATmi8yUQT6u3Jw3LqYzL86g6XH7MFI3ZNHqoBA==",
+      "version": "0.3.54",
+      "integrity": "sha512-nCLwn+uD9cNGwAvCl2f1uHhrTh6vJAn8GNov6T11MbiLRj8bGMWjhMB1+YJh7sW2pIrpsFgFJ+nfOTarzhnB2g==",
       "resolution": "registry"
     }
   ],
@@ -2173,13 +2174,13 @@
         "disabled": false
       },
       {
-        "id": "be1ef2d0",
+        "id": "daf8da4c",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "af042397",
+        "id": "3321a6be",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2199,6 +2200,7 @@
       "memory_record_use",
       "memory_remember",
       "memory_search_events",
+      "memory_search_experiences",
       "memory_search_raw",
       "stratagate_diagnostics"
     ],

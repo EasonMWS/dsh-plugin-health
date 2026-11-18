@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T22:56:45.535Z",
+  "generatedAt": "2026-11-18T14:05:58.056Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-minimal-ptc@0.6.11",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-9Vyn3O",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-9Vyn3O/home",
+  "plugin": "dsh-minimal-ptc@0.6.17",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0oBB0g",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0oBB0g/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T22:56:46.034Z",
-      "durationMs": 179,
+      "startedAt": "2026-11-18T14:05:58.438Z",
+      "durationMs": 117,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-minimal-ptc@0.6.11 for DSH 0.2.2-rc.1\n",
+      "stdout": "dsh: allowed dsh-minimal-ptc@0.6.17 for DSH 0.2.2-rc.1\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T22:56:46.213Z",
-      "durationMs": 1936,
+      "startedAt": "2026-11-18T14:05:58.555Z",
+      "durationMs": 1589,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-minimal-ptc 0.6.11\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 7, downloaded 1, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  dsh-minimal-ptc@0.6.11\nDone in 868ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-minimal-ptc 0.6.17\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 7, downloaded 1, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.5\n  dsh-minimal-ptc@0.6.17\nDone in 889ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T22:56:48.153Z",
-      "durationMs": 5017,
+      "startedAt": "2026-11-18T14:06:00.148Z",
+      "durationMs": 4088,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45073/?token=pL3ZSDVEQ_v4QL0wMLylcfs-MUE_-_mUmRAq6UMGkgI\n",
+      "stdout": "dsh web: http://127.0.0.1:40391/?token=tbdbYHafwaSBugRpL0MuMtk3cY_rQrd42IT_u0VnTfU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1247,13 +1247,13 @@
               "disabled": false
             },
             {
-              "id": "4c17fac5",
+              "id": "04ec4b22",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "26ac6c96",
+              "id": "5fc326c4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2122,12 +2122,12 @@
               "state": 2
             },
             {
-              "id": "4c17fac5",
+              "id": "04ec4b22",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "26ac6c96",
+              "id": "5fc326c4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2150,8 +2150,8 @@
   "subjects": [
     {
       "name": "dsh-minimal-ptc",
-      "version": "0.6.11",
-      "integrity": "sha512-kgdUDuuC4OU4UNAYHqnURbYUzhLVO0gqlWDUp21cYKYQJuUbFb8TD8cc0bvX5aVmZFx3snXXVztjPd+BimiduQ==",
+      "version": "0.6.17",
+      "integrity": "sha512-1P1KBVnR3VOKaiCsL+OcL9SJJ5S0Lxn7R4S/GMtnaZqZxxGo/DVWApW3RYVXEuTpPOeB8n0XfD8vMcCJ++rh0g==",
       "resolution": "registry"
     }
   ],
@@ -2188,13 +2188,13 @@
         "disabled": false
       },
       {
-        "id": "4c17fac5",
+        "id": "04ec4b22",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "26ac6c96",
+        "id": "5fc326c4",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

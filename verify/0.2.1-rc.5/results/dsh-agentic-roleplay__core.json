@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T23:01:25.471Z",
+  "generatedAt": "2026-11-18T14:10:10.872Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@dsh-agentic-roleplay/core@0.12.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NePn0E",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NePn0E/home",
+  "plugin": "@dsh-agentic-roleplay/core@0.13.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V6aZgq",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V6aZgq/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T23:01:25.767Z",
-      "durationMs": 114,
+      "startedAt": "2026-11-18T14:10:11.189Z",
+      "durationMs": 111,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @dsh-agentic-roleplay/core@0.12.7 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @dsh-agentic-roleplay/core@0.13.1 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T23:01:25.881Z",
-      "durationMs": 3198,
+      "startedAt": "2026-11-18T14:10:11.300Z",
+      "durationMs": 2272,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dsh-agentic-roleplay/core 0.12.7\n\nPackages: +4\n++++\nProgress: resolved 8, reused 0, downloaded 3, added 3\nProgress: resolved 8, reused 0, downloaded 4, added 4, done\nDone in 1.9s using pnpm v11.7.0\n",
-      "stderr": "\ndsh: installation rejected: Plugin @dsh-agentic-roleplay/state@0.12.7 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3 <0.2.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for @dsh-agentic-roleplay/state@0.12.7 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\ndsh: restored package.json, pnpm-lock.yaml, and node_modules.\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version @dsh-agentic-roleplay/state@0.12.7 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NePn0E/home/profiles/health-smoke/.plugin-manager/logs/operation-twqY6S/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @dsh-agentic-roleplay/core 0.13.1\n\nPackages: +4\n++++\nProgress: resolved 8, reused 0, downloaded 4, added 4, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @dsh-agentic-roleplay/core@0.13.1\n  @dsh-agentic-roleplay/state@0.13.1\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "\ndsh: installation rejected: Plugin @dsh-agentic-roleplay/state@0.13.1 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3 <0.2.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for @dsh-agentic-roleplay/state@0.13.1 on dsh 0.2.1-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\ndsh: restored package.json, pnpm-lock.yaml, and node_modules.\ndsh: to accept the risk, run: dsh plugin --profile health-smoke allow-version @dsh-agentic-roleplay/state@0.13.1 --dsh-version 0.2.1-rc.5 --accept-risk\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V6aZgq/home/profiles/health-smoke/.plugin-manager/logs/operation-7XcnQ8/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -71,7 +71,7 @@
   "failure": {
     "stage": "install",
     "kind": "gate-rejected",
-    "detail": "dsh: installation rejected: Plugin @dsh-agentic-roleplay/state@0.12.7 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3 <0.2.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this ris"
+    "detail": "dsh: installation rejected: Plugin @dsh-agentic-roleplay/state@0.13.1 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3 <0.2.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this ris"
   },
   "level": null,
   "declared": false,
@@ -82,7 +82,7 @@
     "failure": {
       "stage": "install",
       "kind": "gate-rejected",
-      "detail": "dsh: installation rejected: Plugin @dsh-agentic-roleplay/state@0.12.7 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3 <0.2.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this ris"
+      "detail": "dsh: installation rejected: Plugin @dsh-agentic-roleplay/state@0.13.1 is incompatible with dsh 0.2.1-rc.5: requirements {\"engines.dsh\":\">=0.2.2-rc.3 <0.2.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this ris"
     }
   }
 }

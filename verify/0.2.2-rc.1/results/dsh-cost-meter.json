@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T22:56:31.013Z",
+  "generatedAt": "2026-11-18T14:05:40.693Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-cost-meter@1.9.72",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uSImpr",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uSImpr/home",
+  "plugin": "dsh-cost-meter@1.9.73",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kaCzyc",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kaCzyc/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-17T22:56:31.392Z",
-      "durationMs": 2246,
+      "startedAt": "2026-11-18T14:05:41.001Z",
+      "durationMs": 2359,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-cost-meter 1.9.72\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-cost-meter@1.9.72\nDone in 1.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uSImpr/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-cost-meter 1.9.73\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-cost-meter@1.9.73\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kaCzyc/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T22:56:33.640Z",
-      "durationMs": 3946,
+      "startedAt": "2026-11-18T14:05:43.362Z",
+      "durationMs": 2911,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-cost-meter] 已加载,账本:/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uSImpr/home/storages/cost-meter/ledger.json\n[dsh-cost-meter] 会话存储后端: jsonl 文件;回填/导入按 JSONL 读取\ndsh web: http://127.0.0.1:40797/?token=zHPXXQS-E3TqeFlLZZXkXsuABqX98XHTZTvCOzt4VbY\n",
+      "stdout": "[dsh-cost-meter] 已加载,账本:/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kaCzyc/home/storages/cost-meter/ledger.json\n[dsh-cost-meter] 会话存储后端: jsonl 文件;回填/导入按 JSONL 读取\ndsh web: http://127.0.0.1:37505/?token=dYDUE_15DlvCZU4jLl1TCOplEli15oYP1tkyiRx0j88\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1228,13 +1228,13 @@
               "disabled": false
             },
             {
-              "id": "cad1cf63",
+              "id": "72ddd2a8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e58168fe",
+              "id": "4e797d2e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2098,12 +2098,12 @@
               "state": 2
             },
             {
-              "id": "cad1cf63",
+              "id": "72ddd2a8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "e58168fe",
+              "id": "4e797d2e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2126,8 +2126,8 @@
   "subjects": [
     {
       "name": "dsh-cost-meter",
-      "version": "1.9.72",
-      "integrity": "sha512-GUcKXOg2Am35yWdhOv082Ud34sd6uxMHNdsuAN9eCV+ERvxc+O+qxtCShpm06E/kiwDr/opXqs1h1ecuoo2ZnQ==",
+      "version": "1.9.73",
+      "integrity": "sha512-CasQ0s1VOzWvWlOpXNBv7M67GBP+cvtMXQla9YKNdH6orGmXfct3sIrv5idWQEWFNHXgfGwGr8XyVCTH6nAOCQ==",
       "resolution": "registry"
     }
   ],
@@ -2158,13 +2158,13 @@
         "disabled": false
       },
       {
-        "id": "cad1cf63",
+        "id": "72ddd2a8",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e58168fe",
+        "id": "4e797d2e",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

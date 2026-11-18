@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-18T14:11:09.290Z",
+  "hostVersion": "0.2.1-rc.5",
+  "plugin": "dsh-bash-terminal-ts@0.9.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CLLATc",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CLLATc/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-18T14:11:09.816Z",
+      "durationMs": 2579,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bash-terminal-ts 0.9.0\n\nPackages: +9\n+++++++++\nProgress: resolved 10, reused 3, downloaded 6, added 9, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: node-pty@1.2.0-beta.15\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CLLATc/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CLLATc/home/profiles/health-smoke/.plugin-manager/logs/operation-C9Vvav/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.2.1"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "dsh-bash-terminal-ts",
+      "version": "0.9.0",
+      "integrity": "sha512-qbq1lMhbNDpo8KnM2rcKb8nW7pBukymszxWsAff5t1Ptzv65gQ2LzsD0hd8H3Jnj5Q8j2RKJrvfJNSM11iwwMw==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: node-pty@1.2.0-beta.15"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}

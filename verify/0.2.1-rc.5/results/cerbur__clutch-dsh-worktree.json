@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T23:01:10.554Z",
+  "generatedAt": "2026-11-18T14:09:33.882Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@cerbur/clutch-dsh-worktree@0.1.34",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8oYi3a",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8oYi3a/home",
+  "plugin": "@cerbur/clutch-dsh-worktree@0.1.35",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VIGJSY",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VIGJSY/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T23:01:11.250Z",
-      "durationMs": 167,
+      "startedAt": "2026-11-18T14:09:34.306Z",
+      "durationMs": 102,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @cerbur/clutch-dsh-worktree@0.1.34 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @cerbur/clutch-dsh-worktree@0.1.35 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T23:01:11.418Z",
-      "durationMs": 2750,
+      "startedAt": "2026-11-18T14:09:34.408Z",
+      "durationMs": 1954,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @cerbur/clutch-dsh-worktree 0.1.34\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nDone in 1.6s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @cerbur/clutch-dsh-worktree 0.1.35\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @cerbur/clutch-dsh-worktree@0.1.35\nDone in 1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T23:01:14.171Z",
-      "durationMs": 4496,
+      "startedAt": "2026-11-18T14:09:36.370Z",
+      "durationMs": 3176,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36293/?token=K6Dq81Xce7WaB4ZDrm2SU7Q9DJC_5HCkOTHcysG4VzY\n",
+      "stdout": "dsh web: http://127.0.0.1:41039/?token=FOVqStuEsqF8I_Tf7VRStDdoftH83h0H2Hga2RGCY-U\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "369efaf5",
+              "id": "a2c914d7",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "489dd2a9",
+              "id": "bac417c2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "369efaf5",
+              "id": "a2c914d7",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "489dd2a9",
+              "id": "bac417c2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@cerbur/clutch-dsh-worktree",
-      "version": "0.1.34",
-      "integrity": "sha512-B65YQC45DWcKjLkUUOO7AEdB+5EueHNTI1qrN+MAAmY3uk8/eD3aZdJiWDWJNjnzAjPYJGTx6eGjhJeQcDjqgw==",
+      "version": "0.1.35",
+      "integrity": "sha512-Eq+JEkT8Kivnh6jYRtX7JeFYdfya++Gu+DWC4gOCqVxKJvUhm65meOJ+0EhyIBGDv5CheXhQz89GMtv912EEXw==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "369efaf5",
+        "id": "a2c914d7",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "489dd2a9",
+        "id": "bac417c2",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

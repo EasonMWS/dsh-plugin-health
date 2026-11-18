@@ -1,50 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T23:02:46.511Z",
+  "generatedAt": "2026-11-18T14:11:09.808Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@mstar-harness/dsh@4.7.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-F2hpQM",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-F2hpQM/home",
+  "plugin": "@mstar-harness/dsh@4.7.3",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wTrkPE",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wTrkPE/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T23:02:47.162Z",
-      "durationMs": 177,
+      "startedAt": "2026-11-18T14:11:10.182Z",
+      "durationMs": 87,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @mstar-harness/dsh@4.7.1 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @mstar-harness/dsh@4.7.3 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T23:02:47.339Z",
-      "durationMs": 2396,
+      "startedAt": "2026-11-18T14:11:10.269Z",
+      "durationMs": 1877,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @mstar-harness/dsh 4.7.1\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @mstar-harness/dsh 4.7.3\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @mstar-harness/dsh@4.7.3\nDone in 1.1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T23:02:49.741Z",
-      "durationMs": 5763,
+      "startedAt": "2026-11-18T14:11:12.156Z",
+      "durationMs": 4332,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41335/?token=hUVk-yT0k9xtzgd6VndL26k72nk30R1cSo7wi-Do_W4\n",
-      "stderr": "env: 'bun': No such file or directory\nenv: use -[v]S to pass options in shebang lines\ndsh: warning: 1 entry did not activate\nmstar (@mstar-harness/dsh): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@mstar-harness/engine' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-F2hpQM/home/profiles/health-smoke/node_modules/@mstar-harness/dsh/dist/index.js\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)\n    at packageResolve (node:internal/modules/esm/resolve:772:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:989:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1942:77\n    at adapted (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1889:15)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1914:19\n    at ModuleLoader.wrapped [as resolve] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1944:71)\n",
+      "stdout": "dsh web: http://127.0.0.1:43937/?token=gjOBjdB2XsTYkGDLnM73kU5HYmwYHDur5dsZo1vy1jk\n",
+      "stderr": "env: 'bun': No such file or directory\nenv: use -[v]S to pass options in shebang lines\ndsh: warning: 1 entry did not activate\nmstar (@mstar-harness/dsh): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@mstar-harness/engine' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wTrkPE/home/profiles/health-smoke/node_modules/@mstar-harness/dsh/dist/index.js\n    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:314:9)\n    at packageResolve (node:internal/modules/esm/resolve:772:81)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:989:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:747:20)\n    at ModuleLoader.resolve (node:internal/modules/esm/loader:724:38)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1942:77\n    at adapted (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1889:15)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1914:19\n    at ModuleLoader.wrapped [as resolve] (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:1944:71)\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1223,13 +1223,13 @@
               "disabled": false
             },
             {
-              "id": "a5d13284",
+              "id": "784e23dd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "fcd613e3",
+              "id": "b71f1a40",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1260,8 +1260,8 @@
   "subjects": [
     {
       "name": "@mstar-harness/dsh",
-      "version": "4.7.1",
-      "integrity": "sha512-6zDHJmWR0jBQDEVHZI+YykcDXp1PxeUWzOJMFF+KZ6Z8xDdclWzY+8ZFYRH3n0MAwbAjH1uAWbGwAeaqBCJSdg==",
+      "version": "4.7.3",
+      "integrity": "sha512-EO3WWttvIVqKskRkbStcTekcyRV8DBvgqEteXbnvF3Tx5lXE4cdBtSKfQS1pb8tFs+oyvjd3etdbd8ECyrdbCg==",
       "resolution": "registry"
     }
   ],
@@ -1284,7 +1284,7 @@
   "failure": {
     "stage": "runtime",
     "kind": "boot-import-error",
-    "detail": "mstar (@mstar-harness/dsh): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@mstar-harness/engine' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-F2hpQM/home/profiles/health-smoke/node_modules/@mstar-harness/dsh/dist/index.js"
+    "detail": "mstar (@mstar-harness/dsh): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@mstar-harness/engine' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wTrkPE/home/profiles/health-smoke/node_modules/@mstar-harness/dsh/dist/index.js"
   },
   "level": null,
   "declared": false,
@@ -1309,13 +1309,13 @@
         "disabled": true
       },
       {
-        "id": "a5d13284",
+        "id": "784e23dd",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "fcd613e3",
+        "id": "b71f1a40",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -1331,7 +1331,7 @@
     "failure": {
       "stage": "runtime",
       "kind": "boot-import-error",
-      "detail": "mstar (@mstar-harness/dsh): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@mstar-harness/engine' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-F2hpQM/home/profiles/health-smoke/node_modules/@mstar-harness/dsh/dist/index.js"
+      "detail": "mstar (@mstar-harness/dsh): failed to import: Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@mstar-harness/engine' imported from /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wTrkPE/home/profiles/health-smoke/node_modules/@mstar-harness/dsh/dist/index.js"
     }
   }
 }

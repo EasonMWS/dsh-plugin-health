@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T22:56:34.259Z",
+  "generatedAt": "2026-11-18T14:05:33.397Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-flakefinder@0.4.12",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-61scnM",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-61scnM/home",
+  "plugin": "dsh-flakefinder@0.4.19",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-A1p9Ui",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-A1p9Ui/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T22:56:34.702Z",
-      "durationMs": 135,
+      "startedAt": "2026-11-18T14:05:33.713Z",
+      "durationMs": 128,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-flakefinder@0.4.12 for DSH 0.2.2-rc.1\n",
+      "stdout": "dsh: allowed dsh-flakefinder@0.4.19 for DSH 0.2.2-rc.1\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T22:56:34.837Z",
-      "durationMs": 2371,
+      "startedAt": "2026-11-18T14:05:33.845Z",
+      "durationMs": 2236,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-flakefinder 0.4.12\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  dsh-flakefinder@0.4.12\nDone in 1.5s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-flakefinder 0.4.19\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 0, downloaded 8, added 8, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.5\n  dsh-flakefinder@0.4.19\nDone in 1.4s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T22:56:37.213Z",
-      "durationMs": 3838,
+      "startedAt": "2026-11-18T14:05:36.115Z",
+      "durationMs": 3565,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41359/?token=2LfUJBtefSYlvZ2j8GjH-8oAN_3bXo_DAsoDcixaJ6A\n",
+      "stdout": "dsh web: http://127.0.0.1:38907/?token=liSy-BcTPB3KFG-Xk7tCGYUnYIoZtwwk-dNBlmkCEYc\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1241,13 +1241,13 @@
               "disabled": false
             },
             {
-              "id": "6c3800e8",
+              "id": "5cf648f7",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c87f9c54",
+              "id": "de03f878",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2117,12 +2117,12 @@
               "state": 2
             },
             {
-              "id": "6c3800e8",
+              "id": "5cf648f7",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c87f9c54",
+              "id": "de03f878",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2145,8 +2145,8 @@
   "subjects": [
     {
       "name": "dsh-flakefinder",
-      "version": "0.4.12",
-      "integrity": "sha512-OR2IuvNnloskLw/HY8xTPBkjlkGf6zxh0kzyh6loULBtrVZp4hwPq5dOd30gcd2el31qhtjRmfH2YKNlqyhuOg==",
+      "version": "0.4.19",
+      "integrity": "sha512-XqRT2/iOb3P21xmJ31QJt9UYPnyWR9syBG/Y9kJ+tWTbb60WOOkeQYwYj+0obN4SRYQfglAbvKDhrZf4wIBh/w==",
       "resolution": "registry"
     }
   ],
@@ -2177,13 +2177,13 @@
         "disabled": false
       },
       {
-        "id": "6c3800e8",
+        "id": "5cf648f7",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c87f9c54",
+        "id": "de03f878",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

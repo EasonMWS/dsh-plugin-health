@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T22:57:01.468Z",
+  "generatedAt": "2026-11-18T14:06:13.786Z",
   "hostVersion": "0.2.2-rc.1",
-  "plugin": "dsh-hyperframes@0.11.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GrKlcj",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GrKlcj/home",
+  "plugin": "dsh-hyperframes@0.13.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-f2kMJI",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-f2kMJI/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T22:57:01.988Z",
-      "durationMs": 165,
+      "startedAt": "2026-11-18T14:06:14.234Z",
+      "durationMs": 137,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-hyperframes@0.11.7 for DSH 0.2.2-rc.1\n",
+      "stdout": "dsh: allowed dsh-hyperframes@0.13.0 for DSH 0.2.2-rc.1\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T22:57:02.153Z",
-      "durationMs": 2452,
+      "startedAt": "2026-11-18T14:06:14.371Z",
+      "durationMs": 2247,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-hyperframes 0.11.7\n\nPackages: +10\n++++++++++\nProgress: resolved 10, reused 0, downloaded 10, added 10, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.0\n  dsh-hyperframes@0.11.7\nDone in 1.4s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-hyperframes 0.13.0\n\nPackages: +10\n++++++++++\nProgress: resolved 10, reused 0, downloaded 10, added 10, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @stardustlc/dsh-updates@0.2.5\n  dsh-hyperframes@0.13.0\nDone in 1.4s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T22:57:04.608Z",
-      "durationMs": 4862,
+      "startedAt": "2026-11-18T14:06:16.623Z",
+      "durationMs": 4106,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:43901/?token=iysF66ZmhEkxlOL_5p3EXUsudP4BK5I8YWUu-06I5Ow\n",
+      "stdout": "dsh web: http://127.0.0.1:32855/?token=dBnnVnSoVUmiAM2-Xi-dOKlWIMwp7YPIsUO_1toojlE\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -52,6 +52,12 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
+            {
+              "id": "68407889",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1241,14 +1247,8 @@
               "disabled": false
             },
             {
-              "id": "bb15c33f",
+              "id": "df1e57fc",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "4b3c9c8e",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1268,6 +1268,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "68407889",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2114,13 +2119,8 @@
               "state": 2
             },
             {
-              "id": "bb15c33f",
+              "id": "df1e57fc",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "4b3c9c8e",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2142,8 +2142,8 @@
   "subjects": [
     {
       "name": "dsh-hyperframes",
-      "version": "0.11.7",
-      "integrity": "sha512-wC3qPpJV6nDgTchfddoA+PpnHBcF3Qg+xHWuaFvx2PfHldYdPSPmSa0VxJ21OONFZuenTexv4ZaJBWdfwqXDdw==",
+      "version": "0.13.0",
+      "integrity": "sha512-mC37R/ZDCjqK0dbrlIN/yhhzOdMMftEUYQtt6penwHCQrKvXpL28hN/SWMqN/tQvkXqr5cOzMoHVImrzP8GVwQ==",
       "resolution": "registry"
     }
   ],
@@ -2168,20 +2168,20 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "68407889",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "hyperframes-skills",
         "name": "dsh-hyperframes",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "bb15c33f",
+        "id": "df1e57fc",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "4b3c9c8e",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

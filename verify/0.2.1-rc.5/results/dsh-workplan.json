@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T23:02:33.938Z",
+  "generatedAt": "2026-11-18T14:11:42.307Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-workplan@3.0.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LEfRk6",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LEfRk6/home",
+  "plugin": "dsh-workplan@3.0.6",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dWzugq",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dWzugq/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-17T23:02:34.204Z",
-      "durationMs": 90,
+      "startedAt": "2026-11-18T14:11:42.912Z",
+      "durationMs": 178,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-workplan@3.0.3 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-workplan@3.0.6 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-17T23:02:34.294Z",
-      "durationMs": 1364,
+      "startedAt": "2026-11-18T14:11:43.090Z",
+      "durationMs": 1882,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-workplan 3.0.3\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-workplan@3.0.3\nDone in 859ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-workplan 3.0.6\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-workplan@3.0.6\nDone in 978ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T23:02:35.659Z",
-      "durationMs": 1888,
+      "startedAt": "2026-11-18T14:11:44.974Z",
+      "durationMs": 4227,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44175/?token=-1KkbHB23HySIC5yzdflVCJmVEK-HaeD5Jbx5jYoNqo\n",
+      "stdout": "dsh web: http://127.0.0.1:36119/?token=qMdkni2XkIBtolNy5yzRve93SfsnFcwH9EjS-ewHdfk\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -636,7 +636,7 @@
             },
             {
               "id": "dsh-workplan-plugin",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LEfRk6/home/profiles/health-smoke/node_modules/dsh-workplan/lib/host.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dWzugq/home/profiles/health-smoke/node_modules/dsh-workplan/lib/host.js",
               "state": 2,
               "disabled": false
             },
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "469c638d",
+              "id": "229e9826",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "6e332ea2",
+              "id": "28d7f4a9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1248,8 +1248,8 @@
   "subjects": [
     {
       "name": "dsh-workplan",
-      "version": "3.0.3",
-      "integrity": "sha512-8gWlt1QhFeV2Tay/AbI4Z2m2zq6VZMD4uTR21vgSh5FlL/XEWTvpz9KF0V4LScTMuB4cCP9dUi4bEalcsWAkMw==",
+      "version": "3.0.6",
+      "integrity": "sha512-UzskRyLXGbTjaHnHyfAzy0gqbJUaJBen5jYNm24LM1LOEUwEYsfSrmdlDEG38LD5CpCjs0HyFu/odZGB3OWBtw==",
       "resolution": "registry"
     }
   ],
@@ -1280,18 +1280,18 @@
     "entries": [
       {
         "id": "dsh-workplan-plugin",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LEfRk6/home/profiles/health-smoke/node_modules/dsh-workplan/lib/host.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dWzugq/home/profiles/health-smoke/node_modules/dsh-workplan/lib/host.js",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "469c638d",
+        "id": "229e9826",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "6e332ea2",
+        "id": "28d7f4a9",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
