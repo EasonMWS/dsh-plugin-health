@@ -1,5 +1,49 @@
 # Changelog
 
+## 3.2.2
+
+### A bundle whose declared code is missing is now an error
+
+Raised by [@ChenYichener](https://github.com/ChenYichener) in
+[deepseek-ai/deepseek-harness#13379](https://github.com/deepseek-ai/deepseek-harness/discussions/13379).
+Their `dsh-nce` 0.1.0 shipped with its data left out by `.gitignore`: it installed, started, opened its
+panel, and showed an empty list.
+
+`doctor` stopped one level short of that. It read `package.json` and checked the JSON parsed, which is
+not the same question as the code it names being present. A package whose `dist/` was never published,
+or was cleaned after install, read as installed and loaded as a shell.
+
+The scan now also resolves what the manifest points at:
+
+- `main`, `module`, and every target inside `exports` (subpath maps and condition objects included)
+- a directory target counts as reachable when its `index.js` / `index.mjs` / `index.cjs` exists, which
+  is how Node resolves it
+- **one reachable target is enough.** An `exports` map lists alternatives for different conditions
+  (`import` vs `require`); flagging a package because its CJS entry is absent while its ESM entry is
+  present would be a false positive of exactly the kind this project has been burned by twice
+- a bundle that declares no entry at all — a patch-only bundle — is not reported
+
+The new finding is `bundle-entry-missing`, severity **error**: it cannot load under any condition.
+
+### Verification
+
+Eight tests, and three of them were watched failing with the check removed. The controls matter as much
+as the positive cases: a bundle with a present entry, one with a single usable `exports` condition, a
+directory resolved through its index file, a patch-only bundle, and an unparseable manifest that must
+report the older finding only.
+
+Confirmed on a real profile built to reproduce the report — a package whose `main` and `exports` point
+into an absent `dist/`:
+
+```
+[error] bundle-entry-missing: Bundle is installed but its entry point is missing: dsh-nce-like
+  package.json declares dist/index.js, dist/index.mjs, and none of them exist under …/node_modules/dsh-nce-like.
+  The plugin will load as an empty shell.
+```
+
+And no false positives: the desktop, web and headless profiles on this machine scan with zero errors and
+zero warnings, unchanged from 3.2.1.
+
 ## 3.2.1
 
 ### The sidebar alert is an icon button, not a full-width chip

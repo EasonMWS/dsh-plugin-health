@@ -41,6 +41,51 @@ function nodeModulesPath(profileDir, name) {
   return join(profileDir, 'node_modules', ...name.split('/'))
 }
 
+/**
+ * Every path a package.json says its code lives at, as absolute paths.
+ *
+ * Covers `main`, `module` and every string target inside `exports` (subpath maps included). Conditions are
+ * flattened: as long as one listed target exists the package is loadable on some path, and guessing which
+ * condition the host will pick is not this tool's job.
+ *
+ * @param {object} manifest - a parsed package.json.
+ * @param {string} directory - the directory holding that manifest.
+ * @returns {string[]} absolute paths, de-duplicated, in declaration order.
+ */
+function declaredEntries(manifest, directory) {
+  const targets = []
+  for (const field of ['main', 'module']) {
+    if (typeof manifest?.[field] === 'string' && manifest[field] !== '') targets.push(manifest[field])
+  }
+  const flatten = (value) => {
+    if (typeof value === 'string') { targets.push(value); return }
+    if (Array.isArray(value)) { for (const item of value) flatten(item); return }
+    if (value !== null && typeof value === 'object') {
+      for (const item of Object.values(value)) flatten(item)
+    }
+  }
+  flatten(manifest?.exports)
+  // Subpath keys such as "./package.json" are metadata, not loadable entries; they still have to exist.
+  return [...new Set(targets)]
+    .filter((target) => target !== '.' && !target.startsWith('node:') && !target.startsWith('http'))
+    .map((target) => join(directory, target))
+}
+
+/**
+ * Whether a declared entry resolves on disk.
+ *
+ * A directory target is satisfied by its index file, which is what Node does. A target that does not exist
+ * at all is a broken package: the manifest parses, the code it promises does not.
+ *
+ * @param {string} target - absolute path.
+ * @returns {boolean}
+ */
+function entryReachable(target) {
+  if (existsSync(target)) return true
+  // Node resolves a directory through package.json "main" or index.*; the directory alone is not enough.
+  return ['index.js', 'index.mjs', 'index.cjs'].some((name) => existsSync(join(target, name)))
+}
+
 function readJson(filename) {
   return JSON.parse(readFileSync(filename, 'utf8'))
 }
@@ -120,6 +165,18 @@ export function inspectDshHome({ home, profile, runtimeVersion } = {}) {
     if (read.error !== undefined) {
       findings.push(finding('bundle-manifest-invalid', 'error', `Bundle has an unreadable package.json: ${name}`, `${packageJson}: ${read.error}`,
         { fix: { kind: 'quarantine', auto: true, target: directory, description: 'Move the broken bundle directory to quarantine.' } }))
+      continue
+    }
+    // The manifest parsing is not the same question as the code it names being present. A package whose
+    // files were not published, or whose build output was cleaned, reads as installed and loads as a shell.
+    const entries = declaredEntries(read.value, directory)
+    if (entries.length > 0 && !entries.some((entry) => entryReachable(entry))) {
+      const shown = entries.slice(0, 3).map((entry) => entry.slice(directory.length + 1).replaceAll('\\', '/'))
+      findings.push(finding('bundle-entry-missing', 'error',
+        `Bundle is installed but its entry point is missing: ${name}`,
+        `package.json declares ${shown.join(', ')}${entries.length > 3 ? ` (+${entries.length - 3} more)` : ''}, and ` +
+          `none of them exist under ${directory}. The plugin will load as an empty shell.`,
+        { fix: { kind: 'manual', description: `Reinstall it: dsh plugin --profile ${selected} add ${name}` } }))
     }
   }
 
