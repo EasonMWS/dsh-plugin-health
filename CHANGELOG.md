@@ -1,5 +1,49 @@
 # Changelog
 
+## 3.3.0
+
+### "It starts" and "it works" are now separate fields
+
+From [@ChenYichener](https://github.com/ChenYichener) in
+[deepseek-ai/deepseek-harness#13379](https://github.com/deepseek-ai/deepseek-harness/discussions/13379):
+
+> 一个 ✅ 同时表示「装得上」和「能用」，而这两件事的可验证程度差一个数量级。
+
+`verify` reported one `level` per plugin, so a `V3` carried two claims: *it installs and starts* (which a
+startup trial proves) and *it works* (which the same trial cannot see at all). Their `dsh-nce` 0.1.0 reached
+V3 with an empty list, and nothing in the output said those were different things.
+
+Every row now carries a second field:
+
+```json
+{ "level": "V3", "data": { "state": "unknown" } }
+```
+
+`data.state` is one of four values:
+
+| state | meaning |
+| --- | --- |
+| `unknown` | nothing was observed. The default, and **not** a failure |
+| `absent` | the plugin declares no readiness check — a decision, not a gap |
+| `observed` | a declared check ran and reported what it found |
+| `failed` | a declared check ran and reported a problem |
+
+Only `failed` is a problem. `level` keeps its name, type and meaning; `counts` gains a `data` object beside
+the V1/V2/V3 counters. Nothing was renamed, which the 3.x promises require.
+
+Today every plugin reports `unknown`, because a startup trial cannot see a plugin's own content. That is the
+point: `unknown` reads as "we did not look", while the old bare `V3` read as "it works".
+
+The `readiness` stage that would fill in the other three states is not implemented yet — it needs a manifest
+field that `dsh-seam` and this tool can agree on. The states are defined now so the contract is fixed before
+anything writes to it.
+
+### Verification
+
+Seven tests, two of them watched failing when `unknown` was made to report as `failed` — which is exactly the
+mistake this axis exists to prevent. The per-row assertion added while testing also caught a real gap: plugins
+that failed to resolve returned before the new field was attached.
+
 ## 3.2.2
 
 ### A bundle whose declared code is missing is now an error

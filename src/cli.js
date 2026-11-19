@@ -406,6 +406,11 @@ export async function cmdVerify(options, { verify = runVerify } = {}) {
   })
   const { counts } = document
   console.log(`verify: dsh ${document.host.version}, ${document.plugins.length} plugin(s): V3 ${counts.V3}, V2 ${counts.V2}, V1 ${counts.V1}, none ${counts.none}`)
+  // Deliberately a separate line. "Started" and "has working content" are different claims, and printing
+  // them side by side is the whole point of keeping them apart.
+  const data = counts.data ?? {}
+  const dataLine = Object.entries(data).map(([state, count]) => `${state} ${count}`).join(', ')
+  if (dataLine !== '') console.log(`  data: ${dataLine} (a startup trial cannot observe a plugin's own content)`)
   for (const [kind, count] of Object.entries(counts.failures)) console.log(`  ${kind}: ${count}`)
   if (document.conflicts.length > 0) console.log(`  predicted conflicts: ${document.conflicts.length}`)
   console.log(`output: ${join(out, 'verify.json')}`)

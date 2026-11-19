@@ -5,6 +5,11 @@
  *   V2  the official CLI installed it into a clean profile
  *   V3  after boot, every entry of the plugin is active
  *
+ * A second axis, `data`, says what the run could see of the plugin's own content. It is `unknown` for
+ * every plugin today, because a startup trial cannot see whether a data file parses or a lazily loaded
+ * command works. Keeping it separate matters: one `V3` used to be read as both "it starts" and "it
+ * works", and those two claims differ by an order of magnitude in how much evidence supports them.
+ *
  * None of these is a security review, and V3 does not mean the plugin's features work. A plugin that fails V1
  * is still run once with the exact-version exemption inside the throwaway home, because "rejected by its
  * declaration" and "broken" are different findings; that run is recorded as `bypass` and never raises the
@@ -23,6 +28,41 @@ import { slugOf } from '../util/slug.js'
 import { runHostBaseline, runRuntimeSmoke } from './smoke.js'
 
 export const LEVELS = Object.freeze(['V1', 'V2', 'V3'])
+
+/**
+ * What a run can say about the plugin's own content, kept apart from {@link LEVELS}.
+ *
+ * `level` answers "does it install and start". This answers "is there anything behind it". They are not
+ * the same question and do not deserve the same confidence: a startup trial exercises the boot path only,
+ * so a plugin that reaches V3 while its data directory is empty looks identical to a working one.
+ *
+ *   unknown  nothing was observed. The default, and not a failure.
+ *   absent   the plugin declares no readiness check, which is a decision, not a gap.
+ *   observed a declared check ran and reported what it found.
+ *   failed   a declared check ran and reported a problem.
+ *
+ * Only `failed` is a problem. `unknown` exists so that "we did not look" stops reading as "it works".
+ */
+export const DATA_STATES = Object.freeze(['unknown', 'absent', 'observed', 'failed'])
+
+/**
+ * The data axis for one plugin.
+ *
+ * Until a plugin declares a readiness check there is nothing to observe, so every row reports `unknown`.
+ * That is deliberate: it is the honest answer today, and inventing a check on the plugin's behalf would be
+ * exactly the kind of guess this project has been burned by.
+ *
+ * @param {object} [report] - a smoke report, when one ran.
+ * @returns {{state: string, detail?: string}}
+ */
+export function dataState(report) {
+  const declared = report?.stages?.find((stage) => stage.name === 'readiness')
+  if (declared === undefined) return { state: 'unknown' }
+  if (declared.skipped === true) return { state: 'absent', detail: declared.detail }
+  return declared.ok === true
+    ? { state: 'observed', detail: declared.detail }
+    : { state: 'failed', detail: declared.detail ?? 'the declared readiness check reported a problem' }
+}
 
 /**
  * Official bundles every trial profile gets, from the host's own install. A plain `plugin add` profile lacks
@@ -171,7 +211,8 @@ export async function runVerify({
       resolved = await resolvePlugin(spec)
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
-      return { name: spec, version: null, integrity: null, level: null, failure: resolveFailure(message), result: null }
+      // Even a plugin that never reached a trial carries the axis, so readers never branch on absence.
+      return { name: spec, version: null, integrity: null, level: null, data: { state: 'unknown' }, failure: resolveFailure(message), result: null }
     }
     const integrity = resolved.manifest?.dist?.integrity ?? null
     const key = cacheKey({ name: resolved.name, version: resolved.version, integrity, host: hostKey, toolVersion: tool.version })
@@ -201,6 +242,8 @@ export async function runVerify({
     const row = {
       name: resolved.name, version: resolved.version, integrity,
       level,
+      // A second axis: what the run could see of the plugin's own content. Defaults to unknown, never fails.
+      data: dataState(report),
       declared,
       ...(declarationError ? { declarationError } : {}),
       ...(declared ? {} : { bypassed: true, bypass: { level: report.ok ? 'V3' : levelOf(report, true), failure: report.failure ?? null } }),
@@ -214,10 +257,13 @@ export async function runVerify({
     return row
   })
 
-  const counts = { V1: 0, V2: 0, V3: 0, none: 0, failures: {} }
+  const counts = { V1: 0, V2: 0, V3: 0, none: 0, failures: {}, data: {} }
   for (const row of rows) {
     if (row.level) counts[row.level] += 1
     else counts.none += 1
+    // Reported next to the level counts so "started" is never read as "works".
+    const state = row.data?.state ?? 'unknown'
+    counts.data[state] = (counts.data[state] ?? 0) + 1
     if (row.failure) counts.failures[row.failure.kind] = (counts.failures[row.failure.kind] ?? 0) + 1
   }
   const document = {

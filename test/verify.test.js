@@ -70,10 +70,19 @@ test('levels: V1 declared, V2 installed, V3 activated; a rejected declaration ha
   assert.equal(byName.stale.bypass.level, 'V3', 'but the bypass run is recorded: it would have worked')
   assert.equal(byName.stale.failure.kind, 'gate-rejected')
   assert.equal(byName.ghost.failure.kind, 'not-found')
-  assert.deepEqual(document.counts, { V1: 1, V2: 1, V3: 1, none: 2, failures: { 'missing-service': 1, 'peer-conflict': 1, 'gate-rejected': 1, 'not-found': 1 } })
+  assert.deepEqual(document.counts, {
+    V1: 1, V2: 1, V3: 1, none: 2,
+    failures: { 'missing-service': 1, 'peer-conflict': 1, 'gate-rejected': 1, 'not-found': 1 },
+    // A second axis, kept apart from the levels: a startup trial cannot see a plugin's own content, so
+    // every row reports unknown. That is the honest answer, not a failure.
+    data: { unknown: 5 },
+  })
   assert.equal(calls.smoke.find((options) => options.pluginName === 'stale').bypassGate, true)
   assert.ok(calls.smoke.every((options) => options.cleanEnv === true && options.bootOnly === true), 'verify always cleans the environment')
   assert.deepEqual(byName.good.footprint, { entries: 1, tools: ['good_tool'] }, 'only what the host did not already have')
+  for (const row of document.plugins) {
+    assert.equal(row.data?.state, 'unknown', `every row carries the data axis, saw ${JSON.stringify(row.data)}`)
+  }
   assert.ok(existsSync(join(out, 'results', 'good.json')))
   const saved = JSON.parse(readFileSync(join(out, 'verify.json'), 'utf8'))
   assert.equal(saved.host.version, HOST)
