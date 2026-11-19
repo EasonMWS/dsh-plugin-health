@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:08:11.815Z",
+  "generatedAt": "2026-11-19T13:18:54.256Z",
   "hostVersion": "0.2.2-rc.5",
   "plugin": "dsh-media-desk@2.7.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZmdN0o",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZmdN0o/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-cHhde0",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-cHhde0/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:08:12.231Z",
-      "durationMs": 1586,
+      "startedAt": "2026-11-19T13:18:54.607Z",
+      "durationMs": 1459,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-media-desk 2.7.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 789ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZmdN0o/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-media-desk 2.7.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 729ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-cHhde0/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-18T14:08:13.818Z",
-      "durationMs": 4103,
+      "startedAt": "2026-11-19T13:18:56.067Z",
+      "durationMs": 4246,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42237/?token=K5aEBmntGW071f2uwcK8GAKh09EGj12mpSI1mUTDtDY\n",
+      "stdout": "dsh web: http://127.0.0.1:43369/?token=fC9aP5FhQmpo8T4Ugg0Rzt50REhlOy5ZPqpPgLSWNPU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,6 +39,18 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
+            {
+              "id": "36034275",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "87489574",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1262,18 +1274,6 @@
               "name": "@deepseek-ai/dsh-agent-preset",
               "state": 2,
               "disabled": false
-            },
-            {
-              "id": "440244f5",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "25c02232",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2,
-              "disabled": false
             }
           ],
           "tools": [
@@ -1292,6 +1292,16 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "36034275",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "87489574",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2161,16 +2171,6 @@
               "id": "preset-cordis",
               "name": "@deepseek-ai/dsh-agent-preset",
               "state": 2
-            },
-            {
-              "id": "440244f5",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "25c02232",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2
             }
           ]
         }
@@ -2179,7 +2179,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2217,20 +2217,20 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "media-desk",
-        "name": "dsh-media-desk",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "440244f5",
+        "id": "36034275",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "25c02232",
+        "id": "87489574",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "media-desk",
+        "name": "dsh-media-desk",
         "state": 2,
         "disabled": false
       }

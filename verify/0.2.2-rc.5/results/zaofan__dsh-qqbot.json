@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:08:03.825Z",
+  "generatedAt": "2026-11-19T13:18:25.038Z",
   "hostVersion": "0.2.2-rc.5",
   "plugin": "@zaofan/dsh-qqbot@1.13.17",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Uufk2w",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Uufk2w/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KCFta6",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KCFta6/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:08:04.298Z",
-      "durationMs": 7650,
+      "startedAt": "2026-11-19T13:18:25.459Z",
+      "durationMs": 6921,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 91, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.17\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 8, downloaded 45, added 3\nProgress: resolved 147, reused 8, downloaded 111, added 118\nProgress: resolved 147, reused 8, downloaded 112, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 121, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @zaofan/dsh-qqbot@1.13.17\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Uufk2w/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@zaofan/dsh-qqbot@1.13.17'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Uufk2w/home/profiles/health-smoke/.plugin-manager/logs/operation-q65YUy/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.17\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 0, downloaded 0, added 0\nProgress: resolved 147, reused 8, downloaded 111, added 118\nProgress: resolved 147, reused 8, downloaded 112, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 119\nProgress: resolved 147, reused 8, downloaded 113, added 120\nProgress: resolved 147, reused 8, downloaded 113, added 121, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KCFta6/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@zaofan/dsh-qqbot@1.13.17'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KCFta6/home/profiles/health-smoke/.plugin-manager/logs/operation-f2MDXH/pnpm.log\n",
       "truncated": false
     }
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",

@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:09:44.777Z",
+  "generatedAt": "2026-11-19T13:20:32.377Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@twinsearth/w2m-dsh-plugin@3.5.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-BRxjQr",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-BRxjQr/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-d7DIjo",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-d7DIjo/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:09:45.105Z",
-      "durationMs": 1714,
+      "startedAt": "2026-11-19T13:20:32.737Z",
+      "durationMs": 1833,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @twinsearth/w2m-dsh-plugin 3.5.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @twinsearth/w2m-dsh-plugin@3.5.0\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-BRxjQr/home/profiles/health-smoke\n",
+      "stdout": "[WARN] deprecated @twinsearth/w2m-dsh-plugin@3.5.0: 3.5.0 存在启动 OOM 缺陷：在 DSH desktop 0.2.2-rc.5 上启用后宿主内存暴涨崩溃、插件 enable 永不 settle。请升级到 3.5.1（修复启动 OOM 与内存有界化）或 3.5.2（另修复 G4 renumber 的 image/offload target 引用）。\nProgress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @twinsearth/w2m-dsh-plugin 3.5.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-d7DIjo/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-18T14:09:46.821Z",
-      "durationMs": 10697,
+      "startedAt": "2026-11-19T13:20:34.573Z",
+      "durationMs": 11060,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33003/?token=wxec-NtqcCc0BqSa92fwWnXN3iy5WXEtmKT7Ea6p-Qk\n",
+      "stdout": "dsh web: http://127.0.0.1:36381/?token=uIIyFBR91ZDpyvcLQdRVwhQgmcehE-y4SUIWt4-eV1I\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,6 +39,12 @@
         "hostCordis": "4.0.5",
         "footprint": {
           "entries": [
+            {
+              "id": "53895990",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1240,13 +1246,7 @@
               "disabled": false
             },
             {
-              "id": "3f0ca736",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "0ac1ae66",
+              "id": "735db60a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1262,6 +1262,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "53895990",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2113,12 +2118,7 @@
               "state": 2
             },
             {
-              "id": "3f0ca736",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "0ac1ae66",
+              "id": "735db60a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2129,7 +2129,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2166,6 +2166,12 @@
   "declared": true,
   "footprintDelta": {
     "entries": [
+      {
+        "id": "53895990",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
       {
         "id": "w2m",
         "name": "@twinsearth/w2m-dsh-plugin",
@@ -2215,13 +2221,7 @@
         "disabled": false
       },
       {
-        "id": "3f0ca736",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "0ac1ae66",
+        "id": "735db60a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

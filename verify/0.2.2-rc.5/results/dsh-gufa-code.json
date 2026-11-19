@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:08:41.966Z",
+  "generatedAt": "2026-11-19T13:19:25.469Z",
   "hostVersion": "0.2.2-rc.5",
   "plugin": "dsh-gufa-code@1.3.213",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PHNctB",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PHNctB/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-K5b08h",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-K5b08h/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:08:42.491Z",
-      "durationMs": 4146,
+      "startedAt": "2026-11-19T13:19:25.930Z",
+      "durationMs": 4260,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: @humanwhocodes/config-array@0.13.0, @humanwhocodes/object-schema@2.0.3, eslint@8.57.1, glob@7.2.3, inflight@1.0.6, rimraf@3.0.2\nProgress: resolved 104, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-gufa-code 1.3.213\n\nPackages: +103\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 104, reused 9, downloaded 93, added 102\nProgress: resolved 104, reused 9, downloaded 94, added 103, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-gufa-code@1.3.213\nDone in 3s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PHNctB/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 74, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: @humanwhocodes/config-array@0.13.0, @humanwhocodes/object-schema@2.0.3, eslint@8.57.1, glob@7.2.3, inflight@1.0.6, rimraf@3.0.2\n\ndependencies:\n+ dsh-gufa-code 1.3.213\n\nPackages: +103\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 104, reused 9, downloaded 93, added 49\nProgress: resolved 104, reused 9, downloaded 94, added 103, done\nDone in 3.3s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-K5b08h/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-18T14:08:46.663Z",
-      "durationMs": 5185,
+      "startedAt": "2026-11-19T13:19:30.216Z",
+      "durationMs": 5162,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:43557/?token=5BTRNrj87vPvZGMFBr1bQUSJN7DBX5Srgu8ZgzI4rgI\n",
+      "stdout": "dsh web: http://127.0.0.1:43343/?token=Rnv6iS5FPW6JYyJ25a4AtTJWkyZACvsrqUcJTNC559o\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "0170cb46",
+              "id": "6f56c5a4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "d9780e4c",
+              "id": "2106ee6e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "0170cb46",
+              "id": "6f56c5a4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "d9780e4c",
+              "id": "2106ee6e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2179,7 +2179,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2223,13 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "0170cb46",
+        "id": "6f56c5a4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "d9780e4c",
+        "id": "2106ee6e",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

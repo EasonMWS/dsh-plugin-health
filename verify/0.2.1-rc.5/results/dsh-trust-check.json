@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:08:15.076Z",
+  "generatedAt": "2026-11-19T13:21:42.995Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-trust-check@0.2.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ncWE4r",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ncWE4r/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-X1wrAa",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-X1wrAa/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:08:15.567Z",
-      "durationMs": 1795,
+      "startedAt": "2026-11-19T13:21:43.541Z",
+      "durationMs": 1996,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-trust-check 0.2.6\n\nPackages: +3\n+++\nProgress: resolved 3, reused 2, downloaded 1, added 3, done\nDone in 865ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ncWE4r/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-trust-check 0.2.6\n\nPackages: +3\n+++\nProgress: resolved 3, reused 2, downloaded 1, added 3, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-X1wrAa/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:08:17.365Z",
-      "durationMs": 3434,
+      "startedAt": "2026-11-19T13:21:45.540Z",
+      "durationMs": 3789,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46329/?token=Vb_EM-QtBHWwlinPgP-nSa3xAyeaFOwPhFj_2NjKs34\n",
+      "stdout": "dsh web: http://127.0.0.1:43117/?token=yM5aRwIZ_9FKmSOP1rvHi53vSlggFTfnsXmkNBPQfUE\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "f0531e20",
+              "id": "5e32c9d0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "f168902b",
+              "id": "a8edad7b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "f0531e20",
+              "id": "5e32c9d0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "f168902b",
+              "id": "a8edad7b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,10 +2062,10 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "f0531e20",
+        "id": "5e32c9d0",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "f168902b",
+        "id": "a8edad7b",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

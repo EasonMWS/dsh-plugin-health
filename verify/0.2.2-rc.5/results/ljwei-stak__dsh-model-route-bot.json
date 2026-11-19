@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-19T13:18:27.298Z",
+  "hostVersion": "0.2.2-rc.5",
+  "plugin": "@ljwei-stak/dsh-model-route-bot@0.79.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-tq6zaA",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-tq6zaA/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "allow-version",
+      "startedAt": "2026-11-19T13:18:27.791Z",
+      "durationMs": 176,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "dsh: allowed @ljwei-stak/dsh-model-route-bot@0.79.0 for DSH 0.2.2-rc.5\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-19T13:18:27.967Z",
+      "durationMs": 5814,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 33, reused 0, downloaded 0, added 0\nProgress: resolved 133, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: node-domexception@1.0.0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @ljwei-stak/dsh-model-route-bot 0.79.0\n\nPackages: +129\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 133, reused 23, downloaded 57, added 4\nProgress: resolved 133, reused 23, downloaded 105, added 129, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @ljwei-stak/dsh-model-route-bot@0.79.0\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@2.21.0, better-sqlite3@13.0.3, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "Command failed with exit code 1: pnpm add '@ljwei-stak/dsh-model-route-bot@0.79.0'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-tq6zaA/home/profiles/health-smoke/.plugin-manager/logs/operation-e5V5Y0/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.3.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.4",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "@ljwei-stak/dsh-model-route-bot",
+      "version": "0.79.0",
+      "integrity": "sha512-/6mmcN0/iGmsPiytoCRg5r6f9R+r1gEuOTaX7zmFyXrWvRu2my+sqYaGLyVt85dBNAJYfpB6xc4sQ9mpEZskcQ==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@2.21.0, better-sqlite3@13.0.3, protobufjs@7.6.6"
+  },
+  "level": null,
+  "declared": false,
+  "footprintDelta": null,
+  "bypassed": true,
+  "bypass": {
+    "level": "V1",
+    "failure": {
+      "stage": "install",
+      "kind": "build-scripts-blocked",
+      "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@2.21.0, better-sqlite3@13.0.3, protobufjs@7.6.6"
+    }
+  }
+}

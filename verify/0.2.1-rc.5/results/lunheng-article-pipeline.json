@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:09:29.228Z",
+  "generatedAt": "2026-11-19T13:22:18.616Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "lunheng-article-pipeline@19.27.18",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gOdDR0",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gOdDR0/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rG97JE",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rG97JE/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:09:29.501Z",
-      "durationMs": 1155,
+      "startedAt": "2026-11-19T13:22:18.885Z",
+      "durationMs": 1292,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ lunheng-article-pipeline 19.27.18\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 580ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gOdDR0/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ lunheng-article-pipeline 19.27.18\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 712ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rG97JE/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:09:30.658Z",
-      "durationMs": 1913,
+      "startedAt": "2026-11-19T13:22:20.178Z",
+      "durationMs": 1995,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41089/?token=2nlVfwTLCoKoxwGog-hIbkDJe83uL4yqd2HIDBt1EEw\n",
+      "stdout": "dsh web: http://127.0.0.1:40057/?token=cVpqMkpjfuV0F_pUs9irqhUK_Nj7Dy25trNMbnjtlCo\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1216,13 +1216,13 @@
               "disabled": false
             },
             {
-              "id": "ef621456",
+              "id": "3b402aa4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "72a6e058",
+              "id": "bf219286",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2064,12 +2064,12 @@
               "state": 2
             },
             {
-              "id": "ef621456",
+              "id": "3b402aa4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "72a6e058",
+              "id": "bf219286",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2080,10 +2080,10 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2142,13 +2142,13 @@
         "disabled": true
       },
       {
-        "id": "ef621456",
+        "id": "3b402aa4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "72a6e058",
+        "id": "bf219286",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

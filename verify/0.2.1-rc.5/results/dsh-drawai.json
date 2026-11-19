@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:11:28.170Z",
+  "generatedAt": "2026-11-19T13:21:54.460Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-drawai@0.4.8",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5dCSsS",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5dCSsS/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qWtt4H",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qWtt4H/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:11:28.751Z",
-      "durationMs": 5691,
+      "startedAt": "2026-11-19T13:21:54.984Z",
+      "durationMs": 3162,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 6, reused 0, downloaded 0, added 0\nProgress: resolved 7, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-drawai 0.4.8\n\nPackages: +29\n+++++++++++++++++++++++++++++\nProgress: resolved 39, reused 0, downloaded 27, added 28\nProgress: resolved 39, reused 0, downloaded 28, added 29, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-drawai@0.4.8\nDone in 4.6s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5dCSsS/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-drawai 0.4.8\n\nPackages: +29\n+++++++++++++++++++++++++++++\nProgress: resolved 39, reused 0, downloaded 26, added 21\nProgress: resolved 39, reused 0, downloaded 28, added 29, done\nDone in 2.2s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qWtt4H/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-18T14:11:34.462Z",
-      "durationMs": 4569,
+      "startedAt": "2026-11-19T13:21:58.167Z",
+      "durationMs": 4667,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:43807/?token=W9BU6zKrg-udhFGbgqtMWPLAXi6-uAElcydxIz86exo\n",
+      "stdout": "dsh web: http://127.0.0.1:33807/?token=2-Sqjaq9v8v1T4yRQ9IV92e716KNF4B1U3KDMRR4A3A\n",
       "stderr": "[drawai] 已注册 19 个 host 工具：shotcraft_search、mg_style、audio_asset、diagram_read、diagram_export、motion_task、motion_project、motion_spec、motion_preview、motion_render、motion_qa、motion_export、motion_assets、motion_sfx、motion_audio、motion_sync、motion_audio_verify、motion_voice、diagram_apply\n[drawai] 插件上下文释放：19 个已注册 host 工具随之注销\n",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "52e078dd",
+              "id": "9662b4ed",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "9b90baec",
+              "id": "6fb443b6",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "52e078dd",
+              "id": "9662b4ed",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "9b90baec",
+              "id": "6fb443b6",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "52e078dd",
+        "id": "9662b4ed",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "9b90baec",
+        "id": "6fb443b6",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:07:18.679Z",
+  "generatedAt": "2026-11-19T13:18:49.013Z",
   "hostVersion": "0.2.2-rc.5",
   "plugin": "ds-harness-remote@0.6.5",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ds3N6R",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ds3N6R/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LmbDFM",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LmbDFM/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:07:18.924Z",
-      "durationMs": 2651,
+      "startedAt": "2026-11-19T13:18:49.489Z",
+      "durationMs": 2897,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: domexception@4.0.0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ ds-harness-remote 0.6.5\n\nPackages: +41\n+++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 45, reused 5, downloaded 18, added 21\nProgress: resolved 45, reused 5, downloaded 36, added 41, done\nDone in 1.6s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ds3N6R/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: domexception@4.0.0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ ds-harness-remote 0.6.5\n\nPackages: +41\n+++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 45, reused 4, downloaded 36, added 39\nProgress: resolved 45, reused 4, downloaded 37, added 41, done\nDone in 1.8s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LmbDFM/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-18T14:07:21.591Z",
-      "durationMs": 3036,
+      "startedAt": "2026-11-19T13:18:52.403Z",
+      "durationMs": 4832,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42505/?token=rKEXtetoJK13CDUKUmcYv1Z3EujlyavR8hMk-Aw20aQ\n[ds-harness-remote] host identity ready {\"deviceId\":\"01a1eefb…1bd1\",\"fingerprint\":\"C682 B5FE 2172\",\"server\":\"https://dsh.r2049.cn\"}\n[ds-harness-remote] client remote-mode identity ready {\"deviceId\":\"01a1eefb…a6a2\",\"fingerprint\":\"71CA 9EB9 D661\"}\n[ds-harness-remote] host runtime stopped\n",
+      "stdout": "dsh web: http://127.0.0.1:45361/?token=yLgWUShDtvYtLCc4fp0z7sJCJZioPcg6IYV0fUqBe5E\n[ds-harness-remote] host identity ready {\"deviceId\":\"01a1f3f5…5ab7\",\"fingerprint\":\"FFFF F114 B333\",\"server\":\"https://dsh.r2049.cn\"}\n[ds-harness-remote] client remote-mode identity ready {\"deviceId\":\"01a1f3f5…3548\",\"fingerprint\":\"4BD7 0CAF 87B7\"}\n[ds-harness-remote] host runtime stopped\n",
       "stderr": "[ds-harness-remote] Codex App Server communication failed {\"code\":\"CODEX_BINARY_UNAVAILABLE\"}\n[ds-harness-remote] Codex Remote domain unavailable {\"code\":\"CODEX_BINARY_UNAVAILABLE\"}\n[ds-harness-remote] Cursor ACP communication failed {\"code\":\"CURSOR_BINARY_UNAVAILABLE\"}\n[ds-harness-remote] Cursor ACP communication failed {\"code\":\"CURSOR_BINARY_UNAVAILABLE\"}\n[ds-harness-remote] Antigravity binary error {\"message\":\"spawn /home/runner/.local/bin/agy ENOENT\"}\n[ds-harness-remote] Antigravity binary error {\"message\":\"spawn agy ENOENT\"}\n[ds-harness-remote] ACP Remote domain unavailable {\"code\":\"CURSOR_UNAVAILABLE\"}\n",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "f3118717",
+              "id": "cca858a0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c761d83a",
+              "id": "1e7fcb45",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "f3118717",
+              "id": "cca858a0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c761d83a",
+              "id": "1e7fcb45",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2179,7 +2179,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2223,13 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "f3118717",
+        "id": "cca858a0",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c761d83a",
+        "id": "1e7fcb45",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

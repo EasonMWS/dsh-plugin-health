@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-17T23:01:10.269Z",
+  "generatedAt": "2026-11-19T13:20:18.784Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "@furongjun1999/dsh-memory@0.10.4",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vX32xp",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vX32xp/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3OvNsi",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3OvNsi/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-17T23:01:10.918Z",
-      "durationMs": 2890,
+      "startedAt": "2026-11-19T13:20:19.229Z",
+      "durationMs": 2076,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @furongjun1999/dsh-memory 0.10.4\n\nPackages: +4\n++++\nProgress: resolved 4, reused 0, downloaded 4, added 3\nProgress: resolved 4, reused 0, downloaded 4, added 4, done\nDone in 1.9s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vX32xp/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @furongjun1999/dsh-memory 0.10.4\n\nPackages: +4\n++++\nProgress: resolved 4, reused 0, downloaded 4, added 4, done\nDone in 1.3s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3OvNsi/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-17T23:01:13.821Z",
-      "durationMs": 6051,
+      "startedAt": "2026-11-19T13:20:21.313Z",
+      "durationMs": 4642,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36193/?token=HAoTNDJBWiRHG33aa98VbyAFytmep9xfIUgLRMDTYgg\n",
-      "stderr": "[lingshu-bridge] [mdcg-mcp] 路径：记忆真源 root=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vX32xp/home/.dsh-memory/data/mdcg · 身份/凭据根 aux=/home/runner/.mdcg（aux 可用 MDCG_AUX_ROOT 覆盖）\n[mdcg-mcp] 写入策略：来源=package_default path=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vX32xp/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/data/policy.json（forbidden=13 required=6）\n[mdcg-mcp] 自报: source=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vX32xp/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/md_cg render_version=2\n[mdcg-mcp] 自报文件: /tmp/md_cg_servers/2886.json\n[lingshu-bridge] [mdcg-mcp] 代校验：延迟导入 563 项 / 目标模块 54 个 / 已解析 209 项 / 可选缺失 26 项 · 代 67e65682016e\n[lingshu-bridge] 灵枢进程退出 code=0 signal=null（存活 4s）\n",
+      "stdout": "dsh web: http://127.0.0.1:34359/?token=FulpKGAtmxylqxnpCfLu35dhHi1WEBUYYtp6-M-ThZo\n",
+      "stderr": "[lingshu-bridge] [mdcg-mcp] 路径：记忆真源 root=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3OvNsi/home/.dsh-memory/data/mdcg · 身份/凭据根 aux=/home/runner/.mdcg（aux 可用 MDCG_AUX_ROOT 覆盖）\n[mdcg-mcp] 写入策略：来源=package_default path=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3OvNsi/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/data/policy.json（forbidden=13 required=6）\n[mdcg-mcp] 自报: source=/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3OvNsi/home/profiles/health-smoke/node_modules/@furongjun1999/dsh-memory/md_cg render_version=2\n[mdcg-mcp] 自报文件: /tmp/md_cg_servers/2852.json\n[lingshu-bridge] [mdcg-mcp] 代校验：延迟导入 563 项 / 目标模块 54 个 / 已解析 209 项 / 可选缺失 26 项 · 代 67e65682016e\n[lingshu-bridge] 灵枢进程退出 code=0 signal=null（存活 3s）\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "0afbb7a4",
+              "id": "2964fe29",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "db9f5c57",
+              "id": "2b647ea2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "0afbb7a4",
+              "id": "2964fe29",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "db9f5c57",
+              "id": "2b647ea2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "0afbb7a4",
+        "id": "2964fe29",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "db9f5c57",
+        "id": "2b647ea2",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

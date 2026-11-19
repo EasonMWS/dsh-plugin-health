@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T12:09:34.373Z",
+  "generatedAt": "2026-11-19T13:22:58.399Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-wechat@0.16.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-diZJjh",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-diZJjh/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LWSFDR",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LWSFDR/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-16T12:09:34.753Z",
-      "durationMs": 1565,
+      "startedAt": "2026-11-19T13:22:58.774Z",
+      "durationMs": 1502,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-wechat 0.16.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 845ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-diZJjh/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-wechat 0.16.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 813ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LWSFDR/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-16T12:09:36.321Z",
-      "durationMs": 3580,
+      "startedAt": "2026-11-19T13:23:00.278Z",
+      "durationMs": 3513,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-wechat] session/event listener attached\n[dsh-wechat] approval/question waterfall answerers attached\n[dsh-wechat] Starting WeChat QR login...\n[dsh-wechat] 原生命令层已挂载 (/plan、/goal 等通过 ctx.commands 分发)\n[dsh-wechat] Settings UI available: 设置 → WeChat；扫码页 http://127.0.0.1:46845/wechat/qr\ndsh web: http://127.0.0.1:46845/?token=wq3KMk9_LpUYkLEWXHWlDtyD-1LZWBbJmJvbT7-GkFQ\n",
+      "stdout": "[dsh-wechat] session/event listener attached\n[dsh-wechat] approval/question waterfall answerers attached\n[dsh-wechat] Starting WeChat QR login...\n[dsh-wechat] 原生命令层已挂载 (/plan、/goal 等通过 ctx.commands 分发)\n[dsh-wechat] Settings UI available: 设置 → WeChat；扫码页 http://127.0.0.1:32781/wechat/qr\ndsh web: http://127.0.0.1:32781/?token=dJ2EBRvK67qhkzbyLi-dd2W0tVoBy4rLfMhKQ6dRU84\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,12 +39,6 @@
         "hostCordis": "4.0.5",
         "footprint": {
           "entries": [
-            {
-              "id": "91003659",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1204,7 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "7419821a",
+              "id": "afde62d7",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "535264a6",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1220,11 +1220,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "91003659",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2051,7 +2046,12 @@
               "state": 2
             },
             {
-              "id": "7419821a",
+              "id": "afde62d7",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "535264a6",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.0"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2100,19 +2100,19 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "91003659",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
         "id": "dsh-wechat",
         "name": "dsh-wechat",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "7419821a",
+        "id": "afde62d7",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "535264a6",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

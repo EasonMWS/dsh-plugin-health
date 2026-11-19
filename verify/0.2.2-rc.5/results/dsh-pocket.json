@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:08:18.024Z",
+  "generatedAt": "2026-11-19T13:19:00.387Z",
   "hostVersion": "0.2.2-rc.5",
   "plugin": "dsh-pocket@2.13.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ym8m7c",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ym8m7c/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2FpwuJ",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2FpwuJ/home",
   "profile": "health-smoke",
-  "ok": false,
+  "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:08:18.428Z",
-      "durationMs": 1689,
+      "startedAt": "2026-11-19T13:19:00.754Z",
+      "durationMs": 1481,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-pocket 2.13.1\n\nPackages: +31\n+++++++++++++++++++++++++++++++\nProgress: resolved 31, reused 29, downloaded 2, added 31, done\nDone in 928ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ym8m7c/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-pocket 2.13.1\n\nPackages: +31\n+++++++++++++++++++++++++++++++\nProgress: resolved 31, reused 29, downloaded 2, added 31, done\nDone in 791ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2FpwuJ/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-18T14:08:20.123Z",
-      "durationMs": 61015,
-      "ok": false,
+      "startedAt": "2026-11-19T13:19:02.239Z",
+      "durationMs": 3457,
+      "ok": true,
       "exitCode": 0,
       "signal": null,
-      "timedOut": true,
+      "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34509/?token=jxp_CRXjIvZqAn5i_RjjryW0ch7rA_yX2durViXmcBM\ndsh-pocket: auto-restore check | 自动恢复检查：读取上次隧道状态\n",
+      "stdout": "dsh-pocket: auto-restore check | 自动恢复检查：读取上次隧道状态\ndsh web: http://127.0.0.1:39697/?token=aObh_-j1IJGIzACxv40NpYA8QlmDChx6eYs11HcA0S0\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "6a6da020",
+              "id": "f3f0b45f",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "044c04bb",
+              "id": "096cef35",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "6a6da020",
+              "id": "f3f0b45f",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "044c04bb",
+              "id": "096cef35",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2179,7 +2179,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2212,12 +2212,7 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "failure": {
-    "stage": "runtime",
-    "kind": "shutdown-hang",
-    "detail": "dsh web: http://127.0.0.1:34509/?token=jxp_CRXjIvZqAn5i_RjjryW0ch7rA_yX2durViXmcBM"
-  },
-  "level": "V2",
+  "level": "V3",
   "declared": true,
   "footprintDelta": {
     "entries": [
@@ -2228,13 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "6a6da020",
+        "id": "f3f0b45f",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "044c04bb",
+        "id": "096cef35",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

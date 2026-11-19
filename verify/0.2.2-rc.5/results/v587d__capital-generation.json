@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:07:16.645Z",
+  "generatedAt": "2026-11-19T13:18:46.892Z",
   "hostVersion": "0.2.2-rc.5",
   "plugin": "@v587d/capital-generation@2.27.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-18T14:07:17.025Z",
-      "durationMs": 165,
+      "startedAt": "2026-11-19T13:18:47.382Z",
+      "durationMs": 171,
       "ok": true,
       "exitCode": 0,
       "signal": null,
@@ -23,27 +23,27 @@
     },
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:07:17.191Z",
-      "durationMs": 2185,
+      "startedAt": "2026-11-19T13:18:47.553Z",
+      "durationMs": 2346,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @v587d/capital-generation 2.27.1\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 4, downloaded 4, added 8, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @v587d/capital-generation@2.27.1\nDone in 1.3s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @v587d/capital-generation 2.27.1\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 4, downloaded 4, added 8, done\nDone in 1.4s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-18T14:07:19.385Z",
-      "durationMs": 5333,
+      "startedAt": "2026-11-19T13:18:49.902Z",
+      "durationMs": 5604,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46571/?token=ce9FOBUqvzgLNyGKA4CsodxjDSI4Lr6H5CgoaMA1jpg\n",
+      "stdout": "dsh web: http://127.0.0.1:46429/?token=GdhJTdCtzj9c9-hSnIyv28qKttbt2Mt07Ly0kY6q1HY\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -654,25 +654,25 @@
             },
             {
               "id": "capital-config",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home/profiles/health-smoke/node_modules/@v587d/capital-generation/config/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home/profiles/health-smoke/node_modules/@v587d/capital-generation/config/index.js",
               "state": 2,
               "disabled": false
             },
             {
               "id": "capital-charts",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home/profiles/health-smoke/node_modules/@v587d/capital-generation/chart-ui/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home/profiles/health-smoke/node_modules/@v587d/capital-generation/chart-ui/index.js",
               "state": 2,
               "disabled": false
             },
             {
               "id": "capital-watchlist",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home/profiles/health-smoke/node_modules/@v587d/capital-generation/watchlist/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home/profiles/health-smoke/node_modules/@v587d/capital-generation/watchlist/index.js",
               "state": 2,
               "disabled": false
             },
             {
               "id": "capital-automation",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home/profiles/health-smoke/node_modules/@v587d/capital-generation/automation/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home/profiles/health-smoke/node_modules/@v587d/capital-generation/automation/index.js",
               "state": 2,
               "disabled": false
             },
@@ -1349,13 +1349,13 @@
               "disabled": false
             },
             {
-              "id": "8ab1ace9",
+              "id": "0d2c84ea",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "51c521a6",
+              "id": "84bbb2c8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1380,7 +1380,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -1424,25 +1424,25 @@
     "entries": [
       {
         "id": "capital-config",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home/profiles/health-smoke/node_modules/@v587d/capital-generation/config/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home/profiles/health-smoke/node_modules/@v587d/capital-generation/config/index.js",
         "state": 2,
         "disabled": false
       },
       {
         "id": "capital-charts",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home/profiles/health-smoke/node_modules/@v587d/capital-generation/chart-ui/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home/profiles/health-smoke/node_modules/@v587d/capital-generation/chart-ui/index.js",
         "state": 2,
         "disabled": false
       },
       {
         "id": "capital-watchlist",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home/profiles/health-smoke/node_modules/@v587d/capital-generation/watchlist/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home/profiles/health-smoke/node_modules/@v587d/capital-generation/watchlist/index.js",
         "state": 2,
         "disabled": false
       },
       {
         "id": "capital-automation",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JZkfeG/home/profiles/health-smoke/node_modules/@v587d/capital-generation/automation/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gElZht/home/profiles/health-smoke/node_modules/@v587d/capital-generation/automation/index.js",
         "state": 2,
         "disabled": false
       },
@@ -1501,13 +1501,13 @@
         "disabled": false
       },
       {
-        "id": "8ab1ace9",
+        "id": "0d2c84ea",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "51c521a6",
+        "id": "84bbb2c8",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

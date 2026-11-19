@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:11:15.929Z",
+  "generatedAt": "2026-11-19T13:22:22.176Z",
   "hostVersion": "0.2.1-rc.5",
   "plugin": "dsh-chubby-whale@1.10.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-84oeJ8",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-84oeJ8/home",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yxsHg1",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yxsHg1/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-18T14:11:16.189Z",
-      "durationMs": 2281,
+      "startedAt": "2026-11-19T13:22:22.540Z",
+      "durationMs": 2590,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-chubby-whale 1.10.3\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.4s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-84oeJ8/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-chubby-whale 1.10.3\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.7s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yxsHg1/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-18T14:11:18.478Z",
-      "durationMs": 2216,
+      "startedAt": "2026-11-19T13:22:25.137Z",
+      "durationMs": 4016,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[chubby-whale] chat model=deepseek-flash\n[whale-mobile] 模型：deepseek-flash（尚未配置 Key）\n[whale-mobile] 手机简版已挂载 /whale-mobile/（数据目录 /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-84oeJ8/home/whale-mobile）\ndsh web: http://127.0.0.1:44755/?token=nyn_67IKBnUy80IJyV_0ymTNerLv0onLpl8d_0SWRGY\n[whale-mobile] [story] 模块已释放 undefined\n",
+      "stdout": "[chubby-whale] chat model=deepseek-flash\n[whale-mobile] 模型：deepseek-flash（尚未配置 Key）\n[whale-mobile] 手机简版已挂载 /whale-mobile/（数据目录 /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yxsHg1/home/whale-mobile）\ndsh web: http://127.0.0.1:36801/?token=vVU1M7zV_ZGHKVWlOu9egjfz7FfnMrWjWxlWKqUsytw\n[whale-mobile] [story] 模块已释放 undefined\n",
       "stderr": "[tts] python 解释器不可用（python3）：退出码 1：Traceback (most recent call last): File \"<string>\", line 1, in <module> import edge_tts; print('ok') ^^^^^^^^^^^^^^^ ModuleNotFoundError: No module named 'edge_tts'\n[tts] python 解释器不可用（python）：退出码 1：Traceback (most recent call last): File \"<string>\", line 1, in <module> import edge_tts; print('ok') ^^^^^^^^^^^^^^^ ModuleNotFoundError: No module named 'edge_tts'\n[tts] 未找到可用的 python + edge_tts（python3 → 退出码 1：Traceback (most recent call last): File \"<string>\", line 1, in <module> import edge_tts; print('ok') ^^^^^^^^^^^^^^^ ModuleNotFoundError: No module named 'edge_tts'；python → 退出码 1：Traceback (most recent call last): File \"<string>\", line 1, in <module> import edge_tts; print('ok') ^^^^^^^^^^^^^^^ ModuleNotFoundError: No module named 'edge_tts'），语音合成降级为浏览器朗读（路由回 501）\n",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "7ef77500",
+              "id": "f912046c",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "55cab1c8",
+              "id": "1658d5a9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "7ef77500",
+              "id": "f912046c",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "55cab1c8",
+              "id": "1658d5a9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2062,7 +2062,7 @@
   ],
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "runtimeEnv": {
     "node": "v22.23.4",
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "7ef77500",
+        "id": "f912046c",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "55cab1c8",
+        "id": "1658d5a9",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

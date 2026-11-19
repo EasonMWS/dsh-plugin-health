@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T14:12:07.641Z",
+  "generatedAt": "2026-11-19T13:24:04.743Z",
   "tool": {
     "name": "dsh-plugin-health",
-    "version": "3.2.1"
+    "version": "3.3.0"
   },
   "host": {
     "version": "0.2.1-rc.5"
@@ -15,16 +15,17 @@
     ]
   },
   "counts": {
-    "V1": 11,
-    "V2": 5,
-    "V3": 172,
-    "none": 62,
+    "V1": 14,
+    "V2": 7,
+    "V3": 181,
+    "none": 48,
     "failures": {
-      "build-scripts-blocked": 11,
-      "gate-rejected": 62,
+      "build-scripts-blocked": 14,
+      "gate-rejected": 48,
       "not-activated": 2,
+      "shutdown-hang": 3,
       "unknown": 1,
-      "shutdown-hang": 2
+      "missing-service": 1
     }
   },
   "plugins": [
@@ -40,6 +41,41 @@
         "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.21.0, protobufjs@7.6.6, sharp@0.34.5"
       },
       "result": "results/a9i5k4__dsh-auto-memory.json"
+    },
+    {
+      "name": "@alpacachen/dsh-kanban",
+      "version": "1.12.1",
+      "integrity": "sha512-hCoZiPlNHwChPpJQAXUlT8KtsehXtQsDxrLKyKM8sDs/rSnMz0WUZeRC3cgsqp1u+0rXRy6+I/3YKRfcMs6vGA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/alpacachen__dsh-kanban.json"
+    },
+    {
+      "name": "@anionex/dsh-computer-use",
+      "version": "0.3.9",
+      "integrity": "sha512-t0Il6CBk3XMfHtl9pF/JBCCuMFQG4lRdkx7WozDPO0VET9qbFyArZ1hcoayOo/iIRVzVcVa9RmMfDKXFPworlg==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/anionex__dsh-computer-use.json"
+    },
+    {
+      "name": "@anionex/dsh-turn-rewind",
+      "version": "0.3.13",
+      "integrity": "sha512-BPP1AeaJSkdBCT/UrdCVnwpb4f0QKOABkOXQdCcIavbkY6SZYgCRKLAmMUojC+bgskJOf9gunD3Xm16kEKk68A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/anionex__dsh-turn-rewind.json"
     },
     {
       "name": "@anionex/dsh-vision-toolkit",
@@ -86,23 +122,6 @@
       "result": "results/bushizhanghan__dsh-publish-gate.json"
     },
     {
-      "name": "@cerbur/clutch-dsh-worktree",
-      "version": "0.1.35",
-      "integrity": "sha512-Eq+JEkT8Kivnh6jYRtX7JeFYdfya++Gu+DWC4gOCqVxKJvUhm65meOJ+0EhyIBGDv5CheXhQz89GMtv912EEXw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/cerbur__clutch-dsh-worktree.json"
-    },
-    {
       "name": "@changfenhuang/dsh-genui",
       "version": "0.16.0",
       "integrity": "sha512-UyBFwCQ+byFRlEn8RCP9XD9Qm8dPHV2dqBJLsuUbEGvy51KUkcKjDdMoq8/N4rtGJy+qKg2L2iaSEWVbu0qrbg==",
@@ -119,6 +138,23 @@
       "declared": true,
       "failure": null,
       "result": "results/copylee__dsh-computer-use.json"
+    },
+    {
+      "name": "@deepblend/dsh-blender-bundle",
+      "version": "0.25.0",
+      "integrity": "sha512-slV+y8Ny4EdYl/yEZVB1yjVza0I2XPDSvqj+C7B4cu9M8nTrzJgCi3CRGWMvNYywL10/B/SQBFhW34nWOYn1ZQ==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/deepblend__dsh-blender-bundle.json"
     },
     {
       "name": "@deepseek-harness-tui/dsh-tui",
@@ -161,9 +197,18 @@
       "result": "results/dougen__dsh-deepseek-usage.json"
     },
     {
-      "name": "@dsh-agentic-roleplay/core",
-      "version": "0.13.1",
-      "integrity": "sha512-y1D/FK50t62DXzpSXm4yEraqA33PYX6SePv6TLgX6Td1mDan7DCtyUpS/deA2kK+nBtjAi1aTJREIDcOu5d/mw==",
+      "name": "@dsh-electron/dsh-plugin-multi-root-workspace",
+      "version": "0.1.22",
+      "integrity": "sha512-XVJPDtLzkxygmm1+XX53PaihFHzRT7WyUb56qEaPuinIFrLejE6MT5r0MCKC5KvR5UiQIu8W86/tiUPZ+25KJw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-electron__dsh-plugin-multi-root-workspace.json"
+    },
+    {
+      "name": "@exagone313/dsh-podman",
+      "version": "1.10.0",
+      "integrity": "sha512-RLthu8GjNBfoiDAkhZqSV78PIjj6falGoBAgC/VvzWo17xfvDM89XNKIgEzwmGQZxbY3+MC/QH8Wsr7649ANmg==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -175,33 +220,16 @@
         "kind": "gate-rejected",
         "detail": "the declared range does not admit this host"
       },
-      "result": "results/dsh-agentic-roleplay__core.json"
+      "result": "results/exagone313__dsh-podman.json"
     },
     {
-      "name": "@dsh-agentic-roleplay/state",
-      "version": "0.13.1",
-      "integrity": "sha512-KZdLyaitRMAaiDp32i/C4E/KZgbpsAIDIO7rBpRJVb0x7Rq3KlxTONcuWvctQjP1PlAGWQ1cJ4NXcOMOkFRdgw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-agentic-roleplay__state.json"
-    },
-    {
-      "name": "@feng0531/dsh-code-review",
-      "version": "0.94.1",
-      "integrity": "sha512-oHPoUENlTv3zxqx8ats2MdF1dhVZrqJoTygHQFE29Zfx1q9hHAZVZPVAe4SB50qxXQSJOSyrPKmC4zzzFfXppQ==",
+      "name": "@feng0531/dsh-vcs",
+      "version": "0.8.9",
+      "integrity": "sha512-+Q6vTjLC8dvwGcRNlqeU0E9IRmNqTDieQgzmnyKojHNDKyNZBe5bBrnJgL+IFUMV8kCE5XfhnBQnFh3vUTi86g==",
       "level": "V3",
       "declared": true,
       "failure": null,
-      "result": "results/feng0531__dsh-code-review.json"
+      "result": "results/feng0531__dsh-vcs.json"
     },
     {
       "name": "@furongjun1999/dsh-memory",
@@ -220,6 +248,15 @@
       "declared": true,
       "failure": null,
       "result": "results/ggboy123__dsh-paper-reader.json"
+    },
+    {
+      "name": "@godv61/dsh-task-engine",
+      "version": "0.41.2",
+      "integrity": "sha512-B41RUMcIDwE0MYeO/iZ3cjcMhVhNBsjyZ8Sr4V08pboO3DXpvla0LltkTiFm/ITff3D7Ia9Gu/U1nuBQlPfF+A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/godv61__dsh-task-engine.json"
     },
     {
       "name": "@goodandready/dsh-cron",
@@ -273,6 +310,23 @@
         "detail": "the declared range does not admit this host"
       },
       "result": "results/hui-xu-ai__dsh-wensu.json"
+    },
+    {
+      "name": "@huiliyi37/dsh-tianshu-tui",
+      "version": "1.0.0-rc.6",
+      "integrity": "sha512-Q6Gy2tWb3D/f5xnDW2TGYp69Utbrgg5wXKu42/fkD+aT3+8l8HIkVtUHwHeXrh6QnBg3sP2riAk4j74uHbYqOA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/huiliyi37__dsh-tianshu-tui.json"
     },
     {
       "name": "@jingyi0605/codingns4dsh",
@@ -448,6 +502,19 @@
       "result": "results/liustack__modsearch.json"
     },
     {
+      "name": "@ljwei-stak/dsh-model-route-bot",
+      "version": "0.79.0",
+      "integrity": "sha512-/6mmcN0/iGmsPiytoCRg5r6f9R+r1gEuOTaX7zmFyXrWvRu2my+sqYaGLyVt85dBNAJYfpB6xc4sQ9mpEZskcQ==",
+      "level": "V1",
+      "declared": true,
+      "failure": {
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@2.21.0, better-sqlite3@13.0.3, protobufjs@7.6.6"
+      },
+      "result": "results/ljwei-stak__dsh-model-route-bot.json"
+    },
+    {
       "name": "@mars-sea/dsh-commandcode-provider",
       "version": "0.18.2",
       "integrity": "sha512-lld1uDUYtuuuFREENM0uPjgoN8Pkkq0Nr5RwJoxLHmvxwjyEdTJ9jKyK3cwlbIn3iGD4jsZEkjZKPWjqo8nJSg==",
@@ -582,6 +649,23 @@
       "result": "results/modusensus__dsh-mneme.json"
     },
     {
+      "name": "@mokuyoaxis/dsh-iris",
+      "version": "0.3.0",
+      "integrity": "sha512-IJWDVZdMBeb0+Fih9SASbXLT8B+HoVXs5WiWS4CL8Bs53YjQcAhlKXzmfCuZcvkC9hpNc73rkxzw8ofckQf7sw==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/mokuyoaxis__dsh-iris.json"
+    },
+    {
       "name": "@momasiku/dsh-pilot",
       "version": "0.7.2",
       "integrity": "sha512-SsCyaGOqL+XGtvACp1dEaFPiFryiE5gm8qCy0MXiHxtPawWh7BLy9Eusv8X5yhWwJt9A8qL5nwHHz/Ikcub9LQ==",
@@ -609,23 +693,6 @@
       "result": "results/morehao__dsh-skills-console.json"
     },
     {
-      "name": "@mstar-harness/dsh",
-      "version": "4.7.3",
-      "integrity": "sha512-EO3WWttvIVqKskRkbStcTekcyRV8DBvgqEteXbnvF3Tx5lXE4cdBtSKfQS1pb8tFs+oyvjd3etdbd8ECyrdbCg==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V2"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/mstar-harness__dsh.json"
-    },
-    {
       "name": "@nanmicoder/dsh-agent-teams",
       "version": "0.1.30",
       "integrity": "sha512-oaFjaIVjSsyU83QuHhsGuVxrNIWxerTL3sP8r1hrey2c7bqimK8PnSPJDPGUHcgjpWDSx/tbRuXuts0E7EONGA==",
@@ -635,22 +702,21 @@
       "result": "results/nanmicoder__dsh-agent-teams.json"
     },
     {
-      "name": "@nelsonlongxiang/dsh-open-a2a-net",
-      "version": "0.7.0",
-      "integrity": "sha512-Jmv/nlADKLV07maFfDszvjCfYC3n1fKvxUj25cjdQV9hjeyQb014ac+M0DmuUWAyP2OYIqyRdW+Grx/EKCdn0Q==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/nelsonlongxiang__dsh-open-a2a-net.json"
-    },
-    {
-      "name": "@ninkch/dsh-infinite-canvas",
-      "version": "0.21.2",
-      "integrity": "sha512-kszE7DGl0CG6yWjybLoRD4Unzie6WsdAvmGR6h6Cdx7NdWRDskA3kmsqyMKl7JfucDyk7jlrVmsME94HlNnGWQ==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/ninkch__dsh-infinite-canvas.json"
+      "name": "@neptune810/dsh-model-router",
+      "version": "1.1.2",
+      "integrity": "sha512-BGCqQMs7RuLsUoK7UViZ0DSpjY4YN0OxRQWJlr3FzRkJ4rck9AncFlevOcpIP3psbYhDgVQit1+VtjVlOxRf4Q==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/neptune810__dsh-model-router.json"
     },
     {
       "name": "@noob-stupid/dsh-plugin-console",
@@ -682,6 +748,37 @@
       "declared": true,
       "failure": null,
       "result": "results/openviking__dsh-memory-plugin.json"
+    },
+    {
+      "name": "@oxmumu3/dsh-family-assistant",
+      "version": "0.2.0",
+      "integrity": "sha512-LS/7Wsl9OYwh96hZlFEtQ0dBL9FMtWCq0BcSj9Ioe5r6I4t7BQ7srfEbQPmIaR4scvahgQThyv2RvE1KAoYvBw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/oxmumu3__dsh-family-assistant.json"
+    },
+    {
+      "name": "@oxmumu3/dsh-plugin-finder",
+      "version": "0.13.3",
+      "integrity": "sha512-U9OKEIoUZFI9DraBPnBRrBxlAQryuJ+UUSsqN8aUXomLgpa3KgjOCAR0fQ+ya4rs7RWCuDnUyqkOBDAJG6jL0g==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/oxmumu3__dsh-plugin-finder.json"
+    },
+    {
+      "name": "@oxmumu3/dsh-project-companion",
+      "version": "0.40.0",
+      "integrity": "sha512-hce+BJhfQtOtAWZsivilSOqE5do+HheYPjeOzvKdmdv2OB29mtQX3c5QLC4j16GLbBmzCqnZyQb5+PxSp0OCRg==",
+      "level": "V2",
+      "declared": true,
+      "failure": {
+        "stage": "runtime",
+        "kind": "shutdown-hang",
+        "detail": "(node:3340) ExperimentalWarning: SQLite is an experimental feature and might change at any time"
+      },
+      "result": "results/oxmumu3__dsh-project-companion.json"
     },
     {
       "name": "@q253595422/dsh-imagegen-video",
@@ -732,74 +829,6 @@
       "result": "results/smalltailqwq__dsh-client-ui-skin-maid-atelier.json"
     },
     {
-      "name": "@stardustlc/dsh-docker",
-      "version": "0.5.18",
-      "integrity": "sha512-6bxEsDaUB7Sbb/X4Azm1GdXHwtQ7PTvIr/1fH+ICtilkbrhuKDncaWTqpT3enHeoiAlFDYw+KihtkW8QYPqmaw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/stardustlc__dsh-docker.json"
-    },
-    {
-      "name": "@stardustlc/dsh-dream",
-      "version": "0.17.0",
-      "integrity": "sha512-ki8EC5YrcI3uh/4cB9mtz383zWOOyo+wnSVwaeGkV4fnVch66zgpiSkp6NGsNBXVe0eJJE+Eyn+/KhJttiqASw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/stardustlc__dsh-dream.json"
-    },
-    {
-      "name": "@stardustlc/dsh-review",
-      "version": "0.5.10",
-      "integrity": "sha512-ByGQKyeSYy6k7iGUa5dhNQseNW2ucfznd4ZcF2UyfPyvFP1oYp8aDX89EV4lUHtenD5phrk1ByF+/PPXfgn52g==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/stardustlc__dsh-review.json"
-    },
-    {
-      "name": "@stardustlc/dsh-suite",
-      "version": "0.13.0",
-      "integrity": "sha512-3VcmIC8GMH14u03G3zT78jFGdXgZJ2WZ5U/sAeZtdmLpptZICHGwbG/0tCLXPl3wK9K/kiPoehr6qrSoY4VlAQ==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V1"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/stardustlc__dsh-suite.json"
-    },
-    {
       "name": "@stofone/dsh-agent-roster",
       "version": "1.35.0",
       "integrity": "sha512-R9r70pcF9nOaBEL8epL0/z1BsRoBd6v8VM8rktgyipg3zuPJls3+fcGXwiuPl4ce4Dzt8VOv+h//iMP6Jx3fyg==",
@@ -844,6 +873,23 @@
       "result": "results/tnnevol__dsh-codex-auth.json"
     },
     {
+      "name": "@tnnevol/dsh-failover-search",
+      "version": "8.1.148",
+      "integrity": "sha512-0XD6ZfojpSqTmuh7mjxLqtX7JMyCeh4cqrg4k4tzVBXD42HcbDh3FnGHXt7Bzuql2TDce7kH8WVFFp96sXCxxA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/tnnevol__dsh-failover-search.json"
+    },
+    {
       "name": "@tnnevol/dsh-fnos",
       "version": "8.1.148",
       "integrity": "sha512-GJK2ufIBAJk2RjhILLt6k8TJYfOVWb+azyAXSVNsYPaLbYKEOhokdKOiLdUuDBvtwvsNp9Qr909qgs/7d7wTfQ==",
@@ -861,18 +907,9 @@
       "result": "results/tnnevol__dsh-fnos.json"
     },
     {
-      "name": "@tt-a1i/archify-dsh",
-      "version": "1.1.0",
-      "integrity": "sha512-UgC/xWfN9lh+ns0unXd5/+o5k9NdWGjar2stGtp4nPGdDw7eP1oiLqcLJusQhaaQKCqRyBvAn+HdKSsyR0zPWw==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/tt-a1i__archify-dsh.json"
-    },
-    {
-      "name": "@twinsearth/dsh-2xray",
-      "version": "1.0.0",
-      "integrity": "sha512-9kKxB101Vww48LcpNorUXVBhsjOAla1AQj+yX+m+PsFAIBswHsU1uUn+vzfHx4Buxw85YtFVn3iS28muaWLoVg==",
+      "name": "@tnnevol/dsh-midscene",
+      "version": "8.1.148",
+      "integrity": "sha512-ZNQlkhYMiWEZaGuHgXO7t3F/iKK5XLVK+CXki8pN5j42IShV99z0UyrpoA/sRfGpL2JlmWBL0prUa+2iDNRAWg==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -884,7 +921,50 @@
         "kind": "gate-rejected",
         "detail": "the declared range does not admit this host"
       },
-      "result": "results/twinsearth__dsh-2xray.json"
+      "result": "results/tnnevol__dsh-midscene.json"
+    },
+    {
+      "name": "@tnnevol/dsh-semi-ui-showcase",
+      "version": "8.1.148",
+      "integrity": "sha512-HiVy7DCx0lDdBPzeSs4JvJvkqBHVBz4A1lGzBBLU1Ac/mTAR6+eam2OtLHAnHu6HYizmhG5IvP0RQXL9cKDsuA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/tnnevol__dsh-semi-ui-showcase.json"
+    },
+    {
+      "name": "@tomowang/dsh-tui",
+      "version": "0.10.3",
+      "integrity": "sha512-KAPC9KBvsFt6RIt+5vb0O74UTDZV3K32VVXX/vOg5tgOH5uDgMf2HDsk1gMsXJ83hdQFv0tAXHl30vk8hyK8OA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V2"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/tomowang__dsh-tui.json"
+    },
+    {
+      "name": "@tt-a1i/archify-dsh",
+      "version": "1.1.0",
+      "integrity": "sha512-UgC/xWfN9lh+ns0unXd5/+o5k9NdWGjar2stGtp4nPGdDw7eP1oiLqcLJusQhaaQKCqRyBvAn+HdKSsyR0zPWw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/tt-a1i__archify-dsh.json"
     },
     {
       "name": "@twinsearth/w2m-dsh-plugin",
@@ -980,15 +1060,6 @@
       "result": "results/zilliz__memsearch-dsh.json"
     },
     {
-      "name": "balance-dsh",
-      "version": "2.2.9",
-      "integrity": "sha512-7nFWeIVJDKJOm/CGRcvcIUXqwTQQeUHU3jj3atn23OJmRF9wlRjMp8jrUYwZxwmIA0zaP3TwnmKGpjLkA22Upw==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/balance-dsh.json"
-    },
-    {
       "name": "billion-context",
       "version": "0.1.216",
       "integrity": "sha512-98Q5eSqk0LyemCJ45OrYmZvEd0qpzBjLokthZlQ4yA7yvgUlzuM7fp6iq9dPAJ4N4vaplnvZeld0JxM4S7Ti1A==",
@@ -1007,9 +1078,9 @@
       "result": "results/cc-safety-net.json"
     },
     {
-      "name": "deepclear-ui",
-      "version": "1.3.3",
-      "integrity": "sha512-NFHhecFZrzUbzO3sL4bzMXqo5QmglXVKOhBV7MV8woP7ySG6K6DIF5O9A9XMquovMOm16BfOG19fdGFaUk3o2g==",
+      "name": "dafy-whale-theme",
+      "version": "2.1.0",
+      "integrity": "sha512-151IbXn0EVsXJj5HqvNCujcUfXJM6BR0Vtdw+kTNIhm6/mEXK7MJfP3LeSj0k6WNQ2WW1f+72iLNHsvNhvMilQ==",
       "level": null,
       "declared": false,
       "bypassed": true,
@@ -1021,7 +1092,7 @@
         "kind": "gate-rejected",
         "detail": "the declared range does not admit this host"
       },
-      "result": "results/deepclear-ui.json"
+      "result": "results/dafy-whale-theme.json"
     },
     {
       "name": "ds-harness-remote",
@@ -1033,23 +1104,6 @@
       "result": "results/ds-harness-remote.json"
     },
     {
-      "name": "dsh-advisor",
-      "version": "0.7.4",
-      "integrity": "sha512-81WZIlBjEU1+K4rYFbXZHv5Hv70R5uqAGS4ihzDiv3dxXpV291bYKUYFRm0kHSzd2Z2Y6weLcPqL7J6YrbObfg==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-advisor.json"
-    },
-    {
       "name": "dsh-agent-compare",
       "version": "3.1.1",
       "integrity": "sha512-rGOlEsHvqOe0IRrnzpWnLaMEuGAlosgyixUELIzHKEz/E7qJnMq4YJS7f1yA/NsCmitEfUzdKGb6QxZopLpfMA==",
@@ -1057,23 +1111,6 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-agent-compare.json"
-    },
-    {
-      "name": "dsh-agent-plugins-market",
-      "version": "0.15.3",
-      "integrity": "sha512-bUHFxkPchg9Q9hT+dGRXRl9Pj3jcfXB/miwsbT13PwZfpW8td1lmU11yWcE/MskboHCjrmOXUrBgKt4axMAOxg==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-agent-plugins-market.json"
     },
     {
       "name": "dsh-agy-link",
@@ -1085,15 +1122,6 @@
       "result": "results/dsh-agy-link.json"
     },
     {
-      "name": "dsh-aiignore",
-      "version": "0.38.2",
-      "integrity": "sha512-XnbHRXoi3Z3H1meqtEqGGrhmGOWo8nzCUTK7Kgr7uE1Cvp9dKlLZbt0fdn0z8t3mmnSRAtj+VX6fikCGZInOiw==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/dsh-aiignore.json"
-    },
-    {
       "name": "dsh-aiyayi",
       "version": "1.12.0",
       "integrity": "sha512-pdt9EV4j4Wr0T2c1Ws3chIHLbfkfpMffSlJmad/708oJRQkOfjv5tYvm0sPrT3ZSiFX4sxnxdV7s4pUPkp91/w==",
@@ -1101,6 +1129,15 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-aiyayi.json"
+    },
+    {
+      "name": "dsh-archived-chats",
+      "version": "2.0.4",
+      "integrity": "sha512-Ho5e1ZygEJNHlnY03PrlQWgMlxZsa6xWg3NgAh4OgtOhpqdneum6KAHRAoL2kgkQWWZT5hqoq1eLDWrG7O26ig==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-archived-chats.json"
     },
     {
       "name": "dsh-auto-memory",
@@ -1132,6 +1169,15 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-baton-host.json"
+    },
+    {
+      "name": "dsh-better-left-sidebar",
+      "version": "0.2.2",
+      "integrity": "sha512-K5uH8v1fZ4BNyyDEu8w0oESdgKSZKHXdF9ReqeqRuBE/gzvDJyu1/BGvOl2/nmZUSRMwR1owsPS0LNuvQhFUyA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-better-left-sidebar.json"
     },
     {
       "name": "dsh-better-sidebar",
@@ -1176,23 +1222,6 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-bili-watch.json"
-    },
-    {
-      "name": "dsh-bloom-theme",
-      "version": "0.28.0",
-      "integrity": "sha512-uTJDgDKUhqjB2PfaPvNTIihlUm/pzq1a4I1JZvst4kse6WRK3NaP2G2coHK3BHCyp+r5KVIQRnK4Vx5ENCUQww==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-bloom-theme.json"
     },
     {
       "name": "dsh-boot-suite",
@@ -1240,23 +1269,6 @@
       "result": "results/dsh-builtin-browser.json"
     },
     {
-      "name": "dsh-calendar",
-      "version": "0.19.0",
-      "integrity": "sha512-YkSaeg6Q0arkuQ3BND2xz5cawh/UE00dyCEcVs4mJHcIf9Cn/W99tPETL8n3t1peuOSsU0SCdflWfqDNns1Rbg==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-calendar.json"
-    },
-    {
       "name": "dsh-chat-import",
       "version": "0.26.8",
       "integrity": "sha512-NcZ6MM4qz5rfJA+PPhzkavd3hlUiqC+ypgQDWCNjIKqEkYowMAYcwJymtclvtce53OhlFgsQnnYeMMO45Y1Bow==",
@@ -1301,21 +1313,13 @@
       "result": "results/dsh-chubby-whale.json"
     },
     {
-      "name": "dsh-cite",
-      "version": "0.11.0",
-      "integrity": "sha512-3eZCkzqb3jyM+tkmLEAPlbFbnA05NDyNtv1kuqHWT+JOSsEVmAxeBeBRgX+ecqjlh4MTjVobtXtc4uyizjBK1A==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-cite.json"
+      "name": "dsh-cindy-host",
+      "version": "0.1.44",
+      "integrity": "sha512-G9+nuiycMPBzUYDoHh5n3ExhxGPeEA2ZVMfXsDqysRXiIJNmpoPAy0MeC7P0V3MkvbaXlh4RovelAT2EUKMi+A==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-cindy-host.json"
     },
     {
       "name": "dsh-claude-style",
@@ -1344,47 +1348,17 @@
       "result": "results/dsh-client-auto-continue.json"
     },
     {
-      "name": "dsh-client-ui-quote",
-      "version": "0.14.4",
-      "integrity": "sha512-8mxx+oSjMuKYtB00vujAI5OoqQzqh8poDFWPpW3WSbCBJ91zhhPou9AlvZicRT5Yigy60ZsKIfO0rB6RRtqJog==",
-      "level": "V3",
+      "name": "dsh-codex-connect",
+      "version": "0.2.0-alpha.15",
+      "integrity": "sha512-fUKi1NiEBjiA9BTDtbHtSthYFeXRyUnUy+9yv5uKKbWFzhuGcBvzaoq7Nnl9nCJnKIpZmQ8yg3jAoo/y6abjoA==",
+      "level": "V1",
       "declared": true,
-      "failure": null,
-      "result": "results/dsh-client-ui-quote.json"
-    },
-    {
-      "name": "dsh-code-security",
-      "version": "0.9.0",
-      "integrity": "sha512-qmv+Y0kjFHVT4CPa3qUdwHOzmS4f8QbUDSmC3GMMweJVPkVGyudrMVHyfzIprrngRhdL0VSJsZU12FvIbpjjkw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
       "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@1.52.0, protobufjs@7.6.6"
       },
-      "result": "results/dsh-code-security.json"
-    },
-    {
-      "name": "dsh-codecraft",
-      "version": "0.5.7",
-      "integrity": "sha512-L3kpquLat9pzafdSye9tCP3fCv+o23eg4p/Igt1oHVslVbfEjm+unwLVkWqglVhlqRAy6iUDW+fxo2Qgx4Q9hw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-codecraft.json"
+      "result": "results/dsh-codex-connect.json"
     },
     {
       "name": "dsh-codex-effort-slider",
@@ -1394,23 +1368,6 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-codex-effort-slider.json"
-    },
-    {
-      "name": "dsh-codex-port",
-      "version": "0.4.17",
-      "integrity": "sha512-rnLf7qeolg6phGV+5ej+Nmw8UBCVyo1Y1SfYfuonPjVSQ9Kr3lkiAaxE6ZKtqiw6Zt0YbE3b2HKQF1DEY8v70g==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-codex-port.json"
     },
     {
       "name": "dsh-codex-subscription",
@@ -1498,6 +1455,15 @@
       "result": "results/dsh-cost-meter.json"
     },
     {
+      "name": "dsh-damage-pulse",
+      "version": "4.3.5",
+      "integrity": "sha512-eyPkAjMe8NCPS+7DSbcLHwhnsADbO+SW35aX0IoNIX5gDsoir5NBmhSv+4aZ6JYtz7WhT5MpNS/Nzx4sCXVGMw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-damage-pulse.json"
+    },
+    {
       "name": "dsh-design-studio",
       "version": "0.25.3",
       "integrity": "sha512-79gNioH1VnloC1sNIv45zrOqz2pGAV7SDMUC9mue6pfgn/WxSV0qFiLUpXdL86HjoaDi8q3NUxWD4c9OJKp/GA==",
@@ -1505,23 +1471,6 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-design-studio.json"
-    },
-    {
-      "name": "dsh-dingtalk",
-      "version": "0.4.3",
-      "integrity": "sha512-pfr36ZKuxMekxmXbgQQQhVLy6x8XTKv5z2VELekduQi7D6xCc+cfXiiY0dFVL8HNyX2MhI9BK2+dq96xM+V2dw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-dingtalk.json"
     },
     {
       "name": "dsh-douyin-browser-local",
@@ -1655,26 +1604,9 @@
       "result": "results/dsh-fish-soul.json"
     },
     {
-      "name": "dsh-flakefinder",
-      "version": "0.4.19",
-      "integrity": "sha512-XqRT2/iOb3P21xmJ31QJt9UYPnyWR9syBG/Y9kJ+tWTbb60WOOkeQYwYj+0obN4SRYQfglAbvKDhrZf4wIBh/w==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-flakefinder.json"
-    },
-    {
       "name": "dsh-free-search",
-      "version": "0.9.69",
-      "integrity": "sha512-p06liQmbP4e8l8Hmo2MStAu4NyUE57uqsmXGSy+JvCui/yxwFoKAif1qUBBh57gJrftJQKG2WqWprlwilLD1oQ==",
+      "version": "0.9.70",
+      "integrity": "sha512-kTqL6JAK1CnRkQFFddli2kyh8exk9B7841cwHruFfP7k5qMvVfPVbxBq8Eo6On7lPc8+nxyQ3oeNspFw3n+CuQ==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -1688,23 +1620,6 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-genui.json"
-    },
-    {
-      "name": "dsh-gitbash-shell",
-      "version": "0.55.1",
-      "integrity": "sha512-6WAW9d+AdX2qqENz1zHzkdJ2SyZn0hcx62ZiqK4Bs7Cq0h15AWlEEWqLnTDnFRWdYpiwFcANAU8RhkpQNlJdQQ==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-gitbash-shell.json"
     },
     {
       "name": "dsh-gufa-code",
@@ -1723,6 +1638,15 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-guizang-design.json"
+    },
+    {
+      "name": "dsh-handoff-compaction",
+      "version": "0.2.0-rc.10",
+      "integrity": "sha512-jFJCHeaFOCSbORkwF0v9aT1/VlJckFsUx/6OF3Y9r9ROctVK9704LApOG7BD7W/B0O6k7gnxQbbF7TwPM8pftA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-handoff-compaction.json"
     },
     {
       "name": "dsh-hyperframes",
@@ -1751,6 +1675,15 @@
       "result": "results/dsh-image-gen.json"
     },
     {
+      "name": "dsh-image-viewer",
+      "version": "0.1.20",
+      "integrity": "sha512-SrcsL07cvK4DvEKRNq4lcVr1pZrUhjksLm7w3yFJHfF5ma+I8R1bvE4Bp2nhBPvu+ZmJAdoAETNVPz2CsK8EBA==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-image-viewer.json"
+    },
+    {
       "name": "dsh-inner-browser-use",
       "version": "0.47.101",
       "integrity": "sha512-zCftepfhj/AOBu69iZaS57u9Zo0DllCyDSL2tNP6TtmzIbOuGiekptK5i8cr0lcC/KlJW4IRWDvGEeI4JA8gNw==",
@@ -1769,15 +1702,6 @@
       "result": "results/dsh-input-traffic.json"
     },
     {
-      "name": "dsh-isolation-gate",
-      "version": "1.13.13",
-      "integrity": "sha512-dKu4NJVN9Shd68vGX4osQCMXz8223vR2xltrXc1ttQZjixxmvVS3273ft9oTSPIl+0TTgf18WV0LKt7mVN8ecA==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/dsh-isolation-gate.json"
-    },
-    {
       "name": "dsh-lite-memory",
       "version": "0.18.86",
       "integrity": "sha512-f/wRERGKtOsYNPVktqWWpo5RSZst/gxOP3DP05vEUbxzl1I5kMkZDSZMotvSJ+B1eQwPAYPezisSGldVJWxExg==",
@@ -1785,23 +1709,6 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-lite-memory.json"
-    },
-    {
-      "name": "dsh-llm-fallbacks",
-      "version": "0.8.9",
-      "integrity": "sha512-Kutebv0Op46TeF5GccFp3xfA+fKP7bFfvvRZGL7gzdUkDU+r0M7s+mj87Cfo65wy7bqMbXqrAKQpx6HV4sIPtQ==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-llm-fallbacks.json"
     },
     {
       "name": "dsh-m",
@@ -1858,6 +1765,15 @@
       "result": "results/dsh-meme.json"
     },
     {
+      "name": "dsh-memory-nebula",
+      "version": "1.11.74",
+      "integrity": "sha512-FePJAeUmzR9/J2lHuCIi66+yI/2wxhH0kdV+izJDEK5pAZ8yrvEoLfEiuMP1N2X68+MGwoRVV2MxPU73A23EAQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-memory-nebula.json"
+    },
+    {
       "name": "dsh-metaphysics",
       "version": "0.84.0",
       "integrity": "sha512-6gOd1eTFvGGdeUZ6IWHpIHLQnlZWKW0T1RNwsAgl415nYOjUG+gpE7f3BnqnBHCtUiTAUAcUZr2iC/SWyfrRtA==",
@@ -1865,23 +1781,6 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-metaphysics.json"
-    },
-    {
-      "name": "dsh-minimal-ptc",
-      "version": "0.6.17",
-      "integrity": "sha512-1P1KBVnR3VOKaiCsL+OcL9SJJ5S0Lxn7R4S/GMtnaZqZxxGo/DVWApW3RYVXEuTpPOeB8n0XfD8vMcCJ++rh0g==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-minimal-ptc.json"
     },
     {
       "name": "dsh-mnemon",
@@ -1911,13 +1810,21 @@
       "result": "results/dsh-mobile-plugin.json"
     },
     {
-      "name": "dsh-mobile-use",
-      "version": "1.4.40",
-      "integrity": "sha512-EZnMn+l1HWM+001Q/ppURO1nISH9yLiKmDJ/ncKGjBqjdi8aNUYQ5pFmctSTOuLLoNSm5JlXppM8fCwVGel1og==",
-      "level": "V3",
-      "declared": true,
-      "failure": null,
-      "result": "results/dsh-mobile-use.json"
+      "name": "dsh-motor-ai",
+      "version": "1.2.7",
+      "integrity": "sha512-vdWObntR4nJPHgJKxRi7NdChzgwT869s1/QoTN48stBBiRK9RWZHKjly6rnkrn+bDbs5w/D4pLefj2LvEY+kEw==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-motor-ai.json"
     },
     {
       "name": "dsh-music-panel",
@@ -1929,6 +1836,15 @@
       "result": "results/dsh-music-panel.json"
     },
     {
+      "name": "dsh-noname-kit",
+      "version": "1.11.0",
+      "integrity": "sha512-75AyYimoUkAW5b/BoKkIvNip20u08/i6xKb8Kd4acEMWjeeg7kqWTv0xWMHVNyHCQa+CLD1yFq1/V80owDlckw==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-noname-kit.json"
+    },
+    {
       "name": "dsh-notify-me",
       "version": "1.21.4",
       "integrity": "sha512-tnJQSUSBKheUuZ35Gk0F3xctW2CGycGP3NK/LL7eEkLaF9eDHApm5eM9pAdvFXjCSaOyY7XVhTJbh4JrvlAxLA==",
@@ -1936,6 +1852,23 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-notify-me.json"
+    },
+    {
+      "name": "dsh-observational-memory",
+      "version": "0.5.1",
+      "integrity": "sha512-GfMVEz6MDZfB099rTZuKD5WTGvOvFOsL5u42yyZsrWhddWwXSdrYWRH/NKRhXv/3Y1MbFY3bOxjTH7XV7HCLPw==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-observational-memory.json"
     },
     {
       "name": "dsh-office-kit",
@@ -1967,6 +1900,32 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-onebot-qq.json"
+    },
+    {
+      "name": "dsh-opencode-free",
+      "version": "0.6.0",
+      "integrity": "sha512-l20oFokgSb1/Fq1tsqgVvksr6gmqfv41uqzGTE79McNsvHev9B4PUubzHpR+aRIzrz3qk0S+fKbq86X73y5vYQ==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-opencode-free.json"
+    },
+    {
+      "name": "dsh-openwrite",
+      "version": "0.2.39",
+      "integrity": "sha512-ZDYGiDTb3lhSNfrPsPokLle3Ca9Y0LIc+tc6XHo3EGbxx+A+ccVTWVf2+BwP/XiLMrzRyIy1LqqD/Rl1qRJiig==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/dsh-openwrite.json"
     },
     {
       "name": "dsh-ops",
@@ -2119,23 +2078,6 @@
       "result": "results/dsh-plugin-subscriptions.json"
     },
     {
-      "name": "dsh-plugin-tool-management",
-      "version": "0.22.8",
-      "integrity": "sha512-A2H17EZQL31PgiXqWhD4HNKy773+8XIDAlxMSxU70Wf70sBLfSyj+bExz7qfZTIRwXzbqOOijrZZxbu6KwidWg==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V2"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-plugin-tool-management.json"
-    },
-    {
       "name": "dsh-plugin-toolkit",
       "version": "0.20.40",
       "integrity": "sha512-tdXldUSVDdTitBc8SnEE5/K/xzpwT9U++mYEYNdEFklSX1ukFNjYxMqxJeihZ3KBeoBK2pFAwlEnzPWtm1G0Tw==",
@@ -2216,6 +2158,23 @@
       "result": "results/dsh-profile-stats.json"
     },
     {
+      "name": "dsh-prompt-translation",
+      "version": "0.2.1",
+      "integrity": "sha512-bjBOYf1lTDDbyYi+LgWxujb4PNOAg77R99qBqdUJsDzkubROJdNhne8GRsM0iJIYtIuE1IImJT64gWhm9mwaKA==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/dsh-prompt-translation.json"
+    },
+    {
       "name": "dsh-qq-onebot",
       "version": "1.4.0",
       "integrity": "sha512-6rHPpZBJQ1/OKNJCDsZ7+2ImPiX2mMu/YqqmCmi9dCNFnZCLIkxlGmFdMqGd+x/u3APjesNUb0duvQ9B/A8fEQ==",
@@ -2224,7 +2183,7 @@
       "failure": {
         "stage": "runtime",
         "kind": "shutdown-hang",
-        "detail": "dsh web: http://127.0.0.1:44789/?token=b-OGeg-jYhPjSG_4rnwb9YS8ztLWdAGhVz6EyKoA31M"
+        "detail": "dsh web: http://127.0.0.1:43697/?token=WkL395M0fGZgpiYp0OzqBIJjuUboVGNTmYv0vTdtFb8"
       },
       "result": "results/dsh-qq-onebot.json"
     },
@@ -2290,23 +2249,6 @@
       "result": "results/dsh-roost.json"
     },
     {
-      "name": "dsh-rss",
-      "version": "0.11.0",
-      "integrity": "sha512-yBzh9sWFmhrDSrknhhzW7o37zRNGqYpjVtO/R2SJwY73TPsnNzKlyLh0LInSPaVsTYlKKDMv5NDldcWsNi5w6Q==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-rss.json"
-    },
-    {
       "name": "dsh-search-index",
       "version": "0.7.24",
       "integrity": "sha512-7RnUgdUiJy7Yp9bQlakeMtAQAf439kOSi8WTH5q4SMflPZ8gtIzng6AZq03kEwCdl8ZYGqSH2vY2Q0DpT3p8JQ==",
@@ -2327,23 +2269,6 @@
       "declared": true,
       "failure": null,
       "result": "results/dsh-see-now.json"
-    },
-    {
-      "name": "dsh-select-quote",
-      "version": "0.4.9",
-      "integrity": "sha512-pyvwjFZ0iJAb1kyHyUDGb1HL/9Uiwx5KbFPd2JSulZpu2PDgZECM3H232LwYGra6VINTmSv+WgQ3yOe9hTSkNA==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-select-quote.json"
     },
     {
       "name": "dsh-session-guard",
@@ -2382,23 +2307,6 @@
       "result": "results/dsh-skin-market.json"
     },
     {
-      "name": "dsh-slack",
-      "version": "0.5.3",
-      "integrity": "sha512-5S8sXfM204qj5z4raV1HU/9cyaoHeIAMS8CraacU+Epf7cOSD5jIoEHAfB7p84GvhEiDZIg0RDkZSTyEMyv2mA==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-slack.json"
-    },
-    {
       "name": "dsh-soul-md",
       "version": "0.12.5",
       "integrity": "sha512-imPK/ETbXShygIbovFhnBvNMsdrd7peRPo3SmKgaExV1OCq1M0pzDJefw595ao+y9mGmHo6O4mEZhauCLJKLDA==",
@@ -2417,21 +2325,17 @@
       "result": "results/dsh-speak-up.json"
     },
     {
-      "name": "dsh-sql",
-      "version": "0.6.3",
-      "integrity": "sha512-tp69mEN03UaY+xfv/kLmpxFa9F340hZMEJW7ez+1vUAo4fcHK25Kg2fzSER+OCJDXPGf4FITlIoXpZ6JSSLKQw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V3"
-      },
+      "name": "dsh-ssh-tui",
+      "version": "0.8.5",
+      "integrity": "sha512-2ccDa5otijM/yH/IiKqIxquN9rsVQjK7xGUr04HHlIo5AtMV8ccL7t0e8XPZMhKt2425ReW+3MpnpZ4HLzFCyw==",
+      "level": "V2",
+      "declared": true,
       "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
+        "stage": "runtime",
+        "kind": "missing-service",
+        "detail": "ssh-tui (dsh-ssh-tui): fiber state 0, waiting for sshTuiStartup"
       },
-      "result": "results/dsh-sql.json"
+      "result": "results/dsh-ssh-tui.json"
     },
     {
       "name": "dsh-subusage",
@@ -2651,21 +2555,17 @@
       "result": "results/dsh-windows-mcp.json"
     },
     {
-      "name": "dsh-workplan",
-      "version": "3.0.6",
-      "integrity": "sha512-UzskRyLXGbTjaHnHyfAzy0gqbJUaJBen5jYNm24LM1LOEUwEYsfSrmdlDEG38LD5CpCjs0HyFu/odZGB3OWBtw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V2"
-      },
+      "name": "dsh-workbuddy-connect-community",
+      "version": "0.1.24",
+      "integrity": "sha512-gq6RakFBKrP60aaMa85RwN+n48YN1fhqQG5M0zE3R2bw8qfvz7V08onVo3a9aHRfiwWixlWA80zN/uDYjnNhzw==",
+      "level": "V1",
+      "declared": true,
       "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
+        "stage": "install",
+        "kind": "build-scripts-blocked",
+        "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: @google/genai@2.21.0, protobufjs@7.6.6"
       },
-      "result": "results/dsh-workplan.json"
+      "result": "results/dsh-workbuddy-connect-community.json"
     },
     {
       "name": "dsh-workspace-api-key",
@@ -2717,34 +2617,17 @@
     },
     {
       "name": "dsh-xingxi",
-      "version": "0.3.8",
-      "integrity": "sha512-WWex4y6+b74WW8YWntCbeI6H71t+NxAX4iF/25CYIp5S+AHLoQrqdpASjmSgS1c6ldtC5DaYlEdI6ZUXu97qKg==",
+      "version": "0.3.9",
+      "integrity": "sha512-160ciLZgKst6f7tBvVhsqvOFc0BFQ4UAIrlHvUaH9pyxA0Sfc7P0F2Qna+JS5ii4UZMjfw5y+02X8mhsed3cYA==",
       "level": "V3",
       "declared": true,
       "failure": null,
       "result": "results/dsh-xingxi.json"
     },
     {
-      "name": "dsh-zotero",
-      "version": "1.2.0",
-      "integrity": "sha512-R4D3YKrn2veFZ7zbw8Uyok4LN+soL/gekLZ7xi7QqcQhN+fZzPs1MfU0GUAhYOh/I7zFKY8E0ISegpPUbkhKYw==",
-      "level": null,
-      "declared": false,
-      "bypassed": true,
-      "bypass": {
-        "level": "V2"
-      },
-      "failure": {
-        "stage": "declaration",
-        "kind": "gate-rejected",
-        "detail": "the declared range does not admit this host"
-      },
-      "result": "results/dsh-zotero.json"
-    },
-    {
       "name": "dshmarket",
-      "version": "1.73.20",
-      "integrity": "sha512-rK5vfarRJa4hRoU4TiDkX8Wdr36Miu5WVrM8yQxV4uA+uogyKn1o7/PGSsxxEFFQCx5PARWmvrotRX3HEuVwJw==",
+      "version": "1.73.21",
+      "integrity": "sha512-68L+xgsE6BblwB1hTDtxnJFvkBV7f9pjIYndHS18BJUf+JFVBgscXoKo/zm8iRI1KOwVe21hSNdDjOEyX364oA==",
       "level": "V3",
       "declared": true,
       "failure": null,
@@ -2789,6 +2672,32 @@
       "declared": true,
       "failure": null,
       "result": "results/meow-memory.json"
+    },
+    {
+      "name": "muche-dsh-plugin",
+      "version": "0.8.14",
+      "integrity": "sha512-QG/wnOxIqnJSDqSOqOG7JJueXkTMk3EQgiDCOY13v4WoY8DOmDea9PTlE00kCG9DkIuXwHlDZ18KZF/IM+OHjQ==",
+      "level": "V3",
+      "declared": true,
+      "failure": null,
+      "result": "results/muche-dsh-plugin.json"
+    },
+    {
+      "name": "odai-dsh-plugin",
+      "version": "0.3.8",
+      "integrity": "sha512-5K+VwCyeDY8TGwycI4pxPGJAM7LUACDBIov1YFuxgbKj8zF/qzdqCV6OiqZ1fa+l3/fECx60eU2wmLpOmJBjkg==",
+      "level": null,
+      "declared": false,
+      "bypassed": true,
+      "bypass": {
+        "level": "V3"
+      },
+      "failure": {
+        "stage": "declaration",
+        "kind": "gate-rejected",
+        "detail": "the declared range does not admit this host"
+      },
+      "result": "results/odai-dsh-plugin.json"
     },
     {
       "name": "pi2dsh",
