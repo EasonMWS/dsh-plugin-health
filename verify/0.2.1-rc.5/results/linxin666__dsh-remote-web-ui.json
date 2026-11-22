@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:20:12.510Z",
+  "generatedAt": "2026-11-22T06:59:00.153Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@linxin666/dsh-remote-web-ui@0.4.19",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xINgvq",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xINgvq/home",
+  "plugin": "@linxin666/dsh-remote-web-ui@0.4.20",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-neMrgu",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-neMrgu/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:20:12.850Z",
-      "durationMs": 101,
+      "startedAt": "2026-11-22T06:59:00.562Z",
+      "durationMs": 131,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @linxin666/dsh-remote-web-ui@0.4.19 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @linxin666/dsh-remote-web-ui@0.4.20 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:20:12.951Z",
-      "durationMs": 1708,
+      "startedAt": "2026-11-22T06:59:00.705Z",
+      "durationMs": 1746,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-remote-web-ui 0.4.19\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 3, downloaded 6, added 9, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xINgvq/home/profiles/health-smoke/.plugin-manager/logs/operation-vvTMyc/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-remote-web-ui 0.4.20\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 0, downloaded 9, added 9, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-neMrgu/home/profiles/health-smoke/.plugin-manager/logs/operation-y1nlCP/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -40,7 +40,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -49,8 +49,8 @@
   "subjects": [
     {
       "name": "@linxin666/dsh-remote-web-ui",
-      "version": "0.4.19",
-      "integrity": "sha512-7pcSD2nStCTsl3vh+My2ldFbBfwyhCT1gtMzumkhcp4PA0Km+wBkSF2KxV6qTt/s9Wf+fngMNbTmjrP9pn1hcQ==",
+      "version": "0.4.20",
+      "integrity": "sha512-vJd53U7PRHt9UpJ8ofRU5oWD+NLWYi/K/4iJVO+GzoF4bKWfpZsqG8G7il+WaKArvpeP59it3XvMDzERYMDVFA==",
       "resolution": "registry"
     }
   ],

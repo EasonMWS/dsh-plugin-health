@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:22:04.820Z",
+  "generatedAt": "2026-11-22T07:00:11.414Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-web-mobile@3.3.5",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-w0X9z5",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-w0X9z5/home",
+  "plugin": "dsh-web-mobile@3.3.6",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vSyUVe",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-vSyUVe/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:22:05.304Z",
-      "durationMs": 156,
+      "startedAt": "2026-11-22T07:00:11.891Z",
+      "durationMs": 189,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-web-mobile@3.3.5 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-web-mobile@3.3.6 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:22:05.461Z",
-      "durationMs": 1934,
+      "startedAt": "2026-11-22T07:00:12.081Z",
+      "durationMs": 1759,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-web-mobile 3.3.5\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-web-mobile 3.3.6\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 889ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:22:07.398Z",
-      "durationMs": 3084,
+      "startedAt": "2026-11-22T07:00:13.843Z",
+      "durationMs": 4490,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34279/?token=TZ_T2Xcy2ofnsXaoydKEfp6W6gmln-1CPB3nUVvKN3M\n",
+      "stdout": "dsh web: http://127.0.0.1:33529/?token=Hg6v0mk9jopEe5wiiHISQ3qvN1QqTp6bRGWtZlOp-Lo\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "68cd21ec",
+              "id": "96585c5c",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c2765292",
+              "id": "a635cdca",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "68cd21ec",
+              "id": "96585c5c",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c2765292",
+              "id": "a635cdca",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2078,7 +2078,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-web-mobile",
-      "version": "3.3.5",
-      "integrity": "sha512-dYEZwDTHpwvFDVZh65U1M8IA8UfaSxW1IJT3uV+YoonQUD1gP00e8+TLrslonzzsA8wsko7/jYXzcGzHAH/sNg==",
+      "version": "3.3.6",
+      "integrity": "sha512-oJVf2K7ggsfd58TYhVriG1e6JqGiZPDPUBuywwQEsTdwpqeB2CKQlGXSzON3GZDpHmxbs1MuZbWtrldFiIwy/Q==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "68cd21ec",
+        "id": "96585c5c",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c2765292",
+        "id": "a635cdca",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

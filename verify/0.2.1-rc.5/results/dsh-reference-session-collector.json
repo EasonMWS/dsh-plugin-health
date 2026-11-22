@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:45.982Z",
+  "generatedAt": "2026-11-22T06:59:54.558Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-reference-session-collector@0.2.9",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DnIm91",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DnIm91/home",
+  "plugin": "dsh-reference-session-collector@0.2.11",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LO9k7F",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LO9k7F/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:46.458Z",
-      "durationMs": 1686,
+      "startedAt": "2026-11-22T06:59:55.043Z",
+      "durationMs": 1789,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-reference-session-collector 0.2.9\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 928ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DnIm91/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-reference-session-collector 0.2.11\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 860ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LO9k7F/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:48.146Z",
-      "durationMs": 3852,
+      "startedAt": "2026-11-22T06:59:56.834Z",
+      "durationMs": 4520,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46455/?token=3zyBR7Q5LzCp0JVyXASBTwxG_4bhPczFpPNcmZJcJ_k\n",
-      "stderr": "(node:4990) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:40351/?token=Mwor0iX2rv1LI2FLdwz9jDv4p7pOXJdsIh647MOhMMA\n",
+      "stderr": "(node:3949) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "ba9b3637",
+              "id": "e26ee3c6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "4b4c6397",
+              "id": "a5e159dc",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "ba9b3637",
+              "id": "e26ee3c6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "4b4c6397",
+              "id": "a5e159dc",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2065,7 +2065,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-reference-session-collector",
-      "version": "0.2.9",
-      "integrity": "sha512-qBv3QSY9XfGOeTtMT8PwqZUvyCxMN0Tck8rvKaoyXjYIe3bHdgYysM6PsbterF29GkpqHTiSg8CS7DLY/O2G2w==",
+      "version": "0.2.11",
+      "integrity": "sha512-v+uZaCpaZRBTyhYvl7uOqn3S0xnIS4rg8NhauN8XjgzK3aIGZxDAk+DmdND/oLoU3CpwFNJr5lEQZl+PPEuF+w==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "ba9b3637",
+        "id": "e26ee3c6",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "4b4c6397",
+        "id": "a5e159dc",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

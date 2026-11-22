@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:22:29.295Z",
+  "generatedAt": "2026-11-22T07:00:38.593Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-free-search@0.9.70",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wsbIAa",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wsbIAa/home",
+  "plugin": "dsh-free-search@0.9.78",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CDmaOf",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CDmaOf/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:22:29.645Z",
-      "durationMs": 1689,
+      "startedAt": "2026-11-22T07:00:39.021Z",
+      "durationMs": 1833,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-free-search 0.9.70\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-free-search@0.9.70\nDone in 823ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wsbIAa/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-free-search 0.9.78\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 972ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CDmaOf/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:22:31.336Z",
-      "durationMs": 2996,
+      "startedAt": "2026-11-22T07:00:40.856Z",
+      "durationMs": 3368,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44133/?token=L8KU2SzAUnD0LUBuVWLiJmAGLKMyBL_ImU1b46wQjYw\n",
-      "stderr": "(node:3169) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:36015/?token=QE6tQ6TZ3Rp1VeFb1lj2lkhlTwiaZdi-ssx5on_5Zio\n",
+      "stderr": "(node:3187) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "97a42553",
+              "id": "74d46143",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c27e9205",
+              "id": "1f256853",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "97a42553",
+              "id": "74d46143",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c27e9205",
+              "id": "1f256853",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2065,7 +2065,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-free-search",
-      "version": "0.9.70",
-      "integrity": "sha512-kTqL6JAK1CnRkQFFddli2kyh8exk9B7841cwHruFfP7k5qMvVfPVbxBq8Eo6On7lPc8+nxyQ3oeNspFw3n+CuQ==",
+      "version": "0.9.78",
+      "integrity": "sha512-VgBPZkqyIVapTnonCoIasq7qW6lqL2osaDSEaNso5i0Wg1GYaMNZrjsxKkthmhL1igEFtED0mO8sXIjH49PY0g==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "97a42553",
+        "id": "74d46143",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c27e9205",
+        "id": "1f256853",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

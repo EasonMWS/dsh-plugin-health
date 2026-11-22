@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:29.425Z",
+  "generatedAt": "2026-11-22T06:59:45.808Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-memory-nebula@1.11.74",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Q9VlJd",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Q9VlJd/home",
+  "plugin": "dsh-memory-nebula@1.11.76",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4LM6lr",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4LM6lr/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:29.957Z",
-      "durationMs": 2038,
+      "startedAt": "2026-11-22T06:59:46.125Z",
+      "durationMs": 1277,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-memory-nebula 1.11.74\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Q9VlJd/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-memory-nebula 1.11.76\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 664ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4LM6lr/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:31.997Z",
-      "durationMs": 4495,
+      "startedAt": "2026-11-22T06:59:47.404Z",
+      "durationMs": 3121,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:43211/?token=OExddHtBSbgdTanVBug1xOIKcHT8Un_TaVXNjRdf18w\n",
-      "stderr": "(node:3629) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:34893/?token=2EmiGOeThzTufffFoH_DCW8V2MsjFjG7oML93iGa7fs\n",
+      "stderr": "(node:3439) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "a5a93057",
+              "id": "d1cf6c6a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "bff6f6bf",
+              "id": "5db31306",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "a5a93057",
+              "id": "d1cf6c6a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "bff6f6bf",
+              "id": "5db31306",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-memory-nebula",
-      "version": "1.11.74",
-      "integrity": "sha512-FePJAeUmzR9/J2lHuCIi66+yI/2wxhH0kdV+izJDEK5pAZ8yrvEoLfEiuMP1N2X68+MGwoRVV2MxPU73A23EAQ==",
+      "version": "1.11.76",
+      "integrity": "sha512-izx8iv/i54OuaKjurQdsqyNeH0Mobp3jOzstaNEwh2IYJPgqieWwopVzUP6bQfOznHbdsE48jLu+UvIOcCYXNw==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "a5a93057",
+        "id": "d1cf6c6a",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "bff6f6bf",
+        "id": "5db31306",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

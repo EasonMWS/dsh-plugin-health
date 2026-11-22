@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-22T06:59:22.154Z",
+  "hostVersion": "0.2.3-alpha.1",
+  "plugin": "dsh-unlag@1.17.10",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5Le6BC",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5Le6BC/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-22T06:59:22.649Z",
+      "durationMs": 90,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "",
+      "stderr": "file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:7\nimport Loader, { EntryGroup, EntryTree, EntryValidationError, ModuleLoader, formatIssues, isJsExpr, relocate, validateOptions } from \"@deepseek-ai/cordis-plugin-loader\";\n                                        ^^^^^^^^^^^^^^^^^^^^\nSyntaxError: The requested module '@deepseek-ai/cordis-plugin-loader' does not provide an export named 'EntryValidationError'\n    at ModuleJob._instantiate (node:internal/modules/esm/module_job:226:21)\n    at async ModuleJob.run (node:internal/modules/esm/module_job:335:5)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async runCli (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh/lib/bin.js:21:9)\n    at async file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh/lib/bin.js:25:33\n\nNode.js v22.23.5\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.3.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.5",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "unknown",
+    "detail": "file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:7"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}

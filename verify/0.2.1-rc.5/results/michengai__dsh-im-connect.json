@@ -1,24 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:14.903Z",
+  "generatedAt": "2026-11-22T06:59:52.501Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@michengai/dsh-im-connect@1.0.44",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DLZO16",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DLZO16/home",
+  "plugin": "@michengai/dsh-im-connect@1.0.48",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WOe68Y",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WOe68Y/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
+      "name": "allow-version",
+      "startedAt": "2026-11-22T06:59:52.828Z",
+      "durationMs": 102,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "dsh: allowed @michengai/dsh-im-connect@1.0.48 for DSH 0.2.1-rc.5\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:15.221Z",
-      "durationMs": 2610,
+      "startedAt": "2026-11-22T06:59:52.930Z",
+      "durationMs": 2130,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-im-connect 1.0.44\n\nPackages: +88\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 16, downloaded 72, added 88, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DLZO16/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DLZO16/home/profiles/health-smoke/.plugin-manager/logs/operation-EhuP4g/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-im-connect 1.0.48\n\nPackages: +88\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 0, downloaded 88, added 88, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WOe68Y/home/profiles/health-smoke/.plugin-manager/logs/operation-bjgC9t/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -36,8 +49,8 @@
   "subjects": [
     {
       "name": "@michengai/dsh-im-connect",
-      "version": "1.0.44",
-      "integrity": "sha512-ZEzM22rHGnxJexAr5bWXG5XLiAUXXe/7ZpIy/eLik4acZNOmDUCeA2jH8R9ZTykK/ykKRboDMFG7YDwJrSUVQQ==",
+      "version": "1.0.48",
+      "integrity": "sha512-cs354pfsXr/WH+L51Wmi0u8nZyI306PO2pPCQcLgNyyMZ0DkyFC4nlridbMcTM+WWpdm/hW60JptNBbk3iM3LQ==",
       "resolution": "registry"
     }
   ],
@@ -59,7 +72,16 @@
     "kind": "build-scripts-blocked",
     "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6"
   },
-  "level": "V1",
-  "declared": true,
-  "footprintDelta": null
+  "level": null,
+  "declared": false,
+  "footprintDelta": null,
+  "bypassed": true,
+  "bypass": {
+    "level": "V1",
+    "failure": {
+      "stage": "install",
+      "kind": "build-scripts-blocked",
+      "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6"
+    }
+  }
 }

@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:32.576Z",
+  "generatedAt": "2026-11-22T06:59:58.029Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "cc-safety-net@2.7.15",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mx1SFA",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mx1SFA/home",
+  "plugin": "cc-safety-net@2.8.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wrXgAU",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wrXgAU/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:32.967Z",
-      "durationMs": 1697,
+      "startedAt": "2026-11-22T06:59:58.510Z",
+      "durationMs": 1710,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ cc-safety-net 2.7.15\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 875ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mx1SFA/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ cc-safety-net 2.8.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 800ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wrXgAU/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:34.666Z",
-      "durationMs": 3184,
+      "startedAt": "2026-11-22T07:00:00.223Z",
+      "durationMs": 3779,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:37289/?token=Q44ykGWpwZ7WMoEwFBO1tBKl3RHOqjTYsIxsZlKSIQQ\n",
+      "stdout": "dsh web: http://127.0.0.1:46493/?token=0o2ebODEKoL88xWNQnSajCRUFXcqVlXf_UuHAUsoPtg\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -623,7 +623,7 @@
             },
             {
               "id": "cc-safety-net",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mx1SFA/home/profiles/health-smoke/node_modules/cc-safety-net/dist/deepseek-harness/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wrXgAU/home/profiles/health-smoke/node_modules/cc-safety-net/dist/deepseek-harness/index.js",
               "state": 2,
               "disabled": false
             },
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "97e3dcc5",
+              "id": "a45e3595",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "4639a969",
+              "id": "f64f753f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1582,7 +1582,7 @@
             },
             {
               "id": "cc-safety-net",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mx1SFA/home/profiles/health-smoke/node_modules/cc-safety-net/dist/deepseek-harness/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wrXgAU/home/profiles/health-smoke/node_modules/cc-safety-net/dist/deepseek-harness/index.js",
               "state": 2
             },
             {
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "97e3dcc5",
+              "id": "a45e3595",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "4639a969",
+              "id": "f64f753f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2065,7 +2065,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "cc-safety-net",
-      "version": "2.7.15",
-      "integrity": "sha512-uJOmGHdvJeDW+KYOk06YqQ7cfEbuRD+KaBs++7ICy9xebmhWO4nh8lpMtihz8r2yd0U7dtkqQMczpLi+6rpsWA==",
+      "version": "2.8.1",
+      "integrity": "sha512-GZHTzK5/PCd4vyQ62hKprlmR7duWGiQXzTgkh7dTFb943AdR+ljgLwpwBsN+kKx/8Ws69Qki8xIsPJwMAwzECA==",
       "resolution": "registry"
     }
   ],
@@ -2101,18 +2101,18 @@
     "entries": [
       {
         "id": "cc-safety-net",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mx1SFA/home/profiles/health-smoke/node_modules/cc-safety-net/dist/deepseek-harness/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wrXgAU/home/profiles/health-smoke/node_modules/cc-safety-net/dist/deepseek-harness/index.js",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "97e3dcc5",
+        "id": "a45e3595",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "4639a969",
+        "id": "f64f753f",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

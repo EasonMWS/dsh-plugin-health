@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:18:39.070Z",
+  "generatedAt": "2026-11-22T06:56:42.649Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@tnnevol/dsh-failover-search@8.1.148",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ocfMF8",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ocfMF8/home",
+  "plugin": "@tnnevol/dsh-failover-search@8.2.7",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4GO574",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4GO574/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:18:39.538Z",
+      "startedAt": "2026-11-22T06:56:43.077Z",
       "durationMs": 168,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @tnnevol/dsh-failover-search@8.1.148 for DSH 0.2.2-rc.5\n",
+      "stdout": "dsh: allowed @tnnevol/dsh-failover-search@8.2.7 for DSH 0.2.2-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:18:39.706Z",
-      "durationMs": 1963,
+      "startedAt": "2026-11-22T06:56:43.246Z",
+      "durationMs": 1927,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tnnevol/dsh-failover-search 8.1.148\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tnnevol/dsh-failover-search 8.2.7\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:18:41.672Z",
-      "durationMs": 4972,
+      "startedAt": "2026-11-22T06:56:45.176Z",
+      "durationMs": 5058,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34189/?token=X8fonA5htrxsT1Ip_zRmZTsFmhGC3WD59gAlcFtXbsQ\n",
+      "stdout": "dsh web: http://127.0.0.1:38153/?token=BJ9KxIRCX2WplbA0x87edfV9mz8ngDtMyumg-RyIM6g\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1277,13 +1277,13 @@
               "disabled": false
             },
             {
-              "id": "81acd00c",
+              "id": "31ac17c8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c1172d09",
+              "id": "c912b61b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2176,12 +2176,12 @@
               "state": 2
             },
             {
-              "id": "81acd00c",
+              "id": "31ac17c8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c1172d09",
+              "id": "c912b61b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2195,7 +2195,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2204,8 +2204,8 @@
   "subjects": [
     {
       "name": "@tnnevol/dsh-failover-search",
-      "version": "8.1.148",
-      "integrity": "sha512-0XD6ZfojpSqTmuh7mjxLqtX7JMyCeh4cqrg4k4tzVBXD42HcbDh3FnGHXt7Bzuql2TDce7kH8WVFFp96sXCxxA==",
+      "version": "8.2.7",
+      "integrity": "sha512-irJCc5gA+QuI2TjnH5118cKDJh5NiVMMG5TEaQLNdVqWqkYXTg/11SdbE1o8qlZy9SeCpop+Ei1VkfqAkCzSAg==",
       "resolution": "registry"
     }
   ],
@@ -2236,13 +2236,13 @@
         "disabled": false
       },
       {
-        "id": "81acd00c",
+        "id": "31ac17c8",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c1172d09",
+        "id": "c912b61b",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

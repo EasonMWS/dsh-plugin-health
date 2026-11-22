@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:26.784Z",
+  "generatedAt": "2026-11-22T06:59:57.185Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-browser-cdp@1.14.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oetF1P",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oetF1P/home",
+  "plugin": "dsh-browser-cdp@1.14.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oUEnOO",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oUEnOO/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:27.103Z",
-      "durationMs": 1391,
+      "startedAt": "2026-11-22T06:59:57.554Z",
+      "durationMs": 1505,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-browser-cdp 1.14.0\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nDone in 636ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oetF1P/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-browser-cdp 1.14.1\n\nPackages: +4\n++++\nProgress: resolved 4, reused 3, downloaded 1, added 4, done\nDone in 817ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-oUEnOO/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:28.497Z",
-      "durationMs": 2210,
+      "startedAt": "2026-11-22T06:59:59.062Z",
+      "durationMs": 2381,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45361/?token=_C9tbpHLJRq_B_iAJjEK2xlUOrTm2oMuyJ9mj7KoUtU\n",
+      "stdout": "dsh web: http://127.0.0.1:40701/?token=g4sfs8ODLhp5pq1JCm8dOrKP1TWhDuBOY-CGIQDQ8yY\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1204,13 +1204,13 @@
               "disabled": false
             },
             {
-              "id": "319cad01",
+              "id": "2eb99436",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "2c56401e",
+              "id": "ee2ad62e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2057,12 +2057,12 @@
               "state": 2
             },
             {
-              "id": "319cad01",
+              "id": "2eb99436",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "2c56401e",
+              "id": "ee2ad62e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2085,8 +2085,8 @@
   "subjects": [
     {
       "name": "dsh-browser-cdp",
-      "version": "1.14.0",
-      "integrity": "sha512-2NArjsG3Pg3vSgZaxzD6qO6lb7WmTML8CRD5hGOeO648SZ7OeC0t7EVQMW9MYIUPQXyzT6khuuiLYvK5D+TC9A==",
+      "version": "1.14.1",
+      "integrity": "sha512-ybfsmUfEAwEsq0BD0Tx2m8+x+TJedgHwp7u+kKvVyvnowwSFEhsOsYvAcMELTyewogxGY7Xvm3z9WAMT1xgwpw==",
       "resolution": "registry"
     }
   ],
@@ -2123,13 +2123,13 @@
         "disabled": false
       },
       {
-        "id": "319cad01",
+        "id": "2eb99436",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "2c56401e",
+        "id": "ee2ad62e",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

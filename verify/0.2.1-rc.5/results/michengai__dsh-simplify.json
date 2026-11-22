@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:21.930Z",
+  "generatedAt": "2026-11-22T06:59:57.527Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@michengai/dsh-simplify@1.0.10",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yb72mV",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yb72mV/home",
+  "plugin": "@michengai/dsh-simplify@1.0.11",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rKqsuv",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-rKqsuv/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-19T13:21:22.279Z",
-      "durationMs": 1634,
+      "name": "allow-version",
+      "startedAt": "2026-11-22T06:59:57.970Z",
+      "durationMs": 168,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-simplify 1.0.10\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 941ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yb72mV/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed @michengai/dsh-simplify@1.0.11 for DSH 0.2.1-rc.5\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-22T06:59:58.138Z",
+      "durationMs": 2031,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-simplify 1.0.11\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.1s using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:23.915Z",
-      "durationMs": 3006,
+      "startedAt": "2026-11-22T07:00:00.173Z",
+      "durationMs": 3693,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41541/?token=SwFD165kpOtOugm1qIvtbkfqUHoIs27uyw6Tu4Qp7xY\n",
+      "stdout": "dsh web: http://127.0.0.1:36481/?token=d31rDf6O0rmz1XIEG_eGlsNkbFK0Bd8R25tvDxa9GUQ\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "712b0b52",
+              "id": "1b71fff6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "208fee6c",
+              "id": "da88bdae",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "712b0b52",
+              "id": "1b71fff6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "208fee6c",
+              "id": "da88bdae",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2065,7 +2078,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2087,8 @@
   "subjects": [
     {
       "name": "@michengai/dsh-simplify",
-      "version": "1.0.10",
-      "integrity": "sha512-DmMANmJhMgdK/Ei+kzbWe3zp+YMWXxzgiG7Idw9EJgLG4zS8XYTwoupYlDqnyBUuA0ssx0qjfcfSYh+IP8GJUw==",
+      "version": "1.0.11",
+      "integrity": "sha512-4Y8SlUvS31pIogdisTKmMpYHG8cG0IbqG1Mp9sc7Zrym/j9ii72DW07Rq8hPVaIXuLQGn85aZdCxpyzYJD25kQ==",
       "resolution": "registry"
     }
   ],
@@ -2095,8 +2108,8 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
@@ -2106,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "712b0b52",
+        "id": "1b71fff6",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "208fee6c",
+        "id": "da88bdae",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2121,5 +2134,10 @@
     "tools": [],
     "toolsUnavailable": true,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }

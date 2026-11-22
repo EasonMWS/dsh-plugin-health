@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:18:43.067Z",
+  "generatedAt": "2026-11-22T06:56:44.825Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@q253595422/dsh-imagegen-video@1.31.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3mytj7",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3mytj7/home",
+  "plugin": "@q253595422/dsh-imagegen-video@1.35.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-42mfSK",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-42mfSK/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:18:43.547Z",
-      "durationMs": 3560,
+      "startedAt": "2026-11-22T06:56:45.301Z",
+      "durationMs": 3185,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @q253595422/dsh-imagegen-video 1.31.0\n\nPackages: +22\n++++++++++++++++++++++\nProgress: resolved 22, reused 0, downloaded 8, added 1\nProgress: resolved 22, reused 0, downloaded 22, added 22, done\nDone in 2.4s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3mytj7/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @q253595422/dsh-imagegen-video 1.35.0\n\nPackages: +23\n+++++++++++++++++++++++\nProgress: resolved 23, reused 0, downloaded 20, added 11\nProgress: resolved 23, reused 0, downloaded 23, added 23, done\nDone in 2.1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-42mfSK/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:18:47.122Z",
-      "durationMs": 5008,
+      "startedAt": "2026-11-22T06:56:48.504Z",
+      "durationMs": 5574,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38871/?token=Dsp822f6DTMhLJqSfAlcRqmv1514nlRvzLrpw_DbO_4\n",
+      "stdout": "dsh web: http://127.0.0.1:35435/?token=hgdoCl3CkWCncD3WcgsssRH4pD200QTWZWsFt9XuyVg\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1336,13 +1336,13 @@
               "disabled": false
             },
             {
-              "id": "3144054d",
+              "id": "f689f83d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "b8d0e560",
+              "id": "1f9482e6",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2311,12 +2311,12 @@
               "state": 2
             },
             {
-              "id": "3144054d",
+              "id": "f689f83d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "b8d0e560",
+              "id": "1f9482e6",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2330,7 +2330,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2339,8 +2339,8 @@
   "subjects": [
     {
       "name": "@q253595422/dsh-imagegen-video",
-      "version": "1.31.0",
-      "integrity": "sha512-vmkcIkrKPwo/+N6UkOBJy3c8yoDaDr432BJUnglcPonNJxRkEppvTK7nCJa9nyw0d6EH7f7NUGBfgmo5c1im6Q==",
+      "version": "1.35.0",
+      "integrity": "sha512-9VSdROYnZLTw9QyTiN/sTcg4PXbezWp3/DLZEbhblCiXmX4DITxQp1rSIT/tbxCg5PLDo75gFvUQCHHk605EPw==",
       "resolution": "registry"
     }
   ],
@@ -2443,13 +2443,13 @@
         "disabled": false
       },
       {
-        "id": "3144054d",
+        "id": "f689f83d",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b8d0e560",
+        "id": "1f9482e6",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

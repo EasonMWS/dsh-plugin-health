@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:18:50.595Z",
+  "generatedAt": "2026-11-22T06:56:49.477Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-music-panel@0.37.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3WCBuq",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3WCBuq/home",
+  "plugin": "dsh-music-panel@0.41.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D7K8WZ",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D7K8WZ/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:18:51.017Z",
-      "durationMs": 4978,
+      "startedAt": "2026-11-22T06:56:49.977Z",
+      "durationMs": 4638,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 3 deprecated subdependencies found: crypto-js@4.2.0, koa-router@7.4.0, whatwg-encoding@3.1.1\nProgress: resolved 341, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-music-panel 0.37.2\n\nPackages: +362\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 341, reused 1, downloaded 338, added 356\nProgress: resolved 341, reused 1, downloaded 339, added 356\nProgress: resolved 341, reused 1, downloaded 340, added 362, done\nDone in 4.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-3WCBuq/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 275, reused 0, downloaded 0, added 0\n[WARN] 3 deprecated subdependencies found: crypto-js@4.2.0, koa-router@7.4.0, whatwg-encoding@3.1.1\n\ndependencies:\n+ dsh-music-panel 0.41.0\n\nPackages: +362\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 341, reused 1, downloaded 69, added 4\nProgress: resolved 341, reused 1, downloaded 340, added 362, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-music-panel@0.41.0\nDone in 3.7s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-D7K8WZ/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:18:56.084Z",
-      "durationMs": 4501,
+      "startedAt": "2026-11-22T06:56:54.780Z",
+      "durationMs": 5520,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46395/?token=KlFYAITC_VaTyLzgF6uvotNP4l2Ft-ltVvMW0uXcGNA\n",
+      "stdout": "dsh web: http://127.0.0.1:37111/?token=jebr7HVX5R55BtNOuj95cH1DYFGlmQHGy_40qNg1ufM\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "91cece6b",
+              "id": "f634514a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "e9d1d739",
+              "id": "e46d7a4f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2164,12 +2164,12 @@
               "state": 2
             },
             {
-              "id": "91cece6b",
+              "id": "f634514a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "e9d1d739",
+              "id": "e46d7a4f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2183,7 +2183,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2192,8 +2192,8 @@
   "subjects": [
     {
       "name": "dsh-music-panel",
-      "version": "0.37.2",
-      "integrity": "sha512-2DpLqSM1iavXahYCsBjeKoQaQZ9BJXMoi9y5z5mTfiY11R+AZ8DB86qn83OKuN8COYjjZYWES3gCr+xpHPQ25Q==",
+      "version": "0.41.0",
+      "integrity": "sha512-AYZFfdfwOGqMi/pinQB27PwdjUviRvY8YGNTJqr621nFqIWhwqTTabux5YGQBpGEESuKZ2wbm3Ckpn1nR+ZXyw==",
       "resolution": "registry"
     }
   ],
@@ -2224,13 +2224,13 @@
         "disabled": false
       },
       {
-        "id": "91cece6b",
+        "id": "f634514a",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "e9d1d739",
+        "id": "e46d7a4f",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:27.880Z",
+  "generatedAt": "2026-11-22T06:59:49.659Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@kenz1117/dsh-ui-usage-billing@1.8.8",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aec3N3",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aec3N3/home",
+  "plugin": "@kenz1117/dsh-ui-usage-billing@1.8.9",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HiTU8a",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HiTU8a/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:28.436Z",
-      "durationMs": 2441,
+      "startedAt": "2026-11-22T06:59:50.347Z",
+      "durationMs": 1424,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @kenz1117/dsh-ui-usage-billing 1.8.8\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1.3s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aec3N3/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @kenz1117/dsh-ui-usage-billing 1.8.9\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 715ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HiTU8a/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:30.898Z",
-      "durationMs": 5412,
+      "startedAt": "2026-11-22T06:59:51.781Z",
+      "durationMs": 3589,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[usage-billing] swallowed: reconcile-ref-missing\ndsh web: http://127.0.0.1:42199/?token=UWvUjSL_X6iKfnkBpOI30g19wOHxNvcAPP7lcEQ39RI\n[usage-billing] swallowed: ledger-main-unreadable\n",
-      "stderr": "[usage-billing] the host llm service is not registered; plugin-registered adapter channels (e.g. commandcode) stay in the unknown bucket and are billed at 0 (issue #91). Channel grouping falls back to llm-pi-ai routes only.\n[usage-billing] reprice fold after pricing refresh failed; next aggregate retries: Error: cannot get required service \"settings\" in inactive context\n    at Object.resolveRoutes (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aec3N3/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:11207:51)\n    at routesOf (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aec3N3/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:5838:46)\n    at aggregateOnce (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aec3N3/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:5952:23)\n",
+      "stdout": "[usage-billing] swallowed: reconcile-ref-missing\ndsh web: http://127.0.0.1:44005/?token=CBV5HOb4nsWHZXFtkVKVuCtl12FENrZbvNnc9cLdq-g\n[usage-billing] swallowed: ledger-main-unreadable\n",
+      "stderr": "[usage-billing] the host llm service is not registered; plugin-registered adapter channels (e.g. commandcode) stay in the unknown bucket and are billed at 0 (issue #91). Channel grouping falls back to llm-pi-ai routes only.\n[usage-billing] reprice fold after pricing refresh failed; next aggregate retries: Error: cannot get required service \"settings\" in inactive context\n    at Object.resolveRoutes (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HiTU8a/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:11220:51)\n    at routesOf (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HiTU8a/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:5838:46)\n    at aggregateOnce (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HiTU8a/home/profiles/health-smoke/node_modules/@kenz1117/dsh-ui-usage-billing/lib/index.js:5952:23)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "3a9d22df",
+              "id": "74947b69",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "1bceb2bc",
+              "id": "9c4a1ec0",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "3a9d22df",
+              "id": "74947b69",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "1bceb2bc",
+              "id": "9c4a1ec0",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2065,7 +2065,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "@kenz1117/dsh-ui-usage-billing",
-      "version": "1.8.8",
-      "integrity": "sha512-uCZ2CbZUama3qKmy0oHIjLqcrGP9RnUYV9nELTjA2vqkdKNIPxJY2BrQISGmVXnZhd+jynpq7gepH3RefNfhEQ==",
+      "version": "1.8.9",
+      "integrity": "sha512-qY16HFO9dLjN4/pzhFSQZynIt+Y/vGpvTAnkeEmsXrmYkejkeotFmNQzg3L0DYtBidjS11vQeUXnP22G4jI2nw==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "3a9d22df",
+        "id": "74947b69",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "1bceb2bc",
+        "id": "9c4a1ec0",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

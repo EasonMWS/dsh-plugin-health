@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:04.557Z",
+  "generatedAt": "2026-11-22T06:59:27.457Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-aiyayi@1.12.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NUr0xW",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NUr0xW/home",
+  "plugin": "dsh-aiyayi@1.14.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jblYjq",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jblYjq/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:04.967Z",
-      "durationMs": 1513,
+      "startedAt": "2026-11-22T06:59:28.015Z",
+      "durationMs": 1866,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-aiyayi 1.12.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 767ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NUr0xW/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-aiyayi 1.14.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 908ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jblYjq/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:06.481Z",
-      "durationMs": 2998,
+      "startedAt": "2026-11-22T06:59:29.883Z",
+      "durationMs": 4262,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33639/?token=3VNCwrMI7BXYEmcZseKQcYu7WjGvsKFJrufyEs1RNFE\n",
+      "stdout": "dsh web: http://127.0.0.1:40757/?token=Nl2rH2FmKURj_JrVfuxE0c-IodfW1DcuTOYAzOLp5I0\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,12 +39,6 @@
         "hostCordis": "4.0.5",
         "footprint": {
           "entries": [
-            {
-              "id": "75730710",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1222,8 +1216,14 @@
               "disabled": false
             },
             {
-              "id": "a057cac2",
+              "id": "3daa94a7",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "940550d7",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1238,11 +1238,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "75730710",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2084,8 +2079,13 @@
               "state": 2
             },
             {
-              "id": "a057cac2",
+              "id": "3daa94a7",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "940550d7",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2098,7 +2098,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2107,8 +2107,8 @@
   "subjects": [
     {
       "name": "dsh-aiyayi",
-      "version": "1.12.0",
-      "integrity": "sha512-pdt9EV4j4Wr0T2c1Ws3chIHLbfkfpMffSlJmad/708oJRQkOfjv5tYvm0sPrT3ZSiFX4sxnxdV7s4pUPkp91/w==",
+      "version": "1.14.0",
+      "integrity": "sha512-iXxxxw962W4Vmi24BcaTSbQvl4TV2MeApHwHOs2Nf9BrUiksjWz3rI/XjiuRCo0KLkvwRcer6lgdxbMWLtOMZw==",
       "resolution": "registry"
     }
   ],
@@ -2132,12 +2132,6 @@
   "declared": true,
   "footprintDelta": {
     "entries": [
-      {
-        "id": "75730710",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
       {
         "id": "preset-aiyayi",
         "name": "@deepseek-ai/dsh-agent-preset",
@@ -2163,8 +2157,14 @@
         "disabled": false
       },
       {
-        "id": "a057cac2",
+        "id": "3daa94a7",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "940550d7",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

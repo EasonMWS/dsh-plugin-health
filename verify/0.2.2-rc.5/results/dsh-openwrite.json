@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:19:00.652Z",
+  "generatedAt": "2026-11-22T06:56:50.518Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-openwrite@0.2.39",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iwdRnq",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iwdRnq/home",
+  "plugin": "dsh-openwrite@0.2.40",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nn9gTD",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nn9gTD/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:19:01.061Z",
-      "durationMs": 140,
+      "startedAt": "2026-11-22T06:56:51.007Z",
+      "durationMs": 176,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-openwrite@0.2.39 for DSH 0.2.2-rc.5\n",
+      "stdout": "dsh: allowed dsh-openwrite@0.2.40 for DSH 0.2.2-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:19:01.201Z",
-      "durationMs": 2205,
+      "startedAt": "2026-11-22T06:56:51.184Z",
+      "durationMs": 2793,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: tar@7.5.7\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-openwrite 0.2.39\n\nPackages: +23\n+++++++++++++++++++++++\nProgress: resolved 23, reused 2, downloaded 21, added 23, done\nDone in 1.2s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: tar@7.5.7\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-openwrite 0.2.40\n\nPackages: +23\n+++++++++++++++++++++++\nProgress: resolved 23, reused 2, downloaded 21, added 23, done\nDone in 1.8s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:19:03.410Z",
-      "durationMs": 3840,
+      "startedAt": "2026-11-22T06:56:53.996Z",
+      "durationMs": 4991,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34457/?token=RCzUSVvT0BSS7QNdPOX9XG3bqn3xPs3G7Sq1NRJSUc0\n",
+      "stdout": "dsh web: http://127.0.0.1:33789/?token=eyJ06VPZWboNIuGbNq03ZWtipAUz-QarOW6Thec3UMU\n",
       "stderr": "dsh: disabling profile plugin row \"studio-panel\": Plugin @dsh-novel/studio-panel@0.1.0 is incompatible with dsh 0.2.2-rc.5: requirements {\"@deepseek-ai/dsh-host-webserver\":\"0.1.2-rc.1 || 0.1.5-alpha.1 || 0.1.7-rc.2 || 0.2.0-rc.2 || 0.2.1-rc.2 || 0.2.1-rc.3 || 0.2.1-rc.4 || 0.2.1-rc.5 || 0.2.2-rc.1 || 0.2.2-rc.2 || 0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for @dsh-novel/studio-panel@0.1.0 on dsh 0.2.2-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\n",
       "truncated": false,
       "details": {
@@ -666,7 +666,7 @@
             },
             {
               "id": "studio-panel",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iwdRnq/home/profiles/health-smoke/node_modules/dsh-openwrite/packages/studio-panel/lib/index.js",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nn9gTD/home/profiles/health-smoke/node_modules/dsh-openwrite/packages/studio-panel/lib/index.js",
               "state": null,
               "disabled": true
             },
@@ -1289,13 +1289,13 @@
               "disabled": false
             },
             {
-              "id": "d29eb477",
+              "id": "980b700b",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c7a51fcd",
+              "id": "ab5676ab",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2193,12 +2193,12 @@
               "state": 2
             },
             {
-              "id": "d29eb477",
+              "id": "980b700b",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c7a51fcd",
+              "id": "ab5676ab",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2212,7 +2212,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2221,8 +2221,8 @@
   "subjects": [
     {
       "name": "dsh-openwrite",
-      "version": "0.2.39",
-      "integrity": "sha512-ZDYGiDTb3lhSNfrPsPokLle3Ca9Y0LIc+tc6XHo3EGbxx+A+ccVTWVf2+BwP/XiLMrzRyIy1LqqD/Rl1qRJiig==",
+      "version": "0.2.40",
+      "integrity": "sha512-79aouc2G/XFqgOfjfBu5gn0DNrCGlbZuxjsCmeYvdElQtQ7FJlRu3ezy2RB6uAGUzvRFYEydTS9jMVlMDc5MxQ==",
       "resolution": "registry"
     }
   ],
@@ -2260,18 +2260,18 @@
       },
       {
         "id": "studio-panel",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iwdRnq/home/profiles/health-smoke/node_modules/dsh-openwrite/packages/studio-panel/lib/index.js",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nn9gTD/home/profiles/health-smoke/node_modules/dsh-openwrite/packages/studio-panel/lib/index.js",
         "state": null,
         "disabled": true
       },
       {
-        "id": "d29eb477",
+        "id": "980b700b",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c7a51fcd",
+        "id": "ab5676ab",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

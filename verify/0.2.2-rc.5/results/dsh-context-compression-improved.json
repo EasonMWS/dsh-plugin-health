@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:18:37.056Z",
+  "generatedAt": "2026-11-22T06:56:32.304Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-context-compression-improved@0.11.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Gmrx7b",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Gmrx7b/home",
+  "plugin": "dsh-context-compression-improved@0.11.4",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fpofdz",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fpofdz/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:18:37.456Z",
-      "durationMs": 1889,
+      "startedAt": "2026-11-22T06:56:32.699Z",
+      "durationMs": 1390,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-context-compression-improved 0.11.3\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 1, downloaded 7, added 8, done\nDone in 1.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Gmrx7b/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-context-compression-improved 0.11.4\n\nPackages: +8\n++++++++\nProgress: resolved 8, reused 1, downloaded 7, added 8, done\nDone in 800ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-fpofdz/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:18:39.349Z",
-      "durationMs": 4316,
+      "startedAt": "2026-11-22T06:56:34.094Z",
+      "durationMs": 3584,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "context-compression estimator catalog route registered (direct): /endpoint/dsh-context-compression-improved/estimator-catalog, /api/dsh-context-compression-improved/estimator-catalog\ncontext-compression savings route registered (direct): /endpoint/dsh-context-compression-improved/savings, /api/dsh-context-compression-improved/savings\ncontext-compression monitor route registered (direct): /endpoint/dsh-context-compression-improved/monitor, /api/dsh-context-compression-improved/monitor\ncontext-compression savings sessions route registered (direct): /endpoint/dsh-context-compression-improved/savings/sessions, /api/dsh-context-compression-improved/savings/sessions\ncontext-compression savings route already registered by another mount (inject)\ncontext-compression monitor route already registered by another mount (inject)\ncontext-compression savings sessions route already registered by another mount (inject)\ndsh web: http://127.0.0.1:35845/?token=JyErzWQem6deBYZlS16NaRvrphlwGDMxLN5onpRJA5E\n",
-      "stderr": "(node:3628) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "context-compression estimator catalog route registered (direct): /endpoint/dsh-context-compression-improved/estimator-catalog, /api/dsh-context-compression-improved/estimator-catalog\ncontext-compression savings route registered (direct): /endpoint/dsh-context-compression-improved/savings, /api/dsh-context-compression-improved/savings\ncontext-compression monitor route registered (direct): /endpoint/dsh-context-compression-improved/monitor, /api/dsh-context-compression-improved/monitor\ncontext-compression savings sessions route registered (direct): /endpoint/dsh-context-compression-improved/savings/sessions, /api/dsh-context-compression-improved/savings/sessions\ncontext-compression savings route already registered by another mount (inject)\ncontext-compression monitor route already registered by another mount (inject)\ncontext-compression savings sessions route already registered by another mount (inject)\ndsh web: http://127.0.0.1:38057/?token=HwHXlfouk8VirW9pKth5QZuSjmqOEp_DmJ-29LZXZNs\n",
+      "stderr": "(node:3459) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1270,13 +1270,13 @@
               "disabled": false
             },
             {
-              "id": "6b616c2b",
+              "id": "61021af5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "b94c33da",
+              "id": "321202b3",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2174,12 +2174,12 @@
               "state": 2
             },
             {
-              "id": "6b616c2b",
+              "id": "61021af5",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "b94c33da",
+              "id": "321202b3",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2193,7 +2193,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2202,8 +2202,8 @@
   "subjects": [
     {
       "name": "dsh-context-compression-improved",
-      "version": "0.11.3",
-      "integrity": "sha512-VWLv9erjchhzijV/W/3nvyy/dNW+R1O/7scCJ2yaWR5ZBeWls9ddzXEqvT0Fcix0XZkS/zLgoXhE75wCMTMjXw==",
+      "version": "0.11.4",
+      "integrity": "sha512-vFU5znhLq2Hc8LQGLU1Dg088L3hi3AzY6xGAhx4SCNA+LBcEEwRxQOVLOQavoQHbK9bYvfvns062dCTrynam0A==",
       "resolution": "registry"
     }
   ],
@@ -2240,13 +2240,13 @@
         "disabled": false
       },
       {
-        "id": "6b616c2b",
+        "id": "61021af5",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b94c33da",
+        "id": "321202b3",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

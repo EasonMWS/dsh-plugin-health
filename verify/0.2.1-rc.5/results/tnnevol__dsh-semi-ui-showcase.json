@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:26.331Z",
+  "generatedAt": "2026-11-22T06:59:55.019Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@tnnevol/dsh-semi-ui-showcase@8.1.148",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jGMWJU",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jGMWJU/home",
+  "plugin": "@tnnevol/dsh-semi-ui-showcase@8.2.7",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LXv7tt",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LXv7tt/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:21:26.676Z",
-      "durationMs": 106,
+      "startedAt": "2026-11-22T06:59:55.492Z",
+      "durationMs": 189,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @tnnevol/dsh-semi-ui-showcase@8.1.148 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @tnnevol/dsh-semi-ui-showcase@8.2.7 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:26.782Z",
-      "durationMs": 1394,
+      "startedAt": "2026-11-22T06:59:55.681Z",
+      "durationMs": 1868,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tnnevol/dsh-semi-ui-showcase 8.1.148\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 694ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tnnevol/dsh-semi-ui-showcase 8.2.7\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 939ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:28.177Z",
-      "durationMs": 2266,
+      "startedAt": "2026-11-22T06:59:57.552Z",
+      "durationMs": 4328,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34217/?token=_4dY4_afMcs4AIxYL_TJx8VtWP6q1eTotkGIu8P7Uk0\n",
+      "stdout": "dsh web: http://127.0.0.1:46315/?token=et-WvNRFWp4DL8eBAJfSxEsaEjUjLfFyOQRPb_dqqJo\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "b85cdaaa",
+              "id": "f99ecec4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "b790358b",
+              "id": "83e0ea7f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "b85cdaaa",
+              "id": "f99ecec4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "b790358b",
+              "id": "83e0ea7f",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2078,7 +2078,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@tnnevol/dsh-semi-ui-showcase",
-      "version": "8.1.148",
-      "integrity": "sha512-HiVy7DCx0lDdBPzeSs4JvJvkqBHVBz4A1lGzBBLU1Ac/mTAR6+eam2OtLHAnHu6HYizmhG5IvP0RQXL9cKDsuA==",
+      "version": "8.2.7",
+      "integrity": "sha512-rw12U0jdU7RrUfiIhcZ+k3Cn8MuogceT+/c8Jr3mzbxd70ue9zrCtO2OVeyIeYM91EW+8+Hkte5EddDAJfry7g==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "b85cdaaa",
+        "id": "f99ecec4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b790358b",
+        "id": "83e0ea7f",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

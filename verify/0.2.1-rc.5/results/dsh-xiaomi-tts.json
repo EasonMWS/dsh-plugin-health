@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:22:14.323Z",
+  "generatedAt": "2026-11-22T07:00:30.895Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-xiaomi-tts@5.5.2",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-27kes7",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-27kes7/home",
+  "plugin": "dsh-xiaomi-tts@5.6.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TMYgg0",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TMYgg0/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:22:14.801Z",
-      "durationMs": 179,
+      "startedAt": "2026-11-22T07:00:31.670Z",
+      "durationMs": 261,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-xiaomi-tts@5.5.2 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-xiaomi-tts@5.6.1 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:22:14.980Z",
-      "durationMs": 3375,
+      "startedAt": "2026-11-22T07:00:31.931Z",
+      "durationMs": 1899,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-xiaomi-tts 5.5.2\n\nPackages: +10\n++++++++++\nProgress: resolved 10, reused 2, downloaded 7, added 9\nProgress: resolved 10, reused 2, downloaded 8, added 10, done\nDone in 2.2s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-xiaomi-tts 5.6.1\n\nPackages: +4\n++++\nProgress: resolved 4, reused 1, downloaded 3, added 4, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-xiaomi-tts@5.6.1\nDone in 950ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:22:18.581Z",
-      "durationMs": 2587,
+      "startedAt": "2026-11-22T07:00:33.834Z",
+      "durationMs": 3250,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38851/?token=zNgNwmXRWkOrUeAfmy451J36QQ36cqb-o34ZqwTx4uw\n",
+      "stdout": "dsh web: http://127.0.0.1:38785/?token=BHyVQkmcW3awSwZbQDRoVXMnhE4kbI6SPoiYElO9kNI\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1229,13 +1229,13 @@
               "disabled": false
             },
             {
-              "id": "30b8d03e",
+              "id": "39611e59",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ec635c10",
+              "id": "aaa8136d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2082,12 +2082,12 @@
               "state": 2
             },
             {
-              "id": "30b8d03e",
+              "id": "39611e59",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ec635c10",
+              "id": "aaa8136d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2101,7 +2101,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2110,8 +2110,8 @@
   "subjects": [
     {
       "name": "dsh-xiaomi-tts",
-      "version": "5.5.2",
-      "integrity": "sha512-7Z5551xzz8QuZsPY0NZ6P4CX2obqCGSVWJ6axozeW0IHFs68oDu9VESKnFhJ7wL+ROV9IMfjtnEhZt1F1lPuJA==",
+      "version": "5.6.1",
+      "integrity": "sha512-TpqD9hglvt8ug3mvxW3iO2KO+dxC1A2KKHfjWHjpdoz+34WfU7jlS8lmDDV5OFtd0WDFA1+JCnLnA8s5ywgotg==",
       "resolution": "registry"
     }
   ],
@@ -2160,13 +2160,13 @@
         "disabled": false
       },
       {
-        "id": "30b8d03e",
+        "id": "39611e59",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ec635c10",
+        "id": "aaa8136d",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

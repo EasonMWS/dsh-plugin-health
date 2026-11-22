@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:18:26.838Z",
+  "generatedAt": "2026-11-22T06:56:27.829Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@anionex/dsh-turn-rewind@0.3.13",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ae6v85",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ae6v85/home",
+  "plugin": "@anionex/dsh-turn-rewind@0.3.14",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-L3tmOk",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-L3tmOk/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:18:27.309Z",
-      "durationMs": 178,
+      "startedAt": "2026-11-22T06:56:28.523Z",
+      "durationMs": 181,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @anionex/dsh-turn-rewind@0.3.13 for DSH 0.2.2-rc.5\n",
+      "stdout": "dsh: allowed @anionex/dsh-turn-rewind@0.3.14 for DSH 0.2.2-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:18:27.487Z",
-      "durationMs": 2120,
+      "startedAt": "2026-11-22T06:56:28.704Z",
+      "durationMs": 2058,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @anionex/dsh-turn-rewind 0.3.13\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1.1s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @anionex/dsh-turn-rewind 0.3.14\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @anionex/dsh-turn-rewind@0.3.14\nDone in 1s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:18:29.624Z",
-      "durationMs": 4795,
+      "startedAt": "2026-11-22T06:56:30.796Z",
+      "durationMs": 5998,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45561/?token=_iY02UfIhXOgHtcRVorRqtmcHbmzQmihaVoM3WY5GxU\n",
+      "stdout": "dsh web: http://127.0.0.1:41759/?token=OtH4yKFntaEpf__2tUxgy-ETIUZgZtjxxUaZ2SLrBVs\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1277,13 +1277,13 @@
               "disabled": false
             },
             {
-              "id": "57ed786c",
+              "id": "6fb34d4a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "aa5d1f3f",
+              "id": "8e75d8aa",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2176,12 +2176,12 @@
               "state": 2
             },
             {
-              "id": "57ed786c",
+              "id": "6fb34d4a",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "aa5d1f3f",
+              "id": "8e75d8aa",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2195,7 +2195,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2204,8 +2204,8 @@
   "subjects": [
     {
       "name": "@anionex/dsh-turn-rewind",
-      "version": "0.3.13",
-      "integrity": "sha512-BPP1AeaJSkdBCT/UrdCVnwpb4f0QKOABkOXQdCcIavbkY6SZYgCRKLAmMUojC+bgskJOf9gunD3Xm16kEKk68A==",
+      "version": "0.3.14",
+      "integrity": "sha512-WDoUVLWwM0+oPF/89gO34lIIIUxAUwKXD6Nt9hIVb8KD+Pk8B6PwIqaZSaw06T0mPIkt6cFQ1gzQx3eGKVH40g==",
       "resolution": "registry"
     }
   ],
@@ -2236,13 +2236,13 @@
         "disabled": false
       },
       {
-        "id": "57ed786c",
+        "id": "6fb34d4a",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "aa5d1f3f",
+        "id": "8e75d8aa",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

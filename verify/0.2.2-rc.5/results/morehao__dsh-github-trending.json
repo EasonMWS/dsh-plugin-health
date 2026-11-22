@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:18:23.297Z",
+  "generatedAt": "2026-11-22T06:56:19.774Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@morehao/dsh-github-trending@0.9.32",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HCvAss",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HCvAss/home",
+  "plugin": "@morehao/dsh-github-trending@0.9.33",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ds3eye",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ds3eye/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:18:23.645Z",
-      "durationMs": 2181,
+      "startedAt": "2026-11-22T06:56:20.119Z",
+      "durationMs": 1954,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @morehao/dsh-github-trending 0.9.32\n\nPackages: +10\n++++++++++\nProgress: resolved 10, reused 2, downloaded 8, added 10, done\nDone in 1.4s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HCvAss/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @morehao/dsh-github-trending 0.9.33\n\nPackages: +10\n++++++++++\nProgress: resolved 10, reused 2, downloaded 8, added 10, done\nDone in 1.3s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Ds3eye/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:18:25.830Z",
-      "durationMs": 4352,
+      "startedAt": "2026-11-22T06:56:22.077Z",
+      "durationMs": 3419,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:40013/?token=7Z2ljIetTuqCeyG14q-qbTP-OeQtrHjdpjz-C3ez7es\n",
+      "stdout": "dsh web: http://127.0.0.1:42899/?token=YSPX3cv4EFHu8IQAmlGvfz26Yh7GjSTaPzWcQKOeOTQ\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "9a5f354a",
+              "id": "70eb99df",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ce92d9f0",
+              "id": "88f32bf4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2165,12 +2165,12 @@
               "state": 2
             },
             {
-              "id": "9a5f354a",
+              "id": "70eb99df",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ce92d9f0",
+              "id": "88f32bf4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2184,7 +2184,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2193,8 +2193,8 @@
   "subjects": [
     {
       "name": "@morehao/dsh-github-trending",
-      "version": "0.9.32",
-      "integrity": "sha512-JZf0jnnNzBpxwxwbSk6FNkRRxR60kudc6u7FTy1sGPWoOweSXgk+/sinxQgeYmd3za5h1iL/tV21HPEyYAIGuA==",
+      "version": "0.9.33",
+      "integrity": "sha512-4gkrjkJ8GKbLrbrnSAFuwbeO1br3cQhM8PkCxs6cWpRaVasFTaXtfHZB/QzLQ+DWGFyDBNlJWaDUsbGMxEZdIQ==",
       "resolution": "registry"
     }
   ],
@@ -2225,13 +2225,13 @@
         "disabled": false
       },
       {
-        "id": "9a5f354a",
+        "id": "70eb99df",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ce92d9f0",
+        "id": "88f32bf4",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

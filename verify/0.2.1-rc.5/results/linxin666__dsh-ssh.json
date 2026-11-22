@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:35.850Z",
+  "generatedAt": "2026-11-22T06:59:49.742Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@linxin666/dsh-ssh@0.4.19",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-K98KWT",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-K98KWT/home",
+  "plugin": "@linxin666/dsh-ssh@0.4.20",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c6B4zr",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c6B4zr/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:21:36.354Z",
-      "durationMs": 179,
+      "startedAt": "2026-11-22T06:59:50.343Z",
+      "durationMs": 127,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @linxin666/dsh-ssh@0.4.19 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @linxin666/dsh-ssh@0.4.20 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:36.534Z",
-      "durationMs": 2292,
+      "startedAt": "2026-11-22T06:59:50.470Z",
+      "durationMs": 2037,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-ssh 0.4.19\n\nPackages: +15\n+++++++++++++++\nProgress: resolved 15, reused 0, downloaded 15, added 15, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-K98KWT/home/profiles/health-smoke/.plugin-manager/logs/operation-qzabtE/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-ssh 0.4.20\n\nPackages: +15\n+++++++++++++++\nProgress: resolved 15, reused 0, downloaded 15, added 15, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-c6B4zr/home/profiles/health-smoke/.plugin-manager/logs/operation-GsVgo7/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -40,7 +40,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -49,8 +49,8 @@
   "subjects": [
     {
       "name": "@linxin666/dsh-ssh",
-      "version": "0.4.19",
-      "integrity": "sha512-z/7bGcoiP3BymJTwq2+Jy4oKskwe5vmH7ma6/hJK6rNDjGv4jAYBDG42UMMOWfI6Ut44le5uQAPciE0va/4Uyw==",
+      "version": "0.4.20",
+      "integrity": "sha512-An/cAy7VFe1hnFiJxelpirnEUumZkNl4HYH09WE2pxFS5vxMfLMY9WRKlK+s2l5iAHNARMtxnCdBjVDR7EteAg==",
       "resolution": "registry"
     }
   ],

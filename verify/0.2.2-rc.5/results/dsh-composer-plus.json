@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:19:12.824Z",
+  "generatedAt": "2026-11-22T06:56:42.013Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-composer-plus@1.30.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aTubYr",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aTubYr/home",
+  "plugin": "dsh-composer-plus@1.31.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4PFIrd",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4PFIrd/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:19:13.163Z",
-      "durationMs": 1611,
+      "startedAt": "2026-11-22T06:56:42.388Z",
+      "durationMs": 1656,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-composer-plus 1.30.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 918ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aTubYr/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-composer-plus 1.31.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 970ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4PFIrd/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:19:14.776Z",
-      "durationMs": 3139,
+      "startedAt": "2026-11-22T06:56:44.045Z",
+      "durationMs": 2785,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38671/?token=ubAlOvqPYQ7cKdgEnGtRvYT1yH5uphSdeUThA3tbt9I\n",
-      "stderr": "dsh: fatal load failure: CordisError: cannot create effect on inactive context\n    at Fiber.assertActive (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:427:9)\n    at Proxy.plugin (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1694:18)\n    at Proxy.inject (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1673:15)\n    at apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-aTubYr/home/profiles/health-smoke/node_modules/dsh-composer-plus/index.js:9927:84) {\n  code: 'INACTIVE_EFFECT'\n}\n",
+      "stdout": "dsh web: http://127.0.0.1:44825/?token=ZnizwiM8atq3QXPzvBj1eaKZL7KJejeIMjqQK5M7ZNE\n",
+      "stderr": "dsh: fatal load failure: CordisError: cannot create effect on inactive context\n    at Fiber.assertActive (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:427:9)\n    at Proxy.plugin (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1694:18)\n    at Proxy.inject (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1673:15)\n    at apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-4PFIrd/home/profiles/health-smoke/node_modules/dsh-composer-plus/index.js:9963:84) {\n  code: 'INACTIVE_EFFECT'\n}\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "f6a5b0ca",
+              "id": "3f3befd4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "a209fed7",
+              "id": "ee4a9edd",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "f6a5b0ca",
+              "id": "3f3befd4",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "a209fed7",
+              "id": "ee4a9edd",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2191,8 +2191,8 @@
   "subjects": [
     {
       "name": "dsh-composer-plus",
-      "version": "1.30.1",
-      "integrity": "sha512-JTqlc+9S8DLEVo6uO1WfqM8NNRGrudo0FpVya+GNCXmoJD7uRPlb+TifPP5fcnHYg0pRlWeHk0qGNRJRMdvj1A==",
+      "version": "1.31.1",
+      "integrity": "sha512-xo/fDbGyNV+wXkgb137oi2l8vyWP8FgXWyt18eddMT78svVjCy3V6B6fKZxz6Ro5zPYfcDc2A5IBJxvjEui83Q==",
       "resolution": "registry"
     }
   ],
@@ -2228,13 +2228,13 @@
         "disabled": false
       },
       {
-        "id": "f6a5b0ca",
+        "id": "3f3befd4",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "a209fed7",
+        "id": "ee4a9edd",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

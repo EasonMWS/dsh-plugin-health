@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:22:11.858Z",
+  "generatedAt": "2026-11-22T07:00:25.229Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-vscode-mode@0.30.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yRy9tu",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yRy9tu/home",
+  "plugin": "dsh-vscode-mode@0.31.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Wt6EvW",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Wt6EvW/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:22:12.256Z",
-      "durationMs": 5874,
+      "startedAt": "2026-11-22T07:00:25.703Z",
+      "durationMs": 6794,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 113, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: fstream@1.0.12, glob@7.2.3, inflight@1.0.6, lodash.isequal@4.5.0, rimraf@2.7.1, uuid@8.3.2\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-vscode-mode 0.30.0\n\nPackages: +311\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 314, reused 12, downloaded 0, added 0\nProgress: resolved 314, reused 38, downloaded 182, added 15\nProgress: resolved 314, reused 38, downloaded 265, added 311, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yRy9tu/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yRy9tu/home/profiles/health-smoke/.plugin-manager/logs/operation-zd8nDA/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 41, reused 0, downloaded 0, added 0\nProgress: resolved 185, reused 0, downloaded 0, added 0\n[WARN] 6 deprecated subdependencies found: fstream@1.0.12, glob@7.2.3, inflight@1.0.6, lodash.isequal@4.5.0, rimraf@2.7.1, uuid@8.3.2\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-vscode-mode 0.31.0\n\nPackages: +311\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 314, reused 1, downloaded 0, added 0\nProgress: resolved 314, reused 2, downloaded 82, added 5\nProgress: resolved 314, reused 2, downloaded 301, added 311, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Wt6EvW/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Wt6EvW/home/profiles/health-smoke/.plugin-manager/logs/operation-IYisGW/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -27,7 +27,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "dsh-vscode-mode",
-      "version": "0.30.0",
-      "integrity": "sha512-+0barWJ//9MmWdxbHbOU5NajyRaNsja4UTwZqSk+NHu9Do/vQ2XO0Y1xYZehFuwdiP8dpftBMlY5AmClnjngAA==",
+      "version": "0.31.0",
+      "integrity": "sha512-U/i/Gqa3zN/B+3DziIGms7dcYMWgN6ODSLHcHK4ZCeF4zED7xBWM63cdH9sZACGiTEufcHo668dG+fYptCSvkA==",
       "resolution": "registry"
     }
   ],

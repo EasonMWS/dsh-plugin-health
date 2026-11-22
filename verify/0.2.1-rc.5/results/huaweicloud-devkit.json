@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:22:16.864Z",
+  "generatedAt": "2026-11-22T07:00:28.912Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "huaweicloud-devkit@1.1.14",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8wN59X",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8wN59X/home",
+  "plugin": "huaweicloud-devkit@1.1.15",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IFafjF",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IFafjF/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:22:17.140Z",
-      "durationMs": 1369,
+      "startedAt": "2026-11-22T07:00:29.327Z",
+      "durationMs": 1195,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ huaweicloud-devkit 1.1.14\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.14\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8wN59X/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8wN59X/home/profiles/health-smoke/.plugin-manager/logs/operation-oQlQeV/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ huaweicloud-devkit 1.1.15\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.15\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IFafjF/home/profiles/health-smoke\ndsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IFafjF/home/profiles/health-smoke/.plugin-manager/logs/operation-nzpdcq/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "huaweicloud-devkit",
-      "version": "1.1.14",
-      "integrity": "sha512-7cDEo9KtiF/NN3Xtub3RZrb1zXUcUiwiJ0xqRG3WwJvRapaMYL0oKk2syeDK9XZqU0dCYksTJArGgHDqe5tlDw==",
+      "version": "1.1.15",
+      "integrity": "sha512-TCgPoiXd3C5ucDkUo5G4cKJuzxO/fZxE/Kuf4p5Vk47irL6v5D3ygWRQel9z0lZA/6jTvrDBEfVT+lmY6GP0YQ==",
       "resolution": "registry"
     }
   ],
@@ -57,7 +57,7 @@
   "failure": {
     "stage": "install",
     "kind": "build-scripts-blocked",
-    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.14"
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: huaweicloud-devkit@1.1.15"
   },
   "level": "V1",
   "declared": true,

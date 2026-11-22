@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:18:26.929Z",
+  "generatedAt": "2026-11-22T06:56:55.828Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-perm-gate@5.5.4",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YpQTVe",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YpQTVe/home",
+  "plugin": "dsh-perm-gate@5.5.5",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZdXwI1",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZdXwI1/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:18:27.293Z",
-      "durationMs": 1474,
+      "startedAt": "2026-11-22T06:56:56.274Z",
+      "durationMs": 1946,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-perm-gate 5.5.4\n\nPackages: +7\n+++++++\nProgress: resolved 7, reused 4, downloaded 3, added 7, done\nDone in 792ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YpQTVe/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-perm-gate 5.5.5\n\nPackages: +7\n+++++++\nProgress: resolved 7, reused 4, downloaded 3, added 7, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZdXwI1/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:18:28.769Z",
-      "durationMs": 4160,
+      "startedAt": "2026-11-22T06:56:58.227Z",
+      "durationMs": 5422,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36967/?token=NJMBznWDYIOPeHB7kOf0bEBakz8khJlwEQ1DdLwvxFc\n",
-      "stderr": "[dsh-perm-gate] settings generation = rc1.loader (rc.1+: loader 自动注册 ns,update 直接成功;register-retry 兜底永不命中)\n[dsh-perm-gate] session sweep skipped: ENOENT: no such file or directory, open '/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YpQTVe/home/storages/workspace.json'\n[dsh-perm-gate] rules seed write failed: Error: cannot get required service \"profileContext\" in inactive context\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:116:39\n    at async withFileLock (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-atomic-write/lib/index.js:214:10)\n    at async run (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:72:4)\n    at async Proxy.edit (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:133:3)\n    at async Proxy.write (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-settings/lib/index.js:508:3)\n    at async Proxy.update (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-settings/lib/index.js:472:3)\n    at async file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YpQTVe/home/profiles/health-smoke/node_modules/dsh-perm-gate/lib/index.js:422:25\n[dsh-perm-gate] preset deny table 播种失败（不阻断启动，下次激活重试）: Error: cannot get required service \"loader\" in inactive context\n    at Proxy.entries (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:31:44)\n    at Object.apply (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:122:36)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:73:15\n    at withFileLock (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-atomic-write/lib/index.js:214:16)\n    at async run (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:72:4)\n    at async Proxy.edit (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:133:3)\n    at async Proxy.write (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-settings/lib/index.js:508:3)\n    at async Proxy.update (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-settings/lib/index.js:472:3)\n    at async file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-YpQTVe/home/profiles/health-smoke/node_modules/dsh-perm-gate/lib/index.js:331:13\n",
+      "stdout": "dsh web: http://127.0.0.1:44633/?token=YJXSvEaLXB8GfpyKSxu3PuLqRmWiEnvWLrrmkl_D00Q\n",
+      "stderr": "[dsh-perm-gate] settings generation = rc1.loader (rc.1+: loader 自动注册 ns,update 直接成功;register-retry 兜底永不命中)\n[dsh-perm-gate] session sweep skipped: ENOENT: no such file or directory, open '/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZdXwI1/home/storages/workspace.json'\n[dsh-perm-gate] rules seed write failed: Error: cannot get required service \"profileContext\" in inactive context\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:116:39\n    at async withFileLock (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-atomic-write/lib/index.js:214:10)\n    at async run (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:72:4)\n    at async Proxy.edit (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:133:3)\n    at async Proxy.write (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-settings/lib/index.js:508:3)\n    at async Proxy.update (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-settings/lib/index.js:472:3)\n    at async file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZdXwI1/home/profiles/health-smoke/node_modules/dsh-perm-gate/lib/index.js:422:25\n[dsh-perm-gate] preset deny table 播种失败（不阻断启动，下次激活重试）: Error: cannot get required service \"loader\" in inactive context\n    at Proxy.entries (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:31:44)\n    at Object.apply (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:122:36)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:73:15\n    at withFileLock (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-atomic-write/lib/index.js:214:16)\n    at async run (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:72:4)\n    at async Proxy.edit (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-config-editor/lib/index.js:133:3)\n    at async Proxy.write (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-settings/lib/index.js:508:3)\n    at async Proxy.update (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/dsh-settings/lib/index.js:472:3)\n    at async file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ZdXwI1/home/profiles/health-smoke/node_modules/dsh-perm-gate/lib/index.js:331:13\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "63637a9c",
+              "id": "b425a191",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "6a25e6c5",
+              "id": "04852b87",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "63637a9c",
+              "id": "b425a191",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "6a25e6c5",
+              "id": "04852b87",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2182,7 +2182,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2191,8 +2191,8 @@
   "subjects": [
     {
       "name": "dsh-perm-gate",
-      "version": "5.5.4",
-      "integrity": "sha512-QLLkfo7uVWbSQ1Q5Ce3U1ZhlE0NZ6obvQ1eR2QJcW9Ze1La9IVV1QRwWNYQ3YxqE01+waqzJ/U6/dM/2PVWqWg==",
+      "version": "5.5.5",
+      "integrity": "sha512-J7H8O6kkFJUYGpLhUMxiYizp2x0ciD6WgsJc2PNPJ0gSP689qZP7JlMyp6/hF1e8wHBLbGA/vMLW4uifkWJTOQ==",
       "resolution": "registry"
     }
   ],
@@ -2223,13 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "63637a9c",
+        "id": "b425a191",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "6a25e6c5",
+        "id": "04852b87",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

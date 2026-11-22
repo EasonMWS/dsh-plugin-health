@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:18:14.175Z",
+  "generatedAt": "2026-11-22T06:56:13.342Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@linxin666/dsh-web-all@0.4.19",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IU6pOt",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IU6pOt/home",
+  "plugin": "@linxin666/dsh-web-all@0.4.20",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jhyAvd",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jhyAvd/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:18:14.552Z",
-      "durationMs": 2357,
+      "startedAt": "2026-11-22T06:56:13.798Z",
+      "durationMs": 3090,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-web-all 0.4.19\n\nPackages: +48\n++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 58, reused 11, downloaded 37, added 48, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3, cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IU6pOt/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@linxin666/dsh-web-all@0.4.19'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IU6pOt/home/profiles/health-smoke/.plugin-manager/logs/operation-g3M3qx/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-web-all 0.4.20\n\nPackages: +49\n+++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 59, reused 5, downloaded 0, added 2\nProgress: resolved 59, reused 5, downloaded 44, added 49, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3, cpu-features@0.0.10, ssh2@1.17.0\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jhyAvd/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@linxin666/dsh-web-all@0.4.20'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jhyAvd/home/profiles/health-smoke/.plugin-manager/logs/operation-5AHufK/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -27,7 +27,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "@linxin666/dsh-web-all",
-      "version": "0.4.19",
-      "integrity": "sha512-FN5YAFMr+abiPHXJXEU2IhoNppx08xaRp+NOcVIFWJOTCZySkyHct1BI0rgGt0wsVkPTvKokhV8ofVNRJH6YFg==",
+      "version": "0.4.20",
+      "integrity": "sha512-dM+3TgWGzQ98MtjiUtCCJ8yUGXPHMO2VtBZ7MKFVdn/srW68t0YKQ3508Bnru9XiPPa5MhGbBugyE0NhCuVstg==",
       "resolution": "registry"
     }
   ],

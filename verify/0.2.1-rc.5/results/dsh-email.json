@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:22:27.300Z",
+  "generatedAt": "2026-11-22T07:00:37.918Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-email@0.29.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Jet6Nc",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Jet6Nc/home",
+  "plugin": "dsh-email@0.31.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zYKoJK",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-zYKoJK/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:22:27.693Z",
-      "durationMs": 159,
+      "startedAt": "2026-11-22T07:00:38.320Z",
+      "durationMs": 130,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-email@0.29.0 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-email@0.31.0 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:22:27.852Z",
-      "durationMs": 2364,
+      "startedAt": "2026-11-22T07:00:38.450Z",
+      "durationMs": 2309,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-email 0.29.0\n\nPackages: +67\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 67, reused 3, downloaded 46, added 8\nProgress: resolved 67, reused 3, downloaded 64, added 67, done\nDone in 1.6s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-email 0.31.0\n\nPackages: +68\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 68, reused 7, downloaded 61, added 68, done\nDone in 1.5s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:22:30.238Z",
-      "durationMs": 3106,
+      "startedAt": "2026-11-22T07:00:40.786Z",
+      "durationMs": 3745,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38539/?token=CUvbuD7zqHyq0XBok1Rpjz4UmhoEQegZV88350gInZU\n",
+      "stdout": "dsh web: http://127.0.0.1:40627/?token=wvUjsyTh2Sc1G-bSzo6uP0dZn2bKKgIeLD9bB0atEjM\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "108b621a",
+              "id": "f4fa926b",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ff517629",
+              "id": "23d7eef9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "108b621a",
+              "id": "f4fa926b",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ff517629",
+              "id": "23d7eef9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2078,7 +2078,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-email",
-      "version": "0.29.0",
-      "integrity": "sha512-EJ4RzA5lRskvT4z/gPus8Lgn2QLf0UmH+qyKkU+aaNcrVXWm+RzuDpmoE6BQnc+tqVos9KtJzMJd7ekvDszphA==",
+      "version": "0.31.0",
+      "integrity": "sha512-kir8TM+TuHaxFZL9xq93cKSEehqYCU8uhIp/1dmcJBX0s9pcNZ+CiDa9k2u5S5jZYmsaKPGkP+3S0XqWVt+HEA==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "108b621a",
+        "id": "f4fa926b",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ff517629",
+        "id": "23d7eef9",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
