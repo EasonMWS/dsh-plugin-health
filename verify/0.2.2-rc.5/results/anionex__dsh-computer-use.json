@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:23.303Z",
+  "generatedAt": "2026-11-22T15:23:49.941Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@anionex/dsh-computer-use@0.3.10",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yagMDV",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-yagMDV/home",
+  "plugin": "@anionex/dsh-computer-use@0.3.11",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2OkU3m",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2OkU3m/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-22T06:56:23.970Z",
-      "durationMs": 182,
+      "startedAt": "2026-11-22T15:23:50.458Z",
+      "durationMs": 138,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @anionex/dsh-computer-use@0.3.10 for DSH 0.2.2-rc.5\n",
+      "stdout": "dsh: allowed @anionex/dsh-computer-use@0.3.11 for DSH 0.2.2-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:24.153Z",
-      "durationMs": 2083,
+      "startedAt": "2026-11-22T15:23:50.596Z",
+      "durationMs": 2252,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @anionex/dsh-computer-use 0.3.10\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @anionex/dsh-computer-use@0.3.10\nDone in 1.2s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @anionex/dsh-computer-use 0.3.11\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1.4s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:56:26.241Z",
-      "durationMs": 5206,
+      "startedAt": "2026-11-22T15:23:52.866Z",
+      "durationMs": 4474,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46819/?token=9Rhc_ToRR9Be4IbIjT3AyuXw6cQ2aDWHDcYJXYvqn6E\n",
+      "stdout": "dsh web: http://127.0.0.1:33263/?token=jeL8eyVYxQLT6rn1BxMVhljA7XNMRvxDZPkaHycz1Oo\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1277,13 +1277,13 @@
               "disabled": false
             },
             {
-              "id": "ec2081a3",
+              "id": "36f82474",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ceaa7247",
+              "id": "7634289a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2176,12 +2176,12 @@
               "state": 2
             },
             {
-              "id": "ec2081a3",
+              "id": "36f82474",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ceaa7247",
+              "id": "7634289a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2204,8 +2204,8 @@
   "subjects": [
     {
       "name": "@anionex/dsh-computer-use",
-      "version": "0.3.10",
-      "integrity": "sha512-0wGQ945idmhUvrHw8OuEeS8HFd/IWpTrPgGW10AymJZ+VMOXgvdjQGPLM22Ak2QWSg3D8HYeCYrd6UnhPn2VQg==",
+      "version": "0.3.11",
+      "integrity": "sha512-gyV+eoK/J2Id7zkvYQkyzf5qKEoH+quoBZZ8PM/JS92ZYadxB4Tlp9LWtu66JzQyAPpV8xVeat1epu2Vu6Rerw==",
       "resolution": "registry"
     }
   ],
@@ -2236,13 +2236,13 @@
         "disabled": false
       },
       {
-        "id": "ec2081a3",
+        "id": "36f82474",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ceaa7247",
+        "id": "7634289a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

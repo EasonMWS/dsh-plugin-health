@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:41.700Z",
+  "generatedAt": "2026-11-22T15:23:58.608Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-fish-soul@0.18.20",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hDelip",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hDelip/home",
+  "plugin": "dsh-fish-soul@0.18.22",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mi3o7c",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mi3o7c/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:42.169Z",
-      "durationMs": 1783,
+      "startedAt": "2026-11-22T15:23:59.015Z",
+      "durationMs": 1623,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-fish-soul 0.18.20\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-fish-soul@0.18.20\nDone in 920ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-hDelip/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-fish-soul 0.18.22\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-fish-soul@0.18.22\nDone in 853ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mi3o7c/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:56:43.955Z",
-      "durationMs": 5314,
+      "startedAt": "2026-11-22T15:24:00.648Z",
+      "durationMs": 4182,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33965/?token=zVlsNDpyD39mgZ41JpbUefmvy9XgaJAlUESt5zsnF10\n",
-      "stderr": "(node:3247) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:40253/?token=zLs-EuZU1YGx7Lq6JcXWCJSPNrkRM5hp7s9GJSW2bpg\n",
+      "stderr": "(node:2802) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "cff62af5",
+              "id": "c3b2d6d1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "0d9b2abd",
+              "id": "8fb508f7",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2171,12 +2171,12 @@
               "state": 2
             },
             {
-              "id": "cff62af5",
+              "id": "c3b2d6d1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "0d9b2abd",
+              "id": "8fb508f7",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2199,8 +2199,8 @@
   "subjects": [
     {
       "name": "dsh-fish-soul",
-      "version": "0.18.20",
-      "integrity": "sha512-CiMcosuJhtqnWiupAahdhvIFgdP6bksDG08UP7gPRpsXId8ZKNVj6EDUcKmr3oz1Ycipv04fblp3GPAc3nHn0A==",
+      "version": "0.18.22",
+      "integrity": "sha512-2U1VU3ltDEg4bIBcHDUXD4syff+1bdH5gbRXEmnEoDn8/zNxaq3+oNvGT0rDvQAPtgBDbUry83/e1ZZNykU4lg==",
       "resolution": "registry"
     }
   ],
@@ -2231,13 +2231,13 @@
         "disabled": false
       },
       {
-        "id": "cff62af5",
+        "id": "c3b2d6d1",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "0d9b2abd",
+        "id": "8fb508f7",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

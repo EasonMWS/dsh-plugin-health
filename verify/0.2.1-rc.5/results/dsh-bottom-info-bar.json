@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:22.743Z",
+  "generatedAt": "2026-11-22T15:29:23.407Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-bottom-info-bar@1.26.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-9ToTbv",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-9ToTbv/home",
+  "plugin": "dsh-bottom-info-bar@1.27.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JGNcvE",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JGNcvE/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:23.034Z",
-      "durationMs": 1410,
+      "startedAt": "2026-11-22T15:29:23.900Z",
+      "durationMs": 1840,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bottom-info-bar 1.26.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 706ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-9ToTbv/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bottom-info-bar 1.27.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-bottom-info-bar@1.27.1\nDone in 928ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JGNcvE/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:24.451Z",
-      "durationMs": 2221,
+      "startedAt": "2026-11-22T15:29:25.743Z",
+      "durationMs": 3978,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42203/?token=dE2G_fN_G7MI-jd4MWBUwubnfYqSnB1zQExBmyZiOLY\n",
-      "stderr": "(node:3220) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[dsh-bottom-info-bar] 远程价目已合并（启动）：25 条有效条目\n[dsh-bottom-info-bar] 远程价目同步到账本失败: Ledger unavailable: Ledger is closed.\n",
+      "stdout": "dsh web: http://127.0.0.1:45259/?token=OCzHfwYRiv6Jeho2Y015nQ4HthZbArpvVezSlbR4U38\n",
+      "stderr": "(node:3484) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[dsh-bottom-info-bar] 远程价目已合并（启动）：25 条有效条目\n[dsh-bottom-info-bar] 远程价目同步到账本失败: Ledger unavailable: Ledger is closed.\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -39,6 +39,12 @@
         "hostCordis": "4.0.5",
         "footprint": {
           "entries": [
+            {
+              "id": "85829057",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1198,13 +1204,7 @@
               "disabled": false
             },
             {
-              "id": "b697ebd0",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "81073dbb",
+              "id": "7b977b9e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1220,6 +1220,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "85829057",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2046,12 +2051,7 @@
               "state": 2
             },
             {
-              "id": "b697ebd0",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "81073dbb",
+              "id": "7b977b9e",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-bottom-info-bar",
-      "version": "1.26.0",
-      "integrity": "sha512-fDgoq/Gk/D/EP2vOnpXOX9Sx9pFIAaoe+JlzAsJLBLAOFPdR0NhBc0ltabsnSr5FRbRbBvLeqqtQjiyTXUSHFA==",
+      "version": "1.27.1",
+      "integrity": "sha512-dJQCh9edzaWZq8JmF9dD9pU1cejrEgEfmDQSvKS8zZPD3gh+7iKK5MeGd7VSJF5rokoHS8WhVzTVOtjGodFklg==",
       "resolution": "registry"
     }
   ],
@@ -2100,19 +2100,19 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "85829057",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "bottom-info-bar",
         "name": "dsh-bottom-info-bar",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b697ebd0",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "81073dbb",
+        "id": "7b977b9e",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:57:04.731Z",
+  "generatedAt": "2026-11-22T15:24:11.328Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-search-index@0.7.25",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GnQXaj",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GnQXaj/home",
+  "plugin": "dsh-search-index@0.7.28",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2zbXTl",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2zbXTl/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:57:05.220Z",
-      "durationMs": 2333,
+      "startedAt": "2026-11-22T15:24:11.710Z",
+      "durationMs": 2101,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: prebuild-install@7.1.3\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-search-index 0.7.25\n\nPackages: +41\n+++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 41, reused 2, downloaded 39, added 41, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: better-sqlite3@12.11.1\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GnQXaj/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'dsh-search-index@0.7.25'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-GnQXaj/home/profiles/health-smoke/.plugin-manager/logs/operation-eHB7vT/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] 1 deprecated subdependencies found: prebuild-install@7.1.3\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-search-index 0.7.28\n\nPackages: +41\n+++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 41, reused 2, downloaded 39, added 41, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-search-index@0.7.28\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: better-sqlite3@12.11.1\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2zbXTl/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add 'dsh-search-index@0.7.28'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2zbXTl/home/profiles/health-smoke/.plugin-manager/logs/operation-EVLJ5L/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "dsh-search-index",
-      "version": "0.7.25",
-      "integrity": "sha512-0K9G/XAJALRxoTW2yaNFyOdEkR1RbSC4PWOZdUrA9/HjALwsG7oflrCeeOV5xugJLMtkZ4MSHcP132BToBxiwA==",
+      "version": "0.7.28",
+      "integrity": "sha512-smAj0nwn70tM7bkVf4SIaft9pnzeS2Q6UlmC5c++d3WogWwtvHyKGo5hXGk0Qn4ox+GyvhX0YwPxljVRTU1Dbw==",
       "resolution": "registry"
     }
   ],

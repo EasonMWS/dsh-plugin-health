@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:46.147Z",
+  "generatedAt": "2026-11-22T15:24:13.848Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-mobile-plugin@0.5.90",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kOEkVH",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kOEkVH/home",
+  "plugin": "dsh-mobile-plugin@0.5.96",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0dtKrV",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0dtKrV/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:46.569Z",
-      "durationMs": 1934,
+      "startedAt": "2026-11-22T15:24:14.339Z",
+      "durationMs": 2537,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-mobile-plugin 0.5.90\n\nPackages: +39\n+++++++++++++++++++++++++++++++++++++++\nProgress: resolved 47, reused 0, downloaded 39, added 39, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-mobile-plugin@0.5.90\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kOEkVH/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-mobile-plugin 0.5.96\n\nPackages: +39\n+++++++++++++++++++++++++++++++++++++++\nProgress: resolved 48, reused 1, downloaded 38, added 39, done\nAdded 7 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-mobile-plugin@0.5.96\n  dsh-mobile-tailcat-darwin-arm64@1.1.7\n  dsh-mobile-tailcat-darwin-x64@1.1.7\n  dsh-mobile-tailcat-linux-arm64@1.1.7\n  dsh-mobile-tailcat-linux-x64@1.1.7\n  dsh-mobile-tailcat-win32-arm64@1.1.7\n  dsh-mobile-tailcat-win32-x64@1.1.7\nDone in 1.3s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0dtKrV/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:56:48.525Z",
-      "durationMs": 4228,
+      "startedAt": "2026-11-22T15:24:16.894Z",
+      "durationMs": 4687,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45255/?token=-qnbQ8HVJhOS_FKMENCFbfzdRjPF5ZdDiN0Gwi-oBdQ\n",
+      "stdout": "dsh web: http://127.0.0.1:42577/?token=bACPOU6yzuFWIuqbcr6chJbo3xKEcI_fP6wi9ndoXUk\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "194bde2a",
+              "id": "bf9bb6ab",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "bcd731a1",
+              "id": "c7ebbf5b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "194bde2a",
+              "id": "bf9bb6ab",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "bcd731a1",
+              "id": "c7ebbf5b",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2191,8 +2191,8 @@
   "subjects": [
     {
       "name": "dsh-mobile-plugin",
-      "version": "0.5.90",
-      "integrity": "sha512-mr07FPstOsIc8kdRgdsyx5/XZVpLC+xCiDrfn3e5jA9L7BgBW3K4byB2DUIOPhKoFrzAXaus+Hh5s+7V+lawQQ==",
+      "version": "0.5.96",
+      "integrity": "sha512-FXJXX9t7qpAw1e83LU0DPk421RhowuAb3pkk1H9f76DX0Vyeg8TwWCvS+LrgW7Grg6chPTdPKUC1yBiJvmAFPg==",
       "resolution": "registry"
     }
   ],
@@ -2223,13 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "194bde2a",
+        "id": "bf9bb6ab",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "bcd731a1",
+        "id": "c7ebbf5b",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

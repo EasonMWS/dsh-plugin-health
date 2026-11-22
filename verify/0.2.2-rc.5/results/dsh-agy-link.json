@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:30.978Z",
+  "generatedAt": "2026-11-22T15:23:42.495Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-agy-link@0.6.55",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-X6ZanD",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-X6ZanD/home",
+  "plugin": "dsh-agy-link@0.6.65",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-s2oN2z",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-s2oN2z/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:31.300Z",
-      "durationMs": 1733,
+      "startedAt": "2026-11-22T15:23:42.854Z",
+      "durationMs": 1828,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-agy-link 0.6.55\n\nPackages: +30\n++++++++++++++++++++++++++++++\nProgress: resolved 30, reused 10, downloaded 20, added 30, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-agy-link@0.6.55\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-X6ZanD/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-agy-link 0.6.65\n\nPackages: +30\n++++++++++++++++++++++++++++++\nProgress: resolved 30, reused 0, downloaded 30, added 30, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-agy-link@0.6.65\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-s2oN2z/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:56:33.040Z",
-      "durationMs": 3460,
+      "startedAt": "2026-11-22T15:23:44.692Z",
+      "durationMs": 3945,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35899/?token=lDat3Fu_SW2hIpkknl2RtGvt5_rouOs2kj75XhNUC9M\n",
+      "stdout": "dsh web: http://127.0.0.1:38655/?token=jmJZA5emmu6Mc0E5VyTpJzvfSVi1-ZkX2yOnWKu3ybs\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "c1a7f28f",
+              "id": "d1585c3b",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "4136835f",
+              "id": "a5cf0c87",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2163,12 +2163,12 @@
               "state": 2
             },
             {
-              "id": "c1a7f28f",
+              "id": "d1585c3b",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "4136835f",
+              "id": "a5cf0c87",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2191,8 +2191,8 @@
   "subjects": [
     {
       "name": "dsh-agy-link",
-      "version": "0.6.55",
-      "integrity": "sha512-ZDOcX4TgfQr3kOAlNol8V2H8tpFPURncBQrzEqdkPUQ56J0J5AbcgKDMcvLIfSz6NSXVe6rfvzXdQ/+AUplP1g==",
+      "version": "0.6.65",
+      "integrity": "sha512-zlEU+BeViE39revj0F7qmx76nldfVIhGjWDgWOCiedpjkyUEj48UwQ7AMiWDXSVBMqDzn+do3bz2fOzGYgvD/A==",
       "resolution": "registry"
     }
   ],
@@ -2223,13 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "c1a7f28f",
+        "id": "d1585c3b",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "4136835f",
+        "id": "a5cf0c87",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

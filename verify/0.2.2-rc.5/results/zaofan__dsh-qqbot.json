@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:26.658Z",
+  "generatedAt": "2026-11-22T15:23:45.925Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@zaofan/dsh-qqbot@1.13.20",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gn169v",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gn169v/home",
+  "plugin": "@zaofan/dsh-qqbot@1.13.21",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LRBL4u",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LRBL4u/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:26.934Z",
-      "durationMs": 5689,
+      "startedAt": "2026-11-22T15:23:46.222Z",
+      "durationMs": 6532,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.20\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 3, downloaded 13, added 3\nProgress: resolved 147, reused 3, downloaded 116, added 118\nProgress: resolved 147, reused 3, downloaded 118, added 119\nProgress: resolved 147, reused 3, downloaded 118, added 120\nProgress: resolved 147, reused 3, downloaded 118, added 121, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gn169v/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@zaofan/dsh-qqbot@1.13.20'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-gn169v/home/profiles/health-smoke/.plugin-manager/logs/operation-WTGx2K/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 147, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.21\n\nPackages: +121\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 147, reused 0, downloaded 119, added 37\nProgress: resolved 147, reused 0, downloaded 120, added 119\nProgress: resolved 147, reused 0, downloaded 121, added 119\nProgress: resolved 147, reused 0, downloaded 121, added 121, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @zaofan/dsh-qqbot@1.13.21\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LRBL4u/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@zaofan/dsh-qqbot@1.13.21'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LRBL4u/home/profiles/health-smoke/.plugin-manager/logs/operation-Oc7I4L/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "@zaofan/dsh-qqbot",
-      "version": "1.13.20",
-      "integrity": "sha512-+UEeuDxvSmK7K7X2cPQ6fHXU+kPKxMhycVJv4N0+GC4TOjAxMPQw0C1wSfDQPIjq/ak+mEDPYQ21QmNq3CKHVw==",
+      "version": "1.13.21",
+      "integrity": "sha512-dnFwxqaAuDyriCpot9sJMskKISyavUfUVasoQEPcEMJLSCt+gpSwWfaTWiopOtwO9DCp+5/Kgw39/s8Wf6U7qQ==",
       "resolution": "registry"
     }
   ],

@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:27.777Z",
+  "generatedAt": "2026-11-22T15:28:48.549Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@changfenhuang/dsh-genui@0.16.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OTvSqn",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OTvSqn/home",
+  "plugin": "@changfenhuang/dsh-genui@0.17.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EnQkp3",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EnQkp3/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:28.301Z",
+      "startedAt": "2026-11-22T15:28:48.950Z",
+      "durationMs": 1836,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @changfenhuang/dsh-genui 0.17.0\n\nPackages: +41\n+++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 41, reused 0, downloaded 41, added 41, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @changfenhuang/dsh-genui@0.17.0\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-EnQkp3/home/profiles/health-smoke\n",
+      "truncated": false
+    },
+    {
+      "name": "runtime",
+      "startedAt": "2026-11-22T15:28:50.806Z",
       "durationMs": 3001,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @changfenhuang/dsh-genui 0.16.0\n\nPackages: +41\n+++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 41, reused 0, downloaded 15, added 4\nProgress: resolved 41, reused 0, downloaded 41, added 41, done\nDone in 1.9s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OTvSqn/home/profiles/health-smoke\n",
-      "truncated": false
-    },
-    {
-      "name": "runtime",
-      "startedAt": "2026-11-19T13:21:31.323Z",
-      "durationMs": 4440,
-      "ok": true,
-      "exitCode": 0,
-      "signal": null,
-      "timedOut": false,
-      "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44193/?token=kRbGUWm5kS2lrn-P2RFZvc6DDjnSl6kfW2ZYiq4XFac\n",
+      "stdout": "dsh web: http://127.0.0.1:40669/?token=suU9j4DR_srq4yuvtv7k-r6bQvswSZdTT14_CYiL9i8\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "2b69d63c",
+              "id": "0c547413",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "646cbadc",
+              "id": "89411ad3",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "2b69d63c",
+              "id": "0c547413",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "646cbadc",
+              "id": "89411ad3",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2065,7 +2065,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "@changfenhuang/dsh-genui",
-      "version": "0.16.0",
-      "integrity": "sha512-UyBFwCQ+byFRlEn8RCP9XD9Qm8dPHV2dqBJLsuUbEGvy51KUkcKjDdMoq8/N4rtGJy+qKg2L2iaSEWVbu0qrbg==",
+      "version": "0.17.0",
+      "integrity": "sha512-NNQLGhGurdXEIS187IES7XKqt/XiyCeO+Or/9WGYGEyG+MH+oip4K06EbECHIDafIWzV00fmsPVl10tS877M5g==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "2b69d63c",
+        "id": "0c547413",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "646cbadc",
+        "id": "89411ad3",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

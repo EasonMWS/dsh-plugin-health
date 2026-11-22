@@ -1,55 +1,42 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:31.507Z",
-  "hostVersion": "0.2.2-rc.5",
-  "plugin": "@zoria-lind/dsh-ecolink-adapter@1.1.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OpwBBs",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-OpwBBs/home",
+  "generatedAt": "2026-11-22T15:27:10.422Z",
+  "hostVersion": "0.2.3-alpha.2",
+  "plugin": "dsh-canvas-tsx-sidebar@0.7.9",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NpwO17",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NpwO17/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "allow-version",
-      "startedAt": "2026-11-22T06:56:31.961Z",
-      "durationMs": 183,
-      "ok": true,
-      "exitCode": 0,
-      "signal": null,
-      "timedOut": false,
-      "orphaned": false,
-      "stdout": "dsh: allowed @zoria-lind/dsh-ecolink-adapter@1.1.1 for DSH 0.2.2-rc.5\n",
-      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
-      "truncated": false
-    },
-    {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:32.144Z",
-      "durationMs": 2034,
+      "startedAt": "2026-11-22T15:27:10.959Z",
+      "durationMs": 2191,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @zoria-lind/dsh-ecolink-adapter 1.1.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.1s using pnpm v11.7.0\n",
-      "stderr": "",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-canvas-tsx-sidebar 0.7.9\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-NpwO17/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:56:34.190Z",
-      "durationMs": 5321,
+      "startedAt": "2026-11-22T15:27:13.154Z",
+      "durationMs": 6277,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:44591/?token=-gDdQFe4j56WnUr4xsre_LPAHljm-IjVTt0sJPcwM64\n",
+      "stdout": "dsh web: http://127.0.0.1:42155/?token=RYjiz1Fm62znmx5qhV_aJ1LkrjOU-2t1fnzOsS0rPsw\n",
       "stderr": "",
       "truncated": false,
       "details": {
         "ok": true,
         "stage": "complete",
-        "hostCordis": "4.1.0",
+        "hostCordis": "4.2.0-alpha.1",
         "footprint": {
           "entries": [
             {
@@ -203,6 +190,12 @@
               "disabled": false
             },
             {
+              "id": "deepseek-auth",
+              "name": "@deepseek-ai/dsh-deepseek-auth",
+              "state": 2,
+              "disabled": false
+            },
+            {
               "id": "credentials",
               "name": "@deepseek-ai/dsh-credentials-local",
               "state": 2,
@@ -235,12 +228,6 @@
             {
               "id": "working-directory",
               "name": "@deepseek-ai/dsh-working-directory",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "tool-working-directory",
-              "name": "@deepseek-ai/dsh-tool-working-directory",
               "state": 2,
               "disabled": false
             },
@@ -289,6 +276,12 @@
             {
               "id": "subprocess",
               "name": "@deepseek-ai/dsh-subprocess-local",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "cli-account",
+              "name": "@deepseek-ai/dsh-cli-account",
               "state": 2,
               "disabled": false
             },
@@ -393,6 +386,12 @@
               "name": "@deepseek-ai/dsh-tool-skill",
               "state": null,
               "disabled": true
+            },
+            {
+              "id": "upstream-skills",
+              "name": "@deepseek-ai/dsh-upstream-skills",
+              "state": 2,
+              "disabled": false
             },
             {
               "id": "commands",
@@ -653,8 +652,8 @@
               "disabled": false
             },
             {
-              "id": "ecolink-adapter",
-              "name": "@zoria-lind/dsh-ecolink-adapter",
+              "id": "dsh-canvas-tsx-sidebar",
+              "name": "dsh-canvas-tsx-sidebar",
               "state": 2,
               "disabled": false
             },
@@ -761,6 +760,12 @@
               "disabled": false
             },
             {
+              "id": "tool-session-control",
+              "name": "@deepseek-ai/dsh-tool-session-control",
+              "state": null,
+              "disabled": true
+            },
+            {
               "id": "job-controller",
               "name": "@deepseek-ai/dsh-api-job-controller",
               "state": 2,
@@ -805,6 +810,12 @@
             {
               "id": "mcp-manager",
               "name": "@deepseek-ai/dsh-mcp-manager",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "mcp-account",
+              "name": "@deepseek-ai/dsh-mcp-account",
               "state": 2,
               "disabled": false
             },
@@ -869,6 +880,12 @@
               "disabled": false
             },
             {
+              "id": "authentication-token",
+              "name": "@deepseek-ai/dsh-host-authentication-token",
+              "state": 2,
+              "disabled": false
+            },
+            {
               "id": "file-upload",
               "name": "@deepseek-ai/dsh-client-file-upload",
               "state": 2,
@@ -925,6 +942,12 @@
             {
               "id": "ui-session",
               "name": "@deepseek-ai/dsh-client-ui-session",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "ui-session-status",
+              "name": "@deepseek-ai/dsh-client-ui-session-status",
               "state": 2,
               "disabled": false
             },
@@ -1001,6 +1024,12 @@
               "disabled": false
             },
             {
+              "id": "remote-connection",
+              "name": "@deepseek-ai/dsh-client-remote-connection",
+              "state": 2,
+              "disabled": false
+            },
+            {
               "id": "ui-settings-models",
               "name": "@deepseek-ai/dsh-client-ui-settings-models",
               "state": 2,
@@ -1013,8 +1042,8 @@
               "disabled": false
             },
             {
-              "id": "ui-settings-plugin-inventory",
-              "name": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+              "id": "ui-connector-account",
+              "name": "@deepseek-ai/dsh-client-ui-connector-account",
               "state": 2,
               "disabled": false
             },
@@ -1091,6 +1120,42 @@
               "disabled": false
             },
             {
+              "id": "action-cards",
+              "name": "@deepseek-ai/dsh-action-cards",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "client-ui-action-cards",
+              "name": "@deepseek-ai/dsh-client-ui-action-cards",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "creation-recommendations",
+              "name": "@deepseek-ai/dsh-creation-recommendations",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "client-ui-creation-recommendations",
+              "name": "@deepseek-ai/dsh-client-ui-creation-recommendations",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "plugin-recommendations",
+              "name": "@deepseek-ai/dsh-plugin-recommendations",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "client-ui-plugin-recommendations",
+              "name": "@deepseek-ai/dsh-client-ui-plugin-recommendations",
+              "state": 2,
+              "disabled": false
+            },
+            {
               "id": "ui-workspace",
               "name": "@deepseek-ai/dsh-client-ui-workspace",
               "state": 2,
@@ -1157,6 +1222,12 @@
               "disabled": false
             },
             {
+              "id": "ui-session-panel",
+              "name": "@deepseek-ai/dsh-client-ui-session-panel",
+              "state": 2,
+              "disabled": false
+            },
+            {
               "id": "ui-goal",
               "name": "@deepseek-ai/dsh-client-ui-goal",
               "state": 2,
@@ -1195,12 +1266,6 @@
             {
               "id": "ui-settings-session-log",
               "name": "@deepseek-ai/dsh-client-ui-settings-session-log",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "ui-settings-plugins",
-              "name": "@deepseek-ai/dsh-client-ui-settings-plugins",
               "state": 2,
               "disabled": false
             },
@@ -1277,13 +1342,13 @@
               "disabled": false
             },
             {
-              "id": "5c91361b",
+              "id": "7a1093da",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "44cd9c1b",
+              "id": "5629356a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1293,14 +1358,13 @@
             "team_task_create",
             "team_task_get",
             "team_task_list",
-            "team_task_update",
-            "working_directory"
+            "team_task_update"
           ],
           "toolsUnavailable": false
         },
         "hostContract": {
-          "checked": 174,
-          "active": 174
+          "checked": 186,
+          "active": 186
         },
         "assertions": {
           "bootOnly": true,
@@ -1426,6 +1490,11 @@
               "state": 2
             },
             {
+              "id": "deepseek-auth",
+              "name": "@deepseek-ai/dsh-deepseek-auth",
+              "state": 2
+            },
+            {
               "id": "credentials",
               "name": "@deepseek-ai/dsh-credentials-local",
               "state": 2
@@ -1453,11 +1522,6 @@
             {
               "id": "working-directory",
               "name": "@deepseek-ai/dsh-working-directory",
-              "state": 2
-            },
-            {
-              "id": "tool-working-directory",
-              "name": "@deepseek-ai/dsh-tool-working-directory",
               "state": 2
             },
             {
@@ -1496,6 +1560,11 @@
               "state": 2
             },
             {
+              "id": "cli-account",
+              "name": "@deepseek-ai/dsh-cli-account",
+              "state": 2
+            },
+            {
               "id": "sandbox",
               "name": "@deepseek-ai/dsh-sandbox-local",
               "state": 2
@@ -1528,6 +1597,11 @@
             {
               "id": "skill",
               "name": "@deepseek-ai/dsh-skill",
+              "state": 2
+            },
+            {
+              "id": "upstream-skills",
+              "name": "@deepseek-ai/dsh-upstream-skills",
               "state": 2
             },
             {
@@ -1676,8 +1750,8 @@
               "state": 2
             },
             {
-              "id": "ecolink-adapter",
-              "name": "@zoria-lind/dsh-ecolink-adapter",
+              "id": "dsh-canvas-tsx-sidebar",
+              "name": "dsh-canvas-tsx-sidebar",
               "state": 2
             },
             {
@@ -1796,6 +1870,11 @@
               "state": 2
             },
             {
+              "id": "mcp-account",
+              "name": "@deepseek-ai/dsh-mcp-account",
+              "state": 2
+            },
+            {
               "id": "workspace-controller",
               "name": "@deepseek-ai/dsh-api-workspace-controller",
               "state": 2
@@ -1843,6 +1922,11 @@
             {
               "id": "connection",
               "name": "@deepseek-ai/dsh-client-connection",
+              "state": 2
+            },
+            {
+              "id": "authentication-token",
+              "name": "@deepseek-ai/dsh-host-authentication-token",
               "state": 2
             },
             {
@@ -1896,6 +1980,11 @@
               "state": 2
             },
             {
+              "id": "ui-session-status",
+              "name": "@deepseek-ai/dsh-client-ui-session-status",
+              "state": 2
+            },
+            {
               "id": "resources",
               "name": "@deepseek-ai/dsh-client-resources",
               "state": 2
@@ -1946,6 +2035,11 @@
               "state": 2
             },
             {
+              "id": "remote-connection",
+              "name": "@deepseek-ai/dsh-client-remote-connection",
+              "state": 2
+            },
+            {
               "id": "ui-settings-models",
               "name": "@deepseek-ai/dsh-client-ui-settings-models",
               "state": 2
@@ -1956,8 +2050,8 @@
               "state": 2
             },
             {
-              "id": "ui-settings-plugin-inventory",
-              "name": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+              "id": "ui-connector-account",
+              "name": "@deepseek-ai/dsh-client-ui-connector-account",
               "state": 2
             },
             {
@@ -2021,6 +2115,36 @@
               "state": 2
             },
             {
+              "id": "action-cards",
+              "name": "@deepseek-ai/dsh-action-cards",
+              "state": 2
+            },
+            {
+              "id": "client-ui-action-cards",
+              "name": "@deepseek-ai/dsh-client-ui-action-cards",
+              "state": 2
+            },
+            {
+              "id": "creation-recommendations",
+              "name": "@deepseek-ai/dsh-creation-recommendations",
+              "state": 2
+            },
+            {
+              "id": "client-ui-creation-recommendations",
+              "name": "@deepseek-ai/dsh-client-ui-creation-recommendations",
+              "state": 2
+            },
+            {
+              "id": "plugin-recommendations",
+              "name": "@deepseek-ai/dsh-plugin-recommendations",
+              "state": 2
+            },
+            {
+              "id": "client-ui-plugin-recommendations",
+              "name": "@deepseek-ai/dsh-client-ui-plugin-recommendations",
+              "state": 2
+            },
+            {
               "id": "ui-workspace",
               "name": "@deepseek-ai/dsh-client-ui-workspace",
               "state": 2
@@ -2076,6 +2200,11 @@
               "state": 2
             },
             {
+              "id": "ui-session-panel",
+              "name": "@deepseek-ai/dsh-client-ui-session-panel",
+              "state": 2
+            },
+            {
               "id": "ui-goal",
               "name": "@deepseek-ai/dsh-client-ui-goal",
               "state": 2
@@ -2108,11 +2237,6 @@
             {
               "id": "ui-settings-session-log",
               "name": "@deepseek-ai/dsh-client-ui-settings-session-log",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-plugins",
-              "name": "@deepseek-ai/dsh-client-ui-settings-plugins",
               "state": 2
             },
             {
@@ -2176,12 +2300,12 @@
               "state": 2
             },
             {
-              "id": "5c91361b",
+              "id": "7a1093da",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "44cd9c1b",
+              "id": "5629356a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2199,13 +2323,13 @@
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
-    "cordis": "4.1.0"
+    "cordis": "4.2.0-alpha.1"
   },
   "subjects": [
     {
-      "name": "@zoria-lind/dsh-ecolink-adapter",
-      "version": "1.1.1",
-      "integrity": "sha512-vTa3CdoLAtJeDY42kpAVGhxS/yLI3MOidHnOp35//obgGP/H3dJ8O8lIilcIQhqVlOKLPwix9WYkoQOn5RdsCQ==",
+      "name": "dsh-canvas-tsx-sidebar",
+      "version": "0.7.9",
+      "integrity": "sha512-RNWoFnFbHenqODtPUePn3Tfr7W5sC7aq2THVhJAfHTwhZyrXzRQLDA/4lYtgGKI47eWVq1GBtk5dHVaPgH3e0Q==",
       "resolution": "registry"
     }
   ],
@@ -2225,24 +2349,24 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": null,
-  "declared": false,
+  "level": "V3",
+  "declared": true,
   "footprintDelta": {
     "entries": [
       {
-        "id": "ecolink-adapter",
-        "name": "@zoria-lind/dsh-ecolink-adapter",
+        "id": "dsh-canvas-tsx-sidebar",
+        "name": "dsh-canvas-tsx-sidebar",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "5c91361b",
+        "id": "7a1093da",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "44cd9c1b",
+        "id": "5629356a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2251,10 +2375,5 @@
     "tools": [],
     "toolsUnavailable": false,
     "baseline": "host"
-  },
-  "bypassed": true,
-  "bypass": {
-    "level": "V3",
-    "failure": null
   }
 }

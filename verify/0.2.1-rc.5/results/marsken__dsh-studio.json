@@ -1,50 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:59:52.787Z",
+  "generatedAt": "2026-11-22T15:28:51.613Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@marsken/dsh-studio@0.9.56",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7DEqCH",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7DEqCH/home",
+  "plugin": "@marsken/dsh-studio@0.9.66",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uHaXIm",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-uHaXIm/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-22T06:59:53.156Z",
-      "durationMs": 125,
+      "startedAt": "2026-11-22T15:28:51.941Z",
+      "durationMs": 129,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @marsken/dsh-studio@0.9.56 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @marsken/dsh-studio@0.9.66 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:59:53.282Z",
-      "durationMs": 1545,
+      "startedAt": "2026-11-22T15:28:52.070Z",
+      "durationMs": 1609,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @marsken/dsh-studio 0.9.56\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @marsken/dsh-studio@0.9.56\nDone in 831ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @marsken/dsh-studio 0.9.66\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @marsken/dsh-studio@0.9.66\nDone in 943ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:59:54.829Z",
-      "durationMs": 2789,
+      "startedAt": "2026-11-22T15:28:53.681Z",
+      "durationMs": 3001,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36943/?token=27xoClSCWaEmssaf1lVknTsl8VBB5c433QBmLT9puzM\n",
-      "stderr": "(node:2815) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:38491/?token=B0i6IGjIbn17OW_xvS4P21eq7J6p_uNxHa0uSgM3zTk\n",
+      "stderr": "(node:2709) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "97b119a2",
+              "id": "519be21d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "0c6c5f41",
+              "id": "e154a10a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "97b119a2",
+              "id": "519be21d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "0c6c5f41",
+              "id": "e154a10a",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@marsken/dsh-studio",
-      "version": "0.9.56",
-      "integrity": "sha512-Z84E2qeKfZShSr8UPO55EX4u9BDAX7t6AoSoEKfGuLu8a6fl+hgtwBW9/mH0WRbzMOsa7mX2sSJQXUdTX/S9cA==",
+      "version": "0.9.66",
+      "integrity": "sha512-PoSFbu4HE8KLf5rfz0LfqYHMXGgDDv4yMXTnEO7H4yWge2sOYEvZGWZCjKHjPo/Tawutx83F1fBiIsYRWGda/w==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "97b119a2",
+        "id": "519be21d",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "0c6c5f41",
+        "id": "e154a10a",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

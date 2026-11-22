@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:59:02.496Z",
+  "generatedAt": "2026-11-22T15:28:04.188Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@mokuyoaxis/agent-guard@0.3.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KvjJJZ",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-KvjJJZ/home",
+  "plugin": "@mokuyoaxis/agent-guard@0.3.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1Xzczk",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-1Xzczk/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-22T06:59:02.864Z",
-      "durationMs": 123,
+      "startedAt": "2026-11-22T15:28:04.836Z",
+      "durationMs": 237,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @mokuyoaxis/agent-guard@0.3.1 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @mokuyoaxis/agent-guard@0.3.2 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:59:02.987Z",
-      "durationMs": 1546,
+      "startedAt": "2026-11-22T15:28:05.074Z",
+      "durationMs": 2062,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @mokuyoaxis/agent-guard 0.3.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @mokuyoaxis/agent-guard@0.3.1\nDone in 844ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @mokuyoaxis/agent-guard 0.3.2\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @mokuyoaxis/agent-guard@0.3.2\nDone in 957ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:59:04.535Z",
-      "durationMs": 2916,
+      "startedAt": "2026-11-22T15:28:07.140Z",
+      "durationMs": 3638,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[agent-guard] Hook registered; local Python checker passed. Live host interception is unverified. Inspect agent_guard_status for diagnostics.\ndsh web: http://127.0.0.1:34985/?token=xl_2M26qw4jiGZg-wPNH-rS5zkiceDgQSZMfS39yU2E\n",
+      "stdout": "[agent-guard] Hook registered; local Python checker passed. Live host interception is unverified. Inspect agent_guard_status for diagnostics.\ndsh web: http://127.0.0.1:40163/?token=V-4qwIU9gCQQXGBCLFquNSpmuAyqg0QL8WsfztwZlas\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "5deb554b",
+              "id": "75d66cba",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "eeeaab20",
+              "id": "e0f5e9db",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "5deb554b",
+              "id": "75d66cba",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "eeeaab20",
+              "id": "e0f5e9db",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@mokuyoaxis/agent-guard",
-      "version": "0.3.1",
-      "integrity": "sha512-JmOwSVhPbmPHoTpJgJxjNHp++6zcGWkgbCO+/M8RprI/GRqBiCKimuOvEyeJ0HMz+3gWNDbtc7EX3X2tp5x4vA==",
+      "version": "0.3.2",
+      "integrity": "sha512-2GEAdLNmVJFIf4SM2EYqZWy5F/nRN/1OTJ41LHn1FU/dbYKtlvBV9uG095oBsUc5a8E3TgSRVyU2lCDCMAsnjQ==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "5deb554b",
+        "id": "75d66cba",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "eeeaab20",
+        "id": "e0f5e9db",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
