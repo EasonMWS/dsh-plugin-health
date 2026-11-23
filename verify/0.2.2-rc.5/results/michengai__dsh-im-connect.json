@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T15:23:47.518Z",
+  "generatedAt": "2026-11-23T13:39:02.781Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@michengai/dsh-im-connect@1.0.49",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iVngQH",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iVngQH/home",
+  "plugin": "@michengai/dsh-im-connect@1.0.50",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VNABmR",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VNABmR/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T15:23:47.777Z",
-      "durationMs": 2638,
+      "startedAt": "2026-11-23T13:39:03.286Z",
+      "durationMs": 3377,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-im-connect 1.0.49\n\nPackages: +88\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 0, downloaded 88, added 88, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iVngQH/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@michengai/dsh-im-connect@1.0.49'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iVngQH/home/profiles/health-smoke/.plugin-manager/logs/operation-mdcywy/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-im-connect 1.0.50\n\nPackages: +88\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 0, downloaded 23, added 0\nProgress: resolved 88, reused 0, downloaded 88, added 88, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @michengai/dsh-im-connect@1.0.50\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VNABmR/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@michengai/dsh-im-connect@1.0.50'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VNABmR/home/profiles/health-smoke/.plugin-manager/logs/operation-CzeRXj/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -36,8 +36,8 @@
   "subjects": [
     {
       "name": "@michengai/dsh-im-connect",
-      "version": "1.0.49",
-      "integrity": "sha512-zBnAUUDOlGCcj193ojC7GaspqstuT6MMFrnKuyWWdEWJqh0XIO3jCkmKLF2VY7AHhMamnClxIM4YalIuysJ80w==",
+      "version": "1.0.50",
+      "integrity": "sha512-UG7DByc4px23Tal0JuhNG/VQbwfVYDRWPnjb7zYIauJv0POW89xOZ0luMmEPfz+41RK0Hn/TqavjfVIbgnKqog==",
       "resolution": "registry"
     }
   ],

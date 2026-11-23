@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T15:24:31.508Z",
+  "generatedAt": "2026-11-23T13:39:07.958Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-cost-meter@1.9.84",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-sSmpTd",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-sSmpTd/home",
+  "plugin": "dsh-cost-meter@1.9.85",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JwONLQ",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JwONLQ/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T15:24:31.953Z",
-      "durationMs": 2137,
+      "startedAt": "2026-11-23T13:39:08.356Z",
+      "durationMs": 2195,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-cost-meter 1.9.84\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-cost-meter@1.9.84\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-sSmpTd/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-cost-meter 1.9.85\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-cost-meter@1.9.85\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JwONLQ/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T15:24:34.094Z",
-      "durationMs": 4355,
+      "startedAt": "2026-11-23T13:39:10.554Z",
+      "durationMs": 4051,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[dsh-cost-meter] 已加载,账本:/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-sSmpTd/home/storages/cost-meter/ledger.json\n[dsh-cost-meter] 会话存储后端: jsonl 文件;回填/导入按 JSONL 读取\ndsh web: http://127.0.0.1:37379/?token=puyOMLTb7dcfW9MCIZE1DFPbySD8Yiy7rhtci1nHuNA\n",
+      "stdout": "[dsh-cost-meter] 已加载,账本:/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JwONLQ/home/storages/cost-meter/ledger.json\n[dsh-cost-meter] 会话存储后端: jsonl 文件;回填/导入按 JSONL 读取\ndsh web: http://127.0.0.1:46007/?token=U2uywHSlVRt3ti-0BvnLuhwnrk7dmShJsf8XQ9FoYpU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -39,6 +39,12 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
+            {
+              "id": "83822791",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1264,14 +1270,8 @@
               "disabled": false
             },
             {
-              "id": "b5ee7cca",
+              "id": "45de7867",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
-            {
-              "id": "c6ed97f4",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1292,6 +1292,11 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
+            {
+              "id": "83822791",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "state": 2
+            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2163,13 +2168,8 @@
               "state": 2
             },
             {
-              "id": "b5ee7cca",
+              "id": "45de7867",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "c6ed97f4",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2191,8 +2191,8 @@
   "subjects": [
     {
       "name": "dsh-cost-meter",
-      "version": "1.9.84",
-      "integrity": "sha512-82UAjyVYivOgRg8KjCfjULSdUA2mI5A1mxRgw77BYSLXj5hXOmaYhdBYTETdIA/npp3NiZQfhSiKXZ1q4l0XCQ==",
+      "version": "1.9.85",
+      "integrity": "sha512-zX7G4m3YzbhlRw34A/VSVG+NRLiDllLgO0MD63khDolwPM+DcUJR/UpbWTPgdUI0CPiFOqCxmu+ebhflK2mQeA==",
       "resolution": "registry"
     }
   ],
@@ -2217,20 +2217,20 @@
   "footprintDelta": {
     "entries": [
       {
+        "id": "83822791",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
         "id": "cost-meter",
         "name": "dsh-cost-meter",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "b5ee7cca",
+        "id": "45de7867",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
-        "id": "c6ed97f4",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

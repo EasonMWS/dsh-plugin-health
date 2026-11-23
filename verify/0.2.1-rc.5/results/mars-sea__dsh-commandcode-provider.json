@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T15:29:02.482Z",
+  "generatedAt": "2026-11-23T13:41:21.886Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@mars-sea/dsh-commandcode-provider@0.18.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AdRRgx",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AdRRgx/home",
+  "plugin": "@mars-sea/dsh-commandcode-provider@0.19.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Bszpen",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Bszpen/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-22T15:29:02.907Z",
-      "durationMs": 2383,
+      "name": "allow-version",
+      "startedAt": "2026-11-23T13:41:22.292Z",
+      "durationMs": 111,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @mars-sea/dsh-commandcode-provider 0.18.3\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @mars-sea/dsh-commandcode-provider@0.18.3\nDone in 1.4s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AdRRgx/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed @mars-sea/dsh-commandcode-provider@0.19.0 for DSH 0.2.1-rc.5\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-23T13:41:22.404Z",
+      "durationMs": 1839,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @mars-sea/dsh-commandcode-provider 0.19.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @mars-sea/dsh-commandcode-provider@0.19.0\nDone in 940ms using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T15:29:05.310Z",
-      "durationMs": 3118,
+      "startedAt": "2026-11-23T13:41:24.251Z",
+      "durationMs": 2999,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35703/?token=7qFRWTSJxyX_bzkWtXCIm-g1OtzIuic-eGFalIP-rNY\n",
+      "stdout": "dsh web: http://127.0.0.1:36897/?token=AkSbjyVJNzVTqApkd3z0VyzQtpjjEJTndJ4RqlM0ZnU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "974161da",
+              "id": "abd8a1cb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ae99e482",
+              "id": "803d1ef1",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "974161da",
+              "id": "abd8a1cb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ae99e482",
+              "id": "803d1ef1",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2087,8 @@
   "subjects": [
     {
       "name": "@mars-sea/dsh-commandcode-provider",
-      "version": "0.18.3",
-      "integrity": "sha512-vRlp74eYEP20UreT8Enlz27maf1WH8EWJJEEWrZXV8O9Z5V1qmw4zL4RcezfFS1uyKRghok8y9rVIkuFk65TrQ==",
+      "version": "0.19.0",
+      "integrity": "sha512-gJSGxjwS0zSyrXGYPUyoh/oUjP1JT1GauBd04+zc8Iu+JG0LlvjxvDK52Jz+FTwd2bxtT5nZn5z3dhqHcFK1/A==",
       "resolution": "registry"
     }
   ],
@@ -2095,8 +2108,8 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
@@ -2106,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "974161da",
+        "id": "abd8a1cb",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ae99e482",
+        "id": "803d1ef1",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2121,5 +2134,10 @@
     "tools": [],
     "toolsUnavailable": true,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }
