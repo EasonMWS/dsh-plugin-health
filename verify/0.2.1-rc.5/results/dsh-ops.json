@@ -1,54 +1,54 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:20:42.421Z",
+  "generatedAt": "2026-11-28T13:09:21.742Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-ops@0.5.5",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wBspdr",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-wBspdr/home",
+  "plugin": "dsh-ops@0.5.7",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TUINis",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TUINis/home",
   "profile": "health-smoke",
-  "ok": true,
+  "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-19T13:20:42.689Z",
-      "durationMs": 90,
+      "startedAt": "2026-11-28T13:09:22.143Z",
+      "durationMs": 121,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-ops@0.5.5 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-ops@0.5.7 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:20:42.779Z",
-      "durationMs": 2025,
+      "startedAt": "2026-11-28T13:09:22.266Z",
+      "durationMs": 2556,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ops 0.5.5\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 0\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-ops 0.5.7\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 0\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.8s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:20:44.805Z",
-      "durationMs": 2012,
-      "ok": true,
-      "exitCode": 0,
+      "startedAt": "2026-11-28T13:09:24.824Z",
+      "durationMs": 2871,
+      "ok": false,
+      "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42925/?token=tYnrAUKEekUfm5ISao87pQ3qBWCFr5X81ewFKsZfyrg\n",
-      "stderr": "",
+      "stdout": "dsh web: http://127.0.0.1:38147/?token=RZ7zjeYgipXyP8MeklwZ76yW43vHSmzJCww4cVZQj_0\n",
+      "stderr": "dsh: warning: 1 entry did not activate\ndsh-ops (dsh-ops): Error: This dsh-ops build requires DSH 0.2.2-rc.1 or newer (package.json engines.dsh); the running host reports 0.2.1-rc.5. Upgrade the host runtime instead of reloading this plugin: an older host loads it halfway at best, showing TypeError scope errors backstage and EXECUTOR_UNAVAILABLE in front.\n    at assertHostFloor (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TUINis/home/profiles/health-smoke/node_modules/dsh-ops/lib/adapter/dsh/host-floor.js:101:15)\n    at async Object.apply [as callback] (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-TUINis/home/profiles/health-smoke/node_modules/dsh-ops/lib/index.js:35:5)\n    at async Fiber._reload (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1356:5)\n    at async Fiber.await (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1400:24)\n",
       "truncated": false,
       "details": {
-        "ok": true,
-        "stage": "complete",
+        "ok": false,
+        "stage": "boot",
         "hostCordis": "4.0.5",
         "footprint": {
           "entries": [
@@ -637,7 +637,7 @@
             {
               "id": "dsh-ops",
               "name": "dsh-ops",
-              "state": 2,
+              "state": 3,
               "disabled": false
             },
             {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "d46ceec6",
+              "id": "2a253b70",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "7a067c1d",
+              "id": "012296be",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1230,846 +1230,7 @@
           "checked": 165,
           "active": 165
         },
-        "assertions": {
-          "bootOnly": true,
-          "activeEntries": [
-            {
-              "id": "include",
-              "name": "cordis:include",
-              "state": 2
-            },
-            {
-              "id": "plugin-manager",
-              "name": "@deepseek-ai/dsh-plugin-manager",
-              "state": 2
-            },
-            {
-              "id": "timer",
-              "name": "@deepseek-ai/cordis-plugin-timer",
-              "state": 2
-            },
-            {
-              "id": "hmr",
-              "name": "@deepseek-ai/dsh-hmr",
-              "state": 2
-            },
-            {
-              "id": "llm",
-              "name": "@deepseek-ai/dsh-llm",
-              "state": 2
-            },
-            {
-              "id": "deepseek-llm-api-extensions",
-              "name": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
-              "state": 2
-            },
-            {
-              "id": "session",
-              "name": "@deepseek-ai/dsh-session",
-              "state": 2
-            },
-            {
-              "id": "session-log-deepseek",
-              "name": "@deepseek-ai/dsh-session-log-deepseek",
-              "state": 2
-            },
-            {
-              "id": "typert",
-              "name": "@deepseek-ai/dsh-typert-registry",
-              "state": 2
-            },
-            {
-              "id": "typert-loader",
-              "name": "@deepseek-ai/dsh-typert-loader",
-              "state": 2
-            },
-            {
-              "id": "typert-gateway",
-              "name": "@deepseek-ai/dsh-api-gateway",
-              "state": 2
-            },
-            {
-              "id": "remote-access",
-              "name": "@deepseek-ai/dsh-api-remote-access",
-              "state": 2
-            },
-            {
-              "id": "session-title",
-              "name": "@deepseek-ai/dsh-session-title",
-              "state": 2
-            },
-            {
-              "id": "session-title-llm",
-              "name": "@deepseek-ai/dsh-session-title-first-prompt-llm",
-              "state": 2
-            },
-            {
-              "id": "user-questions",
-              "name": "@deepseek-ai/dsh-user-questions",
-              "state": 2
-            },
-            {
-              "id": "agent",
-              "name": "@deepseek-ai/dsh-agent",
-              "state": 2
-            },
-            {
-              "id": "plugin-package-inventory-deepseek",
-              "name": "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
-              "state": 2
-            },
-            {
-              "id": "agent-default-model",
-              "name": "@deepseek-ai/dsh-agent-default-model",
-              "state": 2
-            },
-            {
-              "id": "jobs",
-              "name": "@deepseek-ai/dsh-jobs-local",
-              "state": 2
-            },
-            {
-              "id": "llm-retry",
-              "name": "@deepseek-ai/dsh-llm-retry",
-              "state": 2
-            },
-            {
-              "id": "config-editor",
-              "name": "@deepseek-ai/dsh-config-editor",
-              "state": 2
-            },
-            {
-              "id": "settings",
-              "name": "@deepseek-ai/dsh-settings",
-              "state": 2
-            },
-            {
-              "id": "authorization",
-              "name": "@deepseek-ai/dsh-authorization",
-              "state": 2
-            },
-            {
-              "id": "deepseek-account",
-              "name": "@deepseek-ai/dsh-deepseek-account-platform",
-              "state": 2
-            },
-            {
-              "id": "credentials",
-              "name": "@deepseek-ai/dsh-credentials-local",
-              "state": 2
-            },
-            {
-              "id": "llm-pi-ai",
-              "name": "@deepseek-ai/dsh-llm-pi-ai",
-              "state": 2
-            },
-            {
-              "id": "session-persistence-jsonl",
-              "name": "@deepseek-ai/dsh-session-persistence-jsonl",
-              "state": 2
-            },
-            {
-              "id": "attachment-local",
-              "name": "@deepseek-ai/dsh-attachment-local",
-              "state": 2
-            },
-            {
-              "id": "session-query-sqlite",
-              "name": "@deepseek-ai/dsh-session-query-sqlite",
-              "state": 2
-            },
-            {
-              "id": "working-directory",
-              "name": "@deepseek-ai/dsh-working-directory",
-              "state": 2
-            },
-            {
-              "id": "tool-working-directory",
-              "name": "@deepseek-ai/dsh-tool-working-directory",
-              "state": 2
-            },
-            {
-              "id": "session-projection",
-              "name": "@deepseek-ai/dsh-session-projection",
-              "state": 2
-            },
-            {
-              "id": "storage",
-              "name": "@deepseek-ai/dsh-storage",
-              "state": 2
-            },
-            {
-              "id": "storage-json",
-              "name": "@deepseek-ai/dsh-storage-json",
-              "state": 2
-            },
-            {
-              "id": "storage-domain",
-              "name": "@deepseek-ai/dsh-storage-domain",
-              "state": 2
-            },
-            {
-              "id": "session-projection-cache",
-              "name": "@deepseek-ai/dsh-session-projection-cache",
-              "state": 2
-            },
-            {
-              "id": "otel",
-              "name": "@deepseek-ai/dsh-otel",
-              "state": 2
-            },
-            {
-              "id": "subprocess",
-              "name": "@deepseek-ai/dsh-subprocess-local",
-              "state": 2
-            },
-            {
-              "id": "sandbox",
-              "name": "@deepseek-ai/dsh-sandbox-local",
-              "state": 2
-            },
-            {
-              "id": "sandbox-policy",
-              "name": "@deepseek-ai/dsh-sandbox-policy",
-              "state": 2
-            },
-            {
-              "id": "bash-sandbox",
-              "name": "@deepseek-ai/dsh-bash-sandbox",
-              "state": 2
-            },
-            {
-              "id": "approval",
-              "name": "@deepseek-ai/dsh-user-approval",
-              "state": 2
-            },
-            {
-              "id": "permission",
-              "name": "@deepseek-ai/dsh-permission-presets",
-              "state": 2
-            },
-            {
-              "id": "shell-env",
-              "name": "@deepseek-ai/dsh-shell-env",
-              "state": 2
-            },
-            {
-              "id": "fs-observation-policy",
-              "name": "@deepseek-ai/dsh-fs-observation-policy",
-              "state": 2
-            },
-            {
-              "id": "skill",
-              "name": "@deepseek-ai/dsh-skill",
-              "state": 2
-            },
-            {
-              "id": "commands",
-              "name": "@deepseek-ai/dsh-commands",
-              "state": 2
-            },
-            {
-              "id": "command-feedback",
-              "name": "@deepseek-ai/dsh-command-feedback",
-              "state": 2
-            },
-            {
-              "id": "goal",
-              "name": "@deepseek-ai/dsh-goal",
-              "state": 2
-            },
-            {
-              "id": "goal-round-driver",
-              "name": "@deepseek-ai/dsh-goal-round-driver",
-              "state": 2
-            },
-            {
-              "id": "token-meter",
-              "name": "@deepseek-ai/dsh-token-meter",
-              "state": 2
-            },
-            {
-              "id": "subagent",
-              "name": "@deepseek-ai/dsh-subagent",
-              "state": 2
-            },
-            {
-              "id": "subagent-spawn-in-process",
-              "name": "@deepseek-ai/dsh-subagent-spawn-in-process",
-              "state": 2
-            },
-            {
-              "id": "subagent-fork-in-process",
-              "name": "@deepseek-ai/dsh-subagent-fork-in-process",
-              "state": 2
-            },
-            {
-              "id": "ptc-runtime",
-              "name": "@deepseek-ai/dsh-ptc-runtime-node",
-              "state": 2
-            },
-            {
-              "id": "timeout-policy",
-              "name": "@deepseek-ai/dsh-tool-call-timeout-policy",
-              "state": 2
-            },
-            {
-              "id": "spill-local",
-              "name": "@deepseek-ai/dsh-spill-local",
-              "state": 2
-            },
-            {
-              "id": "spill-policy",
-              "name": "@deepseek-ai/dsh-spill-policy",
-              "state": 2
-            },
-            {
-              "id": "session-checkpoint-policy",
-              "name": "@deepseek-ai/dsh-session-checkpoint-policy",
-              "state": 2
-            },
-            {
-              "id": "image-offload",
-              "name": "@deepseek-ai/dsh-compaction-image-offload",
-              "state": 2
-            },
-            {
-              "id": "repeat-tool-reminder",
-              "name": "@deepseek-ai/dsh-repeat-tool-reminder",
-              "state": 2
-            },
-            {
-              "id": "web",
-              "name": "@deepseek-ai/dsh-web",
-              "state": 2
-            },
-            {
-              "id": "web-search-deepseek",
-              "name": "@deepseek-ai/dsh-web-search-deepseek",
-              "state": 2
-            },
-            {
-              "id": "web-deepseek-api",
-              "name": "@deepseek-ai/dsh-web-deepseek-api",
-              "state": 2
-            },
-            {
-              "id": "web-fetch-http",
-              "name": "@deepseek-ai/dsh-web-fetch-http",
-              "state": 2
-            },
-            {
-              "id": "mcp-resources",
-              "name": "@deepseek-ai/dsh-mcp-resources",
-              "state": 2
-            },
-            {
-              "id": "tools",
-              "name": "@deepseek-ai/dsh-tools",
-              "state": 2
-            },
-            {
-              "id": "system-prompt",
-              "name": "@deepseek-ai/dsh-system-prompt",
-              "state": 2
-            },
-            {
-              "id": "agent-loop",
-              "name": "@deepseek-ai/dsh-agent-loop",
-              "state": 2
-            },
-            {
-              "id": "fs-sandbox",
-              "name": "@deepseek-ai/dsh-fs-sandbox",
-              "state": 2
-            },
-            {
-              "id": "llm-deepseek",
-              "name": "@deepseek-ai/dsh-llm-deepseek-api-key",
-              "state": 2
-            },
-            {
-              "id": "llm-deepseek-account",
-              "name": "@deepseek-ai/dsh-llm-deepseek-account",
-              "state": 2
-            },
-            {
-              "id": "dsh-ops",
-              "name": "dsh-ops",
-              "state": 2
-            },
-            {
-              "id": "subagent-model-selection-settings",
-              "name": "@deepseek-ai/dsh-tool-subagent/model-selection-settings",
-              "state": 2
-            },
-            {
-              "id": "message-feedback",
-              "name": "@deepseek-ai/dsh-message-feedback",
-              "state": 2
-            },
-            {
-              "id": "session-log-download",
-              "name": "@deepseek-ai/dsh-session-log-export",
-              "state": 2
-            },
-            {
-              "id": "open-in-app",
-              "name": "@deepseek-ai/dsh-host-open-in-app",
-              "state": 2
-            },
-            {
-              "id": "ui-open-in-app",
-              "name": "@deepseek-ai/dsh-client-ui-open-in-app",
-              "state": 2
-            },
-            {
-              "id": "workspace",
-              "name": "@deepseek-ai/dsh-workspace",
-              "state": 2
-            },
-            {
-              "id": "session-reference",
-              "name": "@deepseek-ai/dsh-session-reference",
-              "state": 2
-            },
-            {
-              "id": "file-reference-local",
-              "name": "@deepseek-ai/dsh-file-reference-local",
-              "state": 2
-            },
-            {
-              "id": "session-stats",
-              "name": "@deepseek-ai/dsh-session-stats",
-              "state": 2
-            },
-            {
-              "id": "session-turn-outline",
-              "name": "@deepseek-ai/dsh-session-turn-outline",
-              "state": 2
-            },
-            {
-              "id": "directory-picker",
-              "name": "@deepseek-ai/dsh-host-directory-picker-auto",
-              "state": 2
-            },
-            {
-              "id": "plugin-inventory",
-              "name": "@deepseek-ai/dsh-host-plugin-inventory",
-              "state": 2
-            },
-            {
-              "id": "session-controller",
-              "name": "@deepseek-ai/dsh-api-session-controller",
-              "state": 2
-            },
-            {
-              "id": "job-controller",
-              "name": "@deepseek-ai/dsh-api-job-controller",
-              "state": 2
-            },
-            {
-              "id": "terminal-controller",
-              "name": "@deepseek-ai/dsh-api-terminal-controller",
-              "state": 2
-            },
-            {
-              "id": "workspace-files",
-              "name": "@deepseek-ai/dsh-api-workspace-files",
-              "state": 2
-            },
-            {
-              "id": "schedule",
-              "name": "@deepseek-ai/dsh-schedule",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-account",
-              "name": "@deepseek-ai/dsh-client-ui-settings-account",
-              "state": 2
-            },
-            {
-              "id": "account-controller",
-              "name": "@deepseek-ai/dsh-api-account-controller",
-              "state": 2
-            },
-            {
-              "id": "settings-controller",
-              "name": "@deepseek-ai/dsh-api-settings-controller",
-              "state": 2
-            },
-            {
-              "id": "workspace-controller",
-              "name": "@deepseek-ai/dsh-api-workspace-controller",
-              "state": 2
-            },
-            {
-              "id": "cordis-host-runner",
-              "name": "@deepseek-ai/dsh-cordis-host-runner",
-              "state": 2
-            },
-            {
-              "id": "cordis-inspect-providers",
-              "name": "@deepseek-ai/dsh-tool-cordis/host",
-              "state": 2
-            },
-            {
-              "id": "web-startup",
-              "name": "@deepseek-ai/dsh-web-app/startup",
-              "state": 2
-            },
-            {
-              "id": "webserver",
-              "name": "@deepseek-ai/dsh-host-webserver",
-              "state": 2
-            },
-            {
-              "id": "web-runtime",
-              "name": "@deepseek-ai/dsh-web-app",
-              "state": 2
-            },
-            {
-              "id": "harness-dev-context",
-              "name": "@deepseek-ai/dsh-harness-dev-context",
-              "state": 2
-            },
-            {
-              "id": "client-hmr",
-              "name": "@deepseek-ai/dsh-client-hmr",
-              "state": 2
-            },
-            {
-              "id": "modules",
-              "name": "@deepseek-ai/dsh-client-modules",
-              "state": 2
-            },
-            {
-              "id": "connection",
-              "name": "@deepseek-ai/dsh-client-connection",
-              "state": 2
-            },
-            {
-              "id": "file-upload",
-              "name": "@deepseek-ai/dsh-client-file-upload",
-              "state": 2
-            },
-            {
-              "id": "api-remotes",
-              "name": "@deepseek-ai/dsh-api-remotes",
-              "state": 2
-            },
-            {
-              "id": "cordis-client-runner",
-              "name": "@deepseek-ai/dsh-cordis-client-runner",
-              "state": 2
-            },
-            {
-              "id": "ui-theme",
-              "name": "@deepseek-ai/dsh-client-ui-theme",
-              "state": 2
-            },
-            {
-              "id": "locale",
-              "name": "@deepseek-ai/dsh-client-locale",
-              "state": 2
-            },
-            {
-              "id": "shortcuts",
-              "name": "@deepseek-ai/dsh-client-shortcuts",
-              "state": 2
-            },
-            {
-              "id": "ui-shortcuts",
-              "name": "@deepseek-ai/dsh-client-ui-shortcuts",
-              "state": 2
-            },
-            {
-              "id": "ui-layout",
-              "name": "@deepseek-ai/dsh-client-ui-layout",
-              "state": 2
-            },
-            {
-              "id": "ui-renderer",
-              "name": "@deepseek-ai/dsh-client-ui-renderer",
-              "state": 2
-            },
-            {
-              "id": "ui-session",
-              "name": "@deepseek-ai/dsh-client-ui-session",
-              "state": 2
-            },
-            {
-              "id": "resources",
-              "name": "@deepseek-ai/dsh-client-resources",
-              "state": 2
-            },
-            {
-              "id": "ui-sidebar",
-              "name": "@deepseek-ai/dsh-client-ui-sidebar",
-              "state": 2
-            },
-            {
-              "id": "ui-sidebar-right",
-              "name": "@deepseek-ai/dsh-client-ui-sidebar-right",
-              "state": 2
-            },
-            {
-              "id": "office-to-pdf",
-              "name": "@deepseek-ai/dsh-office-to-pdf",
-              "state": 2
-            },
-            {
-              "id": "ui-sidebar-documentpreview",
-              "name": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
-              "state": 2
-            },
-            {
-              "id": "ui-sidebar-terminal",
-              "name": "@deepseek-ai/dsh-client-ui-sidebar-terminal",
-              "state": 2
-            },
-            {
-              "id": "ui-sidebar-files",
-              "name": "@deepseek-ai/dsh-client-ui-sidebar-files",
-              "state": 2
-            },
-            {
-              "id": "ui-settings",
-              "name": "@deepseek-ai/dsh-client-ui-settings",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-general",
-              "name": "@deepseek-ai/dsh-client-ui-settings-general",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-models",
-              "name": "@deepseek-ai/dsh-client-ui-settings-models",
-              "state": 2
-            },
-            {
-              "id": "ui-plugin-manager",
-              "name": "@deepseek-ai/dsh-client-ui-plugin-manager",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-plugin-inventory",
-              "name": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
-              "state": 2
-            },
-            {
-              "id": "ui-conversation",
-              "name": "@deepseek-ai/dsh-client-ui-conversation",
-              "state": 2
-            },
-            {
-              "id": "ui-approval",
-              "name": "@deepseek-ai/dsh-client-ui-approval",
-              "state": 2
-            },
-            {
-              "id": "ui-chat",
-              "name": "@deepseek-ai/dsh-client-ui-chat",
-              "state": 2
-            },
-            {
-              "id": "ui-brand-official",
-              "name": "@deepseek-ai/dsh-client-ui-brand-official",
-              "state": 2
-            },
-            {
-              "id": "ui-attachment",
-              "name": "@deepseek-ai/dsh-client-ui-attachment",
-              "state": 2
-            },
-            {
-              "id": "ui-tool",
-              "name": "@deepseek-ai/dsh-client-ui-tool",
-              "state": 2
-            },
-            {
-              "id": "ui-cordis",
-              "name": "@deepseek-ai/dsh-client-ui-cordis",
-              "state": 2
-            },
-            {
-              "id": "ui-deliverables",
-              "name": "@deepseek-ai/dsh-client-ui-deliverables",
-              "state": 2
-            },
-            {
-              "id": "workspace-changes",
-              "name": "@deepseek-ai/dsh-workspace-changes",
-              "state": 2
-            },
-            {
-              "id": "ui-workspace",
-              "name": "@deepseek-ai/dsh-client-ui-workspace",
-              "state": 2
-            },
-            {
-              "id": "ui-workflow-run",
-              "name": "@deepseek-ai/dsh-client-ui-workflow-run",
-              "state": 2
-            },
-            {
-              "id": "ui-input-trigger",
-              "name": "@deepseek-ai/dsh-client-ui-input-trigger",
-              "state": 2
-            },
-            {
-              "id": "ui-commands",
-              "name": "@deepseek-ai/dsh-client-ui-commands",
-              "state": 2
-            },
-            {
-              "id": "ui-skill",
-              "name": "@deepseek-ai/dsh-client-ui-skill",
-              "state": 2
-            },
-            {
-              "id": "ui-subagent",
-              "name": "@deepseek-ai/dsh-client-ui-subagent",
-              "state": 2
-            },
-            {
-              "id": "ui-reference",
-              "name": "@deepseek-ai/dsh-client-ui-reference",
-              "state": 2
-            },
-            {
-              "id": "ui-secret-mask",
-              "name": "@deepseek-ai/dsh-client-ui-secret-mask",
-              "state": 2
-            },
-            {
-              "id": "ui-jobs",
-              "name": "@deepseek-ai/dsh-client-ui-jobs",
-              "state": 2
-            },
-            {
-              "id": "ui-schedule",
-              "name": "@deepseek-ai/dsh-client-ui-schedule",
-              "state": 2
-            },
-            {
-              "id": "ui-goal",
-              "name": "@deepseek-ai/dsh-client-ui-goal",
-              "state": 2
-            },
-            {
-              "id": "ui-message-feedback",
-              "name": "@deepseek-ai/dsh-client-ui-message-feedback",
-              "state": 2
-            },
-            {
-              "id": "ui-model-selection",
-              "name": "@deepseek-ai/dsh-client-ui-model-selection",
-              "state": 2
-            },
-            {
-              "id": "ui-deepseek-model-label-1017",
-              "name": "@deepseek-ai/dsh-client-ui-deepseek-model-label-1017",
-              "state": 2
-            },
-            {
-              "id": "ui-permission",
-              "name": "@deepseek-ai/dsh-client-ui-permission-presets",
-              "state": 2
-            },
-            {
-              "id": "ui-agent-preset",
-              "name": "@deepseek-ai/dsh-client-ui-agent-preset",
-              "state": 2
-            },
-            {
-              "id": "entry-customization",
-              "name": "@deepseek-ai/dsh-client-ui-entry-customization",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-session-log",
-              "name": "@deepseek-ai/dsh-client-ui-settings-session-log",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-plugins",
-              "name": "@deepseek-ai/dsh-client-ui-settings-plugins",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-shell",
-              "name": "@deepseek-ai/dsh-client-ui-settings-shell",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-agent-loop",
-              "name": "@deepseek-ai/dsh-client-ui-settings-agent-loop",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-subagent",
-              "name": "@deepseek-ai/dsh-client-ui-settings-subagent",
-              "state": 2
-            },
-            {
-              "id": "ui-settings-web-search",
-              "name": "@deepseek-ai/dsh-client-ui-settings-web-search",
-              "state": 2
-            },
-            {
-              "id": "ui-plan",
-              "name": "@deepseek-ai/dsh-client-ui-plan",
-              "state": 2
-            },
-            {
-              "id": "ui-user-questions",
-              "name": "@deepseek-ai/dsh-client-ui-user-questions",
-              "state": 2
-            },
-            {
-              "id": "ui-trajectory",
-              "name": "@deepseek-ai/dsh-client-ui-trajectory",
-              "state": 2
-            },
-            {
-              "id": "agent-preset-registry",
-              "name": "@deepseek-ai/dsh-agent-preset-registry",
-              "state": 2
-            },
-            {
-              "id": "preset-standard",
-              "name": "@deepseek-ai/dsh-agent-preset",
-              "state": 2
-            },
-            {
-              "id": "preset-ptc",
-              "name": "@deepseek-ai/dsh-agent-preset",
-              "state": 2
-            },
-            {
-              "id": "preset-minimal",
-              "name": "@deepseek-ai/dsh-agent-preset",
-              "state": 2
-            },
-            {
-              "id": "preset-cordis",
-              "name": "@deepseek-ai/dsh-agent-preset",
-              "state": 2
-            },
-            {
-              "id": "d46ceec6",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
-            {
-              "id": "7a067c1d",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2
-            }
-          ]
-        }
+        "error": "AssertionError [ERR_ASSERTION]: profile entries did not activate:\ndsh-ops (dsh-ops): fiber state 3\n\n1 !== 0\n\n    at verifyActivation (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:62:10)\n    at main (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/src/runtime/worker.js:254:5)"
       }
     }
   ],
@@ -2078,7 +1239,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2087,8 +1248,8 @@
   "subjects": [
     {
       "name": "dsh-ops",
-      "version": "0.5.5",
-      "integrity": "sha512-IAjBkrKM5lha7IoAQFqOnIL9H16MRqcc84XV70C72Bt96Nvn+llsbXSaQHmPtHedsfJdi4yCWhocPp0gc9yPpQ==",
+      "version": "0.5.7",
+      "integrity": "sha512-eXt0l1FJbOfDkIFHRRZO3A83gwwcG0uSLEZ8h6607STmQp4Vu6WDoLaEZvxX0ge5AV55Lu9RkdrrufkQzR6EYw==",
       "resolution": "registry"
     }
   ],
@@ -2108,6 +1269,11 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
+  "failure": {
+    "stage": "runtime",
+    "kind": "not-activated",
+    "detail": "AssertionError [ERR_ASSERTION]: profile entries did not activate:"
+  },
   "level": null,
   "declared": false,
   "footprintDelta": {
@@ -2115,17 +1281,17 @@
       {
         "id": "dsh-ops",
         "name": "dsh-ops",
-        "state": 2,
+        "state": 3,
         "disabled": false
       },
       {
-        "id": "d46ceec6",
+        "id": "2a253b70",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "7a067c1d",
+        "id": "012296be",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2137,7 +1303,11 @@
   },
   "bypassed": true,
   "bypass": {
-    "level": "V3",
-    "failure": null
+    "level": "V2",
+    "failure": {
+      "stage": "runtime",
+      "kind": "not-activated",
+      "detail": "AssertionError [ERR_ASSERTION]: profile entries did not activate:"
+    }
   }
 }

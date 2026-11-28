@@ -1,24 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T15:23:51.280Z",
+  "generatedAt": "2026-11-28T13:05:21.534Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@linxin666/dsh-remote-web-ui@0.4.21",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PZ2SK3",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PZ2SK3/home",
+  "plugin": "@linxin666/dsh-remote-web-ui@0.4.22",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LbGD4k",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LbGD4k/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
+      "name": "allow-version",
+      "startedAt": "2026-11-28T13:05:22.204Z",
+      "durationMs": 188,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "dsh: allowed @linxin666/dsh-remote-web-ui@0.4.22 for DSH 0.2.2-rc.5\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
       "name": "install",
-      "startedAt": "2026-11-22T15:23:51.819Z",
-      "durationMs": 2298,
+      "startedAt": "2026-11-28T13:05:22.393Z",
+      "durationMs": 2161,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-remote-web-ui 0.4.21\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 0, downloaded 9, added 9, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @linxin666/dsh-remote-web-ui@0.4.21\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PZ2SK3/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@linxin666/dsh-remote-web-ui@0.4.21'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-PZ2SK3/home/profiles/health-smoke/.plugin-manager/logs/operation-Lwv6KO/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @linxin666/dsh-remote-web-ui 0.4.22\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 1, downloaded 8, added 9, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "Command failed with exit code 1: pnpm add '@linxin666/dsh-remote-web-ui@0.4.22'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-LbGD4k/home/profiles/health-smoke/.plugin-manager/logs/operation-9Czcdz/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -36,8 +49,8 @@
   "subjects": [
     {
       "name": "@linxin666/dsh-remote-web-ui",
-      "version": "0.4.21",
-      "integrity": "sha512-ca4w1VCsCPCOQcEggu0moyTLP0qQSXBnlrkdLOtBoZq5FVhJNHwe5NL8WG1E47L939qqKdWGa1/TX1zKgmJcpQ==",
+      "version": "0.4.22",
+      "integrity": "sha512-Nnncp+HbqwuW0rCwhpn6LWzoMFgxpAnt8826NkGhsfPAi5MFjbow24GqPeGcsfqaj9mY/WKmKEhynXqVlt/9jA==",
       "resolution": "registry"
     }
   ],
@@ -59,7 +72,16 @@
     "kind": "build-scripts-blocked",
     "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3"
   },
-  "level": "V1",
-  "declared": true,
-  "footprintDelta": null
+  "level": null,
+  "declared": false,
+  "footprintDelta": null,
+  "bypassed": true,
+  "bypass": {
+    "level": "V1",
+    "failure": {
+      "stage": "install",
+      "kind": "build-scripts-blocked",
+      "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: cloudflared@0.7.3"
+    }
+  }
 }

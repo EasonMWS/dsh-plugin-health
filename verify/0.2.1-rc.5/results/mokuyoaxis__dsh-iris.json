@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T13:41:22.652Z",
+  "generatedAt": "2026-11-28T13:09:29.632Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@mokuyoaxis/dsh-iris@0.3.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-w7us6x",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-w7us6x/home",
+  "plugin": "@mokuyoaxis/dsh-iris@0.3.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HKwEZa",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-HKwEZa/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-23T13:41:23.073Z",
-      "durationMs": 98,
+      "startedAt": "2026-11-28T13:09:29.986Z",
+      "durationMs": 150,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @mokuyoaxis/dsh-iris@0.3.1 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @mokuyoaxis/dsh-iris@0.3.2 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-23T13:41:23.171Z",
-      "durationMs": 1955,
+      "startedAt": "2026-11-28T13:09:30.136Z",
+      "durationMs": 2283,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @mokuyoaxis/dsh-iris 0.3.1\n\nPackages: +11\n+++++++++++\nProgress: resolved 37, reused 0, downloaded 11, added 11, done\nDone in 1.1s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @mokuyoaxis/dsh-iris 0.3.2\n\nPackages: +11\n+++++++++++\nProgress: resolved 37, reused 3, downloaded 8, added 11, done\nDone in 1.3s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-23T13:41:25.150Z",
-      "durationMs": 2371,
+      "startedAt": "2026-11-28T13:09:32.430Z",
+      "durationMs": 3138,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[iris] tools registered: iris_import_image, iris_draw_image, iris_edit_image, iris_generate_video, iris_generate_music, iris_speak_text, iris_transcribe_audio, iris_task_status, iris_look_at_image, iris_relook_attachment, iris_crop, iris_pixel_diff, iris_locate, iris_html_screenshot, iris_long_ocr, iris_video_frames, iris_media_summarize\n[iris] 随包 Skill 已注册：iris-use · iris-compose-media · iris-verify-ui\n[iris] 媒体+工作台+操作路由已挂载：/iris/media · /iris/api · /iris/api/actions · /iris/render\ndsh web: http://127.0.0.1:33757/?token=5zYmqS-hNMWcyhJAsMa9QffFCPpm_oB7xX-_Srk5C0U\n",
+      "stdout": "[iris] tools registered: iris_import_image, iris_draw_image, iris_edit_image, iris_generate_video, iris_generate_music, iris_speak_text, iris_transcribe_audio, iris_task_status, iris_look_at_image, iris_relook_attachment, iris_crop, iris_pixel_diff, iris_locate, iris_html_screenshot, iris_long_ocr, iris_video_frames, iris_media_summarize\n[iris] 随包 Skill 已注册：iris-use · iris-compose-media · iris-verify-ui\n[iris] 媒体+工作台+操作路由已挂载：/iris/media · /iris/api · /iris/api/actions · /iris/render\ndsh web: http://127.0.0.1:36123/?token=esj00VlQExSjjpgmOkRqBqGvcALVh4Pf-cFTtug0DNA\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "0d276138",
+              "id": "a17c57a8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "052fb37c",
+              "id": "55a66ad2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "0d276138",
+              "id": "a17c57a8",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "052fb37c",
+              "id": "55a66ad2",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@mokuyoaxis/dsh-iris",
-      "version": "0.3.1",
-      "integrity": "sha512-jsH7m6PCw3TDdkA6lejmic3Js4opC4+/eNaTRsk3kclbYk9CWq56rzK/Y8zpq6GtVIbpKYZJ3GIYgjemgbYXwQ==",
+      "version": "0.3.2",
+      "integrity": "sha512-MjJA6ZNAhOCNNXOgs9N0sGsijDQIF7GiiKs2+YBSzSstbC13+oIDM6KSvh2qJJthchLj0hm1r3HPv/WdUBqVJQ==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "0d276138",
+        "id": "a17c57a8",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "052fb37c",
+        "id": "55a66ad2",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

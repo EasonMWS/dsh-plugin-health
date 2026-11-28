@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:59:57.918Z",
+  "generatedAt": "2026-11-28T13:10:15.298Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@tnnevol/dsh-fnos@8.2.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0YiAWR",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0YiAWR/home",
+  "plugin": "@tnnevol/dsh-fnos@8.3.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-P6u6yx",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-P6u6yx/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-22T06:59:58.314Z",
-      "durationMs": 128,
+      "startedAt": "2026-11-28T13:10:15.811Z",
+      "durationMs": 186,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @tnnevol/dsh-fnos@8.2.7 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @tnnevol/dsh-fnos@8.3.0 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:59:58.445Z",
-      "durationMs": 2235,
+      "startedAt": "2026-11-28T13:10:15.997Z",
+      "durationMs": 3047,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tnnevol/dsh-fnos 8.2.7\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 3, downloaded 6, added 9, done\nDone in 1.4s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tnnevol/dsh-fnos 8.3.0\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 1, downloaded 8, added 9, done\nDone in 1.9s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T07:00:00.688Z",
-      "durationMs": 2809,
+      "startedAt": "2026-11-28T13:10:19.054Z",
+      "durationMs": 4787,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36021/?token=Gle2eToN7sUqkeUO_pwkq_3v4h9CeyM-2Z-2_eSDTaI\n",
+      "stdout": "dsh web: http://127.0.0.1:41137/?token=5AR2eDzr0H0h7MybWTU2ApBX_2SJLLF9EbKItJOPQiU\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "6d51b379",
+              "id": "2c3f4ebd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "165c905d",
+              "id": "8c38a3e8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "6d51b379",
+              "id": "2c3f4ebd",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "165c905d",
+              "id": "8c38a3e8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "@tnnevol/dsh-fnos",
-      "version": "8.2.7",
-      "integrity": "sha512-6okd3qbgmlPNikHtzCcll2L1mePicM31cP79xwHNdyGBrc7CoSRgo6dfAbytMyKt2B2TO84G7SjOHLmNkLmygg==",
+      "version": "8.3.0",
+      "integrity": "sha512-ooTk/3GYYMRaJJokUwIRt5dEXNEiXXNPnG8R+0nVIyU10TPuzYWdBIKgRdXrnAvWbqja9y4nG78x1EOto8qKGg==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "6d51b379",
+        "id": "2c3f4ebd",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "165c905d",
+        "id": "8c38a3e8",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:59:44.175Z",
+  "generatedAt": "2026-11-28T13:09:46.860Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@twinsearth/w2m-dsh-plugin@3.5.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-M0Xqye",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-M0Xqye/home",
+  "plugin": "@twinsearth/w2m-dsh-plugin@3.7.7",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QEL62O",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QEL62O/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:59:44.651Z",
-      "durationMs": 2385,
+      "startedAt": "2026-11-28T13:09:47.237Z",
+      "durationMs": 1591,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @twinsearth/w2m-dsh-plugin 3.5.7\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @twinsearth/w2m-dsh-plugin@3.5.7\nDone in 1.3s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-M0Xqye/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @twinsearth/w2m-dsh-plugin 3.7.7\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 899ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QEL62O/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:59:47.042Z",
-      "durationMs": 12120,
+      "startedAt": "2026-11-28T13:09:48.830Z",
+      "durationMs": 10513,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45611/?token=JHthOJ3K7FP92ETWx6oyLygqAc0jZu7v3tsxMB4ssUA\n",
+      "stdout": "dsh web: http://127.0.0.1:42209/?token=VkfbbFmr79g4iUSV9X7OodDRICX-PwitkXPt0BJggao\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -634,6 +634,12 @@
               "disabled": true
             },
             {
+              "id": "dsh-gpw-v2",
+              "name": "@twinsearth/w2m-dsh-plugin/gpw-v2",
+              "state": null,
+              "disabled": true
+            },
+            {
               "id": "dsh-gpw",
               "name": "@twinsearth/w2m-dsh-plugin/gpw",
               "state": null,
@@ -672,6 +678,24 @@
             {
               "id": "dsh-backup-plugin",
               "name": "@twinsearth/w2m-dsh-plugin/dsh-backup-plugin",
+              "state": null,
+              "disabled": true
+            },
+            {
+              "id": "dsh-p2p-webrtc",
+              "name": "@twinsearth/w2m-dsh-plugin/dsh-p2p-webrtc",
+              "state": null,
+              "disabled": true
+            },
+            {
+              "id": "dsh-p2p-v2",
+              "name": "@twinsearth/w2m-dsh-plugin/dsh-p2p-v2",
+              "state": null,
+              "disabled": true
+            },
+            {
+              "id": "dsh-teams",
+              "name": "@twinsearth/w2m-dsh-plugin/dsh-teams",
               "state": null,
               "disabled": true
             },
@@ -1246,13 +1270,13 @@
               "disabled": false
             },
             {
-              "id": "92b48be3",
+              "id": "2376d063",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "3900016f",
+              "id": "acafe45c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2114,12 +2138,12 @@
               "state": 2
             },
             {
-              "id": "92b48be3",
+              "id": "2376d063",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "3900016f",
+              "id": "acafe45c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2142,8 +2166,8 @@
   "subjects": [
     {
       "name": "@twinsearth/w2m-dsh-plugin",
-      "version": "3.5.7",
-      "integrity": "sha512-afNgoyX1Ffm39Kge8zTe3IaDVTAw6ykZApYNNVY3gFMJIr2tyIXrX9+ZsCFMHUrGur+Zkr855WTnFFMR+1WtzQ==",
+      "version": "3.7.7",
+      "integrity": "sha512-OuoxH7v59jNGDr3rFrgCQMwQZwu9xbL0hxvm1jiE2GnpUDgi8tmKIqsmCtRJxsGUo849MEOAQkZCB0kAXYI//w==",
       "resolution": "registry"
     }
   ],
@@ -2176,6 +2200,12 @@
       {
         "id": "dsh-desktop",
         "name": "@twinsearth/w2m-dsh-plugin/desktop",
+        "state": null,
+        "disabled": true
+      },
+      {
+        "id": "dsh-gpw-v2",
+        "name": "@twinsearth/w2m-dsh-plugin/gpw-v2",
         "state": null,
         "disabled": true
       },
@@ -2222,13 +2252,31 @@
         "disabled": true
       },
       {
-        "id": "92b48be3",
+        "id": "dsh-p2p-webrtc",
+        "name": "@twinsearth/w2m-dsh-plugin/dsh-p2p-webrtc",
+        "state": null,
+        "disabled": true
+      },
+      {
+        "id": "dsh-p2p-v2",
+        "name": "@twinsearth/w2m-dsh-plugin/dsh-p2p-v2",
+        "state": null,
+        "disabled": true
+      },
+      {
+        "id": "dsh-teams",
+        "name": "@twinsearth/w2m-dsh-plugin/dsh-teams",
+        "state": null,
+        "disabled": true
+      },
+      {
+        "id": "2376d063",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "3900016f",
+        "id": "acafe45c",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

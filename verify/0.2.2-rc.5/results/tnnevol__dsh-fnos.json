@@ -1,49 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:19.672Z",
+  "generatedAt": "2026-11-28T13:05:19.174Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@tnnevol/dsh-fnos@8.2.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nh5y2b",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Nh5y2b/home",
+  "plugin": "@tnnevol/dsh-fnos@8.3.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CQhbmt",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CQhbmt/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "allow-version",
-      "startedAt": "2026-11-22T06:56:20.015Z",
-      "durationMs": 113,
-      "ok": true,
-      "exitCode": 0,
-      "signal": null,
-      "timedOut": false,
-      "orphaned": false,
-      "stdout": "dsh: allowed @tnnevol/dsh-fnos@8.2.7 for DSH 0.2.2-rc.5\n",
-      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
-      "truncated": false
-    },
-    {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:20.128Z",
-      "durationMs": 1941,
+      "startedAt": "2026-11-28T13:05:19.557Z",
+      "durationMs": 2037,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tnnevol/dsh-fnos 8.2.7\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 3, downloaded 6, added 9, done\nDone in 1.2s using pnpm v11.7.0\n",
-      "stderr": "",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @tnnevol/dsh-fnos 8.3.0\n\nPackages: +9\n+++++++++\nProgress: resolved 9, reused 1, downloaded 8, added 9, done\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CQhbmt/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:56:22.074Z",
-      "durationMs": 3516,
+      "startedAt": "2026-11-28T13:05:21.599Z",
+      "durationMs": 4176,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35841/?token=pNB2xyK-Cct415bPpgsOCOcA0MkK5TTHjtpm3cnVwPQ\n",
+      "stdout": "dsh web: http://127.0.0.1:34485/?token=b_vmODJ4swKJ6CKf6G5M9-xXIralE7gsEf1uIt-YHQQ\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -52,12 +39,6 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
-            {
-              "id": "79766787",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1283,7 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "57881ab5",
+              "id": "8f09621a",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "3446cde9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1305,11 +1292,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "79766787",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2181,7 +2163,12 @@
               "state": 2
             },
             {
-              "id": "57881ab5",
+              "id": "8f09621a",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "3446cde9",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2204,8 +2191,8 @@
   "subjects": [
     {
       "name": "@tnnevol/dsh-fnos",
-      "version": "8.2.7",
-      "integrity": "sha512-6okd3qbgmlPNikHtzCcll2L1mePicM31cP79xwHNdyGBrc7CoSRgo6dfAbytMyKt2B2TO84G7SjOHLmNkLmygg==",
+      "version": "8.3.0",
+      "integrity": "sha512-ooTk/3GYYMRaJJokUwIRt5dEXNEiXXNPnG8R+0nVIyU10TPuzYWdBIKgRdXrnAvWbqja9y4nG78x1EOto8qKGg==",
       "resolution": "registry"
     }
   ],
@@ -2225,16 +2212,10 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": null,
-  "declared": false,
+  "level": "V3",
+  "declared": true,
   "footprintDelta": {
     "entries": [
-      {
-        "id": "79766787",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
       {
         "id": "dsh-fnos",
         "name": "@tnnevol/dsh-fnos",
@@ -2242,7 +2223,13 @@
         "disabled": false
       },
       {
-        "id": "57881ab5",
+        "id": "8f09621a",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "3446cde9",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2251,10 +2238,5 @@
     "tools": [],
     "toolsUnavailable": false,
     "baseline": "host"
-  },
-  "bypassed": true,
-  "bypass": {
-    "level": "V3",
-    "failure": null
   }
 }

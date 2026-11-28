@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:47.406Z",
+  "generatedAt": "2026-11-28T13:09:45.944Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-session-superagent@0.10.12",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iGNe3P",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iGNe3P/home",
+  "plugin": "dsh-session-superagent@2.0.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jmmiRo",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jmmiRo/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-19T13:21:47.875Z",
-      "durationMs": 2125,
+      "name": "allow-version",
+      "startedAt": "2026-11-28T13:09:46.445Z",
+      "durationMs": 181,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-session-superagent 0.10.12\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 3, downloaded 2, added 5, done\nDone in 1.2s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-iGNe3P/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed dsh-session-superagent@2.0.2 for DSH 0.2.1-rc.5\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-28T13:09:46.626Z",
+      "durationMs": 2189,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-session-superagent 2.0.2\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 3, downloaded 2, added 5, done\nDone in 1.2s using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:50.021Z",
-      "durationMs": 3008,
+      "startedAt": "2026-11-28T13:09:48.817Z",
+      "durationMs": 4331,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45727/?token=2YgKYa8U5rUHex6ct5WuAoaGyTIfnyyUHobAQE-rKOY\n",
+      "stdout": "dsh web: http://127.0.0.1:37709/?token=T8cSL0ZRdZAX6Aa-irzzwUxHzGqGSMrrIQW2InQhl6w\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "30071a88",
+              "id": "6e6a2105",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "82bf3991",
+              "id": "18de6f4d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "30071a88",
+              "id": "6e6a2105",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "82bf3991",
+              "id": "18de6f4d",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2065,7 +2078,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-session-superagent",
-      "version": "0.10.12",
-      "integrity": "sha512-MTWS5eZHFUvX3kJ5PA37HJwMQ2vk3Z9jfTGIvjLqYDNKYv7G0o3HoDmLXhr1/CGJH9PZoCHgfS5Ov5Eo8zrFhg==",
+      "version": "2.0.2",
+      "integrity": "sha512-m+7BfhUhFNB+3Ou6qGsbTQNoRW4xVsXej0fxubAjjoCGXUT5Puk/e24sWN2qc5JSnEnhsPcBc7mqInSTkNm1MA==",
       "resolution": "registry"
     }
   ],
@@ -2095,8 +2108,8 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
@@ -2106,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "30071a88",
+        "id": "6e6a2105",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "82bf3991",
+        "id": "18de6f4d",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2121,5 +2134,10 @@
     "tools": [],
     "toolsUnavailable": true,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }

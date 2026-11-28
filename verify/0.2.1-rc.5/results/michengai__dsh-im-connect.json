@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T13:41:54.121Z",
+  "generatedAt": "2026-11-28T13:10:09.226Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@michengai/dsh-im-connect@1.0.50",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q9khAb",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q9khAb/home",
+  "plugin": "@michengai/dsh-im-connect@1.0.57",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WogQXz",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WogQXz/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-23T13:41:54.800Z",
-      "durationMs": 171,
+      "startedAt": "2026-11-28T13:10:09.558Z",
+      "durationMs": 131,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @michengai/dsh-im-connect@1.0.50 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @michengai/dsh-im-connect@1.0.57 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-23T13:41:54.971Z",
-      "durationMs": 3204,
+      "startedAt": "2026-11-28T13:10:09.696Z",
+      "durationMs": 2174,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-im-connect 1.0.50\n\nPackages: +88\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 0, downloaded 46, added 0\nProgress: resolved 88, reused 0, downloaded 88, added 88, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @michengai/dsh-im-connect@1.0.50\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
-      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-q9khAb/home/profiles/health-smoke/.plugin-manager/logs/operation-7QU81p/pnpm.log\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-im-connect 1.0.57\n\nPackages: +88\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 16, downloaded 72, added 88, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-WogQXz/home/profiles/health-smoke/.plugin-manager/logs/operation-M5EWjl/pnpm.log\n",
       "truncated": false
     }
   ],
@@ -49,8 +49,8 @@
   "subjects": [
     {
       "name": "@michengai/dsh-im-connect",
-      "version": "1.0.50",
-      "integrity": "sha512-UG7DByc4px23Tal0JuhNG/VQbwfVYDRWPnjb7zYIauJv0POW89xOZ0luMmEPfz+41RK0Hn/TqavjfVIbgnKqog==",
+      "version": "1.0.57",
+      "integrity": "sha512-Uu6NRCsAaJWcgEm68XGd0sp+6kEZ0t1dZ4C/ZqpR5bvl9035mWE8KxSyB0TbyeayCvZtXYjAR5j3Eq5Ho1AntQ==",
       "resolution": "registry"
     }
   ],

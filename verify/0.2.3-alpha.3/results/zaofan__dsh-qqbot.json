@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-28T13:07:31.000Z",
+  "hostVersion": "0.2.3-alpha.3",
+  "plugin": "@zaofan/dsh-qqbot@1.13.29",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0cGNbV",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0cGNbV/home",
+  "profile": "health-smoke",
+  "ok": false,
+  "stages": [
+    {
+      "name": "install",
+      "startedAt": "2026-11-28T13:07:31.328Z",
+      "durationMs": 6628,
+      "ok": false,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 123, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @zaofan/dsh-qqbot 1.13.29\n\nPackages: +117\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 143, reused 6, downloaded 109, added 114\nProgress: resolved 143, reused 6, downloaded 110, added 115\nProgress: resolved 143, reused 6, downloaded 111, added 115\nProgress: resolved 143, reused 6, downloaded 111, added 117, done\n[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6\n\nRun \"pnpm approve-builds\" to pick which dependencies should be allowed to run scripts.\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0cGNbV/home/profiles/health-smoke\nCommand failed with exit code 1: pnpm add '@zaofan/dsh-qqbot@1.13.29'dsh: plugin command failed; diagnostics: /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-0cGNbV/home/profiles/health-smoke/.plugin-manager/logs/operation-XV1uyc/pnpm.log\n",
+      "truncated": false
+    }
+  ],
+  "tool": {
+    "name": "dsh-plugin-health",
+    "version": "3.3.0"
+  },
+  "runtimeEnv": {
+    "node": "v22.23.5",
+    "platform": "linux",
+    "arch": "x64",
+    "pnpm": "11.7.0",
+    "cordis": null
+  },
+  "subjects": [
+    {
+      "name": "@zaofan/dsh-qqbot",
+      "version": "1.13.29",
+      "integrity": "sha512-O1uzSEALKaLcfLbDzsPNYNUGoPmIpKkw97d4FoX9iS/HS4MZ5KVO9xSD9J6/viSHeGRFCPiXl4EBtXmaeB0umA==",
+      "resolution": "registry"
+    }
+  ],
+  "env": {
+    "mode": "clean",
+    "passed": [
+      "XDG_CONFIG_HOME",
+      "PNPM_HOME",
+      "HOME",
+      "LANG",
+      "PATH",
+      "CI",
+      "DSH_HOME",
+      "DSH_TELEMETRY_DISABLED"
+    ]
+  },
+  "failure": {
+    "stage": "install",
+    "kind": "build-scripts-blocked",
+    "detail": "[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: onnxruntime-node@1.30.0, protobufjs@7.6.6"
+  },
+  "level": "V1",
+  "declared": true,
+  "footprintDelta": null
+}

@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T13:39:10.800Z",
+  "generatedAt": "2026-11-28T13:05:12.251Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@marsken/dsh-studio@0.9.68",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2Swoon",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2Swoon/home",
+  "plugin": "@marsken/dsh-studio@0.19.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-F73Ob1",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-F73Ob1/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-23T13:39:11.506Z",
-      "durationMs": 2077,
+      "startedAt": "2026-11-28T13:05:12.625Z",
+      "durationMs": 1855,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @marsken/dsh-studio 0.9.68\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @marsken/dsh-studio@0.9.68\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-2Swoon/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @marsken/dsh-studio 0.19.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-F73Ob1/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-23T13:39:13.597Z",
-      "durationMs": 5522,
+      "startedAt": "2026-11-28T13:05:14.482Z",
+      "durationMs": 4549,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42315/?token=8HoQiOl8CHIEsDjjPioGUJeX4lVx4E7cHnu31hKb5H8\n",
-      "stderr": "(node:3381) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:42227/?token=eYqz4nG1al3AVyyDAo6hmIV_lSlWcu6GaL58R5lwJ-w\n",
+      "stderr": "(node:2874) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "047b354d",
+              "id": "c69bd5a0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c5f9d64b",
+              "id": "86cbb9c8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1292,13 +1292,19 @@
             "studio_release_list",
             "studio_release_publish",
             "studio_release_save",
+            "studio_requirement_assist",
+            "studio_requirement_comment",
+            "studio_requirement_doc",
             "studio_requirement_folder",
             "studio_requirement_get",
             "studio_requirement_list",
+            "studio_requirement_questions",
+            "studio_requirement_requester",
             "studio_requirement_review",
             "studio_requirement_save",
             "studio_requirement_signoff",
             "studio_requirement_split",
+            "studio_session_start",
             "studio_skill_delete",
             "studio_skill_get",
             "studio_skill_list",
@@ -1316,8 +1322,10 @@
             "studio_task_generate_cases",
             "studio_task_get",
             "studio_task_list",
+            "studio_task_mention",
             "studio_task_quality",
             "studio_task_signoff",
+            "studio_task_test_plan",
             "studio_task_unblock",
             "studio_task_update",
             "studio_test_run",
@@ -2209,12 +2217,12 @@
               "state": 2
             },
             {
-              "id": "047b354d",
+              "id": "c69bd5a0",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c5f9d64b",
+              "id": "86cbb9c8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2237,8 +2245,8 @@
   "subjects": [
     {
       "name": "@marsken/dsh-studio",
-      "version": "0.9.68",
-      "integrity": "sha512-ujoqZuxt8z6lV158jB3zHEJMD7gaSE21z0irwgHXYFrq4hPEGehRZwuVA0KqM71OSnPPp6a35Xx64GrAPUOphQ==",
+      "version": "0.19.1",
+      "integrity": "sha512-WFqxOHmSHVuRy0gxBDOjCezCfOOMo28eD3Xr7zvCGEXz0ZJUYM9jRtbMTmYbcWSrejhPkt1rq1I2uiKLuXNMiA==",
       "resolution": "registry"
     }
   ],
@@ -2269,13 +2277,13 @@
         "disabled": false
       },
       {
-        "id": "047b354d",
+        "id": "c69bd5a0",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c5f9d64b",
+        "id": "86cbb9c8",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2297,13 +2305,19 @@
       "studio_release_list",
       "studio_release_publish",
       "studio_release_save",
+      "studio_requirement_assist",
+      "studio_requirement_comment",
+      "studio_requirement_doc",
       "studio_requirement_folder",
       "studio_requirement_get",
       "studio_requirement_list",
+      "studio_requirement_questions",
+      "studio_requirement_requester",
       "studio_requirement_review",
       "studio_requirement_save",
       "studio_requirement_signoff",
       "studio_requirement_split",
+      "studio_session_start",
       "studio_skill_delete",
       "studio_skill_get",
       "studio_skill_list",
@@ -2321,8 +2335,10 @@
       "studio_task_generate_cases",
       "studio_task_get",
       "studio_task_list",
+      "studio_task_mention",
       "studio_task_quality",
       "studio_task_signoff",
+      "studio_task_test_plan",
       "studio_task_unblock",
       "studio_task_update",
       "studio_test_run",

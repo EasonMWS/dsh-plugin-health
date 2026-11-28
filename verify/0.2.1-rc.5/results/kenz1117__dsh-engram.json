@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:59:42.641Z",
+  "generatedAt": "2026-11-28T13:09:55.116Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@kenz1117/dsh-engram@0.13.15",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-azj6qO",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-azj6qO/home",
+  "plugin": "@kenz1117/dsh-engram@0.13.17",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DTwB1u",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DTwB1u/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:59:43.291Z",
-      "durationMs": 2411,
+      "startedAt": "2026-11-28T13:09:55.494Z",
+      "durationMs": 2569,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @kenz1117/dsh-engram 0.13.15\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.3s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-azj6qO/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ @kenz1117/dsh-engram 0.13.17\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1.6s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-DTwB1u/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:59:45.707Z",
-      "durationMs": 11899,
+      "startedAt": "2026-11-28T13:09:58.069Z",
+      "durationMs": 3643,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:33881/?token=_Q74vDmIyrAn0bm5EhNjUZThMZoSopsMvgsYkwJsg1s\n[dsh-engram] Closing-time consolidation done: 0 archived, 0 merged, 0 skipped (5460 ms)\n",
-      "stderr": "[dsh-engram] ingest is on but reflect is off — memories accumulate without consolidation (they read scattered). Set reflect: auto (or suggest), or run engram_reflect regularly.\n(node:2894) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:44995/?token=TIybF1EbfViZ8C-gCRyxV9bLyW_zFyEUi5m7gJRSFY8\n",
+      "stderr": "[dsh-engram] ingest is on but reflect is off — memories accumulate without consolidation (they read scattered). Set reflect: auto (or suggest), or run engram_reflect regularly.\n(node:2890) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "ce107c87",
+              "id": "6feef53f",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "c8c96517",
+              "id": "b3372c00",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "ce107c87",
+              "id": "6feef53f",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "c8c96517",
+              "id": "b3372c00",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "@kenz1117/dsh-engram",
-      "version": "0.13.15",
-      "integrity": "sha512-5lUWZwLg7Ld0e4N/sKeE5PhF05r1UfcDsf51U4/qf7OsrHNcPM2Xj3RXl/diSJ+k2Ex66UfHHi/ugWQVy9bCUQ==",
+      "version": "0.13.17",
+      "integrity": "sha512-Y/+bZxyM8bmCybYOJ0gKjDnHgSxJ3gB0HCzYhA292Dp0z9wSbDDqJOf+OL7Jc6YzKu4XfnviwgOE67wZ1qH87A==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "ce107c87",
+        "id": "6feef53f",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "c8c96517",
+        "id": "b3372c00",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

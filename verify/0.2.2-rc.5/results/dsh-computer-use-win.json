@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T15:23:57.468Z",
+  "generatedAt": "2026-11-28T13:05:43.161Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-computer-use-win@0.6.3",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mhtIT2",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mhtIT2/home",
+  "plugin": "dsh-computer-use-win@0.6.4",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JMeg92",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JMeg92/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T15:23:57.791Z",
-      "durationMs": 1365,
+      "startedAt": "2026-11-28T13:05:43.423Z",
+      "durationMs": 1201,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-computer-use-win 0.6.3\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-computer-use-win@0.6.3\nDone in 755ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-mhtIT2/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-computer-use-win 0.6.4\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 659ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JMeg92/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T15:23:59.158Z",
-      "durationMs": 3250,
+      "startedAt": "2026-11-28T13:05:44.626Z",
+      "durationMs": 2517,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:41437/?token=HVAhxqnCDllo6tOHPa778HAVQFy3PqMjPWTa-gLVs34\n",
-      "stderr": "windows-computer-use MCP server 0.6.3 ready\n",
+      "stdout": "dsh web: http://127.0.0.1:44601/?token=_x-PNSLGDsmuuf6adZlqAqJaLIzMxcW1wuFydd-dWNQ\n",
+      "stderr": "windows-computer-use MCP server 0.6.4 ready\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "ec6aa89a",
+              "id": "c85f9775",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "93d1d9a6",
+              "id": "587b3731",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1279,32 +1279,7 @@
           "tools": [
             "list_mcp_resource_templates",
             "list_mcp_resources",
-            "mcp__wincu__windows_computer_use_accessibility_tree",
-            "mcp__wincu__windows_computer_use_activate_window",
-            "mcp__wincu__windows_computer_use_batch",
-            "mcp__wincu__windows_computer_use_click",
-            "mcp__wincu__windows_computer_use_close_window",
-            "mcp__wincu__windows_computer_use_double_click",
-            "mcp__wincu__windows_computer_use_drag",
-            "mcp__wincu__windows_computer_use_element_info",
-            "mcp__wincu__windows_computer_use_find",
-            "mcp__wincu__windows_computer_use_focus",
-            "mcp__wincu__windows_computer_use_health",
-            "mcp__wincu__windows_computer_use_invoke",
-            "mcp__wincu__windows_computer_use_keypress",
-            "mcp__wincu__windows_computer_use_launch_app",
-            "mcp__wincu__windows_computer_use_list_windows",
-            "mcp__wincu__windows_computer_use_move",
-            "mcp__wincu__windows_computer_use_move_window",
-            "mcp__wincu__windows_computer_use_ocr",
-            "mcp__wincu__windows_computer_use_screenshot",
-            "mcp__wincu__windows_computer_use_scroll",
-            "mcp__wincu__windows_computer_use_set_value",
-            "mcp__wincu__windows_computer_use_snapshot",
             "mcp__wincu__windows_computer_use_tools",
-            "mcp__wincu__windows_computer_use_type_text",
-            "mcp__wincu__windows_computer_use_wait",
-            "mcp__wincu__windows_computer_use_wait_for",
             "read_mcp_resource",
             "team_task_create",
             "team_task_get",
@@ -2192,12 +2167,12 @@
               "state": 2
             },
             {
-              "id": "ec6aa89a",
+              "id": "c85f9775",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "93d1d9a6",
+              "id": "587b3731",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2220,8 +2195,8 @@
   "subjects": [
     {
       "name": "dsh-computer-use-win",
-      "version": "0.6.3",
-      "integrity": "sha512-Az/Wbom749aJwsFMKN76AOZZ2PcF7NY49YnX6Sh4ji0IAUPDuq4IYdHnIsVxf0VavJOqLgiIb6oVjSd0AzeKVg==",
+      "version": "0.6.4",
+      "integrity": "sha512-Sp14LsYn7BwGrAvBF1PfzeEpUMs+9mDivAwFnGoVmSA5SBuDgVG3rTDp+muAbLoJ2Dqd5lANxwUlLmNkTF9Pfg==",
       "resolution": "registry"
     }
   ],
@@ -2252,13 +2227,13 @@
         "disabled": false
       },
       {
-        "id": "ec6aa89a",
+        "id": "c85f9775",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "93d1d9a6",
+        "id": "587b3731",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
@@ -2267,32 +2242,7 @@
     "tools": [
       "list_mcp_resource_templates",
       "list_mcp_resources",
-      "mcp__wincu__windows_computer_use_accessibility_tree",
-      "mcp__wincu__windows_computer_use_activate_window",
-      "mcp__wincu__windows_computer_use_batch",
-      "mcp__wincu__windows_computer_use_click",
-      "mcp__wincu__windows_computer_use_close_window",
-      "mcp__wincu__windows_computer_use_double_click",
-      "mcp__wincu__windows_computer_use_drag",
-      "mcp__wincu__windows_computer_use_element_info",
-      "mcp__wincu__windows_computer_use_find",
-      "mcp__wincu__windows_computer_use_focus",
-      "mcp__wincu__windows_computer_use_health",
-      "mcp__wincu__windows_computer_use_invoke",
-      "mcp__wincu__windows_computer_use_keypress",
-      "mcp__wincu__windows_computer_use_launch_app",
-      "mcp__wincu__windows_computer_use_list_windows",
-      "mcp__wincu__windows_computer_use_move",
-      "mcp__wincu__windows_computer_use_move_window",
-      "mcp__wincu__windows_computer_use_ocr",
-      "mcp__wincu__windows_computer_use_screenshot",
-      "mcp__wincu__windows_computer_use_scroll",
-      "mcp__wincu__windows_computer_use_set_value",
-      "mcp__wincu__windows_computer_use_snapshot",
       "mcp__wincu__windows_computer_use_tools",
-      "mcp__wincu__windows_computer_use_type_text",
-      "mcp__wincu__windows_computer_use_wait",
-      "mcp__wincu__windows_computer_use_wait_for",
       "read_mcp_resource"
     ],
     "toolsUnavailable": false,

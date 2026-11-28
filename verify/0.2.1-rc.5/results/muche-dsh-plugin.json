@@ -1,36 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:23:08.691Z",
+  "generatedAt": "2026-11-28T13:11:14.730Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "muche-dsh-plugin@0.8.14",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8ObIwQ",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8ObIwQ/home",
+  "plugin": "muche-dsh-plugin@0.8.16",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Jef7Vi",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Jef7Vi/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
-      "name": "install",
-      "startedAt": "2026-11-19T13:23:09.070Z",
-      "durationMs": 1770,
+      "name": "allow-version",
+      "startedAt": "2026-11-28T13:11:15.060Z",
+      "durationMs": 122,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ muche-dsh-plugin 0.8.14\n\nPackages: +11\n+++++++++++\nProgress: resolved 11, reused 3, downloaded 8, added 11, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-8ObIwQ/home/profiles/health-smoke\n",
+      "stdout": "dsh: allowed muche-dsh-plugin@0.8.16 for DSH 0.2.1-rc.5\n",
+      "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
+      "truncated": false
+    },
+    {
+      "name": "install",
+      "startedAt": "2026-11-28T13:11:15.182Z",
+      "durationMs": 1415,
+      "ok": true,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "orphaned": false,
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ muche-dsh-plugin 0.8.16\n\nPackages: +11\n+++++++++++\nProgress: resolved 11, reused 6, downloaded 5, added 11, done\nDone in 783ms using pnpm v11.7.0\n",
+      "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:23:10.844Z",
-      "durationMs": 2818,
+      "startedAt": "2026-11-28T13:11:16.601Z",
+      "durationMs": 3131,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:35185/?token=-JRt19EFihTTtHWR1tyYDVwGOaLDGjE8RAnNOsOxp5U\nmuche desktop: dispose helper=absent\n",
+      "stdout": "dsh web: http://127.0.0.1:37989/?token=-pdGRuxFdPusteX1pty4NHkU06thTKuTZ66ZiJsyv5E\nmuche desktop: dispose helper=absent\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -40,8 +53,8 @@
         "footprint": {
           "entries": [
             {
-              "id": "72909164",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "id": "12096091",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
@@ -1204,8 +1217,8 @@
               "disabled": false
             },
             {
-              "id": "941ace55",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "id": "feacfba5",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1221,8 +1234,8 @@
           "bootOnly": true,
           "activeEntries": [
             {
-              "id": "72909164",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+              "id": "12096091",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
@@ -2051,8 +2064,8 @@
               "state": 2
             },
             {
-              "id": "941ace55",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "id": "feacfba5",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2065,7 +2078,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2087,8 @@
   "subjects": [
     {
       "name": "muche-dsh-plugin",
-      "version": "0.8.14",
-      "integrity": "sha512-QG/wnOxIqnJSDqSOqOG7JJueXkTMk3EQgiDCOY13v4WoY8DOmDea9PTlE00kCG9DkIuXwHlDZ18KZF/IM+OHjQ==",
+      "version": "0.8.16",
+      "integrity": "sha512-qLdQttPpwEvySY9XvHTcdYhEiYbQMokw2MiVqRlus8agxi81aVd6rw5bs+yJZ4tvU6Ay7knpMbXnhJN4XlzREg==",
       "resolution": "registry"
     }
   ],
@@ -2095,13 +2108,13 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
-  "declared": true,
+  "level": null,
+  "declared": false,
   "footprintDelta": {
     "entries": [
       {
-        "id": "72909164",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+        "id": "12096091",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
@@ -2112,8 +2125,8 @@
         "disabled": false
       },
       {
-        "id": "941ace55",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "id": "feacfba5",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }
@@ -2121,5 +2134,10 @@
     "tools": [],
     "toolsUnavailable": true,
     "baseline": "host"
+  },
+  "bypassed": true,
+  "bypass": {
+    "level": "V3",
+    "failure": null
   }
 }

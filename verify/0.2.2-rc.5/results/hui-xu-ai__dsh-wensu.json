@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T13:38:51.308Z",
+  "generatedAt": "2026-11-28T13:05:16.843Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@hui-xu-ai/dsh-wensu@0.13.8",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5ODB4o",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-5ODB4o/home",
+  "plugin": "@hui-xu-ai/dsh-wensu@0.15.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CMhJxg",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-CMhJxg/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-23T13:38:51.926Z",
-      "durationMs": 129,
+      "startedAt": "2026-11-28T13:05:17.518Z",
+      "durationMs": 174,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @hui-xu-ai/dsh-wensu@0.13.8 for DSH 0.2.2-rc.5\n",
+      "stdout": "dsh: allowed @hui-xu-ai/dsh-wensu@0.15.0 for DSH 0.2.2-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-23T13:38:52.062Z",
-      "durationMs": 2375,
+      "startedAt": "2026-11-28T13:05:17.692Z",
+      "durationMs": 2724,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @hui-xu-ai/dsh-wensu 0.13.8\n\nPackages: +19\n+++++++++++++++++++\nProgress: resolved 19, reused 0, downloaded 19, added 19, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @hui-xu-ai/dsh-wensu@0.13.8\nDone in 1.6s using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @hui-xu-ai/dsh-wensu 0.15.0\n\nPackages: +19\n+++++++++++++++++++\nProgress: resolved 19, reused 0, downloaded 19, added 19, done\nDone in 1.6s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-23T13:38:54.452Z",
-      "durationMs": 4548,
+      "startedAt": "2026-11-28T13:05:20.438Z",
+      "durationMs": 5621,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:42535/?token=KHmHz8xOJmmSj4IL3uq00gEAmaz9TwNRAn_yFZXPoH8\n",
+      "stdout": "dsh web: http://127.0.0.1:46805/?token=dkKgNIwcrzbEWGeI2Bhmla6FoVPDOgsqTBwXJqSz_3I\n",
       "stderr": "dsh: disabling profile plugin row \"mcp-scholar-search\": Plugin @deepseek-ai/dsh-mcp-client@0.2.2-rc.3 is incompatible with dsh 0.2.2-rc.5: requirements {\"@deepseek-ai/dsh-attachment\":\"0.2.2-rc.3\",\"@deepseek-ai/dsh-llm\":\"0.2.2-rc.3\",\"@deepseek-ai/dsh-scope\":\"0.2.2-rc.3\",\"@deepseek-ai/dsh-subprocess\":\"0.2.2-rc.3\",\"@deepseek-ai/dsh-timeout\":\"0.2.2-rc.3\",\"@deepseek-ai/dsh-tools\":\"0.2.2-rc.3\",\"@deepseek-ai/dsh-mcp-resources\":\"0.2.2-rc.3\",\"@deepseek-ai/dsh-system-prompt\":\"0.2.2-rc.3\",\"@deepseek-ai/dsh-credentials\":\"0.2.2-rc.3\"}. Running it may cause crashes or data loss. Update the plugin or install a plugin version compatible with this dsh runtime. To accept this risk explicitly, grant the exact-version exemption for @deepseek-ai/dsh-mcp-client@0.2.2-rc.3 on dsh 0.2.2-rc.5 with `dsh plugin allow-version` or the plugin manager, then retry the installation or restart dsh. Exact-version exemption: not active.\n",
       "truncated": false,
       "details": {
@@ -1277,13 +1277,13 @@
               "disabled": false
             },
             {
-              "id": "57319c01",
+              "id": "80a8eb2e",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "135fc080",
+              "id": "9143a168",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1320,8 +1320,8 @@
   "subjects": [
     {
       "name": "@hui-xu-ai/dsh-wensu",
-      "version": "0.13.8",
-      "integrity": "sha512-wToXiTNUFnkFyNic6LgBzdljzgYuRU73Q4AfNF57E91nwDb8GoZrPsuCKQwAHcMD/DbZ2g9aLS+/dZGuZ+6TAQ==",
+      "version": "0.15.0",
+      "integrity": "sha512-tugEJMzWxt78l5MAPRyjhkseqE8NTw+N4IxdD2XemQSHrtvy5/LPZn1BeVl+RY8mShbqciE3JVc5vRNwyT+5ig==",
       "resolution": "registry"
     }
   ],
@@ -1357,13 +1357,13 @@
         "disabled": true
       },
       {
-        "id": "57319c01",
+        "id": "80a8eb2e",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "135fc080",
+        "id": "9143a168",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

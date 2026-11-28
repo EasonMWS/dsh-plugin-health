@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T15:29:23.407Z",
+  "generatedAt": "2026-11-28T13:10:10.634Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-bottom-info-bar@1.27.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JGNcvE",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JGNcvE/home",
+  "plugin": "dsh-bottom-info-bar@1.30.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Zyk8IT",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Zyk8IT/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T15:29:23.900Z",
-      "durationMs": 1840,
+      "startedAt": "2026-11-28T13:10:10.969Z",
+      "durationMs": 1523,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bottom-info-bar 1.27.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-bottom-info-bar@1.27.1\nDone in 928ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-JGNcvE/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-bottom-info-bar 1.30.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 686ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-Zyk8IT/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T15:29:25.743Z",
-      "durationMs": 3978,
+      "startedAt": "2026-11-28T13:10:12.494Z",
+      "durationMs": 3236,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45259/?token=OCzHfwYRiv6Jeho2Y015nQ4HthZbArpvVezSlbR4U38\n",
-      "stderr": "(node:3484) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[dsh-bottom-info-bar] 远程价目已合并（启动）：25 条有效条目\n[dsh-bottom-info-bar] 远程价目同步到账本失败: Ledger unavailable: Ledger is closed.\n",
+      "stdout": "dsh web: http://127.0.0.1:34109/?token=0h52-Hy3SkkdxEsBQVOSYeJjCfzKsc91tXc6dOs2NI8\n",
+      "stderr": "(node:3222) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n[dsh-bottom-info-bar] 远程价目已合并（启动）：29 条有效条目\n[dsh-bottom-info-bar] 远程价目同步到账本失败: Ledger is closed.\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -39,12 +39,6 @@
         "hostCordis": "4.0.5",
         "footprint": {
           "entries": [
-            {
-              "id": "85829057",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1204,7 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "7b977b9e",
+              "id": "9405b741",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "afd11392",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1220,11 +1220,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "85829057",
-              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2051,7 +2046,12 @@
               "state": 2
             },
             {
-              "id": "7b977b9e",
+              "id": "9405b741",
+              "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "afd11392",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-bottom-info-bar",
-      "version": "1.27.1",
-      "integrity": "sha512-dJQCh9edzaWZq8JmF9dD9pU1cejrEgEfmDQSvKS8zZPD3gh+7iKK5MeGd7VSJF5rokoHS8WhVzTVOtjGodFklg==",
+      "version": "1.30.1",
+      "integrity": "sha512-3BskuHI0xxMy7KpxE/9FHMeXZFIbVh0Awd2jFTb8+LuSsW4OEZu+8St6HADFm8ZdvpvmQh0oycZGtX/QxUa8jQ==",
       "resolution": "registry"
     }
   ],
@@ -2100,19 +2100,19 @@
   "footprintDelta": {
     "entries": [
       {
-        "id": "85829057",
-        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
-      {
         "id": "bottom-info-bar",
         "name": "dsh-bottom-info-bar",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "7b977b9e",
+        "id": "9405b741",
+        "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "afd11392",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

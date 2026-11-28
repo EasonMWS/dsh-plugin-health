@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:59.063Z",
+  "generatedAt": "2026-11-28T13:05:51.977Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-plugin-subscriptions@0.9.14",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kYNxCa",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kYNxCa/home",
+  "plugin": "dsh-plugin-subscriptions@0.9.15",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IBC8Lw",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IBC8Lw/home",
   "profile": "health-smoke",
-  "ok": true,
+  "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:59.632Z",
-      "durationMs": 1731,
+      "startedAt": "2026-11-28T13:05:52.449Z",
+      "durationMs": 1981,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-plugin-subscriptions 0.9.14\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 911ms using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-kYNxCa/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-plugin-subscriptions 0.9.15\n\nPackages: +2\n++\nProgress: resolved 2, reused 0, downloaded 2, added 2, done\nDone in 1s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IBC8Lw/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:57:01.366Z",
-      "durationMs": 5234,
-      "ok": true,
-      "exitCode": 0,
+      "startedAt": "2026-11-28T13:05:54.433Z",
+      "durationMs": 4603,
+      "ok": false,
+      "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:45755/?token=kRuiN27ZursAsN4I_N90MndAffqcx6zsyNi2DfwOihI\n",
-      "stderr": "",
+      "stdout": "dsh web: http://127.0.0.1:38899/?token=0nCZgABouRz1wokJ9pD5KDSUnHco9vU12g5dCvXZwcA\n",
+      "stderr": "dsh: fatal load failure: DOMException [AbortError]: This operation was aborted\n    at new DOMException (node:internal/per_context/domexception:76:18)\n    at AbortController.abort (node:internal/abort_controller:504:18)\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-IBC8Lw/home/profiles/health-smoke/node_modules/dsh-plugin-subscriptions/lib/index.js:12314:15\n    at runDisposable (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:253:17)\n    at dispose (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:475:20)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:538:40\n    at finalizeDisposal (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:518:14)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:536:11\n    at runDisposable (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:253:17)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:701:12\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -39,12 +39,6 @@
         "hostCordis": "4.1.0",
         "footprint": {
           "entries": [
-            {
-              "id": "54217439",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2,
-              "disabled": false
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -1270,8 +1264,14 @@
               "disabled": false
             },
             {
-              "id": "18e2e5c8",
+              "id": "fecc1042",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "682ffe64",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
             }
@@ -1295,11 +1295,6 @@
         "assertions": {
           "bootOnly": true,
           "activeEntries": [
-            {
-              "id": "54217439",
-              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-              "state": 2
-            },
             {
               "id": "include",
               "name": "cordis:include",
@@ -2171,8 +2166,13 @@
               "state": 2
             },
             {
-              "id": "18e2e5c8",
+              "id": "fecc1042",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+              "state": 2
+            },
+            {
+              "id": "682ffe64",
+              "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
           ]
@@ -2194,8 +2194,8 @@
   "subjects": [
     {
       "name": "dsh-plugin-subscriptions",
-      "version": "0.9.14",
-      "integrity": "sha512-CxWi3GUj11Hnjpvz6t00ByT/IZ4vR+JJ1SQHBQx1A2HsRGeOzfUjbVvdxIsieoJcbWaqYlKi4mvr/PgNSCAE6w==",
+      "version": "0.9.15",
+      "integrity": "sha512-hobllIdKSyi+NKfoXSTA9AJ6yBp1aQy36GcHfj6Kvw4q8rsRKlYloA5nsesl97CxGrYGGh27TFMY/j1ZETWtCA==",
       "resolution": "registry"
     }
   ],
@@ -2215,16 +2215,15 @@
   "hostBundles": [
     "@deepseek-ai/dsh-web-app"
   ],
-  "level": "V3",
+  "failure": {
+    "stage": "runtime",
+    "kind": "unknown",
+    "detail": "dsh: fatal load failure: DOMException [AbortError]: This operation was aborted"
+  },
+  "level": "V2",
   "declared": true,
   "footprintDelta": {
     "entries": [
-      {
-        "id": "54217439",
-        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
-        "state": 2,
-        "disabled": false
-      },
       {
         "id": "llm-subscriptions",
         "name": "dsh-plugin-subscriptions",
@@ -2232,8 +2231,14 @@
         "disabled": false
       },
       {
-        "id": "18e2e5c8",
+        "id": "fecc1042",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "682ffe64",
+        "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }

@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:21:51.578Z",
+  "generatedAt": "2026-11-28T13:10:28.722Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-douyin-browser-local@1.4.7",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dubcID",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dubcID/home",
+  "plugin": "dsh-douyin-browser-local@1.5.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VkRDjR",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VkRDjR/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:21:51.979Z",
-      "durationMs": 2937,
+      "startedAt": "2026-11-28T13:10:29.062Z",
+      "durationMs": 2598,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\nProgress: resolved 5, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-douyin-browser-local 1.4.7\n\nPackages: +5\n+++++\nProgress: resolved 5, reused 0, downloaded 5, added 5, done\nDone in 2.1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dubcID/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-douyin-browser-local 1.5.0\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 2, added 2\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nDone in 1.8s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VkRDjR/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:21:54.978Z",
-      "durationMs": 3340,
+      "startedAt": "2026-11-28T13:10:31.663Z",
+      "durationMs": 3342,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38007/?token=e4lDlUHWRvbZWT_DR4IgmK0EySg65eSSOEOBHLuSQ2M\n",
-      "stderr": "(node:3926) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:43735/?token=EdBO1Ngd3T7i4yM99q8KaKQXyfodB6uRyFlbJXCXisQ\n",
+      "stderr": "(node:3850) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "c95a3cc4",
+              "id": "b40ad4cb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "efb7b0df",
+              "id": "34d55a19",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "c95a3cc4",
+              "id": "b40ad4cb",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "efb7b0df",
+              "id": "34d55a19",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2065,7 +2065,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-douyin-browser-local",
-      "version": "1.4.7",
-      "integrity": "sha512-un9+6UAcXKLkUscwMxj96U8M5IPqUbA6xYQexDYhxcX+9WGypWwMx0cvCVZlR/vIqpavbHuJH5aPKcYqNHf42w==",
+      "version": "1.5.0",
+      "integrity": "sha512-bspDeTEj29t0OFu3ApYeQ0+31Ecv7AFbvfD+ma0c2NStxcbv213yUUjCBzPrC5YPiQOVaiD43G4IXI8VnSyaOg==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "c95a3cc4",
+        "id": "b40ad4cb",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "efb7b0df",
+        "id": "34d55a19",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

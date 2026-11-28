@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-19T13:19:51.027Z",
+  "generatedAt": "2026-11-28T13:06:13.050Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-video-storyboard@0.7.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nxTORA",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nxTORA/home",
+  "plugin": "dsh-video-storyboard@0.8.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qSQtrh",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qSQtrh/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-19T13:19:51.610Z",
-      "durationMs": 1890,
+      "startedAt": "2026-11-28T13:06:13.409Z",
+      "durationMs": 1446,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-video-storyboard 0.7.6\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-nxTORA/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-video-storyboard 0.8.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 723ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-qSQtrh/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-19T13:19:53.502Z",
-      "durationMs": 5646,
+      "startedAt": "2026-11-28T13:06:14.856Z",
+      "durationMs": 4208,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46059/?token=tBDnEuqncCPP5u0Bzg99ExL-e8WJnXiCH5mcAEuc8OY\n",
+      "stdout": "dsh web: http://127.0.0.1:41063/?token=wrp8cL4IG-ZzGSahrmEhn-sbMXudK9vf5l13fhVbCAQ\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1264,13 +1264,13 @@
               "disabled": false
             },
             {
-              "id": "47a0c209",
+              "id": "4f681204",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "acf51b57",
+              "id": "2ae95729",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1281,7 +1281,9 @@
             "team_task_get",
             "team_task_list",
             "team_task_update",
+            "video_danmaku",
             "video_help",
+            "video_index",
             "video_locate",
             "video_probe",
             "video_storyboard",
@@ -2170,12 +2172,12 @@
               "state": 2
             },
             {
-              "id": "47a0c209",
+              "id": "4f681204",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "acf51b57",
+              "id": "2ae95729",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2189,7 +2191,7 @@
     "version": "3.3.0"
   },
   "runtimeEnv": {
-    "node": "v22.23.4",
+    "node": "v22.23.5",
     "platform": "linux",
     "arch": "x64",
     "pnpm": "11.7.0",
@@ -2198,8 +2200,8 @@
   "subjects": [
     {
       "name": "dsh-video-storyboard",
-      "version": "0.7.6",
-      "integrity": "sha512-GfB3xMgoVrLsSbGLnIu/sRbcGMNUdWyZw9r4hjdw5Ken1DWSyxm6j9y9CsHvw3MQUgDkLviwjzS5vFSvNMC2ug==",
+      "version": "0.8.1",
+      "integrity": "sha512-jeh2INQee5w+bwg7nN9x07mAB4jRxNxa4KhyBMDlptInAtgxoOZLfUd78b5QdJuZKGmm7Cl3f3f2zdfDRqGGWw==",
       "resolution": "registry"
     }
   ],
@@ -2230,20 +2232,22 @@
         "disabled": false
       },
       {
-        "id": "47a0c209",
+        "id": "4f681204",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "acf51b57",
+        "id": "2ae95729",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
       }
     ],
     "tools": [
+      "video_danmaku",
       "video_help",
+      "video_index",
       "video_locate",
       "video_probe",
       "video_storyboard",

@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T07:00:28.169Z",
+  "generatedAt": "2026-11-28T13:10:18.616Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-task-ledger@0.2.6",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AMlbtX",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AMlbtX/home",
+  "plugin": "dsh-task-ledger@0.2.8",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ObArpM",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ObArpM/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T07:00:28.671Z",
-      "durationMs": 2909,
+      "startedAt": "2026-11-28T13:10:18.962Z",
+      "durationMs": 2226,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-task-ledger 0.2.6\n\nPackages: +48\n++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 48, reused 3, downloaded 44, added 47\nProgress: resolved 48, reused 3, downloaded 45, added 48, done\nAdded 2 entries to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-plugin-core@0.44.0\n  dsh-task-ledger@0.2.6\nDone in 1.9s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-AMlbtX/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-task-ledger 0.2.8\n\nPackages: +48\n++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 48, reused 3, downloaded 45, added 48, done\nDone in 1.3s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-ObArpM/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T07:00:31.592Z",
-      "durationMs": 3249,
+      "startedAt": "2026-11-28T13:10:21.197Z",
+      "durationMs": 2259,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "[task-ledger] 已注册内嵌 skill：task-ledger（正文 21595 字）\n[task-ledger] 数据面路由已注册（读 /api/task-ledger/board/snapshot 等；作业流 /task-center/stream、提交 /task-center/submit）\ndsh web: http://127.0.0.1:41497/?token=m87vZcavzB3RnVWS6BEepy7L72bEyHWZt7QaRFXnzlA\n",
+      "stdout": "[task-ledger] 已注册内嵌 skill：task-ledger（正文 21419 字）\n[task-ledger] 数据面路由已注册（读 /api/task-ledger/board/snapshot 等；作业流 /task-center/stream、提交 /task-center/submit）\ndsh web: http://127.0.0.1:38721/?token=EJUcqrZia2AHdviLsek1WLmOF1YIPnmKJpoLUw2FRro\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "f375bab3",
+              "id": "af3faa85",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "ae5f2252",
+              "id": "1d4eb403",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "f375bab3",
+              "id": "af3faa85",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "ae5f2252",
+              "id": "1d4eb403",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-task-ledger",
-      "version": "0.2.6",
-      "integrity": "sha512-8zyp3UynityZnhnJ7N//t509JEd5x2fP58OanFGMvHmI4zfeLBd1qhkpLx/FZQ2I656oUK03GhfIaLAcrNtRcw==",
+      "version": "0.2.8",
+      "integrity": "sha512-OACAjwKGkRmOSV53OIjVMjSJwcBRJh5v/ty3C3ayhUX8edvmCpjtpyW8Df07atKjTfvgfu0YHK93S+zPeynMHw==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "f375bab3",
+        "id": "af3faa85",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "ae5f2252",
+        "id": "1d4eb403",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

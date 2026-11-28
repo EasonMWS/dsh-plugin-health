@@ -1,50 +1,50 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:59:31.414Z",
+  "generatedAt": "2026-11-28T13:09:36.598Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@michengai/dsh-agency-agents@1.3.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-S83FRW",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-S83FRW/home",
+  "plugin": "@michengai/dsh-agency-agents@1.4.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V9iSUB",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V9iSUB/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-22T06:59:31.736Z",
-      "durationMs": 104,
+      "startedAt": "2026-11-28T13:09:37.056Z",
+      "durationMs": 191,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed @michengai/dsh-agency-agents@1.3.1 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed @michengai/dsh-agency-agents@1.4.0 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:59:31.840Z",
-      "durationMs": 1451,
+      "startedAt": "2026-11-28T13:09:37.247Z",
+      "durationMs": 2397,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-agency-agents 1.3.1\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 817ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-agency-agents 1.4.0\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 1.2s using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:59:33.293Z",
-      "durationMs": 2306,
+      "startedAt": "2026-11-28T13:09:39.648Z",
+      "durationMs": 4015,
       "ok": false,
       "exitCode": 1,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:34055/?token=Y-DPyfiA6NFK5ODAKMDry4OKFlx9vKGUaYKxF0NKP44\n",
-      "stderr": "dsh: warning: 1 entry did not activate\nagency-agents (@michengai/dsh-agency-agents): Error: This host has no live-updating agency-agents config fields, so the plugin cannot save the enabled list.\n    at new apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-S83FRW/home/profiles/health-smoke/node_modules/@michengai/dsh-agency-agents/lib/src-D76vb94B.js:4980:42)\n    at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1068:24)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1142:34\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-S83FRW/home/profiles/health-smoke/#agency-agents\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-S83FRW/home/profiles/health-smoke/#include\n",
+      "stdout": "dsh web: http://127.0.0.1:36183/?token=JNF7QreCalg9Hx-hzjnJpcis3TjroUjsaVEVuUDKTyY\n",
+      "stderr": "dsh: warning: 1 entry did not activate\nagency-agents (@michengai/dsh-agency-agents): Error: This host has no live-updating agency-agents config fields, so the plugin cannot save the enabled list.\n    at new apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V9iSUB/home/profiles/health-smoke/node_modules/@michengai/dsh-agency-agents/lib/src-DZHxKBQE.js:5331:42)\n    at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1068:24)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:1142:34\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V9iSUB/home/profiles/health-smoke/#agency-agents\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-V9iSUB/home/profiles/health-smoke/#include\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1217,13 +1217,13 @@
               "disabled": false
             },
             {
-              "id": "d3e539ed",
+              "id": "b51b3985",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "88099e40",
+              "id": "d2fdfe2c",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1254,8 +1254,8 @@
   "subjects": [
     {
       "name": "@michengai/dsh-agency-agents",
-      "version": "1.3.1",
-      "integrity": "sha512-Poa1G5tCXu7USbFyVceVO0WNPUsqUsfxfyBpsMH5zY8dJlfWraB2LqBDK/1HCCtVNk23QwJnDIafSMNtTflTyA==",
+      "version": "1.4.0",
+      "integrity": "sha512-X/lcn6Uiol8sFmMLWbwvp4NASnZMdK0+Ra8A6zmjuC0BMr9ReO9xZ3JEqAmYg0CnvOs/dd6wY79BLDrHHo2Vmw==",
       "resolution": "registry"
     }
   ],
@@ -1297,13 +1297,13 @@
         "disabled": false
       },
       {
-        "id": "d3e539ed",
+        "id": "b51b3985",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "88099e40",
+        "id": "d2fdfe2c",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-23T13:41:22.337Z",
+  "generatedAt": "2026-11-28T13:10:03.639Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "@modusensus/dsh-mneme@0.17.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XMrUjk",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XMrUjk/home",
+  "plugin": "@modusensus/dsh-mneme@0.17.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-am73Ho",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-am73Ho/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-23T13:41:22.645Z",
-      "durationMs": 1713,
+      "startedAt": "2026-11-28T13:10:04.036Z",
+      "durationMs": 1724,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @modusensus/dsh-mneme 0.17.0\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  @modusensus/dsh-mneme@0.17.0\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-XMrUjk/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @modusensus/dsh-mneme 0.17.2\n\nPackages: +3\n+++\nProgress: resolved 3, reused 0, downloaded 3, added 3, done\nDone in 928ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-am73Ho/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-23T13:41:24.451Z",
-      "durationMs": 5134,
+      "startedAt": "2026-11-28T13:10:05.764Z",
+      "durationMs": 5979,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:36229/?token=RLdo2dhyic1kZ0a5j0OOg06RfndwFEBPyP0x7MLI02c\n",
-      "stderr": "(node:2626) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+      "stdout": "dsh web: http://127.0.0.1:34793/?token=VBCY92CffvIBcqbS8rsOorrTjrDoCIuCUZTETzuBF2I\n",
+      "stderr": "(node:3129) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
       "truncated": false,
       "details": {
         "ok": true,
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "92b3cb05",
+              "id": "8ca4e75d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "f803772b",
+              "id": "0ad90bf8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "92b3cb05",
+              "id": "8ca4e75d",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "f803772b",
+              "id": "0ad90bf8",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "@modusensus/dsh-mneme",
-      "version": "0.17.0",
-      "integrity": "sha512-1k1TrUxYqIiq9ng1FGmL+582TnbwzBzpTvSrmmvSiUAP1C5vThVftMyUtoM/v0g+d+hZSw/1yvJrLekUZthIwQ==",
+      "version": "0.17.2",
+      "integrity": "sha512-5l7uT7AVsFpWmKWTEb6loQPJI0BikQRe4qOsvn04/EwxNiMo2UOPCi5paoqSiCidLKLJKmMS4t3gS0IHQBBhHQ==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "92b3cb05",
+        "id": "8ca4e75d",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "f803772b",
+        "id": "0ad90bf8",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

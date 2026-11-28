@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T15:24:34.081Z",
+  "generatedAt": "2026-11-28T13:05:35.906Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "dsh-mobile@0.8.14",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QAFsP8",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QAFsP8/home",
+  "plugin": "dsh-mobile@0.9.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7vzORL",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7vzORL/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T15:24:34.542Z",
-      "durationMs": 3441,
+      "startedAt": "2026-11-28T13:05:36.259Z",
+      "durationMs": 2018,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-mobile 0.8.14\n\nPackages: +83\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 83, reused 4, downloaded 41, added 4\nProgress: resolved 83, reused 4, downloaded 79, added 83, done\nDone in 2.4s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QAFsP8/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-mobile 0.9.2\n\nPackages: +84\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 88, reused 9, downloaded 75, added 84, done\nDone in 1.3s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7vzORL/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T15:24:38.027Z",
-      "durationMs": 4718,
+      "startedAt": "2026-11-28T13:05:38.299Z",
+      "durationMs": 3049,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46107/?token=RAZqH6AIIGbB7QOgRZFyjqOmHLm-i18N2fSy_OrToRc\n",
+      "stdout": "dsh web: http://127.0.0.1:43759/?token=4piOAkuIIWlXhZ05vqAYdbpkZfdmoA4gJC1v9grcgHM\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -647,7 +647,13 @@
             },
             {
               "id": "dsh-ui-fixes",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QAFsP8/home/profiles/health-smoke/node_modules/dsh-mobile/packages/question-fixes/lib/index.mjs",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7vzORL/home/profiles/health-smoke/node_modules/dsh-mobile/packages/question-fixes/lib/index.mjs",
+              "state": 2,
+              "disabled": false
+            },
+            {
+              "id": "dsh-mobile-skill",
+              "name": "dsh-mobile/mobile-skill",
               "state": 2,
               "disabled": false
             },
@@ -1270,13 +1276,13 @@
               "disabled": false
             },
             {
-              "id": "405bcaf1",
+              "id": "ef6a9019",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "48a68eba",
+              "id": "89bf58e4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1675,7 +1681,12 @@
             },
             {
               "id": "dsh-ui-fixes",
-              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QAFsP8/home/profiles/health-smoke/node_modules/dsh-mobile/packages/question-fixes/lib/index.mjs",
+              "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7vzORL/home/profiles/health-smoke/node_modules/dsh-mobile/packages/question-fixes/lib/index.mjs",
+              "state": 2
+            },
+            {
+              "id": "dsh-mobile-skill",
+              "name": "dsh-mobile/mobile-skill",
               "state": 2
             },
             {
@@ -2174,12 +2185,12 @@
               "state": 2
             },
             {
-              "id": "405bcaf1",
+              "id": "ef6a9019",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "48a68eba",
+              "id": "89bf58e4",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2202,8 +2213,8 @@
   "subjects": [
     {
       "name": "dsh-mobile",
-      "version": "0.8.14",
-      "integrity": "sha512-UHdTF5w7fTaryUFEdyZ0WhZFDeKEtpdjGd8KY1jf8LxYM7iT6OJTmgkGHg/633J+MOc2als+bKXvQDjaJzi7mA==",
+      "version": "0.9.2",
+      "integrity": "sha512-E85tw0k4LmH3ekqVdGx3KH0FJCh1ciOMAwlxJLTACEUH8IpDTfyLtRNoxmEwfjGEiIF1/Zn9+3SEleMhL2H4ow==",
       "resolution": "registry"
     }
   ],
@@ -2235,18 +2246,24 @@
       },
       {
         "id": "dsh-ui-fixes",
-        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-QAFsP8/home/profiles/health-smoke/node_modules/dsh-mobile/packages/question-fixes/lib/index.mjs",
+        "name": "file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-7vzORL/home/profiles/health-smoke/node_modules/dsh-mobile/packages/question-fixes/lib/index.mjs",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "405bcaf1",
+        "id": "dsh-mobile-skill",
+        "name": "dsh-mobile/mobile-skill",
+        "state": 2,
+        "disabled": false
+      },
+      {
+        "id": "ef6a9019",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "48a68eba",
+        "id": "89bf58e4",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

@@ -1,36 +1,36 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T07:00:01.399Z",
+  "generatedAt": "2026-11-28T13:09:58.605Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-univer-office@0.5.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jtCJSn",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jtCJSn/home",
+  "plugin": "dsh-univer-office@0.6.2",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jYLtQX",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jYLtQX/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T07:00:01.903Z",
-      "durationMs": 4108,
+      "startedAt": "2026-11-28T13:09:59.112Z",
+      "durationMs": 3914,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-univer-office 0.5.1\n\nPackages: +30\n++++++++++++++++++++++++++++++\nProgress: resolved 42, reused 2, downloaded 3, added 2\nProgress: resolved 42, reused 2, downloaded 27, added 29\nProgress: resolved 42, reused 2, downloaded 28, added 30, done\nAdded 1 entry to minimumReleaseAgeExclude in pnpm-workspace.yaml (set minimumReleaseAgeStrict to true to gate these updates with a prompt):\n  dsh-univer-office@0.5.1\nDone in 3s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jtCJSn/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ dsh-univer-office 0.6.2\n\nPackages: +30\n++++++++++++++++++++++++++++++\nProgress: resolved 42, reused 2, downloaded 15, added 7\nProgress: resolved 42, reused 2, downloaded 27, added 29\nProgress: resolved 42, reused 2, downloaded 28, added 30, done\nDone in 2.9s using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-jYLtQX/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T07:00:06.033Z",
-      "durationMs": 5286,
+      "startedAt": "2026-11-28T13:10:03.050Z",
+      "durationMs": 5405,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38885/?token=ye76HuI5PjQ96G8-MhxidLSY6hmf9hrA_05HOkHRVCE\n",
+      "stdout": "dsh web: http://127.0.0.1:41891/?token=DG1WsmVzz-qZyTjvBNXkHiPjrf-13llalJnWJMfq7cI\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1198,13 +1198,13 @@
               "disabled": false
             },
             {
-              "id": "9dd5cb3e",
+              "id": "7cf1a3e3",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "8534ae27",
+              "id": "70e33399",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2046,12 +2046,12 @@
               "state": 2
             },
             {
-              "id": "9dd5cb3e",
+              "id": "7cf1a3e3",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "8534ae27",
+              "id": "70e33399",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2074,8 +2074,8 @@
   "subjects": [
     {
       "name": "dsh-univer-office",
-      "version": "0.5.1",
-      "integrity": "sha512-TFAj7JOlebsApnoVTwPuI+JDhPvgLNWCMQ9zoUMl5nLs3nsVoUNqY27Uj1Zx5ihnYQlfw+To/fZs6h+t8shaHg==",
+      "version": "0.6.2",
+      "integrity": "sha512-6hN8sI6OxZQf/I6E7sO5ivGtd1Y8H8UwhwpSx1HBKPmftiGuUOsecwGyGz3xx+xoQK4Wr0DKZuRIdRoAnaiYnQ==",
       "resolution": "registry"
     }
   ],
@@ -2106,13 +2106,13 @@
         "disabled": false
       },
       {
-        "id": "9dd5cb3e",
+        "id": "7cf1a3e3",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "8534ae27",
+        "id": "70e33399",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

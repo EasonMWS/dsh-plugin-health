@@ -1,37 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T06:56:15.605Z",
+  "generatedAt": "2026-11-28T13:05:13.232Z",
   "hostVersion": "0.2.2-rc.5",
-  "plugin": "@michengai/dsh-agency-agents@1.3.1",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pXoCAE",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pXoCAE/home",
+  "plugin": "@michengai/dsh-agency-agents@1.4.0",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dEjOZO",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dEjOZO/home",
   "profile": "health-smoke",
   "ok": false,
   "stages": [
     {
       "name": "install",
-      "startedAt": "2026-11-22T06:56:15.908Z",
-      "durationMs": 1791,
+      "startedAt": "2026-11-28T13:05:13.620Z",
+      "durationMs": 1780,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-agency-agents 1.3.1\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 1s using pnpm v11.7.0\n",
-      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pXoCAE/home/profiles/health-smoke\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n[WARN] Issues with peer dependencies found. Run \"pnpm peers check\" to list them.\n\ndependencies:\n+ @michengai/dsh-agency-agents 1.4.0\n\nPackages: +2\n++\nProgress: resolved 2, reused 1, downloaded 1, added 2, done\nDone in 814ms using pnpm v11.7.0\n",
+      "stderr": "dsh: initialized profile health-smoke at /home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dEjOZO/home/profiles/health-smoke\n",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T06:56:17.704Z",
-      "durationMs": 3623,
+      "startedAt": "2026-11-28T13:05:15.404Z",
+      "durationMs": 3666,
       "ok": false,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:38873/?token=n_AD8hDeSXP5MK2I_5-nDj9ZqgHgBWVVntAQrzi22bY\n",
-      "stderr": "dsh: warning: 1 entry did not activate\nagency-agents (@michengai/dsh-agency-agents): Error: This host has no live-updating agency-agents config fields, so the plugin cannot save the enabled list.\n    at new apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pXoCAE/home/profiles/health-smoke/node_modules/@michengai/dsh-agency-agents/lib/src-D76vb94B.js:4980:42)\n    at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pXoCAE/home/profiles/health-smoke/#agency-agents\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-pXoCAE/home/profiles/health-smoke/#include\n",
+      "stdout": "dsh web: http://127.0.0.1:46617/?token=xbXDo4MyYzH0ggLQaTAfDUhc7cwJPlblBdnLTjzDl4Q\n",
+      "stderr": "dsh: warning: 1 entry did not activate\nagency-agents (@michengai/dsh-agency-agents): Error: This host has no live-updating agency-agents config fields, so the plugin cannot save the enabled list.\n    at new apply (file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dEjOZO/home/profiles/health-smoke/node_modules/@michengai/dsh-agency-agents/lib/src-DZHxKBQE.js:5331:42)\n    at Fiber.execute (file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:362:24)\n    at file:///home/runner/work/_temp/dsh-host/node_modules/@deepseek-ai/cordis/lib/index.js:436:34\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dEjOZO/home/profiles/health-smoke/#agency-agents\n    at file:///home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-dEjOZO/home/profiles/health-smoke/#include\n",
       "truncated": false,
       "details": {
         "ok": false,
@@ -1270,13 +1270,13 @@
               "disabled": false
             },
             {
-              "id": "4fcb4213",
+              "id": "5ed53cf6",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "9b878dc6",
+              "id": "6c85c735",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -1308,8 +1308,8 @@
   "subjects": [
     {
       "name": "@michengai/dsh-agency-agents",
-      "version": "1.3.1",
-      "integrity": "sha512-Poa1G5tCXu7USbFyVceVO0WNPUsqUsfxfyBpsMH5zY8dJlfWraB2LqBDK/1HCCtVNk23QwJnDIafSMNtTflTyA==",
+      "version": "1.4.0",
+      "integrity": "sha512-X/lcn6Uiol8sFmMLWbwvp4NASnZMdK0+Ra8A6zmjuC0BMr9ReO9xZ3JEqAmYg0CnvOs/dd6wY79BLDrHHo2Vmw==",
       "resolution": "registry"
     }
   ],
@@ -1351,13 +1351,13 @@
         "disabled": false
       },
       {
-        "id": "4fcb4213",
+        "id": "5ed53cf6",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "9b878dc6",
+        "id": "6c85c735",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false

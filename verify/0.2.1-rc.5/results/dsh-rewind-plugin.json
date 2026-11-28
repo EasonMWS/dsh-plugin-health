@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-22T07:00:19.747Z",
+  "generatedAt": "2026-11-28T13:10:38.702Z",
   "hostVersion": "0.2.1-rc.5",
-  "plugin": "dsh-rewind-plugin@0.23.0",
-  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xmKZaG",
-  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-xmKZaG/home",
+  "plugin": "dsh-rewind-plugin@0.24.1",
+  "directory": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VjIMOU",
+  "home": "/home/runner/work/dsh-plugin-health/dsh-plugin-health/out/runs/dsh-health-smoke-VjIMOU/home",
   "profile": "health-smoke",
   "ok": true,
   "stages": [
     {
       "name": "allow-version",
-      "startedAt": "2026-11-22T07:00:20.072Z",
-      "durationMs": 103,
+      "startedAt": "2026-11-28T13:10:39.051Z",
+      "durationMs": 110,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh: allowed dsh-rewind-plugin@0.23.0 for DSH 0.2.1-rc.5\n",
+      "stdout": "dsh: allowed dsh-rewind-plugin@0.24.1 for DSH 0.2.1-rc.5\n",
       "stderr": "dsh: warning: allowing incompatible plugin versions can break the application or corrupt data. Approval applies only to the exact package and DSH versions.\n",
       "truncated": false
     },
     {
       "name": "install",
-      "startedAt": "2026-11-22T07:00:20.175Z",
-      "durationMs": 1268,
+      "startedAt": "2026-11-28T13:10:39.201Z",
+      "durationMs": 1340,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-rewind-plugin 0.23.0\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 640ms using pnpm v11.7.0\n",
+      "stdout": "Progress: resolved 1, reused 0, downloaded 0, added 0\n\ndependencies:\n+ dsh-rewind-plugin 0.24.1\n\nPackages: +1\n+\nProgress: resolved 1, reused 0, downloaded 1, added 1, done\nDone in 683ms using pnpm v11.7.0\n",
       "stderr": "",
       "truncated": false
     },
     {
       "name": "runtime",
-      "startedAt": "2026-11-22T07:00:21.446Z",
-      "durationMs": 2309,
+      "startedAt": "2026-11-28T13:10:40.544Z",
+      "durationMs": 3152,
       "ok": true,
       "exitCode": 0,
       "signal": null,
       "timedOut": false,
       "orphaned": false,
-      "stdout": "dsh web: http://127.0.0.1:46523/?token=Kyu9maZt1CY8PQbRyPlewSNeL6UW-LW8DEDxH8x-Ogw\n",
+      "stdout": "dsh web: http://127.0.0.1:46065/?token=mcW06RH7iYYxIjD_9mtZUrjHKFjQ6VXU2AcCdSYVptQ\n",
       "stderr": "",
       "truncated": false,
       "details": {
@@ -1211,13 +1211,13 @@
               "disabled": false
             },
             {
-              "id": "e5d6df11",
+              "id": "3cc9fdd1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2,
               "disabled": false
             },
             {
-              "id": "5a74d89c",
+              "id": "a49f5232",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2,
               "disabled": false
@@ -2059,12 +2059,12 @@
               "state": 2
             },
             {
-              "id": "e5d6df11",
+              "id": "3cc9fdd1",
               "name": "@deepseek-ai/dsh-host-directory-picker-browse",
               "state": 2
             },
             {
-              "id": "5a74d89c",
+              "id": "a49f5232",
               "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
               "state": 2
             }
@@ -2087,8 +2087,8 @@
   "subjects": [
     {
       "name": "dsh-rewind-plugin",
-      "version": "0.23.0",
-      "integrity": "sha512-ATaSlZxLx8c0o88JR5S2ti9WV8uPWgj+Cu/uWdt3PBYJM8sAHOOdxWt0SYrXAS+ws1rgVeczNzvr0sEk4uujMg==",
+      "version": "0.24.1",
+      "integrity": "sha512-hUfMhRurkDmr4l57uITp3lVIZS9n9cQAxCJjp0mphOE7rvzpre1Hj4FgY0U+tePetwx70GZCLpYPGNSsSv/kLA==",
       "resolution": "registry"
     }
   ],
@@ -2119,13 +2119,13 @@
         "disabled": false
       },
       {
-        "id": "e5d6df11",
+        "id": "3cc9fdd1",
         "name": "@deepseek-ai/dsh-host-directory-picker-browse",
         "state": 2,
         "disabled": false
       },
       {
-        "id": "5a74d89c",
+        "id": "a49f5232",
         "name": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
         "state": 2,
         "disabled": false
